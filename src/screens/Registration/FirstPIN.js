@@ -6,7 +6,7 @@ import {
     View, 
     StyleSheet,
     Dimensions,
-    Text
+    Text,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -27,14 +27,16 @@ const FirstPIN = ({navigation}) => {
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
     const _handleChangePIN = async (pin) => {
-        await dispatch(addFirstPIN(pin))
-        if(pin.length == 6) {
-            if(pin[0] == pin[1] == pin[2] == pin[3] == pin[4] == pin[5]){
-                alert("Pin tidak boleh sama semua")
-            }else {
-                navigation.navigate('SecondPIN')
-            }
-        }       
+        if(pin.length <= 6) {
+            await dispatch(addFirstPIN(pin))
+            if(pin.length == 6) {
+                if(pin[0] == pin[1] == pin[2] == pin[3] == pin[4] == pin[5]){
+                    alert("Pin tidak boleh sama semua")
+                }else {
+                    navigation.navigate('SecondPIN')
+                }
+            }  
+        }    
     }
     //Next button function
     const _handleNextButton = async () => {

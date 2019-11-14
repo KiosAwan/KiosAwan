@@ -6,7 +6,8 @@ import {
     View, 
     StyleSheet,
     Dimensions,
-    Text
+    Text,
+    StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -18,6 +19,7 @@ import { InputPIN } from '../../components/Input/InputPIN'
 //Redux Actions
 import { addSecondPIN, clearAllRegistration } from '../../redux/actions/actionsRegistration'
 import { registerUser } from '../../utils/unauthhelper';
+import { ColorsList } from '../../styles/colors';
 
 //Functions
 
@@ -31,20 +33,22 @@ const FirstPIN = ({navigation}) => {
         
     }
     const _handleChangePIN = async (pin) => {
-        await dispatch(addSecondPIN(pin))
-        if (pin.length == 6) {
-            if(FormRegister.firstPIN != pin) {
-                alert("Pin harus sama")
-            }else {
-                const data = {
-                    name : FormRegister.name,
-                    phone_number : "62"+FormRegister.phone_number,
-                    role : 'Owner',
-                    pin : pin
+        if(pin.length <= 6) {
+            await dispatch(addSecondPIN(pin))
+            if (pin.length == 6) {
+                if(FormRegister.firstPIN != pin) {
+                    alert("Pin harus sama")
+                }else {
+                    const data = {
+                        name : FormRegister.name,
+                        phone_number : "62"+FormRegister.phone_number,
+                        role : 'Owner',
+                        pin : pin
+                    }
+                const res = await registerUser(data)
+                await dispatch(clearAllRegistration())
+                navigation.navigate('Home') 
                 }
-            const res = await registerUser(data)
-            await dispatch(clearAllRegistration())
-            navigation.navigate('Home') 
             }
         }
     }
@@ -58,6 +62,8 @@ const FirstPIN = ({navigation}) => {
 
     return (
     <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+        <StatusBar
+                backgroundColor={ColorsList.primaryColor}/>
         <HeaderRegister 
             onPressBack={() => navigation.goBack()}
             onPressNext={_handleNextButton}

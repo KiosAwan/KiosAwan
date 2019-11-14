@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Dimensions,
     Image,
+    StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -23,6 +24,7 @@ import { addPhoneNumber} from '../../redux/actions/actionsRegistration'
 //Functions
 import Strings from '../../utils/Strings'
 import { sendPhoneNumber, phoneValidation } from '../../utils/unauthhelper';
+import { ColorsList } from '../../styles/colors';
 
 
 const width  = Dimensions.get('window').width
@@ -64,6 +66,9 @@ const PhoneRegistration = ({navigation}) => {
             }
         }
     }
+    const _navigateForgotPIN = () => {        
+        navigation.navigate("ForgotPIN")
+    }
     const _navigateHome = () => {
         navigation.navigate('Home') 
     }
@@ -72,12 +77,14 @@ const PhoneRegistration = ({navigation}) => {
     }
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+            <StatusBar
+                backgroundColor={ColorsList.primaryColor}/>
             {/* {Bottom Sheet for Login} */}
                 <RBSheet
                 ref={ref => {
                     VerifyLoginSheet = ref;
                 }}
-                height={height*2/5}
+                height={height*2/7}
                 duration={250}
                 animationType="slide"
                 customStyles={{
@@ -88,7 +95,11 @@ const PhoneRegistration = ({navigation}) => {
                 }}
                 >
                     <View>
-                        <LoginVerification navigationHome={_navigateHome}/>
+                        <LoginVerification 
+                        navigationHome={_navigateHome} 
+                        navigationForgot={_navigateForgotPIN}
+                        closeLoginSheet={() => VerifyLoginSheet.close()}
+                        />
                     </View>
                 </RBSheet>
                 {/* {Bottom sheet for verify OTP new user} */}
@@ -96,7 +107,7 @@ const PhoneRegistration = ({navigation}) => {
                 ref={ref => {
                     OTPRegisterSheet = ref;
                 }}
-                height={height*2/5}
+                height={height*2/7}
                 duration={250}
                 animationType="slide"
                 customStyles={{
@@ -113,13 +124,13 @@ const PhoneRegistration = ({navigation}) => {
                     </View>
                 </RBSheet>
             <View style={{flex : 1}}>
-                <View style={{alignItems : "center", padding: 20, paddingHorizontal : 20}}>
+                <View style={{alignItems : "center", padding: 20}}>
                     <View style={styles.wrapHeader}>
                         <View style={{flex : 1}}></View>
                         <View style={{flex : 2, alignItems : "center"}}>
                             <Image style={styles.logoStyle} source={require('../../assets/images/logo.png')}/>
                         </View>
-                        <View style={{flex : 1, justifyContent : 'flex-end'}}>
+                        <View style={{flex : 1, alignItems: 'flex-end',paddingBottom:10}}>
                             <TouchableOpacity disabled={btnDisabled}
                             onPress={_handleSendPhoneNumber}
                             style={{padding : 20}}
@@ -179,8 +190,8 @@ const styles = StyleSheet.create({
         textAlign : "center"
     },
     logoStyle : {
-        height : 100, 
-        width : 170
+        height : 80, 
+        width : 150
     },
     termAndCond : {
         width : '80%', 
@@ -189,6 +200,6 @@ const styles = StyleSheet.create({
     wrapHeader : {
         flexDirection :'row', 
         justifyContent : "center", 
-        alignItems : "center"
+        alignItems : "flex-end",
     }
 })

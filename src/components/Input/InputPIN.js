@@ -13,7 +13,7 @@ export const InputPIN = (props) =>  {
             secureTextEntry={true}
             placeholder="6 digit PIN"
             autoFocus={true}
-            style={{color : 'white',fontSize : 20, borderBottomColor:'pink', textAlign : "center"}}
+            style={{color : props.textColor ? props.textColor:'white',fontSize : 20, borderBottomColor:'pink', textAlign : "center"}}
             value={props.value}
             keyboardType="numeric"
             onChangeText={props.handleChangeText}

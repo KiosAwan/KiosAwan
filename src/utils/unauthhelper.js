@@ -7,6 +7,13 @@ export const phoneValidation = (number) => {
     return test
 }
 
+export const showPhoneNumber = (phonenumber) => {
+    const phoneLength = phonenumber.length
+    const a = phonenumber.substr(0,2)
+    const b = phonenumber.substr(8,phoneLength)
+    return a+"******"+b
+}
+
 export const sendPhoneNumber = async (data) => {
     try {
         const res = await axios.post(`${HOST_URL}/check_user`, data)
@@ -16,7 +23,6 @@ export const sendPhoneNumber = async (data) => {
         const res = error.response.data
         return res
     }
-
 }
 
 export const sendVerifyOTP = async (data) => {
@@ -45,4 +51,26 @@ export const sendUserPIN = async (data) => {
 export const registerUser = async (data) => {
     const res = await axios.post(`${HOST_URL}/create_user`, data)
     return res.data
+}
+
+export const sendForgotPIN = async (data) => {
+    try {
+        const res = await axios.post(`${HOST_URL}/send_otp`, data)
+        return res.data
+    }
+    catch(error){
+        const res = error.response.data
+        return res
+    }
+}
+
+export const sendNewPIN = async (data) => {
+    try {
+        const res = await axios.post(`${HOST_URL}/change_pin`, data)
+        return res.data
+    }
+    catch(error){
+        const res = error.response.data
+        return res
+    }
 }

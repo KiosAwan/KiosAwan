@@ -5,18 +5,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { 
     View, 
     StyleSheet,
-    Dimensions
+    Dimensions,
+    StatusBar
 } from 'react-native';
 import { 
     Text
 } from 'native-base';
-import OTPInputView from '@twotalltotems/react-native-otp-input'
+import CodeInput from 'react-native-confirmation-code-input';
 
 //Redux Actions
 import { clearAllRegistration, addFirstPIN } from '../../redux/actions/actionsRegistration'
 
 //Functions
-import { sendUserPIN } from '../../utils/unauthhelper';
+import { sendUserPIN, sendForgotPIN } from '../../utils/unauthhelper';
+import { ColorsList } from '../../styles/colors';
 
 const height = Dimensions.get('window').height
 
@@ -32,7 +34,6 @@ const LoginVerification = (props) => {
             phone_number : "62"+RegisterOTP.phone_number,
             pin
         }
-        console.log(data)
         const res = await sendUserPIN(data)
         if(res.data.errors){
             alert(res.data.errors.msg)
@@ -43,18 +44,39 @@ const LoginVerification = (props) => {
         }
     }
 
+    const _forgotPIN = async () => {
+        const data ={
+            phone_number : "62"+RegisterOTP.phone_number
+        }
+        const res = await sendForgotPIN(data)
+        console.log(res)
+        props.closeLoginSheet()
+        props.navigationForgot()
+    }
+
     return (
     <View style={styles.container}>
-        <Text style={{paddingTop : 20}}>This number has been registered before</Text>
+        <StatusBar
+                backgroundColor={ColorsList.primaryColor}/>
+        <View style={{padding : 10}}></View>
+        <Text>This number has been registered before</Text>
         <Text>Enter your KIOSAWAN PIN</Text>
-        <OTPInputView
-        style={{width: '80%', height: 200}}
-        pinCount={6}
-        autoFocusOnLoad
-        codeInputFieldStyle={styles.underlineStyleBase}
-        codeInputHighlightStyle={styles.underlineStyleHighLighted}
-        onCodeFilled = {(pin) => _handlePINFulfilled(pin)}
-    />
+            <CodeInput
+            secureTextEntry
+            className='border-circle'
+            keyboardType="numeric"
+            activeColor='#cd0192'
+            inactiveColor='#cd0192'
+            codeLength={6}
+            size={30}
+            autoFocus
+            onFulfill={(code) => _handlePINFulfilled(code)}
+            />
+        <View style={{ padding : 50}}>
+            <Text style={styles.textForgot} onPress={_forgotPIN}>
+                Forgot PIN ?
+            </Text>
+        </View>
     </View>
     );
 }
@@ -63,26 +85,10 @@ export default LoginVerification
 
 const styles = StyleSheet.create({
     container : {
-        height : height*3/5,
+        flex : 1,
         alignItems : "center"
     },
-    borderStyleBase: {
-        width: 30,
-        height: 45
-    },
-    
-    borderStyleHighLighted: {
-        borderColor: "#03DAC6",
-    },
-
-    underlineStyleBase: {
-        width: 30,
-        height: 45,
-        borderWidth: 0,
-        borderBottomWidth: 1,
-    },
-
-    underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
-    },
+    textForgot : {
+        color : 'blue'
+    }
 })

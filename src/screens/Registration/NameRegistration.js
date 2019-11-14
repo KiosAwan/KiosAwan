@@ -1,10 +1,11 @@
-import React , { useState } from 'react';
+import React  from 'react';
 import { useDispatch , useSelector } from 'react-redux'
 // Styling 
 import { 
     View, 
     StyleSheet,
-    Text
+    Text,
+    StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -17,6 +18,7 @@ import { addName } from '../../redux/actions/actionsRegistration'
 //Functions
 import Strings from '../../utils/Strings'
 import { HeaderRegister } from '../../components/Header/Header';
+import { ColorsList } from '../../styles/colors';
 
 const NameRegistration = ({navigation}) => {
     const FormRegister = useSelector(state => state.Registration)
@@ -38,6 +40,8 @@ const NameRegistration = ({navigation}) => {
 
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+            <StatusBar
+                backgroundColor={ColorsList.primaryColor}/>
             <HeaderRegister 
             onPressBack={() => navigation.goBack()}
             onPressNext={_handleNextButton}
@@ -63,7 +67,6 @@ export default NameRegistration
 const styles = StyleSheet.create({
     container : {
         flex : 1,
-        backgroundColor : '#cd0192',
         alignItems : "center"
     },
     inputView : {

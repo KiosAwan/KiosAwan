@@ -2,41 +2,54 @@ import React, { useEffect } from 'react'
 import {
   StyleSheet,
   View,
-  Image
+  Image,
+  StatusBar
 } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
 import { Text } from 'native-base';
-
+import LinearGradient from 'react-native-linear-gradient'
+import Strings from '../utils/Strings';
+import { ColorsList } from '../styles/colors';
 
 const CheckMember = ({navigation}) => {
 
     useEffect(() => { 
-        _checkFunc()
+      setTimeout(function() 
+      { _checkFunc()}
+      , 1500);
     }, [])
 
     const _checkFunc = async () => {
         try {
         //Cek Token Pas Awal
-        const checkUserToken = await AsyncStorage.getItem('userToken');
+        const checkUserIntro = await AsyncStorage.getItem('introApp');
         const checkUserData = await AsyncStorage.getItem('userData');
-            if (checkUserData != null) {
+            // if (checkUserData != null) {
                 navigation.navigate('AuthNavigator')
-            }
-            else {
-                navigation.navigate('UnauthNavigator')
-            }
+            // }
+            // else {
+            //     if(checkUserIntro == "sudah"){
+            //       navigation.navigate('PhoneRegistration')
+            //     }else {
+            //       navigation.navigate('AppIntro')
+            //     }
+            // }
         } catch (e) {
         alert(e)
         }
     }
     return (
-      <View style={styles.container}>
-        {/* <Image
-          style={{width: 300, height: 300 ,justifyContent:"center",alignContent:"center"}}
-          source={require('../screen/component/staticimage/loading.png')}
-        /> */}
-        <Text>Ini Loading screen</Text>
-      </View>
+      <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
+        <StatusBar
+                backgroundColor={ColorsList.primaryColor} />
+        <Image
+          style={{width: 170, height: 100}}
+          source={require('../assets/images/logo.png')}
+        />
+        <View style={{width : '60%', alignItems :"center"}}>
+          <Text style={styles.infoText}>{Strings.SPLASHSCREENTEXT}</Text>
+        </View>
+      </LinearGradient>
     );
 }
 
@@ -45,7 +58,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff'  
+  },
+  infoText : {
+    fontFamily : 'Nunito-Light',
+    textAlign : "center",
+    color : 'white'
+  },
+  logo : {
+    height : 100, 
+    width : 170,
   }
 })
 

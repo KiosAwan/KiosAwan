@@ -6,6 +6,9 @@ import PhoneRegistration from '../screens/Registration/PhoneRegistration'
 import NameRegistration from '../screens/Registration/NameRegistration'
 import FirstPIN from '../screens/Registration/FirstPIN'
 import SecondPIN from '../screens/Registration/SecondPIN'
+import ForgotPIN from '../screens/Registration/ForgotPIN'
+import NewPIN1 from '../screens/Registration/NewPIN1'
+import NewPIN2 from '../screens/Registration/NewPIN2'
 
 
 const UnauthNavigator = createStackNavigator({
@@ -33,7 +36,24 @@ const UnauthNavigator = createStackNavigator({
       header : null
     }
   },
-
+  ForgotPIN : {
+    screen : ForgotPIN,
+    navigationOptions : {
+      header : null
+    }
+  },
+  NewPIN1 : {
+    screen : NewPIN1,
+    navigationOptions : {
+      header : null
+    }
+  },
+  NewPIN2 : {
+    screen : NewPIN2,
+    navigationOptions : {
+      header : null
+    }
+  }
 })
 
 export default createAppContainer(UnauthNavigator)

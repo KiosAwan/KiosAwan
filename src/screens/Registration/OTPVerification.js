@@ -6,26 +6,24 @@ import {
     View, 
     StyleSheet,
     TouchableOpacity,
-    Dimensions
+    StatusBar
 } from 'react-native';
 import { 
     Text
 } from 'native-base';
-import OTPInputView from '@twotalltotems/react-native-otp-input'
+import CodeInput from 'react-native-confirmation-code-input';
 
 //Redux Actions
-import { addVerifyOTP, clearAllRegistration } from '../../redux/actions/actionsRegistration'
+import { addVerifyOTP } from '../../redux/actions/actionsRegistration'
 
 //Functions
 import { sendVerifyOTP , sendPhoneNumber} from '../../utils/unauthhelper';
+import { ColorsList } from '../../styles/colors';
 
-const height = Dimensions.get('window').height
 
 const VerifyOTPRegister = (props) => {
     const dispatch = useDispatch()
     const RegisterOTP = useSelector(state => state.Registration)
-
-    const [userData , setUserData] = useState('')
     const [isResendDisabled , setIsResendDisabled] = useState(true)
     let [countdown , setCountdown ] = useState(59)
 
@@ -60,7 +58,6 @@ const VerifyOTPRegister = (props) => {
             otp : code
         }
         const res = await sendVerifyOTP(data)
-        console.log(res)
         if(res.status == 200) {
             props.navigateTo() 
         }else {
@@ -94,19 +91,24 @@ const VerifyOTPRegister = (props) => {
 
     return (
     <View style={styles.container}>
+        <StatusBar
+                backgroundColor={ColorsList.primaryColor}/>
         <Text style={{marginTop :10}}>Masukkan kode OTP , check Inbox anda</Text>
-        <OTPInputView
-        style={{width: '80%', height: 100}}
-        pinCount={4}
-        autoFocusOnLoad
-        codeInputFieldStyle={styles.underlineStyleBase}
-        codeInputHighlightStyle={styles.underlineStyleHighLighted}
-        onCodeFilled = {(code) => _handleOTPFulfilled(code)}
-    />
-    <TouchableOpacity disabled={isResendDisabled} onPress={_resendCode}>
-        <Text style={{color : isResendDisabled ? "grey" : "blue"}}>Resend code</Text>
-    </TouchableOpacity>
-    <Text>0:{countdown}</Text>
+            <CodeInput
+            keyboardType="numeric"
+            activeColor='black'
+            inactiveColor='grey'
+            codeLength={4}
+            size={40}
+            autoFocus
+            onFulfill={(code) => _handleOTPFulfilled(code)}
+            />
+            {isResendDisabled ? 
+            <Text style={{color :"grey", marginTop : 70}}>RESEND ({countdown} s)</Text> : 
+            <TouchableOpacity onPress={_resendCode} style={{marginTop : 70}}>
+                <Text style={{color : "blue"}}>Resend</Text>
+            </TouchableOpacity>
+            }
     </View>
     );
 }
@@ -115,8 +117,7 @@ export default VerifyOTPRegister
 
 const styles = StyleSheet.create({
     container : {
-        height : height*3/5,
-        alignItems : "center"
+        alignItems : "center",
     },
     borderStyleBase: {
         width: 30,
