@@ -1,35 +1,56 @@
-import { createAppContainer, createSwitchNavigator } from 'react-navigation'
+import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
+import { createDrawerNavigator , DrawerNavigatorItems} from 'react-navigation-drawer'
+import React from 'react';
+import AsyncStorage from '@react-native-community/async-storage'
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
+
+import { SafeAreaView, ScrollView, View} from 'react-native';
+import { Button, Text } from 'native-base'
+
 
 //Import Screen
-import Home from '../screens/AuthScreen/Home'
-import Stock from '../screens/AuthScreen/Stock'
-import Payment from '../screens/AuthScreen/Payment'
-import Cashier from '../screens/AuthScreen/Cashier'
+import MainNavigator from './MainNavigator'
 
 
+const _onPressLogout= async (props) => {
+  try {
+      await AsyncStorage.removeItem('userData')
+      props.navigation.navigate('UnauthNavigator')
+    } 
+    catch(e) {
+        alert(e)      
+  };
+
+}
+
+const CustomDrawerComponent = (props) => (
+  <SafeAreaView style={{flex : 1}}>
+    <ScrollView>
+      <DrawerNavigatorItems {...props} activeLabelStyle={{color : '#cd0192'}} />
+    </ScrollView>
+    <View>
+      <Button style={{backgroundColor : '#cd0192', justifyContent : "center"}} onPress={() => _onPressLogout(props)}>
+        <Text>Logout</Text>
+      </Button>
+    </View>
+  </SafeAreaView>
+)
+
+const DrawerNavigator = createDrawerNavigator({
+  Main : {
+    screen : MainNavigator,
+    navigationOptions: {
+      header: null
+    }
+  }
+}, {
+  contentComponent : CustomDrawerComponent,
+})
 
 const AuthNavigator = createStackNavigator({
-  Home : {
-    screen : Home,
-    navigationOptions: {
-      header : null
-    }
-  },
-  Cashier : {
-    screen : Cashier,
-    navigationOptions : {
-      header : null
-    }
-  },
-  Payment : {
-    screen : Payment,
-    navigationOptions : {
-      header : null
-    }
-  },
-  Stock : {
-    screen : Stock,
+  Drawer : {
+    screen : DrawerNavigator,
     navigationOptions : {
       header : null
     }

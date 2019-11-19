@@ -30,7 +30,8 @@ const FirstPIN = ({navigation}) => {
         if(pin.length <= 6) {
             await dispatch(addFirstPIN(pin))
             if(pin.length == 6) {
-                if(pin[0] == pin[1] == pin[2] == pin[3] == pin[4] == pin[5]){
+                const tespin = /\b(\d)\1+\b/
+                if(tespin.test(pin)){
                     alert("Pin tidak boleh sama semua")
                 }else {
                     navigation.navigate('SecondPIN')

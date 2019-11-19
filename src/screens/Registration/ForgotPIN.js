@@ -75,7 +75,7 @@ const ForgotPIN = ({navigation}) => {
         console.log(data)
         console.log(res)
         if(res.status == 400){
-            alert(res.data.msg)
+            alert(res.data.errors.msg)
         }
         else if(res.status == 200) {
             navigation.navigate("NewPIN1")

@@ -1,16 +1,24 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet, Image } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/FontAwesome5'
+import { FontList } from '../../styles/typography';
+import { RowChild } from '../Helper/RowChild';
+import { ColorsList } from '../../styles/colors';
+
 
 const height = Dimensions.get('window').height
+const width = Dimensions.get('window').width
 
 export const CardComp = (props) =>  {
     return (
         <View style={styles.wrapView}>
             <TouchableOpacity style={{backgroundColor : 'transparent'}} onPress={props.onPressCard} disabled={props.disabled}>
                 <View style={[styles.card, props.cardStyle]}>
-                    {props.icon ? <Image style={{width: 30, height : 40}} source={props.icon}/> : null}
-                    <Text style={styles.infoText}>{props.info}</Text>
+                    <Image style={{width: 50, height : 50, marginHorizontal:10}} source={props.icon}/>
+                    <View style={{width : '70%', paddingLeft :20}}>
+                        <Text style={styles.infoText}>{props.info}</Text>
+                        <Text style={styles.subText}>{props.subInfo}</Text>
+                    </View>
                 </View>
             </TouchableOpacity>
         </View>
@@ -20,45 +28,92 @@ export const CardComp = (props) =>  {
 
 export const LinearCardComp = (props) =>  {
     return (
-        <LinearGradient style={[styles.card, {flexDirection : 'row', alignItems :"center"}]} colors={['#cd0192', '#6d1d6d']}>
-                    <View style={{width : '50%', alignItems : 'center'}}>
-                    <TouchableOpacity >
-                        <Text style={styles.walletInfo}>Wallet Balance</Text>
-                        <Text style={styles.walletInfo}>RP. 567.000</Text>
-                        </TouchableOpacity>
+        <View style={{height : height/15, backgroundColor : 'white', justifyContent : "center", borderRadius : 5}}>
+            <View style={ {...RowChild, justifyContent : "space-between"}}>
+                <View style={{flexDirection : 'row', alignItems : "center", marginLeft : 20}}>
+                    <Icon size={20} name="wallet" color={ColorsList.primaryColor}/>
+                    <Text style={{fontSize: 13,color : 'grey', fontFamily : FontList.primaryFont, paddingLeft : 10, paddingRight : 50}}>Saldo : Rp. 470.000</Text>
+                </View>
+                <TouchableOpacity>
+                    <View style={styles.topUpStyle}>
+                        <Text style={{color : 'white', fontFamily : 'Nunito-Bold'}}>TOP UP</Text>
                     </View>
-                    <View style={{width : '50%', alignItems : 'center'}}>
-                        <TouchableOpacity >
-                        <Text style={styles.walletInfo}>Today's Transaction</Text>
-                        <Text style={styles.walletInfo}>RP. 800.000</Text>
-                        </TouchableOpacity>
-                    </View>
-        </LinearGradient>
+                </TouchableOpacity>
+            </View>
+        </View>
+    
+    );
+}
+
+
+export const CardTextImage = (props) =>  {
+    return (
+        <TouchableOpacity onPress={props.onPressCard}>
+            <View style={styles.CardTextImage}>
+                <Image style={styles.imageCardTextImage} source={{uri : props.image}}/>
+                <View style={styles.textImageWrapper}>
+                    <Text style={{fontSize : FontList.titleSize, color : 'grey', paddingHorizontal : '6%'}}>{props.info}</Text>
+                </View>
+            </View>
+        </TouchableOpacity>
     
     );
 }
 
 
 
-
 const styles = StyleSheet.create({
     card : {
         borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
         height : '100%',
+        ...RowChild,
+        padding: 10,
     },
     infoText : {
-        color : 'red',
-        fontFamily: 'Nunito-Black',
+        color : '#cd0192',
+        ...FontList.titleFont
     },
     wrapView : {
-        flex : 1,
-        backgroundColor : 'transparent'
+        height  : height/7,
+        backgroundColor : 'transparent',
+        paddingBottom : 10
     },
     walletInfo : {
         color : 'white', 
         fontSize : 12,
-        textAlign : 'center'
+        textAlign : 'center',
+        fontFamily : 'Nunito-Regular'
+    },
+    subText : {
+        color : 'grey',
+        ...FontList.subtitleFont
+    },
+    CardTextImage : {
+        width: width*4/5,
+        height : height/3,
+        alignItems : "center", 
+        marginRight : 10
+    },
+    imageCardTextImage : {
+        width : '100%', 
+        height : '60%', 
+        borderTopRightRadius : 5,
+        borderTopLeftRadius : 5
+    },
+    textImageWrapper : {
+        backgroundColor : 'white',
+        height: '30%',
+        justifyContent : "center",
+        borderBottomEndRadius:5,
+        borderBottomStartRadius : 5
+    },
+    topUpStyle : {
+        width : width/5,
+        height : 25,
+        marginRight : 10,
+        backgroundColor :ColorsList.primaryColor,
+        justifyContent : "center", 
+        alignItems : "center", 
+        borderRadius:5
     }
 })

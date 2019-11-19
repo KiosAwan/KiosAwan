@@ -7,19 +7,18 @@ import {
     StyleSheet,
     Dimensions,
     Text,
-    StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 //Own Custom Component
 import {HeaderRegister} from '../../components/Header/Header'
 import { InputPIN } from '../../components/Input/InputPIN'
+import BarStatus from '../../components/BarStatus';
 
 
 //Redux Actions
 import { addSecondPIN, clearAllRegistration } from '../../redux/actions/actionsRegistration'
 import { registerUser } from '../../utils/unauthhelper';
-import { ColorsList } from '../../styles/colors';
 
 //Functions
 
@@ -29,9 +28,6 @@ const FirstPIN = ({navigation}) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
-    const _handlePINFulfilled = async (pin) => {
-        
-    }
     const _handleChangePIN = async (pin) => {
         if(pin.length <= 6) {
             await dispatch(addSecondPIN(pin))
@@ -46,8 +42,17 @@ const FirstPIN = ({navigation}) => {
                         pin : pin
                     }
                 const res = await registerUser(data)
-                await dispatch(clearAllRegistration())
-                navigation.navigate('Home') 
+                console.log(res)
+                if(res.status == 200) {
+                    await dispatch(clearAllRegistration())
+                    navigation.navigate('Home')    
+                }else {
+                    if(res.data.errors.msg){
+                        alert(res.data.errors.msg)
+                    }else {
+                        alert("Cek koneksi anda")
+                    }
+                }             
                 }
             }
         }
@@ -62,8 +67,7 @@ const FirstPIN = ({navigation}) => {
 
     return (
     <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
-        <StatusBar
-                backgroundColor={ColorsList.primaryColor}/>
+        <BarStatus/>
         <HeaderRegister 
             onPressBack={() => navigation.goBack()}
             onPressNext={_handleNextButton}

@@ -6,7 +6,6 @@ import {
     View, 
     StyleSheet,
     TouchableOpacity,
-    StatusBar
 } from 'react-native';
 import { 
     Text
@@ -18,7 +17,7 @@ import { addVerifyOTP } from '../../redux/actions/actionsRegistration'
 
 //Functions
 import { sendVerifyOTP , sendPhoneNumber} from '../../utils/unauthhelper';
-import { ColorsList } from '../../styles/colors';
+import BarStatus from '../../components/BarStatus';
 
 
 const VerifyOTPRegister = (props) => {
@@ -62,7 +61,7 @@ const VerifyOTPRegister = (props) => {
             props.navigateTo() 
         }else {
             if(res.status == 400) {
-                alert(res.data.msg)
+                alert(res.data.errors.msg)
             }  
         }
     }
@@ -91,8 +90,7 @@ const VerifyOTPRegister = (props) => {
 
     return (
     <View style={styles.container}>
-        <StatusBar
-                backgroundColor={ColorsList.primaryColor}/>
+        <BarStatus/>
         <Text style={{marginTop :10}}>Masukkan kode OTP , check Inbox anda</Text>
             <CodeInput
             keyboardType="numeric"

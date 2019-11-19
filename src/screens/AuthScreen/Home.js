@@ -2,78 +2,126 @@ import React from 'react'
 import {
     View,
     Text,
-    StatusBar,
     StyleSheet,
     Dimensions,
-    ScrollView
+    ScrollView,
+    TouchableOpacity,
+    Alert
 } from 'react-native'
-import { RegisterButton } from '../../components/Button/ButtonComp'
-import { ColorsList } from '../../styles/colors'
-import { CardComp, LinearCardComp } from '../../components/Card/CardComp'
-import { CategoryText } from '../../components/Text/CategoryText'
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import SliderImage from '../../components/SliderImage'
+import LinearGradient from 'react-native-linear-gradient'
+//Styles
+import { ColorsList } from '../../styles/colors'
 import { FontList } from '../../styles/typography'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 
+
+//CustomComponent
+import { CardComp, LinearCardComp, CardTextImage } from '../../components/Card/CardComp'
+import { CategoryText } from '../../components/Text/CategoryText'
+import { RowChild } from '../../components/Helper/RowChild'
+import BarStatus from '../../components/BarStatus'
 
 const height = Dimensions.get('window').height
-const Home = ({navigation}) => {    
-    const _onPressLogout = () => {
-        navigation.navigate('PhoneRegistration')
-    }
-
+const Home = ({navigation}) => {
     const _onPressCashier = () => {
-        navigation.navigate("Cashier")
+        Alert.alert(
+            'FITUR KASIR',
+            'Masih dalam tahap pengembangan',
+            [
+              {text: 'OK', style: 'cancel'}
+            ]
+          );
     }
 
     const _onPressPayment = () => {
-        navigation.navigate("Payment")
+        // navigation.navigate("Payment")
+        Alert.alert(
+            'FITUR PAYMENT POINT',
+            'Masih dalam tahap pengembangan',
+            [
+              {text: 'OK', style: 'cancel'}
+            ]
+          );
     }
 
     const _onPressStock = () => {
-        navigation.navigate("Stock")
+        // navigation.navigate("Stock")
+        Alert.alert(
+            'FITUR BELANJA STOK',
+            'Masih dalam tahap pengembangan',
+            [
+              {text: 'OK', style: 'cancel'}
+            ]
+          );
     }
     return (
-        <ScrollView style={styles.container}>
-            <StatusBar
-                backgroundColor={ColorsList.primaryColor}/>
-            <View style={styles.firstChildView}>
-                <View style={styles.wrapChildRow}>
-                    <Icon color="red" size={16} name="map-marker-alt"/>
-                    <Text style={styles.locationInfo}>Kuningan, Jakarta Selatan</Text>
+        <View style={styles.container}>
+            <BarStatus/>
+                <LinearGradient colors={['#cd0192', '#6d1d6d']}style={styles.firstChildView}>
+                    <View style={{justifyContent : 'space-around', paddingTop :10, ...RowChild}}>
+                        <TouchableOpacity onPress={()=> navigation.openDrawer()}>
+                        <View style={{width :25, height:25, alignItems : "center", justifyContent : "center"}}>
+                            <Icon color="white" size={16} name="bars" />
+                        </View>
+                        </TouchableOpacity>
+                        <View style={styles.nameAndLoc}>
+                            <Text style={{color : 'white', ...FontList.titleFont}}>KIOS ALMUBAROKAH</Text>
+                            <View style={styles.wrapChildRow}>
+                                <Icon color="white" size={9} name="map-marker-alt"/>
+                                <Text style={styles.locationInfo}>Kuningan, Jakarta Selatan</Text>
+                            </View>
+                        </View>
+                        <View style={styles.wrapChildRow}>
+                            <Icon color="white" size={16} name="bell"/>
+                        </View>
+                    </View>
+                    <View style={{padding : 11}}>
+                        <LinearCardComp/>
+                    </View>
+            </LinearGradient>
+            <ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
+                <View style={{paddingVertical : 10}}>
+                    <CardComp info="KASIR"
+                    subInfo="Masuk kedalam mode kasir dan atur penjualan kios atau warung"
+                    cardStyle={{backgroundColor :'white'}}
+                    icon={require("../../assets/icons/icon-cashier.png")}
+                    onPressCard={_onPressCashier}
+                    />
+                    <CardComp info="PAYMENT POINT"
+                    subInfo="Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll"
+                    icon={require("../../assets/icons/icon-payment.png")}
+                    cardStyle={{ backgroundColor :'white'}}
+                    onPressCard={_onPressPayment}
+                    />
+                    <CardComp info="BELANJA STOK"
+                    subInfo="Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung"
+                    cardStyle={{backgroundColor :'white'}}
+                    icon={require("../../assets/icons/icon-restock.png")}
+                    onPressCard={_onPressStock}
+                    />
                 </View>
-                <View style={styles.wrapChildRow}>
-                    <Icon style={{paddingRight : 10}} size={16} name="bell"/>
-                    <Icon size={16} name="cog"/>
+                    <SliderImage/>
+                <View style={styles.infoCategoryStyle}>
+                    <CategoryText title="TAHUKAH KAMU??"/>
                 </View>
-            </View>
-            <View style={styles.secondChildView}>
-                <LinearCardComp/>
-            </View>
-            {/* <CategoryText title="Functions"/> */}
-            <View style={styles.wrapCard}>
-                <CardComp info="Cashier"
-                cardStyle={{backgroundColor :'white'}}
-                icon={require("../../assets/icons/icon-cashier.png")}
-                onPressCard={_onPressCashier}
-                />
-                <CardComp info="Payment"
-                icon={require("../../assets/icons/icon-payment.png")}
-                cardStyle={{marginHorizontal: 10, backgroundColor :'white'}}
-                onPressCard={_onPressPayment}
-                />
-                <CardComp info="Stock"
-                cardStyle={{backgroundColor :'white'}}
-                icon={require("../../assets/icons/icon-restock.png")}
-                onPressCard={_onPressStock}
-                />
-            </View>
-            {/* <RegisterButton
-            disabled={false}
-            buttonTitle="Logout"
-            onPressBtn={_onPressLogout}
-            /> */}
-        </ScrollView>
+                <ScrollView 
+                horizontal={true} 
+                style={{paddingBottom :15, height : height/3}} 
+                showsHorizontalScrollIndicator={false}>
+                    <CardTextImage
+                    onPressCard={() => navigation.navigate('NewsScreen', {weburl : 'https://kiosawan.com/peta-persaingan-50-e-commerce-di-indonesia/'})}
+                    image="https://kiosawan.com/wp-content/uploads/2019/11/blog-02a-780x390.jpg"
+                    info="Peta Persaingan 50 E-Commerce di Indonesia Versi IPRICE 2019"
+                    /> 
+                    <CardTextImage
+                    onPressCard={() => navigation.navigate('NewsScreen', {weburl : 'https://kiosawan.com/potensi-fintech-dukung-umkm/'})}
+                    image="https://kiosawan.com/wp-content/uploads/2019/11/blog-01-780x390.jpg"
+                    info="Mengulik Potensi Fintech untuk Mendukung UMKM"
+                    /> 
+                </ScrollView>               
+            </ScrollView>   
+        </View>
 
     )
 }
@@ -82,24 +130,14 @@ export default Home
 
 const styles = StyleSheet.create({
     container : {
-        padding: 15,
-        backgroundColor :ColorsList.authBackground
+        backgroundColor : ColorsList.authBackground,
+        flex : 1
     },
-    wrapCard : {
-        height : height/6,
-        flexDirection: 'row',
-        paddingVertical : 5,
-        justifyContent : 'space-between'
+    childContainer : {
+        marginHorizontal : 10,
     },
     firstChildView : {
-        height : height/15,
-        flexDirection : 'row',
-        justifyContent : 'space-between',
-        alignItems: 'center',
-    },
-    secondChildView : {
-        height : height/7,
-        paddingVertical : 10
+        height : height/6,
     },
     thirdChildView : {
         height : height/3,
@@ -114,9 +152,17 @@ const styles = StyleSheet.create({
         alignItems : "center"
     },
     locationInfo : {
-        paddingLeft : 10,
-        fontFamily : FontList.primaryFont
+        paddingLeft : 5,
+        color :'white',
+        ...FontList.subtitleFont
     },
+    nameAndLoc : {
+        justifyContent : "center",
+        alignItems : "center"
+    },
+    infoCategoryStyle : {
+        paddingVertical : 10
+    }
 
     
 })

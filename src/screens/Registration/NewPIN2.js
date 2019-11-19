@@ -6,7 +6,6 @@ import {
     View, 
     StyleSheet,
     Text,
-    StatusBar
 } from 'react-native';
 
 //Own Custom Component
@@ -17,7 +16,7 @@ import { InputPIN } from '../../components/Input/InputPIN'
 //Redux Actions
 import { addSecondPIN, clearAllRegistration } from '../../redux/actions/actionsRegistration'
 import { sendNewPIN } from '../../utils/unauthhelper';
-import { ColorsList } from '../../styles/colors';
+import BarStatus from '../../components/BarStatus';
 
 //Functions
 
@@ -38,8 +37,17 @@ const NewPIN2 = ({navigation}) => {
                         pin : pin
                     }
                 const res = await sendNewPIN(data)
-                await dispatch(clearAllRegistration())
-                navigation.navigate('Home') 
+                console.log(res)
+                if(res.status == 200) {
+                    await dispatch(clearAllRegistration())
+                    navigation.navigate('Home')    
+                }else {
+                    if(res.data.errors.msg){
+                        alert(res.data.errors.msg)
+                    }else {
+                        alert("Cek koneksi anda")
+                    }
+                } 
                 }
             }
         }
@@ -47,8 +55,7 @@ const NewPIN2 = ({navigation}) => {
     
     return (
     <View style={styles.container} >
-        <StatusBar
-                backgroundColor={ColorsList.primaryColor}/>
+        <BarStatus/>
         <GlobalHeader 
             onPressBack={() => navigation.goBack()}
             title="Enter PIN"

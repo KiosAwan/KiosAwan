@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
     Dimensions,
     Image,
-    StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -24,7 +23,7 @@ import { addPhoneNumber} from '../../redux/actions/actionsRegistration'
 //Functions
 import Strings from '../../utils/Strings'
 import { sendPhoneNumber, phoneValidation } from '../../utils/unauthhelper';
-import { ColorsList } from '../../styles/colors';
+import BarStatus from '../../components/BarStatus';
 
 
 const width  = Dimensions.get('window').width
@@ -77,8 +76,7 @@ const PhoneRegistration = ({navigation}) => {
     }
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
-            <StatusBar
-                backgroundColor={ColorsList.primaryColor}/>
+            <BarStatus/>
             {/* {Bottom Sheet for Login} */}
                 <RBSheet
                 ref={ref => {

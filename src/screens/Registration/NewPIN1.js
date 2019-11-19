@@ -7,7 +7,6 @@ import {
     StyleSheet,
     Dimensions,
     Text,
-    StatusBar
 } from 'react-native';
 
 //Own Custom Component
@@ -16,7 +15,7 @@ import { InputPIN } from '../../components/Input/InputPIN'
 
 //Redux Actions
 import { addFirstPIN } from '../../redux/actions/actionsRegistration'
-import { ColorsList } from '../../styles/colors';
+import BarStatus from '../../components/BarStatus';
 
 //Functions
 
@@ -30,7 +29,8 @@ const NewPIN1 = ({navigation}) => {
         if(pin.length <= 6){
             await dispatch(addFirstPIN(pin))
             if(pin.length == 6) {
-                if(pin[0] == pin[1] == pin[2] == pin[3] == pin[4] == pin[5]){
+                const tespin = /\b(\d)\1+\b/
+                if(tespin.test(pin)){
                     alert("Pin tidak boleh sama semua")
                 }else {
                     navigation.navigate('NewPIN2')
@@ -40,8 +40,7 @@ const NewPIN1 = ({navigation}) => {
     }
     return (
     <View style={styles.container} >
-        <StatusBar
-                backgroundColor={ColorsList.primaryColor}/>
+       <BarStatus/>
         <GlobalHeader 
             onPressBack={() => navigation.goBack()}
             title="Enter PIN"

@@ -1,1 +1,1 @@
-export const HOST_URL = "http://18.136.202.75/api/index.php/v1"
+export const HOST_URL = "http://18.136.202.75/api/v1"

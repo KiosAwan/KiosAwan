@@ -22,6 +22,7 @@ export const HeaderRegister = (props) => {
     )
 }
 
+
 export const GlobalHeader = (props) => {
     return (
         <View>

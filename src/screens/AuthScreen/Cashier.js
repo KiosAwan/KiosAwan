@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import BarStatus from '../../components/BarStatus';
 
 export default class Cashier extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class Cashier extends Component {
   render() {
     return (
       <View>
+        <BarStatus/>
         <Text> Cashier </Text>
       </View>
     );

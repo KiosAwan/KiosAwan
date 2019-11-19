@@ -5,7 +5,6 @@ import {
     View, 
     StyleSheet,
     Text,
-    StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -18,7 +17,7 @@ import { addName } from '../../redux/actions/actionsRegistration'
 //Functions
 import Strings from '../../utils/Strings'
 import { HeaderRegister } from '../../components/Header/Header';
-import { ColorsList } from '../../styles/colors';
+import BarStatus from '../../components/BarStatus';
 
 const NameRegistration = ({navigation}) => {
     const FormRegister = useSelector(state => state.Registration)
@@ -40,8 +39,7 @@ const NameRegistration = ({navigation}) => {
 
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
-            <StatusBar
-                backgroundColor={ColorsList.primaryColor}/>
+            <BarStatus/>
             <HeaderRegister 
             onPressBack={() => navigation.goBack()}
             onPressNext={_handleNextButton}

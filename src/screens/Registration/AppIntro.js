@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, Image, View, Dimensions , StatusBar} from 'react-native';
+import { StyleSheet, Text, Image, View, Dimensions } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import AsyncStorage from '@react-native-community/async-storage'
 import LinearGradient from 'react-native-linear-gradient'
 
 import Strings from '../../utils/Strings'
-import { ColorsList } from '../../styles/colors';
+import BarStatus from '../../components/BarStatus';
 
 
 const slides = [
@@ -41,8 +41,7 @@ export default class AppIntro extends React.Component {
         start={{ x: 0, y: 0.1 }}
         end={{ x: 0.1, y: 1 }}
         >
-            <StatusBar
-                backgroundColor={ColorsList.primaryColor} />
+            <BarStatus/>
             <View style={{flex : 2,justifyContent : "center", alignItems :"center"}}>
                 <Image style={styles.logo} source={require('../../assets/images/logo.png')}/>
             </View>

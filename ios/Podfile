@@ -36,6 +36,8 @@ target 'AwanApp' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
+
   target 'AwanAppTests' do
     inherit! :search_paths
     # Pods for testing
