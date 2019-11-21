@@ -3,7 +3,8 @@ import { View, Text } from 'react-native';
 import {
     Item,
     Input,
-    Label
+    Label,
+    Textarea
 } from 'native-base'
 
 // Reusable Input Text
@@ -42,5 +43,41 @@ export const InputNumber = (props) =>  {
         </Item>
       </View>
     );
+}
+
+export const InputWithLabel = (props) =>  {
+  return (
+    <View>
+      <Item stackedLabel style={{width : '100%'}}>
+      <Label>{props.label}</Label>
+      <Input  
+      disabled={props.disabled || false}
+      placeholder={props.placeholder}
+      value={props.value}
+      keyboardType={props.keyboardType || "default"}
+      onChangeText={props.handleChangeText}
+      />
+      </Item>
+    </View>
+  );
+}
+
+export const InputTextArea = (props) =>  {
+  return (
+    <View style={{alignItems : "center"}}>
+      <Item stackedLabel style={{width : '100%'}}>
+      <Label>{props.label}</Label>
+      <Textarea  
+      rowSpan={4}
+      disabled={props.disabled || false}
+      placeholder={props.placeholder}
+      placeholderTextColor="#ff85ed"
+      value={props.value}
+      keyboardType="default"
+      onChangeText={props.handleChangeText}
+      />
+      </Item>
+    </View>
+  );
 }
 

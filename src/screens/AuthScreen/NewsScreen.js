@@ -11,6 +11,7 @@ const NewsScreen = ({navigation}) =>  {
         _getUrl()
     }, [])
 
+
     const _getUrl = async () => {
         const {weburl} = await navigation.state.params
         setUrl(weburl)
@@ -19,11 +20,9 @@ const NewsScreen = ({navigation}) =>  {
     const _onPressBack = () => {
         navigation.goBack()
     }
-    
     return (
-        
         <View style={{flex : 1}}>
-            <GlobalHeader onPressBack={_onPressBack}/>
+            <GlobalHeader onPressBack={_onPressBack} />
                  <View style={{flex : 1}}>
                     {isLoading && 
                     <View style={{flex : 1, alignItems : "center", justifyContent : "center"}}>
@@ -33,8 +32,8 @@ const NewsScreen = ({navigation}) =>  {
                     <WebView
                     onLoadStart={() => setIsLoading(true)}
                     onLoadEnd={() => setIsLoading(false)}
-                    javaScriptEnabled={false}
-                        source={{uri: url}}
+                    javaScriptEnabled
+                    source={{uri: url}}
                     />
                 </View>
         </View>  

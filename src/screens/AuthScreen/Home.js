@@ -15,6 +15,8 @@ import LinearGradient from 'react-native-linear-gradient'
 import { ColorsList } from '../../styles/colors'
 import { FontList } from '../../styles/typography'
 
+//redux
+import {useSelector} from 'react-redux'
 
 //CustomComponent
 import { CardComp, LinearCardComp, CardTextImage } from '../../components/Card/CardComp'
@@ -24,14 +26,9 @@ import BarStatus from '../../components/BarStatus'
 
 const height = Dimensions.get('window').height
 const Home = ({navigation}) => {
+    const User = useSelector(state => state.User)
     const _onPressCashier = () => {
-        Alert.alert(
-            'FITUR KASIR',
-            'Masih dalam tahap pengembangan',
-            [
-              {text: 'OK', style: 'cancel'}
-            ]
-          );
+        navigation.navigate('Cashier')            
     }
 
     const _onPressPayment = () => {
@@ -66,7 +63,7 @@ const Home = ({navigation}) => {
                         </View>
                         </TouchableOpacity>
                         <View style={styles.nameAndLoc}>
-                            <Text style={{color : 'white', ...FontList.titleFont}}>KIOS ALMUBAROKAH</Text>
+                            <Text style={{color : 'white', ...FontList.titleFont}}>{User.store ? User.store.name_store : "Kios Saya"}</Text>
                             <View style={styles.wrapChildRow}>
                                 <Icon color="white" size={9} name="map-marker-alt"/>
                                 <Text style={styles.locationInfo}>Kuningan, Jakarta Selatan</Text>
@@ -81,27 +78,37 @@ const Home = ({navigation}) => {
                     </View>
             </LinearGradient>
             <ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
+                {User.store ? null :
+                <TouchableOpacity onPress={() => navigation.navigate('AddProfile')}>
+                <View style={{borderRadius : 5, backgroundColor :'white', justifyContent : "center", alignItems : "center"}}>
+                    <Text>Silahkan lengkapi profil untuk dapat menggunakan fitur di aplikasi ini</Text>
+                    <Text>Lengkapi profil</Text>
+                </View>
+                </TouchableOpacity> }
                 <View style={{paddingVertical : 10}}>
                     <CardComp info="KASIR"
+                    disabled={User.store ? false : true}
                     subInfo="Masuk kedalam mode kasir dan atur penjualan kios atau warung"
                     cardStyle={{backgroundColor :'white'}}
                     icon={require("../../assets/icons/icon-cashier.png")}
                     onPressCard={_onPressCashier}
                     />
                     <CardComp info="PAYMENT POINT"
+                    disabled={User.store ? false : true}
                     subInfo="Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll"
                     icon={require("../../assets/icons/icon-payment.png")}
                     cardStyle={{ backgroundColor :'white'}}
                     onPressCard={_onPressPayment}
                     />
                     <CardComp info="BELANJA STOK"
+                    disabled={User.store ? false : true}
                     subInfo="Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung"
                     cardStyle={{backgroundColor :'white'}}
                     icon={require("../../assets/icons/icon-restock.png")}
                     onPressCard={_onPressStock}
                     />
                 </View>
-                    <SliderImage/>
+                <SliderImage/>
                 <View style={styles.infoCategoryStyle}>
                     <CategoryText title="TAHUKAH KAMU??"/>
                 </View>

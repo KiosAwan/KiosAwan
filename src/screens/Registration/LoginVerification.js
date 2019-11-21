@@ -18,6 +18,7 @@ import { clearAllRegistration, addFirstPIN } from '../../redux/actions/actionsRe
 //Functions
 import { sendUserPIN, sendForgotPIN } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
+import { getProfile } from '../../redux/actions/actionsUserData';
 
 
 const LoginVerification = (props) => {
@@ -38,7 +39,8 @@ const LoginVerification = (props) => {
         }
         else {
             await dispatch(clearAllRegistration())
-            await AsyncStorage.setItem('userData', 'abc')
+            await AsyncStorage.setItem('userId', res.data.id)
+            await dispatch(getProfile(res.data.id))
             props.navigationHome() 
         }
     }

@@ -14,11 +14,11 @@ export default class SliderImage extends React.Component {
             carouselItems: [
             {
                 title:"Item 1",
-                image : 'https://i.ibb.co/NSFPHwZ/card-1-2.png'
+                image : require('../assets/images/card_1.png')
             },
             {
                 title:"Item 2",
-                image : 'https://i.ibb.co/zmMCy4n/card-2-2.png'
+                image : require('../assets/images/card_2.png')
             }
         ]}
     }
@@ -26,8 +26,8 @@ export default class SliderImage extends React.Component {
     _renderItem({item,index}){
         return (
               <Image
-                style={{height : height/4, width : '100%', borderRadius :5}}
-                source={{uri : item.image}}
+                style={{height : height/5, width : '100%', borderRadius :5}}
+                source={item.image}
                 />         
         )
     }
@@ -70,7 +70,7 @@ export default class SliderImage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height : height/4,
+    height : height/5,
     width : width*95/100,
     alignItems : "center"
   },

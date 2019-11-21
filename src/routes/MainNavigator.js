@@ -7,6 +7,9 @@ import Payment from '../screens/AuthScreen/Payment'
 import Cashier from '../screens/AuthScreen/Cashier'
 import AddProfile from '../screens/AuthScreen/AddProfile'
 import NewsScreen from '../screens/AuthScreen/NewsScreen'
+import NewBarcodeProduct from '../screens/AuthScreen/NewBarcodeProduct'
+import NewProductName from '../screens/AuthScreen/NewProductName'
+import NewProductLast from '../screens/AuthScreen/NewProductLast'
 
 const MainNavigator = createStackNavigator({
     Home : {
@@ -33,14 +36,32 @@ const MainNavigator = createStackNavigator({
         header : null
       }
     },
+    NewsScreen : {
+      screen : NewsScreen,
+      navigationOptions : {
+        header : null
+      }
+    },
     AddProfile : {
       screen : AddProfile,
       navigationOptions : {
         header : null
       }
     },
-    NewsScreen : {
-      screen : NewsScreen,
+    NewBarcode : {
+      screen : NewBarcodeProduct,
+      navigationOptions : {
+        header : null
+      }
+    },
+    NewProductName : {
+      screen : NewProductName,
+      navigationOptions : {
+        header : null
+      }
+    },
+    NewProductLast : {
+      screen : NewProductLast,
       navigationOptions : {
         header : null
       }

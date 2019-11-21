@@ -4,14 +4,16 @@ import {
   View,
   Image,
 } from "react-native";
+import {useDispatch} from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
 import { Text } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient'
 import Strings from '../utils/Strings';
 import BarStatus from '../components/BarStatus';
+import { getProfile } from '../redux/actions/actionsUserData';
 
 const CheckMember = ({navigation}) => {
-
+    const dispatch = useDispatch()
     useEffect(() => { 
       setTimeout(function() 
       { _checkFunc()}
@@ -22,8 +24,9 @@ const CheckMember = ({navigation}) => {
         try {
         //Cek Token Pas Awal
         const checkUserIntro = await AsyncStorage.getItem('introApp');
-        const checkUserData = await AsyncStorage.getItem('userData');
+        const checkUserData = await AsyncStorage.getItem('userId');
             if (checkUserData != null) {
+                await dispatch(getProfile(checkUserData))
                 navigation.navigate('AuthNavigator')
             }
             else {

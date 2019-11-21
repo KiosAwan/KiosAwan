@@ -15,7 +15,7 @@ import MainNavigator from './MainNavigator'
 
 const _onPressLogout= async (props) => {
   try {
-      await AsyncStorage.removeItem('userData')
+      await AsyncStorage.removeItem('userId')
       props.navigation.navigate('UnauthNavigator')
     } 
     catch(e) {

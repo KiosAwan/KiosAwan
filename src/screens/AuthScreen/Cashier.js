@@ -1,20 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
-import BarStatus from '../../components/BarStatus';
+import Icon from 'react-native-vector-icons/FontAwesome5'
+import { RegisterButton } from '../../components/Button/ButtonComp';
+import { FlatList } from 'react-native-gesture-handler';
 
-export default class Cashier extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
+const Cashier = ({navigation}) =>  {
+        return (
+            <View style={{flex : 1}}>
+                <Text>Cashier</Text>
+                <RegisterButton
+                buttonTitle="Ada Barcode"
+                onPressBtn={()=> navigation.navigate('NewBarcode')}
+                />
+                <RegisterButton
+                buttonTitle="Gaada Barcode"
+                onPressBtn={()=> navigation.navigate('NewProductName')}
+                />
+                <FlatList
+                data={}
+                />
+            </View>
+        );
+    }
 
-  render() {
-    return (
-      <View>
-        <BarStatus/>
-        <Text> Cashier </Text>
-      </View>
-    );
-  }
-}
+export default Cashier
