@@ -22,7 +22,6 @@ export const CardComp = (props) =>  {
                 </View>
             </TouchableOpacity>
         </View>
-    
     );
 }
 
@@ -56,7 +55,32 @@ export const CardTextImage = (props) =>  {
                 </View>
             </View>
         </TouchableOpacity>
-    
+    );
+}
+
+export const ProductCard = (props) =>  {
+    return (
+        <View style={{height : height/8, backgroundColor : 'white', marginBottom : 5}}>
+                <View style={[styles.card, props.cardStyle]}>
+                    <Image style={{width: '20%', height : '100%', marginHorizontal:5, backgroundColor : 'red'}} source={props.productImage}/>
+                    <View style={{width : '50%'}}>
+                        <Text style={styles.infoText}>{props.name}</Text>
+                        <Text style={styles.subText}>Rp. {props.price}</Text>
+                    </View>
+                    <View style={{width : '30%'}}>
+                        {props.quantity ? props.quantity > 0 ?
+                        <View style={{...RowChild}}>
+                            <Icon onPress={props.onPressMinus} color="#cd0192" size={30} name="minus-circle"/>
+                            <Text style={{marginHorizontal : 8}}>{props.quantity}</Text>
+                            <Icon onPress={props.onPressPlus} color="#cd0192" size={30} name="plus-circle"/>
+                        </View>
+                        :
+                        <Text style={styles.infoText}>Add Product</Text> :
+                        <Text onPress={props.onPressAdd} style={styles.infoText}>Add Product</Text>
+                    }
+                    </View>
+                </View>
+        </View>
     );
 }
 

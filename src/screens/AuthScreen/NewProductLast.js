@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Modal, Text , TouchableOpacity, } from 'react-native';
+import { View, Modal, Text , TouchableOpacity,KeyboardAvoidingView } from 'react-native';
 import CheckBox from '@react-native-community/checkbox'
 import {useSelector, useDispatch} from 'react-redux'
 import {Picker, Card} from 'native-base'
@@ -8,9 +8,11 @@ import { RegisterButton } from '../../components/Button/ButtonComp';
 import { addProductIdCategory, addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from '../../redux/actions/actionsNewProduct';
 import Axios from 'axios';
 import { HOST_URL } from '../../config';
-import { sendNewCategory } from '../../utils/authhelper';
+import { sendNewCategory, validNumber } from '../../utils/authhelper';
 import { getCategory } from '../../redux/actions/actionsStoreCategory';
 import SwitchButton from '../../components/Button/SwitchButton';
+import { getProduct } from '../../redux/actions/actionsStoreProduct';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const NewProductLast = ({navigation}) => {
     const dispatch = useDispatch()
@@ -22,6 +24,7 @@ const NewProductLast = ({navigation}) => {
     const [categoryName , setCategoryName] = useState('')
     const [manageStock , setManageStock] = useState(false)
     const [sendNotif , setSendNotif] = useState(false)
+    
     const _handlePressNext = async () => {
         const formData = new FormData() 
         await formData.append('barcode', NewProduct.barcode)
@@ -40,6 +43,7 @@ const NewProductLast = ({navigation}) => {
             console.log(formData)
         const response = await Axios.post(`${HOST_URL}/create_product`, formData)
         await dispatch(clearAllNewProduct())
+        await dispatch(getProduct(User.store.id_store))
         navigation.navigate('Cashier')
     }
 
@@ -57,8 +61,32 @@ const NewProductLast = ({navigation}) => {
         setModalVisible(!modalVisible)
     }
 
+    const _handleChangePriceIn = (value) => {
+        const a = validNumber(value)
+        if(a){
+            dispatch(addProductPriceIn(value))
+        }
+    }
+    const _handleChangePriceOut = (value) => {
+        const a = validNumber(value)
+        if(a){
+            dispatch(addProductPriceOut(value))
+        }
+    }
+    const _handleChangeStock = (value) => {
+        const a = validNumber(value)
+        if(a){
+            dispatch(addQuantityStock(value))
+        }
+    }
+    const _handleChangeMinStock = (value) => {
+        const a = validNumber(value)
+        if(a){
+            dispatch(addMinQtyStock(value))
+        }
+    }
         return (
-            <View style={{padding : 20}}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{padding : 20}}>
                 <RegisterButton buttonTitle="Add New Category"
                 onPressBtn={() => setModalVisible(true)}
                 />
@@ -115,13 +143,13 @@ const NewProductLast = ({navigation}) => {
                     label="Harga Beli"
                     keyboardType="numeric"
                     value={NewProduct.price_in}
-                    handleChangeText={(text) =>dispatch(addProductPriceIn(text))}
+                    handleChangeText={_handleChangePriceIn}
                     />
                     <InputWithLabel
                     label="Harga Jual"
                     keyboardType="numeric"
                     value={NewProduct.price_out}
-                    handleChangeText={(text) =>dispatch(addProductPriceOut(text))}
+                    handleChangeText={_handleChangePriceOut}
                     />
                 </View>
                 <View>
@@ -132,12 +160,16 @@ const NewProductLast = ({navigation}) => {
                     <View>
                         <InputWithLabel
                         label="Quantity"
-                        handleChangeText={(text) =>dispatch(addQuantityStock(text))}
+                        keyboardType="numeric"
+                        value={NewProduct.qty_stock}
+                        handleChangeText={_handleChangeStock}
                         disabled={manageStock ? false : true}
                         />
                         <InputWithLabel
                         label="Stok Minimum"
-                        handleChangeText={(text) => dispatch(addMinQtyStock(text))}
+                        keyboardType="numeric"
+                        value={NewProduct.qty_min_stock}
+                        handleChangeText={_handleChangeMinStock}
                         disabled={manageStock ? false : true}
                         />
                     </View>
@@ -154,7 +186,7 @@ const NewProductLast = ({navigation}) => {
                 onPressBtn={_handlePressNext}
                 buttonTitle="Create Product"
                 />
-            </View>
+            </ScrollView>
         );
     }
 

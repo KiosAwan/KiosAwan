@@ -16,18 +16,21 @@ import { ColorsList } from '../../styles/colors'
 import { FontList } from '../../styles/typography'
 
 //redux
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 
 //CustomComponent
 import { CardComp, LinearCardComp, CardTextImage } from '../../components/Card/CardComp'
 import { CategoryText } from '../../components/Text/CategoryText'
 import { RowChild } from '../../components/Helper/RowChild'
 import BarStatus from '../../components/BarStatus'
+import { getProduct } from '../../redux/actions/actionsStoreProduct'
 
 const height = Dimensions.get('window').height
 const Home = ({navigation}) => {
     const User = useSelector(state => state.User)
-    const _onPressCashier = () => {
+    const dispatch = useDispatch()
+    const _onPressCashier = async  () => {
+        await dispatch(getProduct(User.store.id_store))
         navigation.navigate('Cashier')            
     }
 

@@ -34,7 +34,6 @@ const NewProductName = ({navigation}) => {
             height: 300,
             cropping: true
           }).then(image=> {
-            console.log(image);
             dispatch(addProductImage(image.path))
             });
         };
