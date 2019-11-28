@@ -1,31 +1,31 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { RegisterButton } from '../../components/Button/ButtonComp';
 import { FlatList } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { ProductCard } from '../../components/Card/CardComp';
 import { AddCart, MinusQuantity, AddQuantity } from '../../redux/actions/actionsStoreProduct';
+import { RegisterButton } from '../../components/Button/ButtonComp';
+import { getCustomer } from '../../redux/actions/actionsCustomer';
 
-const Cashier = ({navigation}) =>  {
+const Cart = ({navigation}) =>  {
     const dispatch = useDispatch()
     const Product  = useSelector(state => state.Product)
-    const Cart = useSelector(state => state.Product.belanja)
+    const User = useSelector(state => state.User)
+    const _handleNextBtn = async () => {
+        await dispatch(getCustomer(User.store.id_store))
+        navigation.navigate('CheckOut')
+    }
         return (
             <View style={{flex : 1, backgroundColor : ColorsList.authBackground, padding : 20}}>
-                <Text>Cashier</Text>
-                <RegisterButton
-                buttonTitle="Ada Barcode"
-                onPressBtn={()=> navigation.navigate('NewBarcode')}
-                />
-                <RegisterButton
-                buttonTitle="Check Out"
-                onPressBtn={() => navigation.navigate('Cart')}
-                />
-                <Text>{Product.total}</Text>
+                <Text>Cart</Text>
+                <Text>Total belanja : {Product.total}</Text>
+                <Text>Total item : {Product.jumlahitem}</Text>
+                {
+                    Product.belanja.length > 0 ?
                 <FlatList
-                data={Product.data}
+                data={Product.belanja}
                 renderItem={({ item }) => (
                     <ProductCard
                     name={item.name_product}
@@ -37,9 +37,17 @@ const Cashier = ({navigation}) =>  {
                     />
                 )}
                 keyExtractor={(item, index) => index.toString()}
+                /> : 
+                <Text>Anda belum mempunyai barang di keranjang</Text>
+                }
+                <RegisterButton
+                buttonTitle="Lanjut ke pembayaran"
+                onPressBtn={_handleNextBtn}
+                disabled={Product.belanja.length > 0 ? false : true}
                 />
+                
             </View>
         );
     }
 
-export default Cashier
+export default Cart

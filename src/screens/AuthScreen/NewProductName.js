@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker'
 import {useSelector, useDispatch} from 'react-redux'
 import { InputWithLabel } from '../../components/Input/InputComp';
@@ -24,8 +24,13 @@ const NewProductName = ({navigation}) => {
     }
 
     const _handlePressNext = async () => {
-        await dispatch(getCategory(User.store.id_store))
-        navigation.navigate('NewProductLast')
+        if(NewProduct.name == ""){
+            alert("Nama tidak boleh kosong")
+        }
+        else {
+            await dispatch(getCategory(User.store.id_store))
+            navigation.navigate('NewProductLast')
+        }      
     }
 
     const _handleChoosePhoto = () => {

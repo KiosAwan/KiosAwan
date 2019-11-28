@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import Geocoder from 'react-native-geocoding';
-import {useDispatch} from 'react-redux'
 import { View, Text} from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage';
+import ImagePicker from 'react-native-image-crop-picker'
+
+//redux
+import {useDispatch} from 'react-redux'
+import { getProfile } from '../../redux/actions/actionsUserData';
+
+//Maps
 import Maps from '../../components/Maps/Maps';
+import Geocoder from 'react-native-geocoding';
+
+//Custom Comp
 import { InputWithLabel, InputTextArea } from '../../components/Input/InputComp';
 import { RegisterButton } from '../../components/Button/ButtonComp';
+
+//Function
 import { sendProfileData } from '../../utils/authhelper';
-import AsyncStorage from '@react-native-community/async-storage';
-import { getProfile } from '../../redux/actions/actionsUserData';
 
 const AddProfile = ({navigation}) =>  {
   const dispatch = useDispatch()
@@ -15,6 +24,7 @@ const AddProfile = ({navigation}) =>  {
   const [name_store, setName_Store] = useState('')
   const [email_store, setEmail_Store] = useState('')
   const [id_user, setId_User] = useState('')
+  const [photo_store, setPhotoStore] = useState('')
   const [address_store, setAddress_Store] = useState()
   useEffect(() => { 
     _firstRender()
@@ -44,22 +54,43 @@ const AddProfile = ({navigation}) =>  {
   }
 
   const _handleUploadBtn = async () => {
-      const data = {
-        id_user ,
-        name_store ,
-        email_store,
-        address_store,
-        location_store_latitude  : region.latitude,
-        location_store_longitude : region.longitude
+
+    const formData = new FormData()
+    formData.append("id_user", id_user)
+    formData.append("name_store", name_store)
+    formData.append("email_store", email_store)
+    formData.append("address_store", address_store)
+    formData.append("location_store_latitude", region.latitude)
+    formData.append("location_store_longitude", region.longitude)
+    formData.append('photo_store', photo_store != "" ? {uri: photo_store,
+        type: "image/jpeg",
+        name: `${Date.now()}.jpeg`} : null)
+        console.log(photo_store)
+      const res = await sendProfileData(formData)
+      console.log(res)
+      try {
+        if(res.status == 400){
+          alert("Isi semua field dengan format yang benar")
+        }else {
+          await dispatch(getProfile(id_user))
+          navigation.navigate('Home')
+        }
       }
-      const res = await sendProfileData(data)
-      if(res.status == 400){
-        alert("Isi semua field dengan format yang benar")
-      }else {
-        await dispatch(getProfile(id_user))
-        navigation.navigate('Home')
+      catch (err) {
+        alert("Periksa jaringan anda")
       }
+      
   }
+
+  const _handleChoosePhoto = () => {
+    ImagePicker.openCamera({
+        width: 300,
+        height: 300,
+        cropping: true
+      }).then(image=> {
+        setPhotoStore(image.path)
+        });
+    };
     return (
       <View style={{flex : 1, padding : 20}}>
         <View>
@@ -89,6 +120,10 @@ const AddProfile = ({navigation}) =>  {
             changeRegion={_changeRegion}
           />
         </View>
+        <RegisterButton
+        buttonTitle="Ambil foto"
+        onPressBtn={_handleChoosePhoto}
+        />
         <RegisterButton 
         onPressBtn={_handleUploadBtn}
         buttonTitle="Set Profil"/>  

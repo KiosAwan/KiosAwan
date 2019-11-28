@@ -10,7 +10,7 @@ const width = Dimensions.get('window').width
 
 export const RegisterButton = (props) => {
     return (
-        <Button primary style={styles.btn}
+        <Button primary style={[styles.btn, props.style]}
         disabled={props.disabled}
         onPress={props.onPressBtn}
         >

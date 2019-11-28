@@ -75,11 +75,21 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 if(itemMauDikurang.quantity != 0) {
                     itemMauDikurang.quantity--
                     state.jumlahitem--
-                    return {
-                        ...state,
-                        total : state.total - parseInt(itemMauDikurang.price_out_product),
-                        belanja : [...state.belanja]
+                    if(itemMauDikurang.quantity == 0) {
+                        let a = state.belanja.filter(item => item.id_product != itemMauDikurang.id_product)
+                        return {
+                            ...state,
+                            total : state.total - parseInt(itemMauDikurang.price_out_product),
+                            belanja : a
+                        } 
                     }
+                    else {
+                        return {
+                            ...state,
+                            total : state.total - parseInt(itemMauDikurang.price_out_product),
+                            belanja : [...state.belanja]
+                        }
+                    }                  
                 }        
         }
         default : 

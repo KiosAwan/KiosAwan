@@ -42,3 +42,11 @@ export const addSecondPIN = ( pin ) => {
         payload : pin
     }
 }
+
+
+export const addDeviceId = ( deviceId ) => {
+    return {
+        type : "ADD_DEVICE_ID",
+        payload : deviceId
+    }
+}

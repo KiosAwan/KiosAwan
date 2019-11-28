@@ -56,3 +56,33 @@ export const deleteCategory = async (categoryId) => {
 export const deleteProduct = async (productId) => {
   const res = await axios.delete(`${HOST_URL}/`)
 }
+
+//post new transaction to database
+export const sendNewTransaction = async (data) => {
+  const res = await axios.post(`${HOST_URL}/create_transaction`, data)
+  return res.data
+}
+
+//post new customer to database
+export const sendNewCustomer = async (data) => {
+  const res = await axios.post(`${HOST_URL}/create_customer`, data)
+  return res.data
+}
+
+//get detail transaction 
+export const getTransactionDetail = async (transactionId) => {
+  const res = await axios.get(`${HOST_URL}/get_transaction/${transactionId}`)
+  return res.data
+}
+
+//Cancel transaction 
+export const cancelTransaction = async (transactionId) => {
+  const res = await axios.get(`${HOST_URL}/get_transaction/${transactionId}`)
+  return res.data
+}
+
+//Pay Credit
+export const payCredit = async (data, transactionId) => {
+  const res = await axios.post(`${HOST_URL}/pay_debt/${transactionId}`,data )
+  return res.data
+}

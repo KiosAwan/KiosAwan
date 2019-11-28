@@ -3,7 +3,8 @@ const initialState = {
     phone_number : '',
     otp : '',
     firstPIN : '',
-    secondPIN : ''
+    secondPIN : '',
+    deviceId : ''
 }
 
 const reducerRegistration = (state = initialState, actions) => {
@@ -32,6 +33,11 @@ const reducerRegistration = (state = initialState, actions) => {
             return {
                 ...state,
                 secondPIN : actions.payload
+            }
+        case "ADD_DEVICE_ID" : 
+            return {
+                ...state,
+                deviceId : actions.payload
             }
         case "CLEAR_ALL_REGISTRATION" : 
             return {

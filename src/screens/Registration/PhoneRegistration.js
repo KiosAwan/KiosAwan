@@ -1,6 +1,8 @@
-import React , { useState } from 'react';
+import React , { useState, useEffect } from 'react';
 import { useDispatch , useSelector } from 'react-redux'
 import RBSheet from "react-native-raw-bottom-sheet";
+import { getUniqueId } from 'react-native-device-info';
+
 // Styling 
 import { 
     View, 
@@ -18,7 +20,7 @@ import LoginVerification from './LoginVerification'
 import VerifyOTPRegister from './OTPVerification';
 
 //Redux Actions
-import { addPhoneNumber} from '../../redux/actions/actionsRegistration'
+import { addPhoneNumber, addDeviceId} from '../../redux/actions/actionsRegistration'
 
 //Functions
 import Strings from '../../utils/Strings'
@@ -34,8 +36,16 @@ const PhoneRegistration = ({navigation}) => {
     const dispatch = useDispatch()
     let VerifyLoginSheet
     let OTPRegisterSheet
-
     const [btnDisabled , setBtnDisabled] = useState(true)
+
+    useEffect(() => { 
+        _getDeviceInfo()
+    }, [])
+
+    const _getDeviceInfo = async () => {
+        let uniqueId = getUniqueId();
+        await dispatch(addDeviceId(uniqueId))
+    }
     //Function handle change input and add to reducer
     const _handleChangePhone = (number) => {
         if(number[0] != 0) {
@@ -53,17 +63,23 @@ const PhoneRegistration = ({navigation}) => {
         const data = {
             phone_number : "62"+FormRegister.phone_number,
         }
-        const res = await sendPhoneNumber(data)
-        if(res.type == "login") {
-            VerifyLoginSheet.open()
-        }else if(res.type == "register") {
-            OTPRegisterSheet.open()
-        }
-        else {
-            if(res.data.errors) {
-                alert(res.data.errors.msg)
+        try {
+            const res = await sendPhoneNumber(data)
+            if(res.type == "login") {
+                VerifyLoginSheet.open()
+            }else if(res.type == "register") {
+                OTPRegisterSheet.open()
+            }
+            else {
+                if(res.data.errors) {
+                    alert(res.data.errors.msg)
+                }
             }
         }
+        catch(err) {
+            alert(err)
+        }
+        
     }
     const _navigateForgotPIN = () => {        
         navigation.navigate("ForgotPIN")

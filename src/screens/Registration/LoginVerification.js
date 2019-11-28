@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage'
 
@@ -8,7 +8,8 @@ import {
     StyleSheet,
 } from 'react-native';
 import { 
-    Text
+    Text,
+    Spinner
 } from 'native-base';
 import CodeInput from 'react-native-confirmation-code-input';
 
@@ -24,24 +25,31 @@ import { getProfile } from '../../redux/actions/actionsUserData';
 const LoginVerification = (props) => {
     const dispatch = useDispatch()
     const RegisterOTP = useSelector(state => state.Registration)
-
+    const [loading , setLoading] = useState(false)
 
     //Sending OTP code to server
     const _handlePINFulfilled = async (pin) => {
+        setLoading(true)
         await dispatch(addFirstPIN(pin))
         const data = {
             phone_number : "62"+RegisterOTP.phone_number,
             pin
         }
-        const res = await sendUserPIN(data)
-        if(res.data.errors){
-            alert(res.data.errors.msg)
-        }
-        else {
-            await dispatch(clearAllRegistration())
-            await AsyncStorage.setItem('userId', res.data.id)
-            await dispatch(getProfile(res.data.id))
-            props.navigationHome() 
+        try{
+            const res = await sendUserPIN(data)
+            if(res.data.errors){
+                alert(res.data.errors.msg)
+                setLoading(false)
+            }
+            else {
+                await dispatch(clearAllRegistration())
+                await AsyncStorage.setItem('userId', res.data.id)
+                await dispatch(getProfile(res.data.id))
+                setLoading(false)
+                props.navigationHome() 
+        }}
+        catch (err) {
+            alert("Mohon periksa kembali jaringan Anda")
         }
     }
 
@@ -50,7 +58,6 @@ const LoginVerification = (props) => {
             phone_number : "62"+RegisterOTP.phone_number
         }
         const res = await sendForgotPIN(data)
-        console.log(res)
         props.closeLoginSheet()
         props.navigationForgot()
     }
@@ -59,6 +66,7 @@ const LoginVerification = (props) => {
     <View style={styles.container}>
         <BarStatus/>
         <View style={{padding : 10}}></View>
+        {loading ? <Spinner color="#cd0192"/> : null}
         <Text>This number has been registered before</Text>
         <Text>Enter your KIOSAWAN PIN</Text>
             <CodeInput

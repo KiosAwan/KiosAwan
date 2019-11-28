@@ -25,6 +25,23 @@ export const CardComp = (props) =>  {
     );
 }
 
+export const TransactionCard = (props) => {
+    return (
+        <View style={{...RowChild, justifyContent : 'space-between', marginBottom : 20, borderBottomWidth : 2}}>
+            <Icon name="money-bill-alt"/>
+            <View>
+                <Text>Rp. {props.total_transaction}</Text>
+                <Text>{props.payment_code}</Text>
+                {props.status_payment == 3 ? <Text>Dibatalkan</Text> : null}
+            </View>
+            <View>
+                <Text>{props.payment_type}</Text>
+                <Text>{props.transactiontime}</Text>
+            </View>
+        </View>
+    )
+}
+
 export const LinearCardComp = (props) =>  {
     return (
         <View style={{height : height/15, backgroundColor : 'white', justifyContent : "center", borderRadius : 5}}>

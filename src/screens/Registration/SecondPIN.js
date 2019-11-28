@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-
+import AsyncStorage from '@react-native-community/async-storage'
 //Styling
 import { 
     View, 
@@ -19,6 +19,7 @@ import BarStatus from '../../components/BarStatus';
 //Redux Actions
 import { addSecondPIN, clearAllRegistration } from '../../redux/actions/actionsRegistration'
 import { registerUser } from '../../utils/unauthhelper';
+import { getProfile } from '../../redux/actions/actionsUserData';
 
 //Functions
 
@@ -42,10 +43,13 @@ const FirstPIN = ({navigation}) => {
                         pin : pin
                     }
                 const res = await registerUser(data)
-                console.log(res)
+                console.log(res.data)
                 if(res.status == 200) {
+                    console.log(res.data)
+                    await AsyncStorage.setItem('userId', res.data.id.toString())
+                    await dispatch(getProfile(res.data.id.toString()))
                     await dispatch(clearAllRegistration())
-                    navigation.navigate('Home')    
+                    navigation.navigate('Home')
                 }else {
                     if(res.data.errors.msg){
                         alert(res.data.errors.msg)

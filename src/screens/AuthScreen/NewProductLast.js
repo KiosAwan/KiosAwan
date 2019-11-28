@@ -24,7 +24,7 @@ const NewProductLast = ({navigation}) => {
     const [categoryName , setCategoryName] = useState('')
     const [manageStock , setManageStock] = useState(false)
     const [sendNotif , setSendNotif] = useState(false)
-    
+    const [isDisabled , setIsDisabled] = useState(true)
     const _handlePressNext = async () => {
         const formData = new FormData() 
         await formData.append('barcode', NewProduct.barcode)
@@ -42,6 +42,7 @@ const NewProductLast = ({navigation}) => {
             name: `${Date.now()}.jpeg`} : null)
             console.log(formData)
         const response = await Axios.post(`${HOST_URL}/create_product`, formData)
+        console.log(response)
         await dispatch(clearAllNewProduct())
         await dispatch(getProduct(User.store.id_store))
         navigation.navigate('Cashier')
@@ -55,7 +56,6 @@ const NewProductLast = ({navigation}) => {
             name_product_category : categoryName,
             id_store : User.store.id_store
         }
-        console.log(data)
         const res = await sendNewCategory(data)
         await dispatch(getCategory(User.store.id_store))
         setModalVisible(!modalVisible)
@@ -65,12 +65,23 @@ const NewProductLast = ({navigation}) => {
         const a = validNumber(value)
         if(a){
             dispatch(addProductPriceIn(value))
+            if(parseInt(NewProduct.price_out)- parseInt(value) >= 0){
+                setIsDisabled(false)
+            }else {
+                setIsDisabled(true)
+            }
         }
     }
     const _handleChangePriceOut = (value) => {
         const a = validNumber(value)
         if(a){
             dispatch(addProductPriceOut(value))
+            if(parseInt(value)- parseInt(NewProduct.price_in) >= 0){
+                setIsDisabled(false)
+            }
+            else {
+                setIsDisabled(true)
+            }
         }
     }
     const _handleChangeStock = (value) => {
@@ -183,6 +194,7 @@ const NewProductLast = ({navigation}) => {
                     </View>                   
                 </View>
                 <RegisterButton
+                disabled={isDisabled}
                 onPressBtn={_handlePressNext}
                 buttonTitle="Create Product"
                 />
