@@ -19,6 +19,18 @@ export const RegisterButton = (props) => {
     )
 }
 
+export const BottomButton = (props) => {
+    return (
+        <Button
+            primary
+            onPress={props.onPressBtn}
+            style={{width , justifyContent : "center", backgroundColor : 'transparent'}}
+          >
+            <Text>{props.buttonTitle}</Text>
+        </Button>
+    )
+}
+
 const styles = StyleSheet.create({
     btn : {
         justifyContent : "center",
