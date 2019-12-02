@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import { 
-    Text, 
+import React, { useEffect, useState } from 'react';
+import {
+    Text,
     View,
     StyleSheet,
 } from 'react-native';
@@ -10,12 +10,12 @@ import CodeInput from 'react-native-confirmation-code-input';
 import { GlobalHeader } from '../../components/Header/Header';
 import { sendForgotPIN, sendVerifyOTP, showPhoneNumber } from '../../utils/unauthhelper';
 
-const ForgotPIN = ({navigation}) => {
+const ForgotPIN = ({ navigation }) => {
     const phoneNumber = useSelector(state => state.Registration.phone_number)
-    const [showedNumber , setShowedNumber] = useState('')
-    const [isResendDisabled , setIsResendDisabled] = useState(true)
-    let [countdown , setCountdown] = useState(59)
-    useEffect(() => { 
+    const [showedNumber, setShowedNumber] = useState('')
+    const [isResendDisabled, setIsResendDisabled] = useState(true)
+    let [countdown, setCountdown] = useState(59)
+    useEffect(() => {
         _formatPhoneNum()
         _firstRender()
     }, [])
@@ -32,52 +32,52 @@ const ForgotPIN = ({navigation}) => {
         let waktu = 58
         const a = setInterval(
             () => {
-                if(waktu == 0) {
+                if (waktu == 0) {
                     clearInterval(a)
                 }
-            setCountdown(waktu--)
-        },
-        1000
+                setCountdown(waktu--)
+            },
+            1000
         );
-        setTimeout( () => {
+        setTimeout(() => {
             setIsResendDisabled(false)
-        },60000)
+        }, 60000)
     }
 
-    const _resendCode = async () => {   
+    const _resendCode = async () => {
         let theTimer = 58
         const a = setInterval(
             () => {
-                if(theTimer == 0) {
+                if (theTimer == 0) {
                     clearInterval(a)
                 }
-            setCountdown(theTimer--)
-        },
-        1000
+                setCountdown(theTimer--)
+            },
+            1000
         );
-        setTimeout( () => {
+        setTimeout(() => {
             setIsResendDisabled(false)
-        },60000)
+        }, 60000)
         setIsResendDisabled(true)
 
         const data = {
-            phone_number : "62"+phoneNumber,
+            phone_number: "62" + phoneNumber,
         }
         await sendForgotPIN(data)
     }
 
     const _handleOTPFulfilled = async (code) => {
         const data = {
-            phone_number : "62"+phoneNumber,
-            otp : code
+            phone_number: "62" + phoneNumber,
+            otp: code
         }
         const res = await sendVerifyOTP(data)
         console.log(data)
         console.log(res)
-        if(res.status == 400){
+        if (res.status == 400) {
             alert(res.data.errors.msg)
         }
-        else if(res.status == 200) {
+        else if (res.status == 200) {
             navigation.navigate("NewPIN1")
         }
         else {
@@ -86,41 +86,41 @@ const ForgotPIN = ({navigation}) => {
     }
     return (
         <View style={styles.container}>
-            <GlobalHeader 
-            onPressBack={_handleBack}
-            title="Forgot PIN"
+            <GlobalHeader
+                onPressBack={_handleBack}
+                title="Forgot PIN"
             />
-            <View style={{alignItems : "center"}}>
-                <Text style={{paddingTop : 20}}>A 4 digit code has been sent to</Text>
+            <View style={{ alignItems: "center" }}>
+                <Text style={{ paddingTop: 20 }}>A 4 digit code has been sent to</Text>
                 <Text>62-{showedNumber}</Text>
                 <CodeInput
-                keyboardType="numeric"
-                activeColor='black'
-                inactiveColor='grey'
-                codeLength={4}
-                size={40}
-                autoFocus
-                onFulfill={(code) => _handleOTPFulfilled(code)}
+                    keyboardType="numeric"
+                    activeColor='black'
+                    inactiveColor='grey'
+                    codeLength={4}
+                    size={40}
+                    autoFocus
+                    onFulfill={(code) => _handleOTPFulfilled(code)}
                 />
-                {isResendDisabled ? 
-                <Text style={{color : 'grey', paddingTop : 60}}>Resend in {countdown} s</Text> : 
-                <Text onPress={_resendCode} style={{color : 'blue', paddingTop : 60}}>Resend Code</Text>}
-            </View>        
+                {isResendDisabled ?
+                    <Text style={{ color: 'grey', paddingTop: 60 }}>Resend in {countdown} s</Text> :
+                    <Text onPress={_resendCode} style={{ color: 'blue', paddingTop: 60 }}>Resend Code</Text>}
+            </View>
         </View>
     )
 }
-    
+
 
 export default ForgotPIN;
 
 const styles = StyleSheet.create({
-    container : {
-        flex : 1,
+    container: {
+        flex: 1,
     },
     borderStyleBase: {
         width: 30,
         height: 45
-    },   
+    },
     borderStyleHighLighted: {
         borderColor: "#03DAC6",
     },

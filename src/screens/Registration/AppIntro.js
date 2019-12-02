@@ -19,7 +19,7 @@ const slides = [
         key: 'somethun-dos',
         title: Strings.INTRO2TITLE,
         text: Strings.INTRO2SUBTITLE,
-        image : require('../../assets/images/intro2.png'),
+        image: require('../../assets/images/intro2.png'),
     },
     {
         key: 'somethun1',
@@ -27,47 +27,47 @@ const slides = [
         text: Strings.INTRO3SUBTITLE,
         image: require('../../assets/images/intro3.png'),
     }
-    ];
-   
+];
+
 const height = Dimensions.get('window').height
 const width = Dimensions.get('window').width
 
 export default class AppIntro extends React.Component {
     _renderItem = (item) => {
         return (
-        <LinearGradient
-        style={styles.mainContent}
-        colors={['#cd0192', '#6d1d6d']}
-        start={{ x: 0, y: 0.1 }}
-        end={{ x: 0.1, y: 1 }}
-        >
-            <BarStatus/>
-            <View style={{flex : 2,justifyContent : "center", alignItems :"center"}}>
-                <Image style={styles.logo} source={require('../../assets/images/logo.png')}/>
-            </View>
-            <View style={{alignItems : "center", flex : 9}}>
-                <Image source={item.item.image} style={styles.image} />
-                <View style={{width : '80%', alignItems : "center", marginBottom : 20}}>
-                    <Text style={styles.title}>{item.item.title}</Text>
-                    <Text style={styles.text}>{item.item.text}</Text>
+            <LinearGradient
+                style={styles.mainContent}
+                colors={['#cd0192', '#6d1d6d']}
+                start={{ x: 0, y: 0.1 }}
+                end={{ x: 0.1, y: 1 }}
+            >
+                <BarStatus />
+                <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
+                    <Image style={styles.logo} source={require('../../assets/images/logo.png')} />
                 </View>
-            </View>           
-        </LinearGradient>
+                <View style={{ alignItems: "center", flex: 9 }}>
+                    <Image source={item.item.image} style={styles.image} />
+                    <View style={{ width: '80%', alignItems: "center", marginBottom: 20 }}>
+                        <Text style={styles.title}>{item.item.title}</Text>
+                        <Text style={styles.text}>{item.item.text}</Text>
+                    </View>
+                </View>
+            </LinearGradient>
         );
     }
 
     _renderSkipButton = () => {
         return (
-            <View style={{alignSelf: 'center',padding : 12}}>
-                <Text style={{fontFamily : 'Nunito-black', fontSize : 14, color : 'white'}}>Skip</Text>
+            <View style={{ alignSelf: 'center', padding: 12 }}>
+                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Skip</Text>
             </View>
         )
     }
 
     _renderDoneButton = () => {
         return (
-            <View style={{alignSelf: 'center',padding : 12}}>
-                <Text style={{fontFamily : 'Nunito-black', fontSize : 14, color : 'white'}}>Done</Text>
+            <View style={{ alignSelf: 'center', padding: 12 }}>
+                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Done</Text>
             </View>
         )
     }
@@ -82,17 +82,17 @@ export default class AppIntro extends React.Component {
     }
     render() {
         return (
-        <AppIntroSlider 
-        dotStyle={{backgroundColor: '#cd0192'}}
-        renderItem={this._renderItem} 
-        slides={slides} 
-        onDone={this._onDone}
-        renderDoneButton={this._renderDoneButton}
-        showSkipButton
-        renderSkipButton={this._renderSkipButton}
-        onSkip={this._onSkip}
-        showNextButton={false}
-        />
+            <AppIntroSlider
+                dotStyle={{ backgroundColor: '#cd0192' }}
+                renderItem={this._renderItem}
+                slides={slides}
+                onDone={this._onDone}
+                renderDoneButton={this._renderDoneButton}
+                showSkipButton
+                renderSkipButton={this._renderSkipButton}
+                onSkip={this._onSkip}
+                showNextButton={false}
+            />
         )
     }
 }
@@ -104,17 +104,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     image: {
-        marginTop : 10,
+        marginTop: 10,
         width: 350,
-        height: height*4/9,
+        height: height * 4 / 9,
     },
     text: {
         color: 'white',
-        fontSize : 13,
+        fontSize: 13,
         backgroundColor: 'transparent',
         textAlign: 'center',
         paddingHorizontal: 16,
-        fontFamily : 'Nunito-black'
+        fontFamily: 'Nunito-black'
     },
     title: {
         fontSize: 18,
@@ -122,10 +122,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         textAlign: 'center',
         marginBottom: 16,
-        fontFamily : 'Nunito-ExtraBold'
+        fontFamily: 'Nunito-ExtraBold'
     },
-    logo : {
-        height : 90, 
-        width : 160,
+    logo: {
+        height: 90,
+        width: 160,
     }
 });

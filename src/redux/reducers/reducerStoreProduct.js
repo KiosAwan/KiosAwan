@@ -5,7 +5,6 @@ const initialState = {
     total  : 0,
     belanja : [],
     jumlahitem : 0,
-    customer : []
 }
 
 const reducerStoreProduct = (state = initialState, actions) => {
@@ -28,10 +27,30 @@ const reducerStoreProduct = (state = initialState, actions) => {
             isError: true,
             isLoading: false
         };
+        case "ADD_BY_BAROCDE" : 
+            let barcode = actions.payload
+            let barcodeProduct = state.data.find(item => barcode == item.barcode_product)
+            let barcodeExistedItem = state.belanja.find(item => barcode == item.barcode_product)
+            if(barcodeExistedItem) {
+                barcodeProduct.quantity++,
+                state.jumlahitem++
+                return {
+                    ...state,
+                    total : state.total + parseInt(barcodeProduct.price_out_product) 
+            }}
+            else {                
+                barcodeProduct.quantity = 1
+                state.jumlahitem++
+                let newTotal = state.total + parseInt(barcodeProduct.price_out_product)
+                return {
+                    ...state,
+                    total : newTotal,
+                    belanja : [...state.belanja, barcodeProduct],
+                }
+            }
         case "ADD_TO_CART" :
             let newBelanja = actions.payload
             let existeditem = state.belanja.find(item => newBelanja.id_product == item.id_product)
-            let itemInProduct = state.data.indexOf(newBelanja)
             if(existeditem) {
                 newBelanja.quantity++,
                 state.jumlahitem++

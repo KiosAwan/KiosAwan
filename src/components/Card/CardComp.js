@@ -82,14 +82,18 @@ export const ProductCard = (props) =>  {
                     <Image style={{width: '20%', height : '100%', marginHorizontal:5, backgroundColor : 'red'}} source={props.productImage}/>
                     <View style={{width : '50%'}}>
                         <Text style={styles.infoText}>{props.name}</Text>
-                        <Text style={styles.subText}>Rp. {props.price}</Text>
+                        <Text style={styles.subText}>{props.price}</Text>
                     </View>
                     <View style={{width : '30%'}}>
                         {props.quantity ? props.quantity > 0 ?
                         <View style={{...RowChild}}>
-                            <Icon onPress={props.onPressMinus} color="#cd0192" size={30} name="minus-circle"/>
+                            <TouchableOpacity onPress={props.onPressMinus}>
+                                <Icon color="#cd0192" size={30} name="minus-circle"/>
+                            </TouchableOpacity>
                             <Text style={{marginHorizontal : 8}}>{props.quantity}</Text>
-                            <Icon onPress={props.onPressPlus} color="#cd0192" size={30} name="plus-circle"/>
+                            <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled}>
+                                <Icon color="#cd0192" size={30} name="plus-circle"/>
+                            </TouchableOpacity>
                         </View>
                         :
                         <Text style={styles.infoText}>Add Product</Text> :
@@ -100,8 +104,6 @@ export const ProductCard = (props) =>  {
         </View>
     );
 }
-
-
 
 const styles = StyleSheet.create({
     card : {

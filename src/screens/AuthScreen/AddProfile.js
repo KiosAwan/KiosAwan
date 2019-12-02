@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text} from 'react-native'
+import { View, Text } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker'
 
 //redux
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getProfile } from '../../redux/actions/actionsUserData';
 
 //Maps
@@ -18,19 +18,19 @@ import { RegisterButton } from '../../components/Button/ButtonComp';
 //Function
 import { sendProfileData } from '../../utils/authhelper';
 
-const AddProfile = ({navigation}) =>  {
+const AddProfile = ({ navigation }) => {
   const dispatch = useDispatch()
-  const [region, setRegion] = useState({latitude: -6.208980,longitude: 106.832828})
+  const [region, setRegion] = useState({ latitude: -6.208980, longitude: 106.832828 })
   const [name_store, setName_Store] = useState('')
   const [email_store, setEmail_Store] = useState('')
   const [id_user, setId_User] = useState('')
   const [photo_store, setPhotoStore] = useState('')
   const [address_store, setAddress_Store] = useState()
-  useEffect(() => { 
+  useEffect(() => {
     _firstRender()
   }, [])
 
-  const _firstRender = async () =>  {
+  const _firstRender = async () => {
     Geocoder.init("AIzaSyANsdJHxgATik6RklXekH0UrtTFKv9BFgQ")
     _identifyAddress()
     const userId = await AsyncStorage.getItem('userId')
@@ -40,12 +40,12 @@ const AddProfile = ({navigation}) =>  {
   const _identifyAddress = () => {
     Geocoder.from(region.latitude, region.longitude).then(json => {
       setAddress_Store(json.results[0].formatted_address)
-  })
-  .catch(error => console.warn(error));
+    })
+      .catch(error => console.warn(error));
   }
 
   const _changeRegion = nativeEvent => {
-    setRegion( ...nativeEvent.coordinate);
+    setRegion(...nativeEvent.coordinate);
   };
 
   const _onMapsPress = e => {
@@ -62,74 +62,76 @@ const AddProfile = ({navigation}) =>  {
     formData.append("address_store", address_store)
     formData.append("location_store_latitude", region.latitude)
     formData.append("location_store_longitude", region.longitude)
-    formData.append('photo_store', photo_store != "" ? {uri: photo_store,
-        type: "image/jpeg",
-        name: `${Date.now()}.jpeg`} : null)
-        console.log(photo_store)
-      const res = await sendProfileData(formData)
-      console.log(res)
-      try {
-        if(res.status == 400){
-          alert("Isi semua field dengan format yang benar")
-        }else {
-          await dispatch(getProfile(id_user))
-          navigation.navigate('Home')
-        }
+    formData.append('photo_store', photo_store != "" ? {
+      uri: photo_store,
+      type: "image/jpeg",
+      name: `${Date.now()}.jpeg`
+    } : null)
+    console.log(photo_store)
+    const res = await sendProfileData(formData)
+    console.log(res)
+    try {
+      if (res.status == 400) {
+        alert("Isi semua field dengan format yang benar")
+      } else {
+        await dispatch(getProfile(id_user))
+        navigation.navigate('Home')
       }
-      catch (err) {
-        alert("Periksa jaringan anda")
-      }
-      
+    }
+    catch (err) {
+      alert("Periksa jaringan anda")
+    }
+
   }
 
   const _handleChoosePhoto = () => {
     ImagePicker.openCamera({
-        width: 300,
-        height: 300,
-        cropping: true
-      }).then(image=> {
-        setPhotoStore(image.path)
-        });
-    };
-    return (
-      <View style={{flex : 1, padding : 20}}>
-        <View>
-          <InputWithLabel
+      width: 300,
+      height: 300,
+      cropping: true
+    }).then(image => {
+      setPhotoStore(image.path)
+    });
+  };
+  return (
+    <View style={{ flex: 1, padding: 20 }}>
+      <View>
+        <InputWithLabel
           label="Nama toko"
           handleChangeText={(text) => setName_Store(text)}
           value={name_store}
-          />
-          <InputWithLabel
+        />
+        <InputWithLabel
           label="Email"
           handleChangeText={(text) => setEmail_Store(text)}
           value={email_store}
-          />
-          <InputTextArea
+        />
+        <InputTextArea
           label="Alamat toko"
           disabled
           value={address_store}
-          />
-        </View>
-        <View style={{marginBottom : 10}}>
-          <Text>Pilih lokasi toko </Text>
-          <Maps
-            onMapsPress={_onMapsPress}
-            region={region}
-            height={200}
-            draggable={true}
-            changeRegion={_changeRegion}
-          />
-        </View>
-        <RegisterButton
+        />
+      </View>
+      <View style={{ marginBottom: 10 }}>
+        <Text>Pilih lokasi toko </Text>
+        <Maps
+          onMapsPress={_onMapsPress}
+          region={region}
+          height={200}
+          draggable={true}
+          changeRegion={_changeRegion}
+        />
+      </View>
+      <RegisterButton
         buttonTitle="Ambil foto"
         onPressBtn={_handleChoosePhoto}
-        />
-        <RegisterButton 
+      />
+      <RegisterButton
         onPressBtn={_handleUploadBtn}
-        buttonTitle="Set Profil"/>  
-      </View>         
-    );
-    }
+        buttonTitle="Set Profil" />
+    </View>
+  );
+}
 
 
 

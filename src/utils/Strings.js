@@ -10,7 +10,7 @@ const Strings = {
     INTRO2TITLE: "AKSES ONLINE KE SUPPLIER DENGAN HARGA LEBIH MURAH",
     INTRO2SUBTITLE : "Dapatkan berbagai macam produk dan barang untuk kebutuhan toko kelontong secara lengkap, harga yang murah, serta pengiriman yang cepat. ",
     INTRO3TITLE : "TAMBAHAN PENDAPATAN DARI PENJUALAN PRODUK DIGITAL",
-    INTRO3SUBTITLE : "Dapatkan komisi langsung dari setiap transaksi produk digital token listrik, pulsa, pembayaran PDAM, bpjs, dll.",
+    INTRO3SUBTITLE : "Dapatkan komisi langsung dari setiap transaksi produk digital token listrik, pulsa, pembayaran PDAM, BPJS, dll.",
     SPLASHSCREENTEXT : 'Ekosistem Digital Untuk Warung Serba Bisa'
 }
 

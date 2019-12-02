@@ -2,14 +2,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 //Styling
-import { 
-    View, 
+import {
+    View,
     StyleSheet,
     Text,
 } from 'react-native';
 
 //Own Custom Component
-import { GlobalHeader} from '../../components/Header/Header'
+import { GlobalHeader } from '../../components/Header/Header'
 import { InputPIN } from '../../components/Input/InputPIN'
 
 
@@ -21,65 +21,65 @@ import BarStatus from '../../components/BarStatus';
 //Functions
 
 
-const NewPIN2 = ({navigation}) => {
+const NewPIN2 = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
     const _handleChangePIN = async (pin) => {
-        if(pin.length <= 6) {
+        if (pin.length <= 6) {
             await dispatch(addSecondPIN(pin))
             if (pin.length == 6) {
-                if(FormRegister.firstPIN != pin) {
+                if (FormRegister.firstPIN != pin) {
                     alert("Pin harus sama")
-                }else {
+                } else {
                     const data = {
-                        phone_number : "62"+FormRegister.phone_number,
-                        pin : pin
+                        phone_number: "62" + FormRegister.phone_number,
+                        pin: pin
                     }
-                const res = await sendNewPIN(data)
-                console.log(res)
-                if(res.status == 200) {
-                    await dispatch(clearAllRegistration())
-                    navigation.navigate('Home')    
-                }else {
-                    if(res.data.errors.msg){
-                        alert(res.data.errors.msg)
-                    }else {
-                        alert("Cek koneksi anda")
+                    const res = await sendNewPIN(data)
+                    console.log(res)
+                    if (res.status == 200) {
+                        await dispatch(clearAllRegistration())
+                        navigation.navigate('Home')
+                    } else {
+                        if (res.data.errors.msg) {
+                            alert(res.data.errors.msg)
+                        } else {
+                            alert("Cek koneksi anda")
+                        }
                     }
-                } 
                 }
             }
         }
     }
-    
+
     return (
-    <View style={styles.container} >
-        <BarStatus/>
-        <GlobalHeader 
-            onPressBack={() => navigation.goBack()}
-            title="Enter PIN"
-        />
-        <View style={{alignItems : "center"}}>
-            <View style={{width : '70%', paddingTop : 30}}>
-                <Text style={{textAlign : "center", color : 'black'}}>Confirm your PIN</Text>
-            </View>
-            <InputPIN
-            textColor="black"
-            inputWidth={250}
-            value={FormRegister.secondPIN}
-            handleChangeText={(pin) => _handleChangePIN(pin)}
+        <View style={styles.container} >
+            <BarStatus />
+            <GlobalHeader
+                onPressBack={() => navigation.goBack()}
+                title="Enter PIN"
             />
+            <View style={{ alignItems: "center" }}>
+                <View style={{ width: '70%', paddingTop: 30 }}>
+                    <Text style={{ textAlign: "center", color: 'black' }}>Confirm your PIN</Text>
+                </View>
+                <InputPIN
+                    textColor="black"
+                    inputWidth={250}
+                    value={FormRegister.secondPIN}
+                    handleChangeText={(pin) => _handleChangePIN(pin)}
+                />
+            </View>
         </View>
-    </View>
     );
 }
 
 export default NewPIN2
 
 const styles = StyleSheet.create({
-    container : {
-        flex : 1,
+    container: {
+        flex: 1,
     },
     borderStyleBase: {
         width: 30,
