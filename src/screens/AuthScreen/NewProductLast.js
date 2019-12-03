@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity} from 'react-native';
-import CheckBox from '@react-native-community/checkbox'
+import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { Picker, Card } from 'native-base'
-import { InputWithLabel } from '../../components/Input/InputComp';
-import { RegisterButton } from '../../components/Button/ButtonComp';
-import { addProductIdCategory, addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from '../../redux/actions/actionsNewProduct';
+import { Card, CheckBox } from 'native-base'
+import { FloatingInputLabel } from '../../components/Input/InputComp';
+import { BottomButton } from '../../components/Button/ButtonComp';
+import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from '../../redux/actions/actionsNewProduct';
 import Axios from 'axios';
 import { HOST_URL } from '../../config';
 import { sendNewCategory, validNumber } from '../../utils/authhelper';
 import { getCategory } from '../../redux/actions/actionsStoreCategory';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { getProduct } from '../../redux/actions/actionsStoreProduct';
-import { ScrollView } from 'react-native-gesture-handler';
 import { GlobalHeader } from '../../components/Header/Header';
 import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
 import { ColorsList } from '../../styles/colors';
+import { FontList } from '../../styles/typography';
+import { RowChild } from '../../components/Helper/RowChild';
+import SuccessAddProductModal from '../../components/ModalContent/SuccessAddProduct';
 
+const width = Dimensions.get('window').width
 
 const NewProductLast = ({ navigation }) => {
     const dispatch = useDispatch()
     const NewProduct = useSelector(state => state.NewProduct)
     const User = useSelector(state => state.User)
-    const Category = useSelector(state => state.Category)
+
 
     const [modalVisible, setModalVisible] = useState(false)
-    const [categoryName, setCategoryName] = useState('')
     const [manageStock, setManageStock] = useState(false)
     const [sendNotif, setSendNotif] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
+    
     const _handlePressNext = async () => {
         const formData = new FormData()
         await formData.append('barcode', NewProduct.barcode)
@@ -38,9 +40,11 @@ const NewProductLast = ({ navigation }) => {
         await formData.append('id_category', NewProduct.id_category)
         await formData.append('id_store', User.store.id_store)
         await formData.append('manage_stock', manageStock ? 1 : 0)
-        await formData.append('qty_stock', NewProduct.qty_stock)
-        await formData.append('qty_min_stock', NewProduct.qty_min_stock)
-        await formData.append('send_notification_stock', sendNotif ? 1 : 0)
+        if(manageStock == 1){
+            await formData.append('qty_stock', NewProduct.qty_stock)
+            await formData.append('qty_min_stock', NewProduct.qty_min_stock)
+            await formData.append('send_notification_stock', sendNotif ? 1 : 0)
+        }
         await formData.append('photo_product', NewProduct.image != "" ? {
             uri: NewProduct.image,
             type: "image/jpeg",
@@ -56,20 +60,11 @@ const NewProductLast = ({ navigation }) => {
             console.log(error.response.data.data.errors.msg)
             alert(error.response.data.data.errors.msg)
         }
-
+        setModalVisible(true)
     }
 
     const _handleChangeToggle = () => {
         setManageStock(!manageStock)
-    }
-    const _handleAddNewCategory = async () => {
-        const data = {
-            name_product_category: categoryName,
-            id_store: User.store.id_store
-        }
-        const res = await sendNewCategory(data)
-        await dispatch(getCategory(User.store.id_store))
-        setModalVisible(!modalVisible)
     }
 
     const _handleChangePriceIn = (value) => {
@@ -108,123 +103,151 @@ const NewProductLast = ({ navigation }) => {
         }
     }
     return (
-        <View>
+        <View style={{ flex: 1 }}>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <SuccessAddProductModal
+                    closeModal={() => setModalVisible(false)}
+                />
+            </Modal>
             <GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
             <ProgressIndicator
-            firstIsCompleteStep={true}
-            firstIsActiveStep={false}
-            firstSeparator
-            secondSeparator
-            secondIsCompleteStep={true}
-            secondIsActiveStep={false}
-            thirdIsCompleteStep={false}
-            thirdIsActiveStep={true}
+                firstIsCompleteStep={true}
+                firstIsActiveStep={false}
+                firstSeparator
+                secondSeparator
+                secondIsCompleteStep={true}
+                secondIsActiveStep={false}
+                thirdIsCompleteStep={false}
+                thirdIsActiveStep={true}
             />
-            <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 20,backgroundColor : ColorsList.authBackground}}>
-                <RegisterButton buttonTitle="Add New Category"
-                    onPressBtn={() => setModalVisible(true)}
-                />
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        setModalVisible(!modalVisible);
-                    }}>
-                    <View style={{ flex: 1, justifyContent: "center", padding: 70 }}>
-                        <Card style={{ paddingVertical: 40, paddingHorizontal: 20 }}>
-                            <Text style={{ fontSize: 20, textAlign: "center", paddingBottom: 30 }}>New Category</Text>
-                            <View style={{ borderWidth: 1, marginBottom: 10 }}>
-                                <InputWithLabel
-                                    label="Category Name"
-                                    value={categoryName}
-                                    handleChangeText={(text) => setCategoryName(text)}
+            <View style={styles.childContainer}>
+                <View>
+                    <View style={styles.groupingStyle}>
+                        <View style={{ padding: 10 }}>
+                            <Text style={styles.infoText}>Masukkan harga jual dan beli produk</Text>
+                        </View>
+                        <View style={styles.wrapInputHarga}>
+                            <View style={[styles.inputTwoCol, { marginRight: 25 }]}>
+                                <FloatingInputLabel
+                                    label="Harga modal"
+                                    keyboardType="numeric"
+                                    value={NewProduct.price_in}
+                                    handleChangeText={_handleChangePriceIn}
                                 />
                             </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 20 }}>
-                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                    <View>
-                                        <Text>Cancel</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={_handleAddNewCategory} >
-                                    <View>
-                                        <Text>Add Category</Text>
-                                    </View>
-                                </TouchableOpacity>
+                            <View style={styles.inputTwoCol}>
+                                <FloatingInputLabel
+                                    label="Harga jual"
+                                    keyboardType="numeric"
+                                    value={NewProduct.price_out}
+                                    handleChangeText={_handleChangePriceOut}
+                                />
                             </View>
-                        </Card>
+                        </View>
                     </View>
-                </Modal>
-                <Picker
-                    note
-                    mode="dropdown"
-                    style={{ width: 120 }}
-                    selectedValue={NewProduct.id_category}
-                    onValueChange={(value) => dispatch(addProductIdCategory(value))}
-                >
-                    <Picker.Item label="Choose Category" />
-                    {
-                        Category.data.map((item) => {
-                            return (
-                                <Picker.Item label={item.name_product_category} value={item.id_product_category} key={item.id_product_category} />
-                            );
-                        })
-                    }
-                </Picker>
-                <View >
-                    <InputWithLabel
-                        label="Harga Beli"
-                        keyboardType="numeric"
-                        value={NewProduct.price_in}
-                        handleChangeText={_handleChangePriceIn}
-                    />
-                    <InputWithLabel
-                        label="Harga Jual"
-                        keyboardType="numeric"
-                        value={NewProduct.price_out}
-                        handleChangeText={_handleChangePriceOut}
-                    />
-                </View>
-                <View>
-                    <SwitchButton
-                        handleChangeToggle={_handleChangeToggle}
-                        toggleValue={manageStock}
-                    />
-                    <View>
-                        <InputWithLabel
-                            label="Quantity"
-                            keyboardType="numeric"
-                            value={NewProduct.qty_stock}
-                            handleChangeText={_handleChangeStock}
-                            disabled={manageStock ? false : true}
-                        />
-                        <InputWithLabel
-                            label="Stok Minimum"
-                            keyboardType="numeric"
-                            value={NewProduct.qty_min_stock}
-                            handleChangeText={_handleChangeMinStock}
-                            disabled={manageStock ? false : true}
-                        />
-                    </View>
-                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                        <CheckBox
-                            disabled={manageStock ? false : true}
-                            value={sendNotif}
-                            onValueChange={() => setSendNotif(!sendNotif)}
-                        />
-                        <Text style={{ color: manageStock ? sendNotif ? null : 'grey' : 'grey' }}>Kirim notfikasi ketika stok minimum</Text>
+                    <View style={styles.groupingStyle}>
+                        <View style={styles.wrapSwitchAndText}>
+                            <Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Kelola stok produk</Text>
+                            <SwitchButton
+                                handleChangeToggle={_handleChangeToggle}
+                                toggleValue={manageStock}
+                            />
+                        </View>
+                        {manageStock ?
+                        <View>
+                            <View style={{ height: 1, backgroundColor: "#e0dada" }} />
+                            <View style={styles.wrapInputHarga}>
+                                <View style={[styles.inputTwoCol, { marginRight: 25 }]}>
+                                    <FloatingInputLabel
+                                        label="Jumlah stok"
+                                        keyboardType="numeric"
+                                        value={NewProduct.qty_stock}
+                                        handleChangeText={_handleChangeStock}
+                                    />
+                                </View>
+                                <View style={styles.inputTwoCol}>
+                                    <FloatingInputLabel
+                                        label="Minimum Stok"
+                                        keyboardType="numeric"
+                                        value={NewProduct.qty_min_stock}
+                                        handleChangeText={_handleChangeMinStock}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
+                                <CheckBox
+                                    checked={sendNotif}
+                                    color={sendNotif ? "#cd0192" : "grey"}
+                                    onPress={() => setSendNotif(!sendNotif)}
+                                />
+                                <Text style={[{ color: manageStock ? sendNotif ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
+                            </View>
+                        </View>
+                         : null}
+
                     </View>
                 </View>
-                <RegisterButton
-                    disabled={isDisabled}
-                    onPressBtn={_handlePressNext}
-                    buttonTitle="Create Product"
-                />
-            </ScrollView>
+                <View style={styles.absoluteButton}>
+                    <BottomButton
+                        onPressBtn={_handlePressNext}
+                        buttonTitle="SIMPAN"
+                        style={{ backgroundColor: ColorsList.primaryColor, width: width - 40 }}
+                    />
+                </View>
+            </View>
         </View>
     );
 }
 
 export default NewProductLast
+
+const styles = StyleSheet.create({
+    childContainer: {
+        paddingHorizontal: 20,
+        backgroundColor: ColorsList.authBackground,
+        flex: 1,
+        justifyContent: "space-between"
+    },
+    infoText: {
+        ...FontList.titleFont,
+        color: ColorsList.greyFont,
+        fontSize: 16
+    },
+    wrapInputHarga: {
+        paddingVertical: 15,
+        flexDirection: 'row',
+        paddingHorizontal: 10,
+        marginBottom: 10
+    },
+    inputTwoCol: {
+        flex: 1
+    },
+    wrapSwitchAndText: {
+        ...RowChild,
+        justifyContent: 'space-between',
+        padding: 10
+    },
+    absoluteButton: {
+        bottom: 5,
+        alignSelf: "center"
+    },
+    notifInfo: {
+        ...FontList.subtitleFont,
+        marginLeft: 15
+    },
+    groupingStyle: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        marginTop: 30,
+        borderWidth: 2,
+        borderColor: "#e0dada"
+    }
+})
 

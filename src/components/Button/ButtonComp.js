@@ -24,7 +24,7 @@ export const BottomButton = (props) => {
         <Button
             primary
             onPress={props.onPressBtn}
-            style={[props.style,{width , justifyContent : "center", backgroundColor : 'transparent'}]}
+            style={[{width , justifyContent : "center", backgroundColor : 'transparent'},props.style]}
           >
             <Text>{props.buttonTitle}</Text>
         </Button>

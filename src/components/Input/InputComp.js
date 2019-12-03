@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import {
     Item,
@@ -6,6 +6,7 @@ import {
     Label,
     Textarea
 } from 'native-base'
+
 
 // Reusable Input Text
 export const InputText = (props) =>  {
@@ -56,6 +57,26 @@ export const InputWithLabel = (props) =>  {
       value={props.value}
       keyboardType={props.keyboardType || "default"}
       onChangeText={props.handleChangeText}
+      />
+      </Item>
+    </View>
+  );
+}
+
+export const FloatingInputLabel = (props) =>  {
+  const [activeColor, setActiveColor] = useState('grey')
+  return (
+    <View>
+      <Item floatingLabel style={{width : '100%', borderBottomColor : activeColor}}>
+      <Label style={{color : activeColor}}>{props.label}</Label>
+      <Input  
+      onFocus={() => setActiveColor('#cd0192')}
+      onBlur={() => setActiveColor('grey')}
+      disabled={props.disabled || false}
+      value={props.value}
+      keyboardType={props.keyboardType || "default"}
+      onChangeText={props.handleChangeText}
+      style={{margin: 0,padding: 0,color : activeColor}}
       />
       </Item>
     </View>

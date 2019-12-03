@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
     justifyContent : 'space-between'
   },
   camera: {
-    marginTop : height * 0.05,
-    height: height * 0.7,
+    // marginTop : height * 0.05,
+    height: height * 0.92,
     alignItems: "flex-start",
   }
 });
