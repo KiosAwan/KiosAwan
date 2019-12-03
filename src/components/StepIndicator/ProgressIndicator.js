@@ -8,8 +8,8 @@ import { RowChild } from '../Helper/RowChild';
 const height = Dimensions.get('window').height
 const ProgressIndicator = (props) => {
   return (
-    <View style={}>
-      <Text style={{ fontFamily: FontList.primaryFont, marginRight: 5 }}>Langkah</Text>
+    <View style={styles.progressContainer}>
+      <Text style={}>Langkah</Text>
       {[<View style={styles.stepIcons}>
         <StepIndicator
           key={1}
@@ -49,6 +49,12 @@ const styles = StyleSheet.create({
     height: height * 0.08,
     ...RowChild,
     justifyContent: "center"
+  },
+  fontStyle: {
+    fontFamily: 'Nunito-SemiBold',
+    marginRight: 10,
+    fontSize: 18,
+    color: 'grey'
   },
   stepIcons: {
     position: 'relative',
