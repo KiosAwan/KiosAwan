@@ -9,7 +9,7 @@ const height = Dimensions.get('window').height
 const ProgressIndicator = (props) => {
   return (
     <View style={styles.progressContainer}>
-      <Text style={}>Langkah</Text>
+      <Text style={styles.fontStyle}>Langkah</Text>
       {[<View style={styles.stepIcons}>
         <StepIndicator
           key={1}
