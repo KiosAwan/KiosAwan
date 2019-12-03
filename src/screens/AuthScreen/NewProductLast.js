@@ -109,7 +109,7 @@ const NewProductLast = ({ navigation }) => {
     }
     return (
         <View>
-            <GlobalHeader title="TAMBAH PRODUK" onPressBack={() => navigation.goBack()} />
+            <GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
             <ProgressIndicator
             firstIsCompleteStep={true}
             firstIsActiveStep={false}

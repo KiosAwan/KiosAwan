@@ -39,7 +39,7 @@ const NewBarcodeProduct = ({ navigation }) => {
   }
   return (
     <View style={{ flex: 1 }}>
-      <GlobalHeader title="TAMBAH PRODUK" onPressBack={() =>navigation.goBack()}/>
+      <GlobalHeader title="Tambah Produk" onPressBack={() =>navigation.goBack()}/>
       <ProgressIndicator
             firstIsCompleteStep={false}
             firstIsActiveStep={true}
@@ -60,7 +60,7 @@ const NewBarcodeProduct = ({ navigation }) => {
           <BarcodeMask
             width={250} height={250}
             showAnimatedLine
-            transparency={0.2}
+            transparency={0}
           />
         </RNCamera>
       </View>
