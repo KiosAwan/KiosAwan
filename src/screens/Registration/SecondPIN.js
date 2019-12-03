@@ -24,7 +24,6 @@ import { getProfile } from '../../redux/actions/actionsUserData';
 
 //Functions
 
-const height = Dimensions.get('window').height
 
 const FirstPIN = ({ navigation }) => {
     const dispatch = useDispatch()

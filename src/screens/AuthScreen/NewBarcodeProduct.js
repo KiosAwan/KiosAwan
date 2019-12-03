@@ -3,25 +3,21 @@ import {
   Text,
   Button,
 } from 'native-base';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { View, StyleSheet, Dimensions } from "react-native";
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
 import { GlobalHeader } from "../../components/Header/Header";
 import { checkBarcode } from "../../utils/authhelper";
 import { addProductBarcode, addProductName } from "../../redux/actions/actionsNewProduct";
-import StepIndicator from "../../components/StepIndicator/StepIndicator";
-import { RowChild } from "../../components/Helper/RowChild";
 import { FontList } from "../../styles/typography";
 import { BottomButton } from "../../components/Button/ButtonComp";
+import ProgressIndicator from "../../components/StepIndicator/ProgressIndicator";
 
 
 const height = Dimensions.get('window').height
-const width = Dimensions.get('window').width
 const NewBarcodeProduct = ({ navigation }) => {
   const dispatch = useDispatch()
-  const newProduct = useSelector(state => state.NewProduct)
-  const step = [1, 2, 3]
   const _onBarCodeRead = async (scanResult) => {
     const data = {
       barcode: scanResult.data
@@ -43,39 +39,15 @@ const NewBarcodeProduct = ({ navigation }) => {
   }
   return (
     <View style={{ flex: 1 }}>
-      <GlobalHeader onPressBack={() =>navigation.goBack()}/>
-      <View style={{height : height *0.1, ...RowChild, justifyContent : "center"}}>
-        <Text style={{fontFamily : FontList.primaryFont, marginRight : 10}}>Langkah</Text>
-        {[<View style={styles.stepIcons}>
-          <StepIndicator
-          key={1}
-          stepNum={1}
-          isFirstStep={true}
-          isCompletedStep={false}
-          isActiveStep={true}
-          />
-          <View style={styles.divider}>
-            <View style={styles.hrLine} />
-          </View>
-          <StepIndicator
-          key={2}
-         stepNum={2}
-         isCompletedStep={false}
-         isActiveStep={false}
-          />
-          <View style={styles.divider}>
-            <View style={styles.hrLine} />
-          </View>
-          <StepIndicator
-          stepNum={3}
-          key={3}
-          isLastStep
-          isCompletedStep={false}
-          isActiveStep={false}
-          />
-          </View>
-        ]}      
-      </View>       
+      <GlobalHeader title="TAMBAH PRODUK" onPressBack={() =>navigation.goBack()}/>
+      <ProgressIndicator
+            firstIsCompleteStep={false}
+            firstIsActiveStep={true}
+            secondIsCompleteStep={false}
+            secondIsActiveStep={false}
+            thirdIsCompleteStep={false}
+            thirdIsActiveStep={false}
+            />
       <View style={{ justifyContent : "center"}}>
         <RNCamera
           style={styles.camera}
@@ -83,21 +55,31 @@ const NewBarcodeProduct = ({ navigation }) => {
           defaultTouchToFocus
           onFocusChanged={() => { }}
           ratio="1:1"
-          // autoFocusPointOfInterest={{ x : 0.3, y : 0.5}}
           autoFocus={RNCamera.Constants.AutoFocus.on}
         >
           <BarcodeMask
-            width='90%' height={200}
+            width={250} height={250}
             showAnimatedLine
             transparency={0.2}
           />
         </RNCamera>
       </View>
+      <View style={{flex : 2}}/>
+
       <View style={styles.lowerSection}>
-          <BottomButton
-          onPressBtn={_handleNoBarcode}
-          buttonTitle="No Barcode?"
-          />         
+        <View style={{alignItems : "center"}}>
+        <Text style={{marginTop : 30,fontFamily : FontList.primaryFont, color : 'white', fontSize:20}}>Pindai Barcode</Text>
+        </View>
+        <View style={{width : '100%', alignItems :"center"}}>
+          <View style={{width :'70%', alignItems: 'center',marginBottom : 10}}>
+            <Text style={{color : 'white', textAlign : "center", fontFamily : FontList.primaryFont}}>Jika produk tidak memiliki barcode , Anda dapat melewati langkah ini.</Text>
+          </View>
+        <BottomButton
+        onPressBtn={_handleNoBarcode}
+        buttonTitle="LEWATI"
+        style={{borderWidth: 1,borderColor: 'white'}}
+        /> 
+        </View>             
       </View>
     </View>
   )
@@ -106,32 +88,16 @@ export default NewBarcodeProduct
 
 const styles = StyleSheet.create({
   lowerSection: {
-    width : "95%",
-    height : '8%',
+    width : "100%",
+    height : '80%',
     position: 'absolute',
     bottom: 0,
     backgroundColor: 'transparent',
+    justifyContent : 'space-between'
   },
   camera: {
-    height: height * 0.9,
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal : 20
-  },
-  stepIcons: {
-    position: 'relative',
-    justifyContent: 'space-evenly',
-    alignSelf: 'center',
-    alignItems : 'center',
-    flexDirection: 'row',
-  },
-  divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  hrLine: {
-    width: 30,
-    backgroundColor: '#cd0192',
-    height: 5,
-  },
+    marginTop : height * 0.05,
+    height: height * 0.7,
+    alignItems: "flex-start",
+  }
 });

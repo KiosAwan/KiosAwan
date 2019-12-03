@@ -3,14 +3,19 @@ import {
     View,
     Text,
     Image,
-    StyleSheet
+    StyleSheet,
+    Dimensions
 } from 'react-native'
 import {
     Header,
-    Left,
     Body
 } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import LinearGradient from 'react-native-linear-gradient'
+
+
+const width = Dimensions.get('window').width
 
 export const HeaderRegister = (props) => {
     return (
@@ -25,20 +30,21 @@ export const HeaderRegister = (props) => {
 
 export const GlobalHeader = (props) => {
     return (
-        <View>
-            <Header androidStatusBarColor="#cd0192" style={styles.headerGlobal}>
-                <Left>
+            <Header androidStatusBarColor="#cd0192">
+                <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
+                <TouchableOpacity onPress={props.onPressBack}>
+                    <View style={{width : width/9, paddingLeft : 10}}>
                     <Icon name="chevron-left"
                     size={20}
-                    color="white"
-                    onPress={props.onPressBack}
+                    color="white"               
                     />
-                </Left>
+                    </View>
+                </TouchableOpacity>
                 <Body>
-                    <Text style={{color: 'white', textAlign : "center"}}>{props.title}</Text>            
+                    <Text style={{color: 'white'}}>{props.title}</Text>            
                 </Body>
+                </LinearGradient>
             </Header>
-        </View>
     )   
 }
 
@@ -51,6 +57,11 @@ const styles = StyleSheet.create({
         paddingTop : 10
     },
     headerGlobal : {
-        backgroundColor : '#cd0192'
+        alignItems : "center",
+    },
+    linearHeader : {
+        width, 
+        alignItems :"center",
+        flexDirection : 'row'
     }
 })

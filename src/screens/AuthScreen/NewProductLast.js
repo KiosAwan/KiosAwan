@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Modal, Text, TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox'
 import { useSelector, useDispatch } from 'react-redux'
 import { Picker, Card } from 'native-base'
@@ -13,6 +13,10 @@ import { getCategory } from '../../redux/actions/actionsStoreCategory';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { getProduct } from '../../redux/actions/actionsStoreProduct';
 import { ScrollView } from 'react-native-gesture-handler';
+import { GlobalHeader } from '../../components/Header/Header';
+import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
+import { ColorsList } from '../../styles/colors';
+
 
 const NewProductLast = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -52,7 +56,7 @@ const NewProductLast = ({ navigation }) => {
             console.log(error.response.data.data.errors.msg)
             alert(error.response.data.data.errors.msg)
         }
-        
+
     }
 
     const _handleChangeToggle = () => {
@@ -104,109 +108,123 @@ const NewProductLast = ({ navigation }) => {
         }
     }
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ padding: 20 }}>
-            <RegisterButton buttonTitle="Add New Category"
-                onPressBtn={() => setModalVisible(true)}
+        <View>
+            <GlobalHeader title="TAMBAH PRODUK" onPressBack={() => navigation.goBack()} />
+            <ProgressIndicator
+            firstIsCompleteStep={true}
+            firstIsActiveStep={false}
+            firstSeparator
+            secondSeparator
+            secondIsCompleteStep={true}
+            secondIsActiveStep={false}
+            thirdIsCompleteStep={false}
+            thirdIsActiveStep={true}
             />
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}>
-                <View style={{ flex: 1, justifyContent: "center", padding: 70 }}>
-                    <Card style={{ paddingVertical: 40, paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 20, textAlign: "center", paddingBottom: 30 }}>New Category</Text>
-                        <View style={{ borderWidth: 1, marginBottom: 10 }}>
-                            <InputWithLabel
-                                label="Category Name"
-                                value={categoryName}
-                                handleChangeText={(text) => setCategoryName(text)}
-                            />
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 20 }}>
-                            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                <View>
-                                    <Text>Cancel</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={_handleAddNewCategory} >
-                                <View>
-                                    <Text>Add Category</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </Card>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 20,backgroundColor : ColorsList.authBackground}}>
+                <RegisterButton buttonTitle="Add New Category"
+                    onPressBtn={() => setModalVisible(true)}
+                />
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}>
+                    <View style={{ flex: 1, justifyContent: "center", padding: 70 }}>
+                        <Card style={{ paddingVertical: 40, paddingHorizontal: 20 }}>
+                            <Text style={{ fontSize: 20, textAlign: "center", paddingBottom: 30 }}>New Category</Text>
+                            <View style={{ borderWidth: 1, marginBottom: 10 }}>
+                                <InputWithLabel
+                                    label="Category Name"
+                                    value={categoryName}
+                                    handleChangeText={(text) => setCategoryName(text)}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 20 }}>
+                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                                    <View>
+                                        <Text>Cancel</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={_handleAddNewCategory} >
+                                    <View>
+                                        <Text>Add Category</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        </Card>
+                    </View>
+                </Modal>
+                <Picker
+                    note
+                    mode="dropdown"
+                    style={{ width: 120 }}
+                    selectedValue={NewProduct.id_category}
+                    onValueChange={(value) => dispatch(addProductIdCategory(value))}
+                >
+                    <Picker.Item label="Choose Category" />
+                    {
+                        Category.data.map((item) => {
+                            return (
+                                <Picker.Item label={item.name_product_category} value={item.id_product_category} key={item.id_product_category} />
+                            );
+                        })
+                    }
+                </Picker>
+                <View >
+                    <InputWithLabel
+                        label="Harga Beli"
+                        keyboardType="numeric"
+                        value={NewProduct.price_in}
+                        handleChangeText={_handleChangePriceIn}
+                    />
+                    <InputWithLabel
+                        label="Harga Jual"
+                        keyboardType="numeric"
+                        value={NewProduct.price_out}
+                        handleChangeText={_handleChangePriceOut}
+                    />
                 </View>
-            </Modal>
-            <Picker
-                note
-                mode="dropdown"
-                style={{ width: 120 }}
-                selectedValue={NewProduct.id_category}
-                onValueChange={(value) => dispatch(addProductIdCategory(value))}
-            >
-                <Picker.Item label="Choose Category" />
-                {
-                    Category.data.map((item) => {
-                        return (
-                            <Picker.Item label={item.name_product_category} value={item.id_product_category} key={item.id_product_category} />
-                        );
-                    })
-                }
-            </Picker>
-            <View >
-                <InputWithLabel
-                    label="Harga Beli"
-                    keyboardType="numeric"
-                    value={NewProduct.price_in}
-                    handleChangeText={_handleChangePriceIn}
-                />
-                <InputWithLabel
-                    label="Harga Jual"
-                    keyboardType="numeric"
-                    value={NewProduct.price_out}
-                    handleChangeText={_handleChangePriceOut}
-                />
-            </View>
-            <View>
-                <SwitchButton
-                    handleChangeToggle={_handleChangeToggle}
-                    toggleValue={manageStock}
-                />
                 <View>
-                    <InputWithLabel
-                        label="Quantity"
-                        keyboardType="numeric"
-                        value={NewProduct.qty_stock}
-                        handleChangeText={_handleChangeStock}
-                        disabled={manageStock ? false : true}
+                    <SwitchButton
+                        handleChangeToggle={_handleChangeToggle}
+                        toggleValue={manageStock}
                     />
-                    <InputWithLabel
-                        label="Stok Minimum"
-                        keyboardType="numeric"
-                        value={NewProduct.qty_min_stock}
-                        handleChangeText={_handleChangeMinStock}
-                        disabled={manageStock ? false : true}
-                    />
+                    <View>
+                        <InputWithLabel
+                            label="Quantity"
+                            keyboardType="numeric"
+                            value={NewProduct.qty_stock}
+                            handleChangeText={_handleChangeStock}
+                            disabled={manageStock ? false : true}
+                        />
+                        <InputWithLabel
+                            label="Stok Minimum"
+                            keyboardType="numeric"
+                            value={NewProduct.qty_min_stock}
+                            handleChangeText={_handleChangeMinStock}
+                            disabled={manageStock ? false : true}
+                        />
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <CheckBox
+                            disabled={manageStock ? false : true}
+                            value={sendNotif}
+                            onValueChange={() => setSendNotif(!sendNotif)}
+                        />
+                        <Text style={{ color: manageStock ? sendNotif ? null : 'grey' : 'grey' }}>Kirim notfikasi ketika stok minimum</Text>
+                    </View>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <CheckBox
-                        disabled={manageStock ? false : true}
-                        value={sendNotif}
-                        onValueChange={() => setSendNotif(!sendNotif)}
-                    />
-                    <Text style={{ color: manageStock ? sendNotif ? null : 'grey' : 'grey' }}>Kirim notfikasi ketika stok minimum</Text>
-                </View>
-            </View>
-            <RegisterButton
-                disabled={isDisabled}
-                onPressBtn={_handlePressNext}
-                buttonTitle="Create Product"
-            />
-        </ScrollView>
+                <RegisterButton
+                    disabled={isDisabled}
+                    onPressBtn={_handlePressNext}
+                    buttonTitle="Create Product"
+                />
+            </ScrollView>
+        </View>
     );
 }
 
 export default NewProductLast
+

@@ -11,14 +11,14 @@ class StepIndicator extends Component {
           width: 40,
           height: 40,
           borderRadius: 20,
-          backgroundColor: this.props.activeStepIconColor,
+          backgroundColor: 'white',
           borderColor: "#cd0192",
-          borderWidth: 5,
+          borderWidth: 2,
           bottom: 2
         },
         circleText: {
           alignSelf: 'center',
-          top: 20 / 3
+          top: 23 / 3
         },
         labelText: {
           textAlign: 'center',
@@ -49,7 +49,7 @@ class StepIndicator extends Component {
           marginLeft: 40 / 2 + 2
         },
         stepNum: {
-          color: this.props.activeStepNumColor
+          color: '#cd0192'
         }
       };
     } else if (this.props.isCompletedStep) {
@@ -58,7 +58,7 @@ class StepIndicator extends Component {
           width: 36,
           height: 36,
           borderRadius: 18,
-          backgroundColor: this.props.completedStepIconColor
+          backgroundColor: "#cd0192"
         },
         circleText: {
           alignSelf: 'center',
@@ -103,14 +103,12 @@ class StepIndicator extends Component {
               width: 40,
               height: 40,
               borderRadius: 20,
-              backgroundColor: this.props.activeStepIconColor,
-              borderColor: "black",
-              borderWidth: 5,
+              backgroundColor: 'grey',
               bottom: 2
             },
             circleText: {
               alignSelf: 'center',
-              top: 20 / 3
+              top: 20 / 2
             },
             labelText: {
               textAlign: 'center',
@@ -179,8 +177,8 @@ StepIndicator.defaultProps = {
   labelColor: 'lightgray',
   activeLabelColor: '#4BB543',
 
-  activeStepNumColor: 'black',
-  completedStepNumColor: 'black',
+  activeStepNumColor: 'white',
+  completedStepNumColor: 'white',
   disabledStepNumColor: 'white',
 
   completedCheckColor: 'white'
