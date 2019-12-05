@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import {
     Item,
     Input,
@@ -7,6 +7,7 @@ import {
     Textarea
 } from 'native-base'
 
+const width = Dimensions.get('window').width
 
 // Reusable Input Text
 export const InputText = (props) =>  {
@@ -44,6 +45,20 @@ export const InputNumber = (props) =>  {
         </Item>
       </View>
     );
+}
+export const InputSimple = (props) =>  {
+  return (
+    <View>
+      <Input  
+      placeholder={props.placeholder}
+      placeholderTextColor="white"
+      value={props.value}
+      keyboardType={props.keyboardType || "default"}
+      onChangeText={props.handleChangeText}
+      style={{color : 'white', fontSize : 15,width :width *5 /9, borderBottomColor : 'white'}}
+      />
+    </View>
+  );
 }
 
 export const InputWithLabel = (props) =>  {

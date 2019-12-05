@@ -17,6 +17,7 @@ import { ColorsList } from '../../styles/colors';
 import { FontList } from '../../styles/typography';
 import { RowChild } from '../../components/Helper/RowChild';
 import SuccessAddProductModal from '../../components/ModalContent/SuccessAddProduct';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const width = Dimensions.get('window').width
 
@@ -30,7 +31,7 @@ const NewProductLast = ({ navigation }) => {
     const [manageStock, setManageStock] = useState(false)
     const [sendNotif, setSendNotif] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
-    
+
     const _handlePressNext = async () => {
         const formData = new FormData()
         await formData.append('barcode', NewProduct.barcode)
@@ -40,7 +41,7 @@ const NewProductLast = ({ navigation }) => {
         await formData.append('id_category', NewProduct.id_category)
         await formData.append('id_store', User.store.id_store)
         await formData.append('manage_stock', manageStock ? 1 : 0)
-        if(manageStock == 1){
+        if (manageStock == 1) {
             await formData.append('qty_stock', NewProduct.qty_stock)
             await formData.append('qty_min_stock', NewProduct.qty_min_stock)
             await formData.append('send_notification_stock', sendNotif ? 1 : 0)
@@ -50,16 +51,16 @@ const NewProductLast = ({ navigation }) => {
             type: "image/jpeg",
             name: `${Date.now()}.jpeg`
         } : null)
-        try {
-            const response = await Axios.post(`${HOST_URL}/create_product`, formData)
-            await dispatch(clearAllNewProduct())
-            await dispatch(getProduct(User.store.id_store))
-            navigation.navigate('Cashier')
-        }
-        catch (error) {
-            console.log(error.response.data.data.errors.msg)
-            alert(error.response.data.data.errors.msg)
-        }
+        // try {
+        //     const response = await Axios.post(`${HOST_URL}/create_product`, formData)
+        //     await dispatch(clearAllNewProduct())
+        //     await dispatch(getProduct(User.store.id_store))
+        //     navigation.navigate('Cashier')
+        // }
+        // catch (error) {
+        //     console.log(error.response.data.data.errors.msg)
+        //     alert(error.response.data.data.errors.msg)
+        // }
         setModalVisible(true)
     }
 
@@ -128,7 +129,7 @@ const NewProductLast = ({ navigation }) => {
                 thirdIsActiveStep={true}
             />
             <View style={styles.childContainer}>
-                <View>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.groupingStyle}>
                         <View style={{ padding: 10 }}>
                             <Text style={styles.infoText}>Masukkan harga jual dan beli produk</Text>
@@ -161,39 +162,39 @@ const NewProductLast = ({ navigation }) => {
                             />
                         </View>
                         {manageStock ?
-                        <View>
-                            <View style={{ height: 1, backgroundColor: "#e0dada" }} />
-                            <View style={styles.wrapInputHarga}>
-                                <View style={[styles.inputTwoCol, { marginRight: 25 }]}>
-                                    <FloatingInputLabel
-                                        label="Jumlah stok"
-                                        keyboardType="numeric"
-                                        value={NewProduct.qty_stock}
-                                        handleChangeText={_handleChangeStock}
-                                    />
+                            <View>
+                                <View style={{ height: 1, backgroundColor: "#e0dada" }} />
+                                <View style={styles.wrapInputHarga}>
+                                    <View style={[styles.inputTwoCol, { marginRight: 25 }]}>
+                                        <FloatingInputLabel
+                                            label="Jumlah stok"
+                                            keyboardType="numeric"
+                                            value={NewProduct.qty_stock}
+                                            handleChangeText={_handleChangeStock}
+                                        />
+                                    </View>
+                                    <View style={styles.inputTwoCol}>
+                                        <FloatingInputLabel
+                                            label="Minimum Stok"
+                                            keyboardType="numeric"
+                                            value={NewProduct.qty_min_stock}
+                                            handleChangeText={_handleChangeMinStock}
+                                        />
+                                    </View>
                                 </View>
-                                <View style={styles.inputTwoCol}>
-                                    <FloatingInputLabel
-                                        label="Minimum Stok"
-                                        keyboardType="numeric"
-                                        value={NewProduct.qty_min_stock}
-                                        handleChangeText={_handleChangeMinStock}
+                                <View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
+                                    <CheckBox
+                                        checked={sendNotif}
+                                        color={sendNotif ? "#cd0192" : "grey"}
+                                        onPress={() => setSendNotif(!sendNotif)}
                                     />
+                                    <Text style={[{ color: manageStock ? sendNotif ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
                                 </View>
                             </View>
-                            <View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
-                                <CheckBox
-                                    checked={sendNotif}
-                                    color={sendNotif ? "#cd0192" : "grey"}
-                                    onPress={() => setSendNotif(!sendNotif)}
-                                />
-                                <Text style={[{ color: manageStock ? sendNotif ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
-                            </View>
-                        </View>
-                         : null}
+                            : null}
 
                     </View>
-                </View>
+                </ScrollView>
                 <View style={styles.absoluteButton}>
                     <BottomButton
                         onPressBtn={_handlePressNext}

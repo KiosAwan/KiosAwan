@@ -11,7 +11,7 @@ export const getProduct = (storeid) => {
 //Cart
 export const AddCart = (data) => {
   return {
-    type: "ADD_TO_CART",
+    type: "ADD_TO_CART_MANUAL",
     payload: data
   }
 }

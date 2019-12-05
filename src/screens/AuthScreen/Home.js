@@ -29,10 +29,7 @@ import { getTransactionList } from '../../redux/actions/actionsTransactionList'
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
     const User = useSelector(state => state.User)
-    const dispatch = useDispatch()
-    const _onPressCashier = async () => {
-        await dispatch(removeAllCart())
-        await dispatch(getProduct(User.store.id_store))
+    const _onPressCashier = () => {        
         navigation.navigate('Cashier')
     }
 

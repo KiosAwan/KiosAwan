@@ -64,7 +64,6 @@ const PhoneRegistration = ({ navigation }) => {
         const data = {
             phone_number: "62" + FormRegister.phone_number,
         }
-        try {
             const res = await sendPhoneNumber(data)
             if (res.type == "login") {
                 VerifyLoginSheet.open()
@@ -72,15 +71,10 @@ const PhoneRegistration = ({ navigation }) => {
                 OTPRegisterSheet.open()
             }
             else {
-                if (res.data.errors) {
+                if (res.status == 400) {
                     alert(res.data.errors.msg)
                 }
             }
-        }
-        catch (err) {
-            alert(err)
-        }
-
     }
     const _navigateForgotPIN = () => {
         navigation.navigate("ForgotPIN")
