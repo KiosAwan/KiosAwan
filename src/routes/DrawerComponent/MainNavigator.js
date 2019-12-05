@@ -10,10 +10,9 @@ import NewBarcodeProduct from '../../screens/AuthScreen/NewBarcodeProduct'
 import NewProductName from '../../screens/AuthScreen/NewProductName'
 import NewProductLast from '../../screens/AuthScreen/NewProductLast'
 import Cart from '../../screens/AuthScreen/Cart'
-import CheckOut from '../../screens/AuthScreen/CheckOut.'
 import Struk from '../../screens/AuthScreen/Struk'
 import InputManual from '../../screens/AuthScreen/InputManual'
-
+import CheckOut from '../../screens/AuthScreen/CheckOut'
 const MainNavigator = createStackNavigator({
   Home: {
     screen: Home,
@@ -70,7 +69,7 @@ const MainNavigator = createStackNavigator({
     }
   },
   CheckOut: {
-    screen: CheckOut,
+    screen: CheckOut ,
     navigationOptions: {
       header: null
     }

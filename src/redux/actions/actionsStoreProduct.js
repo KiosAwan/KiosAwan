@@ -51,3 +51,11 @@ export const AddCartByBarcode = (barcode) => {
   }
 }
 
+//Adding payment using cash
+export const AddCashPayment = (value) => {
+  return {
+    type: "ADD_PAYMENT_CASH",
+    payload: value
+  }
+}
+

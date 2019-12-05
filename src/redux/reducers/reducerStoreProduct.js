@@ -6,6 +6,7 @@ const initialState = {
     total_diskon: 0,
     belanja: [],
     jumlahitem: 0,
+    cash_payment: 0
 }
 
 const reducerStoreProduct = (state = initialState, actions) => {
@@ -61,7 +62,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 ...state,
                 total: newTotal,
                 belanja: [...state.belanja, newBelanja],
-                jumlahitem : state.jumlahitem + parseInt(newBelanja.quantity)
+                jumlahitem: state.jumlahitem + parseInt(newBelanja.quantity)
             }
         case "REMOVE_ALL":
             return {
@@ -70,6 +71,12 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 total: 0,
                 total_diskon: 0,
                 jumlahitem: 0
+            }
+        case "ADD_PAYMENT_CASH":
+            const payment = actions.payload
+            return {
+                ...state,
+                cash_payment : payment
             }
         case "QUANTITY_INCREMENT":
             let itemTambah = actions.payload

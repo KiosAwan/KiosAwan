@@ -18,6 +18,11 @@ export const convertRupiah = nominal => {
   return final;
 };
 
+//Get nearest 50.000
+export const getNearestFifty = (value, multiple) => {
+  let money = (Math.floor(value/50000) + multiple ) * 50000
+  return money
+}
 
 export const formatToDate = (date) => {
   var d = new Date(date),

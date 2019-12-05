@@ -42,7 +42,7 @@ export const ButtonWithIcon = (props) => {
         <TouchableOpacity onPress={props.onPressBtn}>
             <View style={[props.style, { borderRadius: 5, ...RowChild, padding : 8 }]} >
                 <Icon color={ColorsList.primaryColor} size={14} style={{ marginRight: 5 }} name={props.iconName} />
-                <Text style={styles.btnwithIconText}>{props.buttonTitle}</Text>
+                <Text style={[styles.btnwithIconText, props.fontStyle]}>{props.buttonTitle}</Text>
             </View>
         </TouchableOpacity>
     )
