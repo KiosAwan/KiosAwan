@@ -12,6 +12,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { removeAllCart, getProduct } from '../../redux/actions/actionsStoreProduct';
 import { getTransactionList } from '../../redux/actions/actionsTransactionList';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
+import { GlobalHeader } from '../../components/Header/Header';
+import { ColorsList } from '../../styles/colors';
 
 const CheckOut = ({ navigation }) => {
     const User = useSelector(state => state.User)
@@ -55,10 +57,8 @@ const CheckOut = ({ navigation }) => {
             customer: selectedCustomer,
             id_store : User.store.id_store,
         }
-        console.log(data)
         try {
             const res = await sendNewTransaction(data)
-            console.log(res)
             dispatch(removeAllCart())
             dispatch(getProduct(User.store.id_store))
             dispatch(getTransactionList(User.store.id_store))
@@ -142,46 +142,10 @@ const CheckOut = ({ navigation }) => {
         setDatePickerVisible(false)
       };
     return (
-        <View>
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}>
-                <View style={{ flex: 1, justifyContent: "center", padding: 70 }}>
-                    <Card style={{ paddingVertical: 40, paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 20, textAlign: "center", paddingBottom: 30 }}>New Customer</Text>
-                        <View style={{ borderWidth: 1, marginBottom: 10 }}>
-                            <InputWithLabel
-                                label="Customer Name"
-                                value={customerName}
-                                handleChangeText={(text) => setCustomerName(text)}
-                            />
-                            <InputWithLabel
-                                label="Phone Number"
-                                value={customerPhone}
-                                keyboardType="numeric"
-                                handleChangeText={(text) => setCustomerPhone(text)}
-                            />
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 20 }}>
-                            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                                <View>
-                                    <Text>Cancel</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={_handleAddNewCustomer} >
-                                <View>
-                                    <Text>Add Customer</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </Card>
-                </View>
-            </Modal>
-            <View>
+        <View style={{flex : 1}}>
+            <GlobalHeader title="Pembayaran" onPressBack={() => navigation.goBack()} />
+            <View style={styles.childContainer}>
+                <View>
                 <Text>{Product.total}</Text>
                 <Text>{Product.jumlahitem}</Text>
                 <View style={styles.cartlist}>
@@ -199,19 +163,6 @@ const CheckOut = ({ navigation }) => {
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>
-            <RegisterButton
-                buttonTitle="Add new Customer"
-                onPressBtn={() => setModalVisible(true)}
-            />
-            <RegisterButton
-            buttonTitle="Jatuh tempo"
-            onPressBtn={() => setDatePickerVisible(!dataPickerVisible)}
-            />
-            <DateTimePicker
-            isVisible={dataPickerVisible}
-            onConfirm={handleDatePicked}
-            onCancel={() => setDatePickerVisible(false)}
-            />
             <Text>Tunai</Text>
             <View>
                 <InputWithLabel
@@ -237,7 +188,7 @@ const CheckOut = ({ navigation }) => {
                     })
                 }
             </Picker>
-            <RegisterButton
+            {/* <RegisterButton
                 disabled={isDisabled}
                 buttonTitle="Bayar Cash"
                 onPressBtn={_handleCashPay}
@@ -245,7 +196,8 @@ const CheckOut = ({ navigation }) => {
             <RegisterButton
                 buttonTitle="Ngutang"
                 onPressBtn={_handleNgutang}
-            />
+            /> */}
+            </View>
         </View>
     )
 }
@@ -256,5 +208,9 @@ const styles = StyleSheet.create({
     cartlist: {
         ...RowChild,
         justifyContent: "space-between"
+    },
+    childContainer : {
+        backgroundColor : ColorsList.authBackground,
+        flex : 1
     }
 })
