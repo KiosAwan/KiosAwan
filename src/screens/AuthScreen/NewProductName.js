@@ -72,51 +72,7 @@ const NewProductName = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 
 
-					<View style={{ backgroundColor: 'white', marginBottom: 10 }}>
-						{
-							[1, 2, 3, 4, 5].map((a) => {
-								return (
-									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: 'black' }} left={[
-										<Text>Gerry Malkist</Text>,
-										<Text>Rp. 25.000 x 2</Text>
-									]} right={[
-										<Icon name="add-circle" />,
-										<Text>Rp. 50.000</Text>
-									]} />
-								)
-							})
-						}
-						<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: 'black' }} left={[
-							<Text>Subtotal</Text>,
-						]} right={
-							<Text>Rp. 50.000</Text>
-						} />
-						<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: 'black' }} left={[
-							<Text>Total</Text>,
-						]} right={
-							<Text>Rp. 50.000</Text>
-						} />
-					</View>
-					<View style={{ backgroundColor: 'white', marginBottom: 10 }}>
-						<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: 'black' }} left={[
-							<Item style={{ borderColor: 'transparent' }}>
-								<Icon name="add-circle" />
-								<Text>Pilih Pelanggan</Text>
-							</Item>
-						]} right={
-							<Icon name="add-circle" />
-						} />
-					</View>
-					<View style={{ backgroundColor: 'white', marginBottom: 10 }}>
-						<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: 'black' }} left={[
-							<Text>Berikan Diskon</Text>
-						]} right={
-							<Icon name="add-circle" />
-						} />
-					</View>
-					<View style={{ backgroundColor: 'white', marginBottom: 10 }}>
-						<FloatingInputLabel label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
-					</View>
+					
 
 
 					{/* <PilihPelanggan visible={a} dismiss={()=>setA(false)}/> */}
