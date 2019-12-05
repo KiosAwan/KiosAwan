@@ -5,6 +5,9 @@ import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
 import { RowChild } from '../Helper/RowChild';
+import { convertRupiah } from '../../utils/authhelper';
+import {useDispatch } from 'react-redux'
+import { AddCashPayment } from '../../redux/actions/actionsStoreProduct';
 
 
 export const WrapperItem = (props) => {
@@ -23,13 +26,41 @@ export const ToggleButton = (props) => {
 			{
 				props.buttons.map((btn, i) => {
 					return (
-						<Button onPress={() => setActiveIndex(i)} style={[
+						<Button onPress={() => setActiveIndex(i)} style={[props.style,
 							{ padding: 5, flex: 1, justifyContent: 'center' },
-							{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : ColorsList.greyFont }
+							{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : ColorsList.greyFont },
+							props.style
 						]}>
 							<Text style={
 								{ color: activeIndex == i ? 'white' : 'black' }
 							}>{btn}</Text>
+						</Button>
+					)
+				})
+			}
+		</Item>
+	)
+}
+
+export const ToggleButtonMoney = (props) => {
+	const [activeIndex, setActiveIndex] = useState()
+	const dispatch = useDispatch()
+	return (
+		<Item style={{ width: '100%' }}>
+			{
+				props.buttons.map((btn, i) => {
+					return (
+						<Button onPress={() => {
+							setActiveIndex(i)
+							dispatch(AddCashPayment(btn))
+						}} style={[props.style,
+							{ padding: 5, flex: 1, justifyContent: 'center' },
+							{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : 'white' },
+							props.style
+						]}>
+							<Text style={
+								{fontFamily : 'Nunito-Bold', color: activeIndex == i ? 'white' : ColorsList.primaryColor }
+							}>{i == 0 ? "UANG PAS" : convertRupiah(btn).toUpperCase()}</Text>
 						</Button>
 					)
 				})
