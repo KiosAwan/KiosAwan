@@ -12,7 +12,6 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
     "@react-native-community/checkbox": "^0.2.1",
-    "@remobile/react-native-local-notifications": "^1.0.4",
     "axios": "^0.19.0",
     "native-base": "^2.13.8",
     "react": "16.8.1",
