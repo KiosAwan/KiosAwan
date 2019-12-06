@@ -5,9 +5,12 @@ import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
 import { RowChild } from '../Helper/RowChild';
-import { convertRupiah } from '../../utils/authhelper';
-import { useDispatch } from 'react-redux'
-import { AddCashPayment } from '../../redux/actions/actionsStoreProduct';
+import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer } from '../../utils/authhelper';
+import { useDispatch, useSelector } from 'react-redux'
+import { AddCashPayment, AddCustomer } from '../../redux/actions/actionsStoreProduct';
+import { getCustomer } from '../../redux/actions/actionsCustomer';
+import { FontList } from '../../styles/typography';
+import { SizeList } from '../../styles/size';
 
 const height = Dimensions.get('window').height
 
@@ -147,10 +150,58 @@ export const PopupDetailPesanan = (props) => {
 }
 
 export const PilihPelanggan = (props) => {
+	const dispatch = useDispatch()
 	const [action, setAction] = useState()
 	const [search, setSearch] = useState('')
 	const [pelanggan, setPelanggan] = useState()
 	const [pelangganVisible, setPelangganVisible] = useState(false)
+	const User = useSelector(state => state.User)
+
+	const _handleButtonSimpan = () => {
+		if (action == "add") {
+			_handleAddNewCustomer()
+		}
+		else if (action == "edit") {
+			_handleEditCustomer()
+		}
+	}
+	const _handleAddNewCustomer = async () => {
+		if (pelanggan) {
+			if (pelanggan.name_customer == "" || pelanggan.phone_number_customer == "") {
+				alert("Isi semua field")
+			}
+			else {
+				const data = {
+					...pelanggan,
+					id_store: User.store.id_store
+				}
+				await sendNewCustomer(data)
+				setPelangganVisible(false)
+				dispatch(getCustomer(User.store.id_store))
+			}
+		}
+
+	}
+
+	const _handleEditCustomer = async () => {
+		if (pelanggan.name_customer == "" || pelanggan.phone_number_customer == "") {
+			alert("Isi semua field")
+		}
+		else {
+			const data = {
+				...pelanggan,
+				id_store: User.store.id_store
+			}
+			await editCustomer(data, pelanggan.id_customer)
+			setPelangganVisible(false)
+			dispatch(getCustomer(User.store.id_store))
+		}
+	}
+
+	const _handleDeleteCustomer = async (cust) => {
+		await deleteCustomer(cust.id_customer)
+		dispatch(getCustomer(User.store.id_store))
+	}
 	return (
 		<MyModal onRequestClose={props.onRequestClose} visible={props.visible}
 			body={
@@ -159,67 +210,70 @@ export const PilihPelanggan = (props) => {
 					<MyModal visible={pelangganVisible} backdropDismiss={false} body={
 						<View>
 							<CardItem header style={{ justifyContent: 'center' }}>
-					<Text style={{ color: ColorsList.greyFont, fontSize: 20, fontWeight: '900' }}>{action == 'add' ? 'Tambah Pelanggan': 'Edit Pelanggan'}</Text>
+								<Text style={{ ...FontList.subtitleFontGreyBold, fontSize: 18 }}>{action == 'add' ? 'Tambah Pelanggan' : 'Edit Pelanggan'}</Text>
 							</CardItem>
 							<CardItem>
 								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
 									<Icon name="search" />
 									<Input
-										value={pelanggan ? pelanggan.nama : ''}
+										value={pelanggan ? pelanggan.name_customer : ''}
 										placeholder="Nama pelanggan"
 										keyboardType={props.keyboardType || "default"}
-										onChangeText={(nama) => setPelanggan({ ...pelanggan, nama })} />
+										onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
 								</Item>
 							</CardItem>
 							<CardItem>
 								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
 									<Icon name="search" />
 									<Input
-										value={pelanggan ? pelanggan.notelp : ''}
+										value={pelanggan ? pelanggan.phone_number_customer : ''}
 										placeholder="No. Telepon"
 										keyboardType={props.keyboardType || "default"}
-										onChangeText={(notelp) => setPelanggan({ ...pelanggan, notelp })} />
+										onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
 								</Item>
 							</CardItem>
 							<CardItem footer style={styles.viewButtonPopup}>
-								<Button onPress={() => {
-									setPelangganVisible(false)
-									props.action(action, pelanggan)
-								}} style={styles.buttonSimpan}>
-									<Text style={{ color: 'white' }}>Simpan</Text>
+								<Button onPress={_handleButtonSimpan} style={styles.buttonSimpan}>
+									<Text style={{ ...FontList.subtitleFontGreyBold,color: 'white' }}>SIMPAN</Text>
 								</Button>
 								<Button onPress={() => setPelangganVisible(false)} style={styles.buttonBatal}>
-									<Text>Batal</Text>
+									<Text style={{...FontList.subtitleFontGreyBold}}>BATAL</Text>
 								</Button>
 							</CardItem>
 						</View>
 					} />
 					<CardItem header style={{ justifyContent: 'center' }}>
-						<Text style={{ color: ColorsList.greyFont, fontSize: 20, fontWeight: '900' }}>Pilih Pelanggan</Text>
+						<Text style={{ ...FontList.subtitleFontGreyBold, fontSize: 20 }}>Pilih Pelanggan</Text>
 					</CardItem>
 					<CardItem>
 						<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
-							<Icon name="search" />
+							<Icon name="search" style={{ color: ColorsList.greyFont }} />
 							<Input
 								disabled={props.disabled || false}
 								value={search}
 								placeholder="Cari nama atau no hp"
 								keyboardType={props.keyboardType || "default"}
-								onChangeText={text => setSearch(text)} />
+								onChangeText={text => setSearch(text)}
+								style={{ fontFamily: FontList.regularFont, color: ColorsList.greyFont }}
+							/>
 						</Item>
 					</CardItem>
-					<CardItem>
+					<View style={{ height: SizeList.height / 5, paddingHorizontal: 20 }}>
 						<FlatList
-
-							data={props.data.filter(item => item.nama.toLowerCase().includes(search))}
+							showsVerticalScrollIndicator={false}
+							data={props.data.filter(item => item.name_customer.toLowerCase().includes(search))}
 							renderItem={({ item }) => (
+								<TouchableOpacity onPress={() => {
+									dispatch(AddCustomer(item))
+									props.dismiss()	
+								}}>
 								<WrapperItem left={[
-									<Text style={{ color: ColorsList.primaryColor }}>{item.nama}</Text>,
-									<Text style={{ color: ColorsList.greyFont }} note>{item.notelp}</Text>
+									<Text style={{ ...FontList.titleFont, color: ColorsList.primaryColor }}>{item.name_customer}</Text>,
+									<Text style={{ ...FontList.subtitleFont, fontSize: 12, color: ColorsList.greyFont }} note>{item.phone_number_customer}</Text>
 								]} right={
 									<View style={{ flexDirection: 'row-reverse', width: 75, alignItems: 'center', flex: 1 }}>
 										<WrapperItem left={
-											<Icon style={{ color: ColorsList.primaryColor }} name="trash" />
+											<Icon onPress={() => _handleDeleteCustomer(item)} style={{ color: ColorsList.primaryColor }} name="trash" />
 										} right={
 											<Icon onPress={() => {
 												setAction('edit')
@@ -229,20 +283,21 @@ export const PilihPelanggan = (props) => {
 										} />
 									</View>
 								} />
+								</TouchableOpacity>
 							)}
 							keyExtractor={(item, index) => index.toString()}
 						/>
-					</CardItem>
+					</View>
 					<CardItem footer style={styles.viewButtonPopup}>
 						<Button onPress={() => {
 							setAction('add')
 							setPelanggan({ nama: '', notelp: '' })
 							setPelangganVisible(true)
 						}} style={styles.buttonSimpan}>
-							<Text style={{ color: 'white' }}>Tambah</Text>
+							<Text style={{ ...FontList.subtitleFontGreyBold, color: 'white' }}>TAMBAH</Text>
 						</Button>
 						<Button onPress={props.dismiss} style={styles.buttonBatal}>
-							<Text>Batal</Text>
+							<Text style={{...FontList.subtitleFontGreyBold,}}>BATAL</Text>
 						</Button>
 					</CardItem>
 				</View>
@@ -281,7 +336,7 @@ export const SelectBoxModal = (props) => {
 				props.header ? <CardItem header>
 					{props.header}
 				</CardItem> : null,
-				<ScrollView style={{ height: '30%'}}>{
+				<ScrollView style={{ height: '30%' }}>{
 					props.data.map((item) => {
 						return (
 							<CardItem style={styles.modalCardItem} button onPress={() => {
@@ -327,6 +382,6 @@ const styles = StyleSheet.create({
 
 
 	viewButtonPopup: { marginTop: 15, borderColor: 'transparent', flexDirection: 'row-reverse', alignItems: 'flex-start' },
-	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor },
-	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
+	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor, borderRadius: 5 },
+	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30,  },
 })

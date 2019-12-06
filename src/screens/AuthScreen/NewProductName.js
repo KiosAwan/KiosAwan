@@ -106,11 +106,13 @@ const NewProductName = ({ navigation }) => {
 				<View style={{ padding: 15 }}>
 					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'New Category' : 'Edit Category'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
+					<View style={{marginTop : 10}}>
 					<FloatingInputLabel
 						label={"Category Name"}
 						value={newCategoryName}
 						handleChangeText={(text) => setNewCategoryName(text)}
 					/>
+					</View>
 					<View style={styles.viewButtonPopup}>
 						<Button style={styles.buttonSimpan} onPress={_handleSaveNewCategory}>
 							<Text style={{ color: 'white' }}>SIMPAN</Text>

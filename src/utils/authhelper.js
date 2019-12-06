@@ -106,6 +106,18 @@ export const sendNewCustomer = async (data) => {
   return res.data
 }
 
+//edit customer data
+export const editCustomer = async (data, id_cust) => {
+  const res = await axios.post(`${HOST_URL}/update_customer/${id_cust}`, data)
+  return res.data
+}
+
+//delete customer data
+export const deleteCustomer = async (id_cust) => {
+  const res = await axios.delete(`${HOST_URL}/delete_customer/${id_cust}`)
+  return res.data
+}
+
 //get detail transaction 
 export const getTransactionDetail = async (transactionId) => {
   const res = await axios.get(`${HOST_URL}/get_transaction/${transactionId}`)

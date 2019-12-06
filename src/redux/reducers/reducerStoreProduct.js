@@ -8,7 +8,10 @@ const initialState = {
     jumlahitem: 0,
     cash_payment: 0,
     due_debt_date: null,
-    customer: null
+    customer: null,
+    discount_total_persen: 0,
+    discount_total_rupiah: 0,
+    discount_name: ''
 }
 
 const reducerStoreProduct = (state = initialState, actions) => {
@@ -37,7 +40,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
             let barcodeExistedItem = state.belanja.find(item => barcode == item.barcode_product)
             if (barcodeExistedItem) {
                 barcodeProduct.quantity++ ,
-                barcodeProduct.total += barcodeProduct.price_out_product
+                    barcodeProduct.total += barcodeProduct.price_out_product
                 state.jumlahitem++
                 if (!barcodeProduct.discount_rupiah) {
                     barcodeProduct.discount_total += parseInt(barcodeProduct.discount_persen) / 100 * parseInt(barcodeProduct.price_out_product)
@@ -101,6 +104,34 @@ const reducerStoreProduct = (state = initialState, actions) => {
             return {
                 ...state,
                 due_debt_date: date
+            }
+        case "ADD_CUSTOMER":
+            const a = actions.payload
+            return {
+                ...state,
+                customer: a
+            }
+        case "ADD_DISCOUNT_PERSEN":
+            const persenDisc = actions.payload
+            return {
+                ...state,
+                total_diskon: parseInt(persenDisc) / 100 * state.total,
+                discount_total_persen : persenDisc,
+                discount_total_rupiah : 0
+            }
+        case "ADD_DISCOUNT_RUPIAH":
+            const rupiahDisc = actions.payload
+            return {
+                ...state,
+                total_diskon: rupiahDisc,
+                discount_total_persen : 0,
+                discount_total_rupiah : rupiahDisc
+            }
+        case "ADD_DISCOUNT_NAME":
+            const name = actions.payload
+            return {
+                ...state,
+                discount_name: name
             }
         case "QUANTITY_INCREMENT":
             let itemTambah = actions.payload
