@@ -40,7 +40,6 @@ const Cart = ({ navigation }) => {
 	return (
 		<View  style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
 			<GlobalHeader title="Detail Pesanan" onPressBack={() => navigation.goBack()} />
-
 			<ScrollView  showsVerticalScrollIndicator={false} style={{flex : 1, marginBottom : 50}}>
 			<PilihPelanggan action={(action, pelanggan) => {
 				console.log(action, pelanggan)
