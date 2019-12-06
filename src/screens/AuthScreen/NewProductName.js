@@ -92,12 +92,6 @@ const NewProductName = ({ navigation }) => {
 	}
 	return (
 		<View style={styles.mainView}>
-			{/* <Popup.alert open={testPopup} close={_ => setTestPopup(false)} onClose={result => console.log(result)}>
-				<Text>Testing</Text>
-			</Popup.alert>
-			<Button onPress={_ => setTestPopup(true)}>
-				<Text>Press Me!</Text>
-			</Button> */}
 			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
 			<ProgressIndicator
 				firstIsCompleteStep={true}
