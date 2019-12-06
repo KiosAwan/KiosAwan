@@ -3,6 +3,7 @@ import { HOST_URL } from '../config'
 
 //helper
 export const convertRupiah = nominal => {
+  nominal = nominal || 0
   const reverse = nominal
     .toString()
     .split("")

@@ -87,17 +87,32 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 jumlahitem: state.jumlahitem + parseInt(newBelanja.quantity)
             }
         case "CHANGE_QUANTITY_MANUAL":
+            console.log(product_data)
             let product_data = actions.payload
             const itemDimaksud = state.belanja.find(item => product_data.id_product === item.id_product)
             const temp_item_quantity = itemDimaksud.quantity
             itemDimaksud.quantity = product_data.quantity
             itemDimaksud.total = itemDimaksud.price_out_product * parseInt(itemDimaksud.quantity)
-            let newTotal = state.total + itemDimaksud.total - (temp_item_quantity * itemDimaksud.price_out_product)
+            let newTotalBaru = state.total + itemDimaksud.total - (temp_item_quantity * itemDimaksud.price_out_product)
             return {
                 ...state,
-                total: newTotal,
-                total_diskon : state.total_diskon * newTotal,
-                jumlahitem: state.jumlahitem + parseInt(newBelanja.quantity) - temp_item_quantity
+                total: newTotalBaru,
+                jumlahitem: state.jumlahitem + parseInt(itemDimaksud.quantity) - temp_item_quantity
+            }
+        case "REMOVE_SELECTED_PRODUCT":
+            let removedProduct = actions.payload
+            const removedItem = state.belanja.find(item => removedProduct.id_product === item.id_product)
+            const temp_rmvitem_quantity = removedItem.quantity
+            const temp_rmvitem_price = removedItem.price_out_product
+            let newTotalRemove = state.total - (parseInt(temp_rmvitem_quantity) * parseInt(temp_rmvitem_price))
+            let notRemoveBelanja = state.belanja.filter(item => item.id_product != removedItem.id_product)
+            let theRemovedProduct = state.data.find(item => removedItem.id_product === item.id_product)
+            theRemovedProduct.quantity = 0
+            return {
+                ...state,
+                total: newTotalRemove,
+                jumlahitem : state.jumlahitem - temp_rmvitem_quantity,
+                belanja: notRemoveBelanja
             }
         case "REMOVE_ALL":
             return {
