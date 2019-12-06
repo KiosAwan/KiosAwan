@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
 import { SizeList } from '../../styles/size';
-import { convertRupiah, sendNewTransaction } from '../../utils/authhelper';
+import { convertRupiah, sendNewTransaction, formatToDate } from '../../utils/authhelper';
 import { FontList } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
 import { BottomButton, ButtonWithIcon } from '../../components/Button/ButtonComp';
@@ -40,7 +40,7 @@ class CheckOut extends React.Component {
         if (this.state.index == 0) {
             this._handlePayCash()
         } else if (this.state.index == 2) {
-            this.handlePayCredit()
+            this._handlePayCredit()
         }
     }
     _handlePayCash = async () => {
@@ -71,6 +71,8 @@ class CheckOut extends React.Component {
             product_cart: cart,
             customer: Product.customer,
             id_store: this.props.User.store.id_store,
+            discount_name : Product.discount_name,
+            discount_transaction : Product.total_diskon
         }
         const res = await sendNewTransaction(data)
         if (res.status == 400) {
@@ -84,6 +86,52 @@ class CheckOut extends React.Component {
         }
 
     }
+
+    _handlePayCredit = async () => {
+        const userId = await AsyncStorage.getItem('userId')
+        const Product = this.props.Product
+        let cart = []
+        Product.belanja.map(item => {
+            if (item.id_product > 0) {
+                let a = {
+                    id: item.id_product,
+                    qty: item.quantity,
+                }
+                cart.push(a)
+            } else {
+                let a = {
+                    name_product: item.name_product,
+                    qty: item.quantity,
+                    priceIn: item.price_in_product,
+                    priceOut: item.price_out_product
+                }
+                cart.push(a)
+            }
+        })
+        const data = {
+            cashier: userId,
+            amount_payment: Product.cash_payment,
+            id_payment_type: 3,
+            product_cart: cart,
+            customer: Product.customer.id_customer,
+            id_store: this.props.User.store.id_store,
+            due_debt_date: formatToDate(Product.due_debt_date),
+            discount_name : Product.discount_name,
+            discount_transaction : Product.total_diskon
+        }
+        const res = await sendNewTransaction(data)
+        if (res.status == 400) {
+            alert(res.data.errors.msg)
+        } else {
+            this.props.removeAllCart()
+            this.props.AddCashPayment(0)
+            this.props.getProduct(this.props.User.store.id_store)
+            this.props.getTransactionList(this.props.User.store.id_store)
+            this.props.navigation.navigate('Cashier')
+        }
+
+    }
+
     _handleIndexChange = index => this.setState({ index });
     _renderTabBar = props => {
         const inputRange = props.navigationState.routes.map((x, i) => i);
@@ -98,7 +146,7 @@ class CheckOut extends React.Component {
                             this.state.index == 2 ? { borderTopRightRadius: 4, borderBottomRightRadius: 4 } : null,
                             ]}
                             onPress={() => this.setState({ index: i })}>
-                            <Animated.Text style={{ fontSize:12, color: this.state.index == i ? 'white' : '#cd0196', fontWeight: '700' }}>{route.title}</Animated.Text>
+                            <Animated.Text style={{ fontSize: 12, color: this.state.index == i ? 'white' : '#cd0196', fontWeight: '700' }}>{route.title}</Animated.Text>
                         </TouchableOpacity>
                     );
                 })}

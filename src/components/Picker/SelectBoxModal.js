@@ -27,12 +27,15 @@ export const WrapperItem = (props) => {
 
 export const ToggleButton = (props) => {
 	const [activeIndex, setActiveIndex] = useState(0)
+	const _handleChangeBtn = (btn, i) => {
+		setActiveIndex(i)
+	}
 	return (
 		<Item style={{ width: '100%' }}>
 			{
 				props.buttons.map((btn, i) => {
 					return (
-						<Button onPress={() => setActiveIndex(i)} style={[props.style,
+						<Button onPress={() =>_handleChangeBtn(btn, i) } style={[props.style,
 						{ padding: 5, flex: 1, justifyContent: 'center' },
 						{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : ColorsList.greyFont },
 						props.style

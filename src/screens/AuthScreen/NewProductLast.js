@@ -10,7 +10,7 @@ import { HOST_URL } from '../../config';
 import { sendNewCategory, validNumber } from '../../utils/authhelper';
 import { getCategory } from '../../redux/actions/actionsStoreCategory';
 import SwitchButton from '../../components/Button/SwitchButton';
-import { getProduct } from '../../redux/actions/actionsStoreProduct';
+import { getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
 import { GlobalHeader } from '../../components/Header/Header';
 import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
 import { ColorsList } from '../../styles/colors';
@@ -61,6 +61,7 @@ const NewProductLast = ({ navigation }) => {
             setTimeout(() => {
                 setModalVisible(false)
                 dispatch(clearAllNewProduct())
+                dispatch(removeAllCart())
                 dispatch(getProduct(User.store.id_store))
                 navigation.navigate('Cashier')
             }, 1000)

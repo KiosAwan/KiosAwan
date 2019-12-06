@@ -91,3 +91,11 @@ export const AddDiscountName = (value) => {
   }
 }
 
+//Adding notes persen
+export const AddNotesTransaction = (value) => {
+  return {
+    type: "ADD_TRANSACTION_NOTES",
+    payload: value
+  }
+}
+

@@ -11,7 +11,8 @@ const initialState = {
     customer: null,
     discount_total_persen: 0,
     discount_total_rupiah: 0,
-    discount_name: ''
+    discount_name: '',
+    catatan_pembelian: ''
 }
 
 const reducerStoreProduct = (state = initialState, actions) => {
@@ -111,21 +112,34 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 ...state,
                 customer: a
             }
-        case "ADD_DISCOUNT_PERSEN":
-            const persenDisc = actions.payload
+        case "ADD_TRANSACTION_NOTES":
+            const notes = actions.payload
             return {
                 ...state,
-                total_diskon: parseInt(persenDisc) / 100 * state.total,
-                discount_total_persen : persenDisc,
-                discount_total_rupiah : 0
+                catatan_pembelian: notes
+            }
+        case "ADD_DISCOUNT_PERSEN":
+            const persenDisc = actions.payload
+            if (persenDisc == "" || persenDisc == null) {
+                return {
+                    ...state,
+                    discount_total_persen: null
+                }
+            } else {
+                return {
+                    ...state,
+                    total_diskon: parseInt(persenDisc) / 100 * state.total,
+                    discount_total_persen: persenDisc,
+                    discount_total_rupiah: 0
+                }
             }
         case "ADD_DISCOUNT_RUPIAH":
             const rupiahDisc = actions.payload
             return {
                 ...state,
                 total_diskon: rupiahDisc,
-                discount_total_persen : 0,
-                discount_total_rupiah : rupiahDisc
+                discount_total_persen: 0,
+                discount_total_rupiah: rupiahDisc
             }
         case "ADD_DISCOUNT_NAME":
             const name = actions.payload
