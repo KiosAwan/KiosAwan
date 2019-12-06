@@ -14,6 +14,7 @@ import { Icon } from 'native-base';
 import { SizeList } from '../../styles/size';
 import { FontList } from '../../styles/typography';
 import { ProductPlaceholder } from '../../components/LoadingPlaceholder';
+import { getCustomer } from '../../redux/actions/actionsCustomer';
 
 const Cashier = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -29,7 +30,9 @@ const Cashier = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1 }}>
-            <CashierHeader />
+            <CashierHeader
+            onPressDrawer={() => navigation.openDrawer()}
+            />
             <View style={styles.wrapButtonHeader}>
                 <ButtonWithIcon
                     onPressBtn={() => navigation.navigate('NewBarcode')}
@@ -43,7 +46,6 @@ const Cashier = ({ navigation }) => {
                     iconName="history"
                     buttonTitle="PESAN MANUAL"
                 />
-                {/* dispatch(AddCartByBarcode(9992694242151915)) */}
                 <TouchableOpacity onPress={() => navigation.navigate('AddCartWithBarcode')}>
                     <View style={styles.barcodeButton}>
                         <Icon name="ios-barcode" style={{ color: 'white' }} />
@@ -82,7 +84,10 @@ const Cashier = ({ navigation }) => {
                 Product.jumlahitem > 0 ?
                     <View style={stylesglobe.absoluteBottom}>
                         <BottomButton
-                            onPressBtn={() => navigation.navigate('Cart')}
+                            onPressBtn={() => {
+                                navigation.navigate('Cart')
+                                dispatch(getCustomer(User.store.id_store))
+                        }}
                             style={styles.absoluteButton}
                             content={
                                 <View style={{ flexDirection: 'row', width: SizeList.width - 30, justifyContent: 'space-around' }}>

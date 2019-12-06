@@ -67,3 +67,27 @@ export const AddDebtDate = (value) => {
   }
 }
 
+//Adding discount persen
+export const AddDiscountPersen = (value) => {
+  return {
+    type: "ADD_DISCOUNT_PERSEN",
+    payload: value
+  }
+}
+
+//Adding discount rupiah
+export const AddDiscountRupiah = (value) => {
+  return {
+    type: "ADD_DISCOUNT_RUPIAH",
+    payload: value
+  }
+}
+
+//Adding discount persen
+export const AddDiscountName = (value) => {
+  return {
+    type: "ADD_DISCOUNT_NAME",
+    payload: value
+  }
+}
+
