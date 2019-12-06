@@ -99,3 +99,11 @@ export const AddNotesTransaction = (value) => {
   }
 }
 
+//Change Cart Quantity 
+export const ChangeCartQuantity = (item) => {
+  return {
+    type : "CHANGE_QUANTITY_MANUAL",
+    payload : item
+  }
+}
+

@@ -73,7 +73,7 @@ const Cart = ({ navigation }) => {
 						{
 							Product.belanja.map((data, i) => {
 								return (
-									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+									<WrapperItem key={i} style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
 										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.name_product}</Text>,
 										<Text style={{ color: ColorsList.greyFont }}>Rp. {data.price_out_product} x {data.quantity}</Text>
 									]} right={[

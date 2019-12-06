@@ -86,6 +86,19 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 belanja: [...state.belanja, newBelanja],
                 jumlahitem: state.jumlahitem + parseInt(newBelanja.quantity)
             }
+        case "CHANGE_QUANTITY_MANUAL":
+            let product_data = actions.payload
+            const itemDimaksud = state.belanja.find(item => product_data.id_product === item.id_product)
+            const temp_item_quantity = itemDimaksud.quantity
+            itemDimaksud.quantity = product_data.quantity
+            itemDimaksud.total = itemDimaksud.price_out_product * parseInt(itemDimaksud.quantity)
+            let newTotal = state.total + itemDimaksud.total - (temp_item_quantity * itemDimaksud.price_out_product)
+            return {
+                ...state,
+                total: newTotal,
+                total_diskon : state.total_diskon * newTotal,
+                jumlahitem: state.jumlahitem + parseInt(newBelanja.quantity) - temp_item_quantity
+            }
         case "REMOVE_ALL":
             return {
                 ...state,
