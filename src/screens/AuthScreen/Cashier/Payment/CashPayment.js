@@ -2,28 +2,30 @@ import React from 'react';
 import { View , StyleSheet, Text} from 'react-native';
 import {useDispatch , useSelector} from 'react-redux'
 import { FloatingInputLabel } from '../../../../components/Input/InputComp';
-import { ToggleButton, ToggleButtonMoney } from '../../../../components/Picker/SelectBoxModal';
-import { SizeList } from '../../../../styles/size';
+import { ToggleButtonMoney } from '../../../../components/Picker/SelectBoxModal';
 import { ColorsList } from '../../../../styles/colors';
 import { FontList } from '../../../../styles/typography';
-import { convertRupiah, getNearestFifty } from '../../../../utils/authhelper';
+import { convertRupiah, getNearestFifty, validNumber } from '../../../../utils/authhelper';
 import { RowChild } from '../../../../components/Helper/RowChild';
+import { AddCashPayment } from '../../../../redux/actions/actionsStoreProduct';
 
 const CashPayment = () => {
     const Product = useSelector(state => state.Product)
     const dispatch = useDispatch()
-    
+
+    const _handleChangePayment = (text) => {
+        let a = validNumber(text)
+        if (a) {
+            dispatch(AddCashPayment(text))
+        }
+    }
     return (
         <View style={styles.container}>
             <View style={{ marginTop: 10 }}>
                 <FloatingInputLabel
                     label="Uang yang diterima"
                     value={Product.cash_payment.toString()}
-                    handleChangeText={(text) => {
-                        if (validNumber(text)) {
-                            dispatch(AddCashPayment(text))
-                        }
-                    }}
+                    handleChangeText={_handleChangePayment}
                 />
                 {Product.cash_payment - Product.total >= 0 ?
                     <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - Product.total)}</Text>

@@ -44,7 +44,7 @@ const Cashier = ({ navigation }) => {
                     buttonTitle="PESAN MANUAL"
                 />
                 {/* dispatch(AddCartByBarcode(9992694242151915)) */}
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity onPress={() => navigation.navigate('AddCartWithBarcode')}>
                     <View style={styles.barcodeButton}>
                         <Icon name="ios-barcode" style={{ color: 'white' }} />
                     </View>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Text,
-  Button,
 } from 'native-base';
 import { useDispatch} from 'react-redux'
 import { View, StyleSheet, Dimensions } from "react-native";

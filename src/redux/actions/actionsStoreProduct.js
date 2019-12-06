@@ -59,3 +59,11 @@ export const AddCashPayment = (value) => {
   }
 }
 
+//Adding debt date
+export const AddDebtDate = (value) => {
+  return {
+    type: "ADD_DEBT_DATE",
+    payload: value
+  }
+}
+
