@@ -29,7 +29,7 @@ export const BottomButton = (props) => {
         <Button
             primary
             onPress={props.onPressBtn}
-            style={[{ width, justifyContent: "center", backgroundColor: 'transparent', borderRadius : 5 }, props.style]}
+            style={[{ width, justifyContent: "center", backgroundColor: 'transparent', borderRadius: 5 }, props.style]}
         >
             {props.content ? props.content :
                 <Text>{props.buttonTitle}</Text>
@@ -67,13 +67,14 @@ const styles = StyleSheet.create({
     },
     btnwithIconText: {
         ...FontList.titleFont,
+        fontSize: 12,
         color: ColorsList.primaryColor,
     },
     imageButton: {
         width: SizeList.width / 4,
         height: 60,
         alignSelf: "center",
-        justifyContent :"center",
+        justifyContent: "center",
         borderWidth: 1,
         borderRadius: 5,
         borderColor: '#c0c0c0'

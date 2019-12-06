@@ -98,7 +98,7 @@ class CheckOut extends React.Component {
                             this.state.index == 2 ? { borderTopRightRadius: 4, borderBottomRightRadius: 4 } : null,
                             ]}
                             onPress={() => this.setState({ index: i })}>
-                            <Animated.Text style={{ color: this.state.index == i ? 'white' : '#cd0196', fontWeight: '700' }}>{route.title}</Animated.Text>
+                            <Animated.Text style={{ fontSize:12, color: this.state.index == i ? 'white' : '#cd0196', fontWeight: '700' }}>{route.title}</Animated.Text>
                         </TouchableOpacity>
                     );
                 })}
