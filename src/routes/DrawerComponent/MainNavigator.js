@@ -13,6 +13,7 @@ import Cart from '../../screens/AuthScreen/Cart'
 import Struk from '../../screens/AuthScreen/Struk'
 import InputManual from '../../screens/AuthScreen/InputManual'
 import CheckOut from '../../screens/AuthScreen/CheckOut'
+import AddCartWithBarcode from '../../screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
 const MainNavigator = createStackNavigator({
   Home: {
     screen: Home,
@@ -86,6 +87,12 @@ const MainNavigator = createStackNavigator({
       header: null
     }
   },
+  AddCartWithBarcode : {
+    screen : AddCartWithBarcode,
+    navigationOptions : {
+      header : null
+    }
+  }
 
 })
 

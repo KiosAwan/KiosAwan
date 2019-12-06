@@ -6,7 +6,9 @@ const initialState = {
     total_diskon: 0,
     belanja: [],
     jumlahitem: 0,
-    cash_payment: 0
+    cash_payment: 0,
+    due_debt_date: null,
+    customer: null
 }
 
 const reducerStoreProduct = (state = initialState, actions) => {
@@ -35,15 +37,31 @@ const reducerStoreProduct = (state = initialState, actions) => {
             let barcodeExistedItem = state.belanja.find(item => barcode == item.barcode_product)
             if (barcodeExistedItem) {
                 barcodeProduct.quantity++ ,
-                    state.jumlahitem++
-                return {
-                    ...state,
-                    total: state.total + parseInt(barcodeProduct.price_out_product)
+                barcodeProduct.total += barcodeProduct.price_out_product
+                state.jumlahitem++
+                if (!barcodeProduct.discount_rupiah) {
+                    barcodeProduct.discount_total += parseInt(barcodeProduct.discount_persen) / 100 * parseInt(barcodeProduct.price_out_product)
+                    return {
+                        ...state,
+                        total: state.total + parseInt(barcodeProduct.price_out_product),
+                        total_diskon: state.total_diskon + parseInt(barcodeProduct.discount_persen) / 100 * parseInt(barcodeProduct.price_out_product),
+                        belanja: [...state.belanja]
+                    }
+                }
+                else {
+                    return {
+                        ...state,
+                        total: state.total + parseInt(barcodeProduct.price_out_product)
+                    }
                 }
             }
             else {
                 barcodeProduct.quantity = 1
                 state.jumlahitem++
+                barcodeProduct.discount_rupiah = false
+                barcodeProduct.discount_persen = 0
+                barcodeProduct.discount_total = 0
+                barcodeProduct.total = barcodeProduct.price_out_product
                 let newTotal = state.total + parseInt(barcodeProduct.price_out_product)
                 return {
                     ...state,
@@ -54,7 +72,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
         case "ADD_TO_CART_MANUAL":
             let newBelanja = actions.payload
             newBelanja.discount_rupiah = false
-            newBelanja.discount_persen = false
+            newBelanja.discount_persen = 0
             newBelanja.discount_total = 0
             newBelanja.total = newBelanja.price_out_product * parseInt(newBelanja.quantity)
             let newTotal = state.total + newBelanja.total
@@ -76,7 +94,13 @@ const reducerStoreProduct = (state = initialState, actions) => {
             const payment = actions.payload
             return {
                 ...state,
-                cash_payment : payment
+                cash_payment: payment
+            }
+        case "ADD_DEBT_DATE":
+            const date = actions.payload
+            return {
+                ...state,
+                due_debt_date: date
             }
         case "QUANTITY_INCREMENT":
             let itemTambah = actions.payload
@@ -105,7 +129,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
             else {
                 itemTambah.quantity = 1
                 itemTambah.discount_rupiah = false
-                itemTambah.discount_persen = false
+                itemTambah.discount_persen = 0
                 itemTambah.discount_total = 0
                 itemTambah.total = itemTambah.price_out_product
                 state.jumlahitem++

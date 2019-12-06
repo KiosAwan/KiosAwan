@@ -14,7 +14,7 @@ export const convertRupiah = nominal => {
     .split("")
     .reverse()
     .join("");
-  const final = "Rp. " + hasil
+  let final = "Rp. " + hasil
   return final;
 };
 
@@ -91,6 +91,7 @@ export const deleteProduct = async (productId) => {
 //post new transaction to database
 export const sendNewTransaction = async (data) => {
   const res = await axios.post(`${HOST_URL}/create_transaction`, data)
+  console.log(res)
   return res.data
 }
 

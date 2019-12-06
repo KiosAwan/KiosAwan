@@ -1,62 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
-import { useSelector, useDispatch, connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
 import { SizeList } from '../../styles/size';
-import { FloatingInputLabel } from '../../components/Input/InputComp';
-import { convertRupiah, validNumber, getNearestFifty } from '../../utils/authhelper';
+import { convertRupiah, sendNewTransaction } from '../../utils/authhelper';
 import { FontList } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
-import { AddCashPayment } from '../../redux/actions/actionsStoreProduct';
 import { BottomButton, ButtonWithIcon } from '../../components/Button/ButtonComp';
-import { RowChild } from '../../components/Helper/RowChild';
 import { GlobalHeader } from '../../components/Header/Header';
-import { ToggleButton } from '../../components/Picker/SelectBoxModal';
 import CashPayment from './Cashier/Payment/CashPayment';
+import NonTunai from './Cashier/Payment/NonTunai';
+import Piutang from './Cashier/Payment/Piutang';
+import { removeAllCart, getProduct, AddCashPayment } from '../../redux/actions/actionsStoreProduct';
+import { getTransactionList } from '../../redux/actions/actionsTransactionList';
+import AsyncStorage from '@react-native-community/async-storage'
 
-const FirstRoute = () => {
-    const Product = useSelector(state => state.Product)
-    const dispatch = useDispatch()
-    return (
-        <CashPayment/>
-        // <View style={styles.container}>
-        //     <View style={{ marginTop: 10 }}>
-        //         <FloatingInputLabel
-        //             label="Uang yang diterima"
-        //             handleChangeText={(text) => {
-        //                 if (validNumber(text)) {
-        //                     dispatch(AddCashPayment(text))
-        //                 }
-        //             }}
-        //         />
-        //         {Product.cash_payment - Product.total >= 0 ?
-        //             <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - Product.total)}</Text>
-        //             : null
-        //         }
-        //         <View style={{ ...RowChild, marginTop: 20 }}>
-        //             <ToggleButton
-        //                 style={{ marginRight: 10, }}
-        //                 buttons={[convertRupiah(Product.total), convertRupiah(getNearestFifty(Product.total, 1))]}
-        //             />
-        //             {/* {convertRupiah(getNearestFifty(Product.total,1))} */}
-        //             {/* {convertRupiah(getNearestFifty(Product.total,2))} */}
-        //         </View>
-        //     </View>
-        // </View>
-    )
-}
-
+const FirstRoute = () => (
+    <CashPayment />
+)
 const SecondRoute = () => (
-    <View style={styles.container}>
-        <Text>Non Tunai </Text>
-    </View>
+    <NonTunai />
 )
 const ThirdRoute = () => (
-    <View style={styles.container}>
-        <Text>Piutang </Text>
-    </View>
+    <Piutang />
 );
+
 class CheckOut extends React.Component {
     state = {
         index: 0,
@@ -66,6 +35,55 @@ class CheckOut extends React.Component {
             { key: 'third', title: 'PIUTANG' }
         ],
     };
+
+    _handleBayar = () => {
+        if (this.state.index == 0) {
+            this._handlePayCash()
+        } else if (this.state.index == 2) {
+            this.handlePayCredit()
+        }
+    }
+    _handlePayCash = async () => {
+        const userId = await AsyncStorage.getItem('userId')
+        const Product = this.props.Product
+        let cart = []
+        Product.belanja.map(item => {
+            if (item.id_product > 0) {
+                let a = {
+                    id: item.id_product,
+                    qty: item.quantity,
+                }
+                cart.push(a)
+            } else {
+                let a = {
+                    name_product: item.name_product,
+                    qty: item.quantity,
+                    priceIn: item.price_in_product,
+                    priceOut: item.price_out_product
+                }
+                cart.push(a)
+            }
+        })
+        const data = {
+            cashier: userId,
+            amount_payment: Product.cash_payment,
+            id_payment_type: 1,
+            product_cart: cart,
+            customer: Product.customer,
+            id_store: this.props.User.store.id_store,
+        }
+        const res = await sendNewTransaction(data)
+        if (res.status == 400) {
+            alert(res.data.errors.msg)
+        } else {
+            this.props.removeAllCart()
+            this.props.AddCashPayment(0)
+            this.props.getProduct(this.props.User.store.id_store)
+            this.props.getTransactionList(this.props.User.store.id_store)
+            this.props.navigation.navigate('Cashier')
+        }
+
+    }
     _handleIndexChange = index => this.setState({ index });
     _renderTabBar = props => {
         const inputRange = props.navigationState.routes.map((x, i) => i);
@@ -100,7 +118,7 @@ class CheckOut extends React.Component {
                     <View style={styles.infoTotalContainer}>
                         <View style={{ margin: 20 }}>
                             <Text style={{ fontFamily: 'Nunito-SemiBold', color: ColorsList.greyFont }}>Total tagihan</Text>
-                            <Text style={styles.infoTotal}>{convertRupiah(this.props.Product.total - this.props.Product.total_diskon)}</Text>
+                            <Text style={styles.infoTotal}>{convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}</Text>
                         </View>
                     </View>
                     <View style={styles.tabContainer}>
@@ -113,17 +131,13 @@ class CheckOut extends React.Component {
                             />
                         </View>
                     </View>
-                    {/* <CheckOutTabBar /> */}
-
-                    {/* <RegisterButton
-                disabled={isDisabled}
-                buttonTitle="Bayar Cash"
-                onPressBtn={_handleCashPay}
-            />
-            <RegisterButton
-                buttonTitle="Ngutang"
-                onPressBtn={_handleNgutang}
-            /> */}
+                    <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+                        <BottomButton
+                            onPressBtn={this._handleBayar}
+                            style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
+                            buttonTitle="BAYAR"
+                        />
+                    </View>
                 </View>
             </View>
 
@@ -133,11 +147,12 @@ class CheckOut extends React.Component {
 function mapStateToProps(state) {
     return {
         Product: state.Product,
+        User: state.User
     };
 }
 export default connect(
     mapStateToProps,
-    {}
+    { removeAllCart, getProduct, getTransactionList, AddCashPayment }
 )(CheckOut)
 
 const styles = StyleSheet.create({
@@ -162,7 +177,7 @@ const styles = StyleSheet.create({
     tabContainer: {
         marginHorizontal: 20,
         backgroundColor: 'white',
-        height: 300,
+        height: SizeList.height / 2,
         borderRadius: SizeList.border_radius
     },
     firstRouteKembalian: {
