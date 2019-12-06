@@ -176,7 +176,7 @@ export const PilihPelanggan = (props) => {
 					id_store: User.store.id_store
 				}
 				await sendNewCustomer(data)
-				await setPelangganVisible(false)
+				setPelangganVisible(false)
 				dispatch(getCustomer(User.store.id_store))
 			}
 		}

@@ -45,7 +45,7 @@ const Piutang = () => {
 				<TouchableOpacity onPress={() => setModalVisible(true)}>
 					<View style={[styles.wrapNamaPelanggan, { ...RowChild, justifyContent: 'space-between' }]}>
 						<View>
-							<Text style={styles.textNamaPelanggan}>{Product.customer ? Product.customer.name : "Nama pelanggan"}</Text>
+							<Text style={styles.textNamaPelanggan}>{Product.customer ? Product.customer.name_customer : "Nama pelanggan"}</Text>
 						</View>
 						<Icon size={20} name="chevron-down" />
 					</View>
