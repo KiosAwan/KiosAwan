@@ -1,3 +1,4 @@
+import { ColorsList } from "./colors";
 
 export const FontList = {
     titleFont : {
@@ -8,9 +9,14 @@ export const FontList = {
         fontSize : 11,
         fontFamily : "Nunito-Regular"
     },
+    subtitleFontGrey : {
+        fontSize : 14,
+        fontFamily : "Nunito-Regular",
+        color : ColorsList.greyFont
+    },
     categoryFontBold : {
         fontSize : 14,
-        fontFamily : 'Nunito-Bold'
+        fontFamily : 'Nunito-Bold',
     },
     primaryFont : "Nunito-Regular",
     titleSize : 14,

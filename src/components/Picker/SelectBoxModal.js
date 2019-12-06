@@ -9,6 +9,7 @@ import { convertRupiah } from '../../utils/authhelper';
 import { useDispatch } from 'react-redux'
 import { AddCashPayment } from '../../redux/actions/actionsStoreProduct';
 
+const height = Dimensions.get('window').height
 
 export const WrapperItem = (props) => {
 	return (
@@ -280,7 +281,7 @@ export const SelectBoxModal = (props) => {
 				props.header ? <CardItem header>
 					{props.header}
 				</CardItem> : null,
-				<ScrollView style={{ height: 300 }}>{
+				<ScrollView style={{ height: '30%'}}>{
 					props.data.map((item) => {
 						return (
 							<CardItem style={styles.modalCardItem} button onPress={() => {

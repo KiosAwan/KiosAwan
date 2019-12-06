@@ -33,6 +33,10 @@ const NewProductLast = ({ navigation }) => {
     const [isDisabled, setIsDisabled] = useState(true)
 
     const _handlePressNext = async () => {
+        if(NewProduct.price_in =="" || NewProduct.price_out ==""){
+            alert("Harap isi harga beli dan jual")
+        }
+        else {
         const formData = new FormData()
         await formData.append('barcode', NewProduct.barcode)
         await formData.append('name', NewProduct.name)
@@ -51,17 +55,22 @@ const NewProductLast = ({ navigation }) => {
             type: "image/jpeg",
             name: `${Date.now()}.jpeg`
         } : null)
-        // try {
-        //     const response = await Axios.post(`${HOST_URL}/create_product`, formData)
-        //     await dispatch(clearAllNewProduct())
-        //     await dispatch(getProduct(User.store.id_store))
-        //     navigation.navigate('Cashier')
-        // }
-        // catch (error) {
-        //     console.log(error.response.data.data.errors.msg)
-        //     alert(error.response.data.data.errors.msg)
-        // }
-        setModalVisible(true)
+        try {
+            const response = await Axios.post(`${HOST_URL}/create_product`, formData)
+            setModalVisible(true)
+            setTimeout(() => {
+                setModalVisible(false)
+                dispatch(clearAllNewProduct())
+                dispatch(getProduct(User.store.id_store))
+                navigation.navigate('Cashier')
+            }, 1000)
+
+        }
+        catch (error) {
+            alert(error.response.data.data.errors.msg)
+        }
+    }
+
     }
 
     const _handleChangeToggle = () => {

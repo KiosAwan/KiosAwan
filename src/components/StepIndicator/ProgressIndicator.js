@@ -24,7 +24,7 @@ const ProgressIndicator = (props) => {
           key={2}
           stepNum={2}
           isCompletedStep={props.secondIsCompleteStep}
-          isActiveStep={props.falsecondIsActiveStepse}
+          isActiveStep={props.secondIsActiveStep}
         />
         <View style={styles.divider}>
           <View style={[styles.hrLine, props.secondSeparator ? null : { backgroundColor: 'grey' }]} />

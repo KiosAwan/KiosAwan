@@ -73,6 +73,7 @@ const Cashier = ({ navigation }) => {
                                 stock={item.manage_stock == 1 ? item.stock : null}
                             />
                         )}
+                        showsVerticalScrollIndicator={false}
                         keyExtractor={(item, index) => index.toString()}
                     />
                 }

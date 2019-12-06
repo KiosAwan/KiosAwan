@@ -6,12 +6,14 @@ import { FloatingInputLabel } from '../../components/Input/InputComp';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { SelectBoxModal, MyModal, WrapperItem, PilihPelanggan, PopupDetailPesanan } from '../../components/Picker/SelectBoxModal';
 import { getCategory } from '../../redux/actions/actionsStoreCategory';
-import { addProductName, addProductImage } from '../../redux/actions/actionsNewProduct';
+import { addProductName, addProductImage, addProductIdCategory } from '../../redux/actions/actionsNewProduct';
 import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
 import { GlobalHeader } from '../../components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ColorsList } from '../../styles/colors';
 import { Grid, Col, Icon, Button, Item } from 'native-base';
+import { sendNewCategory } from '../../utils/authhelper';
+import { FontList } from '../../styles/typography';
 
 
 const width = Dimensions.get('window').width
@@ -19,14 +21,18 @@ const NewProductName = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const NewProduct = useSelector(state => state.NewProduct)
 	const User = useSelector(state => state.User)
+	const Category = useSelector(state => state.Category)
 	const [selected, setSelected] = useState()
 	const [imageProduct, setImageProduct] = useState()
+	const [newCategoryName, setNewCategoryName] = useState('')
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
 	const [a, setA] = useState(false)
 	const dummyData = [{ a: 'akshd', b: 'ddsc' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }]
 	const [isDisabled, setDisabled] = useState(true)
 	useEffect(() => {
 		_checkName()
+		dispatch(getCategory(User.store.id_store))
+
 	}, [])
 	const _checkName = () => {
 		if (NewProduct.name == '') {
@@ -38,8 +44,10 @@ const NewProductName = ({ navigation }) => {
 		if (NewProduct.name == "") {
 			alert("Nama tidak boleh kosong")
 		}
+		else if(NewProduct.id_category == ""){
+			alert("Category tidak boleh kosong")
+		}
 		else {
-			await dispatch(getCategory(User.store.id_store))
 			navigation.navigate('NewProductLast')
 		}
 	}
@@ -55,6 +63,22 @@ const NewProductName = ({ navigation }) => {
 			dispatch(addProductImage(image.path))
 		});
 	};
+
+	const _handleSaveNewCategory = async () => {
+		if (newCategoryName == "") {
+			alert("Nama tidak boleh kosong")
+		}
+		else {
+			const data = {
+				id_store: User.store.id_store,
+				name_product_category: newCategoryName
+			}
+			await sendNewCategory(data)
+			setNewCategoryName("")
+			dispatch(getCategory(User.store.id_store))
+			setAddCategoryVisible(false)
+		}
+	}
 	return (
 		<View style={styles.mainView}>
 			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
@@ -62,26 +86,24 @@ const NewProductName = ({ navigation }) => {
 				firstIsCompleteStep={true}
 				firstIsActiveStep={false}
 				firstSeparator
-				secondSeparator
-				secondIsCompleteStep={true}
-				secondIsActiveStep={false}
+				secondIsCompleteStep={false}
+				secondIsActiveStep={true}
 				thirdIsCompleteStep={false}
-				thirdIsActiveStep={true}
+				thirdIsActiveStep={false}
 			/>
 			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
 				<View style={{ padding: 15 }}>
 					<FloatingInputLabel
-						disabled={isDisabled}
-						label="Product Name"
-						value={NewProduct.name}
-						handleChangeText={(text) => dispatch(addProductName(text))}
+						label="Category Name"
+						value={newCategoryName}
+						handleChangeText={(text) => setNewCategoryName(text)}
 					/>
 					<View style={styles.viewButtonPopup}>
-						<Button style={styles.buttonSimpan}>
-							<Text style={{ color: 'white' }}>Simpan</Text>
+						<Button style={styles.buttonSimpan} onPress={_handleSaveNewCategory}>
+							<Text style={{...FontList.titleFont, color: 'white' }}>SIMPAN</Text>
 						</Button>
 						<Button onPress={() => setAddCategoryVisible(false)} style={styles.buttonBatal}>
-							<Text>Batal</Text>
+							<Text style={{...FontList.titleFont, color : ColorsList.greyFont}}>BATAL</Text>
 						</Button>
 					</View>
 				</View>
@@ -94,7 +116,7 @@ const NewProductName = ({ navigation }) => {
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}>
-								<Icon style={{ fontSize: 22.5 }} name="barcode" />
+								<Icon style={{ fontSize: 24 }} name="barcode" />
 							</Button>
 						</Col>
 					</Grid>
@@ -107,29 +129,36 @@ const NewProductName = ({ navigation }) => {
 						/>
 					</View>
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Category"
+						label="Select category"
 						header={
 							<TouchableOpacity style={styles.headerCategory} onPress={() => setAddCategoryVisible(true)}>
-								<Text>Add Category +</Text>
+								<Text style={{...FontList.categoryFontBold, color : ColorsList.primaryColor}}>Add Category +</Text>
+								<View style={{width : '100%', height: 1 ,backgroundColor : ColorsList.greySoft, marginTop : 5}}/>
 							</TouchableOpacity>
 						}
 						footer={
 							<View style={styles.footerCategory}>
-								<Text>Cancel</Text>
+								<Text style={{...FontList.titleFont, color : ColorsList.greyFont}}>BATAL</Text>
 							</View>
 						}
 						value={selected}
 						handleChangePicker={(item) => {
-							setSelected(item.a)
+							setSelected(item.name_product_category)
+							dispatch(addProductIdCategory(item.id_product_category))
 						}}
 						closeOnSelect={true}
-						data={dummyData}
-						renderItem={(item) => [<Text>{item.a}</Text>, <Icon name="grid" />]}
+						data={Category.data}
+						renderItem={(item) => [<Text style={{...FontList.subtitleFontGrey,
+							color : item.id_product_category == NewProduct.id_category ? 
+							ColorsList.primaryColor : ColorsList.greyFont
+						}}>{item.name_product_category}</Text>, <Icon style={{
+							color : item.id_product_category == NewProduct.id_category ? 
+							ColorsList.primaryColor : ColorsList.greySoft}} name="ios-create" />]}
 					/>
 				</View>
 
 				<View style={{ marginTop: 25 }}>
-					<Text style={{ marginBottom: 10, alignSelf: 'center' }}>Unggah Foto Produk</Text>
+					<Text style={{ marginBottom: 10, alignSelf: 'center', ...FontList.titleFont, color : ColorsList.greyFont }}>Unggah Foto Produk</Text>
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={_handleChoosePhoto}>
 							<Image style={styles.image}
