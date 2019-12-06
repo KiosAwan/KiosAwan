@@ -1,20 +1,22 @@
-import { Item, Input, Icon, Label, Card, CardItem, Button, Left, Thumbnail, Body, Grid, Row, Col } from 'native-base';
-import { View, Modal, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import { Item, Input, Icon, Label, Card, CardItem, Button, Left, Thumbnail, Body, Grid, Col } from 'native-base';
+import { View, Modal, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
 import { RowChild } from '../Helper/RowChild';
 import { convertRupiah } from '../../utils/authhelper';
-import {useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { AddCashPayment } from '../../redux/actions/actionsStoreProduct';
 
 
 export const WrapperItem = (props) => {
 	return (
-		<View style={[{ flex: 1, ...RowChild, justifyContent: "space-between" }, props.style]}>
-			<View>{props.left}</View>
-			<View style={{ alignItems: 'flex-end' }}>{props.right}</View>
+		<View style={[{ flexDirection: 'row' }, props.style]}>
+			<Grid>
+				<Col>{props.left}</Col>
+				<Col style={{ alignItems: 'flex-end' }}>{props.right}</Col>
+			</Grid>
 		</View>
 	)
 }
@@ -27,9 +29,9 @@ export const ToggleButton = (props) => {
 				props.buttons.map((btn, i) => {
 					return (
 						<Button onPress={() => setActiveIndex(i)} style={[props.style,
-							{ padding: 5, flex: 1, justifyContent: 'center' },
-							{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : ColorsList.greyFont },
-							props.style
+						{ padding: 5, flex: 1, justifyContent: 'center' },
+						{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : ColorsList.greyFont },
+						props.style
 						]}>
 							<Text style={
 								{ color: activeIndex == i ? 'white' : 'black' }
@@ -54,12 +56,12 @@ export const ToggleButtonMoney = (props) => {
 							setActiveIndex(i)
 							dispatch(AddCashPayment(btn))
 						}} style={[props.style,
-							{ padding: 5, flex: 1, justifyContent: 'center' },
-							{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : 'white' },
-							props.style
+						{ padding: 5, flex: 1, justifyContent: 'center' },
+						{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : 'white' },
+						props.style
 						]}>
 							<Text style={
-								{fontFamily : 'Nunito-Bold', color: activeIndex == i ? 'white' : ColorsList.primaryColor }
+								{ fontFamily: 'Nunito-Bold', color: activeIndex == i ? 'white' : ColorsList.primaryColor }
 							}>{i == 0 ? "UANG PAS" : convertRupiah(btn).toUpperCase()}</Text>
 						</Button>
 					)
@@ -70,11 +72,18 @@ export const ToggleButtonMoney = (props) => {
 }
 
 export const PopupDetailPesanan = (props) => {
+	const width = Dimensions.get('window').width
 	return (
 		<MyModal onRequestClose={props.onRequestClose} visible={props.visible}
 			body={
 				<View>
 					<CardItem style={{ height: 100 }}>
+						<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+							<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>Nama Produk</Text>,
+							<Text style={{ color: ColorsList.greyFont }}>Rp. 25.000 x 2</Text>
+						]} right={[
+							<Text style={{ height: '100%', textAlignVertical: 'center', color: ColorsList.greyFont }}>Rp. 50.000</Text>
+						]} />
 						<Grid>
 							<Col style={{ paddingRight: 10 }}>
 								<Body>
@@ -88,20 +97,21 @@ export const PopupDetailPesanan = (props) => {
 						</Grid>
 					</CardItem>
 					<CardItem>
-						<Grid>
-							<Col style={{ paddingRight: 10 }}>
-								<FloatingInputLabel label="Barcode Number" disabled value={props.value} />
-							</Col>
-							<Col size={.2}>
+						<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
+							<View style={{ width: width - 100 - 150 }}>
+								<FloatingInputLabel label="Diskon" value={props.value} />
+							</View>
+						} right={
+							<View style={{ width: 100 }}>
 								<ToggleButton buttons={["Rp", "%"]} />
-							</Col>
-						</Grid>
+							</View>
+						} />
 					</CardItem>
 					<CardItem>
 						<Grid>
 							<Col size={2} style={{ alignItems: 'flex-end' }}>
 								<TouchableOpacity style={{}}>
-									<Icon style={{ width: 85, fontSize: 100, }} name="remove-circle-outline" />
+									<Icon style={{ width: 85, fontSize: 100, color: ColorsList.primaryColor }} name="remove-circle-outline" />
 								</TouchableOpacity>
 							</Col>
 							<Col size={1} style={{ alignItems: 'center' }}>
@@ -109,28 +119,24 @@ export const PopupDetailPesanan = (props) => {
 							</Col>
 							<Col size={2} style={{ alignItems: 'flex-start' }}>
 								<TouchableOpacity>
-									<Icon style={{ width: 85, fontSize: 100 }} name="add-circle" />
+									<Icon style={{ width: 85, fontSize: 100, color: ColorsList.primaryColor }} name="add-circle" />
 								</TouchableOpacity>
 							</Col>
 						</Grid>
 					</CardItem>
 					<CardItem footer>
-						<Grid>
-							<Col size={.8}>
-								<Icon style={{ fontSize: 40 }} name="trash" onPress={() => alert(2)} />
-							</Col>
-							<Col />
-							<Col size={1}>
+						<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
+							<Icon style={{ width: 85, fontSize: 50, color: ColorsList.primaryColor }} name="trash" />
+						} right={
+							<View style={{ flexDirection: 'row' }}>
 								<Button style={styles.buttonBatal} onPress={props.dismiss}>
 									<Text>Batal</Text>
 								</Button>
-							</Col>
-							<Col size={1}>
 								<Button style={styles.buttonSimpan}>
 									<Text style={{ color: 'white' }}>Simpan</Text>
 								</Button>
-							</Col>
-						</Grid>
+							</View>
+						} />
 					</CardItem>
 				</View >
 			}
@@ -140,40 +146,99 @@ export const PopupDetailPesanan = (props) => {
 }
 
 export const PilihPelanggan = (props) => {
-	const [search, setSearch] = useState()
+	const [action, setAction] = useState()
+	const [search, setSearch] = useState('')
+	const [pelanggan, setPelanggan] = useState()
+	const [pelangganVisible, setPelangganVisible] = useState(false)
 	return (
 		<MyModal onRequestClose={props.onRequestClose} visible={props.visible}
 			body={
 				<View>
+					{/* Modal AddEditPelanggan */}
+					<MyModal visible={pelangganVisible} backdropDismiss={false} body={
+						<View>
+							<CardItem header style={{ justifyContent: 'center' }}>
+					<Text style={{ color: ColorsList.greyFont, fontSize: 20, fontWeight: '900' }}>{action == 'add' ? 'Tambah Pelanggan': 'Edit Pelanggan'}</Text>
+							</CardItem>
+							<CardItem>
+								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
+									<Icon name="search" />
+									<Input
+										value={pelanggan ? pelanggan.nama : ''}
+										placeholder="Nama pelanggan"
+										keyboardType={props.keyboardType || "default"}
+										onChangeText={(nama) => setPelanggan({ ...pelanggan, nama })} />
+								</Item>
+							</CardItem>
+							<CardItem>
+								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
+									<Icon name="search" />
+									<Input
+										value={pelanggan ? pelanggan.notelp : ''}
+										placeholder="No. Telepon"
+										keyboardType={props.keyboardType || "default"}
+										onChangeText={(notelp) => setPelanggan({ ...pelanggan, notelp })} />
+								</Item>
+							</CardItem>
+							<CardItem footer style={styles.viewButtonPopup}>
+								<Button onPress={() => {
+									setPelangganVisible(false)
+									props.action(action, pelanggan)
+								}} style={styles.buttonSimpan}>
+									<Text style={{ color: 'white' }}>Simpan</Text>
+								</Button>
+								<Button onPress={() => setPelangganVisible(false)} style={styles.buttonBatal}>
+									<Text>Batal</Text>
+								</Button>
+							</CardItem>
+						</View>
+					} />
 					<CardItem header style={{ justifyContent: 'center' }}>
-						<Text>Pilih Pelanggan</Text>
+						<Text style={{ color: ColorsList.greyFont, fontSize: 20, fontWeight: '900' }}>Pilih Pelanggan</Text>
 					</CardItem>
 					<CardItem>
-						<Input
-							disabled={props.disabled || false}
-							value={props.value}
-							placeholder="Cari nama atau no hp"
-							keyboardType={props.keyboardType || "default"}
-							onChangeText={props.handleChangeText} />
+						<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
+							<Icon name="search" />
+							<Input
+								disabled={props.disabled || false}
+								value={search}
+								placeholder="Cari nama atau no hp"
+								keyboardType={props.keyboardType || "default"}
+								onChangeText={text => setSearch(text)} />
+						</Item>
 					</CardItem>
 					<CardItem>
 						<FlatList
-							data={[{ id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', title: 'First Item', }, { id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63', title: 'Second Item' }]}
+
+							data={props.data.filter(item => item.nama.toLowerCase().includes(search))}
 							renderItem={({ item }) => (
-								<Left style={{ margin: 5 }}>
-									<Thumbnail source={require('../../assets/icons/apk-logo.png')} />
-									<Body>
-										<Text>NativeBase</Text>
-										<Text note>GeekyAnts</Text>
-									</Body>
-								</Left>
+								<WrapperItem left={[
+									<Text style={{ color: ColorsList.primaryColor }}>{item.nama}</Text>,
+									<Text style={{ color: ColorsList.greyFont }} note>{item.notelp}</Text>
+								]} right={
+									<View style={{ flexDirection: 'row-reverse', width: 75, alignItems: 'center', flex: 1 }}>
+										<WrapperItem left={
+											<Icon style={{ color: ColorsList.primaryColor }} name="trash" />
+										} right={
+											<Icon onPress={() => {
+												setAction('edit')
+												setPelanggan(item)
+												setPelangganVisible(true)
+											}} style={{ color: ColorsList.primaryColor }} name="create" />
+										} />
+									</View>
+								} />
 							)}
 							keyExtractor={(item, index) => index.toString()}
 						/>
 					</CardItem>
 					<CardItem footer style={styles.viewButtonPopup}>
-						<Button onPress={props.save} style={styles.buttonSimpan}>
-							<Text style={{ color: 'white' }}>Simpan</Text>
+						<Button onPress={() => {
+							setAction('add')
+							setPelanggan({ nama: '', notelp: '' })
+							setPelangganVisible(true)
+						}} style={styles.buttonSimpan}>
+							<Text style={{ color: 'white' }}>Tambah</Text>
 						</Button>
 						<Button onPress={props.dismiss} style={styles.buttonBatal}>
 							<Text>Batal</Text>
@@ -189,6 +254,7 @@ export const PilihPelanggan = (props) => {
 export const MyModal = (props) => {
 	return (
 		<Modal
+			onShow={props.onShow}
 			style={[{}, props.style]}
 			animationType="slide"
 			transparent={true}
@@ -210,8 +276,8 @@ export const SelectBoxModal = (props) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	return (
 		<View>
-			<MyModal visible={modalVisible} backdropDismiss={() => setModalVisible(false)} body={
-				[props.header ? <CardItem header>
+			<MyModal visible={modalVisible} backdropDismiss={() => setModalVisible(false)} body={[
+				props.header ? <CardItem header>
 					{props.header}
 				</CardItem> : null,
 				<ScrollView style={{ height: 300 }}>{
@@ -231,8 +297,7 @@ export const SelectBoxModal = (props) => {
 					<CardItem footer>
 						{props.footer}
 					</CardItem> : null
-				]
-			} />
+			]} />
 			<Item onPress={() => setModalVisible(true)} success floatingLabel style={[styles.selectBox, { borderColor: activeColor }, props.style]}>
 				<Label style={styles.selectBoxLabel}>{props.label}</Label>
 				<Input

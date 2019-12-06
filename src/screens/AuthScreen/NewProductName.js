@@ -68,22 +68,32 @@ const NewProductName = ({ navigation }) => {
 				thirdIsCompleteStep={false}
 				thirdIsActiveStep={true}
 			/>
+			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
+				<View style={{ padding: 15 }}>
+					<FloatingInputLabel
+						disabled={isDisabled}
+						label="Product Name"
+						value={NewProduct.name}
+						handleChangeText={(text) => dispatch(addProductName(text))}
+					/>
+					<View style={styles.viewButtonPopup}>
+						<Button style={styles.buttonSimpan}>
+							<Text style={{ color: 'white' }}>Simpan</Text>
+						</Button>
+						<Button onPress={() => setAddCategoryVisible(false)} style={styles.buttonBatal}>
+							<Text>Batal</Text>
+						</Button>
+					</View>
+				</View>
+			} />
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
 				<View styles={{ paddingHorizontal: 30 }}>
-
-
-					
-
-
-					{/* <PilihPelanggan visible={a} dismiss={()=>setA(false)}/> */}
-					<PopupDetailPesanan visible={a} dismiss={() => setA(false)} />
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
 							<FloatingInputLabel label="Barcode Number" disabled value={NewProduct.barcode} />
 						</Col>
 						<Col size={.2}>
-							<Button onPress={() => setA(true)} style={styles.buttonScanBarcode}>
-								{/* <Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}> */}
+							<Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}>
 								<Icon style={{ fontSize: 22.5 }} name="barcode" />
 							</Button>
 						</Col>
@@ -96,24 +106,6 @@ const NewProductName = ({ navigation }) => {
 							handleChangeText={(text) => dispatch(addProductName(text))}
 						/>
 					</View>
-					<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
-						<View style={{ padding: 15 }}>
-							<FloatingInputLabel
-								disabled={isDisabled}
-								label="Product Name"
-								value={NewProduct.name}
-								handleChangeText={(text) => dispatch(addProductName(text))}
-							/>
-							<View style={styles.viewButtonPopup}>
-								<Button style={styles.buttonSimpan}>
-									<Text style={{ color: 'white' }}>Simpan</Text>
-								</Button>
-								<Button onPress={() => setAddCategoryVisible(false)} style={styles.buttonBatal}>
-									<Text>Batal</Text>
-								</Button>
-							</View>
-						</View>
-					} />
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Category"
 						header={
@@ -135,6 +127,7 @@ const NewProductName = ({ navigation }) => {
 						renderItem={(item) => [<Text>{item.a}</Text>, <Icon name="grid" />]}
 					/>
 				</View>
+
 				<View style={{ marginTop: 25 }}>
 					<Text style={{ marginBottom: 10, alignSelf: 'center' }}>Unggah Foto Produk</Text>
 					<View style={styles.imageWrapper}>
