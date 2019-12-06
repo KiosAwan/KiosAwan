@@ -78,6 +78,11 @@ export const sendNewCategory = async (data) => {
   return res.data
 }
 
+export const editCategory = async (data, id_category) => {
+  const res = await axios.post(`${HOST_URL}/update_product_category/${id_category}`, data)
+  return res.data
+}
+
 //delete category 
 export const deleteCategory = async (categoryId) => {
   const res = await axios.delete(`${HOST_URL}/delete_category/${categoryId}`)
