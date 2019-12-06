@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { View, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { Text } from '../../components/Text/CustomText'
 import ImagePicker from 'react-native-image-crop-picker'
 import { useSelector, useDispatch } from 'react-redux'
 import { FloatingInputLabel } from '../../components/Input/InputComp';
@@ -12,8 +13,8 @@ import { GlobalHeader } from '../../components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ColorsList } from '../../styles/colors';
 import { Grid, Col, Icon, Button, Item } from 'native-base';
-import { sendNewCategory } from '../../utils/authhelper';
-import { FontList } from '../../styles/typography';
+import { sendNewCategory, editCategory } from '../../utils/authhelper';
+import Popup from '../../components/ModalContent/Popups';
 
 
 const width = Dimensions.get('window').width
@@ -25,9 +26,12 @@ const NewProductName = ({ navigation }) => {
 	const [selected, setSelected] = useState()
 	const [imageProduct, setImageProduct] = useState()
 	const [newCategoryName, setNewCategoryName] = useState('')
+	const [editNewCategory, setEditNewCategory] = useState('new')
+
+	const [testPopup, setTestPopup] = useState(false)
+
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
-	const [a, setA] = useState(false)
-	const dummyData = [{ a: 'akshd', b: 'ddsc' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }, { a: 'sdfdssf', b: 'sss' }]
+	const [idEditCategory, setIdEditCategory] = useState()
 	const [isDisabled, setDisabled] = useState(true)
 	useEffect(() => {
 		_checkName()
@@ -44,7 +48,7 @@ const NewProductName = ({ navigation }) => {
 		if (NewProduct.name == "") {
 			alert("Nama tidak boleh kosong")
 		}
-		else if(NewProduct.id_category == ""){
+		else if (NewProduct.id_category == "") {
 			alert("Category tidak boleh kosong")
 		}
 		else {
@@ -69,18 +73,31 @@ const NewProductName = ({ navigation }) => {
 			alert("Nama tidak boleh kosong")
 		}
 		else {
-			const data = {
-				id_store: User.store.id_store,
-				name_product_category: newCategoryName
+			if (editNewCategory == 'add') {
+				await sendNewCategory({
+					id_store: User.store.id_store,
+					name_product_category: newCategoryName
+				})
+				setNewCategoryName("")
+			} else {
+				await editCategory({
+					category: newCategoryName,
+				}, idEditCategory)
+				dispatch(getCategory(User.store.id_store))
+
 			}
-			await sendNewCategory(data)
-			setNewCategoryName("")
 			dispatch(getCategory(User.store.id_store))
 			setAddCategoryVisible(false)
 		}
 	}
 	return (
 		<View style={styles.mainView}>
+			{/* <Popup.alert open={testPopup} close={_ => setTestPopup(false)} onClose={result => console.log(result)}>
+				<Text>Testing</Text>
+			</Popup.alert>
+			<Button onPress={_ => setTestPopup(true)}>
+				<Text>Press Me!</Text>
+			</Button> */}
 			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
 			<ProgressIndicator
 				firstIsCompleteStep={true}
@@ -93,17 +110,19 @@ const NewProductName = ({ navigation }) => {
 			/>
 			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
 				<View style={{ padding: 15 }}>
+					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'New Category' : 'Edit Category'}</Text>
+					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 					<FloatingInputLabel
-						label="Category Name"
+						label={"Category Name"}
 						value={newCategoryName}
 						handleChangeText={(text) => setNewCategoryName(text)}
 					/>
 					<View style={styles.viewButtonPopup}>
 						<Button style={styles.buttonSimpan} onPress={_handleSaveNewCategory}>
-							<Text style={{...FontList.titleFont, color: 'white' }}>SIMPAN</Text>
+							<Text style={{ color: 'white' }}>SIMPAN</Text>
 						</Button>
 						<Button onPress={() => setAddCategoryVisible(false)} style={styles.buttonBatal}>
-							<Text style={{...FontList.titleFont, color : ColorsList.greyFont}}>BATAL</Text>
+							<Text style={{ color: ColorsList.greyFont }}>BATAL</Text>
 						</Button>
 					</View>
 				</View>
@@ -131,14 +150,18 @@ const NewProductName = ({ navigation }) => {
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Select category"
 						header={
-							<TouchableOpacity style={styles.headerCategory} onPress={() => setAddCategoryVisible(true)}>
-								<Text style={{...FontList.categoryFontBold, color : ColorsList.primaryColor}}>Add Category +</Text>
-								<View style={{width : '100%', height: 1 ,backgroundColor : ColorsList.greySoft, marginTop : 5}}/>
+							<TouchableOpacity style={styles.headerCategory} onPress={() => {
+								setNewCategoryName("")
+								setEditNewCategory('add')
+								setAddCategoryVisible(true)
+							}}>
+								<Text style={{ color: ColorsList.primaryColor }}>Add Category +</Text>
+								<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 							</TouchableOpacity>
 						}
 						footer={
 							<View style={styles.footerCategory}>
-								<Text style={{...FontList.titleFont, color : ColorsList.greyFont}}>BATAL</Text>
+								<Text style={{ color: ColorsList.greyFont }}>BATAL</Text>
 							</View>
 						}
 						value={selected}
@@ -146,19 +169,25 @@ const NewProductName = ({ navigation }) => {
 							setSelected(item.name_product_category)
 							dispatch(addProductIdCategory(item.id_product_category))
 						}}
-						closeOnSelect={true}
+						closeOnSelect={false}
 						data={Category.data}
-						renderItem={(item) => [<Text style={{...FontList.subtitleFontGrey,
-							color : item.id_product_category == NewProduct.id_category ? 
-							ColorsList.primaryColor : ColorsList.greyFont
-						}}>{item.name_product_category}</Text>, <Icon style={{
-							color : item.id_product_category == NewProduct.id_category ? 
-							ColorsList.primaryColor : ColorsList.greySoft}} name="ios-create" />]}
+						renderItem={(item) => [<Text style={{
+							color: item.id_product_category == NewProduct.id_category ?
+								ColorsList.primaryColor : ColorsList.greyFont
+						}}>{item.name_product_category}</Text>, <Icon onPress={() => {
+							setAddCategoryVisible(true)
+							setEditNewCategory('edit')
+							setNewCategoryName(item.name_product_category)
+							setIdEditCategory(item.id_product_category)
+						}} style={{
+							color: item.id_product_category == NewProduct.id_category ?
+								ColorsList.primaryColor : ColorsList.greySoft
+						}} name="ios-create" />]}
 					/>
 				</View>
 
 				<View style={{ marginTop: 25 }}>
-					<Text style={{ marginBottom: 10, alignSelf: 'center', ...FontList.titleFont, color : ColorsList.greyFont }}>Unggah Foto Produk</Text>
+					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Produk</Text>
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={_handleChoosePhoto}>
 							<Image style={styles.image}
