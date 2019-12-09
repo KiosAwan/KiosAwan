@@ -59,7 +59,7 @@ export default class AppIntro extends React.Component {
     _renderSkipButton = () => {
         return (
             <View style={{ alignSelf: 'center', padding: 12 }}>
-                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Skip</Text>
+                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Lewati</Text>
             </View>
         )
     }
@@ -67,7 +67,7 @@ export default class AppIntro extends React.Component {
     _renderDoneButton = () => {
         return (
             <View style={{ alignSelf: 'center', padding: 12 }}>
-                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Done</Text>
+                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Mulai</Text>
             </View>
         )
     }

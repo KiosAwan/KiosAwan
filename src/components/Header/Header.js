@@ -54,9 +54,9 @@ export const CashierHeader = (props) => {
     return (
         <Header androidStatusBarColor="#cd0192">
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
-            <TouchableOpacity onPress={props.onPressDrawer}>
+            <TouchableOpacity onPress={props.onPressBack}>
                 <View style={{ width: width /9, alignItems : "center"}}>
-                    <Icon name="bars"
+                    <Icon name="arrow-left"
                         size={20}
                         color="white"
                     />

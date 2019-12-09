@@ -197,7 +197,7 @@ const Cart = ({ navigation }) => {
 									<FloatingInputLabel
 										label="Jumlah diskon"
 										keyboardType="numeric"
-										value={Product.discount_total_rupiah}
+										value={Product.discount_total_rupiah.toString()}
 										handleChangeText={(text) => {
 											if (Product.total - text >= 0) {
 												dispatch(AddDiscountRupiah(text))
