@@ -33,7 +33,7 @@ const Cashier = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <CashierHeader
             handleChangeText={(text) => setSearch(text)}
-            onPressDrawer={() => navigation.openDrawer()}
+            onPressBack={() => navigation.goBack()}
             />
             <View style={styles.wrapButtonHeader}>
                 <ButtonWithIcon
@@ -76,6 +76,7 @@ const Cashier = ({ navigation }) => {
                                 quantity={item.quantity ? item.quantity : null}
                                 stock={item.manage_stock == 1 ? item.stock : null}
                             />
+                            
                         )}
                         showsVerticalScrollIndicator={false}
                         keyExtractor={(item, index) => index.toString()}

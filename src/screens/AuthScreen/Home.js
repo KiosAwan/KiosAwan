@@ -63,7 +63,7 @@ const Home = ({ navigation }) => {
                 <View style={{ justifyContent: 'space-around', paddingTop: 10, ...RowChild }}>
                     <TouchableOpacity onPress={_handlePressDrawer}>
                         <View style={{ width: 25, height: 25, alignItems: "center", justifyContent: "center" }}>
-                            <Icon color="white" size={16} name="bars" />
+                            <Icon color="white" size={20} name="bars" />
                         </View>
                     </TouchableOpacity>
                     <View style={styles.nameAndLoc}>
@@ -75,7 +75,7 @@ const Home = ({ navigation }) => {
                         <Image style={{width : 150, height : 80}} source={require('../../assets/images/logo.png')}/>
                     </View>
                     <View style={styles.wrapChildRow}>
-                        <Icon color="white" size={16} name="bell" />
+                        <Icon color="white" size={20} name="bell" />
                     </View>
                 </View>
                 {/* <View style={{ padding: 11 }}>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     firstChildView: {
-        height: height / 9,
+        height: 80,
     },
     thirdChildView: {
         height: height / 3,

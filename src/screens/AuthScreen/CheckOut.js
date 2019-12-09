@@ -12,7 +12,7 @@ import { GlobalHeader } from '../../components/Header/Header';
 import CashPayment from './Cashier/Payment/CashPayment';
 import NonTunai from './Cashier/Payment/NonTunai';
 import Piutang from './Cashier/Payment/Piutang';
-import { removeAllCart, getProduct, AddCashPayment } from '../../redux/actions/actionsStoreProduct';
+import { removeAllCart, getProduct, AddCashPayment, AddCustomer } from '../../redux/actions/actionsStoreProduct';
 import { getTransactionList } from '../../redux/actions/actionsTransactionList';
 import AsyncStorage from '@react-native-community/async-storage'
 
@@ -80,9 +80,10 @@ class CheckOut extends React.Component {
         } else {
             this.props.removeAllCart()
             this.props.AddCashPayment(0)
+            this.props.AddCustomer(null)
             this.props.getProduct(this.props.User.store.id_store)
             this.props.getTransactionList(this.props.User.store.id_store)
-            this.props.navigation.navigate('Cashier')
+            this.props.navigation.navigate('Struk', { response : res.data})
         }
 
     }
@@ -125,9 +126,10 @@ class CheckOut extends React.Component {
         } else {
             this.props.removeAllCart()
             this.props.AddCashPayment(0)
+            this.props.AddCustomer(null)
             this.props.getProduct(this.props.User.store.id_store)
             this.props.getTransactionList(this.props.User.store.id_store)
-            this.props.navigation.navigate('Cashier')
+            this.props.navigation.navigate('Struk', { response : res.data})
         }
 
     }
@@ -200,7 +202,7 @@ function mapStateToProps(state) {
 }
 export default connect(
     mapStateToProps,
-    { removeAllCart, getProduct, getTransactionList, AddCashPayment }
+    { removeAllCart, getProduct, getTransactionList, AddCashPayment, AddCustomer }
 )(CheckOut)
 
 const styles = StyleSheet.create({
