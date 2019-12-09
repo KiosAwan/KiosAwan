@@ -19,9 +19,15 @@ export const convertRupiah = nominal => {
   return final;
 };
 
+export const convertNumber = string => {
+  let matches = string.match(/\d+/g);
+  let number = matches.join('');
+  return Number(number)
+}
+
 //Get nearest 50.000
 export const getNearestFifty = (value, multiple) => {
-  let money = (Math.floor(value/50000) + multiple ) * 50000
+  let money = (Math.floor(value / 50000) + multiple) * 50000
   return money
 }
 
@@ -41,7 +47,7 @@ export const formatToDate = (date) => {
 
 export const formatToDays = (date) => {
   var d = new Date(date),
-  list = d.toUTCString().split(" ")
+    list = d.toUTCString().split(" ")
   return list[1] + " " + list[2] + " " + list[3]
 }
 
