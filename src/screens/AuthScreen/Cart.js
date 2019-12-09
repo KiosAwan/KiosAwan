@@ -60,17 +60,6 @@ const Cart = ({ navigation }) => {
 								]} right={[
 									<Text style={{ height: '100%', textAlignVertical: 'center', color: ColorsList.greyFont }}>{convertRupiah(Number(pesanan.price_out_product) * pesanan.quantity)}</Text>
 								]} />
-								<Grid>
-									<Col style={{ paddingRight: 10 }}>
-										<Body>
-											<Text style={{ color: ColorsList.primaryColor, fontWeight: 'bold' }}>Nama Produk</Text>
-											<Text note>Rp. 25.000 x 2</Text>
-										</Body>
-									</Col>
-									<Col size={.5}>
-										<Text>Rp. 50.000</Text>
-									</Col>
-								</Grid>
 							</CardItem>
 							<CardItem>
 								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
@@ -148,10 +137,10 @@ const Cart = ({ navigation }) => {
 								return (
 									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
 										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.name_product}</Text>,
-										<Text style={{ color: ColorsList.greyFont }}>Rp. {data.price_out_product} x {data.quantity}</Text>
+										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>
 									]} right={[
 										<Icon onPress={() => _editPesanan(i, data)} style={{ color: ColorsList.primaryColor }} name="create" />,
-										<Text style={{ color: ColorsList.greyFont }}>Rp. {data.price_out_product * data.quantity}</Text>
+										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product * data.quantity)}</Text>
 									]} />
 								)
 							})

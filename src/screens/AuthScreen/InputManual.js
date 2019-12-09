@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions } from 'react-native';
 import { useDispatch } from 'react-redux'
 import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../components/Input/InputComp';
 import { BottomButton } from '../../components/Button/ButtonComp';
-import { validNumber, getRandomNegativeNum, convertRupiah, convertNumber } from '../../utils/authhelper';
+import { validNumber, getRandomNegativeNum, convertNumber } from '../../utils/authhelper';
 import { GlobalHeader } from '../../components/Header/Header';
 import { ColorsList } from '../../styles/colors';
 import { FontList } from '../../styles/typography';
@@ -34,8 +34,8 @@ const InputManual = ({ navigation }) => {
 		else {
 			const manualProduct = {
 				name_product,
-				price_in_product,
-				price_out_product,
+				price_in_product: convertNumber(price_in_product),
+				price_out_product: convertNumber(price_out_product),
 				quantity,
 				id_product: getRandomNegativeNum()
 			}
@@ -90,7 +90,7 @@ const InputManual = ({ navigation }) => {
 							</View>
 							<View style={styles.inputTwoCol}>
 								<FloatingInputLabelCurrency style={{ margin: 0 }}
-									label="Harga modal"
+									label="Harga jual"
 									value={price_out_product}
 									handleChangeText={_handleChangePriceOut}
 								/>

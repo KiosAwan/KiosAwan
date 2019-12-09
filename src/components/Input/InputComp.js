@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Dimensions } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text'
 import {
   Item,
   Input,
   Label,
-  Textarea
+  Textarea,
+  Text
 } from 'native-base'
 
 const width = Dimensions.get('window').width
@@ -96,68 +97,160 @@ export const InputCurrency = props => {
   )
 }
 
+export const FloatingInput = props => {
+  let _sejajar = 15
+  let _up = -15
+  let _interval = 5
+  const [activeColor, setActiveColor] = useState('grey')
+  const [textUp, setTextUp] = useState(_sejajar)
+  const changeUpDown = _ => {
+    let ukuran
+    if (props.value) {
+      setTextUp(_up)
+      return
+    }
+    if (_) {
+      ukuran = _sejajar
+      let interval = setInterval(() => {
+        setTextUp(ukuran)
+        if (ukuran <= _up)
+          clearInterval(interval)
+        ukuran -= _interval
+      }, 1)
+    } else {
+      ukuran = _up
+      let interval = setInterval(() => {
+        setTextUp(ukuran)
+        if (ukuran >= _sejajar)
+          clearInterval(interval)
+        ukuran += _interval
+      }, 1)
+    }
+  }
+  useEffect(() => {
+    if (props.value) {
+      setTextUp(_up)
+    }
+    if (props.children) {
+      let e = props.children.props
+      // e.onFocus = () => {
+      //   setActiveColor('#cd0192')
+      //   changeUpDown(true)
+      // }
+      // e.onBlur = () => {
+      //   setActiveColor('grey')
+      //   changeUpDown(false)
+      // }
+      console.log(e)
+    }
+  }, [])
+  return (
+    <View style={{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }}>
+      <Text style={{ color: activeColor, position: 'absolute', top: textUp }}>{props.label}</Text>
+      {props.children}
+    </View>
+  )
+}
 
 export const FloatingInputLabelCurrency = props => {
+  let _sejajar = 15
+  let _up = -15
+  let _interval = 5
+  const [activeColor, setActiveColor] = useState('grey')
+  const [textUp, setTextUp] = useState(_sejajar)
+  const changeUpDown = _ => {
+    let ukuran
+    if (props.value) {
+      setTextUp(_up)
+      return
+    }
+    if (_) {
+      ukuran = _sejajar
+      let interval = setInterval(() => {
+        setTextUp(ukuran)
+        if (ukuran <= _up)
+          clearInterval(interval)
+        ukuran -= _interval
+      }, 1)
+    } else {
+      ukuran = _up
+      let interval = setInterval(() => {
+        setTextUp(ukuran)
+        if (ukuran >= _sejajar)
+          clearInterval(interval)
+        ukuran += _interval
+      }, 1)
+    }
+  }
+  useEffect(() => {
+    if (props.value) {
+      setTextUp(_up)
+    }
+  }, [])
+  return (
+    <View style={{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }}>
+      <Text style={{ color: activeColor, position: 'absolute', top: textUp }}>{props.label}</Text>
+      <TextInputMask
+        type={'money'}
+        options={{
+          precision: 0,
+          separator: '',
+          delimiter: '.',
+          unit: 'Rp. ',
+          suffixUnit: ''
+        }}
+        onFocus={() => {
+          setActiveColor('#cd0192')
+          changeUpDown(true)
+        }}
+        onBlur={() => {
+          setActiveColor('grey')
+          changeUpDown(false)
+        }}
+        disabled={props.disabled || false}
+        value={props.value}
+        onChangeText={props.handleChangeText}
+      />
+    </View>
+  );
+}
+
+export const FloatingInputLabel = (props) => {
   const [activeColor, setActiveColor] = useState('grey')
   return (
     <View>
-      <Item stackedLabel style={{ width: '100%', borderBottomColor: activeColor, marginTop: 5 }}>
+      <Item floatingLabel style={{ width: '100%', borderBottomColor: activeColor, marginTop: 5 }}>
         <Label style={{ color: activeColor }}>{props.label}</Label>
-        <TextInputMask
-          type={'money'}
-          options={{
-            precision: 0,
-            separator: '',
-            delimiter: '.',
-            unit: 'Rp. ',
-            suffixUnit: ''
-          }}
+        <Input
           onFocus={() => setActiveColor('#cd0192')}
           onBlur={() => setActiveColor('grey')}
           disabled={props.disabled || false}
           value={props.value}
-          onChangeText={props.handleChangeText} />
+          keyboardType={props.keyboardType || "default"}
+          onChangeText={props.handleChangeText}
+          style={{ margin: 0, padding: 0, color: activeColor }}
+        />
       </Item>
     </View>
-      );
-    }
-    
-export const FloatingInputLabel = (props) => {
-  const [activeColor, setActiveColor] = useState('grey')
-      return (
-    <View>
-        <Item floatingLabel style={{ width: '100%', borderBottomColor: activeColor, marginTop: 5 }}>
-          <Label style={{ color: activeColor }}>{props.label}</Label>
-          <Input
-            onFocus={() => setActiveColor('#cd0192')}
-            onBlur={() => setActiveColor('grey')}
-            disabled={props.disabled || false}
-            value={props.value}
-            keyboardType={props.keyboardType || "default"}
-            onChangeText={props.handleChangeText}
-            style={{ margin: 0, padding: 0, color: activeColor }}
-          />
-        </Item>
-      </View>
-      );
-    }
-    
+  );
+}
+
 export const InputTextArea = (props) => {
   return (
     <View style={{ alignItems: "center" }}>
-        <Item stackedLabel style={{ width: '100%' }}>
-          <Label>{props.label}</Label>
-          <Textarea
-            rowSpan={4}
-            disabled={props.disabled || false}
-            placeholder={props.placeholder}
-            placeholderTextColor="#ff85ed"
-            value={props.value}
-            keyboardType="default"
-            onChangeText={props.handleChangeText}
-          />
-        </Item>
-      </View>
-      );
-    }
-    
+      <Item stackedLabel style={{ width: '100%' }}>
+        <Label>{props.label}</Label>
+        <Textarea
+          rowSpan={4}
+          disabled={props.disabled || false}
+          placeholder={props.placeholder}
+          placeholderTextColor="#ff85ed"
+          value={props.value}
+          keyboardType="default"
+          onChangeText={props.handleChangeText}
+        />
+      </Item>
+    </View>
+  );
+}
+
