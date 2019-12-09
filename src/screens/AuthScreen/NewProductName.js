@@ -48,7 +48,7 @@ const NewProductName = ({ navigation }) => {
 		if (NewProduct.name == "") {
 			alert("Nama tidak boleh kosong")
 		}
-		else if (NewProduct.id_category == "") {
+		else if (NewProduct.id_category == null) {
 			alert("Category tidak boleh kosong")
 		}
 		else {

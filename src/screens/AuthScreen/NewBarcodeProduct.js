@@ -18,47 +18,49 @@ const height = Dimensions.get('window').height
 
 const NewBarcodeProduct = ({ navigation }) => {
   const dispatch = useDispatch()
+  const [scanWork , setScanWork] = useState(true)
   const _onBarCodeRead = async (scanResult) => {
+    setScanWork(false)
     const data = {
       barcode: scanResult.data
     }
     const response = await checkBarcode(data)
+
     await dispatch(addProductBarcode(response.data.barcode))
+
     if (response.data.nama_product != undefined) {
       Alert.alert(
-        'Barang yang Anda scan ditemukan',
+        '',
+        'Produk yang Anda scan ditemukan ',
         [
           {
-            text: 'Batal',
-            style: 'cancel',
-          },
-          {
             text: 'Lanjut', onPress: () => {
+              setScanWork(true)
               dispatch(addProductName(response.data.nama_product))
               dispatch(addProductIdCategory(null))
               navigation.navigate('NewProductName')
             }
-          }
-        ]
-      );
+          },
+        ],
+        { cancelable: false }
+      )
     }
     else {
       Alert.alert(
+        '',
         'Barang yang Anda scan tidak ditemukan',
         [
           {
-            text: 'Batal',
-            style: 'cancel',
-          },
-          {
             text: 'Lanjut', onPress: () => {
+              setScanWork(true)
               dispatch(addProductName(''))
               dispatch(addProductIdCategory(null))
               navigation.navigate('NewProductName')
             }
-          }
-        ]
-      );
+          },
+        ],
+        { cancelable: false }
+      )
     }
   }
 
@@ -81,7 +83,7 @@ const NewBarcodeProduct = ({ navigation }) => {
       <View style={{ justifyContent: "center" }}>
         <RNCamera
           style={styles.camera}
-          onBarCodeRead={_onBarCodeRead}
+          onBarCodeRead={scanWork ? _onBarCodeRead : null}
           defaultTouchToFocus
           onFocusChanged={() => { }}
           ratio="1:1"
