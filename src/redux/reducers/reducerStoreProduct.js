@@ -87,7 +87,6 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 jumlahitem: state.jumlahitem + parseInt(newBelanja.quantity)
             }
         case "CHANGE_QUANTITY_MANUAL":
-            console.log(product_data)
             let product_data = actions.payload
             const itemDimaksud = state.belanja.find(item => product_data.id_product === item.id_product)
             const temp_item_quantity = itemDimaksud.quantity

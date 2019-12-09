@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     View,
-    Text,
+    Image,
     StyleSheet,
     Dimensions,
     ScrollView,
@@ -16,15 +16,13 @@ import { ColorsList } from '../../styles/colors'
 import { FontList } from '../../styles/typography'
 
 //redux
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 //CustomComponent
 import { CardComp, LinearCardComp, CardTextImage } from '../../components/Card/CardComp'
 import { CategoryText } from '../../components/Text/CategoryText'
 import { RowChild } from '../../components/Helper/RowChild'
 import BarStatus from '../../components/BarStatus'
-import { getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct'
-import { getTransactionList } from '../../redux/actions/actionsTransactionList'
 
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
@@ -69,28 +67,29 @@ const Home = ({ navigation }) => {
                         </View>
                     </TouchableOpacity>
                     <View style={styles.nameAndLoc}>
-                        <Text style={{ color: 'white', ...FontList.titleFont }}>{User.store ? User.store.name_store : "Kios Saya"}</Text>
+                        {/* <Text style={{ color: 'white', ...FontList.titleFont }}>{User.store ? User.store.name_store : "Kios Saya"}</Text>
                         <View style={styles.wrapChildRow}>
                             <Icon color="white" size={9} name="map-marker-alt" />
                             <Text style={styles.locationInfo}>Kuningan, Jakarta Selatan</Text>
-                        </View>
+                        </View> */}
+                        <Image style={{width : 150, height : 80}} source={require('../../assets/images/logo.png')}/>
                     </View>
                     <View style={styles.wrapChildRow}>
                         <Icon color="white" size={16} name="bell" />
                     </View>
                 </View>
-                <View style={{ padding: 11 }}>
+                {/* <View style={{ padding: 11 }}>
                     <LinearCardComp />
-                </View>
+                </View> */}
             </LinearGradient>
             <ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
-                {User.store ? null :
+                {/* {User.store ? null :
                     <TouchableOpacity onPress={() => navigation.navigate('AddProfile')}>
                         <View style={{ borderRadius: 5, backgroundColor: 'white', justifyContent: "center", alignItems: "center" }}>
                             <Text>Silahkan lengkapi profil untuk dapat menggunakan fitur di aplikasi ini</Text>
                             <Text>Lengkapi profil</Text>
                         </View>
-                    </TouchableOpacity>}
+                    </TouchableOpacity>} */}
                 <View style={{ paddingVertical: 10 }}>
                     <CardComp info="KASIR"
                         disabled={User.store ? false : true}
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     firstChildView: {
-        height: height / 6,
+        height: height / 9,
     },
     thirdChildView: {
         height: height / 3,

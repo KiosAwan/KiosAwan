@@ -82,7 +82,7 @@ export const FloatingInputLabel = (props) =>  {
   const [activeColor, setActiveColor] = useState('grey')
   return (
     <View>
-      <Item floatingLabel style={{width : '100%', borderBottomColor : activeColor}}>
+      <Item floatingLabel style={{width : '100%', borderBottomColor : activeColor, marginTop : 5}}>
       <Label style={{color : activeColor}}>{props.label}</Label>
       <Input  
       onFocus={() => setActiveColor('#cd0192')}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { ButtonWithIcon, BottomButton } from '../../components/Button/ButtonComp';
@@ -20,6 +20,7 @@ const Cashier = ({ navigation }) => {
     const dispatch = useDispatch()
     const Product = useSelector(state => state.Product)
     const User = useSelector(state => state.User)
+    const [search, setSearch] = useState('')
     useEffect(() => {
         _loadProduct()
     }, [])
@@ -31,6 +32,7 @@ const Cashier = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
             <CashierHeader
+            handleChangeText={(text) => setSearch(text)}
             onPressDrawer={() => navigation.openDrawer()}
             />
             <View style={styles.wrapButtonHeader}>
@@ -63,7 +65,7 @@ const Cashier = ({ navigation }) => {
                     </View>
                     :
                     <FlatList
-                        data={Product.data}
+                        data={Product.data.filter(item => item.name_product.toLowerCase().includes(search))}
                         renderItem={({ item }) => (
                             <ProductCard
                                 name={item.name_product}

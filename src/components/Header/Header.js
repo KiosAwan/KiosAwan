@@ -66,6 +66,7 @@ export const CashierHeader = (props) => {
         :2}}>
                 <Icon name="search" color="white" size={13}/>
                 <InputSimple
+                handleChangeText={props.handleChangeText}
                 placeholder="Cari produk"
                 />
             </View>

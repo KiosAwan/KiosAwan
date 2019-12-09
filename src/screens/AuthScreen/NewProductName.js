@@ -165,7 +165,7 @@ const NewProductName = ({ navigation }) => {
 							setSelected(item.name_product_category)
 							dispatch(addProductIdCategory(item.id_product_category))
 						}}
-						closeOnSelect={false}
+						closeOnSelect
 						data={Category.data}
 						renderItem={(item) => [<Text style={{
 							color: item.id_product_category == NewProduct.id_category ?

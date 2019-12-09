@@ -69,7 +69,7 @@ class CheckOut extends React.Component {
             amount_payment: Product.cash_payment,
             id_payment_type: 1,
             product_cart: cart,
-            customer: Product.customer,
+            customer: Product.customer ? Product.customer.id_customer : null,
             id_store: this.props.User.store.id_store,
             discount_name : Product.discount_name,
             discount_transaction : Product.total_diskon

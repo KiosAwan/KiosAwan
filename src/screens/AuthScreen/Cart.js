@@ -5,7 +5,7 @@ import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-han
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { ProductCard } from '../../components/Card/CardComp';
-import { AddCart, MinusQuantity, AddQuantity, AddDiscountName, ChangeCartQuantity, RemoveCartProduct } from '../../redux/actions/actionsStoreProduct';
+import { AddCart, MinusQuantity, AddQuantity, AddDiscountName, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah } from '../../redux/actions/actionsStoreProduct';
 import { RegisterButton, BottomButton } from '../../components/Button/ButtonComp';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader } from '../../components/Header/Header';
@@ -118,7 +118,7 @@ const Cart = ({ navigation }) => {
 							</CardItem>
 							<CardItem footer>
 								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
-									<Icon onPress={()=>{
+									<Icon onPress={() => {
 										setEditPesananOpen(false)
 										dispatch(RemoveCartProduct(pesanan))
 									}} style={{ width: 85, fontSize: 50, color: ColorsList.primaryColor }} name="trash" />
@@ -197,8 +197,12 @@ const Cart = ({ navigation }) => {
 									<FloatingInputLabel
 										label="Jumlah diskon"
 										keyboardType="numeric"
-									// value={NewProduct.qty_min_stock}
-									// handleChangeText={_handleChangeMinStock}
+										value={Product.discount_total_rupiah}
+										handleChangeText={(text) => {
+											if (Product.total - text >= 0) {
+												dispatch(AddDiscountRupiah(text))
+											}
+										}}
 									/>
 								</View>
 							</View>
@@ -213,10 +217,10 @@ const Cart = ({ navigation }) => {
 			<View style={styles.absoluteButton}>
 				<BottomButton
 					onPressBtn={() => {
-						if(Product.jumlahitem > 0){
-						navigation.navigate('CheckOut')
-						dispatch(getCustomer(User.store.id_store))
-						}else {
+						if (Product.jumlahitem > 0) {
+							navigation.navigate('CheckOut')
+							dispatch(getCustomer(User.store.id_store))
+						} else {
 							alert("Keranjang anda kosong")
 						}
 					}}

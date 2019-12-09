@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         height: '100%',
         ...RowChild,
-        marginLeft : 10
         // justifyContent : 'space-between',
     },
     infoText: {
