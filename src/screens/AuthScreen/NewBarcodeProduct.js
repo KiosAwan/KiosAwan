@@ -3,40 +3,70 @@ import {
   Text,
 } from 'native-base';
 import { useDispatch } from 'react-redux'
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, Alert } from "react-native";
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
 import { GlobalHeader } from "../../components/Header/Header";
 import { checkBarcode } from "../../utils/authhelper";
-import { addProductBarcode, addProductName } from "../../redux/actions/actionsNewProduct";
+import { addProductBarcode, addProductName, addProductIdCategory } from "../../redux/actions/actionsNewProduct";
 import { FontList } from "../../styles/typography";
 import { BottomButton } from "../../components/Button/ButtonComp";
 import ProgressIndicator from "../../components/StepIndicator/ProgressIndicator";
 
 
 const height = Dimensions.get('window').height
-    
+
 const NewBarcodeProduct = ({ navigation }) => {
   const dispatch = useDispatch()
+  const [scanWork , setScanWork] = useState(true)
   const _onBarCodeRead = async (scanResult) => {
+    setScanWork(false)
     const data = {
       barcode: scanResult.data
     }
     const response = await checkBarcode(data)
+
     await dispatch(addProductBarcode(response.data.barcode))
+
     if (response.data.nama_product != undefined) {
-      // alert("abdsfa")
-      await dispatch(addProductName(response.data.nama_product))
+      Alert.alert(
+        '',
+        'Produk yang Anda scan ditemukan ',
+        [
+          {
+            text: 'Lanjut', onPress: () => {
+              setScanWork(true)
+              dispatch(addProductName(response.data.nama_product))
+              dispatch(addProductIdCategory(null))
+              navigation.navigate('NewProductName')
+            }
+          },
+        ],
+        { cancelable: false }
+      )
     }
     else {
-      await dispatch(addProductName(''))
+      Alert.alert(
+        '',
+        'Barang yang Anda scan tidak ditemukan',
+        [
+          {
+            text: 'Lanjut', onPress: () => {
+              setScanWork(true)
+              dispatch(addProductName(''))
+              dispatch(addProductIdCategory(null))
+              navigation.navigate('NewProductName')
+            }
+          },
+        ],
+        { cancelable: false }
+      )
     }
-    navigation.navigate('NewProductName')
-
   }
 
   const _handleNoBarcode = () => {
     dispatch(addProductName(''))
+    dispatch(addProductIdCategory(null))
     navigation.navigate('NewProductName')
   }
   return (
@@ -53,7 +83,7 @@ const NewBarcodeProduct = ({ navigation }) => {
       <View style={{ justifyContent: "center" }}>
         <RNCamera
           style={styles.camera}
-          onBarCodeRead={_onBarCodeRead}
+          onBarCodeRead={scanWork ? _onBarCodeRead : null}
           defaultTouchToFocus
           onFocusChanged={() => { }}
           ratio="1:1"
@@ -78,7 +108,7 @@ const NewBarcodeProduct = ({ navigation }) => {
           <BottomButton
             onPressBtn={_handleNoBarcode}
             buttonTitle="LEWATI"
-            style={{ borderWidth: 1, borderColor: 'white', bottom:10 , }}
+            style={{ borderWidth: 1, borderColor: 'white', bottom: 10, }}
           />
         </View>
       </View>
