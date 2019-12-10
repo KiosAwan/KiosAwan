@@ -14,7 +14,6 @@ import LinearGradient from 'react-native-linear-gradient';
 
 //Own custom components
 import { InputNumber } from '../../components/Input/InputComp'
-import LoginVerification from './LoginVerification'
 import VerifyOTPRegister from './OTPVerification';
 
 //Redux Actions
@@ -26,7 +25,6 @@ import { sendPhoneNumber, phoneValidation } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { HeaderRegister } from '../../components/Header/Header';
 import { BottomButton } from '../../components/Button/ButtonComp';
-import { ColorsList } from '../../styles/colors';
 import { SizeList } from '../../styles/size';
 
 
@@ -36,8 +34,6 @@ const height = Dimensions.get('window').height
 const PhoneRegistration = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
     const dispatch = useDispatch()
-    const RegisterOTP = useSelector(state => state.Registration)
-    const [loading, setLoading] = useState(false)
     let OTPRegisterSheet
     const [btnDisabled, setBtnDisabled] = useState(true)
 
@@ -69,7 +65,7 @@ const PhoneRegistration = ({ navigation }) => {
         }
         const res = await sendPhoneNumber(data)
         if (res.type == "login") {
-            VerifyLoginSheet.open()
+            navigation.navigate('Login')
         } else if (res.type == "register") {
             OTPRegisterSheet.open()
         }
@@ -79,81 +75,13 @@ const PhoneRegistration = ({ navigation }) => {
             }
         }
     }
-    const _navigateForgotPIN = () => {
-        navigation.navigate("ForgotPIN")
-    }
-    const _navigateHome = () => {
-        navigation.navigate('Home')
-    }
     const _navigateRegister = () => {
         navigation.navigate('NameRegistration')
-    }
-
-
-
-    //Sending OTP code to server
-    const _handlePasswordLogin = async (psw) => {
-        setLoading(true)
-        await dispatch(addFirstPassword(psw))
-        const data = {
-            phone_number: "62" + RegisterOTP.phone_number,
-            password : RegisterOTP.password,
-            id_device : RegisterOTP.deviceId
-        }
-        try {
-            const res = await loginData(data)
-            if (res.data.errors) {
-                alert(res.data.errors.msg)
-                setLoading(false)
-            }
-            else {
-                await dispatch(clearAllRegistration())
-                await AsyncStorage.setItem('userId', res.data.id)
-                await dispatch(getProfile(res.data.id))
-                setLoading(false)
-                props.navigationHome()
-            }
-        }
-        catch (err) {
-            alert("Mohon periksa kembali jaringan Anda")
-        }
-    }
-
-    const _forgotPIN = async () => {
-        const data = {
-            phone_number: "62" + RegisterOTP.phone_number
-        }
-        const res = await sendForgotPIN(data)
-        props.closeLoginSheet()
-        props.navigationForgot()
     }
 
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
             <BarStatus />
-            {/* {Bottom Sheet for Login} */}
-            <RBSheet
-                ref={ref => {
-                    VerifyLoginSheet = ref;
-                }}
-                height={height * 2 / 7}
-                duration={250}
-                animationType="slide"
-                customStyles={{
-                    container: {
-                        borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10
-                    },
-                }}
-            >
-                <View>
-                    <LoginVerification
-                        navigationHome={_navigateHome}
-                        navigationForgot={_navigateForgotPIN}
-                        closeLoginSheet={() => VerifyLoginSheet.close()}
-                    />
-                </View>
-            </RBSheet>
             {/* {Bottom sheet for verify OTP new user} */}
             <RBSheet
                 ref={ref => {
@@ -197,12 +125,12 @@ const PhoneRegistration = ({ navigation }) => {
                 </View>
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                        <BottomButton
-                            onPressBtn={_handleSendPhoneNumber}
-                            style={{ borderWidth: 1,borderColor: 'white', width: SizeList.width - 20 }}
-                            buttonTitle="NEXT"
-                        />
-                    </View>
+                <BottomButton
+                    onPressBtn={_handleSendPhoneNumber}
+                    style={{ borderWidth: 1, borderColor: 'white', width: SizeList.width - 20 }}
+                    buttonTitle="NEXT"
+                />
+            </View>
         </LinearGradient>
 
     )

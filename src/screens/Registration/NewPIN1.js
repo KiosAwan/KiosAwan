@@ -14,8 +14,11 @@ import { GlobalHeader } from '../../components/Header/Header'
 import { InputPIN } from '../../components/Input/InputPIN'
 
 //Redux Actions
-import { addFirstPIN } from '../../redux/actions/actionsRegistration'
+import { addFirstPIN, addFirstPassword } from '../../redux/actions/actionsRegistration'
 import BarStatus from '../../components/BarStatus';
+import { BottomButton } from '../../components/Button/ButtonComp';
+import { SizeList } from '../../styles/size';
+import { ColorsList } from '../../styles/colors';
 
 //Functions
 
@@ -25,17 +28,15 @@ const NewPIN1 = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
-    const _handleChangePIN = async (pin) => {
-        if (pin.length <= 6) {
-            await dispatch(addFirstPIN(pin))
-            if (pin.length == 6) {
-                const tespin = /\b(\d)\1+\b/
-                if (tespin.test(pin)) {
-                    alert("Pin tidak boleh sama semua")
-                } else {
-                    navigation.navigate('NewPIN2')
-                }
-            }
+    const _handleChangePIN = async (psw) => {
+        await dispatch(addFirstPassword(psw))
+    }
+    const _handleNextBtn = () => {
+        if (FormRegister.password.length < 8) {
+            alert("Password minimal 8 karakter")
+        }
+        else {
+            navigation.navigate('NewPIN2')
         }
     }
     return (
@@ -43,17 +44,24 @@ const NewPIN1 = ({ navigation }) => {
             <BarStatus />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
-                title="Enter PIN"
+                title="Enter Password"
             />
             <View style={{ alignItems: "center" }}>
-                <View style={{ width: '70%', paddingTop: 30 }}>
-                    <Text style={{ textAlign: "center", color: 'black' }}>Set your new PIN</Text>
+                <View style={{ width: '70%', padding: 30 }}>
+                    <Text style={{ textAlign: "center", color: 'black' }}>Set your new password</Text>
                 </View>
                 <InputPIN
                     textColor="black"
                     inputWidth={200}
                     value={FormRegister.firstPIN}
                     handleChangeText={(pin) => _handleChangePIN(pin)}
+                />
+            </View>
+            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+                <BottomButton
+                    onPressBtn={_handleNextBtn}
+                    style={{backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
+                    buttonTitle="LANJUT"
                 />
             </View>
         </View>

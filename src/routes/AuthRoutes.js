@@ -6,8 +6,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 //Import Screen
 import MainNavigator from './DrawerComponent/MainNavigator'
 import TransactionNavigator from './DrawerComponent/TransactionNavigator';
-import Setting from '../screens/AuthScreen/Setting';
 import { fromLeft, flipX, flipY, zoomIn } from 'react-navigation-transitions';
+import Setting from '../screens/AuthScreen/Setting';
 
 
 const AuthNavigator = createStackNavigator({

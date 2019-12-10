@@ -14,9 +14,12 @@ import { InputPIN } from '../../components/Input/InputPIN'
 
 
 //Redux Actions
-import { addSecondPIN, clearAllRegistration } from '../../redux/actions/actionsRegistration'
-import { sendNewPIN } from '../../utils/unauthhelper';
+import { clearAllRegistration, addSecondPassword } from '../../redux/actions/actionsRegistration'
 import BarStatus from '../../components/BarStatus';
+import { BottomButton } from '../../components/Button/ButtonComp';
+import { ColorsList } from '../../styles/colors';
+import { SizeList } from '../../styles/size';
+import { sendNewPassword } from '../../utils/unauthhelper';
 
 //Functions
 
@@ -25,29 +28,27 @@ const NewPIN2 = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
-    const _handleChangePIN = async (pin) => {
-        if (pin.length <= 6) {
-            await dispatch(addSecondPIN(pin))
-            if (pin.length == 6) {
-                if (FormRegister.firstPIN != pin) {
-                    alert("Pin harus sama")
+    const _handleChangePIN = (psw) => {
+            dispatch(addSecondPassword(psw))
+    }
+
+    const _handleSendNewPIN =async () => {
+        if (FormRegister.password != FormRegister.secondpassword) {
+            alert("Pin harus sama")
+        } else {
+            const data = {
+                phone_number: "62" + FormRegister.phone_number,
+                password: FormRegister.password
+            }
+            const res = await sendNewPassword(data)
+            if (res.status == 200) {
+                await dispatch(clearAllRegistration())
+                navigation.navigate('Home')
+            } else {
+                if (res.data.errors.msg) {
+                    alert(res.data.errors.msg)
                 } else {
-                    const data = {
-                        phone_number: "62" + FormRegister.phone_number,
-                        pin: pin
-                    }
-                    const res = await sendNewPIN(data)
-                    console.log(res)
-                    if (res.status == 200) {
-                        await dispatch(clearAllRegistration())
-                        navigation.navigate('Home')
-                    } else {
-                        if (res.data.errors.msg) {
-                            alert(res.data.errors.msg)
-                        } else {
-                            alert("Cek koneksi anda")
-                        }
-                    }
+                    alert("Cek koneksi anda")
                 }
             }
         }
@@ -69,6 +70,13 @@ const NewPIN2 = ({ navigation }) => {
                     inputWidth={250}
                     value={FormRegister.secondPIN}
                     handleChangeText={(pin) => _handleChangePIN(pin)}
+                />
+            </View>
+            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+                <BottomButton
+                    onPressBtn={_handleSendNewPIN}
+                    style={{backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
+                    buttonTitle="LANJUT"
                 />
             </View>
         </View>
