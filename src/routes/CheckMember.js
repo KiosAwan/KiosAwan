@@ -30,7 +30,8 @@ const CheckMember = ({ navigation }) => {
       }
       else {
         if (checkUserIntro == "sudah") {
-          navigation.navigate('PhoneRegistration')
+          navigation.navigate('AuthNavigator')
+          // navigation.navigate('PhoneRegistration')
         } else {
           navigation.navigate('AppIntro')
         }
