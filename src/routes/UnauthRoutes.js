@@ -9,12 +9,19 @@ import SecondPIN from '../screens/Registration/SecondPIN'
 import ForgotPIN from '../screens/Registration/ForgotPIN'
 import NewPIN1 from '../screens/Registration/NewPIN1'
 import NewPIN2 from '../screens/Registration/NewPIN2'
+import LoginVerification from '../screens/Registration/LoginVerification'
 
 
 const UnauthNavigator = createStackNavigator({
   PhoneRegistration : {
     screen : PhoneRegistration,
     navigationOptions: {
+      header : null
+    }
+  },
+  Login : {
+    screen : LoginVerification,
+    navigationOptions : {
       header : null
     }
   },

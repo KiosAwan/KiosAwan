@@ -64,9 +64,9 @@ export const sendForgotPIN = async (data) => {
     }
 }
 
-export const sendNewPIN = async (data) => {
+export const sendNewPassword = async (data) => {
     try {
-        const res = await axios.post(`${HOST_URL}/change_pin`, data)
+        const res = await axios.post(`${HOST_URL}/change_password`, data)
         return res.data
     }
     catch(error){
