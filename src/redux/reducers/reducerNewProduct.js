@@ -3,7 +3,7 @@ const initialState = {
     name : '',
     price_in : '',
     price_out : '',
-    id_category : '',
+    id_category : null,
     id_store : '',
     qty_stock : '',
     qty_min_stock: '',

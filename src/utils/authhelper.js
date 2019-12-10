@@ -3,6 +3,7 @@ import { HOST_URL } from '../config'
 
 //helper
 export const convertRupiah = nominal => {
+  nominal = nominal || 0
   const reverse = nominal
     .toString()
     .split("")
@@ -14,10 +15,22 @@ export const convertRupiah = nominal => {
     .split("")
     .reverse()
     .join("");
-  const final = "Rp. " + hasil
+  let final = "Rp. " + hasil
   return final;
 };
 
+export const convertNumber = string => {
+  string = string.toString()
+  let matches = string.match(/\d+/g);
+  let number = matches.join('');
+  return Number(number)
+}
+
+//Get nearest 50.000
+export const getNearestFifty = (value, multiple) => {
+  let money = (Math.floor(value / 50000) + multiple) * 50000
+  return money
+}
 
 export const formatToDate = (date) => {
   var d = new Date(date),
@@ -35,7 +48,7 @@ export const formatToDate = (date) => {
 
 export const formatToDays = (date) => {
   var d = new Date(date),
-  list = d.toUTCString().split(" ")
+    list = d.toUTCString().split(" ")
   return list[1] + " " + list[2] + " " + list[3]
 }
 
@@ -73,6 +86,11 @@ export const sendNewCategory = async (data) => {
   return res.data
 }
 
+export const editCategory = async (data, id_category) => {
+  const res = await axios.post(`${HOST_URL}/update_product_category/${id_category}`, data)
+  return res.data
+}
+
 //delete category 
 export const deleteCategory = async (categoryId) => {
   const res = await axios.delete(`${HOST_URL}/delete_category/${categoryId}`)
@@ -86,12 +104,25 @@ export const deleteProduct = async (productId) => {
 //post new transaction to database
 export const sendNewTransaction = async (data) => {
   const res = await axios.post(`${HOST_URL}/create_transaction`, data)
+  console.log(res)
   return res.data
 }
 
 //post new customer to database
 export const sendNewCustomer = async (data) => {
   const res = await axios.post(`${HOST_URL}/create_customer`, data)
+  return res.data
+}
+
+//edit customer data
+export const editCustomer = async (data, id_cust) => {
+  const res = await axios.post(`${HOST_URL}/update_customer/${id_cust}`, data)
+  return res.data
+}
+
+//delete customer data
+export const deleteCustomer = async (id_cust) => {
+  const res = await axios.delete(`${HOST_URL}/delete_customer/${id_cust}`)
   return res.data
 }
 
