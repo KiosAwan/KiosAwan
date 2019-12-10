@@ -14,10 +14,10 @@ import {
 import CodeInput from 'react-native-confirmation-code-input';
 
 //Redux Actions
-import { clearAllRegistration, addFirstPIN } from '../../redux/actions/actionsRegistration'
+import { clearAllRegistration, addFirstPIN, addFirstPassword } from '../../redux/actions/actionsRegistration'
 
 //Functions
-import { sendUserPIN, sendForgotPIN } from '../../utils/unauthhelper';
+import { sendUserPIN, sendForgotPIN, loginData } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { getProfile } from '../../redux/actions/actionsUserData';
 
@@ -30,13 +30,14 @@ const LoginVerification = (props) => {
     //Sending OTP code to server
     const _handlePINFulfilled = async (pin) => {
         setLoading(true)
-        await dispatch(addFirstPIN(pin))
+        await dispatch(addFirstPassword(pin))
         const data = {
             phone_number: "62" + RegisterOTP.phone_number,
-            pin
+            password : RegisterOTP.password,
+            id_device : RegisterOTP.deviceId
         }
         try {
-            const res = await sendUserPIN(data)
+            const res = await loginData(data)
             if (res.data.errors) {
                 alert(res.data.errors.msg)
                 setLoading(false)
