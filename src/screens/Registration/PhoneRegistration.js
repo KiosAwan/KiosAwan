@@ -36,7 +36,8 @@ const height = Dimensions.get('window').height
 const PhoneRegistration = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
     const dispatch = useDispatch()
-    let VerifyLoginSheet
+    const RegisterOTP = useSelector(state => state.Registration)
+    const [loading, setLoading] = useState(false)
     let OTPRegisterSheet
     const [btnDisabled, setBtnDisabled] = useState(true)
 
@@ -87,6 +88,46 @@ const PhoneRegistration = ({ navigation }) => {
     const _navigateRegister = () => {
         navigation.navigate('NameRegistration')
     }
+
+
+
+    //Sending OTP code to server
+    const _handlePasswordLogin = async (psw) => {
+        setLoading(true)
+        await dispatch(addFirstPassword(psw))
+        const data = {
+            phone_number: "62" + RegisterOTP.phone_number,
+            password : RegisterOTP.password,
+            id_device : RegisterOTP.deviceId
+        }
+        try {
+            const res = await loginData(data)
+            if (res.data.errors) {
+                alert(res.data.errors.msg)
+                setLoading(false)
+            }
+            else {
+                await dispatch(clearAllRegistration())
+                await AsyncStorage.setItem('userId', res.data.id)
+                await dispatch(getProfile(res.data.id))
+                setLoading(false)
+                props.navigationHome()
+            }
+        }
+        catch (err) {
+            alert("Mohon periksa kembali jaringan Anda")
+        }
+    }
+
+    const _forgotPIN = async () => {
+        const data = {
+            phone_number: "62" + RegisterOTP.phone_number
+        }
+        const res = await sendForgotPIN(data)
+        props.closeLoginSheet()
+        props.navigationForgot()
+    }
+
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
             <BarStatus />
