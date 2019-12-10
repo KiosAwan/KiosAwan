@@ -1,54 +1,55 @@
 const initialState = {
-    name : '',
-    phone_number : '',
-    otp : '',
-    firstPIN : '',
-    secondPIN : '',
-    deviceId : ''
+    name: '',
+    phone_number: '',
+    otp: '',
+    password: '',
+    secondpassword: '',
+    deviceId: ''
 }
 
 const reducerRegistration = (state = initialState, actions) => {
-    switch(actions.type) {
-        case "ADD_NAME" :
+    switch (actions.type) {
+        case "ADD_NAME":
             return {
                 ...state,
-                name : actions.payload
+                name: actions.payload
             }
-        case "ADD_PHONE" : 
+        case "ADD_PHONE":
             return {
                 ...state,
-                phone_number : actions.payload
+                phone_number: actions.payload
             }
-        case "ADD_OTP" : 
+        case "ADD_OTP":
             return {
                 ...state,
-                otp : actions.payload
+                otp: actions.payload
             }
-        case "ADD_FIRST_PIN" : 
+        case "ADD_PASSWORD":
             return {
                 ...state,
-                firstPIN : actions.payload
+                password: actions.payload
             }
-        case "ADD_SECOND_PIN" : 
+        case "ADD_SECOND_PASSWORD":
             return {
                 ...state,
-                secondPIN : actions.payload
+                secondpassword: actions.payload
             }
-        case "ADD_DEVICE_ID" : 
+        case "ADD_DEVICE_ID":
             return {
                 ...state,
-                deviceId : actions.payload
+                deviceId: actions.payload
             }
-        case "CLEAR_ALL_REGISTRATION" : 
+        case "CLEAR_ALL_REGISTRATION":
             return {
-                name : '',
-                phone_number : '',
-                otp : '',
-                firstPIN : '',
-                secondPIN : ''
+                name: '',
+                phone_number: '',
+                otp: '',
+                password: '',
+                secondpassword: '',
+                deviceId: ''
             }
-        default : 
-            return state            
+        default:
+            return state
     }
 }
 

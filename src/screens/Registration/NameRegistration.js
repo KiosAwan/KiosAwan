@@ -15,9 +15,9 @@ import { InputText } from '../../components/Input/InputComp'
 import { addName } from '../../redux/actions/actionsRegistration'
 
 //Functions
-import Strings from '../../utils/Strings'
 import { HeaderRegister } from '../../components/Header/Header';
 import BarStatus from '../../components/BarStatus';
+import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 
 const NameRegistration = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
@@ -42,8 +42,6 @@ const NameRegistration = ({ navigation }) => {
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
             <BarStatus />
             <HeaderRegister
-                onPressBack={() => navigation.goBack()}
-                onPressNext={_handleNextButton}
             />
             <View style={{ width: '70%', paddingTop: 30 }}>
                 <Text style={{ textAlign: "center", color: 'white' }}>Enter your name so we can easily recognize you</Text>
@@ -53,6 +51,12 @@ const NameRegistration = ({ navigation }) => {
                     value={FormRegister.name}
                     label=""
                     handleChangeText={(name) => _handleChangeName(name)}
+                />
+            </View>
+            <View style={{position : 'absolute', bottom : 10}}>
+                <UnauthBottomButton
+                onPressBackBtn={() => navigation.goBack()}
+                onPressNextBtn={_handleNextButton}
                 />
             </View>
         </LinearGradient>

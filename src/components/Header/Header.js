@@ -13,7 +13,6 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
-import LinearBackground from '../LinearBackground'
 import { InputSimple } from '../Input/InputComp'
 
 
@@ -22,9 +21,7 @@ const width = Dimensions.get('window').width
 export const HeaderRegister = (props) => {
     return (
         <View style={styles.HeaderRegisterWrap}>
-            {props.noBack ? <Text></Text> : <Text style={{ color: 'white', padding: 40 }} onPress={props.onPressBack}>Back</Text>}
             <Image style={{ width: 160, height: 90 }} source={require('../../assets/images/logo.png')} />
-            <Text style={{ color: 'white', paddingHorizontal: 40 }} onPress={props.onPressNext}>Next</Text>
         </View>
     )
 }
