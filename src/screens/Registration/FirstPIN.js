@@ -16,7 +16,9 @@ import { HeaderRegister } from '../../components/Header/Header'
 import { InputPIN } from '../../components/Input/InputPIN'
 
 //Redux Actions
-import { addFirstPIN } from '../../redux/actions/actionsRegistration'
+import { addFirstPIN, addFirstPassword } from '../../redux/actions/actionsRegistration'
+import { UnauthBottomButton } from '../../components/Button/UnauthButton';
+import { FontList } from '../../styles/typography';
 
 //Functions
 
@@ -26,23 +28,13 @@ const FirstPIN = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
-    const _handleChangePIN = async (pin) => {
-        if (pin.length <= 6) {
-            await dispatch(addFirstPIN(pin))
-            if (pin.length == 6) {
-                const tespin = /\b(\d)\1+\b/
-                if (tespin.test(pin)) {
-                    alert("Pin tidak boleh sama semua")
-                } else {
-                    navigation.navigate('SecondPIN')
-                }
-            }
-        }
+    const _handleChangePassword = async (pass) => {
+        await dispatch(addFirstPassword(pass))
     }
     //Next button function
     const _handleNextButton = async () => {
-        if (FormRegister.firstPIN.length < 6) {
-            alert("PIN harus 6 digit")
+        if (FormRegister.password.length < 8) {
+            alert("Password minimal 8 karakter")
         } else {
             navigation.navigate('SecondPIN')
         }
@@ -55,15 +47,21 @@ const FirstPIN = ({ navigation }) => {
                 onPressNext={_handleNextButton}
             />
             <View style={{ width: '70%', paddingTop: 30 }}>
-                <Text style={{ textAlign: "center", color: 'white' }}>Set your PIN</Text>
+                <Text style={{ textAlign: "center", color: 'white'}}>Set Your Password</Text>
             </View>
             <InputPIN
                 inputWidth={200}
-                value={FormRegister.firstPIN}
-                handleChangeText={(pin) => _handleChangePIN(pin)}
+                value={FormRegister.password}
+                handleChangeText={(pass) => _handleChangePassword(pass)}
             />
+            <View style={{position : 'absolute', bottom : 10}}>
+                <UnauthBottomButton
+                onPressBackBtn={() => navigation.goBack()}
+                onPressNextBtn={_handleNextButton}
+                />
+            </View>
         </LinearGradient>
-    );
+    )
 }
 
 export default FirstPIN

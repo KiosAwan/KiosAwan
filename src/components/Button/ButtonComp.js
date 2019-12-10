@@ -50,7 +50,6 @@ export const ButtonWithIcon = (props) => {
 }
 
 export const TouchableImage = (props) => {
-    const IMAGE_WIDTH = SizeList.width / 4
     return (
         <TouchableOpacity onPress={props.onPressBtn} style={{ width: '100%' }}>
             <Image style={styles.imageButton} source={{ uri: props.image }} />

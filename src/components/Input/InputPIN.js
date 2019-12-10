@@ -11,11 +11,11 @@ export const InputPIN = (props) =>  {
         <Item style={{width : props.inputWidth, borderBottomColor :'#e831ae'}}>
             <Input
             secureTextEntry={true}
-            placeholder="6 digit PIN"
+            placeholder="Enter your password"
             autoFocus={true}
             style={{color : props.textColor ? props.textColor:'white',fontSize : 20, borderBottomColor:'pink', textAlign : "center"}}
             value={props.value}
-            keyboardType="numeric"
+            keyboardType="default"
             onChangeText={props.handleChangeText}
             />
         </Item>

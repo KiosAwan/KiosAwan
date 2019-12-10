@@ -8,9 +8,7 @@ import {
     View,
     StyleSheet,
     Text,
-    TouchableOpacity,
     Dimensions,
-    Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -26,6 +24,10 @@ import { addPhoneNumber, addDeviceId } from '../../redux/actions/actionsRegistra
 import Strings from '../../utils/Strings'
 import { sendPhoneNumber, phoneValidation } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
+import { HeaderRegister } from '../../components/Header/Header';
+import { BottomButton } from '../../components/Button/ButtonComp';
+import { ColorsList } from '../../styles/colors';
+import { SizeList } from '../../styles/size';
 
 
 const width = Dimensions.get('window').width
@@ -64,17 +66,17 @@ const PhoneRegistration = ({ navigation }) => {
         const data = {
             phone_number: "62" + FormRegister.phone_number,
         }
-            const res = await sendPhoneNumber(data)
-            if (res.type == "login") {
-                VerifyLoginSheet.open()
-            } else if (res.type == "register") {
-                OTPRegisterSheet.open()
+        const res = await sendPhoneNumber(data)
+        if (res.type == "login") {
+            VerifyLoginSheet.open()
+        } else if (res.type == "register") {
+            OTPRegisterSheet.open()
+        }
+        else {
+            if (res.status == 400) {
+                alert(res.data.errors.msg)
             }
-            else {
-                if (res.status == 400) {
-                    alert(res.data.errors.msg)
-                }
-            }
+        }
     }
     const _navigateForgotPIN = () => {
         navigation.navigate("ForgotPIN")
@@ -135,18 +137,8 @@ const PhoneRegistration = ({ navigation }) => {
             <View style={{ flex: 1 }}>
                 <View style={{ alignItems: "center", padding: 20 }}>
                     <View style={styles.wrapHeader}>
-                        <View style={{ flex: 1 }}></View>
-                        <View style={{ flex: 2, alignItems: "center" }}>
-                            <Image style={styles.logoStyle} source={require('../../assets/images/logo.png')} />
-                        </View>
-                        <View style={{ flex: 1, alignItems: 'flex-end', paddingBottom: 10 }}>
-                            <TouchableOpacity disabled={btnDisabled}
-                                onPress={_handleSendPhoneNumber}
-                                style={{ padding: 20 }}
-                            >
-                                <Text style={{ color: btnDisabled ? 'grey' : 'white' }}>Next</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <HeaderRegister
+                        />
                     </View>
                     <Text style={styles.subtitleEnterPhone}>{Strings.REGISTERPHONESUBTITLE}</Text>
                 </View>
@@ -163,7 +155,13 @@ const PhoneRegistration = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-            <View style={{ flex: 1 }}></View>
+            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+                        <BottomButton
+                            onPressBtn={_handleSendPhoneNumber}
+                            style={{ borderWidth: 1,borderColor: 'white', width: SizeList.width - 20 }}
+                            buttonTitle="NEXT"
+                        />
+                    </View>
         </LinearGradient>
 
     )

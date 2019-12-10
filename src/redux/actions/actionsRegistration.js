@@ -29,17 +29,17 @@ export const clearAllRegistration = () => {
     }
 }
 
-export const addFirstPIN = ( pin ) => {
+export const addFirstPassword = ( password ) => {
     return {
-        type : "ADD_FIRST_PIN",
-        payload : pin
+        type : "ADD_PASSWORD",
+        payload : password
     }
 }
 
-export const addSecondPIN = ( pin ) => {
+export const addSecondPassword = ( password ) => {
     return {
-        type : "ADD_SECOND_PIN",
-        payload : pin
+        type : "ADD_SECOND_PASSWORD",
+        payload : password
     }
 }
 
