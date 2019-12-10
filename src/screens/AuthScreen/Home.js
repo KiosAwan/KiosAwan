@@ -54,7 +54,7 @@ const Home = ({ navigation }) => {
     }
 
     const _handlePressDrawer = () => {
-        navigation.openDrawer()
+        navigation.navigate('Setting')
     }
     return (
         <View style={styles.container}>

@@ -20,6 +20,7 @@ export const convertRupiah = nominal => {
 };
 
 export const convertNumber = string => {
+  string = string.toString()
   let matches = string.match(/\d+/g);
   let number = matches.join('');
   return Number(number)

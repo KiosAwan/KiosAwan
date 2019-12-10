@@ -5,7 +5,7 @@ import { ColorsList } from '../../../../styles/colors';
 import { RowChild } from '../../../../components/Helper/RowChild';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import { FloatingInputLabel } from '../../../../components/Input/InputComp';
+import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
 import { validNumber, formatToDate } from '../../../../utils/authhelper';
 import { AddCashPayment, AddDebtDate } from '../../../../redux/actions/actionsStoreProduct';
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -35,8 +35,8 @@ const Piutang = () => {
 				dismiss={() => setModalVisible(false)}
 			/>
 			<View style={{ marginTop: 10, alignItems: "center" }}>
-				<FloatingInputLabel
-					value={Product.cash_payment.toString()}
+				<FloatingInputLabelCurrency style={{ margin: 0 }}
+					value={Product.cash_payment}
 					label="Uang diterima diawal"
 					handleChangeText={_handleChangeMoney}
 				/>

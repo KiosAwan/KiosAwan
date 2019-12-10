@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
 import { SizeList } from '../../styles/size';
-import { convertRupiah, sendNewTransaction, formatToDate } from '../../utils/authhelper';
+import { convertRupiah, sendNewTransaction, formatToDate, convertNumber } from '../../utils/authhelper';
 import { FontList } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
 import { BottomButton, ButtonWithIcon } from '../../components/Button/ButtonComp';
@@ -66,7 +66,7 @@ class CheckOut extends React.Component {
         })
         const data = {
             cashier: userId,
-            amount_payment: Product.cash_payment,
+            amount_payment: convertNumber(Product.cash_payment),
             id_payment_type: 1,
             product_cart: cart,
             customer: Product.customer ? Product.customer.id_customer : null,
@@ -111,7 +111,7 @@ class CheckOut extends React.Component {
         })
         const data = {
             cashier: userId,
-            amount_payment: Product.cash_payment,
+            amount_payment: convertNumber(Product.cash_payment),
             id_payment_type: 3,
             product_cart: cart,
             customer: Product.customer.id_customer,

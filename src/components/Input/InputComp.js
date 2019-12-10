@@ -183,7 +183,7 @@ export const FloatingInputLabelCurrency = props => {
     }
   }
   useEffect(() => {
-    if (props.value) {
+    if (props.value || props.value == 0) {
       setTextUp(_up)
     }
   }, [])
