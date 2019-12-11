@@ -1,23 +1,22 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
-import { FontList } from '../../styles/typography';
 
-
+require('../../assets/images/addproductsuccess.png')
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
-const SuccessAddProductModal = (props) => {
+const ModalContent = (props) => {
     return (
         <TouchableOpacity onPress={props.closeModal} style={styles.touchableStyle}>
             <View style={styles.wrapView}>
-                <Image style={{ height: '80%', width: '80%' }} source={require('../../assets/images/addproductsuccess.png')} />
+                <Image style={{ height: '80%', width: '80%' }} source={props.image} />
                 <View style={{width : '70%'}}>
-                    <Text style={{fontFamily : 'Nunito-SemiBold', fontSize: 20, textAlign: "center", color : 'grey' }}>Anda Berhasil Menambah Produk!</Text>
+                    <Text style={{fontFamily : 'Nunito-SemiBold', fontSize: 20, textAlign: "center", color : 'grey' }}>{props.infoText}</Text>
                 </View>
             </View>
         </TouchableOpacity>
     )
 }
-export default SuccessAddProductModal;
+export default ModalContent;
 
 const styles = StyleSheet.create({
     touchableStyle: {

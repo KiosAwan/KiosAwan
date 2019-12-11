@@ -143,3 +143,9 @@ export const payCredit = async (data, transactionId) => {
   const res = await axios.post(`${HOST_URL}/pay_debt/${transactionId}`, data)
   return res.data
 }
+
+//Create PIN
+export const createUserPIN = async (data) => {
+  const res = await axios.post(`${HOST_URL}/create_pin`, data)
+  return res.data
+}
