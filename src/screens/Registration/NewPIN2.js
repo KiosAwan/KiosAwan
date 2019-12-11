@@ -45,7 +45,7 @@ const NewPIN2 = ({ navigation }) => {
                 await dispatch(clearAllRegistration())
                 navigation.navigate('Home')
             } else {
-                if (res.data.errors.msg) {
+                if (res.status == 400) {
                     alert(res.data.errors.msg)
                 } else {
                     alert("Cek koneksi anda")

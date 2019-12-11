@@ -126,8 +126,9 @@ const PhoneRegistration = ({ navigation }) => {
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
+                disabled={btnDisabled}
                     onPressBtn={_handleSendPhoneNumber}
-                    style={{ borderWidth: 1, borderColor: 'white', width: SizeList.width - 20 }}
+                    style={{ borderWidth: 1, borderColor: btnDisabled? 'grey' :  'white', width: SizeList.width - 20 }}
                     buttonTitle="NEXT"
                 />
             </View>

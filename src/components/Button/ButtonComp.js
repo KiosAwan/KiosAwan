@@ -28,11 +28,12 @@ export const BottomButton = (props) => {
     return (
         <Button
             primary
+            disabled={props.disabled}
             onPress={props.onPressBtn}
             style={[{ width : width -30, justifyContent: "center", backgroundColor: 'transparent', borderRadius: 5 }, props.style]}
         >
             {props.content ? props.content :
-                <Text>{props.buttonTitle}</Text>
+                <Text style={props.disabled ? {color : 'grey'}: null}>{props.buttonTitle}</Text>
             }
         </Button>
     )

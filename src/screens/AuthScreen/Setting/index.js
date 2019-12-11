@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { GlobalHeader } from '../../../components/Header/Header';
 import { Button, Icon, Item, Grid, Col, Row } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ColorsList } from '../../../styles/colors';
+import {Text} from '../../../components/Text/CustomText'
 import { WrapperItem } from '../../../components/Picker/SelectBoxModal';
 import { FontList } from '../../../styles/typography';
 import { BottomButton } from '../../../components/Button/ButtonComp';
 import { SizeList } from '../../../styles/size';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 
 const Setting = ({ navigation }) => {
 	const ListMenu = require('../../../assets/json/setting.json')
@@ -28,7 +30,7 @@ const Setting = ({ navigation }) => {
 			<Grid style={{ backgroundColor: ColorsList.authBackground, height: 100 }}>
 				<Row size={.75} style={{ backgroundColor: 'white', padding: 10 }}>
 					<Col style={{ justifyContent: 'center' }} size={1.5}>
-						<Icon name="contact" style={{ fontSize: 60 }} />
+						<Icon name="contact" style={{ fontSize: 60, color : ColorsList.primaryColor }} />
 					</Col>
 					<Col style={{ justifyContent: 'center' }} size={8}>
 						<Grid style={{  justifyContent: 'center' }}>
@@ -57,7 +59,7 @@ const Setting = ({ navigation }) => {
 											}}>
 												<Grid>
 													<Col style={{ justifyContent: 'center' }} size={1}>
-														<Icon name={menu.icon} />
+														<Icon name={menu.icon} style={{ color : ColorsList.primaryColor}} />
 													</Col>
 													<Col style={{ justifyContent: 'center' }} size={8}>
 														<Text>{menu.name}</Text>
