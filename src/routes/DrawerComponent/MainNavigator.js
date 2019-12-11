@@ -4,7 +4,6 @@ import { createStackNavigator } from 'react-navigation-stack'
 import Home from '../../screens/AuthScreen/Home'
 import Stock from '../../screens/AuthScreen/Stock'
 import Cashier from '../../screens/AuthScreen/Cashier'
-import AddProfile from '../../screens/AuthScreen/AddProfile'
 import NewsScreen from '../../screens/AuthScreen/NewsScreen'
 import NewBarcodeProduct from '../../screens/AuthScreen/NewBarcodeProduct'
 import NewProductName from '../../screens/AuthScreen/NewProductName'
@@ -15,6 +14,7 @@ import InputManual from '../../screens/AuthScreen/InputManual'
 import CheckOut from '../../screens/AuthScreen/CheckOut'
 import AddCartWithBarcode from '../../screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
 import UpdateProfil from '../../screens/AuthScreen/Setting/UpdateProfil'
+import CreatePIN from '../../screens/AuthScreen/Setting/CreatePIN'
 const MainNavigator = createStackNavigator({
   Home: {
     screen: Home,
@@ -22,10 +22,10 @@ const MainNavigator = createStackNavigator({
       header: null
     }
   },
-  UpdateProfil: {
-    screen: UpdateProfil,
-    navigationOptions: {
-      header: null
+  CreatePIN : {
+    screen : CreatePIN, 
+    navigationOptions : {
+      header : null
     }
   },
   UpdateProfil: {
@@ -48,12 +48,6 @@ const MainNavigator = createStackNavigator({
   },
   NewsScreen: {
     screen: NewsScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
-  AddProfile: {
-    screen: AddProfile,
     navigationOptions: {
       header: null
     }

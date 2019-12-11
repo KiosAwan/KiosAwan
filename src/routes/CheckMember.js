@@ -26,7 +26,7 @@ const CheckMember = ({ navigation }) => {
       const checkUserData = await AsyncStorage.getItem('userId');
       if (checkUserData != null) {
         await dispatch(getProfile(checkUserData))
-        navigation.navigate('UpdateProfil')
+        navigation.navigate('CreatePIN')
       }
       else {
         if (checkUserIntro == "sudah") {
