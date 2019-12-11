@@ -5,7 +5,6 @@ import AsyncStorage from '@react-native-community/async-storage'
 import {
     View,
     StyleSheet,
-    Dimensions,
     Text,
 } from 'react-native';
 import { Spinner } from 'native-base'

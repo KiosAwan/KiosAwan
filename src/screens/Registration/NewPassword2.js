@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 //Styling
@@ -20,6 +20,7 @@ import { BottomButton } from '../../components/Button/ButtonComp';
 import { ColorsList } from '../../styles/colors';
 import { SizeList } from '../../styles/size';
 import { sendNewPassword } from '../../utils/unauthhelper';
+import { Spinner } from 'native-base';
 
 //Functions
 
@@ -27,6 +28,7 @@ import { sendNewPassword } from '../../utils/unauthhelper';
 const NewPassword2 = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
+    const [isLoading, setIsLoading] = useState(false)
     // //Sending OTP code to server
     const _handleChangePIN = (psw) => {
             dispatch(addSecondPassword(psw))
@@ -36,21 +38,23 @@ const NewPassword2 = ({ navigation }) => {
         if (FormRegister.password != FormRegister.secondpassword) {
             alert("Pin harus sama")
         } else {
+            setIsLoading(true)
             const data = {
                 phone_number: "62" + FormRegister.phone_number,
                 password: FormRegister.password
             }
-            console.log(data)
             const res = await sendNewPassword(data)
-            console.log(res)
             if (res.status == 200) {
-                await dispatch(clearAllRegistration())
+                dispatch(clearAllRegistration())
+                setIsLoading(false)
                 navigation.navigate('Home')
             } else {
                 if (res.status == 400) {
                     alert(res.data.errors.msg)
+                    setIsLoading(false)
                 } else {
                     alert("Cek koneksi anda")
+                    setIsLoading(false)
                 }
             }
         }
@@ -74,6 +78,7 @@ const NewPassword2 = ({ navigation }) => {
                     handleChangeText={(pin) => _handleChangePIN(pin)}
                 />
             </View>
+            {isLoading ? <Spinner color="#cd0192" /> : null}
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
                     onPressBtn={_handleSendNewPIN}
