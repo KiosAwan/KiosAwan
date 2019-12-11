@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View } from 'react-native';
+import {useSelector} from 'react-redux'
 import { GlobalHeader } from '../../../components/Header/Header';
-import { Button, Icon, Item, Grid, Col, Row } from 'native-base';
+import {Icon, Grid, Col, Row } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ColorsList } from '../../../styles/colors';
 import {Text} from '../../../components/Text/CustomText'
-import { WrapperItem } from '../../../components/Picker/SelectBoxModal';
-import { FontList } from '../../../styles/typography';
 import { BottomButton } from '../../../components/Button/ButtonComp';
 import { SizeList } from '../../../styles/size';
-import { fromPromise } from 'rxjs/observable/fromPromise';
 
 const Setting = ({ navigation }) => {
 	const ListMenu = require('../../../assets/json/setting.json')
+	const User = useSelector(state => state.User)
 	const _onPressLogout = async (props) => {
 		try {
 			await AsyncStorage.removeItem('userId')
@@ -35,7 +34,7 @@ const Setting = ({ navigation }) => {
 					<Col style={{ justifyContent: 'center' }} size={8}>
 						<Grid style={{  justifyContent: 'center' }}>
 							<Row>
-								<Text>Name</Text>
+								<Text>{User.data.name}</Text>
 							</Row>
 							<Row>
 								<Text>Name</Text>
@@ -58,14 +57,14 @@ const Setting = ({ navigation }) => {
 												height: 45
 											}}>
 												<Grid>
-													<Col style={{ justifyContent: 'center' }} size={1}>
+													<Col style={{ alignItems: 'center' }} size={1}>
 														<Icon name={menu.icon} style={{ color : ColorsList.primaryColor}} />
 													</Col>
-													<Col style={{ justifyContent: 'center' }} size={8}>
+													<Col style={{ justifyContent: 'center',marginLeft : 10 }} size={8}>
 														<Text>{menu.name}</Text>
 													</Col>
 													<Col style={{ justifyContent: 'center', alignItems: 'flex-end' }} size={1}>
-														<Icon name="arrow-dropright" />
+														<Icon name="arrow-dropright" style={{ color : ColorsList.greySoft}} />
 													</Col>
 												</Grid>
 											</TouchableOpacity>
