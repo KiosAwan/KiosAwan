@@ -10,7 +10,7 @@ import CodeInput from 'react-native-confirmation-code-input';
 import { GlobalHeader } from '../../components/Header/Header';
 import { sendForgotPIN, sendVerifyOTP, showPhoneNumber } from '../../utils/unauthhelper';
 
-const ForgotPIN = ({ navigation }) => {
+const ForgotPassword = ({ navigation }) => {
     const phoneNumber = useSelector(state => state.Registration.phone_number)
     const [showedNumber, setShowedNumber] = useState('')
     const [isResendDisabled, setIsResendDisabled] = useState(true)
@@ -72,13 +72,11 @@ const ForgotPIN = ({ navigation }) => {
             otp: code
         }
         const res = await sendVerifyOTP(data)
-        console.log(data)
-        console.log(res)
         if (res.status == 400) {
             alert(res.data.errors.msg)
         }
         else if (res.status == 200) {
-            navigation.navigate("NewPIN1")
+            navigation.navigate("NewPassword1")
         }
         else {
             alert("Ada yang salah , cek koneksi anda")
@@ -88,7 +86,7 @@ const ForgotPIN = ({ navigation }) => {
         <View style={styles.container}>
             <GlobalHeader
                 onPressBack={_handleBack}
-                title="Forgot PIN"
+                title="Forgot Password"
             />
             <View style={{ alignItems: "center" }}>
                 <Text style={{ paddingTop: 20 }}>A 4 digit code has been sent to</Text>
@@ -111,7 +109,7 @@ const ForgotPIN = ({ navigation }) => {
 }
 
 
-export default ForgotPIN;
+export default ForgotPassword;
 
 const styles = StyleSheet.create({
     container: {

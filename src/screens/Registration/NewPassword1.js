@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
     View,
     StyleSheet,
+    Dimensions,
     Text,
 } from 'react-native';
 
@@ -12,69 +13,53 @@ import {
 import { GlobalHeader } from '../../components/Header/Header'
 import { InputPIN } from '../../components/Input/InputPIN'
 
-
 //Redux Actions
-import { clearAllRegistration, addSecondPassword } from '../../redux/actions/actionsRegistration'
+import { addFirstPassword } from '../../redux/actions/actionsRegistration'
 import BarStatus from '../../components/BarStatus';
 import { BottomButton } from '../../components/Button/ButtonComp';
-import { ColorsList } from '../../styles/colors';
 import { SizeList } from '../../styles/size';
-import { sendNewPassword } from '../../utils/unauthhelper';
+import { ColorsList } from '../../styles/colors';
 
 //Functions
 
+const height = Dimensions.get('window').height
 
-const NewPIN2 = ({ navigation }) => {
+const NewPassword1 = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
-    const _handleChangePIN = (psw) => {
-            dispatch(addSecondPassword(psw))
+    const _handleChangePIN = async (psw) => {
+        await dispatch(addFirstPassword(psw))
     }
-
-    const _handleSendNewPIN =async () => {
-        if (FormRegister.password != FormRegister.secondpassword) {
-            alert("Pin harus sama")
-        } else {
-            const data = {
-                phone_number: "62" + FormRegister.phone_number,
-                password: FormRegister.password
-            }
-            const res = await sendNewPassword(data)
-            if (res.status == 200) {
-                await dispatch(clearAllRegistration())
-                navigation.navigate('Home')
-            } else {
-                if (res.status == 400) {
-                    alert(res.data.errors.msg)
-                } else {
-                    alert("Cek koneksi anda")
-                }
-            }
+    const _handleNextBtn = () => {
+        if (FormRegister.password.length < 8) {
+            alert("Password minimal 8 karakter")
+        }
+        else {
+            navigation.navigate('NewPassword2')
         }
     }
-
     return (
         <View style={styles.container} >
             <BarStatus />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
-                title="Enter PIN"
+                title="Enter Password"
             />
             <View style={{ alignItems: "center" }}>
-                <View style={{ width: '70%', paddingTop: 30 }}>
-                    <Text style={{ textAlign: "center", color: 'black' }}>Confirm your PIN</Text>
+                <View style={{ width: '70%', padding: 30 }}>
+                    <Text style={{ textAlign: "center", color: 'black' }}>Set your new password</Text>
                 </View>
                 <InputPIN
                     textColor="black"
-                    inputWidth={250}
-                    value={FormRegister.secondPIN}
+                    inputWidth={200}
+                    value={FormRegister.firstPIN}
                     handleChangeText={(pin) => _handleChangePIN(pin)}
                 />
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
-                    onPressBtn={_handleSendNewPIN}
+                    onPressBtn={_handleNextBtn}
                     style={{backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
                     buttonTitle="LANJUT"
                 />
@@ -83,7 +68,7 @@ const NewPIN2 = ({ navigation }) => {
     );
 }
 
-export default NewPIN2
+export default NewPassword1
 
 const styles = StyleSheet.create({
     container: {
@@ -91,8 +76,10 @@ const styles = StyleSheet.create({
     },
     borderStyleBase: {
         width: 30,
-        height: 45
+        height: 45,
+        borderRadius: 20
     },
+
     borderStyleHighLighted: {
         borderColor: "#03DAC6",
     },

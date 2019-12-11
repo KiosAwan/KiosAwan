@@ -4,11 +4,11 @@ import { createStackNavigator } from 'react-navigation-stack'
 //Import Screen
 import PhoneRegistration from '../screens/Registration/PhoneRegistration'
 import NameRegistration from '../screens/Registration/NameRegistration'
-import FirstPIN from '../screens/Registration/FirstPIN'
-import SecondPIN from '../screens/Registration/SecondPIN'
-import ForgotPIN from '../screens/Registration/ForgotPIN'
-import NewPIN1 from '../screens/Registration/NewPIN1'
-import NewPIN2 from '../screens/Registration/NewPIN2'
+import FirstPassword from '../screens/Registration/FirstPassword'
+import SecondPassword from '../screens/Registration/SecondPassword'
+import ForgotPassword from '../screens/Registration/ForgotPassword'
+import NewPassword1 from '../screens/Registration/NewPassword1'
+import NewPassword2 from '../screens/Registration/NewPassword2'
 import LoginVerification from '../screens/Registration/LoginVerification'
 
 
@@ -25,14 +25,14 @@ const UnauthNavigator = createStackNavigator({
       header : null
     }
   },
-  FirstPIN : {
-    screen : FirstPIN,
+  FirstPassword : {
+    screen : FirstPassword,
     navigationOptions : {
       header : null
     }
   }, 
-  SecondPIN : {
-    screen : SecondPIN,
+  SecondPassword : {
+    screen : SecondPassword,
     navigationOptions : {
       header : null
     }
@@ -43,20 +43,20 @@ const UnauthNavigator = createStackNavigator({
       header : null
     }
   },
-  ForgotPIN : {
-    screen : ForgotPIN,
+  ForgotPassword : {
+    screen : ForgotPassword,
     navigationOptions : {
       header : null
     }
   },
-  NewPIN1 : {
-    screen : NewPIN1,
+  NewPassword1 : {
+    screen : NewPassword1,
     navigationOptions : {
       header : null
     }
   },
-  NewPIN2 : {
-    screen : NewPIN2,
+  NewPassword2 : {
+    screen : NewPassword2,
     navigationOptions : {
       header : null
     }

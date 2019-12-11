@@ -26,7 +26,7 @@ import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 //Functions
 
 
-const FirstPIN = ({ navigation }) => {
+const SecondPassword = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     const [isLoading, setIsLoading] = useState(false)
@@ -91,7 +91,7 @@ const FirstPIN = ({ navigation }) => {
     );
 }
 
-export default FirstPIN
+export default SecondPassword
 
 const styles = StyleSheet.create({
     container: {

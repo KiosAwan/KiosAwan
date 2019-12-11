@@ -24,7 +24,7 @@ import { FontList } from '../../styles/typography';
 
 const height = Dimensions.get('window').height
 
-const FirstPIN = ({ navigation }) => {
+const FirstPassword = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
@@ -36,7 +36,7 @@ const FirstPIN = ({ navigation }) => {
         if (FormRegister.password.length < 8) {
             alert("Password minimal 8 karakter")
         } else {
-            navigation.navigate('SecondPIN')
+            navigation.navigate('SecondPassword')
         }
     }
 
@@ -64,7 +64,7 @@ const FirstPIN = ({ navigation }) => {
     )
 }
 
-export default FirstPIN
+export default FirstPassword
 
 const styles = StyleSheet.create({
     container: {
