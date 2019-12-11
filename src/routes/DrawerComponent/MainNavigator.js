@@ -28,6 +28,12 @@ const MainNavigator = createStackNavigator({
       header : null
     }
   },
+  UpdateProfil: {
+    screen: UpdateProfil,
+    navigationOptions: {
+      header: null
+    }
+  },
   Cashier: {
     screen: Cashier,
     navigationOptions: {
