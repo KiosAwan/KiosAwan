@@ -26,12 +26,11 @@ const CheckMember = ({ navigation }) => {
       const checkUserData = await AsyncStorage.getItem('userId');
       if (checkUserData != null) {
         await dispatch(getProfile(checkUserData))
-        navigation.navigate('AuthNavigator')
+        navigation.navigate('CreatePIN')
       }
       else {
         if (checkUserIntro == "sudah") {
-          navigation.navigate('AuthNavigator')
-          // navigation.navigate('PhoneRegistration')
+          navigation.navigate('PhoneRegistration')
         } else {
           navigation.navigate('AppIntro')
         }

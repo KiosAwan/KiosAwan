@@ -40,6 +40,8 @@ target 'AwanApp' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+  pod 'react-native-branch', :path => '../node_modules/react-native-branch'
+
   target 'AwanAppTests' do
     inherit! :search_paths
     # Pods for testing

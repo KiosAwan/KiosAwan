@@ -14,11 +14,18 @@ import Struk from '../../screens/AuthScreen/Struk'
 import InputManual from '../../screens/AuthScreen/InputManual'
 import CheckOut from '../../screens/AuthScreen/CheckOut'
 import AddCartWithBarcode from '../../screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
+import CreatePIN from '../../screens/AuthScreen/Setting/CreatePIN'
 const MainNavigator = createStackNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
       header: null
+    }
+  },
+  CreatePIN : {
+    screen : CreatePIN,
+    navigationOptions : {
+      header : null
     }
   },
   Cashier: {

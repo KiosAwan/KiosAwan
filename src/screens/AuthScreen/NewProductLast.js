@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, CheckBox } from 'native-base'
+import {  CheckBox } from 'native-base'
 import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../components/Input/InputComp';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from '../../redux/actions/actionsNewProduct';
 import Axios from 'axios';
 import { HOST_URL } from '../../config';
-import { sendNewCategory, validNumber, convertNumber } from '../../utils/authhelper';
-import { getCategory } from '../../redux/actions/actionsStoreCategory';
+import {validNumber, convertNumber } from '../../utils/authhelper';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
 import { GlobalHeader } from '../../components/Header/Header';
@@ -16,8 +15,8 @@ import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator'
 import { ColorsList } from '../../styles/colors';
 import { FontList } from '../../styles/typography';
 import { RowChild } from '../../components/Helper/RowChild';
-import SuccessAddProductModal from '../../components/ModalContent/SuccessAddProduct';
 import { ScrollView } from 'react-native-gesture-handler';
+import ModalContent from '../../components/ModalContent/ModalContent';
 
 const width = Dimensions.get('window').width
 
@@ -82,27 +81,10 @@ const NewProductLast = ({ navigation }) => {
 	}
 
 	const _handleChangePriceIn = (value) => {
-		// const a = validNumber(value)
-		// if (a) {
 		dispatch(addProductPriceIn(value))
-		// if (parseInt(NewProduct.price_out) - parseInt(value) >= 0) {
-		//     setIsDisabled(false)
-		// } else {
-		//     setIsDisabled(true)
-		// }
-		// }
 	}
 	const _handleChangePriceOut = (value) => {
-		// const a = validNumber(value)
-		// if (a) {
 		dispatch(addProductPriceOut(value))
-		//     if (parseInt(value) - parseInt(NewProduct.price_in) >= 0) {
-		//         setIsDisabled(false)
-		//     }
-		//     else {
-		//         setIsDisabled(true)
-		//     }
-		// }
 	}
 	const _handleChangeStock = (value) => {
 		const a = validNumber(value)
@@ -126,9 +108,10 @@ const NewProductLast = ({ navigation }) => {
 					setModalVisible(!modalVisible);
 				}}
 			>
-				<SuccessAddProductModal
-					closeModal={() => setModalVisible(false)}
-				/>
+				<ModalContent
+        image={require('../../assets/images/addproductsuccess.png')}
+        infoText="Anda Berhasil Menambah Produk!"
+        />
 			</Modal>
 			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
 			<ProgressIndicator
