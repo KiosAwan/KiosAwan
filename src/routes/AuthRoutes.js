@@ -4,10 +4,14 @@ import AsyncStorage from '@react-native-community/async-storage'
 
 
 //Import Screen
-import MainNavigator from './DrawerComponent/MainNavigator'
+import CashierNavigator from './DrawerComponent/CashierNavigator'
 import TransactionNavigator from './DrawerComponent/TransactionNavigator';
 import { fromLeft, flipX, flipY, zoomIn, zoomOut } from 'react-navigation-transitions';
-import Setting from '../screens/AuthScreen/Setting';
+import Setting from '../screens/AuthScreen/Drawer';
+import Home from '../screens/AuthScreen/Home';
+import UpdateProfil from '../screens/AuthScreen/Drawer/UpdateProfil';
+import CreatePIN from '../screens/AuthScreen/Drawer/CreatePIN';
+
 
 
 const handleCustomTransition = ({ scenes }) => {
@@ -15,16 +19,37 @@ const handleCustomTransition = ({ scenes }) => {
   const nextScene = scenes[scenes.length - 1];
 
   if (prevScene && prevScene.route.routeName === 'Setting' && nextScene.route.routeName === 'Transaction') {
-    return zoomIn(250);
+    return fromLeft(250);
   } else if (prevScene && prevScene.route.routeName === 'Transaction' && nextScene.route.routeName === 'Setting') {
     return flipX();
   }
   return fromLeft();
 }
 
-const AuthNavigator = createStackNavigator({
-  Main: {
-    screen: MainNavigator,
+const tempNavigator = {
+  CreatePIN: {
+    screen: CreatePIN,
+    navigationOptions: {
+      header: null
+    }
+  },
+  UpdateProfil: {
+    screen: UpdateProfil,
+    navigationOptions: {
+      header: null
+    }
+  }
+}
+
+const AuthNavigator = createStackNavigator(Object.assign({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      header: null
+    }
+  },
+  CashierNavigator: {
+    screen: CashierNavigator,
     navigationOptions: {
       header: null
     }
@@ -41,8 +66,8 @@ const AuthNavigator = createStackNavigator({
       header: null
     }
   },
-}, {
-  initialRouteName: 'Main',
+}, tempNavigator), {
+  initialRouteName: 'Home',
   // https://github.com/plmok61/react-navigation-transitions
   transitionConfig: nav => handleCustomTransition(nav),
 })
