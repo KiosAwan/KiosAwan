@@ -101,11 +101,22 @@ export const FloatingInput = props => {
   let _sejajar = 15
   let _up = -15
   let _interval = 5
+  let haveValue = props.value || props.children.props.value
+  let child = React.cloneElement(props.children, {
+    onFocus: () => {
+      setActiveColor('#cd0192')
+      changeUpDown(true)
+    },
+    onBlur: () => {
+      setActiveColor('grey')
+      changeUpDown(false)
+    }
+  })
   const [activeColor, setActiveColor] = useState('grey')
   const [textUp, setTextUp] = useState(_sejajar)
   const changeUpDown = _ => {
     let ukuran
-    if (props.value) {
+    if (haveValue) {
       setTextUp(_up)
       return
     }
@@ -128,26 +139,14 @@ export const FloatingInput = props => {
     }
   }
   useEffect(() => {
-    if (props.value) {
+    if (haveValue) {
       setTextUp(_up)
-    }
-    if (props.children) {
-      let e = props.children.props
-      // e.onFocus = () => {
-      //   setActiveColor('#cd0192')
-      //   changeUpDown(true)
-      // }
-      // e.onBlur = () => {
-      //   setActiveColor('grey')
-      //   changeUpDown(false)
-      // }
-      console.log(e)
     }
   }, [])
   return (
-    <View style={{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }}>
+    <View style={[{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }, props.style]}>
       <Text style={{ color: activeColor, position: 'absolute', top: textUp }}>{props.label}</Text>
-      {props.children}
+      {child}
     </View>
   )
 }

@@ -14,9 +14,16 @@ import Struk from '../../screens/AuthScreen/Struk'
 import InputManual from '../../screens/AuthScreen/InputManual'
 import CheckOut from '../../screens/AuthScreen/CheckOut'
 import AddCartWithBarcode from '../../screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
+import UpdateProfil from '../../screens/AuthScreen/Setting/UpdateProfil'
 const MainNavigator = createStackNavigator({
   Home: {
     screen: Home,
+    navigationOptions: {
+      header: null
+    }
+  },
+  UpdateProfil: {
+    screen: UpdateProfil,
     navigationOptions: {
       header: null
     }
@@ -70,7 +77,7 @@ const MainNavigator = createStackNavigator({
     }
   },
   CheckOut: {
-    screen: CheckOut ,
+    screen: CheckOut,
     navigationOptions: {
       header: null
     }
@@ -87,10 +94,10 @@ const MainNavigator = createStackNavigator({
       header: null
     }
   },
-  AddCartWithBarcode : {
-    screen : AddCartWithBarcode,
-    navigationOptions : {
-      header : null
+  AddCartWithBarcode: {
+    screen: AddCartWithBarcode,
+    navigationOptions: {
+      header: null
     }
   }
 
