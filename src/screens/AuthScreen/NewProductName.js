@@ -12,9 +12,8 @@ import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator'
 import { GlobalHeader } from '../../components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ColorsList } from '../../styles/colors';
-import { Grid, Col, Icon, Button, Item } from 'native-base';
+import { Grid, Col, Icon, Button } from 'native-base';
 import { sendNewCategory, editCategory } from '../../utils/authhelper';
-import Popup from '../../components/ModalContent/Popups';
 
 
 const width = Dimensions.get('window').width

@@ -66,7 +66,7 @@ const LoginVerification = ({ navigation }) => {
             phone_number: "62" + FormRegister.phone_number
         }
         await sendForgotPIN(data)
-        navigation.navigate('ForgotPIN')
+        navigation.navigate('ForgotPassword')
 
     }
 

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
     View,
     StyleSheet,
-    Dimensions,
     Text,
 } from 'react-native';
 
@@ -13,53 +12,71 @@ import {
 import { GlobalHeader } from '../../components/Header/Header'
 import { InputPIN } from '../../components/Input/InputPIN'
 
+
 //Redux Actions
-import { addFirstPIN, addFirstPassword } from '../../redux/actions/actionsRegistration'
+import { clearAllRegistration, addSecondPassword } from '../../redux/actions/actionsRegistration'
 import BarStatus from '../../components/BarStatus';
 import { BottomButton } from '../../components/Button/ButtonComp';
-import { SizeList } from '../../styles/size';
 import { ColorsList } from '../../styles/colors';
+import { SizeList } from '../../styles/size';
+import { sendNewPassword } from '../../utils/unauthhelper';
 
 //Functions
 
-const height = Dimensions.get('window').height
 
-const NewPIN1 = ({ navigation }) => {
+const NewPassword2 = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
-    const _handleChangePIN = async (psw) => {
-        await dispatch(addFirstPassword(psw))
+    const _handleChangePIN = (psw) => {
+            dispatch(addSecondPassword(psw))
     }
-    const _handleNextBtn = () => {
-        if (FormRegister.password.length < 8) {
-            alert("Password minimal 8 karakter")
-        }
-        else {
-            navigation.navigate('NewPIN2')
+
+    const _handleSendNewPIN =async () => {
+        if (FormRegister.password != FormRegister.secondpassword) {
+            alert("Pin harus sama")
+        } else {
+            const data = {
+                phone_number: "62" + FormRegister.phone_number,
+                password: FormRegister.password
+            }
+            console.log(data)
+            const res = await sendNewPassword(data)
+            console.log(res)
+            if (res.status == 200) {
+                await dispatch(clearAllRegistration())
+                navigation.navigate('Home')
+            } else {
+                if (res.status == 400) {
+                    alert(res.data.errors.msg)
+                } else {
+                    alert("Cek koneksi anda")
+                }
+            }
         }
     }
+
     return (
         <View style={styles.container} >
             <BarStatus />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
-                title="Enter Password"
+                title="Enter PIN"
             />
             <View style={{ alignItems: "center" }}>
-                <View style={{ width: '70%', padding: 30 }}>
-                    <Text style={{ textAlign: "center", color: 'black' }}>Set your new password</Text>
+                <View style={{ width: '70%', paddingTop: 30 }}>
+                    <Text style={{ textAlign: "center", color: 'black' }}>Confirm your PIN</Text>
                 </View>
                 <InputPIN
                     textColor="black"
-                    inputWidth={200}
-                    value={FormRegister.firstPIN}
+                    inputWidth={250}
+                    value={FormRegister.secondPIN}
                     handleChangeText={(pin) => _handleChangePIN(pin)}
                 />
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
-                    onPressBtn={_handleNextBtn}
+                    onPressBtn={_handleSendNewPIN}
                     style={{backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
                     buttonTitle="LANJUT"
                 />
@@ -68,7 +85,7 @@ const NewPIN1 = ({ navigation }) => {
     );
 }
 
-export default NewPIN1
+export default NewPassword2
 
 const styles = StyleSheet.create({
     container: {
@@ -76,10 +93,8 @@ const styles = StyleSheet.create({
     },
     borderStyleBase: {
         width: 30,
-        height: 45,
-        borderRadius: 20
+        height: 45
     },
-
     borderStyleHighLighted: {
         borderColor: "#03DAC6",
     },

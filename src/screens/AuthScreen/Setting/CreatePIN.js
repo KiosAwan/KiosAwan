@@ -52,7 +52,7 @@ const CreatePIN = ({ navigation }) => {
 				}}
 			><ModalContent
             image={require('../../../assets/images/createpinsuccess.png')}
-            infoText="Anda Berhasil Menambah Produk!"
+            infoText="Anda Berhasil Membuat PIN!"
             closeModal={() => setModalVisible(false)}
 
             />
