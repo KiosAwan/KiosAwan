@@ -1,26 +1,26 @@
 [
   {
-    "name": "Transaksi",
-    "route": "MenuSetting",
+    "name": "Pengaturan Profil",
+    "route": "MenuSettingProfil",
     "icon": "sync"
   },
   {
-    "name": "Manajemen",
-    "route": "MenuSetting",
+    "name": "Ubah Email",
+    "route": "MenuSettingUbahEmail",
     "icon": "analytics"
   },
   {
-    "name": "Laporan",
-    "route": "MenuSetting",
+    "name": "Ubah No. HP",
+    "route": "MenuSettingUbahNoHP",
     "icon": "paper"
   },
   {
-    "name": "Pengaturan",
-    "route": "MenuSetting",
+    "name": "Ubah Password",
+    "route": "MenuSettingUbahPassword",
     "icon": "settings"
   },
   {
-    "name": "Bantuan",
+    "name": "Lupa PIN",
     "route": "MenuSetting",
     "icon": "help"
   }

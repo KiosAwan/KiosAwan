@@ -1,4 +1,43 @@
 console.log = console.group = () => { }
+FormData.prototype.appendObject = function (obj, except) {
+  except = except || []
+  for (var key in obj) {
+    if (!except.Contains(key))
+      this.append(key, obj[key])
+  }
+}
+Array.prototype.loopCallback = function (callback, reverse, index) {
+  var arr = this;
+  function retCallback(timeout) {
+    timeout = timeout || 0;
+    setTimeout(function () {
+      arr.loopCallback(callback, reverse, index + 1);
+    }, timeout);
+  }
+  function retCallbackReverse(timeout) {
+    timeout = timeout || 0;
+    setTimeout(function () {
+      if (index > 0)
+        arr.loopCallback(callback, reverse, index);
+    }, timeout);
+  }
+  if (reverse) {
+    index = index || arr.length;
+    index--;
+    callback(arr[index], index, retCallbackReverse);
+  } else {
+    index = index || 0;
+    if (index < arr.length) {
+      callback(arr[index], index, retCallback);
+    }
+  }
+}
+String.prototype.isBool = function () {
+  return this.length < 4 && this.Contains("true");
+}
+String.prototype.Contains = Array.prototype.Contains = function (element) {
+  return this.indexOf(element) > -1;
+}
 String.prototype.getRawUrl = function () {
   var str = decodeURI(this)
   var url = str.split("?")[0]
@@ -49,4 +88,9 @@ String.prototype.getParamFromUrl = function () {
     }
   }
   return params;
+}
+Math.randomInt = function (min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

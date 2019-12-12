@@ -101,19 +101,7 @@ export const FloatingInput = props => {
   let _sejajar = 15
   let _up = -15
   let _interval = 5
-  let haveValue = props.value || props.children.props.value
-  let child = React.cloneElement(props.children, {
-    onFocus: () => {
-      setActiveColor('#cd0192')
-      changeUpDown(true)
-    },
-    onBlur: () => {
-      setActiveColor('grey')
-      changeUpDown(false)
-    }
-  })
-  const [activeColor, setActiveColor] = useState('grey')
-  const [textUp, setTextUp] = useState(_sejajar)
+  let _input, inIndex, child
   const changeUpDown = _ => {
     let ukuran
     if (haveValue) {
@@ -138,6 +126,51 @@ export const FloatingInput = props => {
       }, 1)
     }
   }
+  const renderInput = input => {
+    return React.cloneElement(input, {
+      onFocus: () => {
+        setActiveColor('#cd0192')
+        changeUpDown(true)
+      },
+      onBlur: () => {
+        setActiveColor('grey')
+        changeUpDown(false)
+      }
+    })
+  }
+  if (props.children) {
+    if (Array.isArray(props.children)) {
+      props.children.forEach((prop, i) => {
+        if ('value' in prop.props) {
+          inIndex = i
+          _input = prop
+        }
+      })
+    } else {
+      _input = props.children
+    }
+  } else {
+    throw new Error('Kasih children dong, gw mau nampilin apaan nih kalo ga lu kasih children?');
+  }
+  if (!('value' in _input.props)) {
+    throw new Error('Tolong ya mas, Input nya di kasih value, Fungsi Input kan buat store data. Apa yang mau di store kalo ga ada value');
+  } else {
+    if (Array.isArray(props.children)) {
+      child = []
+      props.children.forEach((prop, i) => {
+        if (i == inIndex) {
+          child.push(renderInput(_input))
+        } else {
+          child.push(React.cloneElement(prop))
+        }
+      })
+    } else {
+      child = renderInput(_input)
+    }
+  }
+  let haveValue = Array.isArray(props.children) ? child[inIndex].props.value : child.props.value
+  const [activeColor, setActiveColor] = useState('grey')
+  const [textUp, setTextUp] = useState(_sejajar)
   useEffect(() => {
     if (haveValue) {
       setTextUp(_up)
@@ -146,7 +179,9 @@ export const FloatingInput = props => {
   return (
     <View style={[{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }, props.style]}>
       <Text style={{ color: activeColor, position: 'absolute', top: textUp }}>{props.label}</Text>
-      {child}
+      {
+        Array.isArray(props.children) ? <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>{child}</View> : child
+      }
     </View>
   )
 }
