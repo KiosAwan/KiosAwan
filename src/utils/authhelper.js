@@ -149,3 +149,17 @@ export const createUserPIN = async (data) => {
   const res = await axios.post(`${HOST_URL}/create_pin`, data)
   return res.data
 }
+
+
+//Verify password
+export const verifyUserPassword = async (data) => {
+  try {
+    const res = await axios.post(`${HOST_URL}/create_store`, data)
+    return res.data
+  }
+  catch (error) {
+    const res = error.response.data
+    return res
+  }
+}
+

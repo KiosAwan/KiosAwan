@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import {useDispatch} from 'react-redux'
-import { View, StyleSheet, Image, TextInput } from 'react-native';
+import { useDispatch } from 'react-redux'
+import { View, StyleSheet, Image, TextInput, Modal } from 'react-native';
 import { GlobalHeader } from '../../../components/Header/Header';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { Text } from '../../../components/Text/CustomText';
@@ -12,11 +12,13 @@ import ImagePicker from 'react-native-image-crop-picker'
 import AsyncStorage from '@react-native-community/async-storage';
 import { sendProfileData } from '../../../utils/authhelper';
 import { getProfile } from '../../../redux/actions/actionsUserData';
+import ModalContent from '../../../components/ModalContent/ModalContent';
 
 
 const UpdateProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
 
+	const [modalVisible, setModalVisible] = useState(false)
 	const [name_store, setName_Store] = useState('')
 	const [email_store, setEmail_Store] = useState('')
 	const [photo_store, setPhotoStore] = useState('')
@@ -62,13 +64,32 @@ const UpdateProfil = ({ navigation }) => {
 		if (res.status == 400) {
 			alert(res.data.errors.msg)
 		} else {
-			await dispatch(getProfile(id_user))
-			navigation.navigate('Home')
+			setModalVisible(true)
+			setTimeout(() => {
+				setModalVisible(false)
+				dispatch(getProfile(id_user))
+				navigation.navigate('Home')
+			}, 1000)
+
 		}
 
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+			<Modal
+				animationType="fade"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+			>
+				<ModalContent
+					image={require('../../../assets/images/successcreatestore.png')}
+					infoText="Pembaruan Profil Berhasil!"
+					closeModal={() => setModalVisible(false)}
+				/>
+			</Modal>
 			<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
@@ -80,7 +101,7 @@ const UpdateProfil = ({ navigation }) => {
 						})
 					}
 				</View>
-				<View>
+				<View style={{ marginBottom: 70 }}>
 					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
@@ -88,14 +109,15 @@ const UpdateProfil = ({ navigation }) => {
 						</TouchableOpacity>
 					</View>
 				</View>
-				<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-					<BottomButton
-						onPressBtn={_handleSaveProfile}
-						style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-						buttonTitle="SIMPAN"
-					/>
-				</View>
+
 			</ScrollView>
+			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+				<BottomButton
+					onPressBtn={_handleSaveProfile}
+					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
+					buttonTitle="SIMPAN"
+				/>
+			</View>
 		</View>
 	)
 }
