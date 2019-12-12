@@ -57,7 +57,6 @@ const ChangePINInputPwd = ({ navigation }) => {
                         handleChangeText={(pin) => _handleChangePIN(pin)}
                     />
                 </View>
-
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton

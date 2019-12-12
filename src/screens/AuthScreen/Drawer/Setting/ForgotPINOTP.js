@@ -15,9 +15,16 @@ const ForgotPINOTP = ({ navigation }) => {
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     let [countdown, setCountdown] = useState(59)
     useEffect(() => {
-        _formatPhoneNum()
-        _firstRender()
+        _sendOTP()
+        setTimeout(() => {
+            _formatPhoneNum()
+            _firstRender()
+        }, 1000)
     }, [])
+
+    const _sendOTP = async() => {
+        // await 
+    }
 
     const _formatPhoneNum = () => {
         setShowedNumber(showPhoneNumber(User.data.phone_number.slice(2,User.data.length)))
@@ -66,20 +73,20 @@ const ForgotPINOTP = ({ navigation }) => {
     }
 
     const _handleOTPFulfilled = async (code) => {
-        const data = {
-            phone_number: "62" + phoneNumber,
-            otp: code
-        }
+        // const data = {
+        //     phone_number: "62" + phoneNumber,
+        //     otp: code
+        // }
         // const res = await sendVerifyOTP(data)
-        if (res.status == 400) {
-            alert(res.data.errors.msg)
-        }
-        else if (res.status == 200) {
+        // if (res.status == 400) {
+        //     alert(res.data.errors.msg)
+        // }
+        // else if (res.status == 200) {
             navigation.navigate("ForgotPINNewPIN")
-        }
-        else {
-            alert("Ada yang salah , cek koneksi anda")
-        }
+        // }
+        // else {
+        //     alert("Ada yang salah , cek koneksi anda")
+        // }
     }
     return (
         <View style={styles.container}>
