@@ -1,3 +1,4 @@
+console.log = console.group = () => { }
 String.prototype.getRawUrl = function () {
   var str = decodeURI(this)
   var url = str.split("?")[0]

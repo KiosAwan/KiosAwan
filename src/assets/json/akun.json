@@ -1,0 +1,29 @@
+[
+  [
+    {
+      "name": "Transaksi",
+      "route": "Transaction",
+      "icon": "sync"
+    },
+    {
+      "name": "Manajemen",
+      "route": "Setting",
+      "icon": "analytics"
+    },
+    {
+      "name": "Laporan",
+      "route": "Setting",
+      "icon": "paper"
+    },
+    {
+      "name": "Pengaturan",
+      "route": "MenuSetting",
+      "icon": "settings"
+    },
+    {
+      "name": "Bantuan",
+      "route": "Setting",
+      "icon": "help"
+    }
+  ]
+]

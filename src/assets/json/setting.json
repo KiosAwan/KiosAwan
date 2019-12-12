@@ -1,29 +1,27 @@
 [
-  [
-    {
-      "name": "Transaksi",
-      "route": "Transaction",
-      "icon": "sync"
-    },
-    {
-      "name": "Manajemen",
-      "route": "Setting",
-      "icon": "analytics"
-    },
-    {
-      "name": "Laporan",
-      "route": "Setting",
-      "icon": "paper"
-    },
-    {
-      "name": "Pengaturan",
-      "route": "Setting",
-      "icon": "settings"
-    },
-    {
-      "name": "Bantuan",
-      "route": "Setting",
-      "icon": "help"
-    }
-  ]
+  {
+    "name": "Transaksi",
+    "route": "MenuSetting",
+    "icon": "sync"
+  },
+  {
+    "name": "Manajemen",
+    "route": "MenuSetting",
+    "icon": "analytics"
+  },
+  {
+    "name": "Laporan",
+    "route": "MenuSetting",
+    "icon": "paper"
+  },
+  {
+    "name": "Pengaturan",
+    "route": "MenuSetting",
+    "icon": "settings"
+  },
+  {
+    "name": "Bantuan",
+    "route": "MenuSetting",
+    "icon": "help"
+  }
 ]

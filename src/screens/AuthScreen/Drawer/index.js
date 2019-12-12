@@ -11,7 +11,7 @@ import { BottomButton } from '../../../components/Button/ButtonComp';
 import { SizeList } from '../../../styles/size';
 
 const Akun = ({ navigation }) => {
-	const ListMenu = require('../../../assets/json/setting.json')
+	const ListMenu = require('../../../assets/json/akun.json')
 	const User = useSelector(state => state.User)
 	const _onPressLogout = async (props) => {
 		try {
