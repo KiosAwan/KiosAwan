@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 
 //Import Screen
 import CashierNavigator from './DrawerComponent/CashierNavigator'
-import { fromLeft, flipX, flipY, zoomIn, zoomOut } from 'react-navigation-transitions';
+import { fromLeft, flipX, flipY, zoomIn, zoomOut, fromBottom } from 'react-navigation-transitions';
 import Home from '../screens/AuthScreen/Home';
 import UpdateProfil from '../screens/AuthScreen/Drawer/UpdateProfil';
 import CreatePIN from '../screens/AuthScreen/Drawer/CreatePIN';
@@ -18,8 +18,8 @@ const handleCustomTransition = ({ scenes }) => {
 
   if (prevScene && prevScene.route.routeName === 'Setting' && nextScene.route.routeName === 'Transaction') {
     return fromLeft(250);
-  } else if (prevScene && prevScene.route.routeName === 'Transaction' && nextScene.route.routeName === 'Setting') {
-    return flipX();
+  } else if (prevScene && prevScene.route.routeName === 'Home' && nextScene.route.routeName === 'CashierNavigator') {
+    return fromBottom();
   }
   return fromLeft();
 }

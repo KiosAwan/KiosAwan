@@ -54,7 +54,7 @@ const Home = ({ navigation }) => {
     }
 
     const _handlePressDrawer = () => {
-        navigation.navigate('Setting')
+        navigation.navigate('AkunNavigator')
     }
     return (
         <View style={styles.container}>

@@ -33,7 +33,7 @@ const Cashier = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <CashierHeader
             handleChangeText={(text) => setSearch(text)}
-            onPressBack={() => navigation.goBack()}
+            onPressBack={() => navigation.navigate('Home')}
             />
             <View style={styles.wrapButtonHeader}>
                 <ButtonWithIcon

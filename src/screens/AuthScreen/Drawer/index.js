@@ -25,7 +25,7 @@ const Akun = ({ navigation }) => {
 	}
 	return (
 		<View style={{ flex: 1 }}>
-			<GlobalHeader title="Setting" onPressBack={() => navigation.goBack()} />
+			<GlobalHeader title="Setting" onPressBack={() => navigation.navigate('Home')} />
 			<Grid style={{ backgroundColor: ColorsList.authBackground, height: 100 }}>
 				<Row size={.75} style={{ backgroundColor: 'white', padding: 10 }}>
 					<Col style={{ justifyContent: 'center' }} size={1.5}>
