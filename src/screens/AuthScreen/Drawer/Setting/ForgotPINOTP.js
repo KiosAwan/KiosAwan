@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import CodeInput from 'react-native-confirmation-code-input';
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { showPhoneNumber } from '../../../../utils/unauthhelper';
+import { ColorsList } from '../../../../styles/colors';
 
 const ForgotPINOTP = ({ navigation }) => {
     const User = useSelector(state => state.User)
@@ -94,7 +95,7 @@ const ForgotPINOTP = ({ navigation }) => {
                 onPressBack={_handleBack}
                 title="Lupa PIN"
             />
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: "center", height : 160, backgroundColor : 'white', margin : 30 }}>
                 <Text style={{ paddingTop: 20 }}>A 4 digit code has been sent to</Text>
                 <Text>62-{showedNumber}</Text>
                 <CodeInput
@@ -107,7 +108,7 @@ const ForgotPINOTP = ({ navigation }) => {
                     onFulfill={(code) => _handleOTPFulfilled(code)}
                 />
                 {isResendDisabled ?
-                    <Text style={{ color: 'grey', paddingTop: 60 }}>Resend in {countdown} s</Text> :
+                    <Text style={{ color: 'black', paddingTop: 30 }}>Resend in {countdown} s</Text> :
                     <Text onPress={_resendCode} style={{ color: 'blue', paddingTop: 60 }}>Resend Code</Text>}
             </View>
         </View>
@@ -120,6 +121,7 @@ export default ForgotPINOTP;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor : ColorsList.authBackground
     },
     borderStyleBase: {
         width: 30,
