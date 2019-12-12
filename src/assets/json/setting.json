@@ -26,7 +26,7 @@
   },
   {
     "name": "Lupa PIN",
-    "route": "MenuSetting",
+    "route": "ForgotPINOTP",
     "icon": "help"
   }
 ]
