@@ -7,7 +7,7 @@ import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { ProductCard } from '../../components/Card/CardComp';
 import { MinusQuantity, AddQuantity, AddCartByBarcode, getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
-import { CashierHeader } from '../../components/Header/Header';
+import { CashierHeader, GlobalHeader } from '../../components/Header/Header';
 import { stylesglobe } from '../../styles/globalStyle';
 import { RowChild } from '../../components/Helper/RowChild';
 import { Icon } from 'native-base';

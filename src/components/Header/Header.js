@@ -32,16 +32,17 @@ export const GlobalHeader = (props) => {
         <Header androidStatusBarColor="#cd0192">
             <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
                 <TouchableOpacity onPress={props.onPressBack}>
-                    <View style={{ width: width / 9, paddingLeft: 10 }}>
+                    <View style={{ alignItems: 'center', width: width / 9 }}>
                         <Icon name="arrow-left"
                             size={20}
                             color="white"
                         />
                     </View>
                 </TouchableOpacity>
-                <Body>
+                <View style={{ width: width * 5 / 9, justifyContent: 'flex-start' }}>
                     <Text style={{ color: 'white' }}>{props.title}</Text>
-                </Body>
+                </View>
+                <View style={{ width: width / 9 }}></View>
             </LinearGradient>
         </Header>
     )
@@ -50,33 +51,35 @@ export const GlobalHeader = (props) => {
 export const CashierHeader = (props) => {
     return (
         <Header androidStatusBarColor="#cd0192">
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
-            <TouchableOpacity onPress={props.onPressBack}>
-                <View style={{ width: width /9, alignItems : "center"}}>
-                    <Icon name="arrow-left"
-                        size={20}
-                        color="white"
+            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
+                <TouchableOpacity onPress={props.onPressBack}>
+                    <View style={{ width: width / 9, alignItems: "center" }}>
+                        <Icon name="arrow-left"
+                            size={20}
+                            color="white"
+                        />
+                    </View>
+                </TouchableOpacity>
+                <View style={{
+                    width: width * 5 / 9, flexDirection: 'row', alignItems: "center", height: '80%', borderBottomColor: '#cd0196', borderBottomWidth
+                        : 2
+                }}>
+                    <Icon name="search" color="white" size={13} />
+                    <InputSimple
+                        handleChangeText={props.handleChangeText}
+                        placeholder="Cari produk"
                     />
                 </View>
-            </TouchableOpacity>
-            <View style={{width : width *5 /9, flexDirection : 'row', alignItems :"center", height : '80%', borderBottomColor : '#cd0196', borderBottomWidth
-        :2}}>
-                <Icon name="search" color="white" size={13}/>
-                <InputSimple
-                handleChangeText={props.handleChangeText}
-                placeholder="Cari produk"
-                />
-            </View>
-            <TouchableOpacity onPress={props.onPressBack}>
-                <View style={{ width: width /9,alignItems : "center"}}>
-                    <Icon name="ellipsis-v"
-                        size={20}
-                        color="white"
-                    />
-                </View>
-            </TouchableOpacity>
-        </LinearGradient>
-    </Header>
+                <TouchableOpacity onPress={props.onPressBack}>
+                    <View style={{ width: width / 9, alignItems: "center" }}>
+                        <Icon name="ellipsis-v"
+                            size={20}
+                            color="white"
+                        />
+                    </View>
+                </TouchableOpacity>
+            </LinearGradient>
+        </Header>
     )
 }
 
@@ -95,6 +98,6 @@ const styles = StyleSheet.create({
         width,
         alignItems: "center",
         flexDirection: 'row',
-        justifyContent : 'space-around'
+        justifyContent: 'space-around'
     }
 })

@@ -13,6 +13,8 @@ import { Text } from '../../../../components/Text/CustomText';
 import { Icon } from 'native-base';
 
 const MenuSettingUbahPassword = ({ navigation }) => {
+	const PIN = navigation.params ? navigation.params.PIN : undefined
+
 	const dispatch = useDispatch()
 
 	const [enableSave, setEnableSave] = useState(false)
@@ -73,7 +75,7 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
+			<GlobalHeader title="Ubah Password" onPressBack={() => navigation.goBack()} />
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
 					{

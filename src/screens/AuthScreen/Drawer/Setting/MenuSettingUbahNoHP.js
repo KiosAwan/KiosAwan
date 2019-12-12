@@ -1,46 +1,59 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import CodeInput from 'react-native-confirmation-code-input';
+import { View, Text, TextInput } from 'react-native';
 import { GlobalHeader } from '../../../../components/Header/Header';
-import { ScrollView } from 'react-native-gesture-handler';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
+import CodeInput from 'react-native-confirmation-code-input';
+import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
-
+import { FontList } from '../../../../styles/typography';
+import { FloatingInput } from '../../../../components/Input/InputComp';
 
 const MenuSettingUbahNoHP = ({ navigation }) => {
-	const [otpCode, setOtpCode] = useState()
-	const _handlePressBack = () => {
-		alert(8)
-	}
-	const _handlePressNext = () => {
-		alert(8)
-	}
-	return (
-		<View style={{ flex: 1 }}>
-			<GlobalHeader title="Update Profil" onPressBack={_handlePressBack} />
-			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
-				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
-					<CodeInput
-						keyboardType="numeric"
-						activeColor='black'
-						inactiveColor='grey'
-						codeLength={6}
-						size={40}
-						autoFocus
-						onFulfill={code => setOtpCode(code)}
-					/>
-				</View>
-			</ScrollView>
-			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10 }}>
-				<BottomButton
-					onPressBtn={_handlePressNext}
-					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-					buttonTitle="SIMPAN"
-				/>
-			</View>
-		</View>
-	)
+    const [pinCode, setPinCode] = useState()
+    const _nextBtn = () => {
+        navigation.navigate('MenuSettingUbahPassword', {
+            PIN: pinCode
+        })
+    }
+    return (
+        <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+            <GlobalHeader title="Ubah No. HP" onPressBack={() => navigation.goBack()} />
+            <View style={{ padding: 15, height: 120, backgroundColor: 'white', margin: 30, alignItems: "center" }}>
+                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan PIN Anda</Text>
+                <View>
+                    <CodeInput
+                        secureTextEntry
+                        className='border-circle'
+                        keyboardType="numeric"
+                        activeColor='#cd0192'
+                        inactiveColor='#cd0192'
+                        codeLength={6}
+                        // cellBorderWidth={0}
+                        size={40}
+                        autoFocus
+                        onCodeChange
+                        onFulfill={(code) => setPinCode(code)}
+                    />
+                </View>
+            </View>
+
+            <View style={{ padding: 15, backgroundColor: 'white', margin: 30 }}>
+                <View>
+                    <FloatingInput label="Masukkan nomor baru anda">
+                        <TextInput value="" />
+                    </FloatingInput>
+                </View>
+            </View>
+
+            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+                <BottomButton
+                    onPressBtn={_nextBtn}
+                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
+                    buttonTitle="SIMPAN"
+                />
+            </View>
+        </View>
+    )
 }
 
-export default MenuSettingUbahNoHP
+export default MenuSettingUbahNoHP;
