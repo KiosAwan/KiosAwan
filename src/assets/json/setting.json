@@ -16,7 +16,7 @@
   },
   {
     "name": "Ubah Password",
-    "route": "MenuSettingUbahPassword",
+    "route": "UbahPasswordInputPIN",
     "icon": "settings"
   },
   {

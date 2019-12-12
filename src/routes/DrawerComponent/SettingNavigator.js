@@ -1,6 +1,5 @@
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
-import Setting from '../../screens/AuthScreen/Drawer';
 import MenuSetting from '../../screens/AuthScreen/Drawer/Setting/MenuSetting'
 import MenuSettingProfil from '../../screens/AuthScreen/Drawer/Setting/MenuSettingProfil'
 import MenuSettingUbahEmail from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahEmail'
@@ -11,6 +10,7 @@ import ForgotPINNewPIN from '../../screens/AuthScreen/Drawer/Setting/ForgotPINNe
 import ForgotPINOTP from '../../screens/AuthScreen/Drawer/Setting/ForgotPINOTP'
 import ChangePINNewPIN from '../../screens/AuthScreen/Drawer/Setting/ChangePINNewPIN';
 import ChangePINInputPwd from '../../screens/AuthScreen/Drawer/Setting/ChangePINInputPwd';
+import UbahPasswordInputPIN from '../../screens/AuthScreen/Drawer/Setting/UbahPasswordInputPIN';
 
 const SettingNavigator = createStackNavigator({
   MenuSetting: {
@@ -69,6 +69,12 @@ const SettingNavigator = createStackNavigator({
   },
   ChangePINInputPwd : {
     screen : ChangePINInputPwd,
+    navigationOptions : {
+      header : null
+    }
+  },
+  UbahPasswordInputPIN : {
+    screen : UbahPasswordInputPIN,
     navigationOptions : {
       header : null
     }

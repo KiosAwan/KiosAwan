@@ -47,7 +47,7 @@ const ChangePINInputPwd = ({ navigation }) => {
                 <View style={{ width: '70%', padding: 30 }}>
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 18 }}>Masukkan password</Text>
                 </View>
-                <View style={{padding : 20, width : SizeList.width - 60,backgroundColor : 'white', borderWidth : 1, borderColor: ColorsList.greySoft, borderRadius : 5}}>
+                <View style={{padding : 20, width : SizeList.width - 60,backgroundColor : 'white',borderRadius : 5}}>
                     <InputPIN
                         textColor={ColorsList.primaryColor}
                         placeholderTextColor={ColorsList.primaryColor}
@@ -56,6 +56,8 @@ const ChangePINInputPwd = ({ navigation }) => {
                         position="left"
                         handleChangeText={(pin) => _handleChangePIN(pin)}
                     />
+                    
+
                 </View>
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
