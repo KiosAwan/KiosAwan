@@ -1,17 +1,14 @@
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
-import AsyncStorage from '@react-native-community/async-storage'
 
 
 //Import Screen
 import CashierNavigator from './DrawerComponent/CashierNavigator'
-import TransactionNavigator from './DrawerComponent/TransactionNavigator';
 import { fromLeft, flipX, flipY, zoomIn, zoomOut } from 'react-navigation-transitions';
-import Setting from '../screens/AuthScreen/Drawer';
 import Home from '../screens/AuthScreen/Home';
 import UpdateProfil from '../screens/AuthScreen/Drawer/UpdateProfil';
 import CreatePIN from '../screens/AuthScreen/Drawer/CreatePIN';
-import SettingNavigator from './DrawerComponent/SettingNavigator';
+import AkunNavigator from './DrawerComponent';
 
 
 
@@ -55,18 +52,12 @@ const AuthNavigator = createStackNavigator(Object.assign({
       header: null
     }
   },
-  Transaction: {
-    screen: TransactionNavigator,
-    navigationOptions: {
-      header: null
+  AkunNavigator : {
+    screen : AkunNavigator,
+    navigationOptions : {
+      header : null
     }
-  },
-  Setting: {
-    screen: Setting,
-    navigationOptions: {
-      header: null
-    }
-  },
+  }
 }, tempNavigator), {
   initialRouteName: 'Home',
   // https://github.com/plmok61/react-navigation-transitions

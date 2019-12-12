@@ -10,7 +10,7 @@ import { Text } from '../../../components/Text/CustomText'
 import { BottomButton } from '../../../components/Button/ButtonComp';
 import { SizeList } from '../../../styles/size';
 
-const Setting = ({ navigation }) => {
+const Akun = ({ navigation }) => {
 	const ListMenu = require('../../../assets/json/setting.json')
 	const User = useSelector(state => state.User)
 	const _onPressLogout = async (props) => {
@@ -89,4 +89,4 @@ const Setting = ({ navigation }) => {
 	)
 }
 
-export default Setting
+export default Akun

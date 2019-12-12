@@ -1,5 +1,6 @@
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
+import Setting from '../../screens/AuthScreen/Drawer';
 import MenuSetting from '../../screens/AuthScreen/Drawer/Setting/MenuSetting'
 import MenuSettingProfil from '../../screens/AuthScreen/Drawer/Setting/MenuSettingProfil'
 import MenuSettingUbahEmail from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahEmail'
