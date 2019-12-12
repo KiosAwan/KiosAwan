@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Dimensions,
     Text,
+    TextInput
 } from 'react-native';
 import BarStatus from '../../../../components/BarStatus';
 import { GlobalHeader } from '../../../../components/Header/Header';
@@ -16,6 +17,7 @@ import { SizeList } from '../../../../styles/size';
 import { verifyUserPassword } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
+import { FloatingInput } from '../../../../components/Input/InputComp';
 
 
 const height = Dimensions.get('window').height
@@ -47,16 +49,11 @@ const ChangePINInputPwd = ({ navigation }) => {
                 <View style={{ width: '70%', padding: 30 }}>
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 18 }}>Masukkan password</Text>
                 </View>
-                <View style={{padding : 20, width : SizeList.width - 60,backgroundColor : 'white',borderRadius : 5}}>
-                    <InputPIN
-                        textColor={ColorsList.primaryColor}
-                        placeholderTextColor={ColorsList.primaryColor}
-                        inputWidth={200}
-                        value={FormRegister.firstPIN}
-                        position="left"
-                        handleChangeText={(pin) => _handleChangePIN(pin)}
-                    />
-                    
+                <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
+                    <FloatingInput label="Password">
+                        <TextInput value="a" />
+                    </FloatingInput>
+
 
                 </View>
             </View>
@@ -76,7 +73,7 @@ export default ChangePINInputPwd
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor : ColorsList.authBackground
+        backgroundColor: ColorsList.authBackground
     },
     borderStyleBase: {
         width: 30,
