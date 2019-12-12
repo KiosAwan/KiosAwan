@@ -11,6 +11,7 @@ import Setting from '../screens/AuthScreen/Drawer';
 import Home from '../screens/AuthScreen/Home';
 import UpdateProfil from '../screens/AuthScreen/Drawer/UpdateProfil';
 import CreatePIN from '../screens/AuthScreen/Drawer/CreatePIN';
+import SettingNavigator from './DrawerComponent/SettingNavigator';
 
 
 
@@ -61,7 +62,7 @@ const AuthNavigator = createStackNavigator(Object.assign({
     }
   },
   Setting: {
-    screen: Setting,
+    screen: SettingNavigator,
     navigationOptions: {
       header: null
     }

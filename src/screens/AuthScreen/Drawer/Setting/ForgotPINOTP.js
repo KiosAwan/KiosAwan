@@ -6,23 +6,20 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux'
 import CodeInput from 'react-native-confirmation-code-input';
+import { GlobalHeader } from '../../../../components/Header/Header';
 
-import { GlobalHeader } from '../../components/Header/Header';
-import {  sendVerifyOTP, showPhoneNumber, sendOTP } from '../../utils/unauthhelper';
-
-const ForgotPassword = ({ navigation }) => {
-    const phoneNumber = useSelector(state => state.Registration.phone_number)
+const ForgotPINOTP = ({ navigation }) => {
     const [showedNumber, setShowedNumber] = useState('')
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     let [countdown, setCountdown] = useState(59)
     useEffect(() => {
-        _formatPhoneNum()
+        // _formatPhoneNum()
         _firstRender()
     }, [])
 
-    const _formatPhoneNum = () => {
-        setShowedNumber(showPhoneNumber(phoneNumber))
-    }
+    // const _formatPhoneNum = () => {
+    //     setShowedNumber(showPhoneNumber(phoneNumber))
+    // }
 
     const _handleBack = () => {
         navigation.goBack()
@@ -60,33 +57,33 @@ const ForgotPassword = ({ navigation }) => {
         }, 60000)
         setIsResendDisabled(true)
 
-        const data = {
-            phone_number: "62" + phoneNumber,
-        }
-        await sendOTP(data)
+        // const data = {
+        //     phone_number: "62" + phoneNumber,
+        // }
+        // await sendOTP(data)
     }
 
     const _handleOTPFulfilled = async (code) => {
-        const data = {
-            phone_number: "62" + phoneNumber,
-            otp: code
-        }
-        const res = await sendVerifyOTP(data)
-        if (res.status == 400) {
-            alert(res.data.errors.msg)
-        }
-        else if (res.status == 200) {
-            navigation.navigate("NewPassword1")
-        }
-        else {
-            alert("Ada yang salah , cek koneksi anda")
-        }
+        // const data = {
+        //     phone_number: "62" + phoneNumber,
+        //     otp: code
+        // }
+        // const res = await sendVerifyOTP(data)
+        // if (res.status == 400) {
+        //     alert(res.data.errors.msg)
+        // }
+        // else if (res.status == 200) {
+        //     navigation.navigate("NewPassword1")
+        // }
+        // else {
+        //     alert("Ada yang salah , cek koneksi anda")
+        // }
     }
     return (
         <View style={styles.container}>
             <GlobalHeader
                 onPressBack={_handleBack}
-                title="Forgot Password"
+                title="Lupa PIN"
             />
             <View style={{ alignItems: "center" }}>
                 <Text style={{ paddingTop: 20 }}>A 4 digit code has been sent to</Text>
@@ -109,7 +106,7 @@ const ForgotPassword = ({ navigation }) => {
 }
 
 
-export default ForgotPassword;
+export default ForgotPINOTP;
 
 const styles = StyleSheet.create({
     container: {

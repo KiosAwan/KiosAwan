@@ -53,7 +53,7 @@ export const registerUser = async (data) => {
     return res.data
 }
 
-export const sendForgotPIN = async (data) => {
+export const sendOTP = async (data) => {
     try {
         const res = await axios.post(`${HOST_URL}/send_otp`, data)
         return res.data

@@ -6,6 +6,8 @@ import MenuSettingUbahEmail from '../../screens/AuthScreen/Drawer/Setting/MenuSe
 import MenuSettingUbahNoHP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHP'
 import MenuSettingUbahPassword from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahPassword'
 import MenuSettingLupaPIN from '../../screens/AuthScreen/Drawer/Setting/MenuSettingLupaPIN'
+import ForgotPINNewPIN from '../../screens/AuthScreen/Drawer/Setting/ForgotPINNewPIN'
+import ForgotPINOTP from '../../screens/AuthScreen/Drawer/Setting/ForgotPINOTP'
 
 const SettingNavigator = createStackNavigator({
   MenuSetting: {
@@ -43,7 +45,19 @@ const SettingNavigator = createStackNavigator({
     navigationOptions: {
       header: null
     }
-	}	
+  },
+  ForgotPINNewPIN : {
+    screen : ForgotPINNewPIN,
+    navigationOptions : {
+      header : null
+    }
+  },
+  ForgotPINOTP : {
+    screen : ForgotPINOTP,
+    navigationOptions : {
+      header : null
+    }
+  }	
 })
 
 export default createAppContainer(SettingNavigator)
