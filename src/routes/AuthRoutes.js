@@ -62,7 +62,7 @@ const AuthNavigator = createStackNavigator(Object.assign({
     }
   },
   Setting: {
-    screen: SettingNavigator,
+    screen: Setting,
     navigationOptions: {
       header: null
     }

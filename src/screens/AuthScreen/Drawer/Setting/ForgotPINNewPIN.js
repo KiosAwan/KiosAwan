@@ -53,13 +53,13 @@ const ForgotPINNewPIN = ({ navigation }) => {
 				}}
 			><ModalContent
             image={require('../../../../assets/images/createpinsuccess.png')}
-            infoText="Anda Berhasil Membuat PIN!"
+            infoText="Anda Berhasil Membuat PIN Baru!"
             closeModal={() => setModalVisible(false)}
 
             />
 			</Modal>
-            <View style={{ margin: 30, height: 100, alignItems: "center" }}>
-                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN</Text>
+            <View style={{ margin: 30, height: 60, alignItems: "center" }}>
+                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN Baru</Text>
                 <CodeInput
                     secureTextEntry
                     className='border-circle'

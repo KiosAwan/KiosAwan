@@ -7,19 +7,21 @@ import {
 import { useSelector } from 'react-redux'
 import CodeInput from 'react-native-confirmation-code-input';
 import { GlobalHeader } from '../../../../components/Header/Header';
+import { showPhoneNumber } from '../../../../utils/unauthhelper';
 
 const ForgotPINOTP = ({ navigation }) => {
+    const User = useSelector(state => state.User)
     const [showedNumber, setShowedNumber] = useState('')
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     let [countdown, setCountdown] = useState(59)
     useEffect(() => {
-        // _formatPhoneNum()
+        _formatPhoneNum()
         _firstRender()
     }, [])
 
-    // const _formatPhoneNum = () => {
-    //     setShowedNumber(showPhoneNumber(phoneNumber))
-    // }
+    const _formatPhoneNum = () => {
+        setShowedNumber(showPhoneNumber(User.data.phone_number.slice(2,User.data.length)))
+    }
 
     const _handleBack = () => {
         navigation.goBack()
