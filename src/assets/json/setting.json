@@ -20,6 +20,11 @@
     "icon": "settings"
   },
   {
+    "name": "Ubah PIN",
+    "route": "ChangePINInputPwd",
+    "icon": "help"
+  },
+  {
     "name": "Lupa PIN",
     "route": "MenuSetting",
     "icon": "help"
