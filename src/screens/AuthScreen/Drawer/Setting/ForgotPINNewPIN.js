@@ -42,7 +42,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
         }
     }
     return (
-        <View style={{ flex: 1, alignItems: "center" }}>
+        <View style={{ flex: 1, alignItems: "center", backgroundColor : ColorsList.authBackground }}>
             <GlobalHeader title="Lupa PIN" onPressBack={() => navigation.goBack()} />
             <Modal
 				animationType="fade"
@@ -57,7 +57,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
             closeModal={() => setModalVisible(false)}
             />
 			</Modal>
-            <View style={{ margin: 30, height: 60, alignItems: "center" }}>
+            <View style={{ margin: 20, height: 100, alignItems: "center",backgroundColor : 'white', padding : 15,paddingHorizontal : 25, borderRadius : 5  }}>
                 <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN Baru</Text>
                 <CodeInput
                     secureTextEntry
@@ -71,7 +71,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
                     onFulfill={(code) => _handlePINFulfilled(code)}
                 />
             </View>
-            <View style={{ marginTop: 30, alignItems: "center" }}>
+            <View style={{  margin: 20, height: 100, alignItems: "center",backgroundColor : 'white', padding : 15,paddingHorizontal : 25, borderRadius : 5  }}>
                 <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kembali PIN anda</Text>
                 <CodeInput
                     secureTextEntry

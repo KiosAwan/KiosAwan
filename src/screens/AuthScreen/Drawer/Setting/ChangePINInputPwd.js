@@ -18,6 +18,7 @@ import { verifyUserPassword } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
 import { FloatingInput } from '../../../../components/Input/InputComp';
+import { Icon } from 'native-base';
 
 
 const height = Dimensions.get('window').height
@@ -25,6 +26,7 @@ const height = Dimensions.get('window').height
 const ChangePINInputPwd = ({ navigation }) => {
     const dispatch = useDispatch()
     const [newPassword, setNewPassword] = useState()
+    const [secure , setSecure] = useState(true)
     const FormRegister = useSelector(state => state.Registration)
     // //Sending OTP code to server
     const _handleChangePIN = (psw) => {
@@ -49,12 +51,15 @@ const ChangePINInputPwd = ({ navigation }) => {
                 <View style={{ width: '70%', padding: 30 }}>
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 18 }}>Masukkan password</Text>
                 </View>
-                <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
+                <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5}}>
                     <FloatingInput label="Password">
-                        <TextInput value="a" />
+                        <TextInput value={newPassword} 
+                        secureTextEntry={secure}
+                        onChangeText={(text) => setNewPassword(text)}
+                        />
+                    <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{color : ColorsList.greySoft}}/>
+
                     </FloatingInput>
-
-
                 </View>
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
