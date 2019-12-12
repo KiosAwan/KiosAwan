@@ -66,20 +66,20 @@ const ForgotPINOTP = ({ navigation }) => {
     }
 
     const _handleOTPFulfilled = async (code) => {
-        // const data = {
-        //     phone_number: "62" + phoneNumber,
-        //     otp: code
-        // }
+        const data = {
+            phone_number: "62" + phoneNumber,
+            otp: code
+        }
         // const res = await sendVerifyOTP(data)
-        // if (res.status == 400) {
-        //     alert(res.data.errors.msg)
-        // }
-        // else if (res.status == 200) {
-        //     navigation.navigate("NewPassword1")
-        // }
-        // else {
-        //     alert("Ada yang salah , cek koneksi anda")
-        // }
+        if (res.status == 400) {
+            alert(res.data.errors.msg)
+        }
+        else if (res.status == 200) {
+            navigation.navigate("ForgotPINNewPIN")
+        }
+        else {
+            alert("Ada yang salah , cek koneksi anda")
+        }
     }
     return (
         <View style={styles.container}>

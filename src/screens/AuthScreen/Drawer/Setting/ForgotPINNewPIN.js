@@ -22,8 +22,8 @@ const ForgotPINNewPIN = ({ navigation }) => {
         setConfirmPin(code)
     }
 
-    const _handleCreatePIN = async () => {
-        if (pin.length != 6 || confirmPin.length != 6) {
+    const _handleSavePIN = async () => {
+        if (!pin|| !confirmPin) {
             alert("Pin harus 6 digit")
         } else if (pin != confirmPin) {
             alert("Pin harus sama")
@@ -37,8 +37,8 @@ const ForgotPINNewPIN = ({ navigation }) => {
             // await createUserPIN(data)
             setTimeout(() => {
                 setModalVisible(false)
-                navigation.navigate('Home')
-            }, 800)
+                navigation.navigate('MenuSetting')
+            }, 1000)
         }
     }
     return (
@@ -55,7 +55,6 @@ const ForgotPINNewPIN = ({ navigation }) => {
             image={require('../../../../assets/images/createpinsuccess.png')}
             infoText="Anda Berhasil Membuat PIN Baru!"
             closeModal={() => setModalVisible(false)}
-
             />
 			</Modal>
             <View style={{ margin: 30, height: 60, alignItems: "center" }}>
@@ -88,7 +87,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
-                    onPressBtn={_handleCreatePIN}
+                    onPressBtn={_handleSavePIN}
                     style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
                     buttonTitle="SIMPAN"
                 />
