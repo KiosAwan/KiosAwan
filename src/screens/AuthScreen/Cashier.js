@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { ButtonWithIcon, BottomButton } from '../../components/Button/ButtonComp';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
@@ -32,8 +32,8 @@ const Cashier = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
             <CashierHeader
-            handleChangeText={(text) => setSearch(text)}
-            onPressBack={() => navigation.navigate('Home')}
+                handleChangeText={(text) => setSearch(text)}
+                onPressBack={() => navigation.navigate('Home')}
             />
             <View style={styles.wrapButtonHeader}>
                 <ButtonWithIcon
@@ -54,7 +54,7 @@ const Cashier = ({ navigation }) => {
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={[styles.childContainer, { backgroundColor: Product.isLoading ? "white" : ColorsList.authBackground }]}>
+            <View style={[styles.childContainer, { backgroundColor: Product.isLoading ? "white" : ColorsList.authBackground ,justifyContent : Product.data.length == 0 ? 'center' : null, alignItems : Product.data.length == 0 ? 'center' : null}]}>
                 {Product.isLoading ?
                     <View>
                         <ProductPlaceholder />
@@ -64,23 +64,29 @@ const Cashier = ({ navigation }) => {
                         <ProductPlaceholder />
                     </View>
                     :
-                    <FlatList
-                        data={Product.data.filter(item => item.name_product.toLowerCase().includes(search))}
-                        renderItem={({ item }) => (
-                            <ProductCard
-                                name={item.name_product}
-                                price={convertRupiah(item.price_out_product)}
-                                onPressMinus={() => dispatch(MinusQuantity(item))}
-                                onPressPlus={() => dispatch(AddQuantity(item))}
-                                plusDisabled={item.manage_stock == 1 ? (item.quantity ? item.quantity < item.stock ? false : true : false) : false}
-                                quantity={item.quantity ? item.quantity : null}
-                                stock={item.manage_stock == 1 ? item.stock : null}
-                            />
-                            
-                        )}
-                        showsVerticalScrollIndicator={false}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
+                    Product.data.length == 0 ?
+                        <View>
+                            <Image style={{width : 200, height : 200}} source={require('../../assets/images/noproductlist.png')}/>
+                            <Text style={{textAlign : "center"}}>Anda belum mempunyai produk</Text>
+                        </View>
+                        :
+                        <FlatList
+                            data={Product.data.filter(item => item.name_product.toLowerCase().includes(search))}
+                            renderItem={({ item }) => (
+                                <ProductCard
+                                    name={item.name_product}
+                                    price={convertRupiah(item.price_out_product)}
+                                    onPressMinus={() => dispatch(MinusQuantity(item))}
+                                    onPressPlus={() => dispatch(AddQuantity(item))}
+                                    plusDisabled={item.manage_stock == 1 ? (item.quantity ? item.quantity < item.stock ? false : true : false) : false}
+                                    quantity={item.quantity ? item.quantity : null}
+                                    stock={item.manage_stock == 1 ? item.stock : null}
+                                />
+
+                            )}
+                            showsVerticalScrollIndicator={false}
+                            keyExtractor={(item, index) => index.toString()}
+                        />
                 }
             </View>
             {
@@ -90,7 +96,7 @@ const Cashier = ({ navigation }) => {
                             onPressBtn={() => {
                                 navigation.navigate('Cart')
                                 dispatch(getCustomer(User.store.id_store))
-                        }}
+                            }}
                             style={styles.absoluteButton}
                             content={
                                 <View style={{ flexDirection: 'row', width: SizeList.width - 30, justifyContent: 'space-around' }}>

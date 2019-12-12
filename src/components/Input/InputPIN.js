@@ -12,8 +12,9 @@ export const InputPIN = (props) =>  {
             <Input
             secureTextEntry={true}
             placeholder="Enter your password"
+            placeholderTextColor={props.placeholderTextColor}
             autoFocus={true}
-            style={{color : props.textColor ? props.textColor:'white',fontSize : 20, borderBottomColor:'pink', textAlign : "center"}}
+            style={{color : props.textColor ? props.textColor:'white',fontSize : 20, borderBottomColor:'pink', textAlign : props.position || "center"}}
             value={props.value}
             keyboardType="default"
             onChangeText={props.handleChangeText}
