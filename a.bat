@@ -124,17 +124,14 @@ gradlew clean
 cd ..
 
 :NOARGS
-echo Ionic v1 Command Tool
+echo React Native Command Tool
 echo.
-echo    serve	Serve the server
+echo    clean	Clean gradle
+echo    start	Start the Metro Server
 echo    run		Build android to device
-echo    mv		Move apk debug
-echo    build	Build android release
-echo    sign		Sign apk release
-echo    sass		Watch sass
 echo.
-echo Example: %0 serve
-echo   	 to serve the server
+echo Example: %0 start
+echo   	 to start the metro server
 echo.
 
 :END

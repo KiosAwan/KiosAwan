@@ -12,6 +12,7 @@ import ChangePINNewPIN from '../../screens/AuthScreen/Drawer/Setting/ChangePINNe
 import ChangePINInputPwd from '../../screens/AuthScreen/Drawer/Setting/ChangePINInputPwd';
 import UbahPasswordInputPIN from '../../screens/AuthScreen/Drawer/Setting/UbahPasswordInputPIN';
 import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmailNewEmail'
+import MenuSettingUbahNoHPInputOTP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHPInputOTP'
 
 const SettingNavigator = createStackNavigator({
   MenuSetting: {
@@ -34,6 +35,12 @@ const SettingNavigator = createStackNavigator({
 	},
 	MenuSettingUbahNoHP: {
     screen: MenuSettingUbahNoHP,
+    navigationOptions: {
+      header: null
+    }
+	},
+	MenuSettingUbahNoHPInputOTP: {
+    screen: MenuSettingUbahNoHPInputOTP,
     navigationOptions: {
       header: null
     }

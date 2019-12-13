@@ -18,8 +18,8 @@ export const WrapperItem = (props) => {
 	return (
 		<View style={[{ flexDirection: 'row' }, props.style]}>
 			<Grid>
-				<Col>{props.left}</Col>
-				<Col style={{ alignItems: 'flex-end' }}>{props.right}</Col>
+				<Col style={[{ justifyContent: 'center' }, props.leftStyle]}>{props.left}</Col>
+				<Col style={[{ justifyContent: 'center', alignItems: 'flex-end' }, props.rightStyle]}>{props.right}</Col>
 			</Grid>
 		</View>
 	)
@@ -35,7 +35,7 @@ export const ToggleButton = (props) => {
 			{
 				props.buttons.map((btn, i) => {
 					return (
-						<Button onPress={() =>_handleChangeBtn(btn, i) } style={[props.style,
+						<Button onPress={() => _handleChangeBtn(btn, i)} style={[props.style,
 						{ padding: 5, flex: 1, justifyContent: 'center' },
 						{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : ColorsList.greyFont },
 						props.style
@@ -237,10 +237,10 @@ export const PilihPelanggan = (props) => {
 							</CardItem>
 							<CardItem footer style={styles.viewButtonPopup}>
 								<Button onPress={_handleButtonSimpan} style={styles.buttonSimpan}>
-									<Text style={{ ...FontList.subtitleFontGreyBold,color: 'white' }}>SIMPAN</Text>
+									<Text style={{ ...FontList.subtitleFontGreyBold, color: 'white' }}>SIMPAN</Text>
 								</Button>
 								<Button onPress={() => setPelangganVisible(false)} style={styles.buttonBatal}>
-									<Text style={{...FontList.subtitleFontGreyBold}}>BATAL</Text>
+									<Text style={{ ...FontList.subtitleFontGreyBold }}>BATAL</Text>
 								</Button>
 							</CardItem>
 						</View>
@@ -268,24 +268,24 @@ export const PilihPelanggan = (props) => {
 							renderItem={({ item }) => (
 								<TouchableOpacity onPress={() => {
 									dispatch(AddCustomer(item))
-									props.dismiss()	
+									props.dismiss()
 								}}>
-								<WrapperItem left={[
-									<Text style={{ ...FontList.titleFont, color: ColorsList.primaryColor }}>{item.name_customer}</Text>,
-									<Text style={{ ...FontList.subtitleFont, fontSize: 12, color: ColorsList.greyFont }} note>{item.phone_number_customer}</Text>
-								]} right={
-									<View style={{ flexDirection: 'row-reverse', width: 75, alignItems: 'center', flex: 1 }}>
-										<WrapperItem left={
-											<Icon onPress={() => _handleDeleteCustomer(item)} style={{ color: ColorsList.primaryColor }} name="trash" />
-										} right={
-											<Icon onPress={() => {
-												setAction('edit')
-												setPelanggan(item)
-												setPelangganVisible(true)
-											}} style={{ color: ColorsList.primaryColor }} name="create" />
-										} />
-									</View>
-								} />
+									<WrapperItem left={[
+										<Text style={{ ...FontList.titleFont, color: ColorsList.primaryColor }}>{item.name_customer}</Text>,
+										<Text style={{ ...FontList.subtitleFont, fontSize: 12, color: ColorsList.greyFont }} note>{item.phone_number_customer}</Text>
+									]} right={
+										<View style={{ flexDirection: 'row-reverse', width: 75, alignItems: 'center', flex: 1 }}>
+											<WrapperItem left={
+												<Icon onPress={() => _handleDeleteCustomer(item)} style={{ color: ColorsList.primaryColor }} name="trash" />
+											} right={
+												<Icon onPress={() => {
+													setAction('edit')
+													setPelanggan(item)
+													setPelangganVisible(true)
+												}} style={{ color: ColorsList.primaryColor }} name="create" />
+											} />
+										</View>
+									} />
 								</TouchableOpacity>
 							)}
 							keyExtractor={(item, index) => index.toString()}
@@ -300,7 +300,7 @@ export const PilihPelanggan = (props) => {
 							<Text style={{ ...FontList.subtitleFontGreyBold, color: 'white' }}>TAMBAH</Text>
 						</Button>
 						<Button onPress={props.dismiss} style={styles.buttonBatal}>
-							<Text style={{...FontList.subtitleFontGreyBold,}}>BATAL</Text>
+							<Text style={{ ...FontList.subtitleFontGreyBold, }}>BATAL</Text>
 						</Button>
 					</CardItem>
 				</View>
@@ -386,5 +386,5 @@ const styles = StyleSheet.create({
 
 	viewButtonPopup: { marginTop: 15, borderColor: 'transparent', flexDirection: 'row-reverse', alignItems: 'flex-start' },
 	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor, borderRadius: 5 },
-	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30,  },
+	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30, },
 })

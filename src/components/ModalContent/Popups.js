@@ -91,3 +91,61 @@ export default Popup
 <Button onPress={_ => setTestPopup(true)}>
 	<Text>Press Me! - Confirm</Text>
 </Button> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const Popup = props => {
+	const styles = StyleSheet.create({
+		touchableStyle: {
+			width: '100%',
+			height: '100%',
+			alignItems: "center",
+			justifyContent: 'center',
+			backgroundColor: 'rgba(0,0,0,.5)'
+		},
+		wrapView: {
+			padding: 20,
+			alignItems: "center",
+			backgroundColor: 'white',
+			borderRadius: 5
+		}
+	})
+	return <Modal
+		animationType="fade"
+		transparent={true}
+		visible={props.visible}
+		onRequestClose={props.onClose}
+	>
+		<TouchableOpacity activeOpacity={.5} disabled={!props.backdropDismiss} onPress={props.backDropClick} style={styles.touchableStyle}>
+			<View style={styles.wrapView}>
+				<Button onPress={() => _setVisible(!_visible)}>
+					<Text>Ok</Text>
+				</Button>
+			</View>
+		</TouchableOpacity>
+	</Modal>
+}
+
+// const [_visible, _setVisible] = useState(false)
+
+// <Popup backdropDismiss={true} visible={_visible} backDropClick={()=>_setVisible(false)}>
+// 				<Text>Test</Text>
+// 			</Popup>

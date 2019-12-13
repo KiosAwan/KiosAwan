@@ -9,6 +9,7 @@ import Home from '../screens/AuthScreen/Home';
 import UpdateProfil from '../screens/AuthScreen/Drawer/UpdateProfil';
 import CreatePIN from '../screens/AuthScreen/Drawer/CreatePIN';
 import AkunNavigator from './DrawerComponent';
+import VerifikasiEmail from '../screens/AuthScreen/Drawer/Temp/VerifikasiEmail';
 
 
 
@@ -36,6 +37,12 @@ const tempNavigator = {
     navigationOptions: {
       header: null
     }
+  },
+  'temp/verifikasi-email': {
+    screen: VerifikasiEmail,
+    navigationOptions: {
+      header: null
+    }
   }
 }
 
@@ -52,10 +59,10 @@ const AuthNavigator = createStackNavigator(Object.assign({
       header: null
     }
   },
-  AkunNavigator : {
-    screen : AkunNavigator,
-    navigationOptions : {
-      header : null
+  AkunNavigator: {
+    screen: AkunNavigator,
+    navigationOptions: {
+      header: null
     }
   }
 }, tempNavigator), {
