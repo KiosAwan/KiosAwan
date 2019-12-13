@@ -79,7 +79,7 @@ const MenuSettingUbahEmail = ({ navigation }) => {
         //     alert(res.data.errors.msg)
         // }
         // else if (res.status == 200) {
-            navigation.navigate("")
+            navigation.navigate("UbahEmailNewEmail")
         // }
         // else {
         //     alert("Ada yang salah , cek koneksi anda")

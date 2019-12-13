@@ -11,6 +11,7 @@ import ForgotPINOTP from '../../screens/AuthScreen/Drawer/Setting/ForgotPINOTP'
 import ChangePINNewPIN from '../../screens/AuthScreen/Drawer/Setting/ChangePINNewPIN';
 import ChangePINInputPwd from '../../screens/AuthScreen/Drawer/Setting/ChangePINInputPwd';
 import UbahPasswordInputPIN from '../../screens/AuthScreen/Drawer/Setting/UbahPasswordInputPIN';
+import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmailNewEmail'
 
 const SettingNavigator = createStackNavigator({
   MenuSetting: {
@@ -75,6 +76,12 @@ const SettingNavigator = createStackNavigator({
   },
   UbahPasswordInputPIN : {
     screen : UbahPasswordInputPIN,
+    navigationOptions : {
+      header : null
+    }
+  },
+  UbahEmailNewEmail : {
+    screen : UbahEmailNewEmail,
     navigationOptions : {
       header : null
     }

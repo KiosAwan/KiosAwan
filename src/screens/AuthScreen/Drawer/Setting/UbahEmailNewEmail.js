@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+
+//Styling
+import {
+    View,
+    StyleSheet,
+    Dimensions,
+    Text,
+    TextInput
+} from 'react-native';
+import BarStatus from '../../../../components/BarStatus';
+import { GlobalHeader } from '../../../../components/Header/Header';
+import { InputPIN } from '../../../../components/Input/InputPIN';
+import { ColorsList } from '../../../../styles/colors';
+import { SizeList } from '../../../../styles/size';
+import { verifyUserPassword } from '../../../../utils/authhelper';
+import { BottomButton } from '../../../../components/Button/ButtonComp';
+import { FontList } from '../../../../styles/typography';
+import { FloatingInput } from '../../../../components/Input/InputComp';
+import { Icon } from 'native-base';
+
+
+const height = Dimensions.get('window').height
+
+const UbahEmailNewEmail  = ({ navigation }) => {
+    const dispatch = useDispatch()
+    const [newPassword, setNewPassword] = useState()
+    const [secure , setSecure] = useState(true)
+    const FormRegister = useSelector(state => state.Registration)
+    // //Sending OTP code to server
+    const _handleChangePIN = (psw) => {
+        setNewPassword(psw)
+    }
+
+    const _handleNextBtn = async () => {
+        // const data = {
+
+        // }
+        // const res = await verifyUserPassword()
+        navigation.navigate('ChangePINNewPIN')
+    }
+    return (
+        <View style={styles.container} >
+            <BarStatus />
+            <GlobalHeader
+                onPressBack={() => navigation.goBack()}
+                title="Ubah Email"
+            />
+            <View style={{ alignItems: "center" }}>
+                <View style={{ width: '70%', padding: 30 }}>
+                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 18 }}>Masukkan password</Text>
+                </View>
+                <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5}}>
+                    <FloatingInput label="Password">
+                        <TextInput value={newPassword} 
+                        secureTextEntry={secure}
+                        onChangeText={(text) => setNewPassword(text)}
+                        />
+                    <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{color : ColorsList.greySoft}}/>
+
+                    </FloatingInput>
+                </View>
+            </View>
+            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+                <BottomButton
+                    onPressBtn={_handleNextBtn}
+                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
+                    buttonTitle="LANJUT"
+                />
+            </View>
+        </View>
+    );
+}
+
+export default UbahEmailNewEmail
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: ColorsList.authBackground
+    },
+    borderStyleBase: {
+        width: 30,
+        height: 45,
+        borderRadius: 20
+    },
+
+    borderStyleHighLighted: {
+        borderColor: "#03DAC6",
+    },
+
+    underlineStyleBase: {
+        width: 30,
+        height: 45,
+        borderWidth: 0,
+        borderBottomWidth: 1,
+    },
+
+    underlineStyleHighLighted: {
+        borderColor: "#03DAC6",
+    },
+})
