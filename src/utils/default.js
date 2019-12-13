@@ -1,4 +1,4 @@
-console.log = console.group = () => { }
+// console.log = console.group = () => { }
 FormData.prototype.appendObject = function (obj, except) {
   except = except || []
   for (var key in obj) {

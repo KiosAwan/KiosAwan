@@ -13,7 +13,7 @@ import ModalContent from '../../../components/ModalContent/ModalContent';
 const CreatePIN = ({ navigation }) => {
     const [pin, setPin] = useState()
     const [confirmPin, setConfirmPin] = useState()
-    const [ modalVisible , setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
     const _handlePINFulfilled = (code) => {
         setPin(code)
     }
@@ -33,30 +33,37 @@ const CreatePIN = ({ navigation }) => {
                 id,
                 pin
             }
-            await createUserPIN(data)
-            setTimeout(() => {
-                setModalVisible(false)
-                navigation.navigate('Home')
-            }, 800)
+
+            console.log(id)
+            console.log(data)
+            const res = await createUserPIN(data)
+            if (res.status == 200) {
+                setTimeout(() => {
+                    setModalVisible(false)
+                    navigation.navigate('UpdateProfil')
+                }, 800)
+            }else {
+                alert('Gagal membuat pin')
+            }
         }
     }
     return (
         <View style={{ flex: 1, alignItems: "center" }}>
             <GlobalHeader title="Buat PIN" onPressBack={() => navigation.goBack()} />
             <Modal
-				animationType="fade"
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			><ModalContent
-            image={require('../../../assets/images/createpinsuccess.png')}
-            infoText="Anda Berhasil Membuat PIN!"
-            closeModal={() => setModalVisible(false)}
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            ><ModalContent
+                    image={require('../../../assets/images/createpinsuccess.png')}
+                    infoText="Anda Berhasil Membuat PIN!"
+                    closeModal={() => setModalVisible(false)}
 
-            />
-			</Modal>
+                />
+            </Modal>
             <View style={{ margin: 30, height: 100, alignItems: "center" }}>
                 <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN</Text>
                 <CodeInput

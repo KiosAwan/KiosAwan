@@ -19,8 +19,7 @@ const Piutang = () => {
 	const [datePickerVisible, setDatePickerVisible] = useState(false)
 
 	const _handleChangeMoney = (value) => {
-		let a = validNumber(value)
-		a ? dispatch(AddCashPayment(value)) : null
+		dispatch(AddCashPayment(value))
 	}
 
 	const _handleDatePicked = date => {
@@ -52,12 +51,13 @@ const Piutang = () => {
 				</TouchableOpacity>
 			</View>
 			<DateTimePicker
+			minimumDate={new Date()}
 				isVisible={datePickerVisible}
 				onConfirm={_handleDatePicked}
-				onCancel={() => setDatePickerVisible(false)}
+				onCancel={() => setDatePickerVisible(!datePickerVisible)}
 			/>
 			<View style={{ marginTop: 20 }}>
-				<TouchableOpacity onPress={() => setDatePickerVisible(true)}>
+				<TouchableOpacity onPress={() => setDatePickerVisible(!datePickerVisible)}>
 					<View style={[styles.wrapNamaPelanggan, { ...RowChild, justifyContent: 'space-between' }]}>
 						<View>
 							<Text style={styles.textNamaPelanggan}>{Product.due_debt_date ? formatToDate(Product.due_debt_date) : "Tanggal jatuh tempo"}</Text>

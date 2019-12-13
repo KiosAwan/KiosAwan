@@ -25,20 +25,21 @@ const height = Dimensions.get('window').height
 
 const ChangePINInputPwd = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [newPassword, setNewPassword] = useState()
+    const [password, setPassword] = useState()
     const [secure , setSecure] = useState(true)
-    const FormRegister = useSelector(state => state.Registration)
-    // //Sending OTP code to server
-    const _handleChangePIN = (psw) => {
-        setNewPassword(psw)
-    }
+    const User = useSelector(state => state.User)
 
     const _handleNextBtn = async () => {
-        // const data = {
-
-        // }
-        // const res = await verifyUserPassword()
-        navigation.navigate('ChangePINNewPIN')
+        const data = {
+            phone_number : User.data.phone_number,
+            password
+        }
+        const res = await verifyUserPassword(data)
+        if(res.status == 200){
+            navigation.navigate('ChangePINNewPIN')
+        }else if (res.status == 400){
+            alert(res.data.errors.msg)
+        }
     }
     return (
         <View style={styles.container} >
@@ -53,9 +54,9 @@ const ChangePINInputPwd = ({ navigation }) => {
                 </View>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5}}>
                     <FloatingInput label="Password">
-                        <TextInput value={newPassword} 
+                        <TextInput value={password} 
                         secureTextEntry={secure}
-                        onChangeText={(text) => setNewPassword(text)}
+                        onChangeText={(text) => setPassword(text)}
                         />
                     <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{color : ColorsList.greySoft}}/>
 

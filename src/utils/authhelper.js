@@ -65,7 +65,7 @@ export const validNumber = number => {
 //post data
 export const sendProfileData = async (data) => {
   try {
-    const res = await axios.post(`${HOST_URL}/create_store`, data)
+    const res = await axios.post(`${HOST_URL}/store`, data)
     return res.data
   }
   catch (error) {
@@ -103,32 +103,32 @@ export const deleteProduct = async (productId) => {
 
 //post new transaction to database
 export const sendNewTransaction = async (data) => {
-  const res = await axios.post(`${HOST_URL}/create_transaction`, data)
+  const res = await axios.post(`${HOST_URL}/transaction`, data)
   console.log(res)
   return res.data
 }
 
 //post new customer to database
 export const sendNewCustomer = async (data) => {
-  const res = await axios.post(`${HOST_URL}/create_customer`, data)
+  const res = await axios.post(`${HOST_URL}/customer`, data)
   return res.data
 }
 
 //edit customer data
 export const editCustomer = async (data, id_cust) => {
-  const res = await axios.post(`${HOST_URL}/update_customer/${id_cust}`, data)
+  const res = await axios.post(`${HOST_URL}/customer_update/${id_cust}`, data)
   return res.data
 }
 
 //delete customer data
 export const deleteCustomer = async (id_cust) => {
-  const res = await axios.delete(`${HOST_URL}/delete_customer/${id_cust}`)
+  const res = await axios.delete(`${HOST_URL}/customer/${id_cust}`)
   return res.data
 }
 
 //get detail transaction 
 export const getTransactionDetail = async (transactionId) => {
-  const res = await axios.get(`${HOST_URL}/get_transaction/${transactionId}`)
+  const res = await axios.get(`${HOST_URL}/transaction/${transactionId}`)
   return res.data
 }
 
@@ -146,15 +146,14 @@ export const payCredit = async (data, transactionId) => {
 
 //Create PIN
 export const createUserPIN = async (data) => {
-  const res = await axios.post(`${HOST_URL}/create_pin`, data)
+  const res = await axios.post(`${HOST_URL}/change_pin`, data)
   return res.data
 }
-
 
 //Verify password
 export const verifyUserPassword = async (data) => {
   try {
-    const res = await axios.post(`${HOST_URL}/create_store`, data)
+    const res = await axios.post(`${HOST_URL}/valid_password`, data)
     return res.data
   }
   catch (error) {
@@ -163,3 +162,46 @@ export const verifyUserPassword = async (data) => {
   }
 }
 
+// Verify PIN
+export const verifyUserPIN = async (data) => {
+  try {
+    const res = await axios.post(`${HOST_URL}/enter_pin`, data)
+    return res.data
+  }
+  catch (error) {
+    const res = error.response.data
+    return res
+  }
+}
+
+
+//Send OTP
+export const sendOTPAuth = async (data) => {
+  const res = await axios.post(`${HOST_URL}/send_otp`, data)
+  return res.data
+}
+
+
+// Verify OTP
+export const verifyOTPAuth = async (data) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/valid_otp`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}
+
+// Verify OTP
+export const changeEmail = async (data) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/change_email`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}

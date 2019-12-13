@@ -53,7 +53,7 @@ const UpdateProfil = ({ navigation }) => {
 		const formData = new FormData()
 		formData.append("id_user", id_user)
 		formData.append("name_store", name_store)
-		formData.append("email_store", email_store)
+		formData.append("email", email_store)
 		formData.append("address_store", address_store)
 		formData.append('photo_store', photo_store != "" ? {
 			uri: photo_store,

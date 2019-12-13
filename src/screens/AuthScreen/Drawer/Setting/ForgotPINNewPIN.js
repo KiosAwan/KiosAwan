@@ -10,6 +10,7 @@ import { SizeList } from '../../../../styles/size';
 import { FontList } from '../../../../styles/typography';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
+import { createUserPIN } from '../../../../utils/authhelper';
 
 const ForgotPINNewPIN = ({ navigation }) => {
     const [pin, setPin] = useState()
@@ -34,7 +35,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
                 id,
                 pin
             }
-            // await createUserPIN(data)
+            await createUserPIN(data)
             setTimeout(() => {
                 setModalVisible(false)
                 navigation.navigate('MenuSetting')
