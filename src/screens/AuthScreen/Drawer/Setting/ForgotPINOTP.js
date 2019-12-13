@@ -9,6 +9,7 @@ import CodeInput from 'react-native-confirmation-code-input';
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { showPhoneNumber } from '../../../../utils/unauthhelper';
 import { ColorsList } from '../../../../styles/colors';
+import { sendOTPAuth, verifyOTPAuth } from '../../../../utils/authhelper';
 
 const ForgotPINOTP = ({ navigation }) => {
     const User = useSelector(state => state.User)
@@ -24,7 +25,10 @@ const ForgotPINOTP = ({ navigation }) => {
     }, [])
 
     const _sendOTP = async() => {
-        // await 
+        const data = {
+            phone_number : User.data.phone_number
+        }
+        await sendOTPAuth(data)
     }
 
     const _formatPhoneNum = () => {
@@ -67,27 +71,24 @@ const ForgotPINOTP = ({ navigation }) => {
         }, 60000)
         setIsResendDisabled(true)
 
-        // const data = {
-        //     phone_number: "62" + phoneNumber,
-        // }
-        // await sendOTP(data)
+        const data = {
+            phone_number:  User.data.phone_number,
+        }
+        await sendOTPAuth(data)
     }
 
     const _handleOTPFulfilled = async (code) => {
-        // const data = {
-        //     phone_number: "62" + phoneNumber,
-        //     otp: code
-        // }
-        // const res = await sendVerifyOTP(data)
-        // if (res.status == 400) {
-        //     alert(res.data.errors.msg)
-        // }
-        // else if (res.status == 200) {
+        const data = {
+            phone_number: User.data.phone_number,
+            otp: code
+        }
+        const res = await verifyOTPAuth(data)
+        if (res.status == 400) {
+            alert(res.data.errors.msg)
+        }
+        else if (res.status == 200) {
             navigation.navigate("ForgotPINNewPIN")
-        // }
-        // else {
-        //     alert("Ada yang salah , cek koneksi anda")
-        // }
+        }
     }
     return (
         <View style={styles.container}>

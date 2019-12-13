@@ -91,6 +91,7 @@ class CheckOut extends React.Component {
     _handlePayCredit = async () => {
         const userId = await AsyncStorage.getItem('userId')
         const Product = this.props.Product
+        if(Product.due_debt_date){
         let cart = []
         Product.belanja.map(item => {
             if (item.id_product > 0) {
@@ -131,6 +132,9 @@ class CheckOut extends React.Component {
             this.props.getTransactionList(this.props.User.store.id_store)
             this.props.navigation.navigate('Struk', { response : res.data})
         }
+    }else {
+        alert("Tanggal tidak boleh kosong")
+    }
 
     }
 

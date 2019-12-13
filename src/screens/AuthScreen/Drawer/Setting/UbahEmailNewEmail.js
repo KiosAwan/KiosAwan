@@ -6,40 +6,49 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text,
-    TextInput
+    TextInput,
+    Modal
 } from 'react-native';
 import BarStatus from '../../../../components/BarStatus';
 import { GlobalHeader } from '../../../../components/Header/Header';
-import { InputPIN } from '../../../../components/Input/InputPIN';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
-import { verifyUserPassword } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
 import { FloatingInput } from '../../../../components/Input/InputComp';
-import { Icon } from 'native-base';
+import ModalContent from '../../../../components/ModalContent/ModalContent';
+import AsyncStorage from '@react-native-community/async-storage';
+import { changeEmail } from '../../../../utils/authhelper';
+import { getProfile } from '../../../../redux/actions/actionsUserData';
 
 
 const height = Dimensions.get('window').height
 
 const UbahEmailNewEmail  = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [newPassword, setNewPassword] = useState()
-    const [secure , setSecure] = useState(true)
-    const FormRegister = useSelector(state => state.Registration)
-    // //Sending OTP code to server
-    const _handleChangePIN = (psw) => {
-        setNewPassword(psw)
-    }
+    const [newEmail, setNewEmail] = useState()
+    const User = useSelector(state => state.User)
+    const [modalVisible, setModalVisible] = useState(false)
 
     const _handleNextBtn = async () => {
-        // const data = {
-
-        // }
-        // const res = await verifyUserPassword()
-        navigation.navigate('ChangePINNewPIN')
+        const id = await AsyncStorage.getItem('userId')
+        const data = {
+            id,
+            email : newEmail
+        }
+        const res = await changeEmail(data)
+        if(res.status == 200){
+            setModalVisible(true)
+            dispatch(getProfile(User.data.id))
+            setTimeout(() => {
+                setModalVisible(false)
+                navigation.navigate('MenuSetting')
+            }, 1000)
+        }else if(res.status == 400) {
+            alert(res.data.errors.msg)
+        }
     }
+
+
     return (
         <View style={styles.container} >
             <BarStatus />
@@ -47,18 +56,32 @@ const UbahEmailNewEmail  = ({ navigation }) => {
                 onPressBack={() => navigation.goBack()}
                 title="Ubah Email"
             />
-            <View style={{ alignItems: "center" }}>
-                <View style={{ width: '70%', padding: 30 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 18 }}>Masukkan password</Text>
+            <Modal
+				animationType="fade"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+			><ModalContent
+            image={require('../../../../assets/images/successchangeemail.png')}
+            infoText="Anda Berhasil Mengubah Email!"
+            closeModal={() => setModalVisible(false)}
+            />
+			</Modal>
+            <View style={{ alignItems: "center", marginTop : 20 }}>
+                <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5}}>
+                    <FloatingInput label="Email lama">
+                        <TextInput value={User.data.email} 
+                        editable={false}
+                        />
+                    </FloatingInput>
                 </View>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5}}>
-                    <FloatingInput label="Password">
-                        <TextInput value={newPassword} 
-                        secureTextEntry={secure}
-                        onChangeText={(text) => setNewPassword(text)}
+                    <FloatingInput label="Email baru">
+                        <TextInput value={newEmail} 
+                        onChangeText={(text) => setNewEmail(text)}
                         />
-                    <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{color : ColorsList.greySoft}}/>
-
                     </FloatingInput>
                 </View>
             </View>
@@ -66,7 +89,7 @@ const UbahEmailNewEmail  = ({ navigation }) => {
                 <BottomButton
                     onPressBtn={_handleNextBtn}
                     style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
-                    buttonTitle="LANJUT"
+                    buttonTitle="SIMPAN"
                 />
             </View>
         </View>

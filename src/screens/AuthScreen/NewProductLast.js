@@ -58,7 +58,7 @@ const NewProductLast = ({ navigation }) => {
 				name: `${Date.now()}.jpeg`
 			} : null)
 			try {
-				const response = await Axios.post(`${HOST_URL}/create_product`, formData)
+				const response = await Axios.post(`${HOST_URL}/product`, formData)
 				setModalVisible(true)
 				setTimeout(() => {
 					setModalVisible(false)

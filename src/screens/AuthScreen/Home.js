@@ -6,7 +6,8 @@ import {
     Dimensions,
     ScrollView,
     TouchableOpacity,
-    Alert
+    Alert,
+    Text
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import SliderImage from '../../components/SliderImage'
@@ -27,7 +28,7 @@ import BarStatus from '../../components/BarStatus'
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
     const User = useSelector(state => state.User)
-    const _onPressCashier = () => {        
+    const _onPressCashier = () => {
         navigation.navigate('Cashier')
     }
 
@@ -72,7 +73,7 @@ const Home = ({ navigation }) => {
                             <Icon color="white" size={9} name="map-marker-alt" />
                             <Text style={styles.locationInfo}>Kuningan, Jakarta Selatan</Text>
                         </View> */}
-                        <Image style={{width : 150, height : 80}} source={require('../../assets/images/logo.png')}/>
+                        <Image style={{ width: 150, height: 80 }} source={require('../../assets/images/logo.png')} />
                     </View>
                     <View style={styles.wrapChildRow}>
                         <Icon color="white" size={20} name="bell" />
@@ -83,30 +84,36 @@ const Home = ({ navigation }) => {
                 </View> */}
             </LinearGradient>
             <ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
-                {/* {User.store ? null :
-                    <TouchableOpacity onPress={() => navigation.navigate('AddProfile')}>
+                {User.store ? User.data.status == 0 ?
+                    <TouchableOpacity onPress={() => navigation.navigate('MenuSetting')}>
+                        <View style={{ borderRadius: 5, backgroundColor: 'white', justifyContent: "center", alignItems: "center" }}>
+                            <Text>Silahkan lengkapi profil untuk dapat menggunakan fitur di aplikasi ini</Text>
+                            <Text>Verifikasi email</Text>
+                        </View>
+                    </TouchableOpacity> : null :
+                    <TouchableOpacity onPress={() => navigation.navigate('CreatePIN')}>
                         <View style={{ borderRadius: 5, backgroundColor: 'white', justifyContent: "center", alignItems: "center" }}>
                             <Text>Silahkan lengkapi profil untuk dapat menggunakan fitur di aplikasi ini</Text>
                             <Text>Lengkapi profil</Text>
                         </View>
-                    </TouchableOpacity>} */}
+                    </TouchableOpacity>}
                 <View style={{ paddingVertical: 10 }}>
                     <CardComp info="KASIR"
-                        disabled={User.store ? false : true}
+                        disabled={User.data.status == 1 ? false : true}
                         subInfo="Masuk kedalam mode kasir dan atur penjualan kios atau warung"
                         cardStyle={{ backgroundColor: 'white' }}
                         icon={require("../../assets/icons/icon-cashier.png")}
                         onPressCard={_onPressCashier}
                     />
                     <CardComp info="PAYMENT POINT"
-                        disabled={User.store ? false : true}
+                        disabled={User.data.status == 1 ? false : true}
                         subInfo="Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll"
                         icon={require("../../assets/icons/icon-payment.png")}
                         cardStyle={{ backgroundColor: 'white' }}
                         onPressCard={_onPressPayment}
                     />
                     <CardComp info="BELANJA STOK"
-                        disabled={User.store ? false : true}
+                        disabled={User.data.status == 1? false : true}
                         subInfo="Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung"
                         cardStyle={{ backgroundColor: 'white' }}
                         icon={require("../../assets/icons/icon-restock.png")}
