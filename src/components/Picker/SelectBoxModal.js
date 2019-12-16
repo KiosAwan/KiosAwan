@@ -340,7 +340,7 @@ export const SelectBoxModal = (props) => {
 					{props.header}
 				</CardItem> : null,
 				<ScrollView style={{ height: '30%' }}>{
-					props.data.map((item) => {
+					props.data.length > 0 ? props.data.map((item) => {
 						return (
 							<CardItem style={styles.modalCardItem} button onPress={() => {
 								props.handleChangePicker(item)
@@ -349,11 +349,13 @@ export const SelectBoxModal = (props) => {
 								{props.renderItem(item)}
 							</CardItem>
 						)
-					})
+					}) : <CardItem style={styles.modalCardItem}>
+						{props.children}
+					</CardItem>
 				}
 				</ScrollView>,
 				props.footer ?
-					<CardItem footer>
+				<CardItem footer>
 						{props.footer}
 					</CardItem> : null
 			]} />

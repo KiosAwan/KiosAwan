@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { View, StyleSheet, Image, TextInput, Modal } from 'react-native';
 import { GlobalHeader } from '../../../components/Header/Header';
@@ -13,6 +13,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { sendProfileData } from '../../../utils/authhelper';
 import { getProfile } from '../../../redux/actions/actionsUserData';
 import ModalContent from '../../../components/ModalContent/ModalContent';
+import { SelectBoxModal } from '../../../components/Picker/SelectBoxModal';
+import Wilayah from '../../../utils/wilayah';
 
 
 const UpdateProfil = ({ navigation }) => {
@@ -23,6 +25,26 @@ const UpdateProfil = ({ navigation }) => {
 	const [email_store, setEmail_Store] = useState('')
 	const [photo_store, setPhotoStore] = useState('')
 	const [address_store, setAddress_Store] = useState()
+	const [provinsi, setProvinsi] = useState({
+		selected: '',
+		search: '',
+		data: []
+	})
+	const [kabupaten, setKabupaten] = useState({
+		selected: '',
+		search: '',
+		data: []
+	})
+	const [kecamatan, setKecamatan] = useState({
+		selected: '',
+		search: '',
+		data: []
+	})
+	const [desa, setDesa] = useState({
+		selected: '',
+		search: '',
+		data: []
+	})
 	const inputan = [{
 		label: "Email",
 		value: email_store,
@@ -49,31 +71,72 @@ const UpdateProfil = ({ navigation }) => {
 	};
 
 	const _handleSaveProfile = async () => {
-		const id_user = await AsyncStorage.getItem('userId')
-		const formData = new FormData()
-		formData.append("id_user", id_user)
-		formData.append("name_store", name_store)
-		formData.append("email", email_store)
-		formData.append("address_store", address_store)
-		formData.append('photo_store', photo_store != "" ? {
-			uri: photo_store,
-			type: "image/jpeg",
-			name: `${Date.now()}.jpeg`
-		} : null)
-		const res = await sendProfileData(formData)
-		if (res.status == 400) {
-			alert(res.data.errors.msg)
-		} else {
-			setModalVisible(true)
-			setTimeout(() => {
-				setModalVisible(false)
-				dispatch(getProfile(id_user))
-				navigation.navigate('/')
-			}, 1000)
-
-		}
-
+		// const id_user = await AsyncStorage.getItem('userId')
+		// const formData = new FormData()
+		// formData.append("id_user", id_user)
+		// formData.append("name_store", name_store)
+		// formData.append("email", email_store)
+		// formData.append("address_store", address_store)
+		// formData.append('photo_store', photo_store != "" ? {
+		// 	uri: photo_store,
+		// 	type: "image/jpeg",
+		// 	name: `${Date.now()}.jpeg`
+		// } : null)
+		// const res = await sendProfileData(formData)
+		// if (res.status == 400) {
+		// 	alert(res.data.errors.msg)
+		// } else {
+		// 	setModalVisible(true)
+		// 	setTimeout(() => {
+		// 		setModalVisible(false)
+		// 		dispatch(getProfile(id_user))
+		// 		navigation.navigate('/')
+		// 	}, 1000)
+		// }
+		console.debug(JSON.stringify([provinsi.selected, kabupaten.selected, kecamatan.selected, desa.selected]))
 	}
+
+	const _setProvinsi = (item) => {
+		setKabupaten({ data: [] })
+		setKecamatan({ data: [] })
+		setDesa({ data: [] })
+
+		setProvinsi({ ...provinsi, selected: item })
+		Wilayah.Kabupaten(item.id).then((res) => {
+			setKabupaten({ data: res.data.kabupatens })
+		})
+	}
+
+	const _setKabupaten = (item) => {
+		setKecamatan({ data: [] })
+		setDesa({ data: [] })
+
+		setKabupaten({ ...kabupaten, selected: item })
+		Wilayah.Kecamatan(item.id).then((res) => {
+			setKecamatan({ data: res.data.kecamatans })
+		})
+	}
+
+	const _setKecamatan = (item) => {
+		setDesa({ data: [] })
+
+		setKecamatan({ ...kecamatan, selected: item })
+		Wilayah.Desa(item.id).then((res) => {
+			setDesa({ data: res.data.desas })
+		})
+	}
+
+	const _setDesa = (item) => {
+		setDesa({ selected: item })
+	}
+
+	useEffect(() => {
+		Wilayah.Provinsi().then((res) => {
+			setProvinsi({ ...provinsi, data: res.data.semuaprovinsi })
+			console.debug(provinsi)
+		})
+	}, [])
+
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<Modal
@@ -100,6 +163,50 @@ const UpdateProfil = ({ navigation }) => {
 							</FloatingInput>
 						})
 					}
+
+					<SelectBoxModal style={{ marginTop: 15 }}
+						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+						header={
+							<TextInput value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} placeholder="Pencarian" />
+						}
+						value={provinsi.selected ? provinsi.selected.nama : null}
+						handleChangePicker={_setProvinsi}
+						renderItem={(item) => (<Text>{item.nama}</Text>)} >
+						<Text>Data tidak ditemukan</Text>
+					</SelectBoxModal>
+
+					<SelectBoxModal style={{ marginTop: 15 }}
+						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+						header={
+							<TextInput value={kabupaten.search} onChangeText={text => setProvinsi({ ...kabupaten, search: text })} placeholder="Pencarian" />
+						}
+						value={kabupaten.selected ? kabupaten.selected.nama : null}
+						handleChangePicker={_setKabupaten}
+						renderItem={(item) => (<Text>{item.nama}</Text>)} >
+						<Text>Data tidak ditemukan</Text>
+					</SelectBoxModal>
+
+					<SelectBoxModal style={{ marginTop: 15 }}
+						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+						header={
+							<TextInput value={kecamatan.search} onChangeText={text => setProvinsi({ ...kecamatan, search: text })} placeholder="Pencarian" />
+						}
+						value={kecamatan.selected ? kecamatan.selected.nama : null}
+						handleChangePicker={_setKecamatan}
+						renderItem={(item) => (<Text>{item.nama}</Text>)} >
+						<Text>Data tidak ditemukan</Text>
+					</SelectBoxModal>
+
+					<SelectBoxModal style={{ marginTop: 15 }}
+						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+						header={
+							<TextInput value={desa.search} onChangeText={text => setProvinsi({ ...desa, search: text })} placeholder="Pencarian" />
+						}
+						value={desa.selected ? desa.selected.nama : null}
+						handleChangePicker={_setDesa}
+						renderItem={(item) => (<Text>{item.nama}</Text>)} >
+						<Text>Data tidak ditemukan</Text>
+					</SelectBoxModal>
 				</View>
 				<View style={{ marginBottom: 70 }}>
 					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
@@ -109,7 +216,6 @@ const UpdateProfil = ({ navigation }) => {
 						</TouchableOpacity>
 					</View>
 				</View>
-
 			</ScrollView>
 			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
 				<BottomButton
