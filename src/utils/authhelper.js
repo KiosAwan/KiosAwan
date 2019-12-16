@@ -146,8 +146,20 @@ export const payCredit = async (data, transactionId) => {
 
 //Create PIN
 export const createUserPIN = async (data) => {
-  const res = await axios.post(`${HOST_URL}/change_pin`, data)
+  const res = await axios.post(`${HOST_URL}/create_pin`, data)
   return res.data
+}
+
+//Change PIN
+export const changeUserPIN = async (data) => {
+  try {
+    const res = await axios.post(`${HOST_URL}/change_pin`, data)
+    return res.data
+  }
+  catch (error) {
+    const res = error.response.data
+    return res
+  }
 }
 
 //Verify password

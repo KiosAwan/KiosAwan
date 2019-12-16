@@ -13,6 +13,7 @@ import ChangePINInputPwd from '../../screens/AuthScreen/Drawer/Setting/ChangePIN
 import UbahPasswordInputPIN from '../../screens/AuthScreen/Drawer/Setting/UbahPasswordInputPIN';
 import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmailNewEmail'
 import MenuSettingUbahNoHPInputOTP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHPInputOTP'
+import UbahEmailInfoScreen from '../../screens/AuthScreen/Drawer/Setting/UbahEmailInfoScreen'
 
 const SettingNavigator = createStackNavigator({
   '/drawer/settings': {
@@ -28,6 +29,12 @@ const SettingNavigator = createStackNavigator({
     }
 	},
 	'/drawer/settings/change-email': {
+    screen: UbahEmailInfoScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/settings/change-email/otp-validation': {
     screen: MenuSettingUbahEmail,
     navigationOptions: {
       header: null

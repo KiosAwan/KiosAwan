@@ -53,8 +53,7 @@ const NewPassword2 = ({ navigation }) => {
                     alert(res.data.errors.msg)
                     setIsLoading(false)
                 } else {
-                    alert("Cek koneksi anda")
-                    setIsLoading(false)
+                    alert(JSON.stringify(res))
                 }
             }
         }
@@ -69,7 +68,7 @@ const NewPassword2 = ({ navigation }) => {
             />
             <View style={{ alignItems: "center" }}>
                 <View style={{ width: '70%', paddingTop: 30 }}>
-                    <Text style={{ textAlign: "center", color: 'black' }}>Confirm your PIN</Text>
+                    <Text style={{ textAlign: "center", color: 'black' }}>Confirm your Password</Text>
                 </View>
                 <InputPIN
                     textColor="black"

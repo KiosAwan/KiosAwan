@@ -7,6 +7,7 @@ export const ColorsList = {
     primary: '#cd0192',
     text: '#8b8b8b',
     success: '#55c09b',
+    successSoft: '#d6f6eb',
     warning: '#f28c71',
     info: '#288cf7',
     danger: '#f04184',
