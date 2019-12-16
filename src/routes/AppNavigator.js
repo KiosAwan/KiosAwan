@@ -11,7 +11,7 @@ const AppNavigator = createSwitchNavigator({
     '/splashscreen': CheckMember,
     '/intro': AppIntro
   }, {
-    initialRouteName: 'CheckMember'
+    initialRouteName: '/splashscreen'
   })
 
 
