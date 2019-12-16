@@ -13,19 +13,9 @@ const MenuSettingUbahEmail = ({ navigation }) => {
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     let [countdown, setCountdown] = useState(59)
     useEffect(() => {
-        _sendOTP()
-        setTimeout(() => {
             _formatPhoneNum()
             _firstRender()
-        }, 1000)
     }, [])
-
-    const _sendOTP = async() => {
-        const data = {
-            phone_number : User.data.phone_number
-        }
-        await sendOTPAuth(data) 
-    }
 
     const _formatPhoneNum = () => {
         setShowedNumber(showPhoneNumber(User.data.phone_number.slice(2,User.data.length)))

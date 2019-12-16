@@ -33,9 +33,6 @@ const CreatePIN = ({ navigation }) => {
                 id,
                 pin
             }
-
-            console.log(id)
-            console.log(data)
             const res = await createUserPIN(data)
             if (res.status == 200) {
                 setTimeout(() => {

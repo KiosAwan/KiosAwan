@@ -66,7 +66,7 @@ export const sendOTP = async (data) => {
 
 export const sendNewPassword = async (data) => {
     try {
-        const res = await axios.post(`${HOST_URL}/change_password`, data)
+        const res = await axios.post(`${HOST_URL}/forgot_password`, data)
         return res.data
     }
     catch(error){
