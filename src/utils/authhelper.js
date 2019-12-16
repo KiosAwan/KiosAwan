@@ -241,3 +241,15 @@ export const changeNewPhoneNumber = async (data) => {
       return res
   }
 }
+
+// Edit store profile
+export const editStoreProfile = async (data, storeId) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/store_update/${storeId}`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}
