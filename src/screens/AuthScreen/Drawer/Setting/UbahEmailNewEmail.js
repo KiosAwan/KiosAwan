@@ -42,7 +42,7 @@ const UbahEmailNewEmail  = ({ navigation }) => {
             setTimeout(() => {
                 setModalVisible(false)
                 dispatch(getProfile(User.data.id))
-                navigation.navigate('MenuSetting')
+                navigation.navigate('/drawer/settings')
             }, 1000)
         }else if(res.status == 400) {
             alert(res.data.errors.msg)

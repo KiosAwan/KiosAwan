@@ -66,7 +66,7 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 			// 	alert(res.data.errors.msg)
 			// } else {
 			// 	await dispatch(getProfile(id_user))
-			// 	navigation.navigate('Home')
+			// 	navigation.navigate('/')
 			// }
 			setEnableSave(false)
 		} else {
