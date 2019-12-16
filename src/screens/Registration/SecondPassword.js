@@ -36,7 +36,7 @@ const SecondPassword = ({ navigation }) => {
     //Next button function
     const _handleNextButton = async () => {
         if (FormRegister.password != FormRegister.secondpassword) {
-            alert("Pin harus sama")
+            alert("Password harus sama")
         } else {
             setIsLoading(true)
             const data = {
@@ -56,8 +56,6 @@ const SecondPassword = ({ navigation }) => {
             } else {
                 if (res.status == 400) {
                     alert(res.data.errors.msg)
-                } else {
-                    alert("Cek koneksi anda")
                 }
             }
         }

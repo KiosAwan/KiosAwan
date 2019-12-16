@@ -20,7 +20,7 @@ import { FontList } from '../../styles/typography'
 import { useSelector } from 'react-redux'
 
 //CustomComponent
-import { CardComp, LinearCardComp, CardTextImage } from '../../components/Card/CardComp'
+import { CardComp, CardTextImage } from '../../components/Card/CardComp'
 import { CategoryText } from '../../components/Text/CategoryText'
 import { RowChild } from '../../components/Helper/RowChild'
 import BarStatus from '../../components/BarStatus'
@@ -84,20 +84,22 @@ const Home = ({ navigation }) => {
                 </View> */}
             </LinearGradient>
             <ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
-                {User.store ? User.data.status == 0 ?
-                    <TouchableOpacity onPress={() => navigation.navigate('MenuSetting')}>
-                        <View style={{ borderRadius: 5, backgroundColor: 'white', justifyContent: "center", alignItems: "center" }}>
-                            <Text>Silahkan lengkapi profil untuk dapat menggunakan fitur di aplikasi ini</Text>
-                            <Text>Verifikasi email</Text>
+                <View style={{ paddingVertical: 10 }}>
+                    {
+                    User.store ? User.data.status == 0 ?
+                    <TouchableOpacity onPress={() => navigation.navigate('CreatePIN')} style={{ paddingBottom: 10 }}>
+                        <View style={{ borderRadius: 5, padding: 5, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
+                            <Icon color="#904bb7" name="exclamation-circle" style={{marginHorizontal : 10}} />
+                            <Text style={{color : '#904bb7', fontFamily : FontList.regularFont}}>Verifikasi Email Anda Sekarang!</Text>
                         </View>
-                    </TouchableOpacity> : null :
-                    <TouchableOpacity onPress={() => navigation.navigate('CreatePIN')}>
-                        <View style={{ borderRadius: 5, backgroundColor: 'white', justifyContent: "center", alignItems: "center" }}>
-                            <Text>Silahkan lengkapi profil untuk dapat menggunakan fitur di aplikasi ini</Text>
-                            <Text>Lengkapi profil</Text>
+                    </TouchableOpacity>
+                    : null :
+                    <TouchableOpacity onPress={() => navigation.navigate('CreatePIN')} style={{ paddingBottom: 10 }}>
+                        <View style={{ borderRadius: 5, padding: 5, backgroundColor: ColorsList.danger, alignItems: "center", flexDirection: 'row' }}>
+                            <Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{marginHorizontal : 10}} />
+                            <Text style={{color : ColorsList.whiteColor, fontFamily : FontList.regularFont}}>Silahkan lengkapi data toko Anda!</Text>
                         </View>
                     </TouchableOpacity>}
-                <View style={{ paddingVertical: 10 }}>
                     <CardComp info="KASIR"
                         disabled={User.data.status == 1 ? false : true}
                         subInfo="Masuk kedalam mode kasir dan atur penjualan kios atau warung"
@@ -113,7 +115,7 @@ const Home = ({ navigation }) => {
                         onPressCard={_onPressPayment}
                     />
                     <CardComp info="BELANJA STOK"
-                        disabled={User.data.status == 1? false : true}
+                        disabled={User.data.status == 1 ? false : true}
                         subInfo="Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung"
                         cardStyle={{ backgroundColor: 'white' }}
                         icon={require("../../assets/icons/icon-restock.png")}

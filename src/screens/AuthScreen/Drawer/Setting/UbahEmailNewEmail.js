@@ -38,7 +38,6 @@ const UbahEmailNewEmail  = ({ navigation }) => {
         const res = await changeEmail(data)
         if(res.status == 200){
             setModalVisible(true)
-            dispatch(getProfile(User.data.id))
             setTimeout(() => {
                 setModalVisible(false)
                 dispatch(getProfile(User.data.id))
