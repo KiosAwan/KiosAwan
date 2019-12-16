@@ -7,14 +7,13 @@ import {
 import { useSelector } from 'react-redux'
 import CodeInput from 'react-native-confirmation-code-input';
 import { GlobalHeader } from '../../../../components/Header/Header';
-import { showPhoneNumber } from '../../../../utils/unauthhelper';
 import { ColorsList } from '../../../../styles/colors';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
+import { sendCodeToEmail, verifyEmailCode } from '../../../../utils/authhelper';
 
 const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
     const User = useSelector(state => state.User)
-    const [showedNumber, setShowedNumber] = useState('')
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     const [otpCode, setOtpCode] = useState()
     let [countdown, setCountdown] = useState(59)
@@ -26,7 +25,10 @@ const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
     }, [])
 
     const _sendOTP = async () => {
-        // await 
+        const data = {
+            email: User.data.email
+        }
+        await sendCodeToEmail(data)
     }
 
     const _handleBack = () => {
@@ -65,19 +67,32 @@ const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
         }, 60000)
         setIsResendDisabled(true)
 
-        // const data = {
-        //     phone_number: "62" + phoneNumber,
-        // }
-        // await sendOTP(data)
+        const data = {
+            email: User.data.email,
+        }
+        const res = await sendCodeToEmail(data)
+        if (res.status == 400) {
+            alert(res.data.errors.msg)
+        }
     }
 
     const _handleOTPFulfilled = async (code) => {
         setOtpCode(code)
     }
-    const _nextBtn = () => {
-        navigation.navigate('MenuSettingUbahNoHP', {
-            OTP: otpCode
-        })
+    const _nextBtn = async () => {
+        const data = {
+            email: User.data.email,
+            code: otpCode
+        }
+        const res = await verifyEmailCode(data)
+        if (res.status == 400) {
+            alert(res.data.errors.msg)
+        }
+        else if (res.status == 200) {
+            navigation.navigate('MenuSettingUbahNoHP', {
+                OTP: otpCode
+            })
+        }
     }
     return (
         <View style={styles.container}>
@@ -95,7 +110,7 @@ const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
                     codeLength={6}
                     size={40}
                     autoFocus
-                    onFulfill={(code) => setOtpCode(code)}
+                    onFulfill={_handleOTPFulfilled}
                 />
                 {isResendDisabled ?
                     <Text style={{ marginBottom: 15, color: 'black' }}>Resend in {countdown} s</Text> :

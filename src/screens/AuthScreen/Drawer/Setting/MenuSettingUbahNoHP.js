@@ -1,21 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Modal, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Modal, StyleSheet } from 'react-native';
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
-import CodeInput from 'react-native-confirmation-code-input';
+import { useSelector, useDispatch } from 'react-redux'
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
-import { FontList } from '../../../../styles/typography';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { Button } from 'native-base';
-
+import { changeNewPhoneNumber } from '../../../../utils/authhelper'
+import { phoneValidation } from '../../../../utils/unauthhelper';
+import { getProfile } from '../../../../redux/actions/actionsUserData';
 const MenuSettingUbahNoHP = ({ navigation }) => {
-	const [otpCode, setOtpCode] = useState(navigation.params ? navigation.params.OTP : undefined)
+	const dispatch = useDispatch()
+	const User = useSelector(state => state.User)
+	const [newPhoneNum, setNewPhoneNum] = useState()
 	const [modalVisible, setModalVisible] = useState(false)
 
-	const _nextBtn = () => {
-		setModalVisible(true)
+	const _nextBtn = async () => {
+		const a = phoneValidation(newPhoneNum[0] == 0 ? newPhoneNum.replace("0", "62") : newPhoneNum)
+		if (!a) {
+			alert("Mohon masukkan nomer telfon dengan format yang benar")
+		}
+		else {
+			const data = {
+				id: User.data.id,
+				phone_number: newPhoneNum[0] == 0 ? newPhoneNum.replace("0", "62") : newPhoneNum
+			}
+			const res = await changeNewPhoneNumber(data)
+			if (res.status == 400) {
+				alert(res.data.errors.msg)
+			} else if (res.status == 200) {
+				setModalVisible(true)
+				dispatch(getProfile(User.data.id))
+				setTimeout(() => {
+					setModalVisible(false)
+					navigation.navigate('MenuSetting')
+				}, 800)
+			}
+		}
+	}
+	const _handleChangePhone = (text) => {
+		setNewPhoneNum(text)
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
@@ -36,13 +61,15 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 			<GlobalHeader title="Ubah No. HP" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 15, backgroundColor: 'white', margin: 30 }}>
 				<View>
-					<FloatingInput label="Masukkan nomor baru anda">
-						<TextInput value="" />
+					<FloatingInput label="Nomor lama anda">
+						<TextInput value={User.data.phone_number} editable={false} />
 					</FloatingInput>
 				</View>
 				<View>
 					<FloatingInput style={{ marginTop: 30 }} label="Masukkan nomor baru anda">
-						<TextInput value="" />
+						<TextInput
+							keyboardType="numeric"
+							value={newPhoneNum} onChangeText={_handleChangePhone} />
 					</FloatingInput>
 				</View>
 			</View>

@@ -5,8 +5,8 @@ import { ColorsList } from '../../../../styles/colors';
 import { RowChild } from '../../../../components/Helper/RowChild';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
-import { validNumber, formatToDate } from '../../../../utils/authhelper';
+import {  FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
+import {  formatToDate } from '../../../../utils/authhelper';
 import { AddCashPayment, AddDebtDate } from '../../../../redux/actions/actionsStoreProduct';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { PilihPelanggan } from '../../../../components/Picker/SelectBoxModal';

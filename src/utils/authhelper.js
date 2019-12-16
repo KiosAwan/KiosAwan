@@ -194,10 +194,46 @@ export const verifyOTPAuth = async (data) => {
   }
 }
 
-// Verify OTP
+// Changing Email
 export const changeEmail = async (data) => {
   try {
       const res = await axios.post(`${HOST_URL}/change_email`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}
+
+// Send Code to Email
+export const sendCodeToEmail = async (data) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/send_email`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}
+
+// Valid email
+export const verifyEmailCode = async (data) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/valid_email`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}
+
+// Change New Phone Number
+export const changeNewPhoneNumber = async (data) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/change_phone_number`, data)
       return res.data
   }
   catch (error) {
