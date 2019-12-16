@@ -52,7 +52,7 @@ const SecondPassword = ({ navigation }) => {
                 await dispatch(getProfile(res.data.id.toString()))
                 setIsLoading(false)
                 await dispatch(clearAllRegistration())
-                navigation.navigate('Home')
+                navigation.navigate('/')
             } else {
                 if (res.status == 400) {
                     alert(res.data.errors.msg)

@@ -47,7 +47,7 @@ const NewPassword2 = ({ navigation }) => {
             if (res.status == 200) {
                 dispatch(clearAllRegistration())
                 setIsLoading(false)
-                navigation.navigate('Home')
+                navigation.navigate('/')
             } else {
                 if (res.status == 400) {
                     alert(res.data.errors.msg)

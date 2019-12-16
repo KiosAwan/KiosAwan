@@ -26,13 +26,12 @@ const CheckMember = ({ navigation }) => {
       const checkUserData = await AsyncStorage.getItem('userId');
       if (checkUserData != null) {
         await dispatch(getProfile(checkUserData))
-        navigation.navigate('AuthNavigator')
-      }
-      else {
+        navigation.navigate('/')
+      } else {
         if (checkUserIntro == "sudah") {
-          navigation.navigate('PhoneRegistration')
+          navigation.navigate('/unauth')
         } else {
-          navigation.navigate('AppIntro')
+          navigation.navigate('/intro')
         }
       }
     } catch (e) {

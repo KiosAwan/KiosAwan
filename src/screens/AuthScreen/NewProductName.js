@@ -51,7 +51,7 @@ const NewProductName = ({ navigation }) => {
 			alert("Category tidak boleh kosong")
 		}
 		else {
-			navigation.navigate('NewProductLast')
+			navigation.navigate('/cashier/new-product-last')
 		}
 	}
 

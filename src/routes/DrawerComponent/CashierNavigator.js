@@ -12,74 +12,75 @@ import Struk from '../../screens/AuthScreen/Struk'
 import InputManual from '../../screens/AuthScreen/InputManual'
 import CheckOut from '../../screens/AuthScreen/CheckOut'
 import AddCartWithBarcode from '../../screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
-const CashierNavigator = createStackNavigator({
-  Cashier: {
+
+const Navs = {
+  '/cashier': {
     screen: Cashier,
     navigationOptions: {
       header: null
     }
   },
-  Stock: {
+  '/cashier/stock': {
     screen: Stock,
     navigationOptions: {
       header: null
     }
   },
-  NewsScreen: {
+  '/cashier/news-screen': {
     screen: NewsScreen,
     navigationOptions: {
       header: null
     }
   },
-  NewBarcode: {
+  '/cashier/new-barcode': {
     screen: NewBarcodeProduct,
     navigationOptions: {
       header: null
     }
   },
-  NewProductName: {
+  '/cashier/new-product-name': {
     screen: NewProductName,
     navigationOptions: {
       header: null
     }
   },
-  NewProductLast: {
+  '/cashier/new-product-last': {
     screen: NewProductLast,
     navigationOptions: {
       header: null
     }
   },
-  Cart: {
+  '/cashier/cart': {
     screen: Cart,
     navigationOptions: {
       header: null
     }
   },
-  CheckOut: {
+  '/cashier/check-out': {
     screen: CheckOut,
     navigationOptions: {
       header: null
     }
   },
-  Struk: {
+  '/cashier/struk': {
     screen: Struk,
     navigationOptions: {
       header: null
     }
   },
-  InputManual: {
+  '/cashier/input-manual': {
     screen: InputManual,
     navigationOptions: {
       header: null
     }
   },
-  AddCartWithBarcode: {
+  '/cashier/add-cart-with-barcode': {
     screen: AddCartWithBarcode,
     navigationOptions: {
       header: null
     }
   }
-
-})
+}
+const CashierNavigator = createStackNavigator(Navs)
 
 export default createAppContainer(CashierNavigator)

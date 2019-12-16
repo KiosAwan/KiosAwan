@@ -15,84 +15,84 @@ import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmail
 import MenuSettingUbahNoHPInputOTP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHPInputOTP'
 
 const SettingNavigator = createStackNavigator({
-  MenuSetting: {
+  '/drawer/settings': {
     screen: MenuSetting,
     navigationOptions: {
       header: null
     }
 	},
-	MenuSettingProfil: {
+	'/drawer/settings/profile': {
     screen: MenuSettingProfil,
     navigationOptions: {
       header: null
     }
 	},
-	MenuSettingUbahEmail: {
+	'/drawer/settings/change-email': {
     screen: MenuSettingUbahEmail,
     navigationOptions: {
       header: null
     }
 	},
-	MenuSettingUbahNoHP: {
+  '/drawer/settings/change-email/new-email' : {
+    screen : UbahEmailNewEmail,
+    navigationOptions : {
+      header : null
+    }
+  },
+	'/drawer/settings/change-phone-number/change': {
     screen: MenuSettingUbahNoHP,
     navigationOptions: {
       header: null
     }
 	},
-	MenuSettingUbahNoHPInputOTP: {
+	'/drawer/settings/change-phone-number': {
     screen: MenuSettingUbahNoHPInputOTP,
     navigationOptions: {
       header: null
     }
 	},
-	MenuSettingUbahPassword: {
-    screen: MenuSettingUbahPassword,
-    navigationOptions: {
-      header: null
-    }
-	},
-	MenuSettingLupaPIN: {
-    screen: MenuSettingLupaPIN,
-    navigationOptions: {
-      header: null
-    }
-  },
-  ForgotPINNewPIN : {
-    screen : ForgotPINNewPIN,
-    navigationOptions : {
-      header : null
-    }
-  },
-  ForgotPINOTP : {
-    screen : ForgotPINOTP,
-    navigationOptions : {
-      header : null
-    }
-  },
-  ChangePINNewPIN : {
-    screen : ChangePINNewPIN,
-    navigationOptions : {
-      header : null
-    }
-  },
-  ChangePINInputPwd : {
-    screen : ChangePINInputPwd,
-    navigationOptions : {
-      header : null
-    }
-  },
-  UbahPasswordInputPIN : {
+  '/drawer/settings/change-password' : {
     screen : UbahPasswordInputPIN,
     navigationOptions : {
       header : null
     }
   },
-  UbahEmailNewEmail : {
-    screen : UbahEmailNewEmail,
+	'/drawer/settings/change-password/change': {
+    screen: MenuSettingUbahPassword,
+    navigationOptions: {
+      header: null
+    }
+	},
+	'/drawer/settings/lupa-pin': {
+    screen: MenuSettingLupaPIN,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/settings/forgot-pin' : {
+    screen : ForgotPINOTP,
     navigationOptions : {
       header : null
     }
-  }
+  },
+  '/drawer/settings/forgot-pin/new-pin' : {
+    screen : ForgotPINNewPIN,
+    navigationOptions : {
+      header : null
+    }
+  },
+  '/drawer/settings/change-pin' : {
+    screen : ChangePINInputPwd,
+    navigationOptions : {
+      header : null
+    }
+  },
+  '/drawer/settings/change-pin/new-pin' : {
+    screen : ChangePINNewPIN,
+    navigationOptions : {
+      header : null
+    }
+  },
 })
 
 export default createAppContainer(SettingNavigator)

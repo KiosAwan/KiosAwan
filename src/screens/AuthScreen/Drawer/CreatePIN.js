@@ -40,7 +40,7 @@ const CreatePIN = ({ navigation }) => {
             if (res.status == 200) {
                 setTimeout(() => {
                     setModalVisible(false)
-                    navigation.navigate('UpdateProfil')
+                    navigation.navigate('/temp/update-profile')
                 }, 800)
             }else {
                 alert('Gagal membuat pin')

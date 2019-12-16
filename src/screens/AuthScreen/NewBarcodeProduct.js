@@ -38,7 +38,7 @@ const NewBarcodeProduct = ({ navigation }) => {
               setScanWork(true)
               dispatch(addProductName(response.data.nama_product))
               dispatch(addProductIdCategory(null))
-              navigation.navigate('NewProductName')
+              navigation.navigate('/cashier/new-product-name')
             }
           },
         ],
@@ -55,7 +55,7 @@ const NewBarcodeProduct = ({ navigation }) => {
               setScanWork(true)
               dispatch(addProductName(''))
               dispatch(addProductIdCategory(null))
-              navigation.navigate('NewProductName')
+              navigation.navigate('/cashier/new-product-name')
             }
           },
         ],
@@ -67,7 +67,7 @@ const NewBarcodeProduct = ({ navigation }) => {
   const _handleNoBarcode = () => {
     dispatch(addProductName(''))
     dispatch(addProductIdCategory(null))
-    navigation.navigate('NewProductName')
+    navigation.navigate('/cashier/new-product-name')
   }
   return (
     <View style={{ flex: 1 }}>

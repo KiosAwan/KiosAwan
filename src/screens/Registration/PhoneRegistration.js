@@ -65,7 +65,7 @@ const PhoneRegistration = ({ navigation }) => {
         }
         const res = await sendPhoneNumber(data)
         if (res.type == "login") {
-            navigation.navigate('Login')
+            navigation.navigate('/unauth/login')
         } else if (res.type == "register") {
             OTPRegisterSheet.open()
         }
@@ -76,7 +76,7 @@ const PhoneRegistration = ({ navigation }) => {
         }
     }
     const _navigateRegister = () => {
-        navigation.navigate('NameRegistration')
+        navigation.navigate('/unauth/registration')
     }
 
     return (

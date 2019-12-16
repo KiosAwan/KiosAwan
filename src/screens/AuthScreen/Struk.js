@@ -23,7 +23,7 @@ const Struk = ({ navigation }) => {
         setResponse(response)
     }
     const _handleSelesai = () => {
-        navigation.navigate('Cashier')
+        navigation.navigate('/cashier')
     }
     return (
         <View style={{ flex: 1 }}>

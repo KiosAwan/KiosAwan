@@ -83,7 +83,7 @@ class CheckOut extends React.Component {
             this.props.AddCustomer(null)
             this.props.getProduct(this.props.User.store.id_store)
             this.props.getTransactionList(this.props.User.store.id_store)
-            this.props.navigation.navigate('Struk', { response : res.data})
+            this.props.navigation.navigate('/cashier/struk', { response : res.data})
         }
 
     }
@@ -130,7 +130,7 @@ class CheckOut extends React.Component {
             this.props.AddCustomer(null)
             this.props.getProduct(this.props.User.store.id_store)
             this.props.getTransactionList(this.props.User.store.id_store)
-            this.props.navigation.navigate('Struk', { response : res.data})
+            this.props.navigation.navigate('/cashier/struk', { response : res.data})
         }
     }else {
         alert("Tanggal tidak boleh kosong")

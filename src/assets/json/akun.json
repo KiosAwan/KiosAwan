@@ -2,7 +2,7 @@
   [
     {
       "name": "Transaksi",
-      "route": "Transaction",
+      "route": "/drawer/transaction",
       "icon": "sync"
     },
     {
@@ -12,17 +12,17 @@
     },
     {
       "name": "Laporan",
-      "route": "Setting",
+      "route": "/drawer/report",
       "icon": "paper"
     },
     {
       "name": "Pengaturan",
-      "route": "MenuSetting",
+      "route": "/drawer/settings",
       "icon": "settings"
     },
     {
       "name": "Bantuan",
-      "route": "Setting",
+      "route": "/drawer/help",
       "icon": "help"
     }
   ]

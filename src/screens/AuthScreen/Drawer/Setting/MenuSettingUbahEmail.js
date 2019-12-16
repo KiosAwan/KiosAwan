@@ -83,7 +83,7 @@ const MenuSettingUbahEmail = ({ navigation }) => {
             alert(res.data.errors.msg)
         }
         else if (res.status == 200) {
-            navigation.navigate("UbahEmailNewEmail")
+            navigation.navigate('/drawer/settings/change-email/new-email')
         }
     }
     return (

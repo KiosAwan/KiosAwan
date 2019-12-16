@@ -6,19 +6,19 @@ import TransactionList from '../../screens/AuthScreen/TransactionList'
 import CancelTransaction from '../../screens/AuthScreen/CancelTransaction'
 
 const TransactionNavigator = createStackNavigator({
-  TransactionList: {
+  '/drawer/transaction': {
     screen: TransactionList,
     navigationOptions: {
       header: null
     }
   },
-  DetailTransaction: {
+  '/drawer/transaction/detail-transaction': {
     screen: DetailTransaction,
     navigationOptions: {
       header: null
     }
   },
-  CancelTransaction: {
+  '/drawer/transaction/cancel-transaction': {
     screen: CancelTransaction,
     navigationOptions: {
       header: null

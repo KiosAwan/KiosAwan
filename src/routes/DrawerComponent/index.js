@@ -6,25 +6,26 @@ import SettingNavigator from './SettingNavigator'
 import ManajemenNavigator from './ManajemenNavigator'
 
 const AkunNavigator = createStackNavigator({
-    Akun: {
+    // /drawer
+    '/drawer': {
         screen: Akun,
         navigationOptions: {
             header: null
         }
     },
-    Transaction: {
+    '/drawer/transaction/index': {
         screen: TransactionNavigator,
         navigationOptions: {
             header: null
         }
     },
-    SettingNavigator: {
+    '/drawer/settings/index': {
         screen: SettingNavigator,
         navigationOptions: {
             header: null
         }
     },
-    '/drawer/manajemen': {
+    '/drawer/manajemen/index': {
         screen: ManajemenNavigator,
         navigationOptions: {
             header: null

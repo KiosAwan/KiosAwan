@@ -36,7 +36,7 @@ const NewPassword1 = ({ navigation }) => {
             alert("Password minimal 8 karakter")
         }
         else {
-            navigation.navigate('NewPassword2')
+            navigation.navigate('/unauth/login/forgot-password/new-password-2')
         }
     }
     return (

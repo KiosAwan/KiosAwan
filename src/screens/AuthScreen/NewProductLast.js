@@ -65,7 +65,7 @@ const NewProductLast = ({ navigation }) => {
 					dispatch(clearAllNewProduct())
 					dispatch(removeAllCart())
 					dispatch(getProduct(User.store.id_store))
-					navigation.navigate('Cashier')
+					navigation.navigate('/cashier')
 				}, 1000)
 
 			}

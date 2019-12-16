@@ -31,7 +31,7 @@ const Cart = ({ navigation }) => {
 	const [diskon, setDiskon] = useState(false)
 	const _handleNextBtn = async () => {
 		await dispatch(getCustomer(User.store.id_store))
-		navigation.navigate('CheckOut')
+		navigation.navigate('/cashier/check-out')
 	}
 	const _editPesanan = (index, item) => {
 		setEditPesananOpen(true);
@@ -207,7 +207,7 @@ const Cart = ({ navigation }) => {
 				<BottomButton
 					onPressBtn={() => {
 						if (Product.jumlahitem > 0) {
-							navigation.navigate('CheckOut')
+							navigation.navigate('/cashier/check-out')
 							dispatch(getCustomer(User.store.id_store))
 						} else {
 							alert("Keranjang anda kosong")

@@ -87,7 +87,7 @@ const ForgotPINOTP = ({ navigation }) => {
             alert(res.data.errors.msg)
         }
         else if (res.status == 200) {
-            navigation.navigate("ForgotPINNewPIN")
+            navigation.navigate('/drawer/settings/forgot-pin/new-pin')
         }
     }
     return (

@@ -28,7 +28,7 @@ const DetailTransaction = ({ navigation }) => {
     }
 
     const _handleCancelTransaction = async () => {
-        navigation.navigate('CancelTransaction', { id: transactionId })
+        navigation.navigate('/drawer/transaction/cancel-transaction', { id: transactionId })
     }
 
     const _handlePembayaranUtang = () => {

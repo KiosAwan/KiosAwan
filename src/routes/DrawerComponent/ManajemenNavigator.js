@@ -7,7 +7,7 @@ import ManajemenDiskon from '../../screens/AuthScreen/Drawer/Manajemen/Diskon'
 import ManajemenPelanggan from '../../screens/AuthScreen/Drawer/Manajemen/Pelanggan'
 
 const ManajemenNavigator = createStackNavigator({
-	MainManajemen: {
+	'/drawer/manajemen': {
 		screen: Manajemen,
 		navigationOptions: {
 			header: null

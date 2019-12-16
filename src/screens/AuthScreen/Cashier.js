@@ -33,22 +33,22 @@ const Cashier = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <CashierHeader
                 handleChangeText={(text) => setSearch(text)}
-                onPressBack={() => navigation.navigate('Home')}
+                onPressBack={() => navigation.navigate('/')}
             />
             <View style={styles.wrapButtonHeader}>
                 <ButtonWithIcon
-                    onPressBtn={() => navigation.navigate('NewBarcode')}
+                    onPressBtn={() => navigation.navigate('/cashier/new-barcode')}
                     style={styles.btnIconStyle}
                     iconName="plus"
                     buttonTitle="PRODUK BARU"
                 />
                 <ButtonWithIcon
                     style={styles.btnIconStyle}
-                    onPressBtn={() => navigation.navigate('InputManual')}
+                    onPressBtn={() => navigation.navigate('/cashier/input-manual')}
                     iconName="history"
                     buttonTitle="PESAN MANUAL"
                 />
-                <TouchableOpacity onPress={() => navigation.navigate('AddCartWithBarcode')}>
+                <TouchableOpacity onPress={() => navigation.navigate('/cashier/add-cart-with-barcode')}>
                     <View style={styles.barcodeButton}>
                         <Icon name="ios-barcode" style={{ color: 'white' }} />
                     </View>
@@ -94,7 +94,7 @@ const Cashier = ({ navigation }) => {
                     <View style={stylesglobe.absoluteBottom}>
                         <BottomButton
                             onPressBtn={() => {
-                                navigation.navigate('Cart')
+                                navigation.navigate('/cashier/cart')
                                 dispatch(getCustomer(User.store.id_store))
                             }}
                             style={styles.absoluteButton}

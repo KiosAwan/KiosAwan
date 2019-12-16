@@ -10,7 +10,7 @@ const MenuSetting = ({ navigation }) => {
 	const ListMenuSetting = require('../../../../assets/json/setting.json')
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader title="Pengaturan" onPressBack={() => navigation.navigate('Akun')} />
+			<GlobalHeader title="Pengaturan" onPressBack={() =>	navigation.navigate('/drawer')} />
 			<View style={{ padding: 15 }}>
 				{
 					ListMenuSetting.map((menu, i) => {

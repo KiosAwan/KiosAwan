@@ -36,7 +36,7 @@ const ChangePINInputPwd = ({ navigation }) => {
         }
         const res = await verifyUserPassword(data)
         if(res.status == 200){
-            navigation.navigate('ChangePINNewPIN')
+            navigation.navigate('/drawer/settings/change-pin/new-pin')
         }else if (res.status == 400){
             alert(res.data.errors.msg)
         }

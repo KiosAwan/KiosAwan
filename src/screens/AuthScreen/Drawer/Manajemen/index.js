@@ -10,7 +10,7 @@ const Manajemen = ({ navigation }) => {
 	const ListManajemen = require('../../../../assets/json/manajemen.json')
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader title="Manajemen" onPressBack={() => navigation.navigate('Akun')} />
+			<GlobalHeader title="Manajemen" onPressBack={() => navigation.navigate('/drawer')} />
 			<View style={{ padding: 15 }}>
 				{
 					ListManajemen.map((menu, i) => {

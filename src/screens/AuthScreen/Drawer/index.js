@@ -16,7 +16,7 @@ const Akun = ({ navigation }) => {
 	const _onPressLogout = async (props) => {
 		try {
 			await AsyncStorage.removeItem('userId')
-			navigation.navigate('UnauthNavigator')
+			navigation.navigate('/unauth')
 		}
 		catch (e) {
 			alert(e)
@@ -25,7 +25,7 @@ const Akun = ({ navigation }) => {
 	}
 	return (
 		<View style={{ flex: 1 }}>
-			<GlobalHeader title="Setting" onPressBack={() => navigation.navigate('Home')} />
+			<GlobalHeader title="Setting" onPressBack={() => navigation.navigate('/')} />
 			<Grid style={{ backgroundColor: ColorsList.authBackground, height: 100 }}>
 				<Row size={.75} style={{ backgroundColor: 'white', padding: 10 }}>
 					<Col style={{ justifyContent: 'center' }} size={1.5}>

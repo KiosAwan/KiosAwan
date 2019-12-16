@@ -68,7 +68,7 @@ const UpdateProfil = ({ navigation }) => {
 			setTimeout(() => {
 				setModalVisible(false)
 				dispatch(getProfile(id_user))
-				navigation.navigate('Home')
+				navigation.navigate('/')
 			}, 1000)
 
 		}

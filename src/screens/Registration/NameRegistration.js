@@ -33,7 +33,7 @@ const NameRegistration = ({ navigation }) => {
         if (FormRegister.name == "") {
             alert("Nama tidak boleh kosong")
         } else {
-            navigation.navigate('FirstPIN')
+            navigation.navigate('/unauth/registration/first-password')
         }
     }
 

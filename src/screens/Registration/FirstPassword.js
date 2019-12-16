@@ -36,7 +36,7 @@ const FirstPassword = ({ navigation }) => {
         if (FormRegister.password.length < 8) {
             alert("Password minimal 8 karakter")
         } else {
-            navigation.navigate('SecondPassword')
+            navigation.navigate('/unauth/registration/second-password')
         }
     }
 

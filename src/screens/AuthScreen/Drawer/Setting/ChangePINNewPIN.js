@@ -38,7 +38,7 @@ const ChangePINNewPIN = ({ navigation }) => {
             await createUserPIN(data)
             setTimeout(() => {
                 setModalVisible(false)
-                navigation.navigate('MenuSetting')
+                navigation.navigate('/drawer/settings')
             }, 1000)
         }
     }

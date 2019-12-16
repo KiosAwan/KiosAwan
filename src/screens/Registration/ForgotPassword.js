@@ -76,7 +76,7 @@ const ForgotPassword = ({ navigation }) => {
             alert(res.data.errors.msg)
         }
         else if (res.status == 200) {
-            navigation.navigate("NewPassword1")
+            navigation.navigate('/unauth/login/forgot-password/new-password-1')
         }
         else {
             alert("Ada yang salah , cek koneksi anda")

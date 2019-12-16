@@ -44,7 +44,7 @@ const TransactionList = ({ navigation }) => {
               <Text>{item.total}</Text>
               {item.data.map(child => (
                 <View key={child.id_transaction}>
-                  <TouchableOpacity onPress={() => navigation.navigate('DetailTransaction', { transactionId: child.id_transaction })}>
+                  <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail-transaction', { transactionId: child.id_transaction })}>
                     <TransactionCard
                       total_transaction={child.total_transaction}
                       payment_code={child.payment_code}

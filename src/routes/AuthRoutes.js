@@ -26,19 +26,19 @@ const handleCustomTransition = ({ scenes }) => {
 }
 
 const tempNavigator = {
-  CreatePIN: {
+  '/temp/create-pin': {
     screen: CreatePIN,
     navigationOptions: {
       header: null
     }
   },
-  UpdateProfil: {
+  '/temp/update-profile': {
     screen: UpdateProfil,
     navigationOptions: {
       header: null
     }
   },
-  'temp/verifikasi-email': {
+  '/temp/verifikasi-email': {
     screen: VerifikasiEmail,
     navigationOptions: {
       header: null
@@ -47,26 +47,26 @@ const tempNavigator = {
 }
 
 const AuthNavigator = createStackNavigator(Object.assign({
-  Home: {
+  '/': {
     screen: Home,
     navigationOptions: {
       header: null
     }
   },
-  CashierNavigator: {
+  '/cashier/index': {
     screen: CashierNavigator,
     navigationOptions: {
       header: null
     }
   },
-  AkunNavigator: {
+  '/drawer/index': {
     screen: AkunNavigator,
     navigationOptions: {
       header: null
     }
   }
 }, tempNavigator), {
-  initialRouteName: 'Home',
+  initialRouteName: '/',
   // https://github.com/plmok61/react-navigation-transitions
   transitionConfig: nav => handleCustomTransition(nav),
 })

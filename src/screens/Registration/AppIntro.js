@@ -74,11 +74,11 @@ export default class AppIntro extends React.Component {
 
     _onSkip = async () => {
         await AsyncStorage.setItem("introApp", "sudah")
-        this.props.navigation.navigate("PhoneRegistration")
+        this.props.navigation.navigate('/unauth')
     }
     _onDone = async () => {
         await AsyncStorage.setItem("introApp", "sudah")
-        this.props.navigation.navigate("PhoneRegistration")
+        this.props.navigation.navigate('/unauth')
     }
     render() {
         return (

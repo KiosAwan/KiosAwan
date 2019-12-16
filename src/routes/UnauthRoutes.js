@@ -13,54 +13,54 @@ import LoginVerification from '../screens/Registration/LoginVerification'
 
 
 const UnauthNavigator = createStackNavigator({
-  PhoneRegistration : {
+  '/unauth' : {
     screen : PhoneRegistration,
     navigationOptions: {
       header : null
     }
   },
-  Login : {
+  '/unauth/login' : {
     screen : LoginVerification,
     navigationOptions : {
       header : null
     }
   },
-  FirstPassword : {
-    screen : FirstPassword,
-    navigationOptions : {
-      header : null
-    }
-  }, 
-  SecondPassword : {
-    screen : SecondPassword,
-    navigationOptions : {
-      header : null
-    }
-  },
-  NameRegistration : {
-    screen : NameRegistration,
-    navigationOptions : {
-      header : null
-    }
-  },
-  ForgotPassword : {
+  '/unauth/login/forgot-password' : {
     screen : ForgotPassword,
     navigationOptions : {
       header : null
     }
   },
-  NewPassword1 : {
+  '/unauth/login/forgot-password/new-password-1' : {
     screen : NewPassword1,
     navigationOptions : {
       header : null
     }
   },
-  NewPassword2 : {
+  '/unauth/login/forgot-password/new-password-2' : {
     screen : NewPassword2,
     navigationOptions : {
       header : null
     }
-  }
+  },
+  '/unauth/registration' : {
+    screen : NameRegistration,
+    navigationOptions : {
+      header : null
+    }
+  },
+  '/unauth/registration/first-password' : {
+    screen : FirstPassword,
+    navigationOptions : {
+      header : null
+    }
+  }, 
+  '/unauth/registration/second-password' : {
+    screen : SecondPassword,
+    navigationOptions : {
+      header : null
+    }
+  },
 })
 
 export default createAppContainer(UnauthNavigator)

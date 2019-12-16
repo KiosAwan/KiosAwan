@@ -15,7 +15,7 @@ import {
 import { clearAllRegistration, addFirstPassword } from '../../redux/actions/actionsRegistration'
 
 //Functions
-import { sendForgotPIN, loginData } from '../../utils/unauthhelper';
+import { loginData, sendOTP } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { getProfile } from '../../redux/actions/actionsUserData';
 import LinearGradient from 'react-native-linear-gradient';
@@ -52,7 +52,7 @@ const LoginVerification = ({ navigation }) => {
                 await AsyncStorage.setItem('userId', res.data.id)
                 await dispatch(getProfile(res.data.id))
                 setLoading(false)
-                navigation.navigate('Home')
+                navigation.navigate('/')
             }
         }
         catch (err) {
@@ -65,8 +65,8 @@ const LoginVerification = ({ navigation }) => {
         const data = {
             phone_number: "62" + FormRegister.phone_number
         }
-        await sendForgotPIN(data)
-        navigation.navigate('ForgotPassword')
+        await sendOTP(data)
+        navigation.navigate('/unauth/login/forgot-password')
 
     }
 
@@ -79,11 +79,11 @@ const LoginVerification = ({ navigation }) => {
             <Text style={styles.subtitleEnterPhone}>This number has been registered before</Text>
             <Text style={styles.subtitleEnterPhone}>Enter your KIOSAWAN password</Text>
             <View style={styles.inputView}>
-            <InputPIN
-                inputWidth={250}
-                value={FormRegister.secondPIN}
-                handleChangeText={(psw) => dispatch(addFirstPassword(psw))}
-            />
+                <InputPIN
+                    inputWidth={250}
+                    value={FormRegister.secondPIN}
+                    handleChangeText={(psw) => dispatch(addFirstPassword(psw))}
+                />
             </View>
             <Text style={styles.textForgot} onPress={_forgotPIN}>
                 Forgot password ?
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     textForgot: {
-        marginTop : 20,
+        marginTop: 20,
         color: 'white',
         ...FontList.titleFont
     },

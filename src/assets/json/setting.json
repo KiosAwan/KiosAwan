@@ -1,32 +1,32 @@
 [
   {
     "name": "Pengaturan Profil",
-    "route": "MenuSettingProfil",
+    "route": "/drawer/settings/profile",
     "icon": "sync"
   },
   {
     "name": "Ubah Email",
-    "route": "MenuSettingUbahEmail",
+    "route": "/drawer/settings/change-email",
     "icon": "analytics"
   },
   {
     "name": "Ubah No. HP",
-    "route": "MenuSettingUbahNoHPInputOTP",
+    "route": "/drawer/settings/change-phone-number",
     "icon": "paper"
   },
   {
     "name": "Ubah Password",
-    "route": "UbahPasswordInputPIN",
+    "route": "/drawer/settings/change-password",
     "icon": "settings"
   },
   {
     "name": "Ubah PIN",
-    "route": "ChangePINInputPwd",
+    "route": "/drawer/settings/change-pin",
     "icon": "help"
   },
   {
     "name": "Lupa PIN",
-    "route": "ForgotPINOTP",
+    "route": "/drawer/settings/forgot-pin",
     "icon": "help"
   }
 ]

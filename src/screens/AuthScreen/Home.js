@@ -29,11 +29,10 @@ const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const _onPressCashier = () => {
-        navigation.navigate('Cashier')
+        navigation.navigate('/cashier')
     }
 
     const _onPressPayment = () => {
-        // navigation.navigate("Payment")
         Alert.alert(
             'FITUR PAYMENT POINT',
             'Masih dalam tahap pengembangan',
@@ -44,7 +43,6 @@ const Home = ({ navigation }) => {
     }
 
     const _onPressStock = () => {
-        // navigation.navigate("Stock")
         Alert.alert(
             'FITUR BELANJA STOK',
             'Masih dalam tahap pengembangan',
@@ -55,7 +53,7 @@ const Home = ({ navigation }) => {
     }
 
     const _handlePressDrawer = () => {
-        navigation.navigate('AkunNavigator')
+        navigation.navigate('/drawer')
     }
     return (
         <View style={styles.container}>
@@ -85,13 +83,13 @@ const Home = ({ navigation }) => {
             </LinearGradient>
             <ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
                 {User.store ? User.data.status == 0 ?
-                    <TouchableOpacity onPress={() => navigation.navigate('MenuSetting')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('/drawer/settings')}>
                         <View style={{ borderRadius: 5, backgroundColor: 'white', justifyContent: "center", alignItems: "center" }}>
                             <Text>Silahkan lengkapi profil untuk dapat menggunakan fitur di aplikasi ini</Text>
                             <Text>Verifikasi email</Text>
                         </View>
                     </TouchableOpacity> : null :
-                    <TouchableOpacity onPress={() => navigation.navigate('CreatePIN')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')}>
                         <View style={{ borderRadius: 5, backgroundColor: 'white', justifyContent: "center", alignItems: "center" }}>
                             <Text>Silahkan lengkapi profil untuk dapat menggunakan fitur di aplikasi ini</Text>
                             <Text>Lengkapi profil</Text>
@@ -129,12 +127,12 @@ const Home = ({ navigation }) => {
                     style={{ paddingBottom: 15, height: height / 3 }}
                     showsHorizontalScrollIndicator={false}>
                     <CardTextImage
-                        onPressCard={() => navigation.navigate('NewsScreen', { weburl: 'https://kiosawan.com/peta-persaingan-50-e-commerce-di-indonesia/' })}
+                        onPressCard={() => navigation.navigate('/cashier/news-screen', { weburl: 'https://kiosawan.com/peta-persaingan-50-e-commerce-di-indonesia/' })}
                         image="https://kiosawan.com/wp-content/uploads/2019/11/blog-02a-780x390.jpg"
                         info="Peta Persaingan 50 E-Commerce di Indonesia Versi IPRICE 2019"
                     />
                     <CardTextImage
-                        onPressCard={() => navigation.navigate('NewsScreen', { weburl: 'https://kiosawan.com/potensi-fintech-dukung-umkm/' })}
+                        onPressCard={() => navigation.navigate('/cashier/news-screen', { weburl: 'https://kiosawan.com/potensi-fintech-dukung-umkm/' })}
                         image="https://kiosawan.com/wp-content/uploads/2019/11/blog-01-780x390.jpg"
                         info="Mengulik Potensi Fintech untuk Mendukung UMKM"
                     />

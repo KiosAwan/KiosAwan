@@ -8,8 +8,8 @@ import AppIntro from '../screens/Registration/AppIntro'
 const AppNavigator = createSwitchNavigator({
     UnauthNavigator,
     AuthNavigator,
-    CheckMember,
-    AppIntro
+    '/splashscreen': CheckMember,
+    '/intro': AppIntro
   }, {
     initialRouteName: 'CheckMember'
   })

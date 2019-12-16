@@ -89,7 +89,7 @@ const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
             alert(res.data.errors.msg)
         }
         else if (res.status == 200) {
-            navigation.navigate('MenuSettingUbahNoHP', {
+            navigation.navigate('/drawer/settings/change-phone-number/change', {
                 OTP: otpCode
             })
         }
