@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
-import { View, Image, TextInput, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import ImagePicker from 'react-native-image-crop-picker'
-import { useDispatch } from 'react-redux'
+import { View, Image, TextInput, StyleSheet, Modal } from 'react-native';
+import { useDispatch , useSelector} from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import { Button, Bottom } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { Text } from '../../../../components/Text/CustomText';
 import { Icon } from 'native-base';
+import {changePassword} from '../../../../utils/authhelper'
+import ModalContent from '../../../../components/ModalContent/ModalContent';
+import { getProfile } from '../../../../redux/actions/actionsUserData';
 
 const MenuSettingUbahPassword = ({ navigation }) => {
 	const PIN = navigation.params ? navigation.params.PIN : undefined
-
+	const User = useSelector(state => state.User)
 	const dispatch = useDispatch()
 
-	const [enableSave, setEnableSave] = useState(false)
-	const [formValue, setFormValue] = useState({})
+	const [modalVisible, setModalVisible] = useState(false)
+	const [formValue, setFormValue] = useState({
+		old_password : '',
+		new_password : '',
+		confirm_new_password : ''
+	})
 	const [eyes, setEyes] = useState({})
 
 	const inputan = [{
@@ -41,40 +44,45 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 		onChangeText: (text) => { setFormValue({ ...formValue, confirm_new_password: text }) }
 	}]
 
-	const _handleChoosePhoto = () => {
-		ImagePicker.openCamera({
-			width: 300,
-			height: 300,
-			cropping: true
-		}).then(image => {
-			setFormValue({ ...formValue, photo_store: image.path })
-		});
-	};
-
-	const _handleSaveProfile = async () => {
-		if (enableSave) {
-			console.debug(formValue)
-			// const id_user = await AsyncStorage.getItem('userId')
-			// const formData = new FormData()
-			// formData.appendObject(formValue, ['photo_store']) // ('Form data yang di append', 'kecuali')
-			// formData.append('photo_store', formValue.photo_store != "" ? {
-			// 	uri: formValue.photo_store,
-			// 	type: "image/jpeg",
-			// 	name: `${Date.now()}.jpeg`
-			// } : null)
-			// if (res.status == 400) {
-			// 	alert(res.data.errors.msg)
-			// } else {
-			// 	await dispatch(getProfile(id_user))
-			// 	navigation.navigate('/')
-			// }
-			setEnableSave(false)
-		} else {
-			setEnableSave(true)
+	const _handleSavePassword = async () => {
+		if(formValue.old_password == ""|| formValue.new_password == ""){
+			alert("Password tidak boleh kosong")
+		}else if (formValue.new_password != formValue.confirm_new_password){
+			alert("Password baru harus sama")
+		}else {
+		const data = {
+			id : User.data.id,
+			password : formValue.new_password,
+			old_password : formValue.old_password
+		}
+		const res = await changePassword(data)
+			if (res.status == 400) {
+				alert(res.data.errors.msg)
+			} else {
+				setModalVisible(true)
+				setTimeout(() => {
+					setModalVisible(false)
+					dispatch(getProfile(User.data.id))
+					navigation.navigate('/drawer/settings')
+				}, 1000)
+			}
 		}
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+			 <Modal
+				animationType="fade"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+			><ModalContent
+            image={require('../../../../assets/images/successchangepassword.png')}
+            infoText="Password Berhasil Diganti!"
+            closeModal={() => setModalVisible(false)}
+            />
+			</Modal>
 			<GlobalHeader title="Ubah Password" onPressBack={() => navigation.goBack()} />
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
@@ -89,7 +97,7 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 				</View>
 			</ScrollView>
 			<Bottom>
-				<Button onPress={_handleSaveProfile} style={{ width: '100%' }}>SIMPAN</Button>
+				<Button onPress={_handleSavePassword} style={{ width: '100%' }}>SIMPAN</Button>
 			</Bottom>
 		</View>
 	)
