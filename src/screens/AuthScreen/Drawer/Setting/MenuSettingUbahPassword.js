@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { FloatingInput } from '../../../../components/Input/InputComp';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
+import { Button, Bottom } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import { Text } from '../../../../components/Text/CustomText';
@@ -80,55 +80,19 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
 					{
 						inputan.map((input, i) => {
-							return <FloatingInput key={i} style={styles.floatingInput} label="kjasdhhd">
+							return <FloatingInput key={i} style={styles.floatingInput} label={input._label}>
 								<TextInput style={{ width: '90%' }} {...input} />
 								<Icon name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />
 							</FloatingInput>
 						})
 					}
 				</View>
-				<View>
-					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
-					<View style={styles.imageWrapper}>
-						<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
-							<Image style={styles.image} source={formValue.photo_store ? { uri: formValue.photo_store } : require('../../../../assets/images/img-product.png')} />
-						</TouchableOpacity>
-					</View>
-				</View>
-				<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-					<BottomButton
-						onPressBtn={_handleSaveProfile}
-						style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-						buttonTitle={enableSave ? "SIMPAN" : "UBAH"}
-					/>
-				</View>
 			</ScrollView>
+			<Bottom>
+				<Button onPress={_handleSaveProfile} style={{ width: '100%' }}>SIMPAN</Button>
+			</Bottom>
 		</View>
 	)
-}
-const Wow = props => {
-	let _input, inIndex
-	if (props.children) {
-		if (Array.isArray(props.children)) {
-			props.children.forEach((prop, i) => {
-				if ('value' in prop.props) {
-					inIndex = i
-					_input = prop
-				}
-			})
-		} else {
-			_input = props.children
-		}
-	} else {
-		throw new Error('Kasih children dong, gw mau nampilin apaan nih kalo ga lu kasih?');
-	}
-	if (!('value' in _input.props)) {
-		throw new Error('Tolong ya mas, Input nya di kasih value, Fungsi Input kan buat store data. Apa yang mau di store kalo ga ada value');
-	} else {
-	}
-	// console.debug(_input)
-	// console.debug(child)
-	return <View></View>
 }
 export default MenuSettingUbahPassword
 

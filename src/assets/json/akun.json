@@ -7,7 +7,7 @@
     },
     {
       "name": "Manajemen",
-      "route": "Setting",
+      "route": "/drawer/manajemen",
       "icon": "analytics"
     },
     {

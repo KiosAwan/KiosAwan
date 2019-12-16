@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Produk",
+    "route": "/drawer/manajemen/produk",
+    "icon": "sync"
+  },
+  {
+    "name": "Kategori",
+    "route": "/drawer/manajemen/kategori",
+    "icon": "analytics"
+  },
+  {
+    "name": "Diskon",
+    "route": "/drawer/manajemen/diskon",
+    "icon": "paper"
+  },
+  {
+    "name": "Pelanggan",
+    "route": "/drawer/manajemen/pelanggan",
+    "icon": "settings"
+  }
+]
