@@ -6,7 +6,7 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { Text } from '../../../components/Text/CustomText';
 import { ColorsList } from '../../../styles/colors';
 import { FloatingInput } from '../../../components/Input/InputComp';
-import { BottomButton } from '../../../components/Button/ButtonComp';
+import { BottomButton, Bottom, Button } from '../../../components/Button/ButtonComp';
 import { SizeList } from '../../../styles/size';
 import ImagePicker from 'react-native-image-crop-picker'
 import AsyncStorage from '@react-native-community/async-storage';
@@ -15,6 +15,7 @@ import { getProfile } from '../../../redux/actions/actionsUserData';
 import ModalContent from '../../../components/ModalContent/ModalContent';
 import { SelectBoxModal } from '../../../components/Picker/SelectBoxModal';
 import Wilayah from '../../../utils/wilayah';
+import { Icon } from 'native-base';
 
 
 const UpdateProfil = ({ navigation }) => {
@@ -93,47 +94,38 @@ const UpdateProfil = ({ navigation }) => {
 		// 		navigation.navigate('/')
 		// 	}, 1000)
 		// }
-		console.debug(JSON.stringify([provinsi.selected, kabupaten.selected, kecamatan.selected, desa.selected]))
+		// console.debug(JSON.stringify([provinsi.selected, kabupaten.selected, kecamatan.selected, desa.selected]))
+		console.debug(JSON.stringify([kabupaten.data]))
 	}
 
 	const _setProvinsi = (item) => {
-		setKabupaten({ data: [] })
-		setKecamatan({ data: [] })
-		setDesa({ data: [] })
-
 		setProvinsi({ ...provinsi, selected: item })
 		Wilayah.Kabupaten(item.id).then((res) => {
-			setKabupaten({ data: res.data.kabupatens })
+			setKabupaten({ ...kabupaten, data: res.data.kabupatens })
 		})
 	}
 
-	const _setKabupaten = (item) => {
-		setKecamatan({ data: [] })
-		setDesa({ data: [] })
-
+	const _setKabupaten = (item) => {		
 		setKabupaten({ ...kabupaten, selected: item })
 		Wilayah.Kecamatan(item.id).then((res) => {
-			setKecamatan({ data: res.data.kecamatans })
+			setKecamatan({ ...kecamatan, data: res.data.kecamatans })
 		})
 	}
 
 	const _setKecamatan = (item) => {
-		setDesa({ data: [] })
-
 		setKecamatan({ ...kecamatan, selected: item })
 		Wilayah.Desa(item.id).then((res) => {
-			setDesa({ data: res.data.desas })
+			setDesa({ ...desa, data: res.data.desas })
 		})
 	}
 
 	const _setDesa = (item) => {
-		setDesa({ selected: item })
+		setDesa({ ...desa, selected: item })
 	}
 
 	useEffect(() => {
 		Wilayah.Provinsi().then((res) => {
 			setProvinsi({ ...provinsi, data: res.data.semuaprovinsi })
-			console.debug(provinsi)
 		})
 	}, [])
 
@@ -166,45 +158,49 @@ const UpdateProfil = ({ navigation }) => {
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<TextInput value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} placeholder="Pencarian" />
-						}
+						header={[
+							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
+							<TextInput style={{ width: '95%' }} value={provinsi.search} placeholder="Cari Provinsi" onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
+						]}
 						value={provinsi.selected ? provinsi.selected.nama : null}
 						handleChangePicker={_setProvinsi}
-						renderItem={(item) => (<Text>{item.nama}</Text>)} >
+						renderItem={(item) => (<Text>{item.nama}</Text>)}>
 						<Text>Data tidak ditemukan</Text>
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<TextInput value={kabupaten.search} onChangeText={text => setProvinsi({ ...kabupaten, search: text })} placeholder="Pencarian" />
-						}
+						header={[
+							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
+							<TextInput style={{ width: '95%' }} value={kabupaten.search} placeholder="Cari Kabupaten" onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
+						]}
 						value={kabupaten.selected ? kabupaten.selected.nama : null}
 						handleChangePicker={_setKabupaten}
-						renderItem={(item) => (<Text>{item.nama}</Text>)} >
+						renderItem={(item) => (<Text>{item.nama}</Text>)}>
 						<Text>Data tidak ditemukan</Text>
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<TextInput value={kecamatan.search} onChangeText={text => setProvinsi({ ...kecamatan, search: text })} placeholder="Pencarian" />
-						}
+						header={[
+							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
+							<TextInput style={{ width: '95%' }} value={kecamatan.search} placeholder="Cari Kecamatan" onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
+						]}
 						value={kecamatan.selected ? kecamatan.selected.nama : null}
 						handleChangePicker={_setKecamatan}
-						renderItem={(item) => (<Text>{item.nama}</Text>)} >
+						renderItem={(item) => (<Text>{item.nama}</Text>)}>
 						<Text>Data tidak ditemukan</Text>
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<TextInput value={desa.search} onChangeText={text => setProvinsi({ ...desa, search: text })} placeholder="Pencarian" />
-						}
+						header={[
+							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
+							<TextInput style={{ width: '95%' }} value={desa.search} placeholder="Cari Desa" onChangeText={text => setDesa({ ...desa, search: text })} />
+						]}
 						value={desa.selected ? desa.selected.nama : null}
 						handleChangePicker={_setDesa}
-						renderItem={(item) => (<Text>{item.nama}</Text>)} >
+						renderItem={(item) => (<Text>{item.nama}</Text>)}>
 						<Text>Data tidak ditemukan</Text>
 					</SelectBoxModal>
 				</View>
@@ -217,13 +213,9 @@ const UpdateProfil = ({ navigation }) => {
 					</View>
 				</View>
 			</ScrollView>
-			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-				<BottomButton
-					onPressBtn={_handleSaveProfile}
-					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-					buttonTitle="SIMPAN"
-				/>
-			</View>
+			<Bottom>
+				<Button style={{ width: '100%' }} onPress={_handleSaveProfile}>SIMPAN</Button>
+			</Bottom>
 		</View>
 	)
 }

@@ -178,7 +178,7 @@ export const FloatingInput = props => {
   }, [])
   return (
     <View style={[{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }, props.style]}>
-      <Text style={{ color: activeColor, position: 'absolute', top: textUp }}>{props.label}</Text>
+      <Text style={[{ color: activeColor, position: 'absolute', top: textUp }, props.labelStyle]}>{props.label}</Text>
       {
         Array.isArray(props.children) ? <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>{child}</View> : child
       }

@@ -12,5 +12,4 @@ export const ColorsList = {
     info: '#288cf7',
     danger: '#f04184',
     dangerSoft: '#fbdbe7'
-
 }

@@ -1,7 +1,13 @@
 import React from 'react';
 import { Text as ReactNativeText } from 'react-native'
-import { FontList } from '../../styles/typography';
+import { FontList, FontName } from '../../styles/typography';
+import { ColorsList } from '../../styles/colors';
 
 export const Text = (props) => {
-    return (<ReactNativeText {...props} style={[{ ...FontList.subtitleFontGreyBold }, props.style]} />)
+    const styles = {
+        fontSize: props.size || 14,
+        fontFamily: FontName[props.font] || FontName.Regular,
+        color: ColorsList[props.color] || ColorsList.greyFont
+    }
+    return (<ReactNativeText {...props} style={[styles, props.style]} />)
 }
