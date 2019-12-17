@@ -5,7 +5,7 @@ import { Text } from '../../../../components/Text/CustomText';
 const ManajemenProduk = ({ navigation }) => {
 	return (
 		<View>
-			<Text>Diskon</Text>
+			<Text>Produk</Text>
 		</View>
 	);
 }

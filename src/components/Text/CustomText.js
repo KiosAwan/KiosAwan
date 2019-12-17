@@ -6,7 +6,7 @@ import { ColorsList } from '../../styles/colors';
 export const Text = (props) => {
     const styles = {
         fontSize: props.size || 14,
-        fontFamily: FontName[props.font] || FontName.Regular,
+        fontFamily: FontName[props.font] || FontName.SemiBold,
         color: ColorsList[props.color] || ColorsList.greyFont
     }
     return (<ReactNativeText {...props} style={[styles, props.style]} />)

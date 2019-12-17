@@ -1,151 +1,148 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Modal as ModalRN, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { MyModal } from "../Picker/SelectBoxModal";
 import { Text } from '../Text/CustomText'
-import { CardItem, Button } from 'native-base';
+import { CardItem } from 'native-base';
+import { ColorsList } from '../../styles/colors';
+import LinearGradient from 'react-native-linear-gradient';
+import { Button, Bottom } from '../Button/ButtonComp';
 
-const _Popup = (props) => {
+export const Modal = (props) => {
+	const styles = StyleSheet.create({
+		modalBackDrop: { alignItems: 'center', justifyContent: 'center', backgroundColor: props.transparent ? 'transparent' : 'rgba(0,0,0,.5)', width: '100%', height: '100%' },
+		modalView: { backgroundColor: ColorsList.whiteColor, maxWidth: '80%', justifyContent: "center", padding: 20 }
+	})
 	return (
-		<View>
-			<MyModal visible={props.open}
-				body={[
-					<CardItem style={{ justifyContent: 'center' }} header>{props.title}</CardItem>,
-					<CardItem style={{ justifyContent: 'center' }}>{props.children}</CardItem>,
-					<CardItem style={{ justifyContent: 'flex-end' }} footer>
-						{
-							typeof props.buttons == 'object' ? Object.keys(props.buttons).map((key) => {
-								const btn = props.buttons[key]
-								return (
-									<Button onPress={btn.onTap}>
-										<Text>{btn.text}</Text>
-									</Button>
-								)
-							}) : null
-						}
-					</CardItem>
-				]}
-				backdropDismiss={false}
-			/>
-		</View>
+		<ModalRN
+			animationType="slide"
+			transparent={true}
+			{...props}>
+			<TouchableOpacity style={styles.modalBackDrop} disabled={!props.backdropDismiss ? true : false} onPress={!props.backdropDismiss ? null : props.backdropDismiss}>
+				<TouchableOpacity activeOpacity={1} onPress={() => { }} style={[styles.modalView, props.style]}>{props.children}</TouchableOpacity>
+			</TouchableOpacity>
+		</ModalRN>
 	)
 }
 
-const Popup = {
-	show: (props) => {
-		return <_Popup {...props} />
+export const AwanPopup = {
+	Title: props => {
+		return <Modal style={{ padding: 0 }} {...props}>
+			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
+				<Image source={require('../../assets/modals/awan-little.png')}
+					style={styles.image}
+					resizeMode="stretch" />
+				<Image source={require('../../assets/modals/awan.png')}
+					style={styles.image}
+					resizeMode="stretch" />
+				<Text font="Bold" size={30} style={styles.title}>{props.title.toUpperCase()}</Text>
+			</LinearGradient>
+			<View style={styles.body}>
+				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
+			</View>
+			<Bottom>
+				{props.children}
+			</Bottom>
+		</Modal>
 	},
-	alert: (props) => {
-		return <_Popup {...props} buttons={{
-			okBtn: {
-				text: 'Ok',
-				onTap: () => {
-					props.close(true)
-				}
-			}
-		}} />
+	NoTitle: props => {
+		return <Modal style={{ padding: 0 }} {...props}>
+			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
+				<Image source={require('../../assets/modals/awan-little.png')}
+					style={styles.image}
+					resizeMode="stretch" />
+				<Image source={require('../../assets/modals/store.png')}
+					style={[styles.image, { position: 'absolute', bottom: 10, height: 150, left: 0, width: '70%' }]}
+					resizeMode="stretch" />
+				<Image source={require('../../assets/modals/awan.png')}
+					style={styles.image}
+					resizeMode="stretch" />
+			</LinearGradient>
+			<View style={styles.body}>
+				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
+			</View>
+			<Bottom>
+				{props.children}
+			</Bottom>
+		</Modal>
 	},
-	confirm: (props) => {
-		return <_Popup {...props} buttons={{
-			cancelBtn: {
-				text: 'Cancel',
-				onTap: () => {
-					props.onClose(false)
-				}
-			},
-			okBtn: {
-				text: 'Ok',
-				onTap: () => {
-					props.onClose(true)
-				}
-			}
-		}} />
+	Menu: props => {
+		return <Modal animationType="fade" transparent style={[styles.shadow, {
+			padding: 0, minWidth: 350, position: 'absolute'
+		}, props.position]} {...props}>
+			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
+				<Text font="Bold" size={20} style={{ color: ColorsList.whiteColor, padding: 15 }}>
+					{props.title.toUpperCase()}
+				</Text>
+				<Image source={require('../../assets/modals/awan-corner.png')}
+					style={[styles.image, { position: 'absolute', right: 0, width: '30%' }]}
+					resizeMode="stretch" />
+			</LinearGradient>
+			<View style={{ padding: 15 }}>
+				{props.children}
+			</View>
+		</Modal>
 	}
 }
 
-export default Popup
-
-
-{/* <Popup.alert
-	title={<Text>Wow</Text>}
-	open={testPopup}
-	close={_ => setTestPopup(false)}
-	onClose={result => console.log(result)}
->
-	<Text>Testing</Text>
-</Popup.alert>
-<Button onPress={_ => setTestPopup(true)}>
-	<Text>Press Me! - Alert</Text>
-</Button>
-
-<Popup.confirm
-	title={<Text>Wow</Text>}
-	open={testPopup}
-	close={_ => setTestPopup(false)}
-	onClose={result => {
-		setTestPopup(false)
-		console.log(result)
-	}}
->
-	<Text>Testing</Text>
-</Popup.confirm>
-<Button onPress={_ => setTestPopup(true)}>
-	<Text>Press Me! - Confirm</Text>
-</Button> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const Popup = props => {
-	const styles = StyleSheet.create({
-		touchableStyle: {
-			width: '100%',
-			height: '100%',
-			alignItems: "center",
-			justifyContent: 'center',
-			backgroundColor: 'rgba(0,0,0,.5)'
+const styles = StyleSheet.create({
+	shadow: {
+		shadowColor: ColorsList.greySoft,
+		shadowOffset: {
+			width: 0,
+			height: 12,
 		},
-		wrapView: {
-			padding: 20,
-			alignItems: "center",
-			backgroundColor: 'white',
-			borderRadius: 5
-		}
-	})
-	return <Modal
-		animationType="fade"
-		transparent={true}
-		visible={props.visible}
-		onRequestClose={props.onClose}
-	>
-		<TouchableOpacity activeOpacity={.5} disabled={!props.backdropDismiss} onPress={props.backDropClick} style={styles.touchableStyle}>
-			<View style={styles.wrapView}>
-				<Button onPress={() => _setVisible(!_visible)}>
-					<Text>Ok</Text>
-				</Button>
-			</View>
-		</TouchableOpacity>
-	</Modal>
+		shadowOpacity: 0.58,
+		shadowRadius: 16.00,
+		elevation: 24,
+	},
+	image: { alignSelf: 'center', height: 100, width: '100%' },
+	title: { position: 'absolute', top: 90, alignSelf: 'center', color: ColorsList.whiteColor },
+	body: { minHeight: 150, paddingHorizontal: 15, paddingBottom: 75, backgroundColor: ColorsList.whiteColor }
+})
+
+
+
+// const [visible, setVisible] = useState(false)
+
+{/* <AwanPopup.Title title="A Simple Dialog" backdropDismiss={() => setVisible(false)} visible={visible} message="
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
+<Button style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Test</Button>
+<View></View>
+<Button style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Test</Button>
+<Button style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Test</Button>
+</AwanPopup.Title> */}
+
+{/* <AwanPopup.NoTitle backdropDismiss={() => setVisible(false)} visible={visible} message="
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo">
+<View style={{width:'40%'}}></View>
+<Button style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Test</Button>
+<Button style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Test</Button>
+</AwanPopup.NoTitle> */}
+
+/* const [position, setPosition] = useState(false)
+
+const _testClick = (e) => {
+console.log(e.nativeEvent)
+let pos = {
+top: e.nativeEvent.pageY,
+left: e.nativeEvent.pageX
 }
-
-// const [_visible, _setVisible] = useState(false)
-
-// <Popup backdropDismiss={true} visible={_visible} backDropClick={()=>_setVisible(false)}>
-// 				<Text>Test</Text>
-// 			</Popup>
+setPosition(pos)
+setVisible(true)
+}
+<AwanPopup.Menu position={position} title="A Simple Dialog" backdropDismiss={() => setVisible(false)} visible={visible} message="
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo">
+<View style={{width:'40%'}}></View>
+<Button color="link" textProps={{ size: 15, font: 'Bold' }}>Test</Button>
+<Button textProps={{ size: 15, font: 'Bold' }}>Test</Button>
+</AwanPopup.Menu>
+<Button onPress={_testClick}>Test</Button> */

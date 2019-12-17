@@ -2,7 +2,6 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Dimensions, StyleSheet, View, Image } from 'react-native'
 import {
-	Text,
 	Button as ButtonNB
 } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -10,6 +9,7 @@ import { FontList } from '../../styles/typography'
 import { ColorsList } from '../../styles/colors'
 import { RowChild } from '../Helper/RowChild'
 import { SizeList } from '../../styles/size'
+import { Text } from '../Text/CustomText'
 
 
 const width = Dimensions.get('window').width
@@ -36,6 +36,11 @@ export const Button = props => {
 			borderColor: ColorsList.primary,
 			backgroundColor: ColorsList.primary,
 			text: ColorsList.whiteColor
+		},
+		link: {
+			borderColor: 'transparent',
+			backgroundColor: 'transparent',
+			text: ColorsList.greyFont
 		}
 	}
 	let _color = Colors.primary
@@ -49,7 +54,7 @@ export const Button = props => {
 		borderRadius: 5
 	}, _color, props.style]}>
 		{
-			typeof props.children === 'string' ? <Text style={[{ alignSelf: 'center', color: _color.text }, props.textStyle]}>{props.children}</Text> : props.children
+			typeof props.children === 'string' ? <Text {...props.textProps} style={[{ alignSelf: 'center', color: _color.text }, props.textStyle]}>{props.children}</Text> : props.children
 		}
 	</TouchableOpacity>
 }
