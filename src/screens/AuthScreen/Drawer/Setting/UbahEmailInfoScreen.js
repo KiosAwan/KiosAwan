@@ -41,10 +41,10 @@ const UbahEmailInfoScreen = ({ navigation }) => {
                 </View>
                 {User.data.status == 0 ?
                     <View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: 30 }}>
-                        <Text style={{ textAlign: 'center', ...FontList.subtitleFontGrey, color: ColorsList.danger, padding: 5 }}>Email anda belum terverifikasi ,mohon segera verifikasi email Anda</Text>
+                        <Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.danger, padding: 5 }}>Email anda belum terverifikasi ,mohon segera verifikasi email Anda</Text>
                     </View> :
                     <View style={{ backgroundColor: ColorsList.successSoft, marginTop: 30 }}>
-                        <Text style={{ textAlign: 'center', ...FontList.subtitleFontGrey, color: ColorsList.success, padding: 5 }}>Email anda telah terverifikasi , tekan tombol dibawah untuk mengganti</Text>
+                        <Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.success, padding: 5 }}>Email anda telah terverifikasi , tekan tombol dibawah untuk mengganti</Text>
                     </View>
                 }
             </View>
@@ -60,7 +60,7 @@ const UbahEmailInfoScreen = ({ navigation }) => {
                         <BottomButton
                             onPressBtn={_nextBtn}
                             style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                            buttonTitle="LANJUT"
+                            buttonTitle="UBAH"
                         />
                     </View>
 

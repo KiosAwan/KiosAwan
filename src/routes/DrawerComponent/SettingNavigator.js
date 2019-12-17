@@ -14,6 +14,7 @@ import UbahPasswordInputPIN from '../../screens/AuthScreen/Drawer/Setting/UbahPa
 import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmailNewEmail'
 import MenuSettingUbahNoHPInputOTP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHPInputOTP'
 import UbahEmailInfoScreen from '../../screens/AuthScreen/Drawer/Setting/UbahEmailInfoScreen'
+import UbahNoHPInfoScreen from '../../screens/AuthScreen/Drawer/Setting/UbahNoHPInfoScreen'
 
 const SettingNavigator = createStackNavigator({
   '/drawer/settings': {
@@ -52,8 +53,14 @@ const SettingNavigator = createStackNavigator({
       header: null
     }
 	},
-	'/drawer/settings/change-phone-number': {
+	'/drawer/settings/change-phone-number/otp-validation': {
     screen: MenuSettingUbahNoHPInputOTP,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/settings/change-phone-number': {
+    screen: UbahNoHPInfoScreen,
     navigationOptions: {
       header: null
     }

@@ -49,8 +49,8 @@ const ChangePINInputPwd = ({ navigation }) => {
                 title="Ganti PIN"
             />
             <View style={{ alignItems: "center" }}>
-                <View style={{ width: '70%', padding: 30 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 18 }}>Masukkan password</Text>
+                <View style={{ width: '70%', padding: 20 }}>
+                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 16 }}>Masukkan password</Text>
                 </View>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5}}>
                     <FloatingInput label="Password">
@@ -61,6 +61,9 @@ const ChangePINInputPwd = ({ navigation }) => {
                     <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{color : ColorsList.greySoft}}/>
 
                     </FloatingInput>
+                </View>
+                <View style={{ width: '90%', padding: 10 }}>
+                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Password dibutuhkan untuk mengubah pin</Text>
                 </View>
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>

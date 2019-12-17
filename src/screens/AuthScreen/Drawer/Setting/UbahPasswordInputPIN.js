@@ -32,25 +32,27 @@ const UbahPasswordInputPIN = ({ navigation }) => {
         }
     }
     return (
-        <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+        <View style={{ flex: 1, backgroundColor: ColorsList.authBackground, alignItems: "center" }}>
             <GlobalHeader title="Ubah Password" onPressBack={() => navigation.goBack()} />
-            <View style={{ padding: 15, height: 120, backgroundColor: 'white', margin: 30, alignItems: "center" }}>
-                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan PIN Anda</Text>
-                <View>
-                    <CodeInput
-                        secureTextEntry
-                        className='border-circle'
-                        keyboardType="numeric"
-                        activeColor='#cd0192'
-                        inactiveColor='#cd0192'
-                        codeLength={6}
-                        // cellBorderWidth={0}
-                        size={40}
-                        autoFocus
-                        onCodeChange
-                        onFulfill={(code) => setPinCode(code)}
-                    />
-                </View>
+            <View style={{ width: '70%', padding: 20 }}>
+                <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 16 }}>Masukkan PIN</Text>
+            </View>
+            <View style={{ paddingHorizontal: 15, height: 80, backgroundColor: 'white', marginHorizontal: 30, alignItems: "center" }}>
+                <CodeInput
+                    secureTextEntry
+                    className='border-circle'
+                    keyboardType="numeric"
+                    activeColor='#cd0192'
+                    inactiveColor='#cd0192'
+                    codeLength={6}
+                    size={40}
+                    autoFocus
+                    onCodeChange
+                    onFulfill={(code) => setPinCode(code)}
+                />
+            </View>
+            <View style={{ width: '90%', padding: 10 }}>
+                <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>PIN dibutuhkan untuk mengubah password</Text>
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
