@@ -59,7 +59,6 @@ const ChangePINInputPwd = ({ navigation }) => {
                         onChangeText={(text) => setPassword(text)}
                         />
                     <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{color : ColorsList.greySoft}}/>
-
                     </FloatingInput>
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>

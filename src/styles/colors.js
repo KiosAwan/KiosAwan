@@ -4,6 +4,7 @@ export const ColorsList = {
     whiteColor: '#ffffff',
     greyFont: '#808080',
     greySoft: '#8b8b8b',
+    greyBg : '#f9faf7',
     primary: '#cd0192',
     text: '#8b8b8b',
     success: '#55c09b',
