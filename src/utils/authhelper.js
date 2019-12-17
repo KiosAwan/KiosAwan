@@ -277,3 +277,14 @@ export const changePassword = async (data) => {
       return res
   }
 }
+//Resend email verify 
+export const resendVerifyEmail = async (data) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/resend_verify_email`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}
