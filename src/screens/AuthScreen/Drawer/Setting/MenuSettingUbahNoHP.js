@@ -53,7 +53,7 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-					image={require('../../../../assets/images/createpinsuccess.png')}
+					image={require('../../../../assets/images/successchangephone.png')}
 					infoText="Anda Berhasil Mengubah No HP!"
 					closeModal={() => setModalVisible(false)}
 				/>
