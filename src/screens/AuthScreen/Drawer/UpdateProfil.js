@@ -72,30 +72,34 @@ const UpdateProfil = ({ navigation }) => {
 	};
 
 	const _handleSaveProfile = async () => {
-		// const id_user = await AsyncStorage.getItem('userId')
-		// const formData = new FormData()
-		// formData.append("id_user", id_user)
-		// formData.append("name_store", name_store)
-		// formData.append("email", email_store)
-		// formData.append("address_store", address_store)
-		// formData.append('photo_store', photo_store != "" ? {
-		// 	uri: photo_store,
-		// 	type: "image/jpeg",
-		// 	name: `${Date.now()}.jpeg`
-		// } : null)
-		// const res = await sendProfileData(formData)
-		// if (res.status == 400) {
-		// 	alert(res.data.errors.msg)
-		// } else {
-		// 	setModalVisible(true)
-		// 	setTimeout(() => {
-		// 		setModalVisible(false)
-		// 		dispatch(getProfile(id_user))
-		// 		navigation.navigate('/')
-		// 	}, 1000)
-		// }
-		// console.debug(JSON.stringify([provinsi.selected, kabupaten.selected, kecamatan.selected, desa.selected]))
-		console.debug(JSON.stringify([kabupaten.data]))
+		if (desa.selected == "" || kecamatan.selected == "" || kabupaten.selected == "" || provinsi.selected == "") {
+			alert("Harap pilih daerah toko")
+		}
+		else {
+			const id_user = await AsyncStorage.getItem('userId')
+			const formData = new FormData()
+			let final_address = `${address_store}%${desa.selected.nama}%${kecamatan.selected.nama}%${kabupaten.selected.nama}%${provinsi.selected.nama}`
+			formData.append("id_user", id_user)
+			formData.append("name_store", name_store)
+			formData.append("email", email_store)
+			formData.append("address_store", final_address)
+			formData.append('photo_store', photo_store != "" ? {
+				uri: photo_store,
+				type: "image/jpeg",
+				name: `${Date.now()}.jpeg`
+			} : null)
+			const res = await sendProfileData(formData)
+			if (res.status == 400) {
+				alert(res.data.errors.msg)
+			} else {
+				setModalVisible(true)
+				setTimeout(() => {
+					setModalVisible(false)
+					dispatch(getProfile(id_user))
+					navigation.navigate('/')
+				}, 1000)
+			}
+		}
 	}
 
 	const _setProvinsi = (item) => {
@@ -105,7 +109,7 @@ const UpdateProfil = ({ navigation }) => {
 		})
 	}
 
-	const _setKabupaten = (item) => {		
+	const _setKabupaten = (item) => {
 		setKabupaten({ ...kabupaten, selected: item })
 		Wilayah.Kecamatan(item.id).then((res) => {
 			setKecamatan({ ...kecamatan, data: res.data.kecamatans })
