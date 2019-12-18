@@ -13,5 +13,6 @@ export const ColorsList = {
     warning: '#f28c71',
     info: '#288cf7',
     danger: '#f04184',
-    dangerSoft: '#fbdbe7'
+    dangerSoft: '#fbdbe7',
+    transparent:'transparent'
 }
