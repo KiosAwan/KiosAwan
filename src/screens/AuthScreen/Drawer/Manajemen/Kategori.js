@@ -8,7 +8,7 @@ import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
 import { ColorsList } from '../../../../styles/colors';
 import { FontList } from '../../../../styles/typography';
 import SearchInput from '../../../../components/Input/SearchInput';
-import { ManagementCard } from '../../../../components/Card/ManagementCard';
+import { ManagementCategoryCard } from '../../../../components/Card/ManagementCard';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
 
@@ -44,7 +44,7 @@ const ManajemenKategori = ({ navigation }) => {
 					data={Category.data.filter(item => item.name_product_category.toLowerCase().includes(search.toLowerCase()))}
 					renderItem={({ item, index }) => (
 						<View>
-							<ManagementCard
+							<ManagementCategoryCard
 								onPressEdit={() => navigation.navigate('/drawer/manajemen/kategori/edit', {item})}
 								disabled={index == 0 && item.name_product_category == "Umum" ? true : false}
 								name={item.name_product_category}

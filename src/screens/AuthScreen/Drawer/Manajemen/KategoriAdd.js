@@ -88,7 +88,7 @@ const KategoriAdd = ({ navigation }) => {
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
                     onPressBtn={_handleSaveCategory}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
+                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
                     buttonTitle="SIMPAN"
                 />
             </View>

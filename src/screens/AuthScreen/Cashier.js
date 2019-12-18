@@ -67,7 +67,7 @@ const Cashier = ({ navigation }) => {
                     Product.data.length == 0 ?
                         <View>
                             <Image style={{width : 200, height : 200}} source={require('../../assets/images/noproductlist.png')}/>
-                            <Text style={{textAlign : "center"}}>Anda belum mempunyai produk</Text>
+                            <Text style={{textAlign : "center", ...FontList.subtitleFontGreyBold}}>Anda belum mempunyai produk</Text>
                         </View>
                         :
                         <FlatList

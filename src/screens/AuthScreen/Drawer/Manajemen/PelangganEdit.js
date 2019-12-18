@@ -11,24 +11,25 @@ import {
     Modal
 } from 'react-native';
 import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader, GlobalHeaderWithIcon } from '../../../../components/Header/Header';
+import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
-import { verifyUserPassword, editCategory, deleteCategory } from '../../../../utils/authhelper';
+import {editCustomer, deleteCustomer } from '../../../../utils/authhelper';
 import { BottomButton, Button } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
+import { getCustomer } from '../../../../redux/actions/actionsCustomer';
 
 
 const height = Dimensions.get('window').height
 
-const KategoriEdit = ({ navigation }) => {
+const PelangganEdit = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [categoryName, setCategoryName] = useState()
-    const [categoryId, setIdCategory] = useState()
+    const [name, setName] = useState()
+    const [phone_number, setPhoneNumber] = useState()
+    const [customerId, setCustomerId] = useState()
     const [modalVisible, setModalVisible] = useState(false)
     const [alert, setAlert] = useState(false)
     const User = useSelector(state => state.User)
@@ -38,23 +39,26 @@ const KategoriEdit = ({ navigation }) => {
     }, [])
     const _getParams = async () => {
         const { item } = navigation.state.params
-        setCategoryName(item.name_product_category)
-        setIdCategory(item.id_product_category)
+        setName(item.name_customer)
+        setPhoneNumber(item.phone_number_customer)
+        setCustomerId(item.id_customer)
     }
 
-    const _handleSaveCategory = async () => {
-        if (categoryName == "") {
+    const _handleFinishEdit = async () => {
+        if (name == "") {
             alert("Nama tidak boleh kosong")
         }
         else {
-            const res = await editCategory({
-                name_product_category: categoryName
-            }, categoryId)
-            if (res.status == 200) {
+            const res = await editCustomer({
+                name_customer: name,
+                phone_number_customer : phone_number
+            }, customerId)
+            console.log(res)
+            if (res.status == 201) {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCategory(User.store.id_store))
+                    dispatch(getCustomer(User.store.id_store))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
@@ -63,27 +67,27 @@ const KategoriEdit = ({ navigation }) => {
         }
     }
 
-    const _handleDeleteCategory = async () => {
+    const _handleDeleteCustomer = async () => {
         setAlert(false)
-        await deleteCategory(categoryId)
+        await deleteCustomer(customerId)
         setModalVisible(true)
         setTimeout(() => {
             navigation.goBack()
-            dispatch(getCategory(User.store.id_store))
+            dispatch(getCustomer(User.store.id_store))
             setModalVisible(false)
         }, 1000)
     }
     return (
         <View style={styles.container} >
             <BarStatus />
-            <AwanPopup.Title title="Hapus Kategori" visible={alert} message={`Kategori ${categoryName} akan dihapus dari daftar kategorimu.`}>
+            <AwanPopup.Title title="Hapus Pelanggan" visible={alert} message={`${name} akan dihapus dari daftar pelanggan.`}>
                 <View></View>
                 <Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-                <Button onPress={_handleDeleteCategory} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+                <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
             </AwanPopup.Title>
             <GlobalHeaderWithIcon
                 onPressBack={() => navigation.goBack()}
-                title="Edit Kategori"
+                title="Edit Pelanggan"
                 image={require('../../../../assets/icons/trash.png')}
                 handleDeleteCategory={() => setAlert(true)}
             />
@@ -95,26 +99,34 @@ const KategoriEdit = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemenkategorisuccess.png')}
-                    infoText="Edit Kategori Berhasil!"
+                    image={require('../../../../assets/images/managemenpelanggansuccess.png')}
+                    infoText="Edit Pelanggan Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama Kategori">
-                        <TextInput value={categoryName}
-                            onChangeText={(text) => setCategoryName(text)}
+                    <FloatingInput label="Nama Pelanggan">
+                        <TextInput value={name}
+                            onChangeText={(text) => setName(text)}
                         />
                     </FloatingInput>
+                    <View style={{marginTop : 10}}>
+                        <FloatingInput label="No Telepon">
+                            <TextInput value={phone_number}
+                                keyboardType="number-pad"
+                                onChangeText={(text) => setPhoneNumber(text)}
+                            />
+                        </FloatingInput>
+                    </View>
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Masukkan nama kategori baru</Text>
+                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Ubah data pelanggan xx</Text>
                 </View>
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
-                    onPressBtn={_handleSaveCategory}
+                    onPressBtn={_handleFinishEdit}
                     style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
                     buttonTitle="SIMPAN"
                 />
@@ -123,7 +135,7 @@ const KategoriEdit = ({ navigation }) => {
     );
 }
 
-export default KategoriEdit
+export default PelangganEdit
 
 const styles = StyleSheet.create({
     container: {

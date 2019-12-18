@@ -116,8 +116,12 @@ export const sendNewCustomer = async (data) => {
 
 //edit customer data
 export const editCustomer = async (data, id_cust) => {
+  try {
   const res = await axios.post(`${HOST_URL}/customer_update/${id_cust}`, data)
   return res.data
+  }catch (err) {
+    return (err.response.data)
+  }
 }
 
 //delete customer data

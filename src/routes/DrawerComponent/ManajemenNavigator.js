@@ -7,6 +7,8 @@ import ManajemenDiskon from '../../screens/AuthScreen/Drawer/Manajemen/Diskon'
 import ManajemenPelanggan from '../../screens/AuthScreen/Drawer/Manajemen/Pelanggan'
 import KategoriAdd from '../../screens/AuthScreen/Drawer/Manajemen/KategoriAdd'
 import KategoriEdit from '../../screens/AuthScreen/Drawer/Manajemen/KategoriEdit'
+import PelangganAdd from '../../screens/AuthScreen/Drawer/Manajemen/PelangganAdd'
+import PelangganEdit from '../../screens/AuthScreen/Drawer/Manajemen/PelangganEdit'
 
 const ManajemenNavigator = createStackNavigator({
 	'/drawer/manajemen': {
@@ -47,6 +49,18 @@ const ManajemenNavigator = createStackNavigator({
 	},
 	'/drawer/manajemen/pelanggan': {
 		screen: ManajemenPelanggan,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/drawer/manajemen/pelanggan/add': {
+		screen: PelangganAdd,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/drawer/manajemen/pelanggan/edit': {
+		screen: PelangganEdit,
 		navigationOptions: {
 			header: null
 		}
