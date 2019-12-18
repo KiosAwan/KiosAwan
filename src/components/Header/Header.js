@@ -48,6 +48,27 @@ export const GlobalHeader = (props) => {
     )
 }
 
+export const GlobalHeaderWithIcon = (props) => {
+    return (
+        <Header androidStatusBarColor="#cd0192">
+            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
+                <TouchableOpacity onPress={props.onPressBack} style={{ alignItems: 'center', width: width / 9 }}>
+                    <Icon name="arrow-left"
+                        size={20}
+                        color="white"
+                    />
+                </TouchableOpacity>
+                <View style={{ width: width * 5 / 9, justifyContent: 'flex-start' }}>
+                    <Text style={{ color: 'white' }}>{props.title}</Text>
+                </View>
+                <TouchableOpacity onPress={props.handleDeleteCategory} style={{ width: width / 9, justifyContent: "center", alignItems: "center" }}>
+                    <Image style={{ width: 30, height: 30 }} source={props.image} />
+                </TouchableOpacity>
+            </LinearGradient>
+        </Header>
+    )
+}
+
 export const CashierHeader = (props) => {
     return (
         <Header androidStatusBarColor="#cd0192">

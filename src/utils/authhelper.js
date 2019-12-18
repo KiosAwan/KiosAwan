@@ -82,18 +82,18 @@ export const checkBarcode = async (data) => {
 
 //post new category to database
 export const sendNewCategory = async (data) => {
-  const res = await axios.post(`${HOST_URL}/create_category`, data)
+  const res = await axios.post(`${HOST_URL}/category`, data)
   return res.data
 }
 
 export const editCategory = async (data, id_category) => {
-  const res = await axios.post(`${HOST_URL}/update_product_category/${id_category}`, data)
+  const res = await axios.post(`${HOST_URL}/category_update/${id_category}`, data)
   return res.data
 }
 
 //delete category 
 export const deleteCategory = async (categoryId) => {
-  const res = await axios.delete(`${HOST_URL}/delete_category/${categoryId}`)
+  const res = await axios.delete(`${HOST_URL}/category/${categoryId}`)
 }
 
 //delete product

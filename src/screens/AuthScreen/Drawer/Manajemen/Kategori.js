@@ -9,6 +9,8 @@ import { ColorsList } from '../../../../styles/colors';
 import { FontList } from '../../../../styles/typography';
 import SearchInput from '../../../../components/Input/SearchInput';
 import { ManagementCard } from '../../../../components/Card/ManagementCard';
+import { BottomButton } from '../../../../components/Button/ButtonComp';
+import { SizeList } from '../../../../styles/size';
 
 const ManajemenKategori = ({ navigation }) => {
 
@@ -22,31 +24,42 @@ const ManajemenKategori = ({ navigation }) => {
 		dispatch(getCategory(User.store.id_store))
 	}, [])
 
+	const _handleAddNewCategory = () => {
+		navigation.navigate('/drawer/manajemen/kategori/add')
+	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader
 				onPressBack={() => navigation.goBack()}
 				title="Kategori"
 			/>
-			<View style={{ padding: 20 }}>
+			<View style={{ padding: 20, flex: 1 }}>
 				<SearchInput
+					placeholder="Cari kategori"
 					search={search}
 					handleChangeInput={(text) => setSearch(text)}
 					handleDeleteSearch={() => setSearch('')}
 				/>
-				<View style={{paddingTop : 10}}>
-					<FlatList
-						data={Category.data.filter(item => item.name_product_category.toLowerCase().includes(search.toLowerCase()))}
-						renderItem={({ item }) => (
-							<View>
-								<ManagementCard
-									name={item.name_product_category}
-								/>
-							</View>
-						)}
-						keyExtractor={(item, index) => index.toString()}
-					/>
-				</View>
+				<FlatList
+					data={Category.data.filter(item => item.name_product_category.toLowerCase().includes(search.toLowerCase()))}
+					renderItem={({ item, index }) => (
+						<View>
+							<ManagementCard
+								onPressEdit={() => navigation.navigate('/drawer/manajemen/kategori/edit', {item})}
+								disabled={index == 0 && item.name_product_category == "Umum" ? true : false}
+								name={item.name_product_category}
+							/>
+						</View>
+					)}
+					keyExtractor={(item, index) => index.toString()}
+				/>
+			</View>
+			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+				<BottomButton
+					onPressBtn={_handleAddNewCategory}
+					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
+					buttonTitle="TAMBAH KATEGORI BARU"
+				/>
 			</View>
 		</View>
 	);

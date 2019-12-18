@@ -175,7 +175,7 @@ export const FloatingInput = props => {
     if (haveValue) {
       setTextUp(_up)
     }
-  }, [])
+  })
   return (
     <View style={[{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }, props.style]}>
       <Text style={[{ color: activeColor, position: 'absolute', top: textUp }, props.labelStyle]}>{props.label}</Text>
