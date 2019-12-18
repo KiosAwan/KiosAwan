@@ -1,37 +1,89 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, StyleSheet } from 'react-native';
 import { Text } from '../../../../components/Text/CustomText';
-import Axios from 'axios';
-import { HOST_URL } from '../../../../config';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { GlobalHeader } from '../../../../components/Header/Header';
+
+import { useSelector, useDispatch } from 'react-redux'
+import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
+import { ColorsList } from '../../../../styles/colors';
+import { FontList } from '../../../../styles/typography';
+import SearchInput from '../../../../components/Input/SearchInput';
+import { ManagementPelangganCard } from '../../../../components/Card/ManagementCard';
+import { BottomButton } from '../../../../components/Button/ButtonComp';
+import { SizeList } from '../../../../styles/size';
+import { getCustomer } from '../../../../redux/actions/actionsCustomer';
 
 const ManajemenPelanggan = ({ navigation }) => {
-	const [token , setToken] = useState()
-	const _cobaJWT = async () => {
-		const res = await Axios.get('http://18.136.202.75/rest/test/tos')
-		alert(res.data.data)
-		setToken(res.data.data)
-	}
 
-	const _sendToken = async () => {
-		const data = {}
-		const res = await Axios.post('http://18.136.202.75/rest/test/tos',data, {
-			headers: {
-				Authorization: token
-			}
-		})
-		alert(JSON.stringify(res.data))
+	const dispatch = useDispatch()
+
+	const Customer = useSelector(state => state.Customer)
+	const User = useSelector(state => state.User)
+
+	const [search, setSearch] = useState('')
+	useEffect(() => {
+		dispatch(getCustomer(User.store.id_store))
+	}, [])
+
+	const _handleAddNewCategory = () => {
+		navigation.navigate('/drawer/manajemen/pelanggan/add')
 	}
 	return (
-		<View>
-			<TouchableOpacity onPress={_cobaJWT}>
-				<Text>Get token</Text>
-			</TouchableOpacity>
-			<TouchableOpacity onPress={_sendToken}>
-				<Text>Tes jwt</Text>
-			</TouchableOpacity>
+		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+			<GlobalHeader
+				onPressBack={() => navigation.goBack()}
+				title="Pelanggan"
+			/>
+			<View style={{ padding: 20, flex: 1 }}>
+				<SearchInput
+					placeholder="Cari pelanggan"
+					search={search}
+					handleChangeInput={(text) => setSearch(text)}
+					handleDeleteSearch={() => setSearch('')}
+				/>
+				<FlatList
+					data={Customer.data.filter(item => item.name_customer.toLowerCase().includes(search.toLowerCase()))}
+					renderItem={({ item, index }) => (
+						<View>
+							<ManagementPelangganCard
+								onPressEdit={() => navigation.navigate('/drawer/manajemen/pelanggan/edit', { item })}
+								name={item.name_customer}
+								subName={item.phone_number_customer}
+							/>
+						</View>
+					)}
+					keyExtractor={(item, index) => index.toString()}
+				/>
+			</View>
+			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+				<BottomButton
+					onPressBtn={_handleAddNewCategory}
+					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
+					buttonTitle="TAMBAH PELANGGAN BARU"
+				/>
+			</View>
 		</View>
 	);
 }
 
 export default ManajemenPelanggan
+
+const styles = StyleSheet.create({
+	searchWrapper: {
+		flexDirection: 'row',
+		alignItems: "center",
+		justifyContent: 'space-around'
+	},
+	textInput: {
+		width: '75%',
+		fontWeight: '500',
+		textDecorationLine: 'none',
+		fontFamily: FontList.regularFont,
+		color: ColorsList.primaryColor
+	},
+	deleteIcon: {
+		width: '5%',
+		alignItems: "center",
+		justifyContent: "center"
+	}
+})
