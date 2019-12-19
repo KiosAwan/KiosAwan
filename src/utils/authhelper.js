@@ -292,3 +292,41 @@ export const resendVerifyEmail = async (data) => {
       return res
   }
 }
+
+//Resend email verify 
+export const addNewDiscount = async (data) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/discount`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}
+
+
+//Edit Discount
+export const editDiscount = async (data, id) => {
+  try {
+      const res = await axios.post(`${HOST_URL}/discount_update/${id}`, data)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}
+
+
+//Delete Discount
+export const deleteDiscount = async (id) => {
+  try {
+      const res = await axios.delete(`${HOST_URL}/discount/${id}`)
+      return res.data
+  }
+  catch (error) {
+      const res = error.response.data
+      return res
+  }
+}

@@ -86,16 +86,16 @@ const Home = ({ navigation }) => {
                     {
                     User.store ? User.data.status == 0 ?
                     <TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
-                        <View style={{ borderRadius: 5, padding: 5, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
+                        <View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
                             <Icon color="#904bb7" name="exclamation-circle" style={{marginHorizontal : 10}} />
                             <Text style={{color : '#904bb7', fontFamily : FontList.regularFont}}>Verifikasi Email Anda Sekarang!</Text>
                         </View>
                     </TouchableOpacity>
                     : null :
                     <TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
-                        <View style={{ borderRadius: 5, padding: 5, backgroundColor: ColorsList.danger, alignItems: "center", flexDirection: 'row' }}>
+                        <View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
                             <Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{marginHorizontal : 10}} />
-                            <Text style={{color : ColorsList.whiteColor, fontFamily : FontList.regularFont}}>Silahkan lengkapi data toko Anda!</Text>
+                            <Text style={{color : ColorsList.whiteColor, fontFamily : FontList.regularFont}}>Lengkapi profil Anda!</Text>
                         </View>
                     </TouchableOpacity>}
                     <CardComp info="KASIR"

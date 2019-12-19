@@ -14,22 +14,24 @@ import BarStatus from '../../../../components/BarStatus';
 import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
-import {editCustomer, deleteCustomer } from '../../../../utils/authhelper';
+import { editDiscount, deleteDiscount, validNumber } from '../../../../utils/authhelper';
 import { BottomButton, Button } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
-import { getCustomer } from '../../../../redux/actions/actionsCustomer';
+import { ToggleButton } from '../../../../components/Picker/SelectBoxModal';
+import { getDiscount } from '../../../../redux/actions/actionsDiscount';
 
 
 const height = Dimensions.get('window').height
 
-const PelangganEdit = ({ navigation }) => {
+const DiskonEdit = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [name, setName] = useState()
-    const [phone_number, setPhoneNumber] = useState()
-    const [customerId, setCustomerId] = useState()
+    const [name, setName] = useState('')
+    const [idDiscount, setIdDiscount] = useState()
+    const [discount_type, setDiscountType] = useState(0)
+    const [value, setValue] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const [alert, setAlert] = useState(false)
     const User = useSelector(state => state.User)
@@ -38,27 +40,28 @@ const PelangganEdit = ({ navigation }) => {
         _getParams()
     }, [])
     const _getParams = async () => {
-        const { item } = navigation.state.params
-        setName(item.name_customer)
-        setPhoneNumber(item.phone_number_customer)
-        setCustomerId(item.id_customer)
+        const { item } = await navigation.state.params
+        setName(item.name_discount)
+        setValue((item.value * 100).toString())
+        setDiscountType(item.discount_type)
+        setIdDiscount(item.id_discount)
     }
 
     const _handleFinishEdit = async () => {
-        if (name == "") {
-            alert("Nama tidak boleh kosong")
+        if (name == "" || value == "" || value == 0) {
+            alert("Isi semua kolom dengan benar")
         }
         else {
-            const res = await editCustomer({
-                name_customer: name,
-                phone_number_customer : phone_number
-            }, customerId)
-            console.log(res)
-            if (res.status == 201) {
+            const res = await editDiscount({
+                discount: name,
+                value: discount_type == 1 ? value / 100 : value,
+                discount_type
+            }, idDiscount)
+            if (res.status == 200) {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCustomer(User.store.id_store))
+                    dispatch(getDiscount(User.store.id_store))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
@@ -67,27 +70,44 @@ const PelangganEdit = ({ navigation }) => {
         }
     }
 
-    const _handleDeleteCustomer = async () => {
+    const _handleChangeDiskon = (num) => {
+        if(discount_type == 1){
+            if(num < 100 && num > 0){
+                setValue(num)
+            }else {
+                setValue("")
+            }
+        }else {
+            if(num > 0 && num < 10000000000){
+                setValue(num)
+            }else {
+                setValue('')
+            }
+        }
+    }
+    const _handleDeleteDiskon = async () => {
         setAlert(false)
-        await deleteCustomer(customerId)
+        const res = await deleteDiscount(idDiscount)
+        if(res.status == 200){
         setModalVisible(true)
         setTimeout(() => {
             navigation.goBack()
-            dispatch(getCustomer(User.store.id_store))
+            dispatch(getDiscount(User.store.id_store))
             setModalVisible(false)
         }, 1000)
+    }
     }
     return (
         <View style={styles.container} >
             <BarStatus />
-            <AwanPopup.Title title="Hapus Pelanggan" visible={alert} message={`${name} akan dihapus dari daftar pelanggan.`}>
+            <AwanPopup.Title title="Hapus Diskon" visible={alert} message={`${name} akan dihapus dari daftar diskon.`}>
                 <View></View>
                 <Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-                <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+                <Button onPress={_handleDeleteDiskon} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
             </AwanPopup.Title>
             <GlobalHeaderWithIcon
                 onPressBack={() => navigation.goBack()}
-                title="Edit Pelanggan"
+                title="Edit Diskon"
                 image={require('../../../../assets/icons/trash.png')}
                 handleDeleteCategory={() => setAlert(true)}
             />
@@ -99,29 +119,35 @@ const PelangganEdit = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemenpelanggansuccess.png')}
-                    infoText="Edit Pelanggan Berhasil!"
+                    image={require('../../../../assets/images/managemendiskonsuccess.png')}
+                    infoText="Edit Diskon Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama Pelanggan">
+                    <FloatingInput label="Nama diskon">
                         <TextInput value={name}
                             onChangeText={(text) => setName(text)}
                         />
                     </FloatingInput>
-                    <View style={{marginTop : 10}}>
-                        <FloatingInput label="No Telepon">
-                            <TextInput value={phone_number}
+                    <View style={{ marginTop: 10 }}>
+                        <FloatingInput label="Diskon">
+                            <TextInput value={value}
                                 keyboardType="number-pad"
-                                onChangeText={(text) => setPhoneNumber(text)}
+                                onChangeText={_handleChangeDiskon}
                             />
+                            <View style={{ width: '20%' }}>
+                                <ToggleButton
+                                    toggle={discount_type}
+                                    buttons={["Rp", "%"]}
+                                    changeToggle={(i) => {
+                                        setDiscountType(i)
+                                    }}
+                                />
+                            </View>
                         </FloatingInput>
                     </View>
-                </View>
-                <View style={{ width: '90%', padding: 10 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Ubah data pelanggan</Text>
                 </View>
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
@@ -135,7 +161,7 @@ const PelangganEdit = ({ navigation }) => {
     );
 }
 
-export default PelangganEdit
+export default DiskonEdit
 
 const styles = StyleSheet.create({
     container: {

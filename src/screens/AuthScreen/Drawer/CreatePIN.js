@@ -9,8 +9,10 @@ import { FontList } from '../../../styles/typography';
 import { createUserPIN } from '../../../utils/authhelper';
 import AsyncStorage from '@react-native-community/async-storage';
 import ModalContent from '../../../components/ModalContent/ModalContent';
+import {useSelector} from 'react-redux'
 
 const CreatePIN = ({ navigation }) => {
+    const User = useSelector(state => state.User)
     const [pin, setPin] = useState()
     const [confirmPin, setConfirmPin] = useState()
     const [modalVisible, setModalVisible] = useState(false)
@@ -28,7 +30,7 @@ const CreatePIN = ({ navigation }) => {
             alert("Pin harus sama")
         } else {
             setModalVisible(true)
-            const id = await AsyncStorage.getItem('userId')
+            const id = User.data.id
             const data = {
                 id,
                 pin
@@ -39,13 +41,13 @@ const CreatePIN = ({ navigation }) => {
                     setModalVisible(false)
                     navigation.navigate('/temp/update-profile')
                 }, 800)
-            }else {
+            } else {
                 alert('Gagal membuat pin')
             }
         }
     }
     return (
-        <View style={{ flex: 1, alignItems: "center" }}>
+        <View style={{ flex: 1, alignItems: "center", backgroundColor: ColorsList.authBackground }}>
             <GlobalHeader title="Buat PIN" onPressBack={() => navigation.goBack()} />
             <Modal
                 animationType="fade"
@@ -61,7 +63,11 @@ const CreatePIN = ({ navigation }) => {
 
                 />
             </Modal>
-            <View style={{ margin: 30, height: 100, alignItems: "center" }}>
+            <View style={{alignSelf : 'center', width : '70%'}}>
+                <Text style={{textAlign : "center", ...FontList.subtitleFontGreyBold}}>Untuk menunjang keamananan profil Anda , buatlah PIN dengan benar</Text>
+
+            </View>
+            <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
                 <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN</Text>
                 <CodeInput
                     secureTextEntry
@@ -75,7 +81,7 @@ const CreatePIN = ({ navigation }) => {
                     onFulfill={(code) => _handlePINFulfilled(code)}
                 />
             </View>
-            <View style={{ marginTop: 30, alignItems: "center" }}>
+            <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
                 <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kembali PIN anda</Text>
                 <CodeInput
                     secureTextEntry
