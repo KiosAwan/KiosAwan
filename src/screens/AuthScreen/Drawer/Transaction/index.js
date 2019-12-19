@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { View, Text, StyleSheet } from 'react-native';
-import { getTransactionList } from '../../redux/actions/actionsTransactionList';
+import { getTransactionList } from '../../../../redux/actions/actionsTransactionList';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { TransactionCard } from '../../components/Card/CardComp';
-import { TransactionPlaceholder } from '../../components/LoadingPlaceholder';
-import { formatToDays } from '../../utils/authhelper';
+import { TransactionCard } from '../../../../components/Card/CardComp';
+import { TransactionPlaceholder } from '../../../../components/LoadingPlaceholder';
+import { formatToDays } from '../../../../utils/authhelper';
 
 const TransactionList = ({ navigation }) => {
   const dispatch = useDispatch()

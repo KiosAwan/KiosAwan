@@ -2,7 +2,7 @@ import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 
 import DetailTransaction from '../../screens/AuthScreen/DetailTransaction'
-import TransactionList from '../../screens/AuthScreen/TransactionList'
+import TransactionList from '../../screens/AuthScreen/Drawer/Transaction'
 import CancelTransaction from '../../screens/AuthScreen/CancelTransaction'
 
 const TransactionNavigator = createStackNavigator({
