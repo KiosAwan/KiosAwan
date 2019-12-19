@@ -1,29 +1,33 @@
-import React, { useState } from 'react';
+import Axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import {  CheckBox } from 'native-base'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../components/Input/InputComp';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from '../../redux/actions/actionsNewProduct';
-import Axios from 'axios';
-import { HOST_URL } from '../../config';
-import {validNumber, convertNumber } from '../../utils/authhelper';
-import SwitchButton from '../../components/Button/SwitchButton';
-import { getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
-import { GlobalHeader } from '../../components/Header/Header';
-import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
-import { ColorsList } from '../../styles/colors';
-import { FontList } from '../../styles/typography';
-import { RowChild } from '../../components/Helper/RowChild';
+import { CheckBox } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler';
-import ModalContent from '../../components/ModalContent/ModalContent';
+import { convertNumber } from 'src/utils/authhelper';
+import { clearAllNewProduct, addMinQtyStock, addProductPriceOut, addProductPriceIn } from 'src/redux/actions/actionsNewProduct';
+import { removeAllCart, getProduct } from 'src/redux/actions/actionsStoreProduct';
+import { GlobalHeader } from 'src/components/Header/Header';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { FloatingInputLabelCurrency, FloatingInputLabel } from 'src/components/Input/InputComp';
+import SwitchButton from 'src/components/Button/SwitchButton';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import { RowChild } from 'src/components/Helper/RowChild';
 
 const width = Dimensions.get('window').width
 
-const NewProductLast = ({ navigation }) => {
+const ManajemenProdukEditHarga = ({ navigation }) => {
+	useEffect(() => {
+		if (navigation.state.params) setProduct(navigation.state.params.product)
+	}, [])
+
+	const [product, setProduct] = useState({})
+
 	const dispatch = useDispatch()
-	const NewProduct = useSelector(state => state.NewProduct)
 	const User = useSelector(state => state.User)
+	const NewProduct = useSelector(state => state.NewProduct)
 
 
 	const [modalVisible, setModalVisible] = useState(false)
@@ -65,11 +69,7 @@ const NewProductLast = ({ navigation }) => {
 					dispatch(clearAllNewProduct())
 					dispatch(removeAllCart())
 					dispatch(getProduct(User.store.id_store))
-					if (NewProduct.fromManajemen) {
-						navigation.navigate(NewProduct.fromManajemen.back)
-					} else {
-						navigation.navigate('/cashier')
-					}
+					navigation.navigate('/drawer/manajemen/produk')
 				}, 1000)
 
 			}
@@ -113,21 +113,11 @@ const NewProductLast = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-        image={require('../../assets/images/addproductsuccess.png')}
-        infoText="Anda Berhasil Menambah Produk!"
-        />
+					image={require('src/assets/images/addproductsuccess.png')}
+					infoText="Anda Berhasil Menambah Produk!"
+				/>
 			</Modal>
 			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
-			<ProgressIndicator
-				firstIsCompleteStep={true}
-				firstIsActiveStep={false}
-				firstSeparator
-				secondSeparator
-				secondIsCompleteStep={true}
-				secondIsActiveStep={false}
-				thirdIsCompleteStep={false}
-				thirdIsActiveStep={true}
-			/>
 			<View style={styles.childContainer}>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={styles.groupingStyle}>
@@ -205,7 +195,7 @@ const NewProductLast = ({ navigation }) => {
 	);
 }
 
-export default NewProductLast
+export default ManajemenProdukEditHarga
 
 const styles = StyleSheet.create({
 	childContainer: {

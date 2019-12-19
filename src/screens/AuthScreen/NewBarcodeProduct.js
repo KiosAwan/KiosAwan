@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
 } from 'native-base';
-import { useDispatch } from 'react-redux'
-import { View, StyleSheet, Dimensions, Alert } from "react-native";
+import { useDispatch, useSelector } from 'react-redux'
+import { View, StyleSheet, Dimensions, Alert, BackHandler } from "react-native";
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
 import { GlobalHeader } from "../../components/Header/Header";
@@ -18,7 +18,8 @@ const height = Dimensions.get('window').height
 
 const NewBarcodeProduct = ({ navigation }) => {
   const dispatch = useDispatch()
-  const [scanWork , setScanWork] = useState(true)
+  const NewProduct = useSelector(state => state.NewProduct)
+  const [scanWork, setScanWork] = useState(true)
   const _onBarCodeRead = async (scanResult) => {
     setScanWork(false)
     const data = {
@@ -63,7 +64,16 @@ const NewBarcodeProduct = ({ navigation }) => {
       )
     }
   }
-
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', (e) => {
+      if (NewProduct.fromManajemen) {
+        navigation.navigate(NewProduct.fromManajemen.back)
+        backHandler.remove()
+        return true
+      }
+      return false
+    })
+  })
   const _handleNoBarcode = () => {
     dispatch(addProductName(''))
     dispatch(addProductIdCategory(null))
@@ -71,7 +81,13 @@ const NewBarcodeProduct = ({ navigation }) => {
   }
   return (
     <View style={{ flex: 1 }}>
-      <GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
+      <GlobalHeader title="Tambah Produk" onPressBack={() => {
+        if (NewProduct.fromManajemen) {
+          navigation.navigate(NewProduct.fromManajemen.back)
+        } else {
+          navigation.goBack()
+        }
+      }} />
       <ProgressIndicator
         firstIsCompleteStep={false}
         firstIsActiveStep={true}

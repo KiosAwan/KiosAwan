@@ -1,4 +1,15 @@
 //Action for adding product name to reducer 
+
+
+
+export const setFromManajemenProduct = (data) => {
+    return {
+        type : "SET_ROUTE",
+        payload : data   
+    }
+}
+
+
 export const addProductName = (name) => {
     return {
         type : "ADD_NAME",

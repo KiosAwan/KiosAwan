@@ -39,6 +39,17 @@ String.prototype.generateInitial = function(){
   }
   return name[0][0].toUpperCase() + name[0][1]
 }
+String.prototype.ucfirst = function(){
+	return this.charAt(0).toUpperCase() + this.slice(1);
+}
+String.prototype.lcfirst = function(){
+	return this.charAt(0).toLowerCase() + this.slice(1);
+}
+String.prototype.ucwords = function(){
+	return this.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+		return letter.toUpperCase();
+	});
+}
 String.prototype.isBool = function () {
   return this.length < 4 && this.Contains("true");
 }
