@@ -15,6 +15,7 @@ import { SizeList } from '../../styles/size';
 import { FontList } from '../../styles/typography';
 import { ProductPlaceholder } from '../../components/LoadingPlaceholder';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
+import { setFromManajemenProduct } from '../../redux/actions/actionsNewProduct';
 
 const Cashier = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -37,7 +38,10 @@ const Cashier = ({ navigation }) => {
             />
             <View style={styles.wrapButtonHeader}>
                 <ButtonWithIcon
-                    onPressBtn={() => navigation.navigate('/cashier/new-barcode')}
+                    onPressBtn={() => {
+                        dispatch(setFromManajemenProduct(null))
+                        navigation.navigate('/cashier/new-barcode')
+                    }}
                     style={styles.btnIconStyle}
                     iconName="plus"
                     buttonTitle="PRODUK BARU"

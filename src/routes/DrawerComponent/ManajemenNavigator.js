@@ -11,6 +11,9 @@ import PelangganAdd from '../../screens/AuthScreen/Drawer/Manajemen/PelangganAdd
 import PelangganEdit from '../../screens/AuthScreen/Drawer/Manajemen/PelangganEdit'
 import DiskonAdd from '../../screens/AuthScreen/Drawer/Manajemen/DiskonAdd'
 import DiskonEdit from '../../screens/AuthScreen/Drawer/Manajemen/DiskonEdit'
+import ManajemenProdukEdit from 'src/screens/AuthScreen/Drawer/Manajemen/ProdukEdit'
+import ManajemenProdukEditBarcode from 'src/screens/AuthScreen/Drawer/Manajemen/ProdukEditBarcode'
+import ManajemenProdukEditHarga from 'src/screens/AuthScreen/Drawer/Manajemen/ProdukEditHarga'
 
 const ManajemenNavigator = createStackNavigator({
 	'/drawer/manajemen': {
@@ -21,6 +24,24 @@ const ManajemenNavigator = createStackNavigator({
 	},
 	'/drawer/manajemen/produk': {
 		screen: ManajemenProduk,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/drawer/manajemen/produk/edit': {
+		screen: ManajemenProdukEdit,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/drawer/manajemen/produk/edit/barcode': {
+		screen: ManajemenProdukEditBarcode,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/drawer/manajemen/produk/edit/harga': {
+		screen: ManajemenProdukEditHarga,
 		navigationOptions: {
 			header: null
 		}

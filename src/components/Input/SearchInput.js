@@ -12,7 +12,7 @@ const SearchInput = (props) => {
 
     return (
         <View style={[styles.searchWrapper, isFocused ? { borderWidth: 1, borderColor: ColorsList.primaryColor, borderRadius: 5 } : { borderBottomWidth: 0.5, borderColor: ColorsList.greySoft }]}>
-            <Animatable.View duration={300} style={{ width: '5%' }} animation={isFocused ? "bounceInLeft" : null}>
+            <Animatable.View duration={300} style={{ width: '5%' }} animation={isFocused ? null : null}>
                 <Icon size={15} style={{ width: '100%', color: ColorsList.primary }} name="search" />
             </Animatable.View>
             <TextInput style={{ width: '75%' }}
@@ -21,7 +21,7 @@ const SearchInput = (props) => {
                 onChangeText={props.handleChangeInput}
                 value={props.search}
                 style={styles.textInput}
-                placeholder={props.placeholder} />
+                placeholder="Cari produk" />
             <Animatable.View duration={500} style={styles.deleteIcon} animation={isFocused ? "slideInRight" : 'bounceOutRight'}>
                 <TouchableOpacity onPress={props.handleDeleteSearch}>
                     <Image style={{ width: 50, height: 50 }} source={require('../../assets/icons/circlereject.png')} />

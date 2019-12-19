@@ -1,71 +1,77 @@
 const initialState = {
-    barcode : '',
-    name : '',
-    price_in : '',
-    price_out : '',
-    id_category : null,
-    id_store : '',
-    qty_stock : '',
+    barcode: '',
+    name: '',
+    price_in: '',
+    price_out: '',
+    id_category: null,
+    id_store: '',
+    qty_stock: '',
     qty_min_stock: '',
-    image : ''
+    image: '',
+    fromManajemen: null
 }
 
 const reducerNewProduct = (state = initialState, actions) => {
-    switch(actions.type) {
-        case "ADD_BARCODE" :
+    switch (actions.type) {
+        case "SET_ROUTE":
             return {
                 ...state,
-                barcode : actions.payload
+                fromManajemen: actions.payload
             }
-        case "ADD_NAME" : 
+        case "ADD_BARCODE":
             return {
                 ...state,
-                name : actions.payload
+                barcode: actions.payload
             }
-        case "ADD_PRICE_IN" : 
+        case "ADD_NAME":
             return {
                 ...state,
-                price_in : actions.payload
+                name: actions.payload
             }
-        case "ADD_PRICE_OUT" : 
+        case "ADD_PRICE_IN":
             return {
                 ...state,
-                price_out : actions.payload
+                price_in: actions.payload
             }
-        case "ADD_ID_CATEGORY" : 
+        case "ADD_PRICE_OUT":
             return {
                 ...state,
-                id_category : actions.payload
+                price_out: actions.payload
             }
-        case "ADD_QTY_STOCK" : 
+        case "ADD_ID_CATEGORY":
             return {
                 ...state,
-                qty_stock : actions.payload
+                id_category: actions.payload
             }
-        case "ADD_PRODUCT_IMAGE" : 
+        case "ADD_QTY_STOCK":
             return {
                 ...state,
-                image : actions.payload
+                qty_stock: actions.payload
             }
-        case "ADD_QTY_MIN_STOCK" : 
+        case "ADD_PRODUCT_IMAGE":
             return {
                 ...state,
-                qty_min_stock : actions.payload
+                image: actions.payload
             }
-        case "CLEAR_ALL_PRODUCT_FORM" : 
+        case "ADD_QTY_MIN_STOCK":
             return {
-                barcode : '',
-                name : '',
-                price_in : '',
-                price_out : '',
-                id_category : '',
-                id_store : '',
-                qty_stock : '',
+                ...state,
+                qty_min_stock: actions.payload
+            }
+        case "CLEAR_ALL_PRODUCT_FORM":
+            return {
+                barcode: '',
+                name: '',
+                price_in: '',
+                price_out: '',
+                id_category: '',
+                id_store: '',
+                qty_stock: '',
                 qty_min_stock: '',
-                image : ''
+                image: ''
             }
-        default : 
-            return state            
+        default:
+            return state
     }
 }
 

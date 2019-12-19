@@ -26,7 +26,7 @@ export const Modal = (props) => {
 
 export const AwanPopup = {
 	Title: props => {
-		return <Modal style={{ padding: 0 }} {...props}>
+		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
 			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
 				<Image source={require('../../assets/modals/awan-little.png')}
 					style={styles.image}
@@ -45,7 +45,7 @@ export const AwanPopup = {
 		</Modal>
 	},
 	NoTitle: props => {
-		return <Modal style={{ padding: 0 }} {...props}>
+		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
 			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
 				<Image source={require('../../assets/modals/awan-little.png')}
 					style={styles.image}
@@ -79,6 +79,27 @@ export const AwanPopup = {
 			</LinearGradient>
 			<View style={{ padding: 15 }}>
 				{props.children}
+			</View>
+		</Modal>
+	},
+	Loading: props => {
+		return <Modal animationType="fade" style={{ backgroundColor: ColorsList.transparent, padding: 0 }} {...props}>
+			{/* <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
+				<Image source={require('../../assets/modals/awan-little.png')}
+					style={styles.image}
+					resizeMode="stretch" />
+				<View style={{ paddingHorizontal: 20, backgroundColor: ColorsList.transparent }}>
+					<Text size={18} color="whiteColor" style={{ textAlign: 'center' }} font="Bold">{'Harap tunggu'.toUpperCase()}</Text>
+					<Text color="whiteColor" style={{ textAlign: 'center' }} font="Bold">Aplikasi sedang memproses</Text>
+				</View>
+				<Image source={require('../../assets/modals/awan.png')}
+					style={styles.image}
+					resizeMode="stretch" />
+			</LinearGradient> */}
+			<View style={{ borderRadius: 15, backgroundColor: ColorsList.whiteColor, padding: 15 }}>
+				<Image source={require('../../assets/modals/spinner.gif')}
+					style={[styles.image, { width: 50, height: 50 }]}
+					resizeMode="stretch" />
 			</View>
 		</Modal>
 	}
@@ -126,7 +147,8 @@ quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo">
 <Button style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Test</Button>
 </AwanPopup.NoTitle> */}
 
-/* const [position, setPosition] = useState(false)
+
+{/* const [position, setPosition] = useState(false)
 
 const _testClick = (e) => {
 console.log(e.nativeEvent)
@@ -145,4 +167,4 @@ quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo">
 <Button color="link" textProps={{ size: 15, font: 'Bold' }}>Test</Button>
 <Button textProps={{ size: 15, font: 'Bold' }}>Test</Button>
 </AwanPopup.Menu>
-<Button onPress={_testClick}>Test</Button> */
+<Button onPress={_testClick}>Test</Button> */}

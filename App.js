@@ -1,6 +1,6 @@
 import './src/utils/default'
 import AppNavigator from './src/routes/AppNavigator'
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { Linking } from 'react-native';
 import { Provider } from 'react-redux'
 import store from './src/redux/store'
