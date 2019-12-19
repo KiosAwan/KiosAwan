@@ -9,7 +9,7 @@ import { ProductCard } from '../../../../components/Card/CardComp';
 import { convertRupiah } from '../../../../utils/authhelper';
 import { Bottom, Button } from '../../../../components/Button/ButtonComp';
 
-const ManajemenProduk = ({ navigation }) => {
+const ManajemenProdukAdd = ({ navigation }) => {
 	const [search, setSearch] = useState('')
 	const [visible, setVisible] = useState(false)
 
@@ -59,4 +59,4 @@ const ManajemenProduk = ({ navigation }) => {
 	);
 }
 
-export default ManajemenProduk
+export default ManajemenProdukAdd

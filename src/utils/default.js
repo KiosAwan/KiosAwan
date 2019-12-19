@@ -32,6 +32,13 @@ Array.prototype.loopCallback = function (callback, reverse, index) {
     }
   }
 }
+String.prototype.generateInitial = function(){
+  var name = this.split(' ');
+  if (name.length > 1){
+    return name[0][0].toUpperCase() + name[1][0].toUpperCase()
+  }
+  return name[0][0].toUpperCase() + name[0][1]
+}
 String.prototype.isBool = function () {
   return this.length < 4 && this.Contains("true");
 }

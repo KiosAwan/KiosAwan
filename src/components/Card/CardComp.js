@@ -80,28 +80,31 @@ export const ProductCard = (props) => {
         <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
             <View style={[styles.card, props.cardStyle]}>
                 <View style={{ ...RowChild, height: '100%', width: '90%' }}>
-                    {props.productImage ? 
-                    <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: 'red' }} source={{uri : props.productImage}} />
-                        : 
-                    <View style={styles.viewNoImageProduct}>
-                        <Text style={{fontSize : 24, fontFamily : 'Nunito-Bold', color : ColorsList.greyFont}}>{props.name[0].toUpperCase() + props.name[1]}</Text>
-                    </View>
-                }
+                    {props.productImage ?
+                        <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: 'red' }} source={{ uri: props.productImage }} />
+                        :
+                        <View style={styles.viewNoImageProduct}>
+                            <Text style={{ fontSize: 24, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont }}>{props.name.generateInitial()}</Text>
+                        </View>
+                    }
                     <View style={{ width: '50%' }}>
                         <Text style={styles.infoText}>{props.name}</Text>
                         <Text style={styles.subText}>{props.stock ? props.stock : "Fitur stok tidak aktif"}</Text>
-                        <Text style={[styles.infoText, {color : ColorsList.greyFont}]}>{props.price}</Text>
+                        <Text style={[styles.infoText, { color: ColorsList.greyFont }]}>{props.price}</Text>
                     </View>
                 </View>
-                <View style={{ width: '10%', backgroundColor: '#f9faf7', height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
-                    <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
-                        <Icon size={20} name="plus" color={ColorsList.greyFont} />
-                    </TouchableOpacity>
-                    <Text style={{ marginHorizontal: 8 }}>{props.quantity ? props.quantity : 0}</Text>
-                    <TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
-                        <Icon size={20} name="minus" color={ColorsList.greyFont} />
-                    </TouchableOpacity>
-                </View>
+                {
+                    props.right ? props.right :
+                        <View style={{ width: '10%', backgroundColor: '#f9faf7', height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
+                            <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
+                                <Icon size={20} name="plus" color={ColorsList.greyFont} />
+                            </TouchableOpacity>
+                            <Text style={{ marginHorizontal: 8 }}>{props.quantity ? props.quantity : 0}</Text>
+                            <TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
+                                <Icon size={20} name="minus" color={ColorsList.greyFont} />
+                            </TouchableOpacity>
+                        </View>
+                }
             </View>
         </View>
     );
@@ -167,13 +170,13 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 5
     },
-    viewNoImageProduct : { 
-        width: '20%', 
-        height: '70%', 
-        margin: 5, 
-        backgroundColor: '#e6e3e3', 
-        justifyContent :"center", 
-        alignItems :"center" ,
-        borderRadius : 5
+    viewNoImageProduct: {
+        width: '20%',
+        height: '70%',
+        margin: 5,
+        backgroundColor: '#e6e3e3',
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 5
     }
 })

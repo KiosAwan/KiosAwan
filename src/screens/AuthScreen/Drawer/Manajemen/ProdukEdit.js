@@ -7,9 +7,8 @@ import { AwanPopup } from '../../../../components/ModalContent/Popups';
 import { ColorsList } from '../../../../styles/colors';
 import { ProductCard } from '../../../../components/Card/CardComp';
 import { convertRupiah } from '../../../../utils/authhelper';
-import { Bottom, Button } from '../../../../components/Button/ButtonComp';
 
-const ManajemenProduk = ({ navigation }) => {
+const ManajemenProdukEdit = ({ navigation }) => {
 	const [search, setSearch] = useState('')
 	const [visible, setVisible] = useState(false)
 
@@ -52,11 +51,8 @@ const ManajemenProduk = ({ navigation }) => {
 				<AwanPopup.Loading visible={visible} />
 				{/* <Button onPress={() => setVisible(true)}>HJjjjd</Button> */}
 			</View>
-			<Bottom>
-				<Button style={{ width: '100%' }} textProps={{ font: 'Bold' }}>+ TAMBAH PRODUK BARU</Button>
-			</Bottom>
 		</View>
 	);
 }
 
-export default ManajemenProduk
+export default ManajemenProdukEdit
