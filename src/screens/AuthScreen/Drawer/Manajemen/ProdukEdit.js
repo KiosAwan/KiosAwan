@@ -11,34 +11,35 @@ import { Text } from 'src/components/Text/CustomText';
 import { FloatingInputLabel } from 'src/components/Input/InputComp';
 import { BottomButton } from 'src/components/Button/ButtonComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
+import { editProductImage, editProductIdCategory, editProductName } from 'src/redux/actions/actionsEditProduct';
 
 
 const width = Dimensions.get('window').width
 const ManajemenProdukEdit = ({ navigation }) => {
 	const dispatch = useDispatch()
-	const NewProduct = useSelector(state => state.NewProduct)
+	const EditProduct = useSelector(state => state.EditProduct)
 	const User = useSelector(state => state.User)
 	const Category = useSelector(state => state.Category)
-	const [imageProduct, setImageProduct] = useState()
 	const [newCategoryName, setNewCategoryName] = useState('')
 	const [editNewCategory, setEditNewCategory] = useState('new')
 
 	const [product, setProduct] = useState({})
-
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
 	const [idEditCategory, setIdEditCategory] = useState()
-	const [isDisabled, setDisabled] = useState(true)
 
 	useEffect(() => {
 		dispatch(getCategory(User.store.id_store))
-		if (navigation.state.params) setProduct(navigation.state.params.product)
 	}, [])
 
 
 	const _handlePressNext = async () => {
-		navigation.navigate('/drawer/manajemen/produk/edit/harga', {
-			product: product
-		})
+		if(EditProduct.name == ""){
+			alert("Nama tidak boleh kosong")
+		}else {
+			navigation.navigate('/drawer/manajemen/produk/edit/harga', {
+				product: product
+			})
+		}
 	}
 
 	const _handleChoosePhoto = () => {
@@ -47,9 +48,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 			height: 300,
 			cropping: true
 		}).then(image => {
-			console.log(image.path)
-			setImageProduct(image.path)
-			dispatch(addProductImage(image.path))
+			dispatch(editProductImage(image.path))
 		});
 	};
 
@@ -101,7 +100,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
-							<FloatingInputLabel label="Barcode Number" disabled value={NewProduct.barcode} />
+							<FloatingInputLabel label="Barcode Number" disabled value={EditProduct.barcode} />
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.navigate('/drawer/manajemen/produk/edit/barcode')} style={styles.buttonScanBarcode}>
@@ -113,8 +112,8 @@ const ManajemenProdukEdit = ({ navigation }) => {
 						<FloatingInputLabel
 							disabled={false}
 							label="Product Name"
-							value={product.name_product}
-							handleChangeText={text => setProduct({ ...product, name_product: text })}
+							value={EditProduct.name}
+							handleChangeText={text => dispatch(editProductName(text))}
 						/>
 					</View>
 					<SelectBoxModal style={{ marginTop: 15 }}
@@ -135,15 +134,15 @@ const ManajemenProdukEdit = ({ navigation }) => {
 							</View>
 						}
 						value={Category.data.map(cat => {
-							if (cat.id_product_category == product.id_product_category) return cat.name_product_category
+							if (cat.id_product_category == EditProduct.id_category) return cat.name_product_category
 						}).join('')}
 						handleChangePicker={(item) => {
-							setProduct({ ...product, id_product_category: item.id_product_category })
+							dispatch(editProductIdCategory(item.id_product_category))
 						}}
 						closeOnSelect
 						data={Category.data}
 						renderItem={(item) => [<Text color={
-							item.id_product_category == product.id_product_category ?
+							item.id_product_category == EditProduct.id_category ?
 								ColorsList.primaryColor : ColorsList.greyFont
 						}>{item.name_product_category}</Text>, <Icon onPress={() => {
 							setAddCategoryVisible(true)
@@ -151,7 +150,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 							setNewCategoryName(item.name_product_category)
 							setIdEditCategory(item.id_product_category)
 						}} style={{
-							color: item.id_product_category == product.id_product_category ?
+							color: item.id_product_category == EditProduct.id_category ?
 								ColorsList.primaryColor : ColorsList.greySoft
 						}} name="ios-create" />]}
 					/>
@@ -162,7 +161,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={_handleChoosePhoto}>
 							<Image style={styles.image}
-								source={imageProduct ? { uri: imageProduct } : require('src/assets/images/img-product.png')}
+								source={EditProduct.image !== "" ? { uri: imageProduct } : require('src/assets/images/img-product.png')}
 							/>
 						</TouchableOpacity>
 					</View>

@@ -9,11 +9,13 @@ import reducerStoreProduct from './reducerStoreProduct';
 import reducerTransactionList from './reducerTransactionList';
 import reducerCustomer from './reducerCustomer';
 import reducerStoreDiscount from './reducerDiscount';
+import reducerEditProduct from './reducerEditProduct';
 
 const appReducer = combineReducers({
     Registration : reducerRegistration,
     User : reducerUser,
     NewProduct : reducerNewProduct,
+    EditProduct : reducerEditProduct,
     Category : reducerStoreCategory,
     Product : reducerStoreProduct,
     Discount : reducerStoreDiscount,

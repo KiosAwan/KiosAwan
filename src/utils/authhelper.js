@@ -80,6 +80,12 @@ export const checkBarcode = async (data) => {
   return res.data
 }
 
+//check new product barcode
+export const checkProductInData = async (data) => {
+  const res = await axios.post(`${HOST_URL}/product_scan`, data)
+  return res.data
+}
+
 //post new category to database
 export const sendNewCategory = async (data) => {
   const res = await axios.post(`${HOST_URL}/category`, data)

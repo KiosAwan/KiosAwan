@@ -1,35 +1,35 @@
-ManajemenProdukEditBarcode
-
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
 	Text,
 } from 'native-base';
-import { useDispatch, useSelector } from 'react-redux'
-import { View, StyleSheet, Dimensions, Alert, BackHandler } from "react-native";
+import { useDispatch , useSelector} from 'react-redux'
+import { View, StyleSheet, Dimensions, Alert} from "react-native";
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
 import { GlobalHeader } from "src/components/Header/Header";
-import { addProductIdCategory, addProductName } from "src/redux/actions/actionsNewProduct";
-import ProgressIndicator from "src/components/StepIndicator/ProgressIndicator";
 import { BottomButton } from "src/components/Button/ButtonComp";
 import { FontList } from "src/styles/typography";
+import { editProductName, editProductBarcode } from "src/redux/actions/actionsEditProduct";
+import { checkBarcode,checkProductInData } from "src/utils/authhelper";
 
 
 const height = Dimensions.get('window').height
 
 const ManajemenProdukEditBarcode = ({ navigation }) => {
 	const dispatch = useDispatch()
-	const NewProduct = useSelector(state => state.NewProduct)
+	const User = useSelector(state => state.User)
 	const [scanWork, setScanWork] = useState(true)
 	const _onBarCodeRead = async (scanResult) => {
 		setScanWork(false)
 		const data = {
-			barcode: scanResult.data
+			barcode: scanResult.data,
+			id_store : User.store.id_store
 		}
+		const first_check = await checkProductInData(data)
+		if(!first_check){
 		const response = await checkBarcode(data)
 
-		await dispatch(addProductBarcode(response.data.barcode))
+		await dispatch(editProductBarcode(response.data.barcode))
 
 		if (response.data.nama_product != undefined) {
 			Alert.alert(
@@ -39,9 +39,9 @@ const ManajemenProdukEditBarcode = ({ navigation }) => {
 					{
 						text: 'Lanjut', onPress: () => {
 							setScanWork(true)
-							dispatch(addProductName(response.data.nama_product))
-							dispatch(addProductIdCategory(null))
-							navigation.navigate('/cashier/new-product-name')
+							dispatch(editProductName(response.data.nama_product))
+							dispatch(editProductBarcode(response.data.barcode))
+							navigation.navigate('/drawer/manajemen/produk/edit')
 						}
 					},
 				],
@@ -56,9 +56,7 @@ const ManajemenProdukEditBarcode = ({ navigation }) => {
 					{
 						text: 'Lanjut', onPress: () => {
 							setScanWork(true)
-							dispatch(addProductName(''))
-							dispatch(addProductIdCategory(null))
-							navigation.navigate('/cashier/new-product-name')
+							navigation.navigate('/drawer/manajemen/produk/edit')
 						}
 					},
 				],
@@ -66,31 +64,27 @@ const ManajemenProdukEditBarcode = ({ navigation }) => {
 			)
 		}
 	}
-	useEffect(() => {
-		const backHandler = BackHandler.addEventListener('hardwareBackPress', (e) => {
-			if (NewProduct.fromManajemen) {
-				navigation.navigate(NewProduct.fromManajemen.back)
-				backHandler.remove()
-				return true
-			}
-			return false
-		})
-	})
+	else {
+		Alert.alert(
+			'',
+			'Barang yang Anda scan sudah ada di daftar produk',
+			[
+				{
+					text: 'Ulang', onPress: () => {
+						setScanWork(true)
+					}
+				},
+			],
+			{ cancelable: false }
+		)
+	}
+	}
 	const _handleNoBarcode = () => {
-		// dispatch(addProductName(''))
-		// dispatch(addProductIdCategory(null))
-		// navigation.navigate('/cashier/new-product-name')
 		navigation.goBack()
 	}
 	return (
 		<View style={{ flex: 1 }}>
-			<GlobalHeader title="Tambah Produk" onPressBack={() => {
-				if (NewProduct.fromManajemen) {
-					navigation.navigate(NewProduct.fromManajemen.back)
-				} else {
-					navigation.goBack()
-				}
-			}} />
+			<GlobalHeader title="Edit Produk" onPressBack={() => navigation.goBack()}/>
 			<View style={{ justifyContent: "center" }}>
 				<RNCamera
 					style={styles.camera}
@@ -109,8 +103,8 @@ const ManajemenProdukEditBarcode = ({ navigation }) => {
 			</View>
 
 			<View style={styles.lowerSection}>
-				<View style={{ alignItems: "center" }}>
-					<Text style={{ marginTop: 30, fontFamily: FontList.primaryFont, color: 'white', fontSize: 20 }}>Pindai Barcode</Text>
+				<View style={{ alignItems: "center", top : 0 }}>
+					<Text style={{ fontFamily: FontList.primaryFont, color: 'white', fontSize: 20 }}>Pindai Barcode</Text>
 					<View style={{ width: '70%', alignItems: 'center', marginTop: 10 }}>
 						<Text style={{ color: 'white', textAlign: "center", fontFamily: FontList.primaryFont }}>Jika produk tidak memiliki barcode , Anda dapat melewati langkah ini.</Text>
 					</View>

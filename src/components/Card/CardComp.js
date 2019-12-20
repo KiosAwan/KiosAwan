@@ -146,7 +146,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '60%',
         borderTopRightRadius: 5,
-        borderTopLeftRadius: 5
+        borderTopLeftRadius: 5,
+        resizeMode : 'stretch'
     },
     textImageWrapper: {
         backgroundColor: 'white',

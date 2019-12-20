@@ -1,12 +1,11 @@
 import Axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler';
 import { convertNumber } from 'src/utils/authhelper';
-import { clearAllNewProduct, addMinQtyStock, addProductPriceOut, addProductPriceIn } from 'src/redux/actions/actionsNewProduct';
-import { removeAllCart, getProduct } from 'src/redux/actions/actionsStoreProduct';
+import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { GlobalHeader } from 'src/components/Header/Header';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { FloatingInputLabelCurrency, FloatingInputLabel } from 'src/components/Input/InputComp';
@@ -15,91 +14,84 @@ import { BottomButton } from 'src/components/Button/ButtonComp';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
 import { RowChild } from 'src/components/Helper/RowChild';
+import { editRemoveAllNewProduct, editProductManageStock, editProductSendNotif, editProductPriceIn, editProductPriceOut, editQuantityStock, editMinQtyStock } from 'src/redux/actions/actionsEditProduct';
+import { HOST_URL } from 'src/config';
 
 const width = Dimensions.get('window').width
 
 const ManajemenProdukEditHarga = ({ navigation }) => {
-	useEffect(() => {
-		if (navigation.state.params) setProduct(navigation.state.params.product)
-	}, [])
-
-	const [product, setProduct] = useState({})
-
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
-	const NewProduct = useSelector(state => state.NewProduct)
+	const EditProduct = useSelector(state => state.EditProduct)
 
 
 	const [modalVisible, setModalVisible] = useState(false)
-	const [manageStock, setManageStock] = useState(false)
-	const [sendNotif, setSendNotif] = useState(false)
-	const [isDisabled, setIsDisabled] = useState(true)
 
 	const _handlePressNext = async () => {
-		let intPriceIn = convertNumber(NewProduct.price_in)
-		let intPriceOut = convertNumber(NewProduct.price_out)
-		if (NewProduct.price_in == "" || NewProduct.price_out == "") {
+		let intPriceIn = convertNumber(EditProduct.price_in)
+		let intPriceOut = convertNumber(EditProduct.price_out)
+		if (EditProduct.price_in == "" || EditProduct.price_out == "") {
 			alert("Harap isi harga beli dan jual")
 		} else if ((intPriceOut - intPriceIn) < 0) {
 			alert("Lu jualan apa sedekah? harga jual lu naikin lahh 🙃")
 		} else {
 			const formData = new FormData()
-			await formData.append('barcode', NewProduct.barcode)
-			await formData.append('name', NewProduct.name)
+			await formData.append('barcode', EditProduct.barcode)
+			await formData.append('name', EditProduct.name)
 			await formData.append('price_in', intPriceIn)
 			await formData.append('price_out', intPriceOut)
-			await formData.append('id_category', NewProduct.id_category)
+			await formData.append('id_category', EditProduct.id_category)
 			await formData.append('id_store', User.store.id_store)
-			await formData.append('manage_stock', manageStock ? 1 : 0)
-			if (manageStock == 1) {
-				await formData.append('qty_stock', NewProduct.qty_stock)
-				await formData.append('qty_min_stock', NewProduct.qty_min_stock)
-				await formData.append('send_notification_stock', sendNotif ? 1 : 0)
-			}
-			await formData.append('photo_product', NewProduct.image != "" ? {
-				uri: NewProduct.image,
+			await formData.append('manage_stock', EditProduct.manageStock)
+			await formData.append('qty_stock', EditProduct.qty_stock)
+			await formData.append('qty_min_stock', EditProduct.qty_min_stock)
+			await formData.append('send_notification_stock', EditProduct.sendNotif)
+			await formData.append('photo_product', EditProduct.image != "" ? {
+				uri: EditProduct.image,
 				type: "image/jpeg",
 				name: `${Date.now()}.jpeg`
 			} : null)
-			try {
-				const response = await Axios.post(`${HOST_URL}/product`, formData)
+			const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
+			if (res.data.status == 200) {
 				setModalVisible(true)
 				setTimeout(() => {
 					setModalVisible(false)
-					dispatch(clearAllNewProduct())
-					dispatch(removeAllCart())
+					dispatch(editRemoveAllNewProduct())
 					dispatch(getProduct(User.store.id_store))
 					navigation.navigate('/drawer/manajemen/produk')
 				}, 1000)
-
 			}
-			catch (error) {
-				alert(error.response.data.data.errors.msg)
+			else if (res.data.status == 400) {
+				alert(res.data.data.errors.msg)
 			}
 		}
 
 	}
 
 	const _handleChangeToggle = () => {
-		setManageStock(!manageStock)
+		if (EditProduct.manageStock == 0) {
+			dispatch(editProductManageStock(1))
+		} else {
+			dispatch(editProductManageStock(0))
+		}
 	}
 
 	const _handleChangePriceIn = (value) => {
-		dispatch(addProductPriceIn(value))
+		dispatch(editProductPriceIn(value))
 	}
 	const _handleChangePriceOut = (value) => {
-		dispatch(addProductPriceOut(value))
+		dispatch(editProductPriceOut(value))
 	}
 	const _handleChangeStock = (value) => {
 		const a = validNumber(value)
 		if (a) {
-			dispatch(addQuantityStock(value))
+			dispatch(editQuantityStock(value))
 		}
 	}
 	const _handleChangeMinStock = (value) => {
 		const a = validNumber(value)
 		if (a) {
-			dispatch(addMinQtyStock(value))
+			dispatch(editMinQtyStock(value))
 		}
 	}
 	return (
@@ -114,10 +106,10 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 			>
 				<ModalContent
 					image={require('src/assets/images/addproductsuccess.png')}
-					infoText="Anda Berhasil Menambah Produk!"
+					infoText="Edit Produk Berhasil!"
 				/>
 			</Modal>
-			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
+			<GlobalHeader title="Edit Produk" onPressBack={() => navigation.goBack()} />
 			<View style={styles.childContainer}>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={styles.groupingStyle}>
@@ -128,14 +120,14 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 							<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
 								<FloatingInputLabelCurrency style={{ margin: 0 }}
 									label="Harga modal"
-									value={NewProduct.price_in}
+									value={EditProduct.price_in}
 									handleChangeText={_handleChangePriceIn}
 								/>
 							</View>
 							<View style={styles.inputTwoCol}>
 								<FloatingInputLabelCurrency style={{ margin: 0 }}
 									label="Harga jual"
-									value={NewProduct.price_out}
+									value={EditProduct.price_out}
 									handleChangeText={_handleChangePriceOut}
 								/>
 							</View>
@@ -146,10 +138,10 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 							<Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Kelola stok produk</Text>
 							<SwitchButton
 								handleChangeToggle={_handleChangeToggle}
-								toggleValue={manageStock}
+								toggleValue={EditProduct.manageStock == 0 ? false : true}
 							/>
 						</View>
-						{manageStock ?
+						{EditProduct.manageStock == 1 ?
 							<View>
 								<View style={{ height: 1, backgroundColor: "#e0dada" }} />
 								<View style={styles.wrapInputHarga}>
@@ -157,7 +149,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 										<FloatingInputLabel
 											label="Jumlah stok"
 											keyboardType="numeric"
-											value={NewProduct.qty_stock}
+											value={EditProduct.qty_stock}
 											handleChangeText={_handleChangeStock}
 										/>
 									</View>
@@ -165,18 +157,24 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 										<FloatingInputLabel
 											label="Minimum Stok"
 											keyboardType="numeric"
-											value={NewProduct.qty_min_stock}
+											value={EditProduct.qty_min_stock}
 											handleChangeText={_handleChangeMinStock}
 										/>
 									</View>
 								</View>
 								<View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
 									<CheckBox
-										checked={sendNotif}
-										color={sendNotif ? "#cd0192" : "grey"}
-										onPress={() => setSendNotif(!sendNotif)}
+										checked={EditProduct.sendNotif == 0 ? false : true}
+										color={EditProduct.sendNotif == 1 ? "#cd0192" : "grey"}
+										onPress={() => {
+											if (EditProduct.sendNotif == 0) {
+												dispatch(editProductSendNotif(1))
+											} else {
+												dispatch(editProductSendNotif(0))
+											}
+										}}
 									/>
-									<Text style={[{ color: manageStock ? sendNotif ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
+									<Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif == 1 ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
 								</View>
 							</View>
 							: null}
