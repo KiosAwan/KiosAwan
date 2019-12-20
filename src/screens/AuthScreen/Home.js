@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     View,
     Image,
@@ -9,6 +9,7 @@ import {
     Alert,
     Text
 } from 'react-native'
+import TextTicker from 'react-native-text-ticker'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import SliderImage from '../../components/SliderImage'
 import LinearGradient from 'react-native-linear-gradient'
@@ -24,10 +25,30 @@ import { CardComp, CardTextImage } from '../../components/Card/CardComp'
 import { CategoryText } from '../../components/Text/CategoryText'
 import { RowChild } from '../../components/Helper/RowChild'
 import BarStatus from '../../components/BarStatus'
+import Axios from 'axios'
+import { HOST_URL } from 'src/config'
 
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
     const User = useSelector(state => state.User)
+    const [maintanance, setMaintanance] = useState(false)
+    const [message, setMessage] = useState(false)
+
+
+    useEffect(() => {
+        _checkService()
+    }, [])
+
+    const _checkService = async () => {
+        const res = await Axios.get(`${HOST_URL}/check_service`)
+        if (res.data.data.service == 1) {
+            setMaintanance(true)
+            setMessage(res.data.data.message)
+        } else {
+            setMaintanance(false)
+        }
+    }
+
     const _onPressCashier = () => {
         navigation.navigate('/cashier')
     }
@@ -84,20 +105,35 @@ const Home = ({ navigation }) => {
             <ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
                 <View style={{ paddingVertical: 10 }}>
                     {
-                    User.store ? User.data.status == 0 ?
-                    <TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
-                        <View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
-                            <Icon color="#904bb7" name="exclamation-circle" style={{marginHorizontal : 10}} />
-                            <Text style={{color : '#904bb7', fontFamily : FontList.regularFont}}>Verifikasi Email Anda Sekarang!</Text>
-                        </View>
-                    </TouchableOpacity>
-                    : null :
-                    <TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
-                        <View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
-                            <Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{marginHorizontal : 10}} />
-                            <Text style={{color : ColorsList.whiteColor, fontFamily : FontList.regularFont}}>Lengkapi profil Anda!</Text>
-                        </View>
-                    </TouchableOpacity>}
+                        maintanance ?
+                            <View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
+                                <Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
+                                <TextTicker
+                                    style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+                                    duration={20000}
+                                    loop
+                                    bounce
+                                    marqueeDelay={500}
+                                >
+                                    {message}
+                                </TextTicker>
+                            </View>
+                            : null}
+                    {
+                        User.store ? User.data.status == 0 ?
+                            <TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
+                                <View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
+                                    <Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+                                    <Text style={{ color: '#904bb7', fontFamily: FontList.regularFont }}>Verifikasi Email Anda Sekarang!</Text>
+                                </View>
+                            </TouchableOpacity>
+                            : null :
+                            <TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingTop: 10 }}>
+                                <View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
+                                    <Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+                                    <Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>Lengkapi profil Anda!</Text>
+                                </View>
+                            </TouchableOpacity>}
                     <CardComp info="KASIR"
                         disabled={User.data.status == 1 ? false : true}
                         subInfo="Masuk kedalam mode kasir dan atur penjualan kios atau warung"

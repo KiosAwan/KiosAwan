@@ -10,6 +10,7 @@ import { Bottom, Button } from '../../../../components/Button/ButtonComp';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFromManajemenProduct } from '../../../../redux/actions/actionsNewProduct';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
+import { editProductName, editProductBarcode,editProductAddId, editProductImage, editProductPriceIn, editProductPriceOut, editProductIdCategory, editProductManageStock, editProductSendNotif, editQuantityStock, editMinQtyStock } from 'src/redux/actions/actionsEditProduct';
 
 const ManajemenProduk = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -46,9 +47,21 @@ const ManajemenProduk = ({ navigation }) => {
 								price={convertRupiah(data.price_out_product)}
 								stock={Number(data.stock) ? data.stock : null}
 								right={
-									<TouchableOpacity onPress={() => navigation.navigate('/drawer/manajemen/produk/edit', {
-										product: data
-									})} style={{
+									<TouchableOpacity onPress={() => {
+										dispatch(editProductName(data.name_product))
+										dispatch(editProductBarcode(data.barcode_product))
+										dispatch(editProductAddId(data.id_product))
+										dispatch(editProductImage(data.photo_product))
+										dispatch(editProductPriceIn(data.price_in_product))
+										dispatch(editQuantityStock(data.stock))
+										dispatch(editMinQtyStock(data.min_stock))
+										dispatch(editProductPriceOut(data.price_out_product))
+										dispatch(editProductIdCategory(data.id_product_category))
+										dispatch(editProductManageStock(data.manage_stock))
+										dispatch(editProductSendNotif(data.notif))
+										dispatch(editProductBarcode(data.barcode_product))
+										navigation.navigate('/drawer/manajemen/produk/edit')					
+									}} style={{
 										width: '10%',
 										height: '100%',
 										backgroundColor: ColorsList.greyBg,
