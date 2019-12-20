@@ -1,54 +1,149 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { View, StyleSheet, Dimensions, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
-import { Bottom, Button, Wrapper } from 'src/components/Button/ButtonComp';
+import { Button, Wrapper, Bottom } from 'src/components/Button/ButtonComp';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
 import { FloatingInput } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
+import moment from 'moment'
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const initialLayout = { width: 300, height: 300 };
 
 const TransactionList = ({ navigation }) => {
-  const DaftarTransaksi = () => (
-    <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-      <View style={{ padding: 15, backgroundColor: ColorsList.whiteColor }}>
-        <Wrapper justify="space-between">
-          <FloatingInput labelStyle={{ paddingLeft: 30 }} style={{ width: "80%" }} label="Cari produk">
-            <Icon style={{ color: ColorsList.primary }} name="search" />
-            <TextInput style={{ width: '90%' }} value="" />
-          </FloatingInput>
-          <Text>Filter</Text>
-        </Wrapper>
-      </View>
-      <View style={{ padding: 15, backgroundColor: ColorsList.greyAuthHard }}>
-        <Wrapper justify="space-between">
-          <Text>jasd</Text>
-          <Text>sajhdj</Text>
-        </Wrapper>
-      </View>
-      <View style={{ padding: 15 }}>
-        <Wrapper style={{ paddingVertical: 15, backgroundColor: ColorsList.whiteColor }} justify="space-between">
-          <View>
-            <Text>jhajskdh</Text>
-          </View>
-          <View>
-            <Text>jhajskdh</Text>
-          </View>
-        </Wrapper>
-      </View>
-    </View>
-  );
+  const dispatch = useDispatch()
+  const DataTransaksi = useSelector(state => state.Transaction)
+  const User = useSelector(state => state.User)
+  const iconImage = {
+    batal: {
+      image: require('src/assets/icons/round-return.png'),
+      text: 'DIBATALKAN',
+      color: 'danger'
+    },
+    hutang: {
+      image: require('src/assets/icons/round-exclamation.png'),
+      text: 'HUTANG',
+      color: 'warning'
+    },
+    lunas: {
+      image: require('src/assets/icons/round-check.png'),
+      text: 'LUNAS',
+      color: 'success'
+    }
+  }
 
-  const RingkasanHutang = () => (
-    <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-      <Text>Hutang</Text>
-    </View>
-  );
+  useEffect(() => {
+    dispatch(getTransactionList(User.store.id_store))
+  }, [])
+
+  const DaftarTransaksi = props => {
+    const [filterPopup, setFilterPopup] = useState(false)
+    return (
+      <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+        <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
+          <TouchableOpacity>
+            <Text>Semua</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text>Lunas</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text>Hutang</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text>Dibatalkan</Text>
+          </TouchableOpacity>
+        </AwanPopup.Menu>
+        <View style={{ padding: 15, backgroundColor: ColorsList.whiteColor }}>
+          <Wrapper justify="space-between">
+            <FloatingInput labelStyle={{ paddingLeft: 30 }} style={{ width: "80%" }} label="Cari produk">
+              <Icon style={{ color: ColorsList.primary }} name="search" />
+              <TextInput style={{ width: '90%' }} value="" />
+            </FloatingInput>
+            <Button onPress={() => setFilterPopup(true)}>
+              <Image style={{ width: 30, height: 30 }} source={require('src/assets/icons/filter.png')} />
+            </Button>
+          </Wrapper>
+        </View>
+        <View style={{ padding: 15, backgroundColor: ColorsList.greyAuthHard }}>
+          <Wrapper justify="space-between">
+            <Text>{moment().format('ddd, DD MMM YYYY')}</Text>
+            <Text>Rp. 123.345</Text>
+          </Wrapper>
+        </View>
+        {/* Dikondisiin aja nanti */}
+        <View style={{ alignItems: 'center' }}>
+          <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
+          <View style={{ alignItems: 'center' }}>
+            <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
+            <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+          </View>
+        </View>
+        <View style={{ padding: 15 }}>
+          {
+            ['lunas', 'hutang', 'batal'].map(jenis => {
+              return <Wrapper style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} justify="space-between">
+                <View style={{ padding: 15 }}>
+                  <Wrapper>
+                    <View style={{ justifyContent: 'center' }}>
+                      <Image style={{ width: 80, height: 80 }}
+                        source={iconImage[jenis].image}
+                      />
+                    </View>
+                    <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
+                      <Text color="primary" size={15}>Rp. 360.000</Text>
+                      <Text>Udin Marudin</Text>
+                      <Text>TRX-1234-1234</Text>
+                    </View>
+                  </Wrapper>
+                </View>
+                <View style={{ width: '30%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
+                  <View style={{ padding: 15 }}>
+                    <Text color={iconImage[jenis].color} style={{ textAlign: 'center' }} font="ExtraBold" size={18}>{iconImage[jenis].text}</Text>
+                  </View>
+                </View>
+              </Wrapper>
+            })
+          }
+        </View>
+      </View>
+    )
+  }
+
+  const RingkasanHutang = props => {
+    const styles = StyleSheet.create({
+      wrapper: { padding: 15, backgroundColor: ColorsList.whiteColor, marginBottom: 5 }
+    })
+    return (
+      <View style={{ padding: 15, flex: 1, backgroundColor: ColorsList.authBackground }}>
+        <Wrapper style={styles.wrapper} justify="space-between">
+          <Text>Jumlah Transaksi Hutang</Text>
+          <Text font="ExtraBold" color="primary">Rp. 700.000</Text>
+        </Wrapper>
+        <Wrapper style={styles.wrapper} justify="space-between">
+          <Text>Jumlah Pelanggan</Text>
+          <Text font="ExtraBold" color="primary">50</Text>
+        </Wrapper>
+        <Wrapper style={styles.wrapper} justify="space-between">
+          <Text>Transaksi Jatuh Tempo</Text>
+          <Text font="ExtraBold" color="primary">50</Text>
+        </Wrapper>
+        <Wrapper style={styles.wrapper} justify="space-between">
+          <Text>Transaksi Belum Lunas</Text>
+          <Text font="ExtraBold" color="primary">50</Text>
+        </Wrapper>
+        <Bottom>
+          <Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi')} width='100%'>LIHAT DAFTAR HUTANG</Button>
+          {/* <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button> */}
+        </Bottom>
+      </View>
+    )
+  }
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -62,17 +157,16 @@ const TransactionList = ({ navigation }) => {
   });
   return (
     <View style={{ flex: 1 }}>
-      <GlobalHeader onPressBack={() => navigation.goBack()} title="Transaksi" />
+      <GlobalHeader onPressBack={() => navigation.navigate('/drawer/transaction')} title="Transaksi" />
       <View style={{ flex: 1 }}>
         <TabView
           renderTabBar={props => {
-            console.log(props)
             const width = 100 / props.navigationState.routes.length
             return (
               <Wrapper style={{ padding: 15 }}>
                 {
                   props.navigationState.routes.map((route, i) => {
-                    return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'white' : null} width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
+                    return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
                   })
                 }
               </Wrapper>
@@ -84,7 +178,7 @@ const TransactionList = ({ navigation }) => {
           initialLayout={initialLayout}
         />
       </View>
-    </View >
+    </View>
   );
 }
 

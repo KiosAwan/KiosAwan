@@ -68,11 +68,17 @@ export const CardTextImage = (props) => {
             <View style={styles.CardTextImage}>
                 <Image style={styles.imageCardTextImage} source={{ uri: props.image }} />
                 <View style={styles.textImageWrapper}>
-                    <Text style={{ fontSize: FontList.titleSize, color: 'grey', paddingHorizontal: '6%' }}>{props.info}</Text>
+                    <Text style={{ fontSize: FontList.titleSize, color: ColorsList.greyFont, paddingHorizontal: '6%' }}>{props.info}</Text>
                 </View>
             </View>
         </TouchableOpacity>
     );
+}
+
+export const ImageText = props => {
+    return <View style={[styles.viewNoImageProduct, { width: props.size || '20%', height: props.size || '70%' }, props.style]}>
+        <Text style={{ fontSize: 24, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont }}>{props.name.generateInitial()}</Text>
+    </View>
 }
 
 export const ProductCard = (props) => {
@@ -83,9 +89,7 @@ export const ProductCard = (props) => {
                     {props.productImage ?
                         <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: 'red' }} source={{ uri: props.productImage }} />
                         :
-                        <View style={styles.viewNoImageProduct}>
-                            <Text style={{ fontSize: 24, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont }}>{props.name.generateInitial()}</Text>
-                        </View>
+                        <ImageText name={props.name} />
                     }
                     <View style={{ width: '50%' }}>
                         <Text style={styles.infoText}>{props.name}</Text>
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
         height: '60%',
         borderTopRightRadius: 5,
         borderTopLeftRadius: 5,
-        resizeMode : 'stretch'
+        resizeMode: 'stretch'
     },
     textImageWrapper: {
         backgroundColor: 'white',
@@ -175,7 +179,7 @@ const styles = StyleSheet.create({
         width: '20%',
         height: '70%',
         margin: 5,
-        backgroundColor: '#e6e3e3',
+        backgroundColor: ColorsList.greyAuthHard,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 5

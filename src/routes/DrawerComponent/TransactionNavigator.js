@@ -6,6 +6,7 @@ import DetailTransaction from 'src/screens/AuthScreen/DetailTransaction'
 import CancelTransaction from 'src/screens/AuthScreen/CancelTransaction'
 import TransactionDetail from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDetail'
 import TransactionDetailBatalkan from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDetailBatalkan'
+import TransactionHutang from 'src/screens/AuthScreen/Drawer/Transaction/TransactionHutang'
 import TransactionDetailLunasi from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDetailLunasi'
 import TransactionSelesai from 'src/screens/AuthScreen/Drawer/Transaction/TransactionSelesai'
 
@@ -30,6 +31,12 @@ const TransactionNavigator = createStackNavigator({
   },
   '/drawer/transaction/detail/lunasi': {
     screen: TransactionDetailLunasi,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/transaction/hutang': {
+    screen: TransactionHutang,
     navigationOptions: {
       header: null
     }

@@ -55,13 +55,13 @@ export const Button = props => {
 		width: props.width || undefined
 	}, _color, props.style]}>
 		{
-			typeof props.children === 'string' ? <Text {...props.textProps} style={[{ alignSelf: 'center', color: _color.text }, props.textStyle]}>{props.children}</Text> : props.children
+			typeof props.children === 'string' ? <Text font="ExtraBold" {...props.textProps} style={[{ alignSelf: 'center', color: _color.text }, props.textStyle]}>{props.children}</Text> : props.children
 		}
 	</TouchableOpacity>
 }
 
 export const Wrapper = props => {
-	return <View style={[{ flexDirection: 'row', justifyContent: props.justify || 'space-around' }, props.style]}>{props.children}</View>
+	return <View style={[{ flexDirection: props.direction || 'row', justifyContent: props.justify || 'space-around' }, props.style]}>{props.children}</View>
 }
 
 export const Bottom = props => {
