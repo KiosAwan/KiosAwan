@@ -51,12 +51,17 @@ export const Button = props => {
 	return < TouchableOpacity {...props} style={[{
 		padding: 10,
 		borderWidth: 2,
-		borderRadius: 5
+		borderRadius: 5,
+		width: props.width || undefined
 	}, _color, props.style]}>
 		{
 			typeof props.children === 'string' ? <Text {...props.textProps} style={[{ alignSelf: 'center', color: _color.text }, props.textStyle]}>{props.children}</Text> : props.children
 		}
 	</TouchableOpacity>
+}
+
+export const Wrapper = props => {
+	return <View style={[{ flexDirection: 'row', justifyContent: props.justify || 'space-around' }, props.style]}>{props.children}</View>
 }
 
 export const Bottom = props => {
@@ -84,7 +89,7 @@ export const BottomButton = (props) => {
 			style={[{ width: width - 30, justifyContent: "center", backgroundColor: 'transparent', borderRadius: 5 }, props.style]}
 		>
 			{props.content ? props.content :
-				<Text style={props.disabled ? { color: 'grey' } : {color : 'white'}}>{props.buttonTitle}</Text>
+				<Text style={props.disabled ? { color: 'grey' } : { color: 'white' }}>{props.buttonTitle}</Text>
 			}
 		</ButtonNB>
 	)

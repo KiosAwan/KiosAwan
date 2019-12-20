@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     View,
-    Text,
     Image,
     StyleSheet,
     Dimensions
@@ -14,6 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { InputSimple } from '../Input/InputComp'
+import { Text } from '../Text/CustomText'
 
 
 const width = Dimensions.get('window').width

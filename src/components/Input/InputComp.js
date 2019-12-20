@@ -8,6 +8,7 @@ import {
   Textarea,
   Text
 } from 'native-base'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const width = Dimensions.get('window').width
 
@@ -102,6 +103,7 @@ export const FloatingInput = props => {
   let _up = -15
   let _interval = 5
   let _input, inIndex, child
+  let toFocus
   const changeUpDown = _ => {
     let ukuran
     if (haveValue) {
@@ -128,6 +130,7 @@ export const FloatingInput = props => {
   }
   const renderInput = input => {
     return React.cloneElement(input, {
+      ref: ref => toFocus = ref,
       onFocus: () => {
         setActiveColor('#cd0192')
         changeUpDown(true)
@@ -177,12 +180,12 @@ export const FloatingInput = props => {
     }
   })
   return (
-    <View style={[{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }, props.style]}>
+    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={[{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }, props.style]}>
       <Text style={[{ color: activeColor, position: 'absolute', top: textUp }, props.labelStyle]}>{props.label}</Text>
       {
         Array.isArray(props.children) ? <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>{child}</View> : child
       }
-    </View>
+    </TouchableOpacity>
   )
 }
 

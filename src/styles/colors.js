@@ -5,6 +5,7 @@ export const ColorsList = {
     whiteColor: '#ffffff',
     greyFont: '#808080',
     greySoft: '#8b8b8b',
+    greyAuthHard:'#dedede',
     greyBg : '#f9faf7',
     primary: '#cd0192',
     text: '#8b8b8b',
