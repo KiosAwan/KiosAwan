@@ -14,7 +14,6 @@ const reducerTransactionList = (state = initialState, actions) => {
         case "GET_TRANSACTION_FULFILLED":
             let a = []
             const b = actions.payload.data.data
-            console.log(b)
             if (b.length != 0) {
                 for (const key in actions.payload.data.data) {
                     a.push(actions.payload.data.data[key])

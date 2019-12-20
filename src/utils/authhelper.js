@@ -104,7 +104,7 @@ export const deleteCategory = async (categoryId) => {
 
 //delete product
 export const deleteProduct = async (productId) => {
-  const res = await axios.delete(`${HOST_URL}/`)
+  const res = await axios.delete(`${HOST_URL}/product/${productId}`)
 }
 
 //post new transaction to database
