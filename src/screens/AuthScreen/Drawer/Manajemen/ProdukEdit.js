@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Image, TouchableOpacity, Dimensions, StyleSheet, View } from 'react-native';
+import { Image, TouchableOpacity, Dimensions, StyleSheet, View, Modal } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker'
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import { Grid, Col, Icon, Button } from 'native-base';
-import { GlobalHeader } from 'src/components/Header/Header';
+import { Grid, Col, Icon , Button} from 'native-base';
+import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { MyModal, SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Text } from 'src/components/Text/CustomText';
 import { FloatingInputLabel } from 'src/components/Input/InputComp';
-import { BottomButton } from 'src/components/Button/ButtonComp';
+import { BottomButton, Button as XButton } from 'src/components/Button/ButtonComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
-import { editProductImage, editProductIdCategory, editProductName } from 'src/redux/actions/actionsEditProduct';
+import { editProductImage, editProductIdCategory, editProductName, editRemoveAllNewProduct } from 'src/redux/actions/actionsEditProduct';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { sendNewCategory, editCategory, deleteProduct } from 'src/utils/authhelper';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 
 
 const width = Dimensions.get('window').width
@@ -22,11 +26,10 @@ const ManajemenProdukEdit = ({ navigation }) => {
 	const Category = useSelector(state => state.Category)
 	const [newCategoryName, setNewCategoryName] = useState('')
 	const [editNewCategory, setEditNewCategory] = useState('new')
-
-	const [product, setProduct] = useState({})
+	const [alert, setAlert] = useState(false)
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
 	const [idEditCategory, setIdEditCategory] = useState()
-
+	const [modalVisible, setModalVisible] = useState(false)
 	useEffect(() => {
 		dispatch(getCategory(User.store.id_store))
 	}, [])
@@ -36,9 +39,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 		if(EditProduct.name == ""){
 			alert("Nama tidak boleh kosong")
 		}else {
-			navigation.navigate('/drawer/manajemen/produk/edit/harga', {
-				product: product
-			})
+			navigation.navigate('/drawer/manajemen/produk/edit/harga')
 		}
 	}
 
@@ -72,9 +73,43 @@ const ManajemenProdukEdit = ({ navigation }) => {
 			setAddCategoryVisible(false)
 		}
 	}
+
+	const __handleDeleteProduct = async () => {
+		await deleteProduct(EditProduct.id_product)
+		setAlert(false)
+		setModalVisible(true)
+		setTimeout(() => {
+			setModalVisible(false)
+			dispatch(editRemoveAllNewProduct())
+			dispatch(getProduct(User.store.id_store))
+			navigation.navigate('/drawer/manajemen/produk')
+		}, 1000)
+	}
 	return (
 		<View style={styles.mainView}>
-			<GlobalHeader title="Edit Produk" onPressBack={() => navigation.goBack()} />
+			<Modal
+				animationType="fade"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+			>
+				<ModalContent
+					image={require('src/assets/images/managemenproduksukses.png')}
+					infoText="Hapus Produk Berhasil!"
+				/>
+			</Modal>
+			<AwanPopup.Title title="Hapus Produk" visible={alert} message={`${EditProduct.name} akan dihapus dari daftar produk.`}>
+                <View></View>
+                <XButton onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</XButton>
+                <XButton onPress={__handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</XButton>
+            </AwanPopup.Title>
+			<GlobalHeaderWithIcon 
+			 image={require('../../../../assets/icons/trash.png')}
+			 title="Edit Produk" 
+			 handleDeleteCategory={() => setAlert(true)}
+			 onPressBack={() => navigation.goBack()} />
 			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
 				<View style={{ padding: 15 }}>
 					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'New Category' : 'Edit Category'}</Text>

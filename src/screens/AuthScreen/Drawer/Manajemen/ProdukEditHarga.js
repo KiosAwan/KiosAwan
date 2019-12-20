@@ -4,18 +4,19 @@ import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler';
-import { convertNumber } from 'src/utils/authhelper';
+import { convertNumber, deleteProduct } from 'src/utils/authhelper';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
-import { GlobalHeader } from 'src/components/Header/Header';
+import {  GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { FloatingInputLabelCurrency, FloatingInputLabel } from 'src/components/Input/InputComp';
 import SwitchButton from 'src/components/Button/SwitchButton';
-import { BottomButton } from 'src/components/Button/ButtonComp';
+import { BottomButton, Button } from 'src/components/Button/ButtonComp';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { editRemoveAllNewProduct, editProductManageStock, editProductSendNotif, editProductPriceIn, editProductPriceOut, editQuantityStock, editMinQtyStock } from 'src/redux/actions/actionsEditProduct';
 import { HOST_URL } from 'src/config';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const width = Dimensions.get('window').width
 
@@ -26,6 +27,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 
 
 	const [modalVisible, setModalVisible] = useState(false)
+	const [alert, setAlert] = useState(false)
 
 	const _handlePressNext = async () => {
 		let intPriceIn = convertNumber(EditProduct.price_in)
@@ -94,6 +96,16 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 			dispatch(editMinQtyStock(value))
 		}
 	}
+	const _handleDeleteProduct = async () => {
+		await deleteProduct(EditProduct.id_product)
+		setModalVisible(true)
+		setTimeout(() => {
+			setModalVisible(false)
+			dispatch(editRemoveAllNewProduct())
+			dispatch(getProduct(User.store.id_store))
+			navigation.navigate('/drawer/manajemen/produk')
+		}, 1000)
+	}
 	return (
 		<View style={{ flex: 1 }}>
 			<Modal
@@ -109,7 +121,17 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 					infoText="Edit Produk Berhasil!"
 				/>
 			</Modal>
-			<GlobalHeader title="Edit Produk" onPressBack={() => navigation.goBack()} />
+			<AwanPopup.Title title="Hapus Produk" visible={alert} message={`${EditProduct.name} akan dihapus dari daftar produk.`}>
+				<View></View>
+				<Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
+				<Button onPress={_handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+			</AwanPopup.Title>
+			<GlobalHeaderWithIcon
+				title="Edit Produk"
+				onPressBack={() => navigation.goBack()}
+				handleDeleteCategory={() => setAlert(true)}
+				image={require('../../../../assets/icons/trash.png')}
+			/>
 			<View style={styles.childContainer}>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={styles.groupingStyle}>
