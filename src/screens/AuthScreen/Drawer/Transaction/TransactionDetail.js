@@ -24,10 +24,8 @@ const TransactionDetail = ({ navigation }) => {
 	}, [])
 
 	const _getData = async () => {
-		// const { transactionId } = await navigation.state.params
+		const { transactionId } = await navigation.state.params
 		const productData = await getTransactionDetail(25)
-		console.log(productData.data)
-		// setTransactionId(transactionId)
 		setData(productData.data)
 		SetDataLoading(false)
 	}
@@ -62,7 +60,7 @@ const TransactionDetail = ({ navigation }) => {
 								<RowOpposite
 									title="Jumlah yang sudah dibayar" content={convertRupiah(data.transaction.amount_payment)} />
 								<RowOpposite
-									style={{ color: ColorsList.warning }}
+									style={data.transaction.status == 0 ? { color: ColorsList.warning } : null}
 									title="Jatuh Tempo" content={formatToDays(data.debt.due_debt_date)} />
 							</View>
 							: null
@@ -100,13 +98,13 @@ const TransactionDetail = ({ navigation }) => {
 				{data.transaction.status_payment == 2 ?
 				<Bottom justify="space-between">
 					<Button width="49%" color="white">BATALKAN</Button>
-					<Button width="49%">LUNASI</Button>
+					<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', {paramData : data })} width="49%" onpre>LUNASI</Button>
 				</Bottom>
 
 				:
 				<View style={{ position: "absolute", bottom: 10, alignSelf: "center", backgroundColor: ColorsList.authBackground }}>
 					<BottomButton
-						onPressBtn={() => { }}
+						onPressBtn={() => alert("asdad")}
 						style={{ backgroundColor: ColorsList.whiteColor, width: SizeList.width - 40, borderColor: ColorsList.primaryColor, borderWidth: 1, }}
 						textStyle={{ color: ColorsList.primaryColor }}
 						buttonTitle="BATALKAN"

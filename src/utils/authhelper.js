@@ -109,9 +109,12 @@ export const deleteProduct = async (productId) => {
 
 //post new transaction to database
 export const sendNewTransaction = async (data) => {
+  try {
   const res = await axios.post(`${HOST_URL}/transaction`, data)
-  console.log(res)
-  return res.data
+  return res.data}
+  catch (error){
+    return error.response.data
+  }
 }
 
 //post new customer to database
