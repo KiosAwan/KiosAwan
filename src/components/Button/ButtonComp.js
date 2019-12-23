@@ -71,9 +71,9 @@ export const Bottom = props => {
 			position: 'absolute',
 			bottom: 0,
 			flexDirection: 'row',
-			justifyContent: 'space-around',
-			padding: 15,
-			width: '100%'
+			justifyContent: props.justify|| 'space-around',
+			padding: props.padding || 20,
+			width: '100%',
 		}}>
 			{props.children}
 		</View>
