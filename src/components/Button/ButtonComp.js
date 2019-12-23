@@ -51,6 +51,7 @@ export const Button = props => {
 	return < TouchableOpacity {...props} style={[{
 		padding: 10,
 		borderWidth: 2,
+		justifyContent:'center',
 		borderRadius: 5,
 		width: props.width || undefined
 	}, _color, props.style]}>
@@ -61,7 +62,7 @@ export const Button = props => {
 }
 
 export const Wrapper = props => {
-	return <View style={[{ flexDirection: props.direction || 'row', justifyContent: props.justify || 'space-around' }, props.style]}>{props.children}</View>
+	return <TouchableOpacity style={[{ flexDirection: props.direction || 'row', justifyContent: props.justify || 'space-around' }, props.style]}>{props.children}</TouchableOpacity>
 }
 
 export const Bottom = props => {

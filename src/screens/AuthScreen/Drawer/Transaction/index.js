@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { View, StyleSheet, TextInput, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Image, FlatList } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
@@ -12,31 +12,40 @@ import { FloatingInput } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
 import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { convertRupiah } from 'src/utils/authhelper';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const initialLayout = { width: 300, height: 300 };
 
 const TransactionList = ({ navigation }) => {
+
   const dispatch = useDispatch()
   const DataTransaksi = useSelector(state => state.Transaction)
   const User = useSelector(state => state.User)
+  const [search, setSearch] = useState('')
+  const [filter, setFilter] = useState('all')
   const iconImage = {
-    batal: {
+    '3': {
       image: require('src/assets/icons/round-return.png'),
       text: 'DIBATALKAN',
       color: 'danger'
     },
-    hutang: {
+    '2': {
       image: require('src/assets/icons/round-exclamation.png'),
       text: 'HUTANG',
       color: 'warning'
     },
-    lunas: {
+    '1': {
       image: require('src/assets/icons/round-check.png'),
       text: 'LUNAS',
       color: 'success'
     }
   }
-
+  const filterResult = (data) => {
+    return data
+      .filter(item => filter == 'all' ? item : item.status_payment.includes(filter))
+      .filter(item => JSON.stringify(item).toLowerCase().includes(search))
+  }
   useEffect(() => {
     dispatch(getTransactionList(User.store.id_store))
   }, [])
@@ -46,16 +55,16 @@ const TransactionList = ({ navigation }) => {
     return (
       <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
         <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setFilter('all')}>
             <Text>Semua</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setFilter('1')}>
             <Text>Lunas</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setFilter('2')}>
             <Text>Hutang</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setFilter('3')}>
             <Text>Dibatalkan</Text>
           </TouchableOpacity>
         </AwanPopup.Menu>
@@ -63,54 +72,70 @@ const TransactionList = ({ navigation }) => {
           <Wrapper justify="space-between">
             <FloatingInput labelStyle={{ paddingLeft: 30 }} style={{ width: "80%" }} label="Cari produk">
               <Icon style={{ color: ColorsList.primary }} name="search" />
-              <TextInput style={{ width: '90%' }} value="" />
+              <TextInput ref={ref => console.debug(ref)} style={{ width: '90%' }} value={search} onChangeText={text => {
+                setSearch(text)
+                console.log()
+              }} />
             </FloatingInput>
             <Button onPress={() => setFilterPopup(true)}>
-              <Image style={{ width: 30, height: 30 }} source={require('src/assets/icons/filter.png')} />
+              <Image style={{ width: 25, height: 25 }} source={require('src/assets/icons/filter.png')} />
             </Button>
           </Wrapper>
         </View>
-        <View style={{ padding: 15, backgroundColor: ColorsList.greyAuthHard }}>
-          <Wrapper justify="space-between">
-            <Text>{moment().format('ddd, DD MMM YYYY')}</Text>
-            <Text>Rp. 123.345</Text>
-          </Wrapper>
-        </View>
-        {/* Dikondisiin aja nanti */}
-        <View style={{ alignItems: 'center' }}>
-          <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
-          <View style={{ alignItems: 'center' }}>
-            <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
-            <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
-          </View>
-        </View>
-        <View style={{ padding: 15 }}>
-          {
-            ['lunas', 'hutang', 'batal'].map(jenis => {
-              return <Wrapper style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} justify="space-between">
+        {
+          eval(DataTransaksi.data.map(item => filterResult(item.data).length).join('+')) > 0 ?
+            <FlatList
+              data={DataTransaksi.data}
+              renderItem={({ item }) => [
+                filterResult(item.data).length > 0 ?
+                  <View style={{ padding: 15, backgroundColor: ColorsList.greyAuthHard }}>
+                    <Wrapper justify="space-between">
+                      <Text>{moment(item.date).format('ddd, DD MMM YYYY')}</Text>
+                      <Text>{convertRupiah(item.total)}</Text>
+                    </Wrapper>
+                  </View> : null,
                 <View style={{ padding: 15 }}>
-                  <Wrapper>
-                    <View style={{ justifyContent: 'center' }}>
-                      <Image style={{ width: 80, height: 80 }}
-                        source={iconImage[jenis].image}
-                      />
-                    </View>
-                    <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
-                      <Text color="primary" size={15}>Rp. 360.000</Text>
-                      <Text>Udin Marudin</Text>
-                      <Text>TRX-1234-1234</Text>
-                    </View>
-                  </Wrapper>
+                  {
+                    filterResult(item.data).map(trx => {
+                      return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
+                        <Wrapper style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} justify="space-between">
+                          <View style={{ padding: 15 }}>
+                            <Wrapper>
+                              <View style={{ justifyContent: 'center' }}>
+                                <Image style={{ width: 80, height: 80 }}
+                                  source={iconImage[trx.status_payment].image}
+                                />
+                              </View>
+                              <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
+                                <Text color="primary" size={15}>{convertRupiah(trx.total_transaction)}</Text>
+                                <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
+                                <Text>{trx.payment_code}</Text>
+                              </View>
+                            </Wrapper>
+                          </View>
+                          <View style={{ width: '30%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
+                            <View style={{ padding: 15 }}>
+                              <Text color={iconImage[trx.status_payment].color} style={{ textAlign: 'center' }} font="ExtraBold" size={18}>{iconImage[trx.status_payment].text}</Text>
+                            </View>
+                          </View>
+                        </Wrapper>
+                      </TouchableOpacity>
+                    })
+                  }
                 </View>
-                <View style={{ width: '30%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
-                  <View style={{ padding: 15 }}>
-                    <Text color={iconImage[jenis].color} style={{ textAlign: 'center' }} font="ExtraBold" size={18}>{iconImage[jenis].text}</Text>
-                  </View>
-                </View>
-              </Wrapper>
-            })
-          }
-        </View>
+              ]}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+            />
+            :
+            <View style={{ alignItems: 'center' }}>
+              <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
+              <View style={{ alignItems: 'center' }}>
+                <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
+                <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+              </View>
+            </View>
+        }
       </View>
     )
   }
@@ -155,9 +180,10 @@ const TransactionList = ({ navigation }) => {
     first: DaftarTransaksi,
     second: RingkasanHutang,
   });
+
   return (
     <View style={{ flex: 1 }}>
-      <GlobalHeader onPressBack={() => navigation.navigate('/drawer/transaction')} title="Transaksi" />
+      <GlobalHeader onPressBack={() => navigation.navigate('/drawer')} title="Transaksi" />
       <View style={{ flex: 1 }}>
         <TabView
           renderTabBar={props => {
