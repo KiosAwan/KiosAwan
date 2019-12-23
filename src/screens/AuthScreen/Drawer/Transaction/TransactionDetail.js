@@ -37,8 +37,9 @@ const TransactionDetail = ({ navigation }) => {
 				onPressBack={() => navigation.goBack()}
 			/>
 			{dataLoading ? <Text>Loading</Text> :
+				<View style={{flex : 1}}>
 				<View style={{ padding: 20, flex: 1 }}>
-					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: 100 }}>
+					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: data.transaction.status_payment == 1 ? 100 : 50 }}>
 						<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, borderRadius: 5 }}>
 							<RowOpposite
 								title="Kode Transaksi" content={data.transaction.payment_code} />
@@ -95,39 +96,41 @@ const TransactionDetail = ({ navigation }) => {
 							} />
 						</View>
 					</ScrollView>
-					</View>
-			}
-			{data.transaction.status_payment == 2 ?
-							<Bottom justify="space-between">
-								<Button width="49%" color="white">BATALKAN</Button>
-								<Button width="49%">LUNASI</Button>
-							</Bottom>
-						
-							:
-							<View style={{ position: "absolute", bottom: 10, alignSelf: "center", backgroundColor: ColorsList.authBackground }}>
-								<BottomButton
-									onPressBtn={() => { }}
-									style={{ backgroundColor: ColorsList.whiteColor, width: SizeList.width - 40, borderColor: ColorsList.primaryColor, borderWidth: 1, }}
-									textStyle={{ color: ColorsList.primaryColor }}
-									buttonTitle="BATALKAN"
-								/>
-								<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
-									<TouchableOpacity>
-										<View style={[styles.wrapIconText]} >
-											<Icon color={ColorsList.whiteColor} size={16} style={{ marginRight: 5 }} name="paper-plane" />
-											<Text style={styles.btnwithIconText}>Kirim Struk</Text>
-										</View>
-									</TouchableOpacity>
-									<TouchableOpacity>
-										<View style={[styles.wrapIconText]} >
-											<Icon color={ColorsList.whiteColor} size={16} style={{ marginRight: 5 }} name="print" />
-											<Text style={styles.btnwithIconText}>Cetak Struk</Text>
-										</View>
-									</TouchableOpacity>
-								</View>
-							</View>
+				</View>
+				{data.transaction.status_payment == 2 ?
+				<Bottom justify="space-between">
+					<Button width="49%" color="white">BATALKAN</Button>
+					<Button width="49%">LUNASI</Button>
+				</Bottom>
 
-						}
+				:
+				<View style={{ position: "absolute", bottom: 10, alignSelf: "center", backgroundColor: ColorsList.authBackground }}>
+					<BottomButton
+						onPressBtn={() => { }}
+						style={{ backgroundColor: ColorsList.whiteColor, width: SizeList.width - 40, borderColor: ColorsList.primaryColor, borderWidth: 1, }}
+						textStyle={{ color: ColorsList.primaryColor }}
+						buttonTitle="BATALKAN"
+					/>
+					<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
+						<TouchableOpacity>
+							<View style={[styles.wrapIconText]} >
+								<Icon color={ColorsList.whiteColor} size={16} style={{ marginRight: 5 }} name="paper-plane" />
+								<Text style={styles.btnwithIconText}>Kirim Struk</Text>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity>
+							<View style={[styles.wrapIconText]} >
+								<Icon color={ColorsList.whiteColor} size={16} style={{ marginRight: 5 }} name="print" />
+								<Text style={styles.btnwithIconText}>Cetak Struk</Text>
+							</View>
+						</TouchableOpacity>
+					</View>
+				</View>
+
+			}
+				</View>
+			}
+			
 		</View >
 	)
 }
