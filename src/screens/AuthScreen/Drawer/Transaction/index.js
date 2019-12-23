@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { View, StyleSheet, TextInput, Image, FlatList } from 'react-native';
+import { View, StyleSheet, TextInput, Image, FlatList, TouchableOpacity as TouchableOpacityRN } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
@@ -52,21 +52,25 @@ const TransactionList = ({ navigation }) => {
 
   const DaftarTransaksi = props => {
     const [filterPopup, setFilterPopup] = useState(false)
+    const selectFilter = (val)=>{
+      setFilterPopup(false)
+      setFilter(val)
+    }
     return (
       <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
         <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
-          <TouchableOpacity onPress={() => setFilter('all')}>
+          <TouchableOpacityRN onPress={() => selectFilter('all')}>
             <Text>Semua</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setFilter('1')}>
+          </TouchableOpacityRN>
+          <TouchableOpacityRN onPress={() => selectFilter('1')}>
             <Text>Lunas</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setFilter('2')}>
+          </TouchableOpacityRN>
+          <TouchableOpacityRN onPress={() => selectFilter('2')}>
             <Text>Hutang</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setFilter('3')}>
+          </TouchableOpacityRN>
+          <TouchableOpacityRN onPress={() => selectFilter('3')}>
             <Text>Dibatalkan</Text>
-          </TouchableOpacity>
+          </TouchableOpacityRN>
         </AwanPopup.Menu>
         <View style={{ padding: 15, backgroundColor: ColorsList.whiteColor }}>
           <Wrapper justify="space-between">
