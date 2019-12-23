@@ -28,7 +28,7 @@ export const WrapperItem = (props) => {
 export const ToggleButton = (props) => {
 	const [activeIndex, setActiveIndex] = useState(props.toggle || 0)
 	useEffect(() => {
-		if(props.toggle){
+		if (props.toggle) {
 			setActiveIndex(props.toggle)
 		}
 	})
@@ -47,7 +47,7 @@ export const ToggleButton = (props) => {
 						props.style
 						]}>
 							<Text style={
-								{fontFamily : FontList.boldFont, color: activeIndex == i ? 'white' : ColorsList.greySoft }
+								{ fontFamily: FontList.boldFont, color: activeIndex == i ? 'white' : ColorsList.greySoft }
 							}>{btn}</Text>
 						</Button>
 					)
@@ -66,6 +66,9 @@ export const ToggleButtonMoney = (props) => {
 				props.buttons.map((btn, i) => {
 					return (
 						<Button onPress={() => {
+							props.onPress ? 
+							props.onPress(btn)
+							:
 							setActiveIndex(i)
 							dispatch(AddCashPayment(btn))
 						}} style={[props.style,
@@ -356,12 +359,12 @@ export const SelectBoxModal = (props) => {
 							</CardItem>
 						)
 					}) : <CardItem style={styles.modalCardItem}>
-						{props.children}
-					</CardItem>
+							{props.children}
+						</CardItem>
 				}
 				</ScrollView>,
 				props.footer ?
-				<CardItem footer>
+					<CardItem footer>
 						{props.footer}
 					</CardItem> : null
 			]} />
