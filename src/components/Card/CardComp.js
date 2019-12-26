@@ -77,7 +77,7 @@ export const CardTextImage = (props) => {
 
 export const ImageText = props => {
     return <View style={[styles.viewNoImageProduct, { width: props.size || '20%', height: props.size || '70%' }, props.style]}>
-        <Text style={{ fontSize: 24, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont }}>{props.name.generateInitial()}</Text>
+        <Text style={{ fontSize: 24, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont }}>{props.name ? props.name.generateInitial() : null}</Text>
     </View>
 }
 

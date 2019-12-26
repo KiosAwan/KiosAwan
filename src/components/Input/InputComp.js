@@ -99,8 +99,8 @@ export const InputCurrency = props => {
 }
 
 export const FloatingInput = props => {
-  let _sejajar = 15
-  let _up = -15
+  let _sejajar = 30
+  let _up = 0
   let _interval = 5
   let _input, inIndex, child
   let toFocus
@@ -180,8 +180,8 @@ export const FloatingInput = props => {
     }
   })
   return (
-    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={[{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }, props.style]}>
-      <Text style={[{ color: activeColor, position: 'absolute', top: textUp }, props.labelStyle]}>{props.label}</Text>
+    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={[{ justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor }, props.style]}>
+      <Text style={[{ color: activeColor, position: 'absolute', top: textUp, ...props.labelStyle }]}>{props.label}</Text>
       {
         Array.isArray(props.children) ? <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>{child}</View> : child
       }
