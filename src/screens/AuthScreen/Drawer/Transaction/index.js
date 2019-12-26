@@ -52,7 +52,7 @@ const TransactionList = ({ navigation }) => {
 
   const DaftarTransaksi = props => {
     const [filterPopup, setFilterPopup] = useState(false)
-    const selectFilter = (val)=>{
+    const selectFilter = (val) => {
       setFilterPopup(false)
       setFilter(val)
     }
@@ -72,17 +72,14 @@ const TransactionList = ({ navigation }) => {
             <Text>Dibatalkan</Text>
           </TouchableOpacityRN>
         </AwanPopup.Menu>
-        <View style={{ padding: 15, backgroundColor: ColorsList.whiteColor }}>
+        <View style={{ padding: 15, paddingTop: 0, backgroundColor: ColorsList.whiteColor }}>
           <Wrapper justify="space-between">
             <FloatingInput labelStyle={{ paddingLeft: 30 }} style={{ width: "80%" }} label="Cari produk">
               <Icon style={{ color: ColorsList.primary }} name="search" />
-              <TextInput ref={ref => console.debug(ref)} style={{ width: '90%' }} value={search} onChangeText={text => {
-                setSearch(text)
-                console.log()
-              }} />
+              <TextInput style={{ width: '90%' }} value={search} onChangeText={text => setSearch(text)} />
             </FloatingInput>
-            <Button onPress={() => setFilterPopup(true)}>
-              <Image style={{ width: 25, height: 25 }} source={require('src/assets/icons/filter.png')} />
+            <Button style={{ margin: 15 }} onPress={() => setFilterPopup(true)}>
+              <Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/filter.png')} />
             </Button>
           </Wrapper>
         </View>
@@ -167,7 +164,7 @@ const TransactionList = ({ navigation }) => {
           <Text font="ExtraBold" color="primary">50</Text>
         </Wrapper>
         <Bottom>
-          <Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi')} width='100%'>LIHAT DAFTAR HUTANG</Button>
+          <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>
           {/* <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button> */}
         </Bottom>
       </View>
