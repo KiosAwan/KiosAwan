@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { getTransactionDetail, convertRupiah, formatToDays } from 'src/utils/authhelper';
 import { WrapperItem } from 'src/components/Picker/SelectBoxModal';
 import { FontList } from 'src/styles/typography';
-import { Icon } from 'native-base';
 import { BottomButton, Bottom, Button } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
 import { RowChild } from 'src/components/Helper/RowChild';
@@ -86,10 +85,22 @@ const TransactionDetail = ({ navigation }) => {
 								]} right={
 									<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.sub_total)}</Text>
 								} />
+								{data.transaction.discount ? 
+								<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+									<Text style={{ ...FontList.subtitleFontGreyBold }}>Diskon</Text>,
+								]} right={
+									<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.discount)}</Text>
+								} /> : null }
+								{data.transaction.status != 1 ? 
+								<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+									<Text style={{ ...FontList.subtitleFontGreyBold }}>Pembatalan transaksi</Text>,
+								]} right={
+									<Text style={{ ...FontList.subtitleFontGreyBold, color : ColorsList.danger }}>{convertRupiah(data.transaction.total_return)}</Text>
+								} /> : null }
 								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
 									<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
 								]} right={
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.total_transaction)}</Text>
+									<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ?  convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
 								} />
 							</View>
 						</ScrollView>
@@ -101,6 +112,11 @@ const TransactionDetail = ({ navigation }) => {
 						</Bottom>
 
 						:
+						data.transaction.status == 3 ?
+						<Bottom justify="space-between">
+							<Button width="100%" onPress={() => {}}>CETAK STRUK</Button>
+						</Bottom>
+						:
 						<View style={{ position: "absolute", bottom: 10, alignSelf: "center", backgroundColor: ColorsList.authBackground }}>
 							<BottomButton
 								onPressBtn={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
@@ -111,14 +127,13 @@ const TransactionDetail = ({ navigation }) => {
 							<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
 								<TouchableOpacity>
 									<View style={[styles.wrapIconText]} >
-										<Icon color={ColorsList.whiteColor} size={16} style={{ marginRight: 5 }} name="paper-plane" />
-										{/* <Image source={require('../')}/> */}
+										<Image style={{height : 25, width : 25, marginRight : 10}} source={require('../../../../assets/icons/share.png')}/>
 										<Text style={styles.btnwithIconText}>Kirim Struk</Text>
 									</View>
 								</TouchableOpacity>
 								<TouchableOpacity>
 									<View style={[styles.wrapIconText]} >
-										<Icon color={ColorsList.whiteColor} size={16} style={{ marginRight: 5 }} name="print" />
+										<Image style={{height : 25, width : 25, marginRight : 10}} source={require('../../../../assets/icons/print.png')}/>
 										<Text style={styles.btnwithIconText}>Cetak Struk</Text>
 									</View>
 								</TouchableOpacity>

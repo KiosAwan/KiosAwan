@@ -4,19 +4,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
-import { ProductCard } from '../../components/Card/CardComp';
-import { AddCart, MinusQuantity, AddQuantity, AddDiscountName, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah } from '../../redux/actions/actionsStoreProduct';
-import { RegisterButton, BottomButton } from '../../components/Button/ButtonComp';
+import {addDiscountProductPersen, AddDiscountName, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah,addDiscountProductRupiah } from '../../redux/actions/actionsStoreProduct';
+import { BottomButton } from '../../components/Button/ButtonComp';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader } from '../../components/Header/Header';
-import { WrapperItem, PilihPelanggan, PopupDetailPesanan, MyModal, ToggleButton } from '../../components/Picker/SelectBoxModal';
-import { Icon, Item, CheckBox, CardItem, Grid, Col, Body, Input, Button } from 'native-base';
+import { WrapperItem, PilihPelanggan, MyModal, ToggleButton, ToggleButtonMoney } from '../../components/Picker/SelectBoxModal';
+import { Icon, Item, CardItem, Grid, Col, Input, Button } from 'native-base';
 import { FloatingInputLabel } from '../../components/Input/InputComp';
 import { FontList } from '../../styles/typography';
 import { RowChild } from '../../components/Helper/RowChild';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { SizeList } from '../../styles/size';
-const height = Dimensions.get('window').height
+
 const width = Dimensions.get('window').width
 
 const Cart = ({ navigation }) => {
@@ -28,6 +27,7 @@ const Cart = ({ navigation }) => {
 	const [editPesananOpen, setEditPesananOpen] = useState(false)
 	const [pesanan, setPesanan] = useState({})
 
+	const [toggle , setToggle] = useState(0)
 	const [diskon, setDiskon] = useState(false)
 	const _handleNextBtn = async () => {
 		await dispatch(getCustomer(User.store.id_store))
@@ -36,11 +36,26 @@ const Cart = ({ navigation }) => {
 	const _editPesanan = (index, item) => {
 		setEditPesananOpen(true);
 		setPesanan(item)
-		// console.log(pesanan.quantity)
 	}
 
 	const _handleChangeToggle = () => {
 		setDiskon(!diskon)
+	}
+
+	const _handleChangeDiscountItem = (text) => {
+		if(toggle == 0){
+			if(text > 0 && text < (parseInt(pesanan.price_out_product)* parseInt(pesanan.quantity))){
+				dispatch(addDiscountProductRupiah({item : pesanan, besar_diskon: text}))
+			}else {
+				dispatch(addDiscountProductRupiah({item : pesanan, besar_diskon: ''}))
+			}
+		}else{
+			if(text > 0 && text < 100){
+				dispatch(addDiscountProductPersen({item : pesanan, besar_diskon: text}))
+			}else {
+				dispatch(addDiscountProductPersen({item : pesanan, besar_diskon: ''}))
+			}
+		}
 	}
 	return (
 		<View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
@@ -64,11 +79,20 @@ const Cart = ({ navigation }) => {
 							<CardItem>
 								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
 									<View style={{ width: width - 100 - 150 }}>
-										<FloatingInputLabel label="Diskon" disabled />
+										<FloatingInputLabel 
+										handleChangeText={_handleChangeDiscountItem}
+										label="Diskon" value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
+
 									</View>
 								} right={
 									<View style={{ width: 100 }}>
-										<ToggleButton buttons={["Rp", "%"]} />
+										<ToggleButton
+											toggle={toggle}
+											buttons={["Rp", "%"]}
+											changeToggle={(i) => {
+												setToggle(i)
+											}}
+										/>
 									</View>
 								} />
 							</CardItem>
@@ -168,7 +192,7 @@ const Cart = ({ navigation }) => {
 					</View>
 					<View style={styles.groupingStyle}>
 						<View style={styles.wrapSwitchAndText}>
-							<Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Kelola stok produk</Text>
+							<Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Diskon</Text>
 							<SwitchButton
 								handleChangeToggle={_handleChangeToggle}
 								toggleValue={diskon}

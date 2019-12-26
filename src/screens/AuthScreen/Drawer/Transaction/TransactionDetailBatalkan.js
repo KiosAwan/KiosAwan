@@ -32,11 +32,19 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 	const _getParams = async () => {
 		const { paramData } = await navigation.state.params
 		setDataTransaksi(paramData)
-		setAmountCancel(paramData.transaction.total_transaction)
-		paramData.details_item.forEach(a => {
-			a.newQty = a.qty
-		})
-		setNewData(paramData.details_item)
+		if (paramData.transaction.status == 2) {
+			paramData.return_item.forEach(a => {
+				a.newQty = a.qty		
+			})
+			setAmountCancel(paramData.transaction.remaining_return)
+			setNewData(paramData.return_item)
+		} else {
+			paramData.details_item.forEach(a => {
+				a.newQty = a.qty
+			})
+			setAmountCancel(paramData.transaction.total_transaction)
+			setNewData(paramData.details_item)
+		}
 		setLoading(false)
 	}
 
@@ -65,18 +73,17 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 		const userId = await AsyncStorage.getItem('userId')
 		let product_cart = []
 		newData.map(item => {
-			product_cart.push({qty_in : item.newQty})
+			product_cart.push({ qty_in: item.newQty })
 		})
 		const data = {
-			id_transaction : dataTransaksi.transaction.id_transaction,
-			cashier : userId,
-			product_cart : newData,
-			reason_return : alasan,
+			id_transaction: dataTransaksi.transaction.id_transaction,
+			cashier: userId,
+			product_cart: newData,
+			reason_return: alasan,
 			product_cart
 		}
 		const res = await cancelTransaction(data)
-		console.debug(res)
-		if(res.status == 200){
+		if (res.status == 200) {
 			dispatch(getTransactionList(User.store.id_store))
 			navigation.navigate('/drawer/transaction')
 		}
@@ -84,20 +91,20 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 	return (
 		<View style={{ flex: 1 }}>
 			<AwanPopup.Title title="Batalkan Transaksi" visible={alertVisible} message={`Dana sebesar ${convertRupiah(amount_cancel)} akan dikembalikan kepada pelanggan.`}>
-                <View></View>
-                <Button onPress={() => setAlertVisible(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-                <Button onPress={_handleCancelTransaction} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
-            </AwanPopup.Title>
+				<View></View>
+				<Button onPress={() => setAlertVisible(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
+				<Button onPress={_handleCancelTransaction} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+			</AwanPopup.Title>
 			<GlobalHeader title="Batalkan Transaksi"
 				onPressBack={() => navigation.goBack()}
 			/>
-			<ScrollView style={{ flex: 1, padding: 20, backgroundColor: ColorsList.authBackground }}>
+			<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, padding: 20, backgroundColor: ColorsList.authBackground }}>
 				{loading ? <Text>asdfsfd</Text> :
 					<View>
 						<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
 							<Text style={{ padding: 10 }}>Total yang dapat dibatalkan</Text>
 							<WrapperItem style={{ paddingBottom: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-								<Text color="primaryColor" size={24}>{convertRupiah(dataTransaksi.transaction.total_transaction - amount_cancel)}</Text>
+								<Text color="primaryColor" size={24}>{convertRupiah(dataTransaksi.transaction.status == 1 ? dataTransaksi.transaction.total_transaction - parseInt(amount_cancel) : dataTransaksi.transaction.remaining_return - amount_cancel)}</Text>
 							]} right={
 								<Text onPress={() => setDetailItem(!detailItem)} size={16}>DETAIL</Text>
 							} />

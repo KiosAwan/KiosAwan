@@ -179,6 +179,9 @@ const reducerStoreProduct = (state = initialState, actions) => {
             const itemMauDitambah = state.belanja.find(item => itemTambah.id_product === item.id_product)
             if (itemMauDitambah) {
                 itemMauDitambah.quantity++
+                itemTambah.discount_rupiah = false
+                itemTambah.discount_persen = 0
+                itemTambah.discount_total = 0
                 itemMauDitambah.total += itemMauDitambah.price_out_product
                 state.jumlahitem++
                 if (!itemMauDitambah.discount_rupiah) {
@@ -202,7 +205,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 itemTambah.quantity = 1
                 itemTambah.discount_rupiah = false
                 itemTambah.discount_persen = 0
-                itemTambah.discount_total = 0
+                itemTambah.discount_total = ""
                 itemTambah.total = itemTambah.price_out_product
                 state.jumlahitem++
                 let newTotal = state.total + parseInt(itemTambah.price_out_product)

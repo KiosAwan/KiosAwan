@@ -114,4 +114,18 @@ export const RemoveCartProduct = (item) => {
 }
 
 
+export const addDiscountProductRupiah = (item) => {
+  return {
+    type: "ADD_DISCOUNT_PRODUCT_RUPIAH",
+    payload: item
+  }
+}
+
+export const addDiscountProductPersen = (item) => {
+  return {
+    type: "ADD_DISCOUNT_PRODUCT_PERSEN",
+    payload: item
+  }
+}
+
 
