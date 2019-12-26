@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
@@ -112,6 +112,7 @@ const TransactionDetail = ({ navigation }) => {
 								<TouchableOpacity>
 									<View style={[styles.wrapIconText]} >
 										<Icon color={ColorsList.whiteColor} size={16} style={{ marginRight: 5 }} name="paper-plane" />
+										{/* <Image source={require('../')}/> */}
 										<Text style={styles.btnwithIconText}>Kirim Struk</Text>
 									</View>
 								</TouchableOpacity>
