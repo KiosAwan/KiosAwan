@@ -16,7 +16,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const TransactionDetail = ({ navigation }) => {
 	const dispatch = useDispatch()
-	const [transactionId, setTransactionId] = useState('')
 	const [data, setData] = useState()
 	const [dataLoading, SetDataLoading] = useState(true)
 	useEffect(() => {
@@ -25,7 +24,7 @@ const TransactionDetail = ({ navigation }) => {
 
 	const _getData = async () => {
 		const { transactionId } = await navigation.state.params
-		const productData = await getTransactionDetail(25)
+		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
 		SetDataLoading(false)
 	}
@@ -72,7 +71,7 @@ const TransactionDetail = ({ navigation }) => {
 							{
 								data.details_item.map((data, i) => {
 									return (
-										<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+										<WrapperItem key={i} style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
 											<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.product}</Text>,
 											<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price)} x {data.qty}</Text>
 										]} right={[
@@ -97,14 +96,14 @@ const TransactionDetail = ({ navigation }) => {
 				</View>
 				{data.transaction.status_payment == 2 ?
 				<Bottom justify="space-between">
-					<Button width="49%" color="white">BATALKAN</Button>
+					<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', {paramData : data })}>BATALKAN</Button>
 					<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', {paramData : data })} width="49%" onpre>LUNASI</Button>
 				</Bottom>
 
 				:
 				<View style={{ position: "absolute", bottom: 10, alignSelf: "center", backgroundColor: ColorsList.authBackground }}>
 					<BottomButton
-						onPressBtn={() => alert("asdad")}
+						onPressBtn={() => navigation.navigate('/drawer/transaction/detail/batalkan', {paramData : data})}
 						style={{ backgroundColor: ColorsList.whiteColor, width: SizeList.width - 40, borderColor: ColorsList.primaryColor, borderWidth: 1, }}
 						textStyle={{ color: ColorsList.primaryColor }}
 						buttonTitle="BATALKAN"

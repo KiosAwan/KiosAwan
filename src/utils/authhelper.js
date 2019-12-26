@@ -110,9 +110,10 @@ export const deleteProduct = async (productId) => {
 //post new transaction to database
 export const sendNewTransaction = async (data) => {
   try {
-  const res = await axios.post(`${HOST_URL}/transaction`, data)
-  return res.data}
-  catch (error){
+    const res = await axios.post(`${HOST_URL}/transaction`, data)
+    return res.data
+  }
+  catch (error) {
     return error.response.data
   }
 }
@@ -126,9 +127,9 @@ export const sendNewCustomer = async (data) => {
 //edit customer data
 export const editCustomer = async (data, id_cust) => {
   try {
-  const res = await axios.post(`${HOST_URL}/customer_update/${id_cust}`, data)
-  return res.data
-  }catch (err) {
+    const res = await axios.post(`${HOST_URL}/customer_update/${id_cust}`, data)
+    return res.data
+  } catch (err) {
     return (err.response.data)
   }
 }
@@ -146,9 +147,14 @@ export const getTransactionDetail = async (transactionId) => {
 }
 
 //Cancel transaction 
-export const cancelTransaction = async (transactionId) => {
-  const res = await axios.get(`${HOST_URL}/get_transaction/${transactionId}`)
-  return res.data
+export const cancelTransaction = async (data) => {
+  try {
+    const res = await axios.post(`${HOST_URL}/return/`, data)
+    return res.data
+  }
+  catch (err) {
+    return err.response.data
+  }
 }
 
 //Pay Credit
@@ -210,107 +216,107 @@ export const sendOTPAuth = async (data) => {
 // Verify OTP
 export const verifyOTPAuth = async (data) => {
   try {
-      const res = await axios.post(`${HOST_URL}/valid_otp`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/valid_otp`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
 // Changing Email
 export const changeEmail = async (data) => {
   try {
-      const res = await axios.post(`${HOST_URL}/change_email`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/change_email`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
 // Send Code to Email
 export const sendCodeToEmail = async (data) => {
   try {
-      const res = await axios.post(`${HOST_URL}/send_email`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/send_email`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
 // Valid email
 export const verifyEmailCode = async (data) => {
   try {
-      const res = await axios.post(`${HOST_URL}/valid_email`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/valid_email`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
 // Change New Phone Number
 export const changeNewPhoneNumber = async (data) => {
   try {
-      const res = await axios.post(`${HOST_URL}/change_phone_number`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/change_phone_number`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
 // Edit store profile
 export const editStoreProfile = async (data, storeId) => {
   try {
-      const res = await axios.post(`${HOST_URL}/store_update/${storeId}`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/store_update/${storeId}`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
 // Changing Password
 export const changePassword = async (data) => {
   try {
-      const res = await axios.post(`${HOST_URL}/change_password`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/change_password`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 //Resend email verify 
 export const resendVerifyEmail = async (data) => {
   try {
-      const res = await axios.post(`${HOST_URL}/resend_verify_email`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/resend_verify_email`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
 //Resend email verify 
 export const addNewDiscount = async (data) => {
   try {
-      const res = await axios.post(`${HOST_URL}/discount`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/discount`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
@@ -318,12 +324,12 @@ export const addNewDiscount = async (data) => {
 //Edit Discount
 export const editDiscount = async (data, id) => {
   try {
-      const res = await axios.post(`${HOST_URL}/discount_update/${id}`, data)
-      return res.data
+    const res = await axios.post(`${HOST_URL}/discount_update/${id}`, data)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }
 
@@ -331,11 +337,11 @@ export const editDiscount = async (data, id) => {
 //Delete Discount
 export const deleteDiscount = async (id) => {
   try {
-      const res = await axios.delete(`${HOST_URL}/discount/${id}`)
-      return res.data
+    const res = await axios.delete(`${HOST_URL}/discount/${id}`)
+    return res.data
   }
   catch (error) {
-      const res = error.response.data
-      return res
+    const res = error.response.data
+    return res
   }
 }

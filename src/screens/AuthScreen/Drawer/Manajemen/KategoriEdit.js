@@ -11,10 +11,10 @@ import {
     Modal
 } from 'react-native';
 import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader, GlobalHeaderWithIcon } from '../../../../components/Header/Header';
+import {  GlobalHeaderWithIcon } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
-import { verifyUserPassword, editCategory, deleteCategory } from '../../../../utils/authhelper';
+import { editCategory, deleteCategory } from '../../../../utils/authhelper';
 import { BottomButton, Button } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
 import { FloatingInput } from '../../../../components/Input/InputComp';
@@ -22,8 +22,6 @@ import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
 
-
-const height = Dimensions.get('window').height
 
 const KategoriEdit = ({ navigation }) => {
     const dispatch = useDispatch()
