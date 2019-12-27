@@ -82,7 +82,7 @@ const Cashier = ({ navigation }) => {
                                     price={convertRupiah(item.price_out_product)}
                                     onPressMinus={() => dispatch(MinusQuantity(item))}
                                     onPressPlus={() => dispatch(AddQuantity(item))}
-                                    plusDisabled={item.manage_stock == 1 ? (item.quantity ? item.quantity < item.stock ? false : true : false) : false}
+                                    plusDisabled={item.manage_stock == 1 ? item.stock == 0 ? true : (item.quantity ? item.quantity < item.stock ? false : true : false) : false}
                                     quantity={item.quantity ? item.quantity : null}
                                     stock={item.manage_stock == 1 ? item.stock : null}
                                 />
