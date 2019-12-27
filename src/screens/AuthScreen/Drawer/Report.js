@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import { StyleSheet, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
@@ -8,8 +9,14 @@ import { convertRupiah } from 'src/utils/authhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { useSelector } from 'react-redux';
 import { getTransactionData, getReportCategory } from 'src/utils/authhelper'
+import moment from 'moment';
 
 const Report = ({ navigation }) => {
+	let _keuangan = ["pajak", "service_charge"]
+	let _laba = ["harga_pokok_penjualan"]
+	let _notConvert = ["jumlah_transaksi", "product_terjual"]
+	const [_report] = useState({ "penjualan_kotor": "", "discount": "", "total_return": "Pembatalan", "penjualan_bersih": "", "harga_pokok_penjualan": "", "pajak": "", "service_charge": "" })
+	const [categories, setCategory] = useState([])
 	const [indexTab, setIndexTab] = useState(0)
 	const [filter, setFilter] = useState(false)
 	const [detailPendapatan, setDetailPendapatan] = useState(false)
@@ -23,17 +30,18 @@ const Report = ({ navigation }) => {
 		setTransaction(res1.data)
 		setReportCategory(res2.data)
 	}
-
 	useEffect(() => {
 		GetData()
+		setCategory([])
 	}, [])
+
 
 	const Keuangan = props => {
 		return <View>
 			<Wrapper justify="space-between" style={styles.report}>
 				<View>
 					<Text>{props.isLaba ? 'Laba/Rugi Kotor' : 'Total Pendapatan'}</Text>
-					<Text font="ExtraBold" size={25} color="primary">{convertRupiah(2000)}</Text>
+					<Text font="ExtraBold" size={25} color="primary">{convertRupiah(indexTab == 0 ? transaction.total_penjualan : transaction.total_profit)}</Text>
 				</View>
 				<TouchableOpacity onPress={() => setDetailPendapatan(!detailPendapatan)} style={{ justifyContent: 'flex-end' }}>
 					<Text font="ExtraBold" size={15}>DETAIL</Text>
@@ -41,63 +49,51 @@ const Report = ({ navigation }) => {
 			</Wrapper>
 			{detailPendapatan ?
 				<View>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Total Penjualan</Text>
-						<Text>{convertRupiah(2000)}</Text>
-					</Wrapper>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Diskon</Text>
-						<Text>{convertRupiah(2000)}</Text>
-					</Wrapper>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Pembatalan</Text>
-						<Text>{convertRupiah(2000)}</Text>
-					</Wrapper>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Penjualan Bersih</Text>
-						<Text>{convertRupiah(2000)}</Text>
-					</Wrapper>
-					{props.isLaba ?
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>Harga Pokok Penjualan</Text>
-							<Text>{convertRupiah(2000)}</Text>
-						</Wrapper>
-						:
-						[
-							<Wrapper justify="space-between" style={styles.report}>
-								<Text>Pajak</Text>
-								<Text>{convertRupiah(2000)}</Text>
-							</Wrapper>,
-							<Wrapper justify="space-between" style={styles.report}>
-								<Text>Service Charge</Text>
-								<Text>{convertRupiah(2000)}</Text>
+					{
+						Object.keys(_report).map(key => {
+							let toHide = indexTab == 0 ? _laba : _keuangan
+							return toHide.includes(key) ? null : <Wrapper justify="space-between" style={styles.report}>
+								<Text>{_report[key] ? _report[key] : key.split('_').join(' ').ucwords()}</Text>
+								{_notConvert.includes(key) ? <Text>{transaction[key]}</Text> : <Text>{convertRupiah(transaction[key])}</Text>}
 							</Wrapper>
-						]
+						})
 					}
 				</View>
 				: null
 			}
 			<Wrapper justify="space-between" style={{ marginTop: 15, padding: 15, ...Bg.white }}>
 				<Text color="primary" font="Bold">Laporan Penjualan</Text>
-				<TouchableOpacity onPress={() => setDetailPenjualan(!detailPenjualan)}>
+				<TouchableOpacity onPress={() => {
+					if (!detailPenjualan) setCategory([])
+					setDetailPenjualan(!detailPenjualan)
+				}}>
 					<Text font="ExtraBold" size={15}>DETAIL</Text>
 				</TouchableOpacity>
 			</Wrapper>
-			{detailPenjualan ?
-				<View>
-					<Wrapper justify="center" style={{ ...Bg.grey, padding: 10 }}>
-						<Text>Kategori #1</Text>
-					</Wrapper>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Nama Produk #1</Text>
-						<Text>{convertRupiah(2000)}</Text>
-					</Wrapper>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Nama Produk #2</Text>
-						<Text>{convertRupiah(2000)}</Text>
-					</Wrapper>
-				</View>
-				: null
+			{
+				detailPenjualan ?
+					<View>
+						{
+							reportCategory.sort((a, b) => b.id_category - a.id_category).map(item => {
+								let _id = item.id_category ? item.id_category : '~pesan_manual~'
+								let _hasId = categories.includes(_id)
+								if (!_hasId) categories.push(_id)
+								return [_hasId ? null : <Wrapper justify="center" style={{ ...Bg.grey, padding: 10 }}>
+									<Text font={item.id_category ? null : 'BoldItalic'}>{item.id_category ? item.nama_category : 'Pesanan Manual'}</Text>
+								</Wrapper>,
+								<Wrapper justify="space-between" style={styles.report}>
+									<View>
+										<Text>{item.Product}</Text>
+										<Text>{`${convertRupiah(item.harga_Satuan)} x ${item.jumlah}`}</Text>
+									</View>
+									<Wrapper direction="column" justify="center">
+										<Text>{convertRupiah(item.harga)}</Text>
+									</Wrapper>
+								</Wrapper>]
+							})
+						}
+					</View>
+					: null
 			}
 		</View>
 	}
@@ -110,7 +106,7 @@ const Report = ({ navigation }) => {
 			</AwanPopup.Menu>
 			<Wrapper justify="space-between" style={styles.filterWrapper}>
 				<View style={{ justifyContent: 'center' }}>
-					<Text>Desember 2019</Text>
+					<Text>{moment().format('MMMM YYYY')}</Text>
 				</View>
 				<Button onPress={() => setFilter(true)}>
 					<Image style={{ width: 15, height: 15 }} source={require('src/assets/icons/filter.png')} />
@@ -120,19 +116,19 @@ const Report = ({ navigation }) => {
 				<View style={{ padding: 15 }}>
 					<Wrapper justify="space-between" style={styles.report}>
 						<Text>Total Penjualan</Text>
-						<Text color="primary" font="Bold">{convertRupiah(2000)}</Text>
+						<Text color="primary" font="Bold">{convertRupiah(transaction.total_penjualan)}</Text>
 					</Wrapper>
 					<Wrapper justify="space-between" style={styles.report}>
 						<Text>Total Keuntungan</Text>
-						<Text color="primary" font="Bold">{convertRupiah(2000)}</Text>
+						<Text color="primary" font="Bold">{convertRupiah(transaction.total_profit)}</Text>
 					</Wrapper>
 					<Wrapper justify="space-between" style={styles.report}>
 						<Text>Transaksi</Text>
-						<Text color="primary" font="Bold">{20}</Text>
+						<Text color="primary" font="Bold">{transaction.jumlah_transaksi}</Text>
 					</Wrapper>
 					<Wrapper justify="space-between" style={styles.report}>
 						<Text>Produk Terjual</Text>
-						<Text color="primary" font="Bold">{20}</Text>
+						<Text color="primary" font="Bold">{transaction.product_terjual}</Text>
 					</Wrapper>
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>

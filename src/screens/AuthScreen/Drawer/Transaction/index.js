@@ -95,20 +95,18 @@ const TransactionList = ({ navigation }) => {
                           <View style={{ padding: 15 }}>
                             <Wrapper>
                               <View style={{ justifyContent: 'center' }}>
-                                <Image style={{ width: 80, height: 80 }}
-                                  source={iconImage[trx.status].image}
-                                />
+                                <Image style={{ width: 50, height: 50 }} source={iconImage[trx.status].image} />
                               </View>
                               <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
-                                <Text color="primary" size={15}>{convertRupiah(trx.total_transaction)}</Text>
+                                <Text color="primary">{convertRupiah(trx.total_transaction)}</Text>
                                 <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
                                 <Text>{trx.payment_code}</Text>
                               </View>
                             </Wrapper>
                           </View>
-                          <View style={{ width: '30%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
-                            <View style={{ padding: 15 }}>
-                              <Text color={iconImage[trx.status].color} style={{ textAlign: 'center' }} font="ExtraBold" size={18}>{iconImage[trx.status].text}</Text>
+                          <View style={{ width: '35%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
+                            <View style={{ padding: 10 }}>
+                              <Text color={iconImage[trx.status].color} style={{ textAlign: 'center' }} font="ExtraBold" size={15}>{iconImage[trx.status].text}</Text>
                             </View>
                           </View>
                         </Wrapper>
@@ -200,79 +198,6 @@ const TransactionList = ({ navigation }) => {
     </View>
   );
 }
-
-const TransactionListss = ({ navigation }) => {
-  const dispatch = useDispatch()
-  const User = useSelector(state => state.User)
-  const Transaction = useSelector(state => state.Transaction)
-
-  useEffect(() => {
-    if (User.store != null) {
-      _getTransaction()
-    }
-  }, [])
-
-  const _getTransaction = async () => {
-    dispatch(getTransactionList(User.store.id_store))
-  }
-
-  return (
-    <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-      <GlobalHeader onPressBack={() => navigation.goBack()} title="Transaksi" />
-      <View style={{ padding: 20 }}>
-        <Wrapper>
-          <Button color="white" width="50%" style={{ borderBottomRightRadius: 0, borderTopRightRadius: 0 }}>Test</Button>
-          <Button width="50%" style={{ borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}>Test</Button>
-        </Wrapper>
-      </View>
-    </View>
-    //   User.store ? 
-    //   Transaction.isLoading ? 
-    //   <View>
-    //     <TransactionPlaceholder/>
-    //     <TransactionPlaceholder/>
-    //     <TransactionPlaceholder/>
-    //     <TransactionPlaceholder/>
-    //   </View>
-    //   :
-    //     Transaction.data.length > 0 ?
-    //     <View style={styles.containerWithData}>
-    //       <Text>Ini transaction list</Text>
-    //       <FlatList
-    //         data={Transaction.data}
-    //         renderItem={({ item }) => (
-    //           <View>
-    //             <Text>{formatToDays(item.date)}</Text>
-    //             <Text>{item.total}</Text>
-    //             {item.data.map(child => (
-    //               <View key={child.id_transaction}>
-    //                 <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail-transaction', { transactionId: child.id_transaction })}>
-    //                   <TransactionCard
-    //                     total_transaction={child.total_transaction}
-    //                     payment_code={child.payment_code}
-    //                     status={child.status}
-    //                     payment_type={child.id_payment_type == 1 ? "Cash" : "Piutang"}
-    //                     transactiontime={child.created_at.slice(11, 16)}
-    //                   />
-    //                 </TouchableOpacity>
-    //               </View>
-    //             ))}
-    //           </View>
-    //         )}
-    //         keyExtractor={(item, index) => index.toString()}
-    //       />
-    //     </View> :
-    //     <View style={styles.containerEmptyData}>
-    //       <Text>Anda belum memiliki daftar transaksi. Silahkan lakukan transaksi terlebih dahulu.</Text>
-    //     </View>
-
-    //     :
-    //     <View>
-    //       <Text>Lengkapi Profil Anda Terlebih Dahulu</Text>
-    //     </View>
-  )
-}
-
 
 export default TransactionList
 

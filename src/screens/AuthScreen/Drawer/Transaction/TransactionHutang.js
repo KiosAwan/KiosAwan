@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Component, useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
@@ -5,13 +6,12 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { Wrapper, Button } from 'src/components/Button/ButtonComp';
 import { ColorsList } from 'src/styles/colors';
 import { ImageText } from 'src/components/Card/CardComp';
-import moment from 'moment';
 import { Icon } from 'native-base';
 import { FloatingInput } from 'src/components/Input/InputComp';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
-import { convertRupiah } from '../../../../utils/authhelper';
+import { convertRupiah } from 'src/utils/authhelper';
 
 const TransactionDetailHutang = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -28,14 +28,20 @@ const TransactionDetailHutang = ({ navigation }) => {
 	useEffect(() => {
 		dispatch(getTransactionList(User.store.id_store))
 	}, [])
+
+
+	const menuProps = {
+		color: "link", style: { padding: 0 }, textProps: { font: 'Regular' }, align: "flex-start"
+	}
+
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader onPressBack={() => navigation.goBack()} title="Daftar Hutang" />
 			<AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
-				<Button color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Semua</Button>
-				<Button color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Lunas</Button>
-				<Button color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Hutang</Button>
-				<Button color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Dibatalkan</Button>
+				<Button {...menuProps}>Semua</Button>
+				<Button {...menuProps}>Lunas</Button>
+				<Button {...menuProps}>Hutang</Button>
+				<Button {...menuProps}>Dibatalkan</Button>
 			</AwanPopup.Menu>
 			<View style={{ backgroundColor: ColorsList.whiteColor, padding: 15 }}>
 				<FloatingInput label="Cari produk" labelStyle={{ left: '8%' }}>
