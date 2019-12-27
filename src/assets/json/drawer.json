@@ -12,7 +12,7 @@
     },
     {
       "name": "Laporan",
-      "route": "/drawer/report",
+      "route": "/drawer/laporan",
       "icon": "paper"
     },
     {

@@ -1,17 +1,17 @@
 import React from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux'
-import { GlobalHeader } from '../../../components/Header/Header';
+import { GlobalHeader } from 'src/components/Header/Header';
 import { Icon, Grid, Col, Row } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage';
-import { ColorsList } from '../../../styles/colors';
-import { Text } from '../../../components/Text/CustomText'
-import { BottomButton } from '../../../components/Button/ButtonComp';
-import { SizeList } from '../../../styles/size';
+import { ColorsList } from 'src/styles/colors';
+import { Text } from 'src/components/Text/CustomText'
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
 
 const Akun = ({ navigation }) => {
-	const ListMenu = require('../../../assets/json/akun.json')
+	const ListMenu = require('src/assets/json/drawer.json')
 	const User = useSelector(state => state.User)
 	const _onPressLogout = async (props) => {
 		try {

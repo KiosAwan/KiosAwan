@@ -64,6 +64,7 @@ const PhoneRegistration = ({ navigation }) => {
             phone_number: "62" + FormRegister.phone_number,
         }
         const res = await sendPhoneNumber(data)
+        console.debug(res)
         if (res.type == "login") {
             navigation.navigate('/unauth/login')
         } else if (res.type == "register") {

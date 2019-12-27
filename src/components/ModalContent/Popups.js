@@ -28,15 +28,15 @@ export const AwanPopup = {
 	Title: props => {
 		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
 			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
-				<Image source={require('../../assets/modals/awan-little.png')}
+				{/* <Image source={require('../../assets/modals/awan-little.png')}
 					style={styles.image}
 					resizeMode="stretch" />
 				<Image source={require('../../assets/modals/awan.png')}
 					style={styles.image}
-					resizeMode="stretch" />
-				<Text font="Bold" size={30} style={styles.title}>{props.title.toUpperCase()}</Text>
+					resizeMode="stretch" /> */}
 			</LinearGradient>
 			<View style={styles.body}>
+				<Text font="Bold" size={17} style={styles.title}>{props.title.toUpperCase()}</Text>
 				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
 			</View>
 			<Bottom>
@@ -67,15 +67,15 @@ export const AwanPopup = {
 	},
 	Menu: props => {
 		return <Modal animationType="fade" transparents style={[styles.shadow, {
-			padding: 0, minWidth: 350, position: 'absolute'
+			padding: 0, minWidth: 250, position: props.absolute ? 'absolute' : undefined
 		}, props.position]} {...props}>
 			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
-				<Text font="Bold" size={20} style={{ color: ColorsList.whiteColor, padding: 15 }}>
+				<Text font="Bold" size={props.titleSize || 15} style={{ color: ColorsList.whiteColor, padding: 15 }}>
 					{props.title.toUpperCase()}
 				</Text>
-				<Image source={require('../../assets/modals/awan-corner.png')}
+				{/* <Image source={require('../../assets/modals/awan-corner.png')}
 					style={[styles.image, { position: 'absolute', right: 0, width: '30%' }]}
-					resizeMode="stretch" />
+					resizeMode="stretch" /> */}
 			</LinearGradient>
 			<View style={{ padding: 15 }}>
 				{props.children}
@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
 		elevation: 24,
 	},
 	image: { alignSelf: 'center', height: 100, width: '100%' },
-	title: { position: 'absolute', top: 90, alignSelf: 'center', color: ColorsList.whiteColor },
+	title: { alignSelf: 'center', padding: 20 },
+	oldTitle: { position: 'absolute', top: 90, alignSelf: 'center', color: ColorsList.whiteColor },
 	body: { minHeight: 150, paddingHorizontal: 15, paddingBottom: 75, backgroundColor: ColorsList.whiteColor }
 })
 

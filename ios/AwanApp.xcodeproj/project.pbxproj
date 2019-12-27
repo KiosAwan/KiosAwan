@@ -54,6 +54,22 @@
 		A572981E44C144C6BF8C1522 /* intro2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E1D216657024E4AB03EA250 /* intro2.png */; };
 		711005298FC446199464A60E /* intro3.png in Resources */ = {isa = PBXBuildFile; fileRef = 328D5075EFFD410081A9FF6F /* intro3.png */; };
 		F65147E592444185956043F3 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C14A4F31616409C945E660A /* logo.png */; };
+		F44662C6CFB64DC6B52E8B9F /* addproductsuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = 6867C1010C274172B90F69DD /* addproductsuccess.png */; };
+		7DE9E839A2FF455B9FC27934 /* createpinsuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = 937CFD9306C84D54B63BA3C9 /* createpinsuccess.png */; };
+		BB5E04CE21E0460BB8CC1E43 /* img-product.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BD79F7F7DDB4CF1A714C203 /* img-product.png */; };
+		9736F21F8959450EBC800DD3 /* managemendiskonsuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A669A7EE1394F8C8DBC4BAC /* managemendiskonsuccess.png */; };
+		F28C4FF073AA4E469CA68479 /* managemenkategorisuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = 598CBAD2071A401EA0BB7671 /* managemenkategorisuccess.png */; };
+		56AA75EE431540F59086814C /* managemenpelanggansuccess.png in Resources */ = {isa = PBXBuildFile; fileRef = 51596A11ACFC4C59A4217993 /* managemenpelanggansuccess.png */; };
+		AB113EBA19A54D64AD5C752C /* managemenproduksukses.png in Resources */ = {isa = PBXBuildFile; fileRef = 8466D9234AA641B487D9C393 /* managemenproduksukses.png */; };
+		705B825898CD4B41ABD4E5DA /* no-transaction.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C2677AEC47410B9A864A76 /* no-transaction.png */; };
+		66B701F03FBB43EBB6211585 /* noproductlist.png in Resources */ = {isa = PBXBuildFile; fileRef = C7CAF8BD25804BE9ACE9E688 /* noproductlist.png */; };
+		A18846890ECC496CA594F9C5 /* successchangeemail.png in Resources */ = {isa = PBXBuildFile; fileRef = 626B2A8FC2A54311A1803F25 /* successchangeemail.png */; };
+		282416DE70994DAAB858DED3 /* successchangepassword.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFE55D5518E4FC8BC043B1D /* successchangepassword.png */; };
+		CC5DEA27292445AE9EC3A7C2 /* successchangephone.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E3A028170E040C99182E602 /* successchangephone.png */; };
+		D3948187D1A341709BC134AB /* successchangepin.png in Resources */ = {isa = PBXBuildFile; fileRef = 671083B0865241D3B31259FC /* successchangepin.png */; };
+		853EB2668CB44D87AF9E96BA /* successcreatestore.png in Resources */ = {isa = PBXBuildFile; fileRef = F77AB2B17D114FACA7B1A540 /* successcreatestore.png */; };
+		70A3440123614BD8B90C2A01 /* successtransaction.png in Resources */ = {isa = PBXBuildFile; fileRef = C8471DA78159490DA1AB1082 /* successtransaction.png */; };
+		E4BA053526954D2B9512D219 /* successupdateprofile.png in Resources */ = {isa = PBXBuildFile; fileRef = 213367DE602F4EC69783CF64 /* successupdateprofile.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +144,22 @@
 		8E1D216657024E4AB03EA250 /* intro2.png */ = {isa = PBXFileReference; name = "intro2.png"; path = "../src/assets/images/intro2.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		328D5075EFFD410081A9FF6F /* intro3.png */ = {isa = PBXFileReference; name = "intro3.png"; path = "../src/assets/images/intro3.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		4C14A4F31616409C945E660A /* logo.png */ = {isa = PBXFileReference; name = "logo.png"; path = "../src/assets/images/logo.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6867C1010C274172B90F69DD /* addproductsuccess.png */ = {isa = PBXFileReference; name = "addproductsuccess.png"; path = "../src/assets/images/addproductsuccess.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		937CFD9306C84D54B63BA3C9 /* createpinsuccess.png */ = {isa = PBXFileReference; name = "createpinsuccess.png"; path = "../src/assets/images/createpinsuccess.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5BD79F7F7DDB4CF1A714C203 /* img-product.png */ = {isa = PBXFileReference; name = "img-product.png"; path = "../src/assets/images/img-product.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2A669A7EE1394F8C8DBC4BAC /* managemendiskonsuccess.png */ = {isa = PBXFileReference; name = "managemendiskonsuccess.png"; path = "../src/assets/images/managemendiskonsuccess.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		598CBAD2071A401EA0BB7671 /* managemenkategorisuccess.png */ = {isa = PBXFileReference; name = "managemenkategorisuccess.png"; path = "../src/assets/images/managemenkategorisuccess.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		51596A11ACFC4C59A4217993 /* managemenpelanggansuccess.png */ = {isa = PBXFileReference; name = "managemenpelanggansuccess.png"; path = "../src/assets/images/managemenpelanggansuccess.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8466D9234AA641B487D9C393 /* managemenproduksukses.png */ = {isa = PBXFileReference; name = "managemenproduksukses.png"; path = "../src/assets/images/managemenproduksukses.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B1C2677AEC47410B9A864A76 /* no-transaction.png */ = {isa = PBXFileReference; name = "no-transaction.png"; path = "../src/assets/images/no-transaction.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C7CAF8BD25804BE9ACE9E688 /* noproductlist.png */ = {isa = PBXFileReference; name = "noproductlist.png"; path = "../src/assets/images/noproductlist.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		626B2A8FC2A54311A1803F25 /* successchangeemail.png */ = {isa = PBXFileReference; name = "successchangeemail.png"; path = "../src/assets/images/successchangeemail.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FCFE55D5518E4FC8BC043B1D /* successchangepassword.png */ = {isa = PBXFileReference; name = "successchangepassword.png"; path = "../src/assets/images/successchangepassword.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7E3A028170E040C99182E602 /* successchangephone.png */ = {isa = PBXFileReference; name = "successchangephone.png"; path = "../src/assets/images/successchangephone.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		671083B0865241D3B31259FC /* successchangepin.png */ = {isa = PBXFileReference; name = "successchangepin.png"; path = "../src/assets/images/successchangepin.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F77AB2B17D114FACA7B1A540 /* successcreatestore.png */ = {isa = PBXFileReference; name = "successcreatestore.png"; path = "../src/assets/images/successcreatestore.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C8471DA78159490DA1AB1082 /* successtransaction.png */ = {isa = PBXFileReference; name = "successtransaction.png"; path = "../src/assets/images/successtransaction.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		213367DE602F4EC69783CF64 /* successupdateprofile.png */ = {isa = PBXFileReference; name = "successupdateprofile.png"; path = "../src/assets/images/successupdateprofile.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +309,22 @@
 				8E1D216657024E4AB03EA250 /* intro2.png */,
 				328D5075EFFD410081A9FF6F /* intro3.png */,
 				4C14A4F31616409C945E660A /* logo.png */,
+				6867C1010C274172B90F69DD /* addproductsuccess.png */,
+				937CFD9306C84D54B63BA3C9 /* createpinsuccess.png */,
+				5BD79F7F7DDB4CF1A714C203 /* img-product.png */,
+				2A669A7EE1394F8C8DBC4BAC /* managemendiskonsuccess.png */,
+				598CBAD2071A401EA0BB7671 /* managemenkategorisuccess.png */,
+				51596A11ACFC4C59A4217993 /* managemenpelanggansuccess.png */,
+				8466D9234AA641B487D9C393 /* managemenproduksukses.png */,
+				B1C2677AEC47410B9A864A76 /* no-transaction.png */,
+				C7CAF8BD25804BE9ACE9E688 /* noproductlist.png */,
+				626B2A8FC2A54311A1803F25 /* successchangeemail.png */,
+				FCFE55D5518E4FC8BC043B1D /* successchangepassword.png */,
+				7E3A028170E040C99182E602 /* successchangephone.png */,
+				671083B0865241D3B31259FC /* successchangepin.png */,
+				F77AB2B17D114FACA7B1A540 /* successcreatestore.png */,
+				C8471DA78159490DA1AB1082 /* successtransaction.png */,
+				213367DE602F4EC69783CF64 /* successupdateprofile.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -457,6 +505,22 @@
 				A572981E44C144C6BF8C1522 /* intro2.png in Resources */,
 				711005298FC446199464A60E /* intro3.png in Resources */,
 				F65147E592444185956043F3 /* logo.png in Resources */,
+				F44662C6CFB64DC6B52E8B9F /* addproductsuccess.png in Resources */,
+				7DE9E839A2FF455B9FC27934 /* createpinsuccess.png in Resources */,
+				BB5E04CE21E0460BB8CC1E43 /* img-product.png in Resources */,
+				9736F21F8959450EBC800DD3 /* managemendiskonsuccess.png in Resources */,
+				F28C4FF073AA4E469CA68479 /* managemenkategorisuccess.png in Resources */,
+				56AA75EE431540F59086814C /* managemenpelanggansuccess.png in Resources */,
+				AB113EBA19A54D64AD5C752C /* managemenproduksukses.png in Resources */,
+				705B825898CD4B41ABD4E5DA /* no-transaction.png in Resources */,
+				66B701F03FBB43EBB6211585 /* noproductlist.png in Resources */,
+				A18846890ECC496CA594F9C5 /* successchangeemail.png in Resources */,
+				282416DE70994DAAB858DED3 /* successchangepassword.png in Resources */,
+				CC5DEA27292445AE9EC3A7C2 /* successchangephone.png in Resources */,
+				D3948187D1A341709BC134AB /* successchangepin.png in Resources */,
+				853EB2668CB44D87AF9E96BA /* successcreatestore.png in Resources */,
+				70A3440123614BD8B90C2A01 /* successtransaction.png in Resources */,
+				E4BA053526954D2B9512D219 /* successupdateprofile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

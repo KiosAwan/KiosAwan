@@ -1,12 +1,12 @@
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
-import Akun from '../../screens/AuthScreen/Drawer'
-import TransactionNavigator from './TransactionNavigator'
-import SettingNavigator from './SettingNavigator'
-import ManajemenNavigator from './ManajemenNavigator'
+import TransactionNavigator from './TransactionNavigator';
+import SettingNavigator from './SettingNavigator';
+import ManajemenNavigator from './ManajemenNavigator';
+import Akun from 'src/screens/AuthScreen/Drawer'
+import Report from 'src/screens/AuthScreen/Drawer/Report'
 
 const AkunNavigator = createStackNavigator({
-    // /drawer
     '/drawer': {
         screen: Akun,
         navigationOptions: {
@@ -30,7 +30,13 @@ const AkunNavigator = createStackNavigator({
         navigationOptions: {
             header: null
         }
-    }
+    },
+    '/drawer/laporan': {
+        screen: Report,
+        navigationOptions: {
+            header: null
+        }
+    },
 })
 
 export default createAppContainer(AkunNavigator)

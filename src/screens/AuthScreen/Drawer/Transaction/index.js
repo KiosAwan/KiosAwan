@@ -43,7 +43,7 @@ const TransactionList = ({ navigation }) => {
   }
   const filterResult = (data) => {
     return data
-      .filter(item => filter == 'all' ? item : item.status_payment.includes(filter))
+      .filter(item => filter == 'all' ? item : item.status.includes(filter))
       .filter(item => JSON.stringify(item).toLowerCase().includes(search))
   }
   useEffect(() => {
@@ -59,18 +59,10 @@ const TransactionList = ({ navigation }) => {
     return (
       <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
         <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
-          <TouchableOpacityRN onPress={() => selectFilter('all')}>
-            <Text>Semua</Text>
-          </TouchableOpacityRN>
-          <TouchableOpacityRN onPress={() => selectFilter('1')}>
-            <Text>Lunas</Text>
-          </TouchableOpacityRN>
-          <TouchableOpacityRN onPress={() => selectFilter('2')}>
-            <Text>Hutang</Text>
-          </TouchableOpacityRN>
-          <TouchableOpacityRN onPress={() => selectFilter('3')}>
-            <Text>Dibatalkan</Text>
-          </TouchableOpacityRN>
+          <Button onPress={() => selectFilter('all')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Semua</Button>
+          <Button onPress={() => selectFilter('1')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Lunas</Button>
+          <Button onPress={() => selectFilter('2')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Hutang</Button>
+          <Button onPress={() => selectFilter('3')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Dibatalkan</Button>
         </AwanPopup.Menu>
         <View style={{ padding: 15, paddingTop: 0, backgroundColor: ColorsList.whiteColor }}>
           <Wrapper justify="space-between">
@@ -104,7 +96,7 @@ const TransactionList = ({ navigation }) => {
                             <Wrapper>
                               <View style={{ justifyContent: 'center' }}>
                                 <Image style={{ width: 80, height: 80 }}
-                                  source={iconImage[trx.status_payment].image}
+                                  source={iconImage[trx.status].image}
                                 />
                               </View>
                               <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
@@ -116,7 +108,7 @@ const TransactionList = ({ navigation }) => {
                           </View>
                           <View style={{ width: '30%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
                             <View style={{ padding: 15 }}>
-                              <Text color={iconImage[trx.status_payment].color} style={{ textAlign: 'center' }} font="ExtraBold" size={18}>{iconImage[trx.status_payment].text}</Text>
+                              <Text color={iconImage[trx.status].color} style={{ textAlign: 'center' }} font="ExtraBold" size={18}>{iconImage[trx.status].text}</Text>
                             </View>
                           </View>
                         </Wrapper>
@@ -258,7 +250,7 @@ const TransactionListss = ({ navigation }) => {
     //                   <TransactionCard
     //                     total_transaction={child.total_transaction}
     //                     payment_code={child.payment_code}
-    //                     status_payment={child.status_payment}
+    //                     status={child.status}
     //                     payment_type={child.id_payment_type == 1 ? "Cash" : "Piutang"}
     //                     transactiontime={child.created_at.slice(11, 16)}
     //                   />

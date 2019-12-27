@@ -48,15 +48,15 @@ export const Button = props => {
 		if (props.color === key)
 			_color = Colors[props.color]
 	}
-	return < TouchableOpacity {...props} style={[{
-		padding: 10,
+	return <TouchableOpacity {...props} style={[{
+		padding: props.padding || 10,
 		borderWidth: 2,
 		justifyContent: 'center',
 		borderRadius: 5,
 		width: props.width || undefined
 	}, _color, props.style]}>
 		{
-			typeof props.children === 'string' ? <Text font="ExtraBold" {...props.textProps} style={[{ alignSelf: 'center', color: _color.text }, props.textStyle]}>{props.children}</Text> : props.children
+			typeof props.children === 'string' ? <Text font="ExtraBold" {...props.textProps} style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]}>{props.children}</Text> : props.children
 		}
 	</TouchableOpacity>
 }
@@ -71,7 +71,7 @@ export const Bottom = props => {
 			alignSelf: 'center',
 			position: 'absolute',
 			bottom: 0,
-			flexDirection: 'row',
+			flexDirection: props.direction || 'row',
 			justifyContent: props.justify || 'space-around',
 			padding: props.padding || 20,
 			width: '100%',
