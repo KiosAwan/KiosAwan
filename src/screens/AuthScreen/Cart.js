@@ -161,10 +161,13 @@ const Cart = ({ navigation }) => {
 								return (
 									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
 										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.name_product}</Text>,
-										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>
+										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>,
+										data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen+ "%"}</Text>
+										
 									]} right={[
 										<Icon onPress={() => _editPesanan(i, data)} style={{ color: ColorsList.primaryColor }} name="create" />,
-										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product * data.quantity)}</Text>
+										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product * data.quantity)}</Text>,
+										data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.discount_total)}</Text>
 									]} />
 								)
 							})
@@ -174,6 +177,12 @@ const Cart = ({ navigation }) => {
 						]} right={
 							<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(Product.total)}</Text>
 						} />
+						{Product.total_diskon == 0 ? null : 
+						<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+							<Text style={{ ...FontList.subtitleFontGreyBold }}>Total diskon</Text>,
+						]} right={
+							<Text style={{ ...FontList.subtitleFontGreyBold, color : ColorsList.danger }}>- {convertRupiah(Product.total_diskon)}</Text>
+						} />}
 						<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
 							<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
 						]} right={

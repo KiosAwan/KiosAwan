@@ -27,14 +27,14 @@ const CashPayment = () => {
                     handleChangeText={_handleChangePayment}
                     label="Uang yang diterima"
                 />
-                {Product.cash_payment - Product.total >= 0 ?
-                    <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - Product.total)}</Text>
+                {Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)) >= 0 ?
+                    <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)))}</Text>
                     : null
                 }
                 <View style={{ ...RowChild, marginTop: 20 }}>
                     <ToggleButtonMoney
                         style={{ marginRight: 10, }}
-                        buttons={[Product.total, getNearestFifty(Product.total, 1)]}
+                        buttons={[Product.total- Product.total_diskon, getNearestFifty(Product.total-Product.total_diskon, 1)]}
                     />
                 </View>
             </View>

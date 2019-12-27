@@ -52,6 +52,7 @@ class CheckOut extends React.Component {
                 let a = {
                     id: item.id_product,
                     qty: item.quantity,
+                    discount : item.discount_total
                 }
                 cart.push(a)
             } else {
@@ -59,7 +60,8 @@ class CheckOut extends React.Component {
                     name_product: item.name_product,
                     qty: item.quantity,
                     priceIn: item.price_in_product,
-                    priceOut: item.price_out_product
+                    priceOut: item.price_out_product,
+                    discount : item.discount_total
                 }
                 cart.push(a)
             }
@@ -71,8 +73,8 @@ class CheckOut extends React.Component {
             product_cart: cart,
             customer: Product.customer ? Product.customer.id_customer : null,
             id_store: this.props.User.store.id_store,
-            discount_name : Product.discount_name,
-            discount_transaction : Product.total_diskon
+            // discount_name : Product.discount_name,
+            // discount_transaction : Product.total_diskon
         }
         const res = await sendNewTransaction(data)
         if (res.status == 400) {
@@ -98,6 +100,7 @@ class CheckOut extends React.Component {
                 let a = {
                     id: item.id_product,
                     qty: item.quantity,
+                    discount : item.discount_total
                 }
                 cart.push(a)
             } else {
@@ -105,11 +108,13 @@ class CheckOut extends React.Component {
                     name_product: item.name_product,
                     qty: item.quantity,
                     priceIn: item.price_in_product,
-                    priceOut: item.price_out_product
+                    priceOut: item.price_out_product,
+                    discount : item.discount_total
                 }
                 cart.push(a)
             }
         })
+        console.debug(cart)
         const data = {
             cashier: userId,
             amount_payment: convertNumber(Product.cash_payment),
@@ -118,8 +123,8 @@ class CheckOut extends React.Component {
             customer: Product.customer.id_customer,
             id_store: this.props.User.store.id_store,
             due_debt_date: formatToDate(Product.due_debt_date),
-            discount_name : Product.discount_name,
-            discount_transaction : Product.total_diskon
+            // discount_name : Product.discount_name,
+            // discount_transaction : Product.total_diskon
         }
         const res = await sendNewTransaction(data)
         if (res.status == 400) {

@@ -90,13 +90,29 @@ const reducerStoreProduct = (state = initialState, actions) => {
             let product_data = actions.payload
             const itemDimaksud = state.belanja.find(item => product_data.id_product === item.id_product)
             const temp_item_quantity = itemDimaksud.quantity
+            const temp_discount_total = itemDimaksud.discount_total
             itemDimaksud.quantity = product_data.quantity
-            itemDimaksud.total = itemDimaksud.price_out_product * parseInt(itemDimaksud.quantity)
-            let newTotalBaru = state.total + itemDimaksud.total - (temp_item_quantity * itemDimaksud.price_out_product)
-            return {
-                ...state,
-                total: newTotalBaru,
-                jumlahitem: state.jumlahitem + parseInt(itemDimaksud.quantity) - temp_item_quantity
+            if (!itemDimaksud.discount_rupiah) {
+                itemDimaksud.total = itemDimaksud.price_out_product * parseInt(itemDimaksud.quantity)
+                let newTotalBaru = state.total + itemDimaksud.total - (temp_item_quantity * itemDimaksud.price_out_product)
+                itemDimaksud.discount_total = parseInt(itemDimaksud.discount_persen) / 100 * parseInt(itemDimaksud.price_out_product) * parseInt(itemDimaksud.quantity)
+                return {
+                    ...state,
+                    total: newTotalBaru,
+                    total_diskon: state.total_diskon + parseInt(itemDimaksud.discount_persen) / 100 * parseInt(itemDimaksud.quantity) * parseInt(itemDimaksud.price_out_product) - parseInt(temp_discount_total),
+                    belanja: [...state.belanja]
+                }
+            }
+            else {
+                itemDimaksud.discount_rupiah = true
+                itemDimaksud.discount_persen = 0
+                itemDimaksud.total = itemDimaksud.price_out_product * parseInt(itemDimaksud.quantity)
+                return {
+                    ...state,
+                    total: state.total + itemDimaksud.total - parseInt(itemDimaksud.price_out_product) * parseInt(temp_item_quantity),
+                    belanja: [...state.belanja],
+                    jumlahitem: state.jumlahitem + parseInt(itemDimaksud.quantity) - temp_item_quantity
+                }
             }
         case "REMOVE_SELECTED_PRODUCT":
             let removedProduct = actions.payload
@@ -110,7 +126,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
             return {
                 ...state,
                 total: newTotalRemove,
-                jumlahitem : state.jumlahitem - temp_rmvitem_quantity,
+                jumlahitem: state.jumlahitem - temp_rmvitem_quantity,
                 belanja: notRemoveBelanja
             }
         case "REMOVE_ALL":
@@ -179,10 +195,6 @@ const reducerStoreProduct = (state = initialState, actions) => {
             const itemMauDitambah = state.belanja.find(item => itemTambah.id_product === item.id_product)
             if (itemMauDitambah) {
                 itemMauDitambah.quantity++
-                itemTambah.discount_rupiah = false
-                itemTambah.discount_persen = 0
-                itemTambah.discount_total = 0
-                itemMauDitambah.total += itemMauDitambah.price_out_product
                 state.jumlahitem++
                 if (!itemMauDitambah.discount_rupiah) {
                     itemMauDitambah.discount_total += parseInt(itemMauDitambah.discount_persen) / 100 * parseInt(itemMauDitambah.price_out_product)
@@ -194,6 +206,9 @@ const reducerStoreProduct = (state = initialState, actions) => {
                     }
                 }
                 else {
+                    itemTambah.discount_rupiah = true
+                    itemTambah.discount_persen = 0
+                    itemMauDitambah.total += itemMauDitambah.price_out_product
                     return {
                         ...state,
                         total: state.total + parseInt(itemMauDitambah.price_out_product),
@@ -205,7 +220,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 itemTambah.quantity = 1
                 itemTambah.discount_rupiah = false
                 itemTambah.discount_persen = 0
-                itemTambah.discount_total = ""
+                itemTambah.discount_total = 0
                 itemTambah.total = itemTambah.price_out_product
                 state.jumlahitem++
                 let newTotal = state.total + parseInt(itemTambah.price_out_product)
@@ -222,12 +237,12 @@ const reducerStoreProduct = (state = initialState, actions) => {
             if (discountItemRupiah) {
                 let log_diskon = itemDiskonRupiah.discount_total
                 itemDiskonRupiah.discount_total = 0
-                itemDiskonRupiah.discount_persen = false
+                itemDiskonRupiah.discount_persen = 0
                 itemDiskonRupiah.discount_rupiah = true
-                itemDiskonRupiah.discount_total = besar_diskon
+                itemDiskonRupiah.discount_total = besar_diskon == "" ? 0 : besar_diskon
                 return {
                     ...state,
-                    total_diskon: state.total_diskon - log_diskon + itemDiskonRupiah.discount_total,
+                    total_diskon: state.total_diskon - log_diskon + parseInt(itemDiskonRupiah.discount_total),
                 }
             }
         case "ADD_DISCOUNT_PRODUCT_PERSEN":
@@ -235,14 +250,14 @@ const reducerStoreProduct = (state = initialState, actions) => {
             let persen_diskon = actions.payload.besar_diskon
             const discountItemPersen = state.belanja.find(item => itemDiskonPersen.id_product === item.id_product)
             if (discountItemPersen) {
-                let diskon_sebelum = itemDiskonPersen.discount_total
+                let diskon_sebelum = itemDiskonPersen.discount_total == "" ? 0 : itemDiskonPersen.discount_total
                 itemDiskonPersen.discount_total = 0
                 itemDiskonPersen.discount_rupiah = false
                 itemDiskonPersen.discount_persen = persen_diskon
-                itemDiskonPersen.discount_total += parseInt(itemDiskonPersen.discount_persen) / 100 * parseInt(itemDiskonPersen.total)
+                persen_diskon !== "" ? itemDiskonPersen.discount_total = parseInt(persen_diskon) / 100 * parseInt(itemDiskonPersen.price_out_product) * itemDiskonPersen.quantity : null
                 return {
                     ...state,
-                    total_diskon: state.total_diskon - diskon_sebelum + itemDiskonPersen.discount_total
+                    total_diskon: parseInt(state.total_diskon) - parseInt(diskon_sebelum) + parseInt(itemDiskonPersen.discount_total)
                 }
             }
         case "QUANTITY_DECREMENT":
