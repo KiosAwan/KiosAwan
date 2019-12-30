@@ -129,7 +129,7 @@ const PhoneRegistration = ({ navigation }) => {
                 <BottomButton
                 disabled={btnDisabled}
                     onPressBtn={_handleSendPhoneNumber}
-                    style={{ borderWidth: 1, borderColor: btnDisabled? 'grey' :  'white', width: SizeList.width - 20 }}
+                    style={{ borderWidth: 1, borderColor: btnDisabled? '#cd0192' :  'white', width: SizeList.width - 20 }}
                     buttonTitle="NEXT"
                 />
             </View>

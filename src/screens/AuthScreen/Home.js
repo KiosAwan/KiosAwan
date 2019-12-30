@@ -101,7 +101,7 @@ const Home = ({ navigation }) => {
                                 </View>
                             </TouchableOpacity>
                             : null :
-                            <TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingTop: 10 }}>
+                            <TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
                                 <View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
                                     <Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
                                     <Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>Lengkapi profil Anda!</Text>

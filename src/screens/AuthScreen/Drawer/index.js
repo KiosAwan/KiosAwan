@@ -49,7 +49,7 @@ const Akun = ({ navigation }) => {
 								<Col key={i} style={{ padding: '5%' }}>
 									{
 										groupMenu.map((menu, o) => {
-											return <TouchableOpacity key={o} onPress={() => navigation.navigate(menu.route)} style={{
+											return <TouchableOpacity key={o} onPress={() => User.store ? User.data.status == 1 ? navigation.navigate(menu.route) : null : null} style={{
 												backgroundColor: 'white',
 												marginBottom: 5,
 												borderRadius: 5,

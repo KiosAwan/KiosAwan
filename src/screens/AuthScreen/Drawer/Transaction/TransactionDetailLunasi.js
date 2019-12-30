@@ -7,11 +7,12 @@ import { Button, Wrapper, Bottom } from 'src/components/Button/ButtonComp';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
 import { ImageText } from 'src/components/Card/CardComp';
-import { convertRupiah, getNearestFifty, payCredit } from 'src/utils/authhelper';
+import { convertRupiah, getNearestFifty, payCredit, convertNumber } from 'src/utils/authhelper';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { RowChild } from 'src/components/Helper/RowChild';
-import { FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { FloatingInputLabelCurrency, FloatingInputLabel, FloatingInput } from 'src/components/Input/InputComp';
 import AsyncStorage from '@react-native-community/async-storage';
+import { TextInput } from 'react-native-gesture-handler';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -29,7 +30,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	const _handlePayCredit = async () => {
 		const userId = await AsyncStorage.getItem('userId')
 		const data = {
-			amount_payment,
+			amount_payment: convertNumber(amount_payment),
 			cashier: userId
 		}
 		try {
@@ -45,11 +46,12 @@ const TransactionDetailLunasi = ({ navigation }) => {
 			<View style={{ padding: 15, flex: 1 }}>
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<View style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
-						<FloatingInputLabelCurrency style={{ margin: 0 }}
-							value={amount_payment}
-							handleChangeText={(text) => setAmountPayment(text)}
-							label="Uang yang diterima"
-						/>
+						<FloatingInput style={{ margin: 0 }}>
+							<TextInput
+								value={amount_payment}
+								handleChangeText={(text) => setAmountPayment(text)}
+								label="Uang yang diterima" />
+						</FloatingInput>
 						<Text color="primary">{amount_payment - dataUtang.debt.remaining_debt >= 0 ? `Kembalian: ${convertRupiah(amount_payment - dataUtang.debt.remaining_debt)}` : null} </Text>
 						<View style={{ ...RowChild, marginTop: 20 }}>
 							<ToggleButtonMoney

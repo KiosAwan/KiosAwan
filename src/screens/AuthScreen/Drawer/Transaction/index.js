@@ -142,6 +142,8 @@ const TransactionList = ({ navigation }) => {
       wrapper: { padding: 15, backgroundColor: ColorsList.whiteColor, marginBottom: 5 }
     })
     return (
+      !reportHutang ? <Text>Belum ada</Text>
+      :
       <View style={{ padding: 15, flex: 1, backgroundColor: ColorsList.authBackground }}>
         <Wrapper style={styles.wrapper} justify="space-between">
           <Text>Jumlah Transaksi Hutang</Text>

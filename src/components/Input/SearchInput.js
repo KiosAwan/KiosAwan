@@ -21,7 +21,7 @@ const SearchInput = (props) => {
                 onChangeText={props.handleChangeInput}
                 value={props.search}
                 style={styles.textInput}
-                placeholder="Cari produk" />
+                placeholder={props.placeholder} />
             <Animatable.View duration={500} style={styles.deleteIcon} animation={isFocused ? "slideInRight" : 'bounceOutRight'}>
                 <TouchableOpacity onPress={props.handleDeleteSearch}>
                     <Image style={{ width: 50, height: 50 }} source={require('../../assets/icons/circlereject.png')} />

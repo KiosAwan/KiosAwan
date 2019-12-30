@@ -20,6 +20,7 @@ const Struk = ({ navigation }) => {
 
     const _getResponse = async () => {
         const { response } = await navigation.state.params
+        console.debug(response)
         setResponse(response)
     }
     const _handleSelesai = () => {
@@ -32,8 +33,8 @@ const Struk = ({ navigation }) => {
                     <LinearBackground
                         content={
                             <View>
-                                <Image style={{width : 300, height : 200}} source={require('../../assets/images/successtransaction.png')} />
-                                <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'white', fontSize: 20, textAlign : 'center' }}>Transaksi Berhasil !</Text>
+                                <Image style={{ width: 300, height: 200 }} source={require('../../assets/images/successtransaction.png')} />
+                                <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'white', fontSize: 20, textAlign: 'center' }}>Transaksi Berhasil !</Text>
                                 <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'white', fontSize: 16, textAlign: 'center' }}>{response.payment_code}</Text>
                             </View>
                         }
@@ -49,22 +50,22 @@ const Struk = ({ navigation }) => {
                             <RowOpposite
                                 title="Kembalian" content={convertRupiah(response.change_payment)} />
                         </View>
-                        
+
                         <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                        <View style={{ flexDirection: 'row', alignItems: "center" , justifyContent : "space-between", marginBottom : 10}}>
-                            <TouchableOpacity>
-                                <View style={[styles.wrapIconText]} >
-                                    <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="paper-plane" />
-                                    <Text style={styles.btnwithIconText}>Kirim Struk</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={[styles.wrapIconText]} >
-                                    <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="print" />
-                                    <Text style={styles.btnwithIconText}>Cetak Struk</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
+                            <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                                <TouchableOpacity>
+                                    <View style={[styles.wrapIconText]} >
+                                        <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="paper-plane" />
+                                        <Text style={styles.btnwithIconText}>Kirim Struk</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <View style={[styles.wrapIconText]} >
+                                        <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="print" />
+                                        <Text style={styles.btnwithIconText}>Cetak Struk</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                             <BottomButton
                                 onPressBtn={_handleSelesai}
                                 style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 30 }}
@@ -74,8 +75,6 @@ const Struk = ({ navigation }) => {
                     </View>
                 </View>
             }
-
-
         </View>
     )
 }
@@ -87,15 +86,15 @@ const styles = StyleSheet.create({
         ...RowChild,
         justifyContent: "space-between"
     },
-    wrapIconText : { 
-        borderRadius: 5, 
-        ...RowChild, 
-        padding: 8, 
-        width : (SizeList.width - 40)/2, 
-        borderWidth : 1, 
-        justifyContent : "center",
-        borderColor : ColorsList.primaryColor,
-        borderRadius : 5,
+    wrapIconText: {
+        borderRadius: 5,
+        ...RowChild,
+        padding: 8,
+        width: (SizeList.width - 40) / 2,
+        borderWidth: 1,
+        justifyContent: "center",
+        borderColor: ColorsList.primaryColor,
+        borderRadius: 5,
     },
     btnwithIconText: {
         ...FontList.titleFont,
