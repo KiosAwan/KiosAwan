@@ -17,7 +17,6 @@ const ForgotPINOTP = ({ navigation }) => {
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     let [countdown, setCountdown] = useState(59)
     useEffect(() => {
-        _sendOTP()
         setTimeout(() => {
             _formatPhoneNum()
             _firstRender()
@@ -70,11 +69,7 @@ const ForgotPINOTP = ({ navigation }) => {
             setIsResendDisabled(false)
         }, 60000)
         setIsResendDisabled(true)
-
-        const data = {
-            phone_number:  User.data.phone_number,
-        }
-        await sendOTPAuth(data)
+        _sendOTP()
     }
 
     const _handleOTPFulfilled = async (code) => {
