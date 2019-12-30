@@ -12,12 +12,14 @@ import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { changeUserPIN } from '../../../../utils/authhelper';
 import { ScrollView } from 'react-native-gesture-handler';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const ChangePINNewPIN = ({ navigation }) => {
     const [pin, setPin] = useState()
     const [confirmPin, setConfirmPin] = useState()
     const [old_pin, setOld_pin] = useState()
     const [modalVisible, setModalVisible] = useState(false)
+    const [loading, setLoading] = useState(false)
     const _handlePINFulfilled = (code) => {
         setPin(code)
     }
@@ -31,6 +33,7 @@ const ChangePINNewPIN = ({ navigation }) => {
         } else if (pin != confirmPin) {
             alert("Pin harus sama")
         } else {
+            setLoading(true)
             const id = await AsyncStorage.getItem('userId')
             const data = {
                 id,
@@ -38,6 +41,7 @@ const ChangePINNewPIN = ({ navigation }) => {
                 old_pin
             }
             const res = await changeUserPIN(data)
+            setLoading(false)
             if (res.status == 200) {
                 setModalVisible(true)
                 setTimeout(() => {
@@ -59,12 +63,14 @@ const ChangePINNewPIN = ({ navigation }) => {
                 onRequestClose={() => {
                     setModalVisible(!modalVisible);
                 }}
-            ><ModalContent
+            >
+                <ModalContent
                     image={require('../../../../assets/images/successchangepin.png')}
                     infoText="Anda Berhasil Mengubah PIN!"
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
+            <AwanPopup.Loading visible={loading} />
             <ScrollView style={{ flex: 1, marginBottom: 60 }} showsVerticalScrollIndicator={false}>
                 <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
                     <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan PIN Lama anda</Text>

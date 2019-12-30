@@ -10,13 +10,16 @@ import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { changeNewPhoneNumber } from '../../../../utils/authhelper'
 import { phoneValidation } from '../../../../utils/unauthhelper';
 import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 const MenuSettingUbahNoHP = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
 	const [newPhoneNum, setNewPhoneNum] = useState()
 	const [modalVisible, setModalVisible] = useState(false)
+	const [loading, setLoading] = useState(false)
 
 	const _nextBtn = async () => {
+		setLoading(true)
 		const a = phoneValidation(newPhoneNum[0] == 0 ? newPhoneNum.replace("0", "62") : newPhoneNum)
 		if (!a) {
 			alert("Mohon masukkan nomer telfon dengan format yang benar")
@@ -27,6 +30,7 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 				phone_number: newPhoneNum[0] == 0 ? newPhoneNum.replace("0", "62") : newPhoneNum
 			}
 			const res = await changeNewPhoneNumber(data)
+			setLoading(false)
 			if (res.status == 400) {
 				alert(res.data.errors.msg)
 			} else if (res.status == 200) {
@@ -58,6 +62,7 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 					closeModal={() => setModalVisible(false)}
 				/>
 			</Modal>
+			<AwanPopup.Loading visible={loading} />
 			<GlobalHeader title="Ubah No. HP" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 15, backgroundColor: 'white', margin: 30 }}>
 				<View>

@@ -16,6 +16,7 @@ import ModalContent from '../../../components/ModalContent/ModalContent';
 import { SelectBoxModal } from '../../../components/Picker/SelectBoxModal';
 import Wilayah from '../../../utils/wilayah';
 import { Icon } from 'native-base';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 
 const UpdateProfil = ({ navigation }) => {
@@ -70,12 +71,12 @@ const UpdateProfil = ({ navigation }) => {
 			setPhotoStore(image.path)
 		});
 	};
-
+	const [loading, setLoading] = useState(false)
 	const _handleSaveProfile = async () => {
 		if (desa.selected == "" || kecamatan.selected == "" || kabupaten.selected == "" || provinsi.selected == "") {
 			alert("Harap pilih daerah toko")
-		}
-		else {
+		} else {
+			setLoading(true)
 			const id_user = await AsyncStorage.getItem('userId')
 			const formData = new FormData()
 			let final_address = `${address_store}%${desa.selected.nama}%${kecamatan.selected.nama}%${kabupaten.selected.nama}%${provinsi.selected.nama}`
@@ -92,6 +93,7 @@ const UpdateProfil = ({ navigation }) => {
 			if (res.status == 400) {
 				alert(res.data.errors.msg)
 			} else {
+				setLoading(false)
 				setModalVisible(true)
 				setTimeout(() => {
 					setModalVisible(false)
@@ -149,6 +151,7 @@ const UpdateProfil = ({ navigation }) => {
 					closeModal={() => setModalVisible(false)}
 				/>
 			</Modal>
+			<AwanPopup.Loading visible={loading} />
 			<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>

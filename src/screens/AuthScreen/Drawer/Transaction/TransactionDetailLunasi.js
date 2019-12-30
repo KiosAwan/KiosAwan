@@ -6,7 +6,6 @@ import { ColorsList } from 'src/styles/colors';
 import { Button, Wrapper, Bottom } from 'src/components/Button/ButtonComp';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
-import { ImageText } from 'src/components/Card/CardComp';
 import { convertRupiah, getNearestFifty, payCredit } from 'src/utils/authhelper';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { RowChild } from 'src/components/Helper/RowChild';

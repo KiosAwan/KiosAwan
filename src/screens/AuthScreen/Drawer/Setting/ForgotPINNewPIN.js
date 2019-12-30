@@ -11,11 +11,13 @@ import { FontList } from '../../../../styles/typography';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { createUserPIN } from '../../../../utils/authhelper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const ForgotPINNewPIN = ({ navigation }) => {
     const [pin, setPin] = useState()
     const [confirmPin, setConfirmPin] = useState()
-    const [ modalVisible , setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
+    const [loading, setLoading] = useState(false)
     const _handlePINFulfilled = (code) => {
         setPin(code)
     }
@@ -24,18 +26,20 @@ const ForgotPINNewPIN = ({ navigation }) => {
     }
 
     const _handleSavePIN = async () => {
-        if (!pin|| !confirmPin) {
+        if (!pin || !confirmPin) {
             alert("Pin harus 6 digit")
         } else if (pin != confirmPin) {
             alert("Pin harus sama")
         } else {
-            setModalVisible(true)
+            setLoading(true)
             const id = await AsyncStorage.getItem('userId')
             const data = {
                 id,
                 pin
             }
             await createUserPIN(data)
+            setLoading(false)
+            setModalVisible(true)
             setTimeout(() => {
                 setModalVisible(false)
                 navigation.navigate('/drawer/settings')
@@ -43,22 +47,24 @@ const ForgotPINNewPIN = ({ navigation }) => {
         }
     }
     return (
-        <View style={{ flex: 1, alignItems: "center", backgroundColor : ColorsList.authBackground }}>
+        <View style={{ flex: 1, alignItems: "center", backgroundColor: ColorsList.authBackground }}>
             <GlobalHeader title="Lupa PIN" onPressBack={() => navigation.goBack()} />
             <Modal
-				animationType="fade"
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			><ModalContent
-            image={require('../../../../assets/images/createpinsuccess.png')}
-            infoText="Anda Berhasil Membuat PIN Baru!"
-            closeModal={() => setModalVisible(false)}
-            />
-			</Modal>
-            <View style={{ margin: 20, height: 100, alignItems: "center",backgroundColor : 'white', padding : 15,paddingHorizontal : 25, borderRadius : 5  }}>
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <ModalContent
+                    image={require('../../../../assets/images/createpinsuccess.png')}
+                    infoText="Anda Berhasil Membuat PIN Baru!"
+                    closeModal={() => setModalVisible(false)}
+                />
+            </Modal>
+            <AwanPopup.Loading visible={loading} />
+            <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
                 <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN Baru</Text>
                 <CodeInput
                     secureTextEntry
@@ -72,7 +78,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
                     onFulfill={(code) => _handlePINFulfilled(code)}
                 />
             </View>
-            <View style={{  margin: 20, height: 100, alignItems: "center",backgroundColor : 'white', padding : 15,paddingHorizontal : 25, borderRadius : 5  }}>
+            <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
                 <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kembali PIN anda</Text>
                 <CodeInput
                     secureTextEntry
