@@ -12,7 +12,7 @@ import { FloatingInput } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
 import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { convertRupiah } from 'src/utils/authhelper';
+import { convertRupiah, getReportHutang } from 'src/utils/authhelper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const initialLayout = { width: 300, height: 300 };
@@ -22,8 +22,13 @@ const TransactionList = ({ navigation }) => {
   const dispatch = useDispatch()
   const DataTransaksi = useSelector(state => state.Transaction)
   const User = useSelector(state => state.User)
+  const [reportHutang, setReportHutang] = useState({})
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
+  const _reportHutang = async () => {
+    const res = await getReportHutang(User.store.id_store)
+    setReportHutang(res.data)
+  }
   const iconImage = {
     '3': {
       image: require('src/assets/icons/round-return.png'),
@@ -48,6 +53,7 @@ const TransactionList = ({ navigation }) => {
   }
   useEffect(() => {
     dispatch(getTransactionList(User.store.id_store))
+    _reportHutang()
   }, [])
 
   const DaftarTransaksi = props => {
@@ -139,19 +145,19 @@ const TransactionList = ({ navigation }) => {
       <View style={{ padding: 15, flex: 1, backgroundColor: ColorsList.authBackground }}>
         <Wrapper style={styles.wrapper} justify="space-between">
           <Text>Jumlah Transaksi Hutang</Text>
-          <Text font="ExtraBold" color="primary">Rp. 700.000</Text>
+          <Text font="ExtraBold" color="primary">{convertRupiah(reportHutang.jumlah_hutang)}</Text>
         </Wrapper>
         <Wrapper style={styles.wrapper} justify="space-between">
           <Text>Jumlah Pelanggan</Text>
-          <Text font="ExtraBold" color="primary">50</Text>
+          <Text font="ExtraBold" color="primary">{reportHutang.jumlah_pelanggan}</Text>
         </Wrapper>
         <Wrapper style={styles.wrapper} justify="space-between">
           <Text>Transaksi Jatuh Tempo</Text>
-          <Text font="ExtraBold" color="primary">50</Text>
+          <Text font="ExtraBold" color="primary">{reportHutang.trx_jatuh_tempo}</Text>
         </Wrapper>
         <Wrapper style={styles.wrapper} justify="space-between">
           <Text>Transaksi Belum Lunas</Text>
-          <Text font="ExtraBold" color="primary">50</Text>
+          <Text font="ExtraBold" color="primary">{reportHutang.trx_belum_lunas}</Text>
         </Wrapper>
         <Bottom>
           <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>

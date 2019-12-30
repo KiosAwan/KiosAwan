@@ -91,6 +91,11 @@ export const getTransactionData = async id_store => {
   return res.data
 }
 
+export const getReportHutang = async id_store => {
+  const res = await axios.get(`${HOST_URL}/report_hutang/${id_store}`)
+  return res.data
+}
+
 export const getReportCategory = async id_store => {
   const res = await axios.get(`${HOST_URL}/report_category/${id_store}`)
   return res.data

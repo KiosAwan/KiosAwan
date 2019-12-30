@@ -15,6 +15,7 @@ import Piutang from './Cashier/Payment/Piutang';
 import { removeAllCart, getProduct, AddCashPayment, AddCustomer } from '../../redux/actions/actionsStoreProduct';
 import { getTransactionList } from '../../redux/actions/actionsTransactionList';
 import AsyncStorage from '@react-native-community/async-storage'
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const FirstRoute = () => (
     <CashPayment />
@@ -28,6 +29,7 @@ const ThirdRoute = () => (
 
 class CheckOut extends React.Component {
     state = {
+        loadingVisible: false,
         index: 0,
         routes: [
             { key: 'first', title: 'TUNAI' },
@@ -37,6 +39,7 @@ class CheckOut extends React.Component {
     };
 
     _handleBayar = () => {
+        this.setState({ loadingVisible: true })
         if (this.state.index == 0) {
             this._handlePayCash()
         } else if (this.state.index == 2) {
@@ -52,7 +55,7 @@ class CheckOut extends React.Component {
                 let a = {
                     id: item.id_product,
                     qty: item.quantity,
-                    discount : item.discount_total
+                    discount: item.discount_total
                 }
                 cart.push(a)
             } else {
@@ -61,7 +64,7 @@ class CheckOut extends React.Component {
                     qty: item.quantity,
                     priceIn: item.price_in_product,
                     priceOut: item.price_out_product,
-                    discount : item.discount_total
+                    discount: item.discount_total
                 }
                 cart.push(a)
             }
@@ -77,6 +80,7 @@ class CheckOut extends React.Component {
             // discount_transaction : Product.total_diskon
         }
         const res = await sendNewTransaction(data)
+        this.setState({ loadingVisible: false })
         if (res.status == 400) {
             alert(res.data.errors.msg)
         } else {
@@ -85,61 +89,61 @@ class CheckOut extends React.Component {
             this.props.AddCustomer(null)
             this.props.getProduct(this.props.User.store.id_store)
             this.props.getTransactionList(this.props.User.store.id_store)
-            this.props.navigation.navigate('/cashier/struk', { response : res.data})
+            this.props.navigation.navigate('/cashier/struk', { response: res.data })
         }
-
     }
 
     _handlePayCredit = async () => {
         const userId = await AsyncStorage.getItem('userId')
         const Product = this.props.Product
-        if(Product.due_debt_date){
-        let cart = []
-        Product.belanja.map(item => {
-            if (item.id_product > 0) {
-                let a = {
-                    id: item.id_product,
-                    qty: item.quantity,
-                    discount : item.discount_total
+        if (Product.due_debt_date) {
+            let cart = []
+            Product.belanja.map(item => {
+                if (item.id_product > 0) {
+                    let a = {
+                        id: item.id_product,
+                        qty: item.quantity,
+                        discount: item.discount_total
+                    }
+                    cart.push(a)
+                } else {
+                    let a = {
+                        name_product: item.name_product,
+                        qty: item.quantity,
+                        priceIn: item.price_in_product,
+                        priceOut: item.price_out_product,
+                        discount: item.discount_total
+                    }
+                    cart.push(a)
                 }
-                cart.push(a)
-            } else {
-                let a = {
-                    name_product: item.name_product,
-                    qty: item.quantity,
-                    priceIn: item.price_in_product,
-                    priceOut: item.price_out_product,
-                    discount : item.discount_total
-                }
-                cart.push(a)
+            })
+            const data = {
+                cashier: userId,
+                amount_payment: convertNumber(Product.cash_payment),
+                id_payment_type: 3,
+                product_cart: cart,
+                customer: Product.customer.id_customer,
+                id_store: this.props.User.store.id_store,
+                due_debt_date: formatToDate(Product.due_debt_date),
+                // discount_name : Product.discount_name,
+                // discount_transaction : Product.total_diskon
             }
-        })
-        console.debug(cart)
-        const data = {
-            cashier: userId,
-            amount_payment: convertNumber(Product.cash_payment),
-            id_payment_type: 3,
-            product_cart: cart,
-            customer: Product.customer.id_customer,
-            id_store: this.props.User.store.id_store,
-            due_debt_date: formatToDate(Product.due_debt_date),
-            // discount_name : Product.discount_name,
-            // discount_transaction : Product.total_diskon
-        }
-        const res = await sendNewTransaction(data)
-        if (res.status == 400) {
-            alert(res.data.errors.msg)
+            const res = await sendNewTransaction(data)
+            this.setState({ loadingVisible: false })
+            if (res.status == 400) {
+                alert(res.data.errors.msg)
+            } else {
+                this.props.removeAllCart()
+                this.props.AddCashPayment(0)
+                this.props.AddCustomer(null)
+                this.props.getProduct(this.props.User.store.id_store)
+                this.props.getTransactionList(this.props.User.store.id_store)
+                this.props.navigation.navigate('/cashier/struk', { response: res.data })
+            }
         } else {
-            this.props.removeAllCart()
-            this.props.AddCashPayment(0)
-            this.props.AddCustomer(null)
-            this.props.getProduct(this.props.User.store.id_store)
-            this.props.getTransactionList(this.props.User.store.id_store)
-            this.props.navigation.navigate('/cashier/struk', { response : res.data})
+            this.setState({ loadingVisible: false })
+            alert("Tanggal tidak boleh kosong")
         }
-    }else {
-        alert("Tanggal tidak boleh kosong")
-    }
 
     }
 
@@ -173,6 +177,7 @@ class CheckOut extends React.Component {
         return (
             <View style={{ flex: 1 }}>
                 <GlobalHeader title="Pembayaran" onPressBack={() => this.props.navigation.goBack()} />
+                <AwanPopup.Loading visible={this.state.loadingVisible} />
                 <View style={styles.childContainer}>
                     <View style={styles.infoTotalContainer}>
                         <View style={{ margin: 20 }}>

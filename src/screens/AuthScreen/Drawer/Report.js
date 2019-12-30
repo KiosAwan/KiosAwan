@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import { StyleSheet, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
