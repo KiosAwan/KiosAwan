@@ -76,8 +76,8 @@ class CheckOut extends React.Component {
             product_cart: cart,
             customer: Product.customer ? Product.customer.id_customer : null,
             id_store: this.props.User.store.id_store,
-            // discount_name : Product.discount_name,
-            // discount_transaction : Product.total_diskon
+            discount_name : Product.discount_name,
+            discount_transaction : Product.discount_transaction
         }
         const res = await sendNewTransaction(data)
         this.setState({ loadingVisible: false })
@@ -125,8 +125,8 @@ class CheckOut extends React.Component {
                 customer: Product.customer.id_customer,
                 id_store: this.props.User.store.id_store,
                 due_debt_date: formatToDate(Product.due_debt_date),
-                // discount_name : Product.discount_name,
-                // discount_transaction : Product.total_diskon
+                discount_name : Product.discount_name,
+                discount_transaction : Product.discount_transaction
             }
             const res = await sendNewTransaction(data)
             this.setState({ loadingVisible: false })
