@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
-import {addDiscountProductPersen, AddDiscountName, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah,addDiscountProductRupiah } from '../../redux/actions/actionsStoreProduct';
+import { addDiscountProductPersen, AddDiscountName, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount } from '../../redux/actions/actionsStoreProduct';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader } from '../../components/Header/Header';
 import { WrapperItem, PilihPelanggan, MyModal, ToggleButton, ToggleButtonMoney } from '../../components/Picker/SelectBoxModal';
 import { Icon, Item, CardItem, Grid, Col, Input, Button } from 'native-base';
-import { FloatingInputLabel } from '../../components/Input/InputComp';
+import { FloatingInputLabel, FloatingInput } from '../../components/Input/InputComp';
 import { FontList } from '../../styles/typography';
 import { RowChild } from '../../components/Helper/RowChild';
 import SwitchButton from '../../components/Button/SwitchButton';
@@ -26,34 +26,48 @@ const Cart = ({ navigation }) => {
 	const [pilihPelangganOpen, setPilihPelangganOpen] = useState(false)
 	const [editPesananOpen, setEditPesananOpen] = useState(false)
 	const [pesanan, setPesanan] = useState({})
+	const [toggle, setToggle] = useState(0)
+	const [discount_type, setDiscountType] = useState(0)
 
-	const [toggle , setToggle] = useState(0)
-	const [diskon, setDiskon] = useState(false)
-	const _handleNextBtn = async () => {
-		await dispatch(getCustomer(User.store.id_store))
-		navigation.navigate('/cashier/check-out')
-	}
 	const _editPesanan = (index, item) => {
 		setEditPesananOpen(true);
 		setPesanan(item)
 	}
 
 	const _handleChangeToggle = () => {
-		setDiskon(!diskon)
+		dispatch(changeTransactionDiscount())
+		dispatch(AddDiscountPersen(0))
+		dispatch(AddDiscountRupiah(0))
 	}
 
 	const _handleChangeDiscountItem = (text) => {
-		if(toggle == 0){
-			if(text > 0 && text < (parseInt(pesanan.price_out_product)* parseInt(pesanan.quantity))){
-				dispatch(addDiscountProductRupiah({item : pesanan, besar_diskon: text}))
-			}else {
-				dispatch(addDiscountProductRupiah({item : pesanan, besar_diskon: ''}))
+		if (toggle == 0) {
+			if (text > 0 && text < (parseInt(pesanan.price_out_product) * parseInt(pesanan.quantity))) {
+				dispatch(addDiscountProductRupiah({ item: pesanan, besar_diskon: text }))
+			} else {
+				dispatch(addDiscountProductRupiah({ item: pesanan, besar_diskon: '' }))
 			}
-		}else{
-			if(text > 0 && text < 100){
-				dispatch(addDiscountProductPersen({item : pesanan, besar_diskon: text}))
-			}else {
-				dispatch(addDiscountProductPersen({item : pesanan, besar_diskon: ''}))
+		} else {
+			if (text > 0 && text < 100) {
+				dispatch(addDiscountProductPersen({ item: pesanan, besar_diskon: text }))
+			} else {
+				dispatch(addDiscountProductPersen({ item: pesanan, besar_diskon: '' }))
+			}
+		}
+	}
+
+	const _handleChangeDiskonValue = (num) => {
+		if (discount_type == 1) {
+			if (num < 100 && num > 0) {
+				dispatch(AddDiscountPersen(num))
+			} else {
+				dispatch(AddDiscountPersen(''))
+			}
+		} else {
+			if (num > 0 && num < (Product.total - Product.total_diskon)) {
+				dispatch(AddDiscountRupiah(num))
+			} else {
+				dispatch(AddDiscountRupiah(''))
 			}
 		}
 	}
@@ -79,9 +93,9 @@ const Cart = ({ navigation }) => {
 							<CardItem>
 								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
 									<View style={{ width: width - 100 - 150 }}>
-										<FloatingInputLabel 
-										handleChangeText={_handleChangeDiscountItem}
-										label="Diskon" value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
+										<FloatingInputLabel
+											handleChangeText={_handleChangeDiscountItem}
+											label="Diskon" value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
 
 									</View>
 								} right={
@@ -162,8 +176,8 @@ const Cart = ({ navigation }) => {
 									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
 										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.name_product}</Text>,
 										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>,
-										data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen+ "%"}</Text>
-										
+										data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen + "%"}</Text>
+
 									]} right={[
 										<Icon onPress={() => _editPesanan(i, data)} style={{ color: ColorsList.primaryColor }} name="create" />,
 										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product * data.quantity)}</Text>,
@@ -177,12 +191,12 @@ const Cart = ({ navigation }) => {
 						]} right={
 							<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(Product.total)}</Text>
 						} />
-						{Product.total_diskon == 0 ? null : 
-						<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-							<Text style={{ ...FontList.subtitleFontGreyBold }}>Total diskon</Text>,
-						]} right={
-							<Text style={{ ...FontList.subtitleFontGreyBold, color : ColorsList.danger }}>- {convertRupiah(Product.total_diskon)}</Text>
-						} />}
+						{Product.total_diskon == 0 ? null :
+							<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+								<Text style={{ ...FontList.subtitleFontGreyBold }}>Total diskon</Text>,
+							]} right={
+								<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>- {convertRupiah(Product.total_diskon)}</Text>
+							} />}
 						<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
 							<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
 						]} right={
@@ -204,10 +218,10 @@ const Cart = ({ navigation }) => {
 							<Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Diskon</Text>
 							<SwitchButton
 								handleChangeToggle={_handleChangeToggle}
-								toggleValue={diskon}
+								toggleValue={Product.discount_on}
 							/>
 						</View>
-						{diskon ?
+						{Product.discount_on ?
 							<View>
 								<View style={{ height: 1, backgroundColor: "#e0dada" }} />
 								<View style={styles.wrapInputHarga}>
@@ -216,16 +230,25 @@ const Cart = ({ navigation }) => {
 										value={Product.discount_name}
 										handleChangeText={text => dispatch(AddDiscountName(text))}
 									/>
-									<FloatingInputLabel
-										label="Jumlah diskon"
-										keyboardType="numeric"
-										value={Product.discount_total_rupiah.toString()}
-										handleChangeText={(text) => {
-											if (Product.total - text >= 0) {
-												dispatch(AddDiscountRupiah(text))
-											}
-										}}
-									/>
+									<View style={{ marginTop: 10 }}>
+										<FloatingInput label="Diskon">
+											<TextInput value={discount_type == 0 ? Product.discount_total_rupiah.toString() : Product.discount_total_persen.toString() }
+												style={{ width: '80%' }}
+												keyboardType="number-pad"
+												onChangeText={_handleChangeDiskonValue}
+											/>
+											<View style={{ width: '20%' }}>
+												<ToggleButton
+													buttons={["Rp", "%"]}
+													changeToggle={(i) => {
+														setDiscountType(i)
+														dispatch(AddDiscountRupiah(0))
+														dispatch(AddDiscountPersen(0))
+													}}
+												/>
+											</View>
+										</FloatingInput>
+									</View>
 								</View>
 							</View>
 							: null}

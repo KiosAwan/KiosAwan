@@ -4,6 +4,7 @@ const initialState = {
     isLoading: true,
     total: 0,
     total_diskon: 0,
+    discount_transaction: 0,
     belanja: [],
     jumlahitem: 0,
     cash_payment: 0,
@@ -12,7 +13,8 @@ const initialState = {
     discount_total_persen: 0,
     discount_total_rupiah: 0,
     discount_name: '',
-    catatan_pembelian: ''
+    catatan_pembelian: '',
+    discount_on: false
 }
 
 const reducerStoreProduct = (state = initialState, actions) => {
@@ -34,6 +36,11 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 ...state,
                 isError: true,
                 isLoading: false
+            };
+        case "CHANGE_DISCOUNT_ON":
+            return {
+                ...state,
+                discount_on: !state.discount_on
             };
         case "ADD_BY_BAROCDE":
             let barcode = actions.payload
@@ -91,7 +98,13 @@ const reducerStoreProduct = (state = initialState, actions) => {
             const itemDimaksud = state.belanja.find(item => product_data.id_product === item.id_product)
             const temp_item_quantity = itemDimaksud.quantity
             const temp_discount_total = itemDimaksud.discount_total
+            let manual_trx_discount = 0
+            if (state.discount_total_persen > 0) {
+                manual_trx_discount = (parseInt(state.discount_total_persen) / 100) * parseInt(itemDimaksud.price_out_product) * parseInt(product_data.quantity - temp_item_quantity)
+                state.discount_transaction += manual_trx_discount
+            }
             itemDimaksud.quantity = product_data.quantity
+
             if (!itemDimaksud.discount_rupiah) {
                 itemDimaksud.total = itemDimaksud.price_out_product * parseInt(itemDimaksud.quantity)
                 let newTotalBaru = state.total + itemDimaksud.total - (temp_item_quantity * itemDimaksud.price_out_product)
@@ -99,7 +112,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 return {
                     ...state,
                     total: newTotalBaru,
-                    total_diskon: state.total_diskon + parseInt(itemDimaksud.discount_persen) / 100 * parseInt(itemDimaksud.quantity) * parseInt(itemDimaksud.price_out_product) - parseInt(temp_discount_total),
+                    total_diskon: state.total_diskon + parseInt(itemDimaksud.discount_persen) / 100 * parseInt(itemDimaksud.quantity) * parseInt(itemDimaksud.price_out_product) - parseInt(temp_discount_total) +  parseInt(manual_trx_discount),
                     belanja: [...state.belanja]
                 }
             }
@@ -111,6 +124,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                     ...state,
                     total: state.total + itemDimaksud.total - parseInt(itemDimaksud.price_out_product) * parseInt(temp_item_quantity),
                     belanja: [...state.belanja],
+                    total_diskon: state.total_diskon + parseInt(manual_trx_discount),
                     jumlahitem: state.jumlahitem + parseInt(itemDimaksud.quantity) - temp_item_quantity
                 }
             }
@@ -163,26 +177,23 @@ const reducerStoreProduct = (state = initialState, actions) => {
             }
         case "ADD_DISCOUNT_PERSEN":
             const persenDisc = actions.payload
-            if (persenDisc == "" || persenDisc == null) {
-                return {
-                    ...state,
-                    discount_total_persen: null
-                }
-            } else {
-                return {
-                    ...state,
-                    total_diskon: parseInt(persenDisc) / 100 * state.total,
-                    discount_total_persen: persenDisc,
-                    discount_total_rupiah: 0
-                }
+            const temp_tex_persen_disc = state.discount_transaction
+            return {
+                ...state,
+                discount_transaction: parseInt(persenDisc == "" ? 0 : persenDisc / 100 * state.total),
+                total_diskon: state.total_diskon + (persenDisc == "" ? 0 : persenDisc / 100 * state.total) - parseInt(temp_tex_persen_disc),
+                discount_total_persen: persenDisc == "" ? 0 : persenDisc,
+                discount_total_rupiah: 0
             }
         case "ADD_DISCOUNT_RUPIAH":
             const rupiahDisc = actions.payload
+            const temp_trx_disc = state.discount_transaction
             return {
                 ...state,
-                total_diskon: rupiahDisc,
+                discount_transaction: rupiahDisc == "" ? 0 : rupiahDisc,
                 discount_total_persen: 0,
-                discount_total_rupiah: rupiahDisc
+                discount_total_rupiah: rupiahDisc == "" ? 0 : rupiahDisc,
+                total_diskon: state.total_diskon + (parseInt(rupiahDisc == "" ? 0 : rupiahDisc)) - parseInt(temp_trx_disc)
             }
         case "ADD_DISCOUNT_NAME":
             const name = actions.payload
@@ -196,12 +207,17 @@ const reducerStoreProduct = (state = initialState, actions) => {
             if (itemMauDitambah) {
                 itemMauDitambah.quantity++
                 state.jumlahitem++
+                let plus_trx_discount = 0
+                if (state.discount_total_persen > 0) {
+                    plus_trx_discount = (parseInt(state.discount_total_persen) / 100) * parseInt(itemTambah.price_out_product)
+                    state.discount_transaction += plus_trx_discount
+                }
                 if (!itemMauDitambah.discount_rupiah) {
                     itemMauDitambah.discount_total += parseInt(itemMauDitambah.discount_persen) / 100 * parseInt(itemMauDitambah.price_out_product)
                     return {
                         ...state,
                         total: state.total + parseInt(itemMauDitambah.price_out_product),
-                        total_diskon: state.total_diskon + parseInt(itemMauDitambah.discount_persen) / 100 * parseInt(itemMauDitambah.price_out_product),
+                        total_diskon: state.total_diskon + plus_trx_discount + parseInt(itemMauDitambah.discount_persen) / 100 * parseInt(itemMauDitambah.price_out_product),
                         belanja: [...state.belanja]
                     }
                 }
@@ -223,11 +239,17 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 itemTambah.discount_total = 0
                 itemTambah.total = itemTambah.price_out_product
                 state.jumlahitem++
+                let plus_trx_discount = 0
+                if (state.discount_total_persen > 0) {
+                    plus_trx_discount = (parseInt(state.discount_total_persen) / 100) * parseInt(itemTambah.price_out_product)
+                    state.discount_transaction += plus_trx_discount
+                }
                 let newTotal = state.total + parseInt(itemTambah.price_out_product)
                 return {
                     ...state,
                     total: newTotal,
                     belanja: [...state.belanja, itemTambah],
+                    total_diskon: state.total_diskon + plus_trx_discount
                 }
             }
         case "ADD_DISCOUNT_PRODUCT_RUPIAH":
@@ -268,6 +290,11 @@ const reducerStoreProduct = (state = initialState, actions) => {
                     itemMauDikurang.total -= itemMauDikurang.price_out_product
                     itemMauDikurang.quantity--
                     state.jumlahitem--
+                    let minus_trx_discount = 0
+                    if (state.discount_total_persen > 0) {
+                        minus_trx_discount = (parseInt(state.discount_total_persen) / 100) * parseInt(itemMauDikurang.price_out_product)
+                        state.discount_transaction -= minus_trx_discount
+                    }
                     if (!itemMauDikurang.discount_rupiah) {
                         itemMauDikurang.discount_total -= parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product)
                         if (itemMauDikurang.quantity == 0) {
@@ -275,7 +302,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                             return {
                                 ...state,
                                 total: state.total - parseInt(itemMauDikurang.price_out_product),
-                                total_diskon: state.total_diskon - parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product),
+                                total_diskon: state.total_diskon - parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product) - minus_trx_discount,
                                 belanja: a
                             }
                         }
@@ -283,7 +310,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                             return {
                                 ...state,
                                 total: state.total - parseInt(itemMauDikurang.price_out_product),
-                                total_diskon: state.total_diskon - parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product),
+                                total_diskon: state.total_diskon - parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product) - minus_trx_discount,
                             }
                         }
                     }

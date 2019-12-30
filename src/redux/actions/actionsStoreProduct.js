@@ -128,4 +128,10 @@ export const addDiscountProductPersen = (item) => {
   }
 }
 
+export const changeTransactionDiscount = () => {
+  return {
+    type: "CHANGE_DISCOUNT_ON",
+  }
+}
+
 
