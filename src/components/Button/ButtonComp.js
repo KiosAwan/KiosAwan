@@ -108,7 +108,7 @@ export const BottomButton = (props) => {
 			style={[{ width: width - 30, justifyContent: "center", backgroundColor: 'transparent', borderRadius: 5 }, props.style]}
 		>
 			{props.content ? props.content :
-				<Text style={[props.disabled ? { color: 'grey' } : { color: 'white' }, props.textStyle]}>{props.buttonTitle}</Text>
+				<Text style={[props.disabled ? { color: '#cd0192' } : { color: 'white' }, props.textStyle]}>{props.buttonTitle}</Text>
 			}
 		</ButtonNB>
 	)

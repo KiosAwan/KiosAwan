@@ -200,6 +200,9 @@ const Cart = ({ navigation }) => {
 						<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
 							<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
 						]} right={
+							Product.total - Product.total_diskon < 0 ?
+							<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>- {convertRupiah(Product.total - Product.total_diskon)}</Text>
+							:
 							<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(Product.total - Product.total_diskon)}</Text>
 						} />
 					</View>

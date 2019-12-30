@@ -8,6 +8,7 @@ import { ColorsList } from '../../../../styles/colors';
 import { FontList } from '../../../../styles/typography';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { sendCodeToEmail } from '../../../../utils/authhelper';
+import { showPhoneNumber } from 'src/utils/unauthhelper';
 const UbahNoHPInfoScreen = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const _nextBtn = async () => {
@@ -24,7 +25,7 @@ const UbahNoHPInfoScreen = ({ navigation }) => {
             <View style={{ padding: 30 }}>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
                     <FloatingInput label="No HP Anda">
-                        <TextInput value={User.data.phone_number}
+                        <TextInput value={`62-${showPhoneNumber(User.data.phone_number.slice(2,User.data.length))}`}
                             editable={false}
                         />
                         <Image style={{ width: 30, height: 30 }} source={require('../../../../assets/icons/successcheck.png')} />
