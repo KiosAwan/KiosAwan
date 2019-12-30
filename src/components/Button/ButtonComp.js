@@ -50,19 +50,37 @@ export const Button = props => {
 	}
 	return <TouchableOpacity {...props} style={[{
 		padding: props.padding || 10,
-		borderWidth: 2,
+		borderWidth: 1,
 		justifyContent: 'center',
 		borderRadius: 5,
 		width: props.width || undefined
 	}, _color, props.style]}>
 		{
-			typeof props.children === 'string' ? <Text font="ExtraBold" {...props.textProps} style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]}>{props.children}</Text> : props.children
+			typeof props.children === 'string' ?
+				<Text font="ExtraBold" {...props.textProps}
+					style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]}>
+					{props.children}
+				</Text>
+				:
+				<Wrapper>
+					{props.children.length > 0 ?
+						props.children.map((child, i) => {
+							return <View key={i} style={{ marginRight: 5, justifyContent: 'center' }}>{child}</View>
+						})
+						:
+						props.children
+					}
+				</Wrapper>
 		}
 	</TouchableOpacity>
 }
 
 export const Wrapper = props => {
-	return <View style={[{ flexDirection: props.direction || 'row', justifyContent: props.justify || 'space-around' }, props.style]}>{props.children}</View>
+	return <View style={[{ flexDirection: props.direction || 'row', justifyContent: props.justify || 'space-around' }, props.style]}>
+		{
+			props.children
+		}
+	</View>
 }
 
 export const Bottom = props => {

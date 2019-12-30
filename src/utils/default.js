@@ -34,6 +34,9 @@ Array.prototype.loopCallback = function (callback, reverse, index) {
 }
 String.prototype.generateInitial = function(){
   var name = this.split(' ');
+  if (this.length == 3){
+    return this.toUpperCase()
+  }
   if (name.length > 1){
     return name[0][0].toUpperCase() + name[1][0].toUpperCase()
   }

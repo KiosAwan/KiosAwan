@@ -1,19 +1,13 @@
 import React from 'react'
-import {
-    View,
-    Image,
-    StyleSheet,
-    Dimensions
-} from 'react-native'
-import {
-    Header,
-    Body
-} from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
+import { View, Image, StyleSheet, Dimensions } from 'react-native'
+import { Header } from 'native-base'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { InputSimple } from '../Input/InputComp'
 import { Text } from '../Text/CustomText'
+import { Wrapper, Button } from '../Button/ButtonComp'
+import BarStatus from '../BarStatus';
 
 
 const width = Dimensions.get('window').width
@@ -26,23 +20,42 @@ export const HeaderRegister = (props) => {
     )
 }
 
+export const HomeHeader = props => {
+    return [
+        <BarStatus />,
+        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: 80 }}>
+            <Wrapper justify="space-between" style={{ padding: 15, paddingTop: 0 }}>
+                <View style={{ justifyContent: 'center' }}>
+                    <TouchableOpacity onPress={props.onPressMenu}>
+                        <Icon color="white" size={20} name="bars" />
+                    </TouchableOpacity>
+                </View>
+                <Image style={{ width: 150, height: 80 }} source={require('src/assets/images/logo.png')} />
+                <View style={{ justifyContent: 'center' }}>
+                    <TouchableOpacity>
+                        <Icon color="white" size={20} name="bell" />
+                    </TouchableOpacity>
+                </View>
+            </Wrapper>
+        </LinearGradient>
+    ]
+}
 
 export const GlobalHeader = (props) => {
     return (
-        <Header androidStatusBarColor="#cd0192">
-            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
-                <TouchableOpacity onPress={props.onPressBack}>
-                    <View style={{ alignItems: 'center', width: width / 9 }}>
-                        <Icon name="arrow-left"
-                            size={20}
-                            color="white"
-                        />
-                    </View>
-                </TouchableOpacity>
-                <View style={{ width: width * 5 / 9, justifyContent: 'flex-start' }}>
-                    <Text style={{ color: 'white' }}>{props.title}</Text>
-                </View>
-                <View style={{ width: width / 9 }}></View>
+        <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%' }}>
+                <Wrapper justify="space-between" style={{ height: '100%' }}>
+                    <Wrapper>
+                        <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                            <Icon name="arrow-left" size={20} color="white" />
+                        </Button>
+                        <View style={{ justifyContent: 'center' }}>
+                            <Text color="whiteColor">{props.title}</Text>
+                        </View>
+                    </Wrapper>
+                    <View></View>
+                </Wrapper>
             </LinearGradient>
         </Header>
     )
@@ -50,20 +63,23 @@ export const GlobalHeader = (props) => {
 
 export const GlobalHeaderWithIcon = (props) => {
     return (
-        <Header androidStatusBarColor="#cd0192">
-            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
-                <TouchableOpacity onPress={props.onPressBack} style={{ alignItems: 'center', width: width / 9 }}>
-                    <Icon name="arrow-left"
-                        size={20}
-                        color="white"
-                    />
-                </TouchableOpacity>
-                <View style={{ width: width * 5 / 9, justifyContent: 'flex-start' }}>
-                    <Text style={{ color: 'white' }}>{props.title}</Text>
-                </View>
-                <TouchableOpacity onPress={props.handleDeleteCategory} style={{ width: width / 9, justifyContent: "center", alignItems: "center" }}>
-                    <Image style={{ width: 30, height: 30 }} source={props.image} />
-                </TouchableOpacity>
+        <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%' }}>
+                <Wrapper justify="space-between" style={{ height: '100%' }}>
+                    <Wrapper>
+                        <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                            <Icon name="arrow-left" size={20} color="white" />
+                        </Button>
+                        <View style={{ justifyContent: 'center' }}>
+                            <Text color="whiteColor">{props.title}</Text>
+                        </View>
+                    </Wrapper>
+                    <View style={{ justifyContent: 'center', paddingRight: 15 }}>
+                        <TouchableOpacity onPress={props.onPressMenu}>
+                            <Image style={{ width: 30, height: 30 }} source={props.image} />
+                        </TouchableOpacity>
+                    </View>
+                </Wrapper>
             </LinearGradient>
         </Header>
     )
@@ -71,34 +87,21 @@ export const GlobalHeaderWithIcon = (props) => {
 
 export const CashierHeader = (props) => {
     return (
-        <Header androidStatusBarColor="#cd0192">
-            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.linearHeader} >
-                <TouchableOpacity onPress={props.onPressBack}>
-                    <View style={{ width: width / 9, alignItems: "center" }}>
-                        <Icon name="arrow-left"
-                            size={20}
-                            color="white"
-                        />
+        <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%' }}>
+                <Wrapper justify="space-between" style={{ height: '100%' }}>
+                    <Wrapper>
+                        <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                            <Icon name="arrow-left" size={20} color="white" />
+                        </Button>
+                        <InputSimple handleChangeText={props.handleChangeText} placeholder="Cari produk" />
+                    </Wrapper>
+                    <View style={{ justifyContent: 'center', paddingRight: 15 }}>
+                        <TouchableOpacity onPress={props.onPressMenu}>
+                            <Icon name="ellipsis-v" size={20} color="white" />
+                        </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
-                <View style={{
-                    width: width * 5 / 9, flexDirection: 'row', alignItems: "center", height: '80%', borderBottomColor: '#cd0196', borderBottomWidth
-                        : 2
-                }}>
-                    <Icon name="search" color="white" size={13} />
-                    <InputSimple
-                        handleChangeText={props.handleChangeText}
-                        placeholder="Cari produk"
-                    />
-                </View>
-                <TouchableOpacity onPress={props.onPressBack}>
-                    <View style={{ width: width / 9, alignItems: "center" }}>
-                        <Icon name="ellipsis-v"
-                            size={20}
-                            color="white"
-                        />
-                    </View>
-                </TouchableOpacity>
+                </Wrapper>
             </LinearGradient>
         </Header>
     )

@@ -12,6 +12,7 @@ import { BottomButton, Bottom, Button } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const TransactionDetail = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -32,7 +33,8 @@ const TransactionDetail = ({ navigation }) => {
 			<GlobalHeader title="Detail Transaksi"
 				onPressBack={() => navigation.goBack()}
 			/>
-			{dataLoading ? <Text>Loading</Text> :
+			<AwanPopup.Loading visible={dataLoading} />
+			{dataLoading ? null :
 				<View style={{ flex: 1 }}>
 					<View style={{ padding: 20, flex: 1 }}>
 						<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: data.transaction.status_payment == 2 ? 50 : 100 }}>
@@ -85,22 +87,22 @@ const TransactionDetail = ({ navigation }) => {
 								]} right={
 									<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.sub_total)}</Text>
 								} />
-								{data.transaction.discount ? 
-								<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>Diskon</Text>,
-								]} right={
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.discount)}</Text>
-								} /> : null }
-								{data.transaction.status != 1 ? 
-								<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>Pembatalan transaksi</Text>,
-								]} right={
-									<Text style={{ ...FontList.subtitleFontGreyBold, color : ColorsList.danger }}>{convertRupiah(data.transaction.total_return)}</Text>
-								} /> : null }
+								{data.transaction.discount ?
+									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+										<Text style={{ ...FontList.subtitleFontGreyBold }}>Diskon</Text>,
+									]} right={
+										<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.discount)}</Text>
+									} /> : null}
+								{data.transaction.status != 1 ?
+									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+										<Text style={{ ...FontList.subtitleFontGreyBold }}>Pembatalan transaksi</Text>,
+									]} right={
+										<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>{convertRupiah(data.transaction.total_return)}</Text>
+									} /> : null}
 								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
 									<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
 								]} right={
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ?  convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
+									<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ? convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
 								} />
 							</View>
 						</ScrollView>
@@ -110,41 +112,38 @@ const TransactionDetail = ({ navigation }) => {
 							<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>
 							<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
 						</Bottom>
-
 						:
 						data.transaction.status == 3 ?
-						<Bottom justify="space-between">
-							<Button width="100%" onPress={() => {}}>CETAK STRUK</Button>
-						</Bottom>
-						:
-						<View style={{ position: "absolute", bottom: 10, alignSelf: "center", backgroundColor: ColorsList.authBackground }}>
-							<BottomButton
-								onPressBtn={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
-								style={{ backgroundColor: ColorsList.whiteColor, width: SizeList.width - 40, borderColor: ColorsList.primaryColor, borderWidth: 1, }}
-								textStyle={{ color: ColorsList.primaryColor }}
-								buttonTitle="BATALKAN"
-							/>
-							<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
-								<TouchableOpacity>
-									<View style={[styles.wrapIconText]} >
-										<Image style={{height : 25, width : 25, marginRight : 10}} source={require('../../../../assets/icons/share.png')}/>
-										<Text style={styles.btnwithIconText}>Kirim Struk</Text>
-									</View>
-								</TouchableOpacity>
-								<TouchableOpacity>
-									<View style={[styles.wrapIconText]} >
-										<Image style={{height : 25, width : 25, marginRight : 10}} source={require('../../../../assets/icons/print.png')}/>
-										<Text style={styles.btnwithIconText}>Cetak Struk</Text>
-									</View>
-								</TouchableOpacity>
+							<Bottom justify="space-between">
+								<Button width="100%" onPress={() => { }}>CETAK STRUK</Button>
+							</Bottom>
+							:
+							<View style={{ position: "absolute", bottom: 10, alignSelf: "center", backgroundColor: ColorsList.authBackground }}>
+								<BottomButton
+									onPressBtn={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
+									style={{ backgroundColor: ColorsList.whiteColor, width: SizeList.width - 40, borderColor: ColorsList.primaryColor, borderWidth: 1, }}
+									textStyle={{ color: ColorsList.primaryColor }}
+									buttonTitle="BATALKAN"
+								/>
+								<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
+									<TouchableOpacity>
+										<View style={[styles.wrapIconText]} >
+											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/share.png')} />
+											<Text style={styles.btnwithIconText}>Kirim Struk</Text>
+										</View>
+									</TouchableOpacity>
+									<TouchableOpacity>
+										<View style={[styles.wrapIconText]} >
+											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/print.png')} />
+											<Text style={styles.btnwithIconText}>Cetak Struk</Text>
+										</View>
+									</TouchableOpacity>
+								</View>
 							</View>
-						</View>
-
 					}
 				</View>
 			}
-
-		</View >
+		</View>
 	)
 }
 

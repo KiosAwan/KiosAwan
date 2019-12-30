@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
     View,
-    Image,
     StyleSheet,
     Dimensions,
     ScrollView,
@@ -12,8 +11,6 @@ import {
 import TextTicker from 'react-native-text-ticker'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import SliderImage from '../../components/SliderImage'
-import LinearGradient from 'react-native-linear-gradient'
-//Styles
 import { ColorsList } from '../../styles/colors'
 import { FontList } from '../../styles/typography'
 
@@ -23,10 +20,9 @@ import { useSelector } from 'react-redux'
 //CustomComponent
 import { CardComp, CardTextImage } from '../../components/Card/CardComp'
 import { CategoryText } from '../../components/Text/CategoryText'
-import { RowChild } from '../../components/Helper/RowChild'
-import BarStatus from '../../components/BarStatus'
 import Axios from 'axios'
 import { HOST_URL } from 'src/config'
+import { HomeHeader } from 'src/components/Header/Header'
 
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
@@ -78,30 +74,7 @@ const Home = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <BarStatus />
-            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.firstChildView}>
-                <View style={{ justifyContent: 'space-around', paddingTop: 10, ...RowChild }}>
-                    <TouchableOpacity onPress={_handlePressDrawer}>
-                        <View style={{ width: 25, height: 25, alignItems: "center", justifyContent: "center" }}>
-                            <Icon color="white" size={20} name="bars" />
-                        </View>
-                    </TouchableOpacity>
-                    <View style={styles.nameAndLoc}>
-                        {/* <Text style={{ color: 'white', ...FontList.titleFont }}>{User.store ? User.store.name_store : "Kios Saya"}</Text>
-                        <View style={styles.wrapChildRow}>
-                            <Icon color="white" size={9} name="map-marker-alt" />
-                            <Text style={styles.locationInfo}>Kuningan, Jakarta Selatan</Text>
-                        </View> */}
-                        <Image style={{ width: 150, height: 80 }} source={require('../../assets/images/logo.png')} />
-                    </View>
-                    <View style={styles.wrapChildRow}>
-                        <Icon color="white" size={20} name="bell" />
-                    </View>
-                </View>
-                {/* <View style={{ padding: 11 }}>
-                    <LinearCardComp />
-                </View> */}
-            </LinearGradient>
+            <HomeHeader onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
             <ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
                 <View style={{ paddingVertical: 10 }}>
                     {

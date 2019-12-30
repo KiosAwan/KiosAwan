@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, ScrollView, Image } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { Button, Wrapper, Bottom } from 'src/components/Button/ButtonComp';
@@ -10,7 +10,7 @@ import { ImageText } from 'src/components/Card/CardComp';
 import { convertRupiah, getNearestFifty, payCredit } from 'src/utils/authhelper';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { RowChild } from 'src/components/Helper/RowChild';
-import {FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const initialLayout = { width: 300, height: 300 };
@@ -27,58 +27,77 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	}, [])
 
 	const _handlePayCredit = async () => {
-        const userId = await AsyncStorage.getItem('userId')
-        const data = {
-            amount_payment,
-            cashier: userId
-        }
-        try {
-            const res = await payCredit(data, dataUtang.transaction.id_transaction)
+		const userId = await AsyncStorage.getItem('userId')
+		const data = {
+			amount_payment,
+			cashier: userId
+		}
+		try {
+			const res = await payCredit(data, dataUtang.transaction.id_transaction)
 			navigation.goBack()
 		}
-        catch (err) {
-            alert(err.response.data.data.errors.msg)
-        }
-    }
+		catch (err) {
+			alert(err.response.data.data.errors.msg)
+		}
+	}
 	const Tunai = props => {
 		return (
 			<View style={{ padding: 15, flex: 1 }}>
-				<View style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
-					<FloatingInputLabelCurrency style={{ margin: 0 }}
-						value={amount_payment}
-						handleChangeText={(text) => setAmountPayment(text)}
-						label="Uang yang diterima"
-					/>
-					<Text color="primary">{amount_payment - dataUtang.debt.remaining_debt >= 0 ? `Kembalian: ${convertRupiah(amount_payment-dataUtang.debt.remaining_debt)}` : null} </Text>
-					<View style={{ ...RowChild, marginTop: 20 }}>
-						<ToggleButtonMoney
-							style={{ marginRight: 10, }}
-							onPress={(value) => setAmountPayment(value)}
-							buttons={[dataUtang.debt.remaining_debt, getNearestFifty(dataUtang.debt.remaining_debt, 1)]}
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<View style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
+						<FloatingInputLabelCurrency style={{ margin: 0 }}
+							value={amount_payment}
+							handleChangeText={(text) => setAmountPayment(text)}
+							label="Uang yang diterima"
 						/>
+						<Text color="primary">{amount_payment - dataUtang.debt.remaining_debt >= 0 ? `Kembalian: ${convertRupiah(amount_payment - dataUtang.debt.remaining_debt)}` : null} </Text>
+						<View style={{ ...RowChild, marginTop: 20 }}>
+							<ToggleButtonMoney
+								style={{ marginRight: 10, }}
+								onPress={(value) => setAmountPayment(value)}
+								buttons={[dataUtang.debt.remaining_debt, getNearestFifty(dataUtang.debt.remaining_debt, 1)]}
+							/>
+						</View>
 					</View>
-				</View>
+				</ScrollView>
 			</View>
 		)
 	}
 
+
+	const propsTitleText = { size: 17, font: 'ExtraBold', style: { marginVertical: 15, borderBottomColor: ColorsList.greyAuthHard, borderBottomWidth: 1, textAlign: 'center' } }
+
 	const NonTunai = props => {
 		return (
 			<View style={{ padding: 15, flex: 1 }}>
-				<View style={{ backgroundColor: ColorsList.whiteColor, padding: 20 }}>
-					<Text size={17} font="ExtraBold" style={{ marginVertical: 15, borderBottomColor: ColorsList.greyAuthHard, borderBottomWidth: 1, textAlign: 'center' }}>DEBIT</Text>
-					<Wrapper>
-						<ImageText size={150} name="BCA" />
-						<ImageText size={150} name="Mandiri" />
-						<ImageText size={150} name="BRI" />
-					</Wrapper>
-					<Text size={17} font="ExtraBold" style={{ marginVertical: 15, borderBottomColor: ColorsList.greyAuthHard, borderBottomWidth: 1, textAlign: 'center' }}>E-WALLET</Text>
-					<Wrapper>
-						<ImageText size={150} name="Gopay" />
-						<ImageText size={150} name="Dana" />
-						<ImageText size={150} name="OVO" />
-					</Wrapper>
-				</View>
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<View style={{ backgroundColor: ColorsList.whiteColor, padding: 20, paddingTop: 0 }}>
+						<Text {...propsTitleText}>DEBIT</Text>
+						<Wrapper>
+							<View style={styles.wrapperImage}>
+								<Image source={require('src/assets/payment/bca.png')} style={styles.imagePayment} name="BCA" />
+							</View>
+							<View style={styles.wrapperImage}>
+								<Image source={require('src/assets/payment/mandiri.png')} style={styles.imagePayment} name="Mandiri" />
+							</View>
+							<View style={styles.wrapperImage}>
+								<Image source={require('src/assets/payment/bri.png')} style={styles.imagePayment} name="BRI" />
+							</View>
+						</Wrapper>
+						<Text {...propsTitleText}>E-WALLET</Text>
+						<Wrapper>
+							<View style={styles.wrapperImage}>
+								<Image source={require('src/assets/payment/gopay.png')} style={styles.imagePayment} name="Gopay" />
+							</View>
+							<View style={styles.wrapperImage}>
+								<Image source={require('src/assets/payment/dana.png')} style={styles.imagePayment} name="Dana" />
+							</View>
+							<View style={styles.wrapperImage}>
+								<Image source={require('src/assets/payment/ovo.png')} style={styles.imagePayment} name="OVO" />
+							</View>
+						</Wrapper>
+					</View>
+				</ScrollView>
 			</View>
 		)
 	}
@@ -99,7 +118,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 			<GlobalHeader onPressBack={() => navigation.goBack()} title="Lunasi" />
 			{loading ? <Text>adfs</Text> :
 				<View style={{ flex: 1 }}>
-					<View style={{ flex: 1 }}>
+					<View style={{ flex: 1, marginBottom: 60 }}>
 						<TabView
 							renderTabBar={props => {
 								const width = 100 / props.navigationState.routes.length
@@ -114,7 +133,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 												}
 											</Wrapper>
 										</View>
-										<View style={{ padding: 15 }}>
+										<View style={{ padding: 15, paddingBottom: 0 }}>
 											<Wrapper justify="space-between" style={{ marginBottom: 5, padding: 20, backgroundColor: ColorsList.whiteColor }}>
 												<Wrapper direction="column">
 													<Text font="Bold">Total Tagihan</Text>
@@ -166,6 +185,8 @@ const TransactionDetailLunasi = ({ navigation }) => {
 export default TransactionDetailLunasi
 
 const styles = StyleSheet.create({
+	wrapperImage: { padding: 5, borderRadius: 5, borderWidth: 1, borderColor: ColorsList.greyAuthHard },
+	imagePayment: { height: 35, width: 100 },
 	containerEmptyData: {
 		flex: 1,
 		alignItems: "center",

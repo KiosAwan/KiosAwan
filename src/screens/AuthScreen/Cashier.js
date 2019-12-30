@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { ButtonWithIcon, BottomButton } from '../../components/Button/ButtonComp';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { BottomButton, Wrapper, Button } from '../../components/Button/ButtonComp';
+import { FlatList } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { ProductCard } from '../../components/Card/CardComp';
-import { MinusQuantity, AddQuantity, AddCartByBarcode, getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
-import { CashierHeader, GlobalHeader } from '../../components/Header/Header';
+import { MinusQuantity, AddQuantity, getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
+import { CashierHeader } from '../../components/Header/Header';
 import { stylesglobe } from '../../styles/globalStyle';
 import { RowChild } from '../../components/Helper/RowChild';
 import { Icon } from 'native-base';
@@ -16,6 +16,8 @@ import { FontList } from '../../styles/typography';
 import { ProductPlaceholder } from '../../components/LoadingPlaceholder';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { setFromManajemenProduct } from '../../redux/actions/actionsNewProduct';
+import { Text } from 'src/components/Text/CustomText';
+import { Image } from 'src/components/CustomImage';
 
 const Cashier = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -36,7 +38,25 @@ const Cashier = ({ navigation }) => {
                 handleChangeText={(text) => setSearch(text)}
                 onPressBack={() => navigation.navigate('/')}
             />
-            <View style={styles.wrapButtonHeader}>
+            <Wrapper justify="space-between" style={{ padding: 15 }}>
+                <Wrapper>
+                    <Button padding={7} onPress={() => {
+                        dispatch(setFromManajemenProduct(null))
+                        navigation.navigate('/cashier/new-barcode')
+                    }} color="white" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                        <Image size={15} source={require('src/assets/icons/plus.png')} />
+                        <Text size={12} color="primary">PRODUK BARU</Text>
+                    </Button>
+                    <Button padding={7} onPress={() => navigation.navigate('/cashier/input-manual')} color="white" style={{ paddingHorizontal: 15, }}>
+                        <Image size={15} source={require('src/assets/icons/clock.png')} />
+                        <Text size={12} color="primary">PESAN MANUAL</Text>
+                    </Button>
+                </Wrapper>
+                <Button padding={7} onPress={() => navigation.navigate('/cashier/add-cart-with-barcode')}>
+                    <Image size={20} source={require('src/assets/icons/barcode.png')} />
+                </Button>
+            </Wrapper>
+            {/* <View style={styles.wrapButtonHeader}>
                 <ButtonWithIcon
                     onPressBtn={() => {
                         dispatch(setFromManajemenProduct(null))
@@ -57,8 +77,8 @@ const Cashier = ({ navigation }) => {
                         <Icon name="ios-barcode" style={{ color: 'white' }} />
                     </View>
                 </TouchableOpacity>
-            </View>
-            <View style={[styles.childContainer, { backgroundColor: Product.isLoading ? "white" : ColorsList.authBackground ,justifyContent : Product.data.length == 0 ? 'center' : null, alignItems : Product.data.length == 0 ? 'center' : null}]}>
+            </View> */}
+            <View style={[styles.childContainer, { backgroundColor: Product.isLoading ? "white" : ColorsList.authBackground, justifyContent: Product.data.length == 0 ? 'center' : null, alignItems: Product.data.length == 0 ? 'center' : null }]}>
                 {Product.isLoading ?
                     <View>
                         <ProductPlaceholder />
@@ -70,8 +90,8 @@ const Cashier = ({ navigation }) => {
                     :
                     Product.data.length == 0 ?
                         <View>
-                            <Image style={{width : 200, height : 200}} source={require('../../assets/images/noproductlist.png')}/>
-                            <Text style={{textAlign : "center", ...FontList.subtitleFontGreyBold}}>Anda belum mempunyai produk</Text>
+                            <Image style={{ width: 200, height: 200 }} source={require('../../assets/images/noproductlist.png')} />
+                            <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold }}>Anda belum mempunyai produk</Text>
                         </View>
                         :
                         <FlatList
