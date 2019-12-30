@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { View, Image, TextInput, StyleSheet, Modal } from 'react-native';
-import { useDispatch , useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import { Button, Bottom } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
 import { Icon } from 'native-base';
-import {changePassword} from '../../../../utils/authhelper'
+import { changePassword } from '../../../../utils/authhelper'
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const MenuSettingUbahPassword = ({ navigation }) => {
 	const PIN = navigation.params ? navigation.params.PIN : undefined
@@ -17,10 +18,11 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 	const dispatch = useDispatch()
 
 	const [modalVisible, setModalVisible] = useState(false)
+	const [loading, setLoading] = useState(false)
 	const [formValue, setFormValue] = useState({
-		old_password : '',
-		new_password : '',
-		confirm_new_password : ''
+		old_password: '',
+		new_password: '',
+		confirm_new_password: ''
 	})
 	const [eyes, setEyes] = useState({})
 
@@ -45,17 +47,19 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 	}]
 
 	const _handleSavePassword = async () => {
-		if(formValue.old_password == ""|| formValue.new_password == ""){
+		if (formValue.old_password == "" || formValue.new_password == "") {
 			alert("Password tidak boleh kosong")
-		}else if (formValue.new_password != formValue.confirm_new_password){
+		} else if (formValue.new_password != formValue.confirm_new_password) {
 			alert("Password baru harus sama")
-		}else {
-		const data = {
-			id : User.data.id,
-			password : formValue.new_password,
-			old_password : formValue.old_password
-		}
-		const res = await changePassword(data)
+		} else {
+			setLoading(true)
+			const data = {
+				id: User.data.id,
+				password: formValue.new_password,
+				old_password: formValue.old_password
+			}
+			const res = await changePassword(data)
+			setLoading(false)
 			if (res.status == 400) {
 				alert(res.data.errors.msg)
 			} else {
@@ -70,7 +74,7 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			 <Modal
+			<Modal
 				animationType="fade"
 				transparent={true}
 				visible={modalVisible}
@@ -78,12 +82,13 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 					setModalVisible(!modalVisible);
 				}}
 			><ModalContent
-            image={require('../../../../assets/images/successchangepassword.png')}
-            infoText="Password Berhasil Diganti!"
-            closeModal={() => setModalVisible(false)}
-            />
+					image={require('../../../../assets/images/successchangepassword.png')}
+					infoText="Password Berhasil Diganti!"
+					closeModal={() => setModalVisible(false)}
+				/>
 			</Modal>
 			<GlobalHeader title="Ubah Password" onPressBack={() => navigation.goBack()} />
+			<AwanPopup.Loading visible={loading} />
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
 					{
