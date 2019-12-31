@@ -89,7 +89,7 @@ const ForgotPassword = ({ navigation }) => {
                 title="Forgot Password"
             />
             <View style={{ alignItems: "center" }}>
-                <Text style={{ paddingTop: 20 }}>A 4 digit code has been sent to</Text>
+                <Text style={{ paddingTop: 20 }}>Kode OTP telah dikirimkan ke</Text>
                 <Text>62-{showedNumber}</Text>
                 <CodeInput
                     keyboardType="numeric"

@@ -26,6 +26,7 @@ import BarStatus from '../../components/BarStatus';
 import { HeaderRegister } from '../../components/Header/Header';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { SizeList } from '../../styles/size';
+import { FontList } from 'src/styles/typography';
 
 
 const width = Dimensions.get('window').width
@@ -127,10 +128,10 @@ const PhoneRegistration = ({ navigation }) => {
             </View>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
-                disabled={btnDisabled}
+                    disabled={btnDisabled}
                     onPressBtn={_handleSendPhoneNumber}
-                    style={{ borderWidth: 1, borderColor: btnDisabled? '#cd0192' :  'white', width: SizeList.width - 20 }}
-                    buttonTitle="NEXT"
+                    style={{ borderWidth: 1, borderColor: btnDisabled ? '#cd0192' : 'white', width: SizeList.width - 20 }}
+                    buttonTitle="LANJUT"
                 />
             </View>
         </LinearGradient>
@@ -162,6 +163,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     subtitleEnterPhone: {
+        ...FontList.titleFont,
         paddingTop: 10,
         paddingHorizontal: 20,
         color: 'white',
@@ -173,7 +175,7 @@ const styles = StyleSheet.create({
     },
     termAndCond: {
         width: '80%',
-        paddingTop: 10
+        paddingTop: 30
     },
     wrapHeader: {
         flexDirection: 'row',

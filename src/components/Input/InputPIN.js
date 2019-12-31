@@ -4,6 +4,7 @@ import {
     Item,
     Input
 } from 'native-base'
+import { ColorsList } from 'src/styles/colors';
 
 export const InputPIN = (props) =>  {
     return (
@@ -11,8 +12,8 @@ export const InputPIN = (props) =>  {
         <Item style={{width : props.inputWidth, borderBottomColor :'#e831ae'}}>
             <Input
             secureTextEntry={true}
-            placeholder="Enter your password"
-            placeholderTextColor={props.placeholderTextColor}
+            placeholder="Masukkan password"
+            placeholderTextColor={props.placeholderTextColor || ColorsList.primaryColor}
             autoFocus={true}
             style={{color : props.textColor ? props.textColor:'white',fontSize : 20, borderBottomColor:'pink', textAlign : props.position || "center"}}
             value={props.value}

@@ -9,7 +9,8 @@ import { FontList } from '../../../styles/typography';
 import { createUserPIN } from '../../../utils/authhelper';
 import AsyncStorage from '@react-native-community/async-storage';
 import ModalContent from '../../../components/ModalContent/ModalContent';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
+import { ScrollView } from 'react-native-gesture-handler';
 
 const CreatePIN = ({ navigation }) => {
     const User = useSelector(state => state.User)
@@ -60,41 +61,42 @@ const CreatePIN = ({ navigation }) => {
                     image={require('../../../assets/images/createpinsuccess.png')}
                     infoText="Anda Berhasil Membuat PIN!"
                     closeModal={() => setModalVisible(false)}
-
                 />
             </Modal>
-            <View style={{alignSelf : 'center', width : '70%', paddingTop : 15}}>
-                <Text style={{textAlign : "center", ...FontList.subtitleFontGreyBold}}>Untuk menunjang kemanan Anda saat bertransaksi buat PIN dengan benar dan pastikan tidak diketahui oleh orang lain</Text>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ height: SizeList.height, marginBottom: 70 }}>
+                <View style={{ alignSelf: 'center', width: '70%', paddingTop: 15 }}>
+                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold }}>Untuk menunjang kemanan Anda saat bertransaksi buat PIN dengan benar dan pastikan tidak diketahui oleh orang lain</Text>
 
-            </View>
-            <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
-                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN</Text>
-                <CodeInput
-                    secureTextEntry
-                    className='border-circle'
-                    keyboardType="numeric"
-                    activeColor='#cd0192'
-                    inactiveColor='#cd0192'
-                    codeLength={6}
-                    size={30}
-                    autoFocus
-                    onFulfill={(code) => _handlePINFulfilled(code)}
-                />
-            </View>
-            <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
-                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kembali PIN anda</Text>
-                <CodeInput
-                    secureTextEntry
-                    className='border-circle'
-                    keyboardType="numeric"
-                    activeColor='#cd0192'
-                    inactiveColor='#cd0192'
-                    codeLength={6}
-                    size={30}
-                    autoFocus={false}
-                    onFulfill={(code) => _handleConfirmPINFulfilled(code)}
-                />
-            </View>
+                </View>
+                <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
+                    <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN</Text>
+                    <CodeInput
+                        secureTextEntry
+                        className='border-circle'
+                        keyboardType="numeric"
+                        activeColor='#cd0192'
+                        inactiveColor='#cd0192'
+                        codeLength={6}
+                        size={30}
+                        autoFocus
+                        onFulfill={(code) => _handlePINFulfilled(code)}
+                    />
+                </View>
+                <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
+                    <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kembali PIN anda</Text>
+                    <CodeInput
+                        secureTextEntry
+                        className='border-circle'
+                        keyboardType="numeric"
+                        activeColor='#cd0192'
+                        inactiveColor='#cd0192'
+                        codeLength={6}
+                        size={30}
+                        autoFocus={false}
+                        onFulfill={(code) => _handleConfirmPINFulfilled(code)}
+                    />
+                </View>
+            </ScrollView>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
                     onPressBtn={_handleCreatePIN}

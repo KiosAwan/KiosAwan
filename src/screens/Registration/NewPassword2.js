@@ -21,6 +21,7 @@ import { ColorsList } from '../../styles/colors';
 import { SizeList } from '../../styles/size';
 import { sendNewPassword } from '../../utils/unauthhelper';
 import { Spinner } from 'native-base';
+import { FontList } from 'src/styles/typography';
 
 //Functions
 
@@ -64,11 +65,11 @@ const NewPassword2 = ({ navigation }) => {
             <BarStatus />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
-                title="Enter PIN"
+                title="Atur Password"
             />
             <View style={{ alignItems: "center" }}>
                 <View style={{ width: '70%', paddingTop: 30 }}>
-                    <Text style={{ textAlign: "center", color: 'black' }}>Confirm your Password</Text>
+                    <Text style={{...FontList.title, textAlign: "center", color: ColorsList.greySoft }}>Masukkan kembali password</Text>
                 </View>
                 <InputPIN
                     textColor="black"

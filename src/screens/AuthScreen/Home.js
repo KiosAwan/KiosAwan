@@ -52,13 +52,13 @@ const Home = ({ navigation }) => {
 
 	const _onPressPayment = () => {
 		_setAlertTitle('FITUR PAYMENT POINT')
-		_setAlertMessage('Masih dalam tahap pengembangan')
+		_setAlertMessage('Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan')
 		_setAlert(true)
 	}
 
 	const _onPressStock = () => {
 		_setAlertTitle('FITUR BELANJA STOK')
-		_setAlertMessage('Masih dalam tahap pengembangan')
+		_setAlertMessage('Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan')
 		_setAlert(true)
 	}
 
@@ -97,14 +97,16 @@ const Home = ({ navigation }) => {
 							<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
 								<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
 									<Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont }}>Verifikasi Email Anda Sekarang!</Text>
+									<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Verifikasi Email Anda Sekarang!</Text>
 								</View>
 							</TouchableOpacity>
 							: null :
 							<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
 								<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
 									<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>Lengkapi profil Anda!</Text>
+									<View style={{width : '80%'}}>
+										<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>Lengkapi profil Anda agar bisa menggunakan fitur-fitur yang tersedia</Text>
+									</View>
 								</View>
 							</TouchableOpacity>}
 					<CardComp info="KASIR"

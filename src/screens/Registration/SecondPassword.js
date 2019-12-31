@@ -68,8 +68,8 @@ const SecondPassword = ({ navigation }) => {
                 onPressBack={() => navigation.goBack()}
                 onPressNext={_handleNextButton}
             />
-            <View style={{ width: '70%', paddingTop: 30 }}>
-                <Text style={{ textAlign: "center", color: 'white' }}>Confirm your Password</Text>
+            <View style={{ width: '70%', paddingVertical: 20 }}>
+                <Text style={{ textAlign: "center", color: 'white' }}>Masukkan kembali password</Text>
             </View>
             <InputPIN
                 inputWidth={250}

@@ -44,7 +44,7 @@ const NameRegistration = ({ navigation }) => {
             <HeaderRegister
             />
             <View style={{ width: '70%', paddingTop: 30 }}>
-                <Text style={{ textAlign: "center", color: 'white' }}>Enter your name so we can easily recognize you</Text>
+                <Text style={{ textAlign: "center", color: 'white' }}>Masukkan nama agar kami mudah mengenali Anda</Text>
             </View>
             <View style={styles.inputView}>
                 <InputText

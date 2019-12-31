@@ -19,7 +19,7 @@ export const InputText = (props) => {
       <Item stackedLabel style={{ width: 250 }}>
         <Label style={{ color: 'white' }}>{props.label}</Label>
         <Input
-          placeholder="Full name"
+          placeholder="Nama lengkap"
           placeholderTextColor="#ff85ed"
           style={{ color: 'white' }}
           autoFocus={true}

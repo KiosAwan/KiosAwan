@@ -74,10 +74,12 @@ const LoginVerification = ({ navigation }) => {
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
             <BarStatus />
             {loading ? <Spinner color="white" /> : null}
-            <HeaderRegister
-            />
-            <Text style={styles.subtitleEnterPhone}>This number has been registered before</Text>
-            <Text style={styles.subtitleEnterPhone}>Enter your KIOSAWAN password</Text>
+            <View style={{padding : 20}}>
+                <HeaderRegister
+                />
+            </View>
+            <Text style={[styles.subtitleEnterPhone, {}]}>Nomor ini telah terdaftar</Text>
+            <Text style={[styles.subtitleEnterPhone, { paddingBottom: 20 }]}>Masukkan password Anda</Text>
             <View style={styles.inputView}>
                 <InputPIN
                     inputWidth={250}
@@ -86,7 +88,7 @@ const LoginVerification = ({ navigation }) => {
                 />
             </View>
             <Text style={styles.textForgot} onPress={_forgotPIN}>
-                Forgot password ?
+                Lupa password ?
             </Text>
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
@@ -117,7 +119,6 @@ const styles = StyleSheet.create({
         alignItems: "flex-end",
     },
     subtitleEnterPhone: {
-        paddingTop: 10,
         paddingHorizontal: 20,
         color: 'white',
         textAlign: "center",

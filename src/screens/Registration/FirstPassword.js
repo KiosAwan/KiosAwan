@@ -19,6 +19,7 @@ import { InputPIN } from '../../components/Input/InputPIN'
 import { addFirstPIN, addFirstPassword } from '../../redux/actions/actionsRegistration'
 import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 import { FontList } from '../../styles/typography';
+import { ColorsList } from 'src/styles/colors';
 
 //Functions
 
@@ -46,10 +47,11 @@ const FirstPassword = ({ navigation }) => {
                 onPressBack={() => navigation.goBack()}
                 onPressNext={_handleNextButton}
             />
-            <View style={{ width: '70%', paddingTop: 30 }}>
-                <Text style={{ textAlign: "center", color: 'white'}}>Set Your Password</Text>
+            <View style={{ width: '70%', paddingVertical: 20 }}>
+                <Text style={{ textAlign: "center", color: 'white'}}>Masukkan password</Text>
             </View>
             <InputPIN
+            placeholderTextColor={ColorsList.primaryColor}
                 inputWidth={200}
                 value={FormRegister.password}
                 handleChangeText={(pass) => _handleChangePassword(pass)}

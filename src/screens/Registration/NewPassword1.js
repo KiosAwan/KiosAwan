@@ -19,6 +19,7 @@ import BarStatus from '../../components/BarStatus';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { SizeList } from '../../styles/size';
 import { ColorsList } from '../../styles/colors';
+import { FontList } from 'src/styles/typography';
 
 //Functions
 
@@ -44,11 +45,11 @@ const NewPassword1 = ({ navigation }) => {
             <BarStatus />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
-                title="Enter Password"
+                title="Atur password"
             />
             <View style={{ alignItems: "center" }}>
-                <View style={{ width: '70%', padding: 30 }}>
-                    <Text style={{ textAlign: "center", color: 'black' }}>Set your new password</Text>
+                <View style={{ width: '70%', paddingTop: 30 }}>
+                    <Text style={{...FontList.title, textAlign: "center", color: ColorsList.greySoft }}>Buat password baru</Text>
                 </View>
                 <InputPIN
                     textColor="black"

@@ -18,6 +18,8 @@ import { addVerifyOTP } from '../../redux/actions/actionsRegistration'
 //Functions
 import { sendVerifyOTP, sendPhoneNumber } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
 
 
 const VerifyOTPRegister = (props) => {
@@ -91,7 +93,8 @@ const VerifyOTPRegister = (props) => {
     return (
         <View style={styles.container}>
             <BarStatus />
-            <Text style={{ marginTop: 10 }}>Masukkan kode OTP , check Inbox anda</Text>
+            <Text style={{ marginTop: 10, ...FontList.titleFont, color : ColorsList.greySoft }}>Masukkan kode OTP </Text>
+            <Text style={{ marginTop: 10, ...FontList.titleFont, color : ColorsList.greySoft }}>OTP telah dikirim melalui SMS ke nomor HP Anda </Text>
             <CodeInput
                 keyboardType="numeric"
                 activeColor='black'
@@ -102,9 +105,9 @@ const VerifyOTPRegister = (props) => {
                 onFulfill={(code) => _handleOTPFulfilled(code)}
             />
             {isResendDisabled ?
-                <Text style={{ color: "grey", marginTop: 70 }}>RESEND ({countdown} s)</Text> :
+                <Text style={{...FontList.titleFont, color:ColorsList.greySoft, marginTop: 70 }}>RESEND ({countdown} s)</Text> :
                 <TouchableOpacity onPress={_resendCode} style={{ marginTop: 70 }}>
-                    <Text style={{ color: "blue" }}>Resend</Text>
+                    <Text style={{...FontList.titleFont, color: "blue" }}>Resend</Text>
                 </TouchableOpacity>
             }
         </View>
