@@ -14,7 +14,6 @@ import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { convertRupiah, getReportHutang } from 'src/utils/authhelper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Animation from 'src/components/Animation/Animation';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -185,12 +184,6 @@ const TransactionList = ({ navigation }) => {
     { key: 'second', title: 'Ringkasan Hutang' }
   ]);
 
-  // const renderScene = SceneMap({
-  //   first: DaftarTransaksi,
-  //   second: RingkasanHutang,
-  // });
-
-  // const returns = () => (
   return (<View style={{ flex: 1 }}>
     <GlobalHeader onPressBack={() => navigation.navigate('/drawer')} title="Transaksi" />
     <View style={{ flex: 1 }}>
@@ -215,7 +208,6 @@ const TransactionList = ({ navigation }) => {
     </View>
   </View>
   )
-  // return <Animation />
 }
 
 export default TransactionList
