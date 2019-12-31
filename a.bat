@@ -3,16 +3,18 @@ set app_alias=DepotAir
 set keystore_name=DepotAir.jks
 rem set app_alias=antrian-online
 rem set keystore_name=layanan-antrian-online.jks
-set app_name=Depot Air HAWADA
+set app_name=AwanApp
 set app_name_release=%app_name% Release
-set app_unsigned=android-release-unsigned.apk
-set back=../../../../..
+set app_unsigned=release.apk
+set back=../../../../../..
 set CURRENT_DATE=%date:~10,4%-%date:~4,2%-%date:~7,2% %time:~0,2%;%time:~3,2%
 set CURRENT_DATE=%date:~6,4%-%date:~3,2%-%date:~0,2% %time:~0,2%;%time:~3,2%
 set output_folder=outputs
-set output_path=platforms\android\build\outputs\apk
+set output_path=android/app/build/outputs/apk/release
 set sass_master=scss/master.scss
 set sass_output=www/css/style.css
+
+
 
 IF [%1]==[] GOTO NOARGS
 IF [%1]==[build] GOTO BUILDAPK
@@ -68,7 +70,7 @@ GOTO END
 
 :MOVEAPK
 set /P APPVERSION=Input your app version: 
-copy "%output_path%\android-debug.apk" "%output_folder%\%app_name% (%APPVERSION%) %CURRENT_DATE%.apk"
+copy "%output_path%\%app_unsigned%" "%output_folder%\%app_name% (%APPVERSION%) %CURRENT_DATE%.apk"
 GOTO END
 
 :RUNDROID
@@ -128,6 +130,7 @@ echo React Native Command Tool
 echo.
 echo    clean	Clean gradle
 echo    start	Start the Metro Server
+echo    mv           Move apk to outputs
 echo    run		Build android to device
 echo.
 echo Example: %0 start
