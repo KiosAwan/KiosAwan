@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import {
 	Text,
 } from 'native-base';
-import { useDispatch , useSelector} from 'react-redux'
-import { View, StyleSheet, Dimensions, Alert} from "react-native";
+import { useDispatch, useSelector } from 'react-redux'
+import { View, StyleSheet, Dimensions, Alert } from "react-native";
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
 import { GlobalHeader } from "src/components/Header/Header";
 import { BottomButton } from "src/components/Button/ButtonComp";
 import { FontList } from "src/styles/typography";
 import { editProductName, editProductBarcode } from "src/redux/actions/actionsEditProduct";
-import { checkBarcode,checkProductInData } from "src/utils/authhelper";
+import { checkBarcode, checkProductInData } from "src/utils/authhelper";
 
 
 const height = Dimensions.get('window').height
@@ -23,68 +23,68 @@ const ManajemenProdukEditBarcode = ({ navigation }) => {
 		setScanWork(false)
 		const data = {
 			barcode: scanResult.data,
-			id_store : User.store.id_store
+			id_store: User.store.id_store
 		}
 		const first_check = await checkProductInData(data)
-		if(!first_check){
-		const response = await checkBarcode(data)
-
-		await dispatch(editProductBarcode(response.data.barcode))
-
-		if (response.data.nama_product != undefined) {
-			Alert.alert(
-				'',
-				'Produk yang Anda scan ditemukan ',
-				[
-					{
-						text: 'Lanjut', onPress: () => {
-							setScanWork(true)
-							dispatch(editProductName(response.data.nama_product))
-							dispatch(editProductBarcode(response.data.barcode))
-							navigation.navigate('/drawer/manajemen/produk/edit')
-						}
-					},
-				],
-				{ cancelable: false }
-			)
+		console.debug(first_check)
+		if (!first_check.data) {
+			const response = await checkBarcode(data)
+			console.debug(response)
+			dispatch(editProductBarcode(response.data.barcode))
+			if (response.data.nama_product != undefined) {
+				Alert.alert(
+					'',
+					'Produk yang Anda scan ditemukan ',
+					[
+						{
+							text: 'Lanjut', onPress: () => {
+								setScanWork(true)
+								dispatch(editProductName(response.data.nama_product))
+								dispatch(editProductBarcode(response.data.barcode))
+								navigation.navigate('/drawer/manajemen/produk/edit')
+							}
+						},
+					],
+					{ cancelable: false }
+				)
+			}
+			else {
+				Alert.alert(
+					'',
+					'Barang yang Anda scan tidak ditemukan',
+					[
+						{
+							text: 'Lanjut', onPress: () => {
+								setScanWork(true)
+								navigation.navigate('/drawer/manajemen/produk/edit')
+							}
+						},
+					],
+					{ cancelable: false }
+				)
+			}
 		}
 		else {
 			Alert.alert(
 				'',
-				'Barang yang Anda scan tidak ditemukan',
+				'Barang yang Anda scan sudah ada di daftar produk',
 				[
 					{
-						text: 'Lanjut', onPress: () => {
+						text: 'Ulang', onPress: () => {
 							setScanWork(true)
-							navigation.navigate('/drawer/manajemen/produk/edit')
 						}
 					},
 				],
 				{ cancelable: false }
 			)
 		}
-	}
-	else {
-		Alert.alert(
-			'',
-			'Barang yang Anda scan sudah ada di daftar produk',
-			[
-				{
-					text: 'Ulang', onPress: () => {
-						setScanWork(true)
-					}
-				},
-			],
-			{ cancelable: false }
-		)
-	}
 	}
 	const _handleNoBarcode = () => {
 		navigation.goBack()
 	}
 	return (
 		<View style={{ flex: 1 }}>
-			<GlobalHeader title="Edit Produk" onPressBack={() => navigation.goBack()}/>
+			<GlobalHeader title="Edit Produk" onPressBack={() => navigation.goBack()} />
 			<View style={{ justifyContent: "center" }}>
 				<RNCamera
 					style={styles.camera}
@@ -103,7 +103,7 @@ const ManajemenProdukEditBarcode = ({ navigation }) => {
 			</View>
 
 			<View style={styles.lowerSection}>
-				<View style={{ alignItems: "center", top : 0 }}>
+				<View style={{ alignItems: "center", top: 0 }}>
 					<Text style={{ fontFamily: FontList.primaryFont, color: 'white', fontSize: 20 }}>Pindai Barcode</Text>
 					<View style={{ width: '70%', alignItems: 'center', marginTop: 10 }}>
 						<Text style={{ color: 'white', textAlign: "center", fontFamily: FontList.primaryFont }}>Jika produk tidak memiliki barcode , Anda dapat melewati langkah ini.</Text>
