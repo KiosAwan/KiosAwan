@@ -39,7 +39,7 @@ export const AwanPopup = {
 				<Text font="Bold" size={17} style={styles.title}>{props.title.toUpperCase()}</Text>
 				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
 			</View>
-			<Bottom>
+			<Bottom justify="space-between">
 				{props.children}
 			</Bottom>
 		</Modal>

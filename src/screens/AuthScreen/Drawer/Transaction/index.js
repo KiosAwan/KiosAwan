@@ -56,116 +56,120 @@ const TransactionList = ({ navigation }) => {
     _reportHutang()
   }, [])
 
-  const DaftarTransaksi = props => {
-    const [filterPopup, setFilterPopup] = useState(false)
-    const selectFilter = (val) => {
-      setFilterPopup(false)
-      setFilter(val)
-    }
+  const [filterPopup, setFilterPopup] = useState(false)
+  const selectFilter = (val) => {
+    setFilterPopup(false)
+    setFilter(val)
+  }
+  const DaftarTransaksi = ({ route }) => {
     return (
       <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-        <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
-          <Button onPress={() => selectFilter('all')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Semua</Button>
-          <Button onPress={() => selectFilter('1')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Lunas</Button>
-          <Button onPress={() => selectFilter('2')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Hutang</Button>
-          <Button onPress={() => selectFilter('3')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Dibatalkan</Button>
-        </AwanPopup.Menu>
-        <View style={{ padding: 15, paddingTop: 0, backgroundColor: ColorsList.whiteColor }}>
-          <Wrapper justify="space-between">
-            <FloatingInput labelStyle={{ paddingLeft: 30 }} style={{ width: "80%" }} label="Cari transaksi">
-              <Icon style={{ color: ColorsList.primary }} name="search" />
-              <TextInput style={{ width: '90%' }} value={search} onChangeText={text => setSearch(text)} />
-            </FloatingInput>
-            <Button style={{ margin: 15 }} onPress={() => setFilterPopup(true)}>
-              <Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/filter.png')} />
-            </Button>
-          </Wrapper>
-        </View>
         {
-          eval(DataTransaksi.data.map(item => filterResult(item.data).length).join('+')) > 0 ?
-            <FlatList
-              data={DataTransaksi.data}
-              renderItem={({ item }) => [
-                filterResult(item.data).length > 0 ?
-                  <View style={{ padding: 15, backgroundColor: ColorsList.greyAuthHard }}>
-                    <Wrapper justify="space-between">
-                      <Text>{moment(item.date).format('ddd, DD MMM YYYY')}</Text>
-                      <Text>{convertRupiah(item.total)}</Text>
-                    </Wrapper>
-                  </View> : null,
-                <View style={{ padding: 15 }}>
-                  {
-                    filterResult(item.data).map(trx => {
-                      return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
-                        <Wrapper style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} justify="space-between">
-                          <View style={{ padding: 15 }}>
-                            <Wrapper>
-                              <View style={{ justifyContent: 'center' }}>
-                                <Image style={{ width: 50, height: 50 }} source={iconImage[trx.status].image} />
-                              </View>
-                              <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
-                                <Text color="primary">{convertRupiah(trx.total_transaction)}</Text>
-                                <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
-                                <Text>{trx.payment_code}</Text>
-                              </View>
-                            </Wrapper>
-                          </View>
-                          <View style={{ width: '35%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
-                            <View style={{ padding: 10 }}>
-                              <Text color={iconImage[trx.status].color} style={{ textAlign: 'center' }} font="ExtraBold" size={15}>{iconImage[trx.status].text}</Text>
-                            </View>
-                          </View>
-                        </Wrapper>
-                      </TouchableOpacity>
-                    })
-                  }
-                </View>
-              ]}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-            />
-            :
-            <View style={{ alignItems: 'center' }}>
-              <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
-              <View style={{ alignItems: 'center' }}>
-                <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
-                <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+          route.key == 'first' ?
+            <View>
+              <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
+                <Button onPress={() => selectFilter('all')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Semua</Button>
+                <Button onPress={() => selectFilter('1')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Lunas</Button>
+                <Button onPress={() => selectFilter('2')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Hutang</Button>
+                <Button onPress={() => selectFilter('3')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Dibatalkan</Button>
+              </AwanPopup.Menu>
+              <View style={{ padding: 15, paddingTop: 0, backgroundColor: ColorsList.whiteColor }}>
+                <Wrapper justify="space-between">
+                  <FloatingInput labelStyle={{ paddingLeft: 30 }} style={{ width: "80%" }} label="Cari transaksi">
+                    <Icon style={{ color: ColorsList.primary }} name="search" />
+                    <TextInput style={{ width: '90%' }} value={search} onChangeText={text => setSearch(text)} />
+                  </FloatingInput>
+                  <Button style={{ margin: 15 }} onPress={() => setFilterPopup(true)}>
+                    <Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/filter.png')} />
+                  </Button>
+                </Wrapper>
               </View>
+              {
+                eval(DataTransaksi.data.map(item => filterResult(item.data).length).join('+')) > 0 ?
+                  <FlatList
+                    data={DataTransaksi.data}
+                    renderItem={({ item }) => [
+                      filterResult(item.data).length > 0 ?
+                        <View style={{ padding: 15, backgroundColor: ColorsList.greyAuthHard }}>
+                          <Wrapper justify="space-between">
+                            <Text>{moment(item.date).format('ddd, DD MMM YYYY')}</Text>
+                            <Text>{convertRupiah(item.total)}</Text>
+                          </Wrapper>
+                        </View> : null,
+                      <View style={{ padding: 15 }}>
+                        {
+                          filterResult(item.data).map(trx => {
+                            return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
+                              <Wrapper style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} justify="space-between">
+                                <View style={{ padding: 15 }}>
+                                  <Wrapper>
+                                    <View style={{ justifyContent: 'center' }}>
+                                      <Image style={{ width: 50, height: 50 }} source={iconImage[trx.status].image} />
+                                    </View>
+                                    <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
+                                      <Text color="primary">{convertRupiah(trx.total_transaction)}</Text>
+                                      <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
+                                      <Text>{trx.payment_code}</Text>
+                                    </View>
+                                  </Wrapper>
+                                </View>
+                                <View style={{ width: '35%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
+                                  <View style={{ padding: 10 }}>
+                                    <Text color={iconImage[trx.status].color} style={{ textAlign: 'center' }} font="ExtraBold" size={15}>{iconImage[trx.status].text}</Text>
+                                  </View>
+                                </View>
+                              </Wrapper>
+                            </TouchableOpacity>
+                          })
+                        }
+                      </View>
+                    ]}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(item, index) => index.toString()}
+                  />
+                  :
+                  <View style={{ alignItems: 'center' }}>
+                    <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
+                    <View style={{ alignItems: 'center' }}>
+                      <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
+                      <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+                    </View>
+                  </View>
+              }
             </View>
+            :
+            <RingkasanHutang />
         }
       </View>
     )
   }
 
-  const RingkasanHutang = props => {
-    const styles = StyleSheet.create({
-      wrapper: { padding: 15, backgroundColor: ColorsList.whiteColor, marginBottom: 5 }
-    })
+  const RingkasanHutang = ({ route }) => {
     return (
       !reportHutang ? <Text>Belum ada</Text>
-      :
-      <View style={{ padding: 15, flex: 1, backgroundColor: ColorsList.authBackground }}>
-        <Wrapper style={styles.wrapper} justify="space-between">
-          <Text>Jumlah Transaksi Hutang</Text>
-          <Text font="ExtraBold" color="primary">{convertRupiah(reportHutang.jumlah_hutang)}</Text>
-        </Wrapper>
-        <Wrapper style={styles.wrapper} justify="space-between">
-          <Text>Jumlah Pelanggan</Text>
-          <Text font="ExtraBold" color="primary">{reportHutang.jumlah_pelanggan}</Text>
-        </Wrapper>
-        <Wrapper style={styles.wrapper} justify="space-between">
-          <Text>Transaksi Jatuh Tempo</Text>
-          <Text font="ExtraBold" color="primary">{reportHutang.trx_jatuh_tempo}</Text>
-        </Wrapper>
-        <Wrapper style={styles.wrapper} justify="space-between">
-          <Text>Transaksi Belum Lunas</Text>
-          <Text font="ExtraBold" color="primary">{reportHutang.trx_belum_lunas}</Text>
-        </Wrapper>
-        <Bottom>
-          <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>
-          {/* <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button> */}
-        </Bottom>
-      </View>
+        :
+        <View style={{ flex: 1, padding: 15 }}>
+          <Wrapper style={styles.wrapper} justify="space-between">
+            <Text>Jumlah Transaksi Hutang</Text>
+            <Text font="ExtraBold" color="primary">{convertRupiah(reportHutang.jumlah_hutang)}</Text>
+          </Wrapper>
+          <Wrapper style={styles.wrapper} justify="space-between">
+            <Text>Jumlah Pelanggan</Text>
+            <Text font="ExtraBold" color="primary">{reportHutang.jumlah_pelanggan}</Text>
+          </Wrapper>
+          <Wrapper style={styles.wrapper} justify="space-between">
+            <Text>Transaksi Jatuh Tempo</Text>
+            <Text font="ExtraBold" color="primary">{reportHutang.trx_jatuh_tempo}</Text>
+          </Wrapper>
+          <Wrapper style={styles.wrapper} justify="space-between">
+            <Text>Transaksi Belum Lunas</Text>
+            <Text font="ExtraBold" color="primary">{reportHutang.trx_belum_lunas}</Text>
+          </Wrapper>
+          <Bottom>
+            <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>
+            {/* <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button> */}
+          </Bottom>
+        </View>
     )
   }
 
@@ -175,10 +179,10 @@ const TransactionList = ({ navigation }) => {
     { key: 'second', title: 'Ringkasan Hutang' }
   ]);
 
-  const renderScene = SceneMap({
-    first: DaftarTransaksi,
-    second: RingkasanHutang,
-  });
+  // const renderScene = SceneMap({
+  //   first: DaftarTransaksi,
+  //   second: RingkasanHutang,
+  // });
 
   return (
     <View style={{ flex: 1 }}>
@@ -198,7 +202,7 @@ const TransactionList = ({ navigation }) => {
             )
           }}
           navigationState={{ index, routes }}
-          renderScene={renderScene}
+          renderScene={DaftarTransaksi}
           onIndexChange={setIndex}
           initialLayout={initialLayout}
         />
@@ -217,5 +221,6 @@ const styles = StyleSheet.create({
   },
   containerWithData: {
     flex: 1
-  }
+  },
+  wrapper: { padding: 15, backgroundColor: ColorsList.whiteColor, marginBottom: 5 }
 })
