@@ -13,6 +13,7 @@ import { RowChild } from 'src/components/Helper/RowChild';
 import { FloatingInputLabelCurrency, FloatingInputLabel, FloatingInput } from 'src/components/Input/InputComp';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TextInput } from 'react-native-gesture-handler';
+import { InputCurrency } from 'src/components/Input/InputComp';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -20,7 +21,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 
 	const [dataUtang, setDataUtang] = useState()
 	const [loading, setLoading] = useState(true)
-	const [amount_payment, setAmountPayment] = useState()
+	const [amount_payment, setAmountPayment] = useState('')
 	useEffect(() => {
 		const { paramData } = navigation.state.params
 		setDataUtang(paramData)
@@ -41,27 +42,38 @@ const TransactionDetailLunasi = ({ navigation }) => {
 			alert(err.response.data.data.errors.msg)
 		}
 	}
-	const Tunai = props => {
+	const _renderKembalian = () => {
+		try {
+			if (amount_payment.extractNumber() - dataUtang.debt.remaining_debt >= 0)
+				return `Kembalian: ${convertRupiah(amount_payment.extractNumber() - dataUtang.debt.remaining_debt)}`
+		} catch (err) { }
+		return null
+	}
+	const Tunai = ({ route }) => {
 		return (
 			<View style={{ padding: 15, flex: 1 }}>
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<View style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
-						<FloatingInput style={{ margin: 0 }}>
-							<TextInput
-								value={amount_payment}
-								handleChangeText={(text) => setAmountPayment(text)}
-								label="Uang yang diterima" />
-						</FloatingInput>
-						<Text color="primary">{amount_payment - dataUtang.debt.remaining_debt >= 0 ? `Kembalian: ${convertRupiah(amount_payment - dataUtang.debt.remaining_debt)}` : null} </Text>
-						<View style={{ ...RowChild, marginTop: 20 }}>
-							<ToggleButtonMoney
-								style={{ marginRight: 10, }}
-								onPress={(value) => setAmountPayment(value)}
-								buttons={[dataUtang.debt.remaining_debt, getNearestFifty(dataUtang.debt.remaining_debt, 1)]}
-							/>
-						</View>
-					</View>
-				</ScrollView>
+				{
+					route.key == 'first' ?
+						<ScrollView showsVerticalScrollIndicator={false}>
+							<View style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
+								<FloatingInput label="Uang yang diterima" style={{ margin: 0 }}>
+									<InputCurrency
+										value={amount_payment}
+										onChangeText={(text) => setAmountPayment(text)} />
+								</FloatingInput>
+								<Text color="primary">{_renderKembalian()}</Text>
+								<View style={{ ...RowChild, marginTop: 20 }}>
+									<ToggleButtonMoney
+										style={{ marginRight: 10 }}
+										onPress={(value) => setAmountPayment(value.toString())}
+										buttons={[dataUtang.debt.remaining_debt, getNearestFifty(dataUtang.debt.remaining_debt, 2)]}
+									/>
+								</View>
+							</View>
+						</ScrollView>
+						:
+						<NonTunai />
+				}
 			</View>
 		)
 	}
@@ -71,36 +83,34 @@ const TransactionDetailLunasi = ({ navigation }) => {
 
 	const NonTunai = props => {
 		return (
-			<View style={{ padding: 15, flex: 1 }}>
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<View style={{ backgroundColor: ColorsList.whiteColor, padding: 20, paddingTop: 0 }}>
-						<Text {...propsTitleText}>DEBIT</Text>
-						<Wrapper>
-							<View style={styles.wrapperImage}>
-								<Image source={require('src/assets/payment/bca.png')} style={styles.imagePayment} name="BCA" />
-							</View>
-							<View style={styles.wrapperImage}>
-								<Image source={require('src/assets/payment/mandiri.png')} style={styles.imagePayment} name="Mandiri" />
-							</View>
-							<View style={styles.wrapperImage}>
-								<Image source={require('src/assets/payment/bri.png')} style={styles.imagePayment} name="BRI" />
-							</View>
-						</Wrapper>
-						<Text {...propsTitleText}>E-WALLET</Text>
-						<Wrapper>
-							<View style={styles.wrapperImage}>
-								<Image source={require('src/assets/payment/gopay.png')} style={styles.imagePayment} name="Gopay" />
-							</View>
-							<View style={styles.wrapperImage}>
-								<Image source={require('src/assets/payment/dana.png')} style={styles.imagePayment} name="Dana" />
-							</View>
-							<View style={styles.wrapperImage}>
-								<Image source={require('src/assets/payment/ovo.png')} style={styles.imagePayment} name="OVO" />
-							</View>
-						</Wrapper>
-					</View>
-				</ScrollView>
-			</View>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<View style={{ backgroundColor: ColorsList.whiteColor, padding: 20, paddingTop: 0 }}>
+					<Text {...propsTitleText}>DEBIT</Text>
+					<Wrapper>
+						<View style={styles.wrapperImage}>
+							<Image source={require('src/assets/payment/bca.png')} style={styles.imagePayment} name="BCA" />
+						</View>
+						<View style={styles.wrapperImage}>
+							<Image source={require('src/assets/payment/mandiri.png')} style={styles.imagePayment} name="Mandiri" />
+						</View>
+						<View style={styles.wrapperImage}>
+							<Image source={require('src/assets/payment/bri.png')} style={styles.imagePayment} name="BRI" />
+						</View>
+					</Wrapper>
+					<Text {...propsTitleText}>E-WALLET</Text>
+					<Wrapper>
+						<View style={styles.wrapperImage}>
+							<Image source={require('src/assets/payment/gopay.png')} style={styles.imagePayment} name="Gopay" />
+						</View>
+						<View style={styles.wrapperImage}>
+							<Image source={require('src/assets/payment/dana.png')} style={styles.imagePayment} name="Dana" />
+						</View>
+						<View style={styles.wrapperImage}>
+							<Image source={require('src/assets/payment/ovo.png')} style={styles.imagePayment} name="OVO" />
+						</View>
+					</Wrapper>
+				</View>
+			</ScrollView>
 		)
 	}
 
@@ -117,7 +127,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	const [viewDetail, setViewDetail] = useState(false)
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader onPressBack={() => navigation.goBack()} title="Lunasi" />
+			<GlobalHeader onPressBack={() => navigation.navigate('/drawer/transaction')} title="Lunasi" />
 			{loading ? <Text>adfs</Text> :
 				<View style={{ flex: 1 }}>
 					<View style={{ flex: 1, marginBottom: 60 }}>
@@ -170,7 +180,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 								)
 							}}
 							navigationState={{ index, routes }}
-							renderScene={renderScene}
+							renderScene={Tunai}
 							onIndexChange={setIndex}
 							initialLayout={initialLayout}
 						/>

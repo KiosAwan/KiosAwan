@@ -32,26 +32,26 @@ Array.prototype.loopCallback = function (callback, reverse, index) {
     }
   }
 }
-String.prototype.generateInitial = function(){
+String.prototype.generateInitial = function () {
   var name = this.split(' ');
-  if (this.length == 3){
+  if (this.length == 3) {
     return this.toUpperCase()
   }
-  if (name.length > 1){
+  if (name.length > 1) {
     return name[0][0].toUpperCase() + name[1][0].toUpperCase()
   }
   return name[0][0].toUpperCase() + name[0][1]
 }
-String.prototype.ucfirst = function(){
-	return this.charAt(0).toUpperCase() + this.slice(1);
+String.prototype.ucfirst = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
 }
-String.prototype.lcfirst = function(){
-	return this.charAt(0).toLowerCase() + this.slice(1);
+String.prototype.lcfirst = function () {
+  return this.charAt(0).toLowerCase() + this.slice(1);
 }
-String.prototype.ucwords = function(){
-	return this.toLowerCase().replace(/\b[a-z]/g, function(letter) {
-		return letter.toUpperCase();
-	});
+String.prototype.ucwords = function () {
+  return this.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+    return letter.toUpperCase();
+  });
 }
 String.prototype.isBool = function () {
   return this.length < 4 && this.Contains("true");
@@ -63,6 +63,15 @@ String.prototype.getRawUrl = function () {
   var str = decodeURI(this)
   var url = str.split("?")[0]
   return url;
+}
+String.prototype.extractNumber = function () {
+  var matches = this.match(/\d+/g);
+  if (matches.length > 0)
+    return matches.join('').toInt()
+  return 0
+}
+String.prototype.toInt = function () {
+  return Number(this)
 }
 String.prototype.getParamFromUrl = function () {
   var query = this

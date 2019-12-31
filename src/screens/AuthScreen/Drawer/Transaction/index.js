@@ -14,6 +14,7 @@ import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { convertRupiah, getReportHutang } from 'src/utils/authhelper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Animation from 'src/components/Animation/Animation';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -146,7 +147,13 @@ const TransactionList = ({ navigation }) => {
 
   const RingkasanHutang = ({ route }) => {
     return (
-      !reportHutang ? <Text>Belum ada</Text>
+      !reportHutang ? <View style={{ alignItems: 'center' }}>
+        <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
+        <View style={{ alignItems: 'center' }}>
+          <Text font="ExtraBold" size={17}>Anda belum memiliki piutang</Text>
+          <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+        </View>
+      </View>
         :
         <View style={{ flex: 1, padding: 15 }}>
           <Wrapper style={styles.wrapper} justify="space-between">
@@ -167,7 +174,6 @@ const TransactionList = ({ navigation }) => {
           </Wrapper>
           <Bottom>
             <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>
-            {/* <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button> */}
           </Bottom>
         </View>
     )
@@ -184,31 +190,32 @@ const TransactionList = ({ navigation }) => {
   //   second: RingkasanHutang,
   // });
 
-  return (
+  // const returns = () => (
+  return (<View style={{ flex: 1 }}>
+    <GlobalHeader onPressBack={() => navigation.navigate('/drawer')} title="Transaksi" />
     <View style={{ flex: 1 }}>
-      <GlobalHeader onPressBack={() => navigation.navigate('/drawer')} title="Transaksi" />
-      <View style={{ flex: 1 }}>
-        <TabView
-          renderTabBar={props => {
-            const width = 100 / props.navigationState.routes.length
-            return (
-              <Wrapper style={{ padding: 15 }}>
-                {
-                  props.navigationState.routes.map((route, i) => {
-                    return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
-                  })
-                }
-              </Wrapper>
-            )
-          }}
-          navigationState={{ index, routes }}
-          renderScene={DaftarTransaksi}
-          onIndexChange={setIndex}
-          initialLayout={initialLayout}
-        />
-      </View>
+      <TabView
+        renderTabBar={props => {
+          const width = 100 / props.navigationState.routes.length
+          return (
+            <Wrapper style={{ padding: 15 }}>
+              {
+                props.navigationState.routes.map((route, i) => {
+                  return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
+                })
+              }
+            </Wrapper>
+          )
+        }}
+        navigationState={{ index, routes }}
+        renderScene={DaftarTransaksi}
+        onIndexChange={setIndex}
+        initialLayout={initialLayout}
+      />
     </View>
-  );
+  </View>
+  )
+  // return <Animation />
 }
 
 export default TransactionList
