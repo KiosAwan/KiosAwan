@@ -63,8 +63,8 @@ const CreatePIN = ({ navigation }) => {
 
                 />
             </Modal>
-            <View style={{alignSelf : 'center', width : '70%'}}>
-                <Text style={{textAlign : "center", ...FontList.subtitleFontGreyBold}}>Untuk menunjang keamananan profil Anda , buatlah PIN dengan benar</Text>
+            <View style={{alignSelf : 'center', width : '70%', paddingTop : 15}}>
+                <Text style={{textAlign : "center", ...FontList.subtitleFontGreyBold}}>Untuk menunjang kemanan Anda saat bertransaksi buat PIN dengan benar dan pastikan tidak diketahui oleh orang lain</Text>
 
             </View>
             <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
