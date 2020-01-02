@@ -14,7 +14,7 @@ import { ColorsList } from '../../styles/colors'
 import { FontList } from '../../styles/typography'
 
 //redux
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 //CustomComponent
 import { CardComp, CardTextImage } from '../../components/Card/CardComp'
@@ -24,12 +24,16 @@ import { HOST_URL } from 'src/config'
 import { HomeHeader } from 'src/components/Header/Header'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { Button } from 'src/components/Button/ButtonComp'
+import { Spinner } from 'native-base'
+import { getProfile } from 'src/redux/actions/actionsUserData'
 
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
+	const dispatch = useDispatch()
 	const [maintanance, setMaintanance] = useState(false)
 	const [message, setMessage] = useState(false)
+	const [onRefresh, setOnRefresh] = useState(false)
 
 
 	useEffect(() => {
@@ -68,6 +72,12 @@ const Home = ({ navigation }) => {
 	const [_alert, _setAlert] = useState(false)
 	const [_alertTitle, _setAlertTitle] = useState('')
 	const [_alertMessage, _setAlertMessage] = useState('')
+
+	const _handleRefresh = () => {
+		dispatch(getProfile(User.data.id))
+		console.debug(User.isLoading)
+		setOnRefresh(false)
+	}
 	return (
 		<View style={styles.container}>
 			<HomeHeader onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
@@ -75,7 +85,15 @@ const Home = ({ navigation }) => {
 				<View></View>
 				<Button width='30%' onPress={() => _setAlert(false)}>OK</Button>
 			</AwanPopup.Title>
-			<ScrollView style={styles.childContainer} showsVerticalScrollIndicator={false}>
+			{onRefresh ? <Spinner color={ColorsList.primaryColor} style={{alignSelf : "center"}}></Spinner> : null}
+			{onRefresh ?
+				<Text style={{ alignSelf: 'center', ...FontList.titleFont, color : ColorsList.greySoft }}>Pull to refresh</Text>
+				: null
+			}
+			<ScrollView
+				onScrollBeginDrag={() => setOnRefresh(true)}
+				onScrollEndDrag={_handleRefresh}
+				style={styles.childContainer} showsVerticalScrollIndicator={false}>
 				<View style={{ paddingVertical: 10 }}>
 					{
 						maintanance ?
@@ -104,7 +122,7 @@ const Home = ({ navigation }) => {
 							<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
 								<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
 									<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<View style={{width : '80%'}}>
+									<View style={{ width: '80%' }}>
 										<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>Lengkapi profil Anda agar bisa menggunakan fitur-fitur yang tersedia</Text>
 									</View>
 								</View>

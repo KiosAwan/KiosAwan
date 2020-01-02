@@ -6,13 +6,11 @@ import { ColorsList } from 'src/styles/colors';
 import { Button, Wrapper, Bottom } from 'src/components/Button/ButtonComp';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
-import { ImageText } from 'src/components/Card/CardComp';
 import { convertRupiah, getNearestFifty, payCredit, convertNumber } from 'src/utils/authhelper';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { RowChild } from 'src/components/Helper/RowChild';
-import { FloatingInputLabelCurrency, FloatingInputLabel, FloatingInput } from 'src/components/Input/InputComp';
+import { FloatingInput } from 'src/components/Input/InputComp';
 import AsyncStorage from '@react-native-community/async-storage';
-import { TextInput } from 'react-native-gesture-handler';
 import { InputCurrency } from 'src/components/Input/InputComp';
 
 const initialLayout = { width: 300, height: 300 };
@@ -36,7 +34,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		}
 		try {
 			const res = await payCredit(data, dataUtang.transaction.id_transaction)
-			navigation.goBack()
+			navigation.navigate('/drawer/transaction')
 		}
 		catch (err) {
 			alert(err.response.data.data.errors.msg)

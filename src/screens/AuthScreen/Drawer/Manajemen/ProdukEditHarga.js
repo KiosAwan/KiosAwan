@@ -6,7 +6,7 @@ import { CheckBox } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler';
 import { convertNumber, deleteProduct } from 'src/utils/authhelper';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
-import {  GlobalHeaderWithIcon } from 'src/components/Header/Header';
+import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { FloatingInputLabelCurrency, FloatingInputLabel } from 'src/components/Input/InputComp';
 import SwitchButton from 'src/components/Button/SwitchButton';
@@ -47,24 +47,26 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 			await formData.append('manage_stock', EditProduct.manageStock)
 			await formData.append('qty_stock', EditProduct.qty_stock)
 			await formData.append('qty_min_stock', EditProduct.qty_min_stock)
-			await formData.append('send_notification_stock', EditProduct.sendNotif)
+			await formData.append('send_notification_stock', EditProduct.sendNotif ? EditProduct.sendNotif : 0)
 			await formData.append('photo_product', EditProduct.image != "" ? {
 				uri: EditProduct.image,
 				type: "image/jpeg",
 				name: `${Date.now()}.jpeg`
 			} : null)
-			const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
-			if (res.data.status == 200) {
-				setModalVisible(true)
-				setTimeout(() => {
-					setModalVisible(false)
-					dispatch(editRemoveAllNewProduct())
-					dispatch(getProduct(User.store.id_store))
-					navigation.navigate('/drawer/manajemen/produk')
-				}, 1000)
+			try {
+				const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
+				if (res.data.status == 200) {
+					setModalVisible(true)
+					setTimeout(() => {
+						setModalVisible(false)
+						dispatch(editRemoveAllNewProduct())
+						dispatch(getProduct(User.store.id_store))
+						navigation.navigate('/drawer/manajemen/produk')
+					}, 1000)
+				}
 			}
-			else if (res.data.status == 400) {
-				alert(res.data.data.errors.msg)
+			catch (err) {
+				alert(err.response.data.data.errors.msg)
 			}
 		}
 

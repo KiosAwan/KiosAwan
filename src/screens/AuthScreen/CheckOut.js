@@ -7,12 +7,17 @@ import { SizeList } from '../../styles/size';
 import { convertRupiah, sendNewTransaction, formatToDate, convertNumber } from '../../utils/authhelper';
 import { FontList } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
-import { BottomButton, ButtonWithIcon } from '../../components/Button/ButtonComp';
+import { BottomButton } from '../../components/Button/ButtonComp';
 import { GlobalHeader } from '../../components/Header/Header';
 import CashPayment from './Cashier/Payment/CashPayment';
 import NonTunai from './Cashier/Payment/NonTunai';
 import Piutang from './Cashier/Payment/Piutang';
-import { removeAllCart, getProduct, AddCashPayment, AddCustomer } from '../../redux/actions/actionsStoreProduct';
+import {
+    removeAllCart, getProduct, AddCashPayment, AddCustomer, AddDiscountName,
+    AddDiscountRupiah,
+    AddDiscountPersen,
+    changeTransactionDiscount
+} from '../../redux/actions/actionsStoreProduct';
 import { getTransactionList } from '../../redux/actions/actionsTransactionList';
 import AsyncStorage from '@react-native-community/async-storage'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -76,20 +81,23 @@ class CheckOut extends React.Component {
             product_cart: cart,
             customer: Product.customer ? Product.customer.id_customer : null,
             id_store: this.props.User.store.id_store,
-            discount_name : Product.discount_name,
-            discount_transaction : Product.discount_transaction
+            discount_name: Product.discount_name,
+            discount_transaction: Product.discount_transaction
         }
         const res = await sendNewTransaction(data)
         this.setState({ loadingVisible: false })
         if (res.status == 400) {
             alert(res.data.errors.msg)
-        } else {
+        } else if (res.status == 200) {
             this.props.removeAllCart()
             this.props.AddCashPayment(0)
             this.props.AddCustomer(null)
-            this.props.getProduct(this.props.User.store.id_store)
+            this.props.
+                this.props.getProduct(this.props.User.store.id_store)
             this.props.getTransactionList(this.props.User.store.id_store)
             this.props.navigation.navigate('/cashier/struk', { response: res.data })
+        } else {
+            alert(JSON.stringify(res))
         }
     }
 
@@ -125,8 +133,8 @@ class CheckOut extends React.Component {
                 customer: Product.customer.id_customer,
                 id_store: this.props.User.store.id_store,
                 due_debt_date: formatToDate(Product.due_debt_date),
-                discount_name : Product.discount_name,
-                discount_transaction : Product.discount_transaction
+                discount_name: Product.discount_name,
+                discount_transaction: Product.discount_transaction
             }
             const res = await sendNewTransaction(data)
             this.setState({ loadingVisible: false })
@@ -134,6 +142,10 @@ class CheckOut extends React.Component {
                 alert(res.data.errors.msg)
             } else {
                 this.props.removeAllCart()
+                this.props.AddDiscountName('')
+                this.props.AddDiscountPersen('')
+                this.props.AddDiscountRupiah('')
+                this.props.changeTransactionDiscount()
                 this.props.AddCashPayment(0)
                 this.props.AddCustomer(null)
                 this.props.getProduct(this.props.User.store.id_store)
@@ -216,7 +228,17 @@ function mapStateToProps(state) {
 }
 export default connect(
     mapStateToProps,
-    { removeAllCart, getProduct, getTransactionList, AddCashPayment, AddCustomer }
+    {
+        removeAllCart,
+        getProduct,
+        getTransactionList,
+        AddCashPayment,
+        AddCustomer,
+        AddDiscountName,
+        AddDiscountRupiah,
+        AddDiscountPersen,
+        changeTransactionDiscount
+    }
 )(CheckOut)
 
 const styles = StyleSheet.create({

@@ -56,28 +56,6 @@ const Cashier = ({ navigation }) => {
                     <Image size={20} source={require('src/assets/icons/barcode.png')} />
                 </Button>
             </Wrapper>
-            {/* <View style={styles.wrapButtonHeader}>
-                <ButtonWithIcon
-                    onPressBtn={() => {
-                        dispatch(setFromManajemenProduct(null))
-                        navigation.navigate('/cashier/new-barcode')
-                    }}
-                    style={styles.btnIconStyle}
-                    iconName="plus"
-                    buttonTitle="PRODUK BARU"
-                />
-                <ButtonWithIcon
-                    style={styles.btnIconStyle}
-                    onPressBtn={() => navigation.navigate('/cashier/input-manual')}
-                    iconName="history"
-                    buttonTitle="PESAN MANUAL"
-                />
-                <TouchableOpacity onPress={() => navigation.navigate('/cashier/add-cart-with-barcode')}>
-                    <View style={styles.barcodeButton}>
-                        <Icon name="ios-barcode" style={{ color: 'white' }} />
-                    </View>
-                </TouchableOpacity>
-            </View> */}
             <View style={[styles.childContainer, { backgroundColor: Product.isLoading ? "white" : ColorsList.authBackground, justifyContent: Product.data.length == 0 ? 'center' : null, alignItems: Product.data.length == 0 ? 'center' : null }]}>
                 {Product.isLoading ?
                     <View>
@@ -98,6 +76,7 @@ const Cashier = ({ navigation }) => {
                             data={Product.data.filter(item => item.name_product.toLowerCase().includes(search))}
                             renderItem={({ item }) => (
                                 <ProductCard
+                                    productImage={item.photo_product !== "" ? item.photo_product : null}
                                     name={item.name_product}
                                     price={convertRupiah(item.price_out_product)}
                                     onPressMinus={() => dispatch(MinusQuantity(item))}

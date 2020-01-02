@@ -26,7 +26,7 @@ const NewBarcodeProduct = ({ navigation }) => {
       barcode: scanResult.data
     }
     const response = await checkBarcode(data)
-
+    console.debug(response)
     await dispatch(addProductBarcode(response.data.barcode))
 
     if (response.data.nama_product != undefined) {

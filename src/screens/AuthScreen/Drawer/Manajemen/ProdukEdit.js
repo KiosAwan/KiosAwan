@@ -112,11 +112,11 @@ const ManajemenProdukEdit = ({ navigation }) => {
 			 onPressBack={() => navigation.goBack()} />
 			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
 				<View style={{ padding: 15 }}>
-					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'New Category' : 'Edit Category'}</Text>
+					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 					<View style={{ marginTop: 10 }}>
 						<FloatingInputLabel
-							label={"Category Name"}
+							label={"Nama Kategori"}
 							value={newCategoryName}
 							handleChangeText={(text) => setNewCategoryName(text)}
 						/>
@@ -135,7 +135,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
-							<FloatingInputLabel label="Barcode Number" disabled value={EditProduct.barcode} />
+							<FloatingInputLabel label="Nomor Barcode" disabled value={EditProduct.barcode} />
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.navigate('/drawer/manajemen/produk/edit/barcode')} style={styles.buttonScanBarcode}>
@@ -146,20 +146,20 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<View style={{ marginTop: 15 }}>
 						<FloatingInputLabel
 							disabled={false}
-							label="Product Name"
+							label="Nama Produk"
 							value={EditProduct.name}
 							handleChangeText={text => dispatch(editProductName(text))}
 						/>
 					</View>
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Select category"
+						label="Pilih Kategori"
 						header={
 							<TouchableOpacity style={styles.headerCategory} onPress={() => {
 								setNewCategoryName("")
 								setEditNewCategory('add')
 								setAddCategoryVisible(true)
 							}}>
-								<Text style={{ color: ColorsList.primaryColor }}>Add Category +</Text>
+								<Text style={{ color: ColorsList.primaryColor }}>Tambah Kategori +</Text>
 								<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 							</TouchableOpacity>
 						}
@@ -196,7 +196,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={_handleChoosePhoto}>
 							<Image style={styles.image}
-								source={EditProduct.image !== "" ? { uri: imageProduct } : require('src/assets/images/img-product.png')}
+								source={EditProduct.image !== "" ? { uri: EditProduct.image } : require('src/assets/images/img-product.png')}
 							/>
 						</TouchableOpacity>
 					</View>
