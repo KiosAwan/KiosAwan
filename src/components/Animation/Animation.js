@@ -1,53 +1,37 @@
-import React, { Component, useState } from 'react';
-import { Animated, TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { View, StyleSheet, Animated, TouchableWithoutFeedback, Text } from "react-native";
 
+// create a component
 const Animation = props => {
-	const [animValue] = useState(new Animated.Value(true))
+	const [animValue] = useState(new Animated.Value(0))
 	const handleSelect = () => {
-		animValue._value
+		animValue._value > 0
 			? Animated.timing(animValue, {
-				toValue: true,
-				duration: 500
+				toValue: 0,
+				duration: 5000
 			}).start()
 			: Animated.timing(animValue, {
-				toValue: false,
-				duration: 500
+				toValue: 30,
+				duration: 5000
 			}).start();
 	}
-	const renderRectangle = () => {
-		let rotateAnimation = animValue.interpolate({
-			inputRange: [true, false],
-			outputRange: [1, 1.5]
-		});
 
-		const customStyle = {
-			height: animValue,
-			transform: [{ scale: rotateAnimation }]
-		};
-
+	const renderRectangle = props => {
 		return (
-			<Animated.View style={[styles.rectangle, customStyle]}>
-				<TouchableWithoutFeedback onPress={() => handleSelect()}>
-					<View style={{ flex: 1 }} />
-				</TouchableWithoutFeedback>
-			</Animated.View>
+			<Animated.Text style={{ backgroundColor: 'blue', height: animValue }}>
+				Text
+			</Animated.Text>
 		)
 	}
-	return <View style={styles.container}>
-		{renderRectangle()}
-	</View>
+	return (
+		<View>
+			{renderRectangle()}
+			<TouchableWithoutFeedback onPress={() => handleSelect()}>
+				<Text>Click Me</Text>
+			</TouchableWithoutFeedback>
+		</View>
+	);
 }
 
 export default Animation
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center"
-	},
-	rectangle: {
-		backgroundColor: "#2c3e50",
-		width: true
-	}
-});

@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { View, StyleSheet, Image, TextInput, Modal } from 'react-native';
-import { GlobalHeader } from '../../../components/Header/Header';
+import { GlobalHeader } from 'src/components/Header/Header';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
-import { Text } from '../../../components/Text/CustomText';
-import { ColorsList } from '../../../styles/colors';
-import { FloatingInput } from '../../../components/Input/InputComp';
-import { BottomButton, Bottom, Button } from '../../../components/Button/ButtonComp';
-import { SizeList } from '../../../styles/size';
+import { Text } from 'src/components/Text/CustomText';
+import { ColorsList } from 'src/styles/colors';
+import { FloatingInput } from 'src/components/Input/InputComp';
+import { BottomButton, Bottom, Button, Wrapper } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
 import ImagePicker from 'react-native-image-crop-picker'
 import AsyncStorage from '@react-native-community/async-storage';
-import { sendProfileData } from '../../../utils/authhelper';
-import { getProfile } from '../../../redux/actions/actionsUserData';
-import ModalContent from '../../../components/ModalContent/ModalContent';
-import { SelectBoxModal } from '../../../components/Picker/SelectBoxModal';
-import Wilayah from '../../../utils/wilayah';
+import { sendProfileData } from 'src/utils/authhelper';
+import { getProfile } from 'src/redux/actions/actionsUserData';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
+import Wilayah from 'src/utils/wilayah';
 import { Icon } from 'native-base';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Divider from 'src/components/Row/Divider';
 
 
 const UpdateProfil = ({ navigation }) => {
@@ -146,7 +147,7 @@ const UpdateProfil = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-					image={require('../../../assets/images/successcreatestore.png')}
+					image={require('src/assets/images/successcreatestore.png')}
 					infoText="Pembaruan Profil Berhasil!"
 					closeModal={() => setModalVisible(false)}
 				/>
@@ -165,10 +166,15 @@ const UpdateProfil = ({ navigation }) => {
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={[
-							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
-							<TextInput style={{ width: '95%' }} value={provinsi.search} placeholder="Cari Provinsi" onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
-						]}
+						header={
+							<View>
+								<Wrapper justify="center">
+									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+									<TextInput _width='90%' value={provinsi.search} placeholder="Cari Provinsi" onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
+								</Wrapper>
+								<Divider />
+							</View>
+						}
 						value={provinsi.selected ? provinsi.selected.nama : null}
 						handleChangePicker={_setProvinsi}
 						renderItem={(item) => (<Text>{item.nama}</Text>)}>
@@ -177,10 +183,15 @@ const UpdateProfil = ({ navigation }) => {
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={[
-							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
-							<TextInput style={{ width: '95%' }} value={kabupaten.search} placeholder="Cari Kabupaten" onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
-						]}
+						header={
+							<View>
+								<Wrapper justify="center">
+									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+									<TextInput _width='90%' value={kabupaten.search} placeholder="Cari Kabupaten" onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
+								</Wrapper>
+								<Divider />
+							</View>
+						}
 						value={kabupaten.selected ? kabupaten.selected.nama : null}
 						handleChangePicker={_setKabupaten}
 						renderItem={(item) => (<Text>{item.nama}</Text>)}>
@@ -189,10 +200,15 @@ const UpdateProfil = ({ navigation }) => {
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={[
-							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
-							<TextInput style={{ width: '95%' }} value={kecamatan.search} placeholder="Cari Kecamatan" onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
-						]}
+						header={
+							<View>
+								<Wrapper justify="center">
+									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+									<TextInput _width='90%' value={kecamatan.search} placeholder="Cari Kecamatan" onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
+								</Wrapper>
+								<Divider />
+							</View>
+						}
 						value={kecamatan.selected ? kecamatan.selected.nama : null}
 						handleChangePicker={_setKecamatan}
 						renderItem={(item) => (<Text>{item.nama}</Text>)}>
@@ -201,10 +217,15 @@ const UpdateProfil = ({ navigation }) => {
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={[
-							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
-							<TextInput style={{ width: '95%' }} value={desa.search} placeholder="Cari Desa" onChangeText={text => setDesa({ ...desa, search: text })} />
-						]}
+						header={
+							<View>
+								<Wrapper justify="center">
+									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+									<TextInput _width='90%' value={desa.search} placeholder="Cari Desa" onChangeText={text => setDesa({ ...desa, search: text })} />
+								</Wrapper>
+								<Divider />
+							</View>
+						}
 						value={desa.selected ? desa.selected.nama : null}
 						handleChangePicker={_setDesa}
 						renderItem={(item) => (<Text>{item.nama}</Text>)}>
@@ -215,7 +236,7 @@ const UpdateProfil = ({ navigation }) => {
 					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
-							<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('../../../assets/images/img-product.png')} />
+							<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />
 						</TouchableOpacity>
 					</View>
 				</View>

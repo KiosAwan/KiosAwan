@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Animated } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text'
 import {
   Item,
@@ -99,33 +99,40 @@ export const InputCurrency = props => {
 }
 
 export const FloatingInput = props => {
-  let _sejajar = 30
-  let _up = 0
-  let _interval = 5
-  let _input, inIndex, child
-  let toFocus
-  const changeUpDown = _ => {
-    let ukuran
-    if (haveValue) {
-      setTextUp(_up)
-      return
-    }
-    if (_) {
-      ukuran = _sejajar
-      let interval = setInterval(() => {
-        setTextUp(ukuran)
-        if (ukuran <= _up)
-          clearInterval(interval)
-        ukuran -= _interval
-      }, 1)
+  let { width } = Dimensions.get('window')
+  let _bot = 30, _top = 0
+  let _input, inIndex, child, toFocus, haveValue, _left
+  if (typeof props.left == 'string') {
+    let num = props.left.extractNumber()
+    if (num > 100) {
+      throw new Error('Left value ga boleh lebih dari 100% Bozzz');
     } else {
-      ukuran = _up
-      let interval = setInterval(() => {
-        setTextUp(ukuran)
-        if (ukuran >= _sejajar)
-          clearInterval(interval)
-        ukuran += _interval
-      }, 1)
+      _left = width * num / 100
+    }
+  } else {
+    _left = props.left
+  }
+  const [activeColor, setActiveColor] = useState('grey')
+  const [topValue] = useState(new Animated.Value(_bot))
+  const [leftValue] = useState(new Animated.Value(_left || 0))
+  const scaleAnimation = topValue.interpolate({
+    inputRange: [_top, _bot],
+    outputRange: [.9, 1]
+  })
+  const _animate = (_, value) => {
+    let duration = 300
+    Animated.timing(_, {
+      toValue: value,
+      duration: duration
+    }).start()
+  }
+  const changeUpDown = _ => {
+    if (_) {
+      _animate(topValue, _top)
+      _animate(leftValue, 0)
+    } else {
+      _animate(topValue, _bot)
+      _animate(leftValue, _left || 0)
     }
   }
   const renderInput = input => {
@@ -137,7 +144,7 @@ export const FloatingInput = props => {
       },
       onBlur: () => {
         setActiveColor('grey')
-        changeUpDown(false)
+        changeUpDown(haveValue)
       }
     })
   }
@@ -156,7 +163,7 @@ export const FloatingInput = props => {
     throw new Error('Kasih children dong, gw mau nampilin apaan nih kalo ga lu kasih children?');
   }
   if (!('value' in _input.props)) {
-    throw new Error('Tolong ya mas, Input nya di kasih value, Fungsi Input kan buat store data. Apa yang mau di store kalo ga ada value');
+    throw new Error('Tolong ya mas, Input nya di kasih value, Fungsi Input kan buat store data. Lantas, apa yang mau di store kalo ga ada value?');
   } else {
     if (Array.isArray(props.children)) {
       child = []
@@ -171,21 +178,19 @@ export const FloatingInput = props => {
       child = renderInput(_input)
     }
   }
-  let haveValue = Array.isArray(props.children) ? child[inIndex].props.value : child.props.value
-  const [activeColor, setActiveColor] = useState('grey')
-  const [textUp, setTextUp] = useState(_sejajar)
+  haveValue = Array.isArray(props.children) ? child[inIndex].props.value : child.props.value
   useEffect(() => {
-    if (haveValue) {
-      setTextUp(_up)
-    }
-  })
+    changeUpDown(haveValue)
+  }, [])
   return (
-    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={[{ justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor }, props.style]}>
-      <Text style={[{ color: activeColor, position: 'absolute', top: textUp, ...props.labelStyle }]}>{props.label}</Text>
+    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={{ justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, ...props.style }}>
+      <Animated.Text style={[{ color: activeColor, position: 'absolute' }, {
+        left: leftValue, top: topValue, transform: [{ scale: scaleAnimation }]
+      }, props.labelStyle]}>{props.label}</Animated.Text>
       {
         Array.isArray(props.children) ? <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>{child}</View> : child
       }
-    </TouchableOpacity>
+    </TouchableOpacity >
   )
 }
 

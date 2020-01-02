@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { FloatingInput } from '../../../../components/Input/InputComp';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
+import { BottomButton, Wrapper } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import { Text } from '../../../../components/Text/CustomText';
@@ -15,6 +15,7 @@ import { getProfile } from '../../../../redux/actions/actionsUserData';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
 import Wilayah from 'src/utils/wilayah';
+import Divider from 'src/components/Row/Divider';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -32,22 +33,22 @@ const MenuSettingProfil = ({ navigation }) => {
 	})
 
 	const [provinsi, setProvinsi] = useState({
-		selected: '',
+		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[4] } : {},
 		search: '',
 		data: []
 	})
 	const [kabupaten, setKabupaten] = useState({
-		selected: '',
+		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[3] } : {},
 		search: '',
 		data: []
 	})
 	const [kecamatan, setKecamatan] = useState({
-		selected: '',
+		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[2] } : {},
 		search: '',
 		data: []
 	})
 	const [desa, setDesa] = useState({
-		selected: '',
+		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[1] } : {},
 		search: '',
 		data: []
 	})
@@ -93,13 +94,16 @@ const MenuSettingProfil = ({ navigation }) => {
 
 	const _handleSaveProfile = async () => {
 		const formData = new FormData()
-		formData.appendObject(formValue, ['photo_store']) // ('Form data yang di append', 'kecuali')
+		let final_address = `${formValue.address_store}%${desa.selected.nama}%${kecamatan.selected.nama}%${kabupaten.selected.nama}%${provinsi.selected.nama}`
+		formData.appendObject(formValue, ['photo_store', 'address_store']) // ('Form data yang di append', 'kecuali')
+		formData.append("address_store", final_address)
 		formData.append('photo_store', formValue.photo_store != "" ? {
 			uri: formValue.photo_store,
 			type: "image/jpeg",
 			name: `${Date.now()}.jpeg`
 		} : null)
 		const res = await editStoreProfile(formData, User.store.id_store)
+		console.debug('1122334455', res)
 		if (res.status == 400) {
 			alert(res.data.errors.msg)
 		} else if (res.status == 200) {
@@ -164,18 +168,22 @@ const MenuSettingProfil = ({ navigation }) => {
 					{
 						inputan.map((input, i) => {
 							return <FloatingInput key={i} style={styles.floatingInput} label={input._label}>
-								<TextInput editable={input.editable} {...input} />
+								<TextInput style={{ width: '90%' }} {...input} />
 							</FloatingInput>
 						})
 					}
 
-
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={[
-							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
-							<TextInput style={{ width: '95%' }} value={provinsi.search} placeholder="Cari Provinsi" onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
-						]}
+						header={
+							<View>
+								<Wrapper justify="center">
+									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+									<TextInput _width='90%' value={provinsi.search} placeholder="Cari Provinsi" onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
+								</Wrapper>
+								<Divider />
+							</View>
+						}
 						value={provinsi.selected ? provinsi.selected.nama : null}
 						handleChangePicker={_setProvinsi}
 						renderItem={(item) => (<Text>{item.nama}</Text>)}>
@@ -184,10 +192,15 @@ const MenuSettingProfil = ({ navigation }) => {
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={[
-							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
-							<TextInput style={{ width: '95%' }} value={kabupaten.search} placeholder="Cari Kabupaten" onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
-						]}
+						header={
+							<View>
+								<Wrapper justify="center">
+									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+									<TextInput _width='90%' value={kabupaten.search} placeholder="Cari Kabupaten" onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
+								</Wrapper>
+								<Divider />
+							</View>
+						}
 						value={kabupaten.selected ? kabupaten.selected.nama : null}
 						handleChangePicker={_setKabupaten}
 						renderItem={(item) => (<Text>{item.nama}</Text>)}>
@@ -196,10 +209,15 @@ const MenuSettingProfil = ({ navigation }) => {
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={[
-							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
-							<TextInput style={{ width: '95%' }} value={kecamatan.search} placeholder="Cari Kecamatan" onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
-						]}
+						header={
+							<View>
+								<Wrapper justify="center">
+									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+									<TextInput _width='90%' value={kecamatan.search} placeholder="Cari Kecamatan" onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
+								</Wrapper>
+								<Divider />
+							</View>
+						}
 						value={kecamatan.selected ? kecamatan.selected.nama : null}
 						handleChangePicker={_setKecamatan}
 						renderItem={(item) => (<Text>{item.nama}</Text>)}>
@@ -208,10 +226,15 @@ const MenuSettingProfil = ({ navigation }) => {
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={[
-							<Icon style={{ width: '5%', color: ColorsList.primary }} name="search" />,
-							<TextInput style={{ width: '95%' }} value={desa.search} placeholder="Cari Desa" onChangeText={text => setDesa({ ...desa, search: text })} />
-						]}
+						header={
+							<View>
+								<Wrapper justify="center">
+									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+									<TextInput _width='90%' value={desa.search} placeholder="Cari Desa" onChangeText={text => setDesa({ ...desa, search: text })} />
+								</Wrapper>
+								<Divider />
+							</View>
+						}
 						value={desa.selected ? desa.selected.nama : null}
 						handleChangePicker={_setDesa}
 						renderItem={(item) => (<Text>{item.nama}</Text>)}>

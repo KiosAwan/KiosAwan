@@ -75,7 +75,7 @@ const TransactionList = ({ navigation }) => {
               </AwanPopup.Menu>
               <View style={{ padding: 15, paddingTop: 0, backgroundColor: ColorsList.whiteColor }}>
                 <Wrapper justify="space-between">
-                  <FloatingInput labelStyle={{ paddingLeft: 30 }} style={{ width: "80%" }} label="Cari transaksi">
+                  <FloatingInput left={30} style={{ width: "80%" }} label="Cari transaksi">
                     <Icon style={{ color: ColorsList.primary }} name="search" />
                     <TextInput style={{ width: '90%' }} value={search} onChangeText={text => setSearch(text)} />
                   </FloatingInput>

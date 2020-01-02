@@ -78,7 +78,12 @@ export const Button = props => {
 export const Wrapper = props => {
 	return <View style={[{ flexDirection: props.direction || 'row', justifyContent: props.justify || 'space-around' }, props.style]}>
 		{
-			props.children
+			props.children.length > 0 ?
+				props.children.map((item, i) =>
+					<View style={{ width: item.props._width, justifyContent: 'center' }} key={i}>
+						{item}
+					</View>
+				) : props.children
 		}
 	</View>
 }
