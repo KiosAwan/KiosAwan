@@ -87,7 +87,7 @@ export const ProductCard = (props) => {
             <View style={[styles.card, props.cardStyle]}>
                 <View style={{ ...RowChild, height: '100%', width: '90%' }}>
                     {props.productImage ?
-                        <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: 'red' }} source={{ uri: props.productImage }} />
+                        <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
                         :
                         <ImageText name={props.name} />
                     }

@@ -111,36 +111,47 @@ const Report = ({ navigation }) => {
 					<Image style={{ width: 15, height: 15 }} source={require('src/assets/icons/filter.png')} />
 				</Button>
 			</Wrapper>
-			<ScrollView>
-				<View style={{ padding: 15 }}>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Total Penjualan</Text>
-						<Text color="primary" font="Bold">{convertRupiah(transaction.total_penjualan)}</Text>
-					</Wrapper>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Total Keuntungan</Text>
-						<Text color="primary" font="Bold">{convertRupiah(transaction.total_profit)}</Text>
-					</Wrapper>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Transaksi</Text>
-						<Text color="primary" font="Bold">{transaction.jumlah_transaksi}</Text>
-					</Wrapper>
-					<Wrapper justify="space-between" style={styles.report}>
-						<Text>Produk Terjual</Text>
-						<Text color="primary" font="Bold">{transaction.product_terjual}</Text>
-					</Wrapper>
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<Wrapper style={styles.tabButtonWrapper}>
-						{
-							['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].map((btn, i) => {
-								return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ size: 12 }} style={{ borderRadius: 0 }} width="50%">{btn}</Button>
-							})
-						}
-					</Wrapper>
-					{indexTab == 0 ? <Keuangan /> : <Keuangan isLaba />}
-				</View>
-			</ScrollView>
+			{
+				transaction ?
+				<ScrollView>
+					<View style={{ padding: 15 }}>
+						<Wrapper justify="space-between" style={styles.report}>
+							<Text>Total Penjualan</Text>
+							<Text color="primary" font="Bold">{convertRupiah(transaction.total_penjualan)}</Text>
+						</Wrapper>
+						<Wrapper justify="space-between" style={styles.report}>
+							<Text>Total Keuntungan</Text>
+							<Text color="primary" font="Bold">{convertRupiah(transaction.total_profit)}</Text>
+						</Wrapper>
+						<Wrapper justify="space-between" style={styles.report}>
+							<Text>Transaksi</Text>
+							<Text color="primary" font="Bold">{transaction.jumlah_transaksi}</Text>
+						</Wrapper>
+						<Wrapper justify="space-between" style={styles.report}>
+							<Text>Produk Terjual</Text>
+							<Text color="primary" font="Bold">{transaction.product_terjual}</Text>
+						</Wrapper>
+					</View>
+					<View style={{ padding: 15, paddingTop: 0 }}>
+						<Wrapper style={styles.tabButtonWrapper}>
+							{
+								['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].map((btn, i) => {
+									return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ size: 12 }} style={{ borderRadius: 0 }} width="50%">{btn}</Button>
+								})
+							}
+						</Wrapper>
+						{indexTab == 0 ? <Keuangan /> : <Keuangan isLaba />}
+					</View>
+				</ScrollView>
+				: 
+				<View style={{ alignItems: 'center' }}>
+                    <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
+                    <View style={{ alignItems: 'center' }}>
+                      <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
+                      <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+                    </View>
+                  </View>
+			}
 		</View>
 	)
 }

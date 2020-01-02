@@ -10,7 +10,7 @@ import { Bottom, Button } from '../../../../components/Button/ButtonComp';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFromManajemenProduct } from '../../../../redux/actions/actionsNewProduct';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
-import { editProductName, editProductBarcode,editProductAddId, editProductImage, editProductPriceIn, editProductPriceOut, editProductIdCategory, editProductManageStock, editProductSendNotif, editQuantityStock, editMinQtyStock } from 'src/redux/actions/actionsEditProduct';
+import { editProductName, editProductBarcode, editProductAddId, editProductImage, editProductPriceIn, editProductPriceOut, editProductIdCategory, editProductManageStock, editProductSendNotif, editQuantityStock, editMinQtyStock } from 'src/redux/actions/actionsEditProduct';
 
 const ManajemenProduk = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -36,13 +36,15 @@ const ManajemenProduk = ({ navigation }) => {
 			<View style={{ padding: 20 }}>
 				<SearchInput
 					search={search}
+					placeholder="Cari produk"
 					handleChangeInput={(text) => setSearch(text)}
 					handleDeleteSearch={() => setSearch('')}
 				/>
 				<View style={{ marginTop: 15 }}>
 					{
-						Product.data.map((data, i) => {
+						Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase())).map((data, i) => {
 							return <ProductCard key={i}
+								productImage={data.photo_product !== "" ? data.photo_product : null}
 								name={data.name_product}
 								price={convertRupiah(data.price_out_product)}
 								stock={Number(data.stock) ? data.stock : null}
@@ -60,7 +62,7 @@ const ManajemenProduk = ({ navigation }) => {
 										dispatch(editProductManageStock(data.manage_stock))
 										dispatch(editProductSendNotif(data.notif))
 										dispatch(editProductBarcode(data.barcode_product))
-										navigation.navigate('/drawer/manajemen/produk/edit')					
+										navigation.navigate('/drawer/manajemen/produk/edit')
 									}} style={{
 										width: '10%',
 										height: '100%',
@@ -77,7 +79,6 @@ const ManajemenProduk = ({ navigation }) => {
 					}
 				</View>
 				<AwanPopup.Loading visible={visible} />
-				{/* <Button onPress={() => setVisible(true)}>HJjjjd</Button> */}
 			</View>
 			<Bottom>
 				<Button onPress={() => {

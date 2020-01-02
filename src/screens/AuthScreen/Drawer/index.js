@@ -70,7 +70,6 @@ const Akun = ({ navigation }) => {
 											</TouchableOpacity>
 										})
 									}
-									{/* <Text>Divider</Text> */}
 								</Col>
 							)
 						})
@@ -78,7 +77,7 @@ const Akun = ({ navigation }) => {
 				</Row>
 			</Grid>
 			<View style={{ position: 'absolute', bottom: 10, alignSelf: "center" }}>
-				<Text style={{ alignSelf: 'center', marginBottom: 10 }}>Versi</Text>
+				<Text style={{ alignSelf: 'center', marginBottom: 10 }}>Versi 1.0.0</Text>
 				<BottomButton
 					onPressBtn={_onPressLogout}
 					style={{ width: SizeList.width - 30, backgroundColor: ColorsList.primaryColor }}

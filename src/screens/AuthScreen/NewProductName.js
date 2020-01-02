@@ -103,11 +103,11 @@ const NewProductName = ({ navigation }) => {
 			/>
 			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
 				<View style={{ padding: 15 }}>
-					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'New Category' : 'Edit Category'}</Text>
+					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 					<View style={{marginTop : 10}}>
 					<FloatingInputLabel
-						label={"Category Name"}
+						label={"Nama Kategori"}
 						value={newCategoryName}
 						handleChangeText={(text) => setNewCategoryName(text)}
 					/>
@@ -126,7 +126,7 @@ const NewProductName = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
-							<FloatingInputLabel label="Barcode Number" disabled value={NewProduct.barcode} />
+							<FloatingInputLabel label="Nomor Barcode" disabled value={NewProduct.barcode} />
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}>
@@ -137,20 +137,20 @@ const NewProductName = ({ navigation }) => {
 					<View style={{ marginTop: 15 }}>
 						<FloatingInputLabel
 							disabled={isDisabled}
-							label="Product Name"
+							label="Nama Produk"
 							value={NewProduct.name}
 							handleChangeText={(text) => dispatch(addProductName(text))}
 						/>
 					</View>
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Select category"
+						label="Pilih Kategori"
 						header={
 							<TouchableOpacity style={styles.headerCategory} onPress={() => {
 								setNewCategoryName("")
 								setEditNewCategory('add')
 								setAddCategoryVisible(true)
 							}}>
-								<Text style={{ color: ColorsList.primaryColor }}>Add Category +</Text>
+								<Text style={{ color: ColorsList.primaryColor }}>Tambah Kategori +</Text>
 								<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 							</TouchableOpacity>
 						}
