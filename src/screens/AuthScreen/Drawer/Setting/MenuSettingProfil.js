@@ -103,7 +103,6 @@ const MenuSettingProfil = ({ navigation }) => {
 			name: `${Date.now()}.jpeg`
 		} : null)
 		const res = await editStoreProfile(formData, User.store.id_store)
-		console.debug('1122334455', res)
 		if (res.status == 400) {
 			alert(res.data.errors.msg)
 		} else if (res.status == 200) {
@@ -113,6 +112,9 @@ const MenuSettingProfil = ({ navigation }) => {
 				dispatch(getProfile(User.data.id))
 				navigation.navigate('/drawer/settings')
 			}, 1000)
+		}
+		else {
+			alert(JSON.stringify(res))
 		}
 	}
 

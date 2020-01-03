@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler';
-import { convertNumber, deleteProduct } from 'src/utils/authhelper';
+import { convertNumber, deleteProduct, validNumber } from 'src/utils/authhelper';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import ModalContent from 'src/components/ModalContent/ModalContent';

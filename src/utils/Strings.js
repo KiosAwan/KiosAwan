@@ -5,7 +5,7 @@ const Strings = {
     REGISTERTERM2 : 'syarat dan ketentuan yang berlaku',
     REGISTERNAMELABEL : 'Input your name',
     REGISTERPHONELABEL : 'Input your phone number',
-    INTRO1TITLE : "MANAGEMEN APLIKASI KASIR UNTUK BISNIS MASA KINI",
+    INTRO1TITLE : "MANAJEMEN APLIKASI KASIR UNTUK BISNIS MASA KINI",
     INTRO1SUBTITLE : "Nikmati kemudahan melakukan transaksi pencatatan barang. Bisnis kamu akan lebih efisien, nyaman, dan memberikan banyak keuntungan.",
     INTRO2TITLE: "AKSES ONLINE KE SUPPLIER DENGAN HARGA LEBIH MURAH",
     INTRO2SUBTITLE : "Dapatkan berbagai macam produk dan barang untuk kebutuhan toko kelontong secara lengkap, harga yang murah, serta pengiriman yang cepat. ",
