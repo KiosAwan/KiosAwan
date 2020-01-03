@@ -30,6 +30,7 @@ IF [%1]==[hp] GOTO DEVICE
 IF [%1]==[connect] GOTO WIRELESSDEBUG
 IF [%1]==[start] GOTO STARTSERVER
 IF [%1]==[clean] GOTO CLEANGRADLE
+IF [%1]==[cleanr] GOTO CLEANRUN
 
 GOTO NOARGS
 
@@ -122,8 +123,13 @@ GOTO END
 
 :CLEANGRADLE
 cd android
-gradlew clean
-cd ..
+gradlew clean && cd ..
+GOTO END
+
+:CLEANRUN
+cd android
+gradlew clean && cd ..
+GOTO RUNDROID
 
 :NOARGS
 echo React Native Command Tool
