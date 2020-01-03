@@ -113,7 +113,7 @@ const TransactionList = ({ navigation }) => {
                                     </View>
                                   </Wrapper>
                                 </View>
-                                <View style={{ width: '35%', justifyContent: 'center', backgroundColor: ColorsList.greyBg }}>
+                                <View _style={{ width:'35%', backgroundColor: ColorsList.greyBg }}>
                                   <View style={{ padding: 10 }}>
                                     <Text color={iconImage[trx.status].color} style={{ textAlign: 'center' }} font="ExtraBold" size={15}>{iconImage[trx.status].text}</Text>
                                   </View>
@@ -194,7 +194,7 @@ const TransactionList = ({ navigation }) => {
             <Wrapper style={{ padding: 15 }}>
               {
                 props.navigationState.routes.map((route, i) => {
-                  return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
+                  return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
                 })
               }
             </Wrapper>

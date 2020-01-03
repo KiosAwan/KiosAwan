@@ -44,7 +44,7 @@ const Cashier = ({ navigation }) => {
                         dispatch(setFromManajemenProduct(null))
                         navigation.navigate('/cashier/new-barcode')
                     }} color="white" style={{ paddingHorizontal: 15, marginRight: 10 }}>
-                        <Image size={15} source={require('src/assets/icons/plus.png')} />
+                        <Image size={15} source={require('src/assets/icons/plus-primary.png')} />
                         <Text size={12} color="primary">PRODUK BARU</Text>
                     </Button>
                     <Button padding={7} onPress={() => navigation.navigate('/cashier/input-manual')} color="white" style={{ paddingHorizontal: 15, }}>

@@ -1,5 +1,6 @@
 package com.awanapp;
-
+import cl.json.RNSharePackage;
+import cl.json.ShareApplication;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           new RNCameraPackage();
+          new RNSharePackage();
           new MapsPackage();
           return packages;
         }

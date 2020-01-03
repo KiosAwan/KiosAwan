@@ -5,7 +5,8 @@ import {
 	Dimensions,
 	ScrollView,
 	TouchableOpacity,
-	Text
+	Text,
+	RefreshControl
 } from 'react-native'
 import TextTicker from 'react-native-text-ticker'
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -13,10 +14,8 @@ import SliderImage from '../../components/SliderImage'
 import { ColorsList } from '../../styles/colors'
 import { FontList } from '../../styles/typography'
 
-//redux
 import { useSelector, useDispatch } from 'react-redux'
 
-//CustomComponent
 import { CardComp, CardTextImage } from '../../components/Card/CardComp'
 import { CategoryText } from '../../components/Text/CategoryText'
 import Axios from 'axios'
@@ -24,7 +23,6 @@ import { HOST_URL } from 'src/config'
 import { HomeHeader } from 'src/components/Header/Header'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { Button } from 'src/components/Button/ButtonComp'
-import { Spinner } from 'native-base'
 import { getProfile } from 'src/redux/actions/actionsUserData'
 
 const height = Dimensions.get('window').height
@@ -34,7 +32,6 @@ const Home = ({ navigation }) => {
 	const [maintanance, setMaintanance] = useState(false)
 	const [message, setMessage] = useState(false)
 	const [onRefresh, setOnRefresh] = useState(false)
-
 
 	useEffect(() => {
 		_checkService()
@@ -75,7 +72,6 @@ const Home = ({ navigation }) => {
 
 	const _handleRefresh = () => {
 		dispatch(getProfile(User.data.id))
-		console.debug(User.isLoading)
 		setOnRefresh(false)
 	}
 	return (
@@ -85,14 +81,8 @@ const Home = ({ navigation }) => {
 				<View></View>
 				<Button width='30%' onPress={() => _setAlert(false)}>OK</Button>
 			</AwanPopup.Title>
-			{onRefresh ? <Spinner color={ColorsList.primaryColor} style={{alignSelf : "center"}}></Spinner> : null}
-			{onRefresh ?
-				<Text style={{ alignSelf: 'center', ...FontList.titleFont, color : ColorsList.greySoft }}>Pull to refresh</Text>
-				: null
-			}
 			<ScrollView
-				onScrollBeginDrag={() => setOnRefresh(true)}
-				onScrollEndDrag={_handleRefresh}
+				refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
 				style={styles.childContainer} showsVerticalScrollIndicator={false}>
 				<View style={{ paddingVertical: 10 }}>
 					{
@@ -170,7 +160,6 @@ const Home = ({ navigation }) => {
 				</ScrollView>
 			</ScrollView>
 		</View>
-
 	)
 }
 
@@ -211,6 +200,4 @@ const styles = StyleSheet.create({
 	infoCategoryStyle: {
 		paddingVertical: 10
 	}
-
-
 })

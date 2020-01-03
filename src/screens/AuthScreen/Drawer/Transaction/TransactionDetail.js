@@ -8,43 +8,60 @@ import { useDispatch } from 'react-redux';
 import { getTransactionDetail, convertRupiah, formatToDays } from 'src/utils/authhelper';
 import { WrapperItem } from 'src/components/Picker/SelectBoxModal';
 import { FontList } from 'src/styles/typography';
-import { BottomButton, Bottom, Button } from 'src/components/Button/ButtonComp';
+import { BottomButton, Bottom, Button, Wrapper } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import ViewShot from 'react-native-view-shot';
+import Share from 'react-native-share';
 
 const TransactionDetail = ({ navigation }) => {
+	let viewShotRef
 	const dispatch = useDispatch()
 	const [data, setData] = useState()
 	const [dataLoading, SetDataLoading] = useState(true)
+	const [back, setBack] = useState()
 	useEffect(() => {
 		_getData()
 	}, [])
+
+	const _shareBill = () => {
+		viewShotRef.capture().then(uri => {
+			const shareOptions = {
+				url: uri,
+				message: '',
+				subject: 'Subject',
+				title: 'Bagikan lewat'
+			}
+			Share.open(shareOptions);
+		})
+	}
 
 	const _getData = async () => {
 		const { transactionId } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
 		SetDataLoading(false)
+		setBack(navigation.state.params.backState)
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader title="Detail Transaksi"
-				onPressBack={() => navigation.goBack()}
-			/>
+			<GlobalHeader title="Detail Transaksi" onPressBack={() => back ? navigation.navigate(back) : navigation.goBack()} />
 			<AwanPopup.Loading visible={dataLoading} />
 			{dataLoading ? null :
-				<View style={{ flex: 1 }}>
-					<View style={{ padding: 20, flex: 1 }}>
-						<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: data.transaction.status_payment == 2 ? 50 : 100 }}>
+				<View style={{ padding: 20, flex: 1 }}>
+					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: data.transaction.status_payment == 2 ? 50 : 100 }}>
+						<ViewShot ref={ref => {
+							viewShotRef = ref;
+						}} options={{ format: "jpg", quality: 0.9 }} style={{ backgroundColor: 'white' }}>
 							<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, borderRadius: 5 }}>
 								<RowOpposite
 									title="Kode Transaksi" content={data.transaction.payment_code} />
 								<RowOpposite
 									title="Waktu dan Tanggal" content={data.transaction.created_at} />
 								<RowOpposite
-									title="Pembayaran" content={data.transaction.id_payment == 1 ? "Tunai" : data.transaction.id_payment == 2 ? "Non Tunai" : "Piutang"} />
+									title="Pembayaran" content={data.transaction.id_payment_type == 1 ? "Tunai" : data.transaction.id_payment_type == 2 ? "Non Tunai" : "Piutang"} />
 								<RowOpposite
 									title="Operator" content={data.transaction.cashier} />
 								{data.debt ?
@@ -105,44 +122,37 @@ const TransactionDetail = ({ navigation }) => {
 									<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ? convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
 								} />
 							</View>
-						</ScrollView>
-					</View>
-					{data.transaction.status_payment == 2 ?
-						<Bottom justify="space-between">
-							<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>
-							<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
-						</Bottom>
-						:
-						data.transaction.status == 3 ?
-							<Bottom justify="space-between">
-								<Button width="100%" onPress={() => { }}>CETAK STRUK</Button>
-							</Bottom>
-							:
-							<View style={{ position: "absolute", bottom: 10, alignSelf: "center", backgroundColor: ColorsList.authBackground }}>
-								<BottomButton
-									onPressBtn={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
-									style={{ backgroundColor: ColorsList.whiteColor, width: SizeList.width - 40, borderColor: ColorsList.primaryColor, borderWidth: 1, }}
-									textStyle={{ color: ColorsList.primaryColor }}
-									buttonTitle="BATALKAN"
-								/>
-								<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
-									<TouchableOpacity>
-										<View style={[styles.wrapIconText]} >
-											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/share.png')} />
-											<Text style={styles.btnwithIconText}>Kirim Struk</Text>
-										</View>
-									</TouchableOpacity>
-									<TouchableOpacity>
-										<View style={[styles.wrapIconText]} >
-											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/print.png')} />
-											<Text style={styles.btnwithIconText}>Cetak Struk</Text>
-										</View>
-									</TouchableOpacity>
-								</View>
-							</View>
-					}
+						</ViewShot>
+					</ScrollView>
 				</View>
 			}
+
+			<Bottom>
+				{
+					data.transaction.status_payment == 2 ?
+						[
+							<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>,
+							<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
+						]
+						:
+						data.transaction.status == 3 ?
+							<Button width="100%" onPress={_shareBill}>CETAK STRUK</Button>
+							:
+							<View style={{ width: '100%' }}>
+								<Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>
+								<Wrapper style={{ marginTop: 5 }} justify="space-between">
+									<Button onPress={_shareBill} _width="49.5%">
+										<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/share.png')} />
+										<Text style={styles.btnwithIconText}>Kirim Struk</Text>
+									</Button>
+									<Button onPress={() => { }} _width="49.5%">
+										<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
+										<Text style={styles.btnwithIconText}>Cetak Struk</Text>
+									</Button>
+								</Wrapper>
+							</View>
+				}
+			</Bottom>
 		</View>
 	)
 }

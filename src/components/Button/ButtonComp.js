@@ -62,7 +62,7 @@ export const Button = props => {
 					{props.children}
 				</Text>
 				:
-				<Wrapper>
+				<Wrapper {...props.wrapper}>
 					{props.children.length > 0 ?
 						props.children.map((child, i) => {
 							return <View key={i} style={{ marginRight: 5, justifyContent: 'center' }}>{child}</View>
@@ -80,7 +80,7 @@ export const Wrapper = props => {
 		{
 			props.children.length > 0 ?
 				props.children.map((item, i) =>
-					<View style={{ width: item.props._width, justifyContent: 'center' }} key={i}>
+					<View style={{ width: item.props._width, justifyContent: 'center', ...item.props._style }} key={i}>
 						{item}
 					</View>
 				) : props.children

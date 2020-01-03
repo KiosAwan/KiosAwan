@@ -2,12 +2,13 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import LinearGradient from 'react-native-linear-gradient'
 import { View, Image, StyleSheet, Dimensions } from 'react-native'
-import { Header } from 'native-base'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Header, Input } from 'native-base'
+import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { InputSimple } from '../Input/InputComp'
 import { Text } from '../Text/CustomText'
 import { Wrapper, Button } from '../Button/ButtonComp'
 import BarStatus from '../BarStatus';
+import { ColorsList } from 'src/styles/colors'
 
 
 const width = Dimensions.get('window').width
@@ -94,7 +95,7 @@ export const CashierHeader = (props) => {
                         <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
                             <Icon name="arrow-left" size={20} color="white" />
                         </Button>
-                        <InputSimple handleChangeText={props.handleChangeText} placeholder="Cari produk" />
+                        <TextInput style={{ color: ColorsList.whiteColor }} placeholderTextColor={ColorsList.whitePlaceholder} onChangeText={props.handleChangeText} placeholder="Cari produk" />
                     </Wrapper>
                     <View style={{ justifyContent: 'center', paddingRight: 15 }}>
                         <TouchableOpacity onPress={props.onPressMenu}>

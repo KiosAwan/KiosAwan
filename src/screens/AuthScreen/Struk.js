@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet , Share} from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { Spinner } from 'native-base'
 import { GlobalHeader } from '../../components/Header/Header';
 import LinearBackground from '../../components/LinearBackground';
@@ -12,7 +12,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { FontList } from '../../styles/typography';
 import { convertRupiah } from '../../utils/authhelper';
-import ViewShot from 'react-native-view-shot';
 const Struk = ({ navigation }) => {
     let viewShot
     const [response, setResponse] = useState()
@@ -30,71 +29,61 @@ const Struk = ({ navigation }) => {
     }
 
     const _handleSendStruk = () => {
-        viewShot.capture().then(uri => {
-            console.debug(uri)
-            const shareOptions = {
-                title: 'Title',
-                message: uri, // Note that according to the documentation at least one of "message" or "url" fields is required
-                url: uri,
-                subject: 'Subject'
-              };
-              Share.share(shareOptions);        
-        });
+        navigation.navigate('/drawer/transaction/detail', {
+            transactionId: response.id_transaction,
+            back: '/cashier'
+        })
     }
     return (
-        <ViewShot ref={ref => {
-            viewShot = ref;
-        }} options={{ format: "jpg", quality: 0.9 }} style={{flex : 1 , backgroundColor : 'white'}}>
-            <View style={{ flex: 1 }}>
-                {response == undefined ? <Spinner color="#cd0192" /> :
-                    <View style={{ flex: 1 }}>
-                        <LinearBackground
-                            content={
-                                <View>
-                                    <Image style={{ width: 300, height: 200 }} source={require('../../assets/images/successtransaction.png')} />
-                                    <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'white', fontSize: 20, textAlign: 'center' }}>Transaksi Berhasil !</Text>
-                                    <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'white', fontSize: 16, textAlign: 'center' }}>{response.payment_code}</Text>
-                                </View>
-                            }
-                        />
-                        <View style={{ flex: 1, margin: 15 }}>
-                            <View style={{ margin: 20 }}>
-                                <RowOpposite
-                                    title="Pembayaran" content={response.id_payment_type == 1 ? "Tunai" : response.id_payment_type == 2 ? "Non Tunai" : "Piutang"} />
-                                <RowOpposite
-                                    title="Total Tagihan" content={convertRupiah(response.total_payment)} />
-                                <RowOpposite
-                                    title="Tunai Diterima" content={convertRupiah(response.amount_payment)} />
-                                <RowOpposite
-                                    title="Kembalian" content={convertRupiah(response.change_payment)} />
+        <View style={{ flex: 1 }}>
+            {response == undefined ? <Spinner color="#cd0192" /> :
+                <View style={{ flex: 1 }}>
+                    <LinearBackground
+                        content={
+                            <View>
+                                <Image style={{ width: 300, height: 200 }} source={require('../../assets/images/successtransaction.png')} />
+                                <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'white', fontSize: 20, textAlign: 'center' }}>Transaksi Berhasil !</Text>
+                                <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'white', fontSize: 16, textAlign: 'center' }}>{response.payment_code}</Text>
                             </View>
+                        }
+                    />
+                    <View style={{ flex: 1, margin: 15 }}>
+                        <View style={{ margin: 20 }}>
+                            <RowOpposite
+                                title="Pembayaran" content={response.id_payment_type == 1 ? "Tunai" : response.id_payment_type == 2 ? "Non Tunai" : "Piutang"} />
+                            <RowOpposite
+                                title="Total Tagihan" content={convertRupiah(response.total_payment)} />
+                            <RowOpposite
+                                title="Tunai Diterima" content={convertRupiah(response.amount_payment)} />
+                            <RowOpposite
+                                title="Kembalian" content={convertRupiah(response.change_payment)} />
+                        </View>
 
-                            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                                <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                                    <TouchableOpacity onPress={_handleSendStruk}>
-                                        <View style={[styles.wrapIconText]} >
-                                            <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="paper-plane" />
-                                            <Text style={styles.btnwithIconText}>Kirim Struk</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity>
-                                        <View style={[styles.wrapIconText]} >
-                                            <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="print" />
-                                            <Text style={styles.btnwithIconText}>Cetak Struk</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                                <BottomButton
-                                    onPressBtn={_handleSelesai}
-                                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 30 }}
-                                    buttonTitle="SELESAI"
-                                />
+                        <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
+                            <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                                <TouchableOpacity onPress={_handleSendStruk}>
+                                    <View style={[styles.wrapIconText]} >
+                                        <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="paper-plane" />
+                                        <Text style={styles.btnwithIconText}>Kirim Struk</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <View style={[styles.wrapIconText]} >
+                                        <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="print" />
+                                        <Text style={styles.btnwithIconText}>Cetak Struk</Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View>
+                            <BottomButton
+                                onPressBtn={_handleSelesai}
+                                style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 30 }}
+                                buttonTitle="SELESAI"
+                            />
                         </View>
                     </View>
-                }
-            </View>
-        </ViewShot>
+                </View>
+            }
+        </View>
     )
 }
 
