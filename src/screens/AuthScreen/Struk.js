@@ -31,9 +31,10 @@ const Struk = ({ navigation }) => {
 
     const _handleSendStruk = () => {
         viewShot.capture().then(uri => {
+            console.debug(uri)
             const shareOptions = {
                 title: 'Title',
-                message: 'asdf', // Note that according to the documentation at least one of "message" or "url" fields is required
+                message: uri, // Note that according to the documentation at least one of "message" or "url" fields is required
                 url: uri,
                 subject: 'Subject'
               };
@@ -43,7 +44,7 @@ const Struk = ({ navigation }) => {
     return (
         <ViewShot ref={ref => {
             viewShot = ref;
-        }} options={{ format: "jpg", quality: 0.9 }} style={{flex : 1}}>
+        }} options={{ format: "jpg", quality: 0.9 }} style={{flex : 1 , backgroundColor : 'white'}}>
             <View style={{ flex: 1 }}>
                 {response == undefined ? <Spinner color="#cd0192" /> :
                     <View style={{ flex: 1 }}>
