@@ -132,7 +132,7 @@ export const ReturnTransactionCard = (props) => {
                                 <Icon size={20} name="plus" color={ColorsList.greyFont} />
                             </TouchableOpacity>
                             <Text style={{ marginHorizontal: 8, color : ColorsList.primaryColor }}>{props.quantity ? props.quantity : 0}</Text>
-                            <TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
+                            <TouchableOpacity onPress={props.onPressMinus} disabled={props.minusDisabled} style={styles.cardPlusMinusIcon}>
                                 <Icon size={20} name="minus" color={ColorsList.greyFont} />
                             </TouchableOpacity>
                         </View>

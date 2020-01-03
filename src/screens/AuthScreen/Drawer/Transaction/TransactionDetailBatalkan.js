@@ -34,7 +34,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 		setDataTransaksi(paramData)
 		if (paramData.transaction.status == 2) {
 			paramData.return_item.forEach(a => {
-				a.newQty = a.qty		
+				a.newQty = a.qty
 			})
 			setAmountCancel(paramData.transaction.remaining_return)
 			setNewData(paramData.return_item)
@@ -138,20 +138,22 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 						<View style={{ alignItems: "center", paddingBottom: 10 }}>
 							<Text>Pilih barang yang ingin dibatalkan</Text>
 						</View>
-						<FlatList
-							data={newData}
-							renderItem={({ item }) => (
-								<ReturnTransactionCard
-									name={item.product}
-									price={convertRupiah(item.price)}
-									onPressMinus={() => _handleMinusItem(item)}
-									onPressPlus={() => _handlePlusItem(item)}
-									quantity={item.newQty ? item.newQty : null}
-								/>
-							)}
-							showsVerticalScrollIndicator={false}
-							keyExtractor={(item, index) => index.toString()}
-						/>
+							<FlatList
+								data={newData}
+								renderItem={({ item }) => (
+									<ReturnTransactionCard
+										name={item.product}
+										price={convertRupiah(item.price)}
+										onPressMinus={() => _handleMinusItem(item)}
+										minusDisabled={dataTransaksi.transaction.discount  ? true : false}
+										onPressPlus={() => _handlePlusItem(item)}
+										plusDisabled={dataTransaksi.transaction.discount ? true : false}
+										quantity={item.newQty ? item.newQty : null}
+									/>
+								)}
+								showsVerticalScrollIndicator={false}
+								keyExtractor={(item, index) => index.toString()}
+							/>
 						<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, marginBottom: 100 }}>
 							<FloatingInput label="Alasan pembatalan">
 								<TextInput
