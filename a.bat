@@ -13,6 +13,7 @@ set output_folder=outputs
 set output_path=android/app/build/outputs/apk/release
 set sass_master=scss/master.scss
 set sass_output=www/css/style.css
+set rundevice=react-native run-android
 
 
 
@@ -75,7 +76,7 @@ copy "%output_path%\%app_unsigned%" "%output_folder%\%app_name% (%APPVERSION%) %
 GOTO END
 
 :RUNDROID
-react-native run-android
+%rundevice%
 GOTO END
 
 :WATCHSASS
@@ -128,8 +129,7 @@ GOTO END
 
 :CLEANRUN
 cd android
-gradlew clean && cd ..
-GOTO RUNDROID
+gradlew clean && cd .. && %rundevice%
 
 :NOARGS
 echo React Native Command Tool
