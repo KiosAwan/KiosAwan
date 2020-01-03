@@ -31,7 +31,7 @@ const Struk = ({ navigation }) => {
     const _handleSendStruk = () => {
         navigation.navigate('/drawer/transaction/detail', {
             transactionId: response.id_transaction,
-            back: '/cashier'
+            backState: '/cashier'
         })
     }
     return (

@@ -173,7 +173,7 @@ const MenuSettingProfil = ({ navigation }) => {
 						})
 					}
 
-					<SelectBoxModal style={{ marginTop: 15 }}
+					<SelectBoxModal style={{ marginBottom: 15 }}
 						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
@@ -190,7 +190,7 @@ const MenuSettingProfil = ({ navigation }) => {
 						<Text>Data tidak ditemukan</Text>
 					</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginTop: 15 }}
+					<SelectBoxModal style={{ marginBottom: 15 }}
 						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
@@ -207,7 +207,7 @@ const MenuSettingProfil = ({ navigation }) => {
 						<Text>Data tidak ditemukan</Text>
 					</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginTop: 15 }}
+					<SelectBoxModal style={{ marginBottom: 15 }}
 						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
@@ -224,7 +224,7 @@ const MenuSettingProfil = ({ navigation }) => {
 						<Text>Data tidak ditemukan</Text>
 					</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginTop: 15 }}
+					<SelectBoxModal
 						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>

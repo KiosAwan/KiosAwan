@@ -24,6 +24,7 @@ const TransactionList = ({ navigation }) => {
   const User = useSelector(state => state.User)
   const [reportHutang, setReportHutang] = useState({})
   const [search, setSearch] = useState('')
+  const [searchIconColor, setSearchIconColor] = useState(ColorsList.greyFont)
   const [filter, setFilter] = useState('all')
   const _reportHutang = async () => {
     const res = await getReportHutang(User.store.id_store)
@@ -75,11 +76,11 @@ const TransactionList = ({ navigation }) => {
               </AwanPopup.Menu>
               <View style={{ padding: 15, paddingTop: 0, backgroundColor: ColorsList.whiteColor }}>
                 <Wrapper justify="space-between">
-                  <FloatingInput left={30} style={{ width: "80%" }} label="Cari transaksi">
-                    <Icon style={{ color: ColorsList.primary }} name="search" />
-                    <TextInput style={{ width: '90%' }} value={search} onChangeText={text => setSearch(text)} />
+                  <FloatingInput left={30} _style={{ width: "85%" }} label="Cari transaksi">
+                    <Icon style={{ color: searchIconColor }} name="search" />
+                    <TextInput style={{ width: '90%' }} onFocus={() => setSearchIconColor(ColorsList.primary)} onBlur={() => setSearchIconColor(ColorsList.greyFont)} value={search} onChangeText={text => setSearch(text)} />
                   </FloatingInput>
-                  <Button style={{ margin: 15 }} onPress={() => setFilterPopup(true)}>
+                  <Button _style={{ width: '12%', justifyContent: 'flex-end' }} onPress={() => setFilterPopup(true)}>
                     <Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/filter.png')} />
                   </Button>
                 </Wrapper>
@@ -113,7 +114,7 @@ const TransactionList = ({ navigation }) => {
                                     </View>
                                   </Wrapper>
                                 </View>
-                                <View _style={{ width:'35%', backgroundColor: ColorsList.greyBg }}>
+                                <View _style={{ width: '35%', backgroundColor: ColorsList.greyBg }}>
                                   <View style={{ padding: 10 }}>
                                     <Text color={iconImage[trx.status].color} style={{ textAlign: 'center' }} font="ExtraBold" size={15}>{iconImage[trx.status].text}</Text>
                                   </View>

@@ -5,25 +5,26 @@ import {
 	Dimensions,
 	ScrollView,
 	TouchableOpacity,
-	Text,
 	RefreshControl
 } from 'react-native'
 import TextTicker from 'react-native-text-ticker'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import SliderImage from '../../components/SliderImage'
-import { ColorsList } from '../../styles/colors'
-import { FontList } from '../../styles/typography'
+import SliderImage from 'src/components/SliderImage'
+import { ColorsList } from 'src/styles/colors'
+import { FontList } from 'src/styles/typography'
 
 import { useSelector, useDispatch } from 'react-redux'
 
-import { CardComp, CardTextImage } from '../../components/Card/CardComp'
-import { CategoryText } from '../../components/Text/CategoryText'
+import { CardTextImage } from 'src/components/Card/CardComp'
+import { CategoryText } from 'src/components/Text/CategoryText'
 import Axios from 'axios'
 import { HOST_URL } from 'src/config'
 import { HomeHeader } from 'src/components/Header/Header'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
-import { Button } from 'src/components/Button/ButtonComp'
+import { Button, Wrapper } from 'src/components/Button/ButtonComp'
 import { getProfile } from 'src/redux/actions/actionsUserData'
+import { Image } from 'src/components/CustomImage';
+import { Text } from 'src/components/Text/CustomText'
 
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
@@ -47,21 +48,37 @@ const Home = ({ navigation }) => {
 		}
 	}
 
+	const _featureDisabled = action => {
+		let title, message
+		switch (action) {
+			case 'ppob':
+				title = 'FITUR PAYMENT POINT'
+				message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+				break;
+			case 'stock':
+				title = 'FITUR BELANJA STOK'
+				message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+				break;
+			default:
+				title = 'FITUR KASIR'
+				message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+				break;
+		}
+		_setAlertTitle(title)
+		_setAlertMessage(message)
+		_setAlert(true)
+	}
+
 	const _onPressCashier = () => {
-		navigation.navigate('/cashier')
+		if (User.data.status == 1) {
+			navigation.navigate('/cashier')
+		} else {
+			_featureDisabled()
+		}
 	}
 
-	const _onPressPayment = () => {
-		_setAlertTitle('FITUR PAYMENT POINT')
-		_setAlertMessage('Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan')
-		_setAlert(true)
-	}
-
-	const _onPressStock = () => {
-		_setAlertTitle('FITUR BELANJA STOK')
-		_setAlertMessage('Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan')
-		_setAlert(true)
-	}
+	const _onPressPayment = () => _featureDisabled('ppob')
+	const _onPressStock = () => _featureDisabled('stock')
 
 	const _handlePressDrawer = () => {
 		navigation.navigate('/drawer')
@@ -113,31 +130,40 @@ const Home = ({ navigation }) => {
 								<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
 									<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 									<View style={{ width: '80%' }}>
-										<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>Lengkapi profil Anda agar bisa menggunakan fitur-fitur yang tersedia</Text>
+										<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>
+											Lengkapi profil Anda agar bisa menggunakan fitur-fitur yang tersedia. <Text style={{ color: ColorsList.whiteColor, textDecorationLine: 'underline' }}>Klik disini</Text>
+										</Text>
 									</View>
 								</View>
-							</TouchableOpacity>}
-					<CardComp info="KASIR"
-						disabled={User.data.status == 1 ? false : true}
-						subInfo="Masuk kedalam mode kasir dan atur penjualan kios atau warung"
-						cardStyle={{ backgroundColor: 'white' }}
-						icon={require("../../assets/icons/icon-cashier.png")}
-						onPressCard={_onPressCashier}
-					/>
-					<CardComp info="PAYMENT POINT"
-						disabled={User.data.status == 1 ? false : true}
-						subInfo="Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll"
-						icon={require("../../assets/icons/icon-payment.png")}
-						cardStyle={{ backgroundColor: 'white' }}
-						onPressCard={_onPressPayment}
-					/>
-					<CardComp info="BELANJA STOK"
-						disabled={User.data.status == 1 ? false : true}
-						subInfo="Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung"
-						cardStyle={{ backgroundColor: 'white' }}
-						icon={require("../../assets/icons/icon-restock.png")}
-						onPressCard={_onPressStock}
-					/>
+							</TouchableOpacity>
+					}
+					<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+						<Wrapper justify="space-between">
+							<Image size={75} _width="25%" source={require("src/assets/icons/icon-cashier.png")} />
+							<View _width="75%">
+								<Text font="ExtraBold" color="primary">KASIR</Text>
+								<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
+							</View>
+						</Wrapper>
+					</Button>
+					<Button onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+						<Wrapper justify="space-between">
+							<Image size={75} _width="25%" source={require("src/assets/icons/icon-payment.png")} />
+							<View _width="75%">
+								<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
+								<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
+							</View>
+						</Wrapper>
+					</Button>
+					<Button onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+						<Wrapper justify="space-between">
+							<Image size={75} _width="25%" source={require("src/assets/icons/icon-restock.png")} />
+							<View _width="75%">
+								<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
+								<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
+							</View>
+						</Wrapper>
+					</Button>
 				</View>
 				<SliderImage />
 				<View style={styles.infoCategoryStyle}>

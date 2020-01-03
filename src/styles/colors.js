@@ -1,13 +1,13 @@
 export const ColorsList = {
-    gradientPrimary:'#6d1d6d',
+    gradientPrimary: '#6d1d6d',
     primaryColor: "#cd0192",
     authBackground: "#f3f3f3",
     whiteColor: '#ffffff',
     whitePlaceholder: 'rgba(255,255,255,.5)',
     greyFont: '#808080',
     greySoft: '#8b8b8b',
-    greyAuthHard:'#dedede',
-    greyBg : '#f9faf7',
+    greyAuthHard: '#dedede',
+    greyBg: '#f9faf7',
     primary: '#cd0192',
     text: '#8b8b8b',
     success: '#55c09b',
@@ -16,5 +16,6 @@ export const ColorsList = {
     info: '#288cf7',
     danger: '#f04184',
     dangerSoft: '#fbdbe7',
-    transparent:'transparent'
+    black: '#000',
+    transparent: 'transparent'
 }

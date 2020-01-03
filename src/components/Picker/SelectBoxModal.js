@@ -1,8 +1,8 @@
 import { Item, Input, Icon, Label, Card, CardItem, Button, Left, Thumbnail, Body, Grid, Col } from 'native-base';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { ScrollView, FlatList } from 'react-native-gesture-handler';
-import { FloatingInputLabel } from '../Input/InputComp';
+import { ScrollView, FlatList, TextInput } from 'react-native-gesture-handler';
+import { FloatingInputLabel, FloatingInput } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
 import { RowChild } from '../Helper/RowChild';
 import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer } from '../../utils/authhelper';
@@ -11,6 +11,7 @@ import { AddCashPayment, AddCustomer } from '../../redux/actions/actionsStorePro
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { FontList } from '../../styles/typography';
 import { SizeList } from '../../styles/size';
+import { Wrapper } from '../Button/ButtonComp';
 
 const height = Dimensions.get('window').height
 
@@ -66,10 +67,10 @@ export const ToggleButtonMoney = (props) => {
 				props.buttons.map((btn, i) => {
 					return (
 						<Button onPress={() => {
-							props.onPress ? 
-							props.onPress(btn)
-							:
-							setActiveIndex(i)
+							props.onPress ?
+								props.onPress(btn)
+								:
+								setActiveIndex(i)
 							dispatch(AddCashPayment(btn))
 						}} style={[props.style,
 						{ padding: 5, flex: 1, justifyContent: 'center' },
@@ -368,17 +369,14 @@ export const SelectBoxModal = (props) => {
 						{props.footer}
 					</CardItem> : null
 			]} />
-			<Item onPress={() => setModalVisible(true)} success floatingLabel style={[styles.selectBox, { borderColor: activeColor }, props.style]}>
-				<Label style={styles.selectBoxLabel}>{props.label}</Label>
-				<Input
-					onFocus={() => setActiveColor('#cd0192')}
-					onBlur={() => setActiveColor('grey')}
-					disabled={true}
-					value={props.value}
-					style={[styles.selectBoxInput, { color: activeColor }]}
-				/>
-				<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
-			</Item>
+			<TouchableOpacity onPress={() => setModalVisible(true)} style={[styles.selectBox, { borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, borderColor: activeColor }, props.style]}>
+				<Wrapper justify="space-between">
+					<FloatingInput borderTransparent label={props.label} _width="90%">
+						<TextInput style={{ color: ColorsList.black }} value={props.value} editable={false} />
+					</FloatingInput>
+					<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
+				</Wrapper>
+			</TouchableOpacity>
 		</View >
 	);
 }

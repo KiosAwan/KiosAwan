@@ -112,6 +112,7 @@ export const FloatingInput = props => {
   } else {
     _left = props.left
   }
+  const [isFocused, setIsFocused] = useState(false)
   const [activeColor, setActiveColor] = useState('grey')
   const [topValue] = useState(new Animated.Value(_bot))
   const [leftValue] = useState(new Animated.Value(_left || 0))
@@ -120,7 +121,7 @@ export const FloatingInput = props => {
     outputRange: [.9, 1]
   })
   const _animate = (_, value) => {
-    let duration = 300
+    let duration = 500
     Animated.timing(_, {
       toValue: value,
       duration: duration
@@ -140,11 +141,17 @@ export const FloatingInput = props => {
       ref: ref => toFocus = ref,
       onFocus: () => {
         setActiveColor('#cd0192')
+        setIsFocused(true)
         changeUpDown(true)
+        if (typeof input.props.onFocus == 'function')
+          input.props.onFocus()
       },
       onBlur: () => {
         setActiveColor('grey')
+        setIsFocused(false)
         changeUpDown(haveValue)
+        if (typeof input.props.onBlur == 'function')
+          input.props.onBlur()
       }
     })
   }
@@ -178,12 +185,13 @@ export const FloatingInput = props => {
       child = renderInput(_input)
     }
   }
-  haveValue = Array.isArray(props.children) ? child[inIndex].props.value : child.props.value
-  useEffect(() => {
-    changeUpDown(haveValue)
-  }, [])
+  haveValue = isFocused || _input.props.value //Array.isArray(props.children) ? child[inIndex].props.value : child.props.value
+  changeUpDown(haveValue)
+  // useEffect(() => {
+  //   changeUpDown(haveValue)
+  // }, [])
   return (
-    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={{ justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, ...props.style }}>
+    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={{ justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: props.borderTransparent ? 'transparent' : activeColor, ...props.style }}>
       <Animated.Text style={[{ color: activeColor, position: 'absolute' }, {
         left: leftValue, top: topValue, transform: [{ scale: scaleAnimation }]
       }, props.labelStyle]}>{props.label}</Animated.Text>
