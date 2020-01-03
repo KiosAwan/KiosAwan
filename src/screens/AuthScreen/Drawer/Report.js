@@ -136,7 +136,7 @@ const Report = ({ navigation }) => {
 						<Wrapper style={styles.tabButtonWrapper}>
 							{
 								['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].map((btn, i) => {
-									return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ size: 12 }} style={{ borderRadius: 0 }} width="50%">{btn}</Button>
+									return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ size: 12 }} style={{ borderRadius: 0 }} _width="50%">{btn}</Button>
 								})
 							}
 						</Wrapper>
