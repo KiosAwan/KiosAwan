@@ -92,8 +92,10 @@ class CheckOut extends React.Component {
             this.props.removeAllCart()
             this.props.AddCashPayment(0)
             this.props.AddCustomer(null)
-            this.props.
-                this.props.getProduct(this.props.User.store.id_store)
+            this.props.AddDiscountName('')
+            this.props.AddDiscountPersen('')
+            this.props.AddDiscountRupiah('')
+            this.props.getProduct(this.props.User.store.id_store)
             this.props.getTransactionList(this.props.User.store.id_store)
             this.props.navigation.navigate('/cashier/struk', { response: res.data })
         } else {
