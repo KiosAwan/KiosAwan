@@ -18,7 +18,6 @@ import Share from 'react-native-share';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
-	const dispatch = useDispatch()
 	const [data, setData] = useState()
 	const [dataLoading, SetDataLoading] = useState(true)
 	const [back, setBack] = useState()
@@ -42,8 +41,8 @@ const TransactionDetail = ({ navigation }) => {
 		const { transactionId } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
-		SetDataLoading(false)
 		setBack(navigation.state.params.backState)
+		SetDataLoading(false)
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
@@ -51,7 +50,7 @@ const TransactionDetail = ({ navigation }) => {
 			<AwanPopup.Loading visible={dataLoading} />
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
-					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: data.transaction.status_payment == 2 ? 50 : 100 }}>
+					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
 						<ViewShot ref={ref => {
 							viewShotRef = ref;
 						}} options={{ format: "jpg", quality: 0.9 }} style={{ backgroundColor: 'white' }}>
@@ -126,33 +125,34 @@ const TransactionDetail = ({ navigation }) => {
 					</ScrollView>
 				</View>
 			}
-
-			<Bottom>
-				{
-					data.transaction.status_payment == 2 ?
-						[
-							<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>,
-							<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
-						]
-						:
-						data.transaction.status == 3 ?
-							<Button width="100%" onPress={_shareBill}>CETAK STRUK</Button>
+			{dataLoading ? null :
+				<Bottom>
+					{
+						data.transaction.status_payment == 2 ?
+							[
+								<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>,
+								<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
+							]
 							:
-							<View style={{ width: '100%' }}>
-								<Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>
-								<Wrapper style={{ marginTop: 5 }} justify="space-between">
-									<Button onPress={_shareBill} _width="49.5%">
-										<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/share.png')} />
-										<Text style={styles.btnwithIconText}>Kirim Struk</Text>
-									</Button>
-									<Button onPress={() => { }} _width="49.5%">
-										<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
-										<Text style={styles.btnwithIconText}>Cetak Struk</Text>
-									</Button>
-								</Wrapper>
-							</View>
-				}
-			</Bottom>
+							data.transaction.status == 3 ?
+								<Button width="100%" onPress={_shareBill}>CETAK STRUK</Button>
+								:
+								<View style={{ width: '100%' }}>
+									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>
+									<Wrapper style={{ marginTop: 5 }} justify="space-between">
+										<Button onPress={_shareBill} _width="49.5%">
+											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/share.png')} />
+											<Text style={styles.btnwithIconText}>Kirim Struk</Text>
+										</Button>
+										<Button onPress={() => { }} _width="49.5%">
+											<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
+											<Text style={styles.btnwithIconText}>Cetak Struk</Text>
+										</Button>
+									</Wrapper>
+								</View>
+					}
+				</Bottom>
+			}
 		</View>
 	)
 }

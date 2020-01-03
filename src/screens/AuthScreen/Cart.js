@@ -235,7 +235,7 @@ const Cart = ({ navigation }) => {
 									/>
 									<View style={{ marginTop: 10 }}>
 										<FloatingInput label="Diskon">
-											<TextInput value={discount_type == 0 ? Product.discount_total_rupiah.toString() : Product.discount_total_persen.toString() }
+											<TextInput value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen }
 												style={{ width: '80%' }}
 												keyboardType="number-pad"
 												onChangeText={_handleChangeDiskonValue}
