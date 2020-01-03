@@ -75,8 +75,7 @@ copy "%output_path%\%app_unsigned%" "%output_folder%\%app_name% (%APPVERSION%) %
 GOTO END
 
 :RUNDROID
-REM react-native run-android
-echo 22
+react-native run-android
 GOTO END
 
 :WATCHSASS
