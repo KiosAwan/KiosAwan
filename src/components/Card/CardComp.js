@@ -81,20 +81,28 @@ export const ImageText = props => {
     </View>
 }
 
+export const ImageStokHabis = props => {
+    return <View style={[styles.viewNoImageProduct, { width: props.size || '20%', height: props.size || '70%' }, props.style]}>
+        <Text style={{ fontSize: 15, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont, textAlign: 'center' }}>STOK HABIS</Text>
+    </View>
+}
+
 export const ProductCard = (props) => {
     return (
-        <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
+        <View style={{ height: height / 7, backgroundColor:'white', marginBottom: 10, borderRadius: 5, }}>
             <View style={[styles.card, props.cardStyle]}>
                 <View style={{ ...RowChild, height: '100%', width: '90%' }}>
-                    {props.productImage ?
-                        <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
-                        :
-                        <ImageText name={props.name} />
+                    {
+                        props.stock === 0 ? <ImageStokHabis/> : props.stock - props.quantity == 0 ? <ImageStokHabis/> :
+                        props.productImage ?
+                            <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
+                            :
+                            <ImageText name={props.name} />
                     }
                     <View style={{ width: '50%' }}>
-                        <Text style={styles.infoText}>{props.name}</Text>
-                        <Text style={styles.subText}>{props.stock ? props.stock : "Fitur stok tidak aktif"}</Text>
-                        <Text style={[styles.infoText, { color: ColorsList.greyFont }]}>{props.price}</Text>
+                        <Text style={[styles.infoText]}>{props.name}</Text>
+                        <Text style={[styles.subText, props.min_stock ? props.stock <= props.min_stock ? { color: ColorsList.danger } : props.quantity >= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? props.stock : "Fitur stok tidak aktif"}</Text>
+                        <Text style={[styles.infoText, props.min_stock ? props.stock <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : props.quantity >= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
                     </View>
                 </View>
                 {
@@ -120,7 +128,7 @@ export const ReturnTransactionCard = (props) => {
             <View style={[styles.card, props.cardStyle]}>
                 <View style={{ ...RowChild, height: '100%', width: '90%' }}>
                     {/* <View></View> */}
-                    <View style={{ width: '50%', paddingLeft : 10 }}>
+                    <View style={{ width: '50%', paddingLeft: 10 }}>
                         <Text style={styles.infoText}>{props.name}</Text>
                         <Text style={[styles.infoText, { color: ColorsList.greyFont }]}>{props.price}</Text>
                     </View>
@@ -131,7 +139,7 @@ export const ReturnTransactionCard = (props) => {
                             <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
                                 <Icon size={20} name="plus" color={ColorsList.greyFont} />
                             </TouchableOpacity>
-                            <Text style={{ marginHorizontal: 8, color : ColorsList.primaryColor }}>{props.quantity ? props.quantity : 0}</Text>
+                            <Text style={{ marginHorizontal: 8, color: ColorsList.primaryColor }}>{props.quantity ? props.quantity : 0}</Text>
                             <TouchableOpacity onPress={props.onPressMinus} disabled={props.minusDisabled} style={styles.cardPlusMinusIcon}>
                                 <Icon size={20} name="minus" color={ColorsList.greyFont} />
                             </TouchableOpacity>
