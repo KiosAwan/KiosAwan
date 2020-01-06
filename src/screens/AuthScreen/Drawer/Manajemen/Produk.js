@@ -45,7 +45,7 @@ const ManajemenProduk = ({ navigation }) => {
 						Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase())).map((data, i) => {
 							return <ProductCard key={i}
 								productImage={data.photo_product !== "" ? data.photo_product : null}
-								name={data.name_product}
+								name={data.name_product.toUpperCase()}
 								price={convertRupiah(data.price_out_product)}
 								stock={Number(data.stock) ? data.stock : null}
 								right={

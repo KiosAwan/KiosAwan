@@ -77,7 +77,7 @@ const Cashier = ({ navigation }) => {
                             renderItem={({ item }) => (
                                 <ProductCard
                                     productImage={item.photo_product !== "" ? item.photo_product : null}
-                                    name={item.name_product}
+                                    name={item.name_product.toUpperCase()}
                                     price={convertRupiah(item.price_out_product)}
                                     onPressMinus={() => dispatch(MinusQuantity(item))}
                                     onPressPlus={() => dispatch(AddQuantity(item))}
