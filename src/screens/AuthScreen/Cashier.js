@@ -31,6 +31,7 @@ const Cashier = ({ navigation }) => {
     const _loadProduct = () => {
         dispatch(getProduct(User.store.id_store))
         dispatch(removeAllCart())
+        console.debug(Product.data[1])
     }
     return (
         <View style={{ flex: 1 }}>
@@ -77,13 +78,14 @@ const Cashier = ({ navigation }) => {
                             renderItem={({ item }) => (
                                 <ProductCard
                                     productImage={item.photo_product !== "" ? item.photo_product : null}
-                                    name={item.name_product}
+                                    name={item.name_product.toUpperCase()}
                                     price={convertRupiah(item.price_out_product)}
                                     onPressMinus={() => dispatch(MinusQuantity(item))}
                                     onPressPlus={() => dispatch(AddQuantity(item))}
                                     plusDisabled={item.manage_stock == 1 ? item.stock == 0 ? true : (item.quantity ? item.quantity < item.stock ? false : true : false) : false}
                                     quantity={item.quantity ? item.quantity : null}
                                     stock={item.manage_stock == 1 ? item.stock : null}
+                                    min_stock={item.notif == 1 ? item.min_stock : null}
                                 />
 
                             )}
