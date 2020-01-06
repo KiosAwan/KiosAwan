@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Image, TouchableOpacity, Dimensions, StyleSheet, View, Modal } from 'react-native';
+import { Image, TouchableOpacity, Dimensions, StyleSheet, View, Modal, TextInput } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker'
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import { Grid, Col, Icon , Button} from 'native-base';
+import { Grid, Col, Icon } from 'native-base';
 import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { MyModal, SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Text } from 'src/components/Text/CustomText';
-import { FloatingInputLabel } from 'src/components/Input/InputComp';
-import { BottomButton, Button as XButton } from 'src/components/Button/ButtonComp';
+import { FloatingInput } from 'src/components/Input/InputComp';
+import { Button, Bottom } from 'src/components/Button/ButtonComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { editProductImage, editProductIdCategory, editProductName, editRemoveAllNewProduct } from 'src/redux/actions/actionsEditProduct';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { sendNewCategory, editCategory, deleteProduct } from 'src/utils/authhelper';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
+import { PickerImage } from 'src/components/Picker/PickerImage';
 
 
 const width = Dimensions.get('window').width
@@ -36,21 +37,15 @@ const ManajemenProdukEdit = ({ navigation }) => {
 
 
 	const _handlePressNext = async () => {
-		if(EditProduct.name == ""){
+		if (EditProduct.name == "") {
 			alert("Nama tidak boleh kosong")
-		}else {
+		} else {
 			navigation.navigate('/drawer/manajemen/produk/edit/harga')
 		}
 	}
-
-	const _handleChoosePhoto = () => {
-		ImagePicker.openCamera({
-			width: 300,
-			height: 300,
-			cropping: true
-		}).then(image => {
-			dispatch(editProductImage(image.path))
-		});
+	const [rbRef, setRbRef] = useState({})
+	const _handleChoosePhoto = image => {
+		dispatch(editProductImage(image.path))
 	};
 
 	const _handleSaveNewCategory = async () => {
@@ -101,25 +96,23 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				/>
 			</Modal>
 			<AwanPopup.Title title="Hapus Produk" visible={alert} message={`${EditProduct.name} akan dihapus dari daftar produk.`}>
-                <View></View>
-                <XButton onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</XButton>
-                <XButton onPress={__handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</XButton>
-            </AwanPopup.Title>
-			<GlobalHeaderWithIcon 
-			 image={require('../../../../assets/icons/trash.png')}
-			 title="Edit Produk" 
-			 handleDeleteCategory={() => setAlert(true)}
-			 onPressBack={() => navigation.goBack()} />
+				<View></View>
+				<XButton onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</XButton>
+				<XButton onPress={__handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</XButton>
+			</AwanPopup.Title>
+			<GlobalHeaderWithIcon
+				image={require('../../../../assets/icons/trash.png')}
+				title="Edit Produk"
+				handleDeleteCategory={() => setAlert(true)}
+				onPressBack={() => navigation.goBack()} />
 			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
 				<View style={{ padding: 15 }}>
 					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 					<View style={{ marginTop: 10 }}>
-						<FloatingInputLabel
-							label={"Nama Kategori"}
-							value={newCategoryName}
-							handleChangeText={(text) => setNewCategoryName(text)}
-						/>
+						<FloatingInput label={"Nama Kategori"}>
+							<TextInput value={newCategoryName} onChangeText={(text) => setNewCategoryName(text)} />
+						</FloatingInput>
 					</View>
 					<View style={styles.viewButtonPopup}>
 						<Button style={styles.buttonSimpan} onPress={_handleSaveNewCategory}>
@@ -135,7 +128,9 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
-							<FloatingInputLabel label="Nomor Barcode" disabled value={EditProduct.barcode} />
+							<FloatingInput label="Nomor Barcode">
+								<TextInput editable={false} value={EditProduct.barcode} />
+							</FloatingInput>
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.navigate('/drawer/manajemen/produk/edit/barcode')} style={styles.buttonScanBarcode}>
@@ -144,12 +139,13 @@ const ManajemenProdukEdit = ({ navigation }) => {
 						</Col>
 					</Grid>
 					<View style={{ marginTop: 15 }}>
-						<FloatingInputLabel
-							disabled={false}
-							label="Nama Produk"
-							value={EditProduct.name}
-							handleChangeText={text => dispatch(editProductName(text))}
-						/>
+						<FloatingInput label="Nama Produk">
+							<TextInput
+								editable={false}
+								value={EditProduct.name}
+								onChangeText={text => dispatch(editProductName(text))}
+							/>
+						</FloatingInput>
 					</View>
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Pilih Kategori"
@@ -194,7 +190,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<View style={{ marginTop: 25 }}>
 					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Produk</Text>
 					<View style={styles.imageWrapper}>
-						<TouchableOpacity onPress={_handleChoosePhoto}>
+						<TouchableOpacity onPress={() => rbRef.open()}>
 							<Image style={styles.image}
 								source={EditProduct.image !== "" ? { uri: EditProduct.image } : require('src/assets/images/img-product.png')}
 							/>
@@ -202,16 +198,10 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					</View>
 				</View>
 			</ScrollView>
-			<View style={{
-				bottom: 5,
-				alignSelf: "center"
-			}}>
-				<BottomButton
-					onPressBtn={_handlePressNext}
-					buttonTitle="LANJUTKAN"
-					style={{ backgroundColor: ColorsList.primaryColor, width: width - 40 }}
-				/>
-			</View>
+			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
+			<Bottom>
+				<Button width="100%" onPress={_handlePressNext}>LANJUTKAN</Button>
+			</Bottom>
 		</View>
 	);
 }

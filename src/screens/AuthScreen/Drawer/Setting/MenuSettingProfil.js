@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { FloatingInput } from '../../../../components/Input/InputComp';
-import { BottomButton, Wrapper } from '../../../../components/Button/ButtonComp';
+import { BottomButton, Wrapper, Bottom, Button } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import { Text } from '../../../../components/Text/CustomText';
@@ -16,6 +16,7 @@ import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
 import Wilayah from 'src/utils/wilayah';
 import Divider from 'src/components/Row/Divider';
+import { PickerImage } from 'src/components/Picker/PickerImage';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -81,15 +82,9 @@ const MenuSettingProfil = ({ navigation }) => {
 		value: formValue.address_store,
 		onChangeText: (text) => { setFormValue({ ...formValue, address_store: text }) }
 	}]
-
-	const _handleChoosePhoto = () => {
-		ImagePicker.openCamera({
-			width: 300,
-			height: 300,
-			cropping: true
-		}).then(image => {
+	const [rbRef, setRbRef] = useState({})
+	const _handleChoosePhoto = image => {
 			setFormValue({ ...formValue, photo_store: image.path })
-		});
 	};
 
 	const _handleSaveProfile = async () => {
@@ -104,7 +99,7 @@ const MenuSettingProfil = ({ navigation }) => {
 		} : null)
 		const res = await editStoreProfile(formData, User.store.id_store)
 		if (res.status == 400) {
-			alert(res.data.errors.msg)
+			alert(data.errors.msg)
 		} else if (res.status == 200) {
 			setModalVisible(true)
 			setTimeout(() => {
@@ -246,20 +241,17 @@ const MenuSettingProfil = ({ navigation }) => {
 				<View style={{ marginBottom: 70 }}>
 					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 					<View style={styles.imageWrapper}>
-						<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
+						<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
 							<Image style={styles.image} source={formValue.photo_store ? { uri: formValue.photo_store } : require('../../../../assets/images/img-product.png')} />
 						</TouchableOpacity>
 					</View>
 				</View>
 
 			</ScrollView>
-			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-				<BottomButton
-					onPressBtn={_handleSaveProfile}
-					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-					buttonTitle="SIMPAN"
-				/>
-			</View>
+			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
+			<Bottom>
+				<Button width="100%" onPress={_handleSaveProfile}>SIMPAN</Button>
+			</Bottom>
 		</View>
 	)
 }

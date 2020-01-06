@@ -18,6 +18,7 @@ import Wilayah from 'src/utils/wilayah';
 import { Icon } from 'native-base';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import Divider from 'src/components/Row/Divider';
+import { PickerImage } from 'src/components/Picker/PickerImage';
 
 
 const UpdateProfil = ({ navigation }) => {
@@ -62,16 +63,10 @@ const UpdateProfil = ({ navigation }) => {
 		value: address_store,
 		handleChangeText: (text) => { setAddress_Store(text) }
 	}]
-
-	const _handleChoosePhoto = () => {
-		ImagePicker.openCamera({
-			width: 300,
-			height: 300,
-			cropping: true
-		}).then(image => {
+	const [rbRef, setRbRef] = useState({})
+	const _handleChoosePhoto = image => {
 			setPhotoStore(image.path)
-		});
-	};
+	}
 	const [loading, setLoading] = useState(false)
 	const _handleSaveProfile = async () => {
 		if (desa.selected == "" || kecamatan.selected == "" || kabupaten.selected == "" || provinsi.selected == "") {
@@ -237,16 +232,17 @@ const UpdateProfil = ({ navigation }) => {
 				<View style={{ marginBottom: 70 }}>
 					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 					<View style={styles.imageWrapper}>
-						<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
+						<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
 							<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />
 						</TouchableOpacity>
 					</View>
 				</View>
 			</ScrollView>
+			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
 			<Bottom>
 				<Button style={{ width: '100%' }} onPress={_handleSaveProfile}>SIMPAN</Button>
 			</Bottom>
-		</View>
+		</View >
 	)
 }
 

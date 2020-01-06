@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import { Text } from '../../components/Text/CustomText'
-import ImagePicker from 'react-native-image-crop-picker'
+import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
 import { useSelector, useDispatch } from 'react-redux'
 import { FloatingInputLabel } from '../../components/Input/InputComp';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { SelectBoxModal, MyModal, WrapperItem, PilihPelanggan, PopupDetailPesanan } from '../../components/Picker/SelectBoxModal';
+import { Button, Bottom } from '../../components/Button/ButtonComp';
+import { SelectBoxModal, MyModal } from '../../components/Picker/SelectBoxModal';
 import { getCategory } from '../../redux/actions/actionsStoreCategory';
 import { addProductName, addProductImage, addProductIdCategory } from '../../redux/actions/actionsNewProduct';
-import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
 import { GlobalHeader } from '../../components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ColorsList } from '../../styles/colors';
-import { Grid, Col, Icon, Button } from 'native-base';
+import { Grid, Col, Icon } from 'native-base';
 import { sendNewCategory, editCategory } from '../../utils/authhelper';
+import { Image } from 'src/components/CustomImage';
+import { PickerImage } from 'src/components/Picker/PickerImage';
 
 
 const width = Dimensions.get('window').width
 const NewProductName = ({ navigation }) => {
+	const [rbRef, setRbRef] = useState({})
 	const dispatch = useDispatch()
 	const NewProduct = useSelector(state => state.NewProduct)
 	const User = useSelector(state => state.User)
@@ -26,8 +28,6 @@ const NewProductName = ({ navigation }) => {
 	const [imageProduct, setImageProduct] = useState()
 	const [newCategoryName, setNewCategoryName] = useState('')
 	const [editNewCategory, setEditNewCategory] = useState('new')
-
-	const [testPopup, setTestPopup] = useState(false)
 
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
 	const [idEditCategory, setIdEditCategory] = useState()
@@ -42,7 +42,6 @@ const NewProductName = ({ navigation }) => {
 			setDisabled(false)
 		}
 	}
-
 	const _handlePressNext = async () => {
 		if (NewProduct.name == "") {
 			alert("Nama tidak boleh kosong")
@@ -55,17 +54,10 @@ const NewProductName = ({ navigation }) => {
 		}
 	}
 
-	const _handleChoosePhoto = () => {
-		ImagePicker.openCamera({
-			width: 300,
-			height: 300,
-			cropping: true
-		}).then(image => {
-			console.log(image.path)
-			setImageProduct(image.path)
-			dispatch(addProductImage(image.path))
-		});
-	};
+	const _handleChoosePhoto = image => {
+		setImageProduct(image.path)
+		dispatch(addProductImage(image.path))
+	}
 
 	const _handleSaveNewCategory = async () => {
 		if (newCategoryName == "") {
@@ -83,7 +75,6 @@ const NewProductName = ({ navigation }) => {
 					category: newCategoryName,
 				}, idEditCategory)
 				dispatch(getCategory(User.store.id_store))
-
 			}
 			dispatch(getCategory(User.store.id_store))
 			setAddCategoryVisible(false)
@@ -105,12 +96,12 @@ const NewProductName = ({ navigation }) => {
 				<View style={{ padding: 15 }}>
 					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
-					<View style={{marginTop : 10}}>
-					<FloatingInputLabel
-						label={"Nama Kategori"}
-						value={newCategoryName}
-						handleChangeText={(text) => setNewCategoryName(text)}
-					/>
+					<View style={{ marginTop: 10 }}>
+						<FloatingInputLabel
+							label={"Nama Kategori"}
+							value={newCategoryName}
+							handleChangeText={(text) => setNewCategoryName(text)}
+						/>
 					</View>
 					<View style={styles.viewButtonPopup}>
 						<Button style={styles.buttonSimpan} onPress={_handleSaveNewCategory}>
@@ -130,7 +121,7 @@ const NewProductName = ({ navigation }) => {
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}>
-								<Icon style={{ fontSize: 24 }} name="barcode" />
+								<Image size={35} source={require('src/assets/icons/barcode.png')} />
 							</Button>
 						</Col>
 					</Grid>
@@ -184,7 +175,7 @@ const NewProductName = ({ navigation }) => {
 				<View style={{ marginTop: 25 }}>
 					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Produk</Text>
 					<View style={styles.imageWrapper}>
-						<TouchableOpacity onPress={_handleChoosePhoto}>
+						<TouchableOpacity onPress={() => rbRef.open()}>
 							<Image style={styles.image}
 								source={imageProduct ? { uri: imageProduct } : require('../../assets/images/img-product.png')}
 							/>
@@ -192,25 +183,20 @@ const NewProductName = ({ navigation }) => {
 					</View>
 				</View>
 			</ScrollView>
-			<View style={{
-				bottom: 5,
-				alignSelf: "center"
-			}}>
-				<BottomButton
-					onPressBtn={_handlePressNext}
-					buttonTitle="LANJUTKAN"
-					style={{ backgroundColor: ColorsList.primaryColor, width: width - 40 }}
-				/>
-			</View>
+			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
+			<Bottom>
+				<Button width="100%" onPress={_handlePressNext}>LANJUTKAN</Button>
+			</Bottom>
 		</View>
 	);
 }
+
 
 export default NewProductName
 
 const styles = StyleSheet.create({
 	mainView: { backgroundColor: ColorsList.authBackground, justifyContent: 'space-between', flex: 1 },
-	scrollView: { padding: 10, paddingHorizontal: 20 },
+	scrollView: { marginBottom: 80, padding: 10, paddingHorizontal: 20 },
 	buttonScanBarcode: { borderRadius: 10, backgroundColor: ColorsList.primaryColor, width: '100%', height: '100%', justifyContent: 'center' },
 	viewButtonPopup: { marginTop: 15, borderColor: 'transparent', flexDirection: 'row-reverse', alignItems: 'flex-end' },
 	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor },

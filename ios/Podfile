@@ -42,6 +42,8 @@ target 'AwanApp' do
 
   pod 'react-native-branch', :path => '../node_modules/react-native-branch'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'AwanAppTests' do
     inherit! :search_paths
     # Pods for testing

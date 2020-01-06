@@ -14,7 +14,7 @@ import { RowChild } from 'src/components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import ViewShot from 'react-native-view-shot';
-import Share from 'react-native-share';
+import Screenshot, { Config } from 'src/utils/screenshot';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
@@ -26,14 +26,8 @@ const TransactionDetail = ({ navigation }) => {
 	}, [])
 
 	const _shareBill = () => {
-		viewShotRef.capture().then(uri => {
-			const shareOptions = {
-				url: uri,
-				message: '',
-				subject: 'Subject',
-				title: 'Bagikan lewat'
-			}
-			Share.open(shareOptions);
+		Screenshot.take(viewShotRef, opts => {
+			Screenshot.share(opts)
 		})
 	}
 
@@ -51,9 +45,7 @@ const TransactionDetail = ({ navigation }) => {
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-						<ViewShot ref={ref => {
-							viewShotRef = ref;
-						}} options={{ format: "jpg", quality: 0.9 }} style={{ backgroundColor: 'white' }}>
+						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ backgroundColor: ColorsList.whiteColor }}>
 							<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, borderRadius: 5 }}>
 								<RowOpposite
 									title="Kode Transaksi" content={data.transaction.payment_code} />
