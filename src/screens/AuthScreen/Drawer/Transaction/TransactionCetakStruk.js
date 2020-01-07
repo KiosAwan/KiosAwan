@@ -15,11 +15,10 @@ import {
 	ToastAndroid
 } from 'react-native';
 import { BluetoothEscposPrinter, BluetoothManager, BluetoothTscPrinter } from "react-native-bluetooth-escpos-printer";
-import { convertRupiah } from 'src/utils/authhelper';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 var { height, width } = Dimensions.get('window');
-export default class TransactionSelesai extends Component {
+export default class CetakStruk extends Component {
 
 
 	_listeners = [];
@@ -33,11 +32,18 @@ export default class TransactionSelesai extends Component {
 			bleOpend: false,
 			loading: true,
 			boundAddress: '',
-			debugMsg: ''
+			debugMsg: '',
+			name: 'Printer',
+			connectedPrinter: [],
+			printEnable: null
 		}
 	}
 
-	componentDidMount() {//alert(BluetoothManager)
+	async componentDidMount() {//alert(BluetoothManager)
+		const connectedPrinter = await AsyncStorage.getItem('@connected_printer')
+		if (connectedPrinter) {
+			this.setState({ connectedPrinter: JSON.parse(connectedPrinter) })
+		}
 		BluetoothManager.isBluetoothEnabled().then((enabled) => {
 			this.setState({
 				bleOpend: Boolean(enabled),
@@ -152,12 +158,26 @@ export default class TransactionSelesai extends Component {
 							loading: true
 						});
 						BluetoothManager.connect(row.address)
-							.then((s) => {
+							.then(async (s) => {
+								const temp_con_printer = await AsyncStorage.getItem('@connected_printer')
+								if (temp_con_printer) {
+									console.debug("SET PRINTER ARR")
+									const parseTemp = JSON.parse(temp_con_printer)
+									const a = parseTemp.find(item => item.boundAddress == row.address)
+									if (!a) {
+										await AsyncStorage.setItem('@connected_printer', JSON.stringify([...parseTemp, { name: row.name, boundAddress: row.address }]))
+									}
+								} else {
+									console.debug("SET PRINTER")
+									await AsyncStorage.setItem('@connected_printer', JSON.stringify([{ name: row.name, boundAddress: row.address }]))
+								}
 								this.setState({
+									connectedPrinter: [...this.state.connectedPrinter, { name: row.name, boundAddress: row.address }],
 									loading: false,
 									boundAddress: row.address,
 									name: row.name || "UNKNOWN"
 								})
+								console.debug("A", this.state.connectedPrinter)
 							}, (e) => {
 								this.setState({
 									loading: false
@@ -173,6 +193,15 @@ export default class TransactionSelesai extends Component {
 		return items;
 	}
 
+	_connectedBluetoothPrint = async (printer) => {
+		BluetoothManager.connect(printer.boundAddress)
+			.then(() => {
+				this.setState({ printEnable: printer })
+				console.debug("PRINT SUCCESS", printer.name)
+			}, (e) => {
+				alert(e);
+			})
+	}
 	render() {
 		return (
 			<ScrollView style={styles.container}>
@@ -237,20 +266,46 @@ export default class TransactionSelesai extends Component {
 						this._renderRow(this.state.pairedDs)
 					}
 				</View>
-
+				<View style={{ flex: 1 }}>
+					<Text>Connected Printer : </Text>
+					{
+						this.state.connectedPrinter.map(printer => (
+							printer.boundAddress != (this.state.printEnable ? this.state.printEnable.boundAddress : null) ?
+							<TouchableOpacity onPress={this.state.bleOpend ? () => this._connectedBluetoothPrint(printer) : () => alert("Mohon hidupkan bluetooth terlebih dahulu")} style={styles.connectedPrinter}>
+								<View>
+									<Text>{printer.name}</Text>
+									<Text>{printer.boundAddress}</Text>
+								</View>
+								<View>
+									<Text>{!printer.connect ? "Hubungkan" : "Terhubung"}</Text>
+								</View>
+							</TouchableOpacity>
+							: null
+						))
+					}
+				</View>
+				{
+					this.state.printEnable ?
+						<TouchableOpacity onPress={this.state.bleOpend ? () => this._connectedBluetoothPrint(printer) : () => alert("Mohon hidupkan bluetooth terlebih dahulu")} style={styles.connectedPrinter}>
+							<View>
+								<Text>{this.state.printEnable.name}</Text>
+								<Text>{this.state.printEnable.boundAddress}</Text>
+							</View>
+							<View>
+								<Text>Terhubung</Text>
+								<View>
+									<Text>PRINT</Text>
+									<Text onPress={this._testPrint}>TES PRINT</Text>
+								</View>
+							</View>
+						</TouchableOpacity>
+						: null}
 				<View style={{ flexDirection: "row", justifyContent: "space-around", paddingVertical: 30 }}>
 					<Button disabled={this.state.loading || !(this.state.bleOpend && this.state.boundAddress.length > 0)}
 						title="ESC/POS" onPress={this._testPrint} />
 					<Button disabled={this.state.loading || !(this.state.bleOpend && this.state.boundAddress.length > 0)}
-						title="TSC" onPress={() => {
-							//    this.props.navigator.push({
-							//        component:Tsc,
-							//        passProps:{
-							//            name:this.state.name,
-							//            boundAddress:this.state.boundAddress
-							//        }
-							//    })
-						}
+						title="TSC" onPress={async () =>
+							await AsyncStorage.removeItem('@connected_printer')
 						} />
 				</View>
 			</ScrollView>
@@ -275,33 +330,33 @@ export default class TransactionSelesai extends Component {
 			{ name: "Bacot", quantity: "4", harga: 16000 },
 		]
 		BluetoothEscposPrinter.printText("Toko Hongkong\n\rJalan Sawo , Kebayoran Baru \n\r", {});
-		BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		data.map(async item => {
-			BluetoothEscposPrinter.printColumn(transaksiWidth,
-				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				[item.label, item.value], {});
-		})
-		BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		BluetoothEscposPrinter.printText("DAFTAR PRODUK\n\r", { widthtimes: 0.9 });
-		BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		listItem.forEach(list => {
-			BluetoothEscposPrinter.printColumn(alignLeft,
-				[BluetoothEscposPrinter.ALIGN.LEFT],
-				[list.name], {widthtimes: 0.2})
-			BluetoothEscposPrinter.printColumn(columnWidths,
-				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				[convertRupiah(list.harga) + " x " + list.quantity.toString(), convertRupiah(list.quantity * list.harga)], {})
-		})
-		BluetoothEscposPrinter.printText("-------------------------------\n", {});
-		BluetoothEscposPrinter.printColumn(columnWidths,
-			[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-			["Subtotal", convertRupiah(20000)], {})
-		BluetoothEscposPrinter.printColumn(columnWidths,
-			[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-			["Total", convertRupiah(20000)], {})
-		BluetoothEscposPrinter.printText("-------------------------------\n", {});
-		BluetoothEscposPrinter.printText("Powered by KIOSAWAN\n\r", { widthtimes: 0.8, fonttype : BluetoothTscPrinter.FONT_5 });
-		BluetoothEscposPrinter.printText("\n\r\n\r", {});
+		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
+		// data.map(async item => {
+		// 	BluetoothEscposPrinter.printColumn(transaksiWidth,
+		// 		[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+		// 		[item.label, item.value], {});
+		// })
+		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
+		// BluetoothEscposPrinter.printText("DAFTAR PRODUK\n\r", { widthtimes: 0.9 });
+		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
+		// listItem.forEach(list => {
+		// 	BluetoothEscposPrinter.printColumn(alignLeft,
+		// 		[BluetoothEscposPrinter.ALIGN.LEFT],
+		// 		[list.name], { widthtimes: 0.2 })
+		// 	BluetoothEscposPrinter.printColumn(columnWidths,
+		// 		[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+		// 		[convertRupiah(list.harga) + " x " + list.quantity.toString(), convertRupiah(list.quantity * list.harga)], {})
+		// })
+		// BluetoothEscposPrinter.printText("-------------------------------\n", {});
+		// BluetoothEscposPrinter.printColumn(columnWidths,
+		// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+		// 	["Subtotal", convertRupiah(20000)], {})
+		// BluetoothEscposPrinter.printColumn(columnWidths,
+		// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+		// 	["Total", convertRupiah(20000)], {})
+		// BluetoothEscposPrinter.printText("-------------------------------\n", {});
+		// BluetoothEscposPrinter.printText("Powered by KIOSAWAN\n\r", { widthtimes: 0.8, fonttype: BluetoothTscPrinter.FONT_5 });
+		// BluetoothEscposPrinter.printText("\n\r\n\r", {});
 		this.setState({ loading: false })
 	}
 	// }
@@ -365,5 +420,10 @@ const styles = StyleSheet.create({
 	address: {
 		flex: 1,
 		textAlign: "right"
+	},
+	connectedPrinter: {
+		flexDirection: 'row',
+		alignItems: "center",
+		justifyContent: "space-between"
 	}
 });

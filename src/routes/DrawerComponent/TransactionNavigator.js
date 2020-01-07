@@ -6,7 +6,8 @@ import TransactionDetail from 'src/screens/AuthScreen/Drawer/Transaction/Transac
 import TransactionDetailBatalkan from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDetailBatalkan'
 import TransactionHutang from 'src/screens/AuthScreen/Drawer/Transaction/TransactionHutang'
 import TransactionDetailLunasi from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDetailLunasi'
-import TransactionSelesai from 'src/screens/AuthScreen/Drawer/Transaction/TransactionSelesai'
+import CetakStruk from 'src/screens/AuthScreen/Drawer/Transaction/TransactionCetakStruk'
+import TambahPrinter from 'src/screens/AuthScreen/Drawer/Transaction/TambahPrinter'
 
 const TransactionNavigator = createStackNavigator({
   '/drawer/transaction': {
@@ -39,8 +40,14 @@ const TransactionNavigator = createStackNavigator({
       header: null
     }
   },
-  '/drawer/transaction/selesai': {
-    screen: TransactionSelesai,
+  '/drawer/transaction/cetakstruk': {
+    screen: CetakStruk,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/transaction/tambahprinter': {
+    screen: TambahPrinter,
     navigationOptions: {
       header: null
     }
