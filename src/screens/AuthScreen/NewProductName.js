@@ -4,7 +4,6 @@ import { Text } from '../../components/Text/CustomText'
 import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
 import { useSelector, useDispatch } from 'react-redux'
 import { FloatingInputLabel } from '../../components/Input/InputComp';
-import { Button, Bottom } from '../../components/Button/ButtonComp';
 import { SelectBoxModal, MyModal } from '../../components/Picker/SelectBoxModal';
 import { getCategory } from '../../redux/actions/actionsStoreCategory';
 import { addProductName, addProductImage, addProductIdCategory } from '../../redux/actions/actionsNewProduct';
@@ -15,6 +14,7 @@ import { Grid, Col, Icon } from 'native-base';
 import { sendNewCategory, editCategory } from '../../utils/authhelper';
 import { Image } from 'src/components/CustomImage';
 import { PickerImage } from 'src/components/Picker/PickerImage';
+import { Button } from 'src/components/Button/Button';
 
 
 const width = Dimensions.get('window').width

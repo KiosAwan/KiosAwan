@@ -15,12 +15,14 @@ import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import {editCustomer, deleteCustomer } from '../../../../utils/authhelper';
-import { BottomButton, Button } from '../../../../components/Button/ButtonComp';
+import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
 import { getCustomer } from '../../../../redux/actions/actionsCustomer';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 
 
 const height = Dimensions.get('window').height
@@ -124,13 +126,9 @@ const PelangganEdit = ({ navigation }) => {
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Ubah data pelanggan</Text>
                 </View>
             </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_handleFinishEdit}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                    buttonTitle="SIMPAN"
-                />
-            </View>
+            <Bottom>
+                <Button onPress={_handleFinishEdit}>SIMPAN</Button>
+            </Bottom>
         </View>
     );
 }

@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { FloatingInput } from '../../../../components/Input/InputComp';
-import { Button, Bottom } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
 import { Icon } from 'native-base';
 import { changePassword } from '../../../../utils/authhelper'
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getProfile } from '../../../../redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 
 const MenuSettingUbahPassword = ({ navigation }) => {
 	const PIN = navigation.params ? navigation.params.PIN : undefined

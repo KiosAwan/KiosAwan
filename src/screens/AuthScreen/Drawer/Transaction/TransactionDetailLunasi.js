@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Image } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
-import { Button, Wrapper, Bottom } from 'src/components/Button/ButtonComp';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
 import { convertRupiah, getNearestFifty, payCredit, convertNumber } from 'src/utils/authhelper';
@@ -12,6 +11,9 @@ import { RowChild } from 'src/components/Helper/RowChild';
 import { FloatingInput } from 'src/components/Input/InputComp';
 import AsyncStorage from '@react-native-community/async-storage';
 import { InputCurrency } from 'src/components/Input/InputComp';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
+import { Wrapper } from 'src/components/View/Wrapper';
 
 const initialLayout = { width: 300, height: 300 };
 

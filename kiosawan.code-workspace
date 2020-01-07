@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"jshint.options": {
+			"esversion": 8,
+			"asi": true
+		},
+	}
+}

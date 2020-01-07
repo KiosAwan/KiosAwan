@@ -8,13 +8,15 @@ import { useDispatch } from 'react-redux';
 import { getTransactionDetail, convertRupiah, formatToDays } from 'src/utils/authhelper';
 import { WrapperItem } from 'src/components/Picker/SelectBoxModal';
 import { FontList } from 'src/styles/typography';
-import { BottomButton, Bottom, Button, Wrapper } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import ViewShot from 'react-native-view-shot';
 import Screenshot, { Config } from 'src/utils/screenshot';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
+import { Wrapper } from 'src/components/View/Wrapper';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef

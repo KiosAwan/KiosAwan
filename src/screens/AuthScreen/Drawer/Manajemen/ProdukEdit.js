@@ -9,7 +9,6 @@ import { ColorsList } from 'src/styles/colors';
 import { MyModal, SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Text } from 'src/components/Text/CustomText';
 import { FloatingInput } from 'src/components/Input/InputComp';
-import { Button, Bottom } from 'src/components/Button/ButtonComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { editProductImage, editProductIdCategory, editProductName, editRemoveAllNewProduct } from 'src/redux/actions/actionsEditProduct';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -17,6 +16,8 @@ import { sendNewCategory, editCategory, deleteProduct } from 'src/utils/authhelp
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { PickerImage } from 'src/components/Picker/PickerImage';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 
 
 const width = Dimensions.get('window').width

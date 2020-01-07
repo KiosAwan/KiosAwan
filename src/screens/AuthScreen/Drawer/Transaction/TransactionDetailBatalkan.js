@@ -10,10 +10,11 @@ import { convertRupiah, cancelTransaction } from 'src/utils/authhelper';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { ReturnTransactionCard } from 'src/components/Card/CardComp';
 import { FloatingInput } from 'src/components/Input/InputComp';
-import { Bottom, Button } from 'src/components/Button/ButtonComp';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 
 const TransactionDetailBatalkan = ({ navigation }) => {
 	const dispatch = useDispatch()

@@ -12,19 +12,18 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import SliderImage from 'src/components/SliderImage'
 import { ColorsList } from 'src/styles/colors'
 import { FontList } from 'src/styles/typography'
-
 import { useSelector, useDispatch } from 'react-redux'
-
 import { CardTextImage } from 'src/components/Card/CardComp'
 import { CategoryText } from 'src/components/Text/CategoryText'
 import Axios from 'axios'
 import { HOST_URL } from 'src/config'
 import { HomeHeader } from 'src/components/Header/Header'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
-import { Button, Wrapper } from 'src/components/Button/ButtonComp'
 import { getProfile } from 'src/redux/actions/actionsUserData'
 import { Image } from 'src/components/CustomImage';
 import { Text } from 'src/components/Text/CustomText'
+import { Button } from 'src/components/Button/Button'
+import { Wrapper } from 'src/components/View/Wrapper'
 
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {

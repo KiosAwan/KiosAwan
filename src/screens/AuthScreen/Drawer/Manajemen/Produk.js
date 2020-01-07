@@ -6,11 +6,12 @@ import { AwanPopup } from '../../../../components/ModalContent/Popups';
 import { ColorsList } from '../../../../styles/colors';
 import { ProductCard } from '../../../../components/Card/CardComp';
 import { convertRupiah } from '../../../../utils/authhelper';
-import { Bottom, Button } from '../../../../components/Button/ButtonComp';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFromManajemenProduct } from '../../../../redux/actions/actionsNewProduct';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { editProductName, editProductBarcode, editProductAddId, editProductImage, editProductPriceIn, editProductPriceOut, editProductIdCategory, editProductManageStock, editProductSendNotif, editQuantityStock, editMinQtyStock } from 'src/redux/actions/actionsEditProduct';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 
 const ManajemenProduk = ({ navigation }) => {
 	const dispatch = useDispatch()

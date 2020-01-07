@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Wrapper } from '../Button/ButtonComp';
 import { TextInput } from 'react-native-gesture-handler';
+import { Wrapper } from '../View/Wrapper';
 
 export const CodeInput = props => {
 	const [index, setIndex] = useState(0)

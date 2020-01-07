@@ -6,9 +6,10 @@ import { Header, Input } from 'native-base'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { InputSimple } from '../Input/InputComp'
 import { Text } from '../Text/CustomText'
-import { Wrapper, Button } from '../Button/ButtonComp'
 import BarStatus from '../BarStatus';
 import { ColorsList } from 'src/styles/colors'
+import { Button } from '../Button/Button'
+import { Wrapper } from '../View/Wrapper'
 
 
 const width = Dimensions.get('window').width

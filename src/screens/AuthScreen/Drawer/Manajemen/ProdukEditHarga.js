@@ -10,13 +10,14 @@ import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { FloatingInputLabelCurrency, FloatingInputLabel } from 'src/components/Input/InputComp';
 import SwitchButton from 'src/components/Button/SwitchButton';
-import { BottomButton, Button } from 'src/components/Button/ButtonComp';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { editRemoveAllNewProduct, editProductManageStock, editProductSendNotif, editProductPriceIn, editProductPriceOut, editQuantityStock, editMinQtyStock } from 'src/redux/actions/actionsEditProduct';
 import { HOST_URL } from 'src/config';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 
 const width = Dimensions.get('window').width
 
@@ -108,64 +109,64 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 			navigation.navigate('/drawer/manajemen/produk')
 		}, 1000)
 	}
-	return (
-		<View style={{ flex: 1 }}>
-			<Modal
-				animationType="fade"
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			>
-				<ModalContent
-					image={require('src/assets/images/addproductsuccess.png')}
-					infoText="Edit Produk Berhasil!"
-				/>
-			</Modal>
-			<AwanPopup.Title title="Hapus Produk" visible={alert} message={`${EditProduct.name} akan dihapus dari daftar produk.`}>
-				<View></View>
-				<Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-				<Button onPress={_handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
-			</AwanPopup.Title>
-			<GlobalHeaderWithIcon
-				title="Edit Produk"
-				onPressBack={() => navigation.goBack()}
-				handleDeleteCategory={() => setAlert(true)}
-				image={require('../../../../assets/icons/trash.png')}
+	return <View style={{ flex: 1 }}>
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={modalVisible}
+			onRequestClose={() => {
+				setModalVisible(!modalVisible);
+			}}
+		>
+			<ModalContent
+				image={require('src/assets/images/addproductsuccess.png')}
+				infoText="Edit Produk Berhasil!"
 			/>
-			<View style={styles.childContainer}>
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<View style={styles.groupingStyle}>
-						<View style={{ padding: 10 }}>
-							<Text style={styles.infoText}>Masukkan harga jual dan beli produk</Text>
-						</View>
-						<View style={styles.wrapInputHarga}>
-							<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
-								<FloatingInputLabelCurrency style={{ margin: 0 }}
-									label="Harga modal"
-									value={EditProduct.price_in}
-									handleChangeText={_handleChangePriceIn}
-								/>
-							</View>
-							<View style={styles.inputTwoCol}>
-								<FloatingInputLabelCurrency style={{ margin: 0 }}
-									label="Harga jual"
-									value={EditProduct.price_out}
-									handleChangeText={_handleChangePriceOut}
-								/>
-							</View>
-						</View>
+		</Modal>
+		<AwanPopup.Title title="Hapus Produk" visible={alert} message={`${EditProduct.name} akan dihapus dari daftar produk.`}>
+			<View></View>
+			<Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
+			<Button onPress={_handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+		</AwanPopup.Title>
+		<GlobalHeaderWithIcon
+			title="Edit Produk"
+			onPressBack={() => navigation.goBack()}
+			handleDeleteCategory={() => setAlert(true)}
+			image={require('../../../../assets/icons/trash.png')}
+		/>
+		<View style={styles.childContainer}>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<View style={styles.groupingStyle}>
+					<View style={{ padding: 10 }}>
+						<Text style={styles.infoText}>Masukkan harga jual dan beli produk</Text>
 					</View>
-					<View style={styles.groupingStyle}>
-						<View style={styles.wrapSwitchAndText}>
-							<Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Kelola stok produk</Text>
-							<SwitchButton
-								handleChangeToggle={_handleChangeToggle}
-								toggleValue={EditProduct.manageStock == 0 ? false : true}
+					<View style={styles.wrapInputHarga}>
+						<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
+							<FloatingInputLabelCurrency style={{ margin: 0 }}
+								label="Harga modal"
+								value={EditProduct.price_in}
+								handleChangeText={_handleChangePriceIn}
 							/>
 						</View>
-						{EditProduct.manageStock == 1 ?
+						<View style={styles.inputTwoCol}>
+							<FloatingInputLabelCurrency style={{ margin: 0 }}
+								label="Harga jual"
+								value={EditProduct.price_out}
+								handleChangeText={_handleChangePriceOut}
+							/>
+						</View>
+					</View>
+				</View>
+				<View style={styles.groupingStyle}>
+					<View style={styles.wrapSwitchAndText}>
+						<Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Kelola stok produk</Text>
+						<SwitchButton
+							handleChangeToggle={_handleChangeToggle}
+							toggleValue={EditProduct.manageStock == 0 ? false : true}
+						/>
+					</View>
+					{
+						EditProduct.manageStock == 1 ?
 							<View>
 								<View style={{ height: 1, backgroundColor: "#e0dada" }} />
 								<View style={styles.wrapInputHarga}>
@@ -201,20 +202,15 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 									<Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif == 1 ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
 								</View>
 							</View>
-							: null}
-
-					</View>
-				</ScrollView>
-				<View style={styles.absoluteButton}>
-					<BottomButton
-						onPressBtn={_handlePressNext}
-						buttonTitle="SIMPAN"
-						style={{ backgroundColor: ColorsList.primaryColor, width: width - 40 }}
-					/>
+							: null
+					}
 				</View>
-			</View>
+			</ScrollView>
+			<Bottom>
+				<Button onPress={_handlePressNext}>SIMPAN</Button>
+			</Bottom>
 		</View>
-	);
+	</View>
 }
 
 export default ManajemenProdukEditHarga

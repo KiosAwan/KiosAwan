@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { FloatingInput } from '../../../../components/Input/InputComp';
-import { BottomButton, Wrapper, Bottom, Button } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import { Text } from '../../../../components/Text/CustomText';
@@ -17,6 +16,9 @@ import { Icon } from 'native-base';
 import Wilayah from 'src/utils/wilayah';
 import Divider from 'src/components/Row/Divider';
 import { PickerImage } from 'src/components/Picker/PickerImage';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
+import { Wrapper } from 'src/components/View/Wrapper';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()

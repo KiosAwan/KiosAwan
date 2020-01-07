@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { View, Modal as ModalRN, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { MyModal } from "../Picker/SelectBoxModal";
 import { Text } from '../Text/CustomText'
 import { CardItem } from 'native-base';
 import { ColorsList } from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
-import { Button, Bottom } from '../Button/ButtonComp';
+import { Bottom } from '../View/Bottom';
 
 export const Modal = (props) => {
 	const styles = StyleSheet.create({

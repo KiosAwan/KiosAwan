@@ -11,7 +11,7 @@ import { AddCashPayment, AddCustomer } from '../../redux/actions/actionsStorePro
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { FontList } from '../../styles/typography';
 import { SizeList } from '../../styles/size';
-import { Wrapper } from '../Button/ButtonComp';
+import { Wrapper } from '../View/Wrapper';
 
 const height = Dimensions.get('window').height
 

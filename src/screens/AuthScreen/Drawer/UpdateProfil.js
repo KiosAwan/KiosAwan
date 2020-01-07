@@ -6,9 +6,6 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { Text } from 'src/components/Text/CustomText';
 import { ColorsList } from 'src/styles/colors';
 import { FloatingInput } from 'src/components/Input/InputComp';
-import { BottomButton, Bottom, Button, Wrapper } from 'src/components/Button/ButtonComp';
-import { SizeList } from 'src/styles/size';
-import ImagePicker from 'react-native-image-crop-picker'
 import AsyncStorage from '@react-native-community/async-storage';
 import { sendProfileData } from 'src/utils/authhelper';
 import { getProfile } from 'src/redux/actions/actionsUserData';
@@ -19,6 +16,9 @@ import { Icon } from 'native-base';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import Divider from 'src/components/Row/Divider';
 import { PickerImage } from 'src/components/Picker/PickerImage';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
+import { Wrapper } from 'src/components/View/Wrapper';
 
 
 const UpdateProfil = ({ navigation }) => {
