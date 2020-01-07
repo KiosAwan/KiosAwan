@@ -11,7 +11,7 @@ import { AddCashPayment, AddCustomer } from '../../redux/actions/actionsStorePro
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { FontList } from '../../styles/typography';
 import { SizeList } from '../../styles/size';
-import { Wrapper } from '../Button/ButtonComp';
+import { Wrapper } from '../View/Wrapper';
 
 const height = Dimensions.get('window').height
 
@@ -227,22 +227,24 @@ export const PilihPelanggan = (props) => {
 							</CardItem>
 							<CardItem>
 								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
-									<Icon name="search" />
-									<Input
-										value={pelanggan ? pelanggan.name_customer : ''}
-										placeholder="Nama pelanggan"
-										keyboardType={props.keyboardType || "default"}
-										onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
+									<FloatingInput left={30} borderTransparent label="Nama pelanggan">
+										<Icon style={{ color: ColorsList.primary }} name="search" />
+										<Input
+											value={pelanggan ? pelanggan.name_customer : ''}
+											keyboardType={props.keyboardType || "default"}
+											onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
+									</FloatingInput>
 								</Item>
 							</CardItem>
 							<CardItem>
 								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
-									<Icon name="search" />
-									<Input
-										value={pelanggan ? pelanggan.phone_number_customer : ''}
-										placeholder="No. Telepon"
-										keyboardType={props.keyboardType || "default"}
-										onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
+									<FloatingInput left={30} borderTransparent label="No. Telepon">
+										<Icon style={{ color: ColorsList.primary }} name="search" />
+										<Input
+											value={pelanggan ? pelanggan.phone_number_customer : ''}
+											keyboardType={props.keyboardType || "default"}
+											onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
+									</FloatingInput>
 								</Item>
 							</CardItem>
 							<CardItem footer style={styles.viewButtonPopup}>

@@ -15,8 +15,7 @@ import { getProfile } from '../redux/actions/actionsUserData';
 const CheckMember = ({ navigation }) => {
   const dispatch = useDispatch()
   useEffect(() => {
-    setTimeout(function () { _checkFunc() }
-      , 1500);
+    setTimeout(() => _checkFunc(), 1500);
   }, [])
 
   const _checkFunc = async () => {
@@ -26,7 +25,7 @@ const CheckMember = ({ navigation }) => {
       const checkUserData = await AsyncStorage.getItem('userId');
       if (checkUserData != null) {
         await dispatch(getProfile(checkUserData))
-        navigation.navigate('/drawer/transaction/selesai')
+        navigation.navigate('/cashier')
       } else {
         if (checkUserIntro == "sudah") {
           navigation.navigate('/unauth')

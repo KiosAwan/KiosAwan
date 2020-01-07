@@ -15,12 +15,14 @@ import {  GlobalHeaderWithIcon } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import { editCategory, deleteCategory } from '../../../../utils/authhelper';
-import { BottomButton, Button } from '../../../../components/Button/ButtonComp';
+import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 
 
 const KategoriEdit = ({ navigation }) => {
@@ -110,13 +112,9 @@ const KategoriEdit = ({ navigation }) => {
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Masukkan nama kategori baru</Text>
                 </View>
             </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_handleSaveCategory}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                    buttonTitle="SIMPAN"
-                />
-            </View>
+            <Bottom>
+                <Button onPress={_handleSaveCategory}>SIMPAN</Button>
+            </Bottom>
         </View>
     );
 }

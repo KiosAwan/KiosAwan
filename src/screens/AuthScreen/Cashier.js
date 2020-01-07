@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { BottomButton, Wrapper, Button } from '../../components/Button/ButtonComp';
 import { FlatList } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
@@ -18,6 +17,9 @@ import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { setFromManajemenProduct } from '../../redux/actions/actionsNewProduct';
 import { Text } from 'src/components/Text/CustomText';
 import { Image } from 'src/components/CustomImage';
+import { Button } from 'src/components/Button/Button';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Bottom } from 'src/components/View/Bottom';
 
 const Cashier = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -96,31 +98,26 @@ const Cashier = ({ navigation }) => {
             </View>
             {
                 Product.jumlahitem > 0 ?
-                    <View style={stylesglobe.absoluteBottom}>
-                        <BottomButton
-                            onPressBtn={() => {
-                                navigation.navigate('/cashier/cart')
-                                dispatch(getCustomer(User.store.id_store))
-                            }}
-                            style={styles.absoluteButton}
-                            content={
-                                <View style={{ flexDirection: 'row', width: SizeList.width - 30, justifyContent: 'space-around' }}>
-                                    <View style={{ ...RowChild }}>
-                                        <Icon name="ios-cart" />
-                                        <Text style={styles.btnTextBelanja}>BELANJA {Product.jumlahitem} PRODUK</Text>
-                                    </View>
-                                    <View style={{ backgroundColor: '#f233ac', width: 2 }} />
-                                    <View style={{ justifyContent: 'center' }}>
-                                        <Text style={{ ...FontList.titleFont, color: 'white' }}>{convertRupiah(Product.total)}</Text>
-                                    </View>
-                                </View>
-                            }
-                        />
-                    </View>
-                    : null
+                    <Bottom>
+                        <Button onPress={() => {
+                            navigation.navigate('/cashier/cart')
+                            dispatch(getCustomer(User.store.id_store))
+                        }} width="95%">
+                            <Wrapper>
+                                <Icon style={{ color: ColorsList.whiteColor, marginRight: 10 }} name="ios-cart" />
+                                <Text style={styles.btnTextBelanja}>BELANJA {Product.jumlahitem} PRODUK</Text>
+                            </Wrapper>
+                            <View style={{ backgroundColor: ColorsList.primarySoft, height: '100%', width: 2 }} />
+                            <View style={{ justifyContent: 'center' }}>
+                                <Text style={{ ...FontList.titleFont, color: 'white' }}>{convertRupiah(Product.total)}</Text>
+                            </View>
+                        </Button>
+                    </Bottom>
+                    :
+                    null
             }
         </View>
-    );
+    )
 }
 
 export default Cashier

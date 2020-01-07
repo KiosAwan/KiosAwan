@@ -5,7 +5,6 @@ import { View, StyleSheet, TextInput, Image, FlatList, TouchableOpacity as Touch
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
-import { Button, Wrapper, Bottom } from 'src/components/Button/ButtonComp';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
 import { FloatingInput } from 'src/components/Input/InputComp';
@@ -14,6 +13,9 @@ import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { convertRupiah, getReportHutang } from 'src/utils/authhelper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Button } from 'src/components/Button/Button';
+import { Bottom } from 'src/components/View/Bottom';
 
 const initialLayout = { width: 300, height: 300 };
 

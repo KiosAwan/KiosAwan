@@ -3,12 +3,13 @@ import { StyleSheet, View, Image, TouchableOpacity, ScrollView } from 'react-nat
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
-import { Button, Wrapper } from 'src/components/Button/ButtonComp';
 import { convertRupiah } from 'src/utils/authhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { useSelector } from 'react-redux';
 import { getTransactionData, getReportCategory } from 'src/utils/authhelper'
 import moment from 'moment';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Button } from 'src/components/Button/Button';
 
 const Report = ({ navigation }) => {
 	let _keuangan = ["pajak", "service_charge"]
@@ -113,44 +114,44 @@ const Report = ({ navigation }) => {
 			</Wrapper>
 			{
 				transaction ?
-				<ScrollView>
-					<View style={{ padding: 15 }}>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>Total Penjualan</Text>
-							<Text color="primary" font="Bold">{convertRupiah(transaction.total_penjualan)}</Text>
-						</Wrapper>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>Total Keuntungan</Text>
-							<Text color="primary" font="Bold">{convertRupiah(transaction.total_profit)}</Text>
-						</Wrapper>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>Transaksi</Text>
-							<Text color="primary" font="Bold">{transaction.jumlah_transaksi}</Text>
-						</Wrapper>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>Produk Terjual</Text>
-							<Text color="primary" font="Bold">{transaction.product_terjual}</Text>
-						</Wrapper>
+					<ScrollView>
+						<View style={{ padding: 15 }}>
+							<Wrapper justify="space-between" style={styles.report}>
+								<Text>Total Penjualan</Text>
+								<Text color="primary" font="Bold">{convertRupiah(transaction.total_penjualan)}</Text>
+							</Wrapper>
+							<Wrapper justify="space-between" style={styles.report}>
+								<Text>Total Keuntungan</Text>
+								<Text color="primary" font="Bold">{convertRupiah(transaction.total_profit)}</Text>
+							</Wrapper>
+							<Wrapper justify="space-between" style={styles.report}>
+								<Text>Transaksi</Text>
+								<Text color="primary" font="Bold">{transaction.jumlah_transaksi}</Text>
+							</Wrapper>
+							<Wrapper justify="space-between" style={styles.report}>
+								<Text>Produk Terjual</Text>
+								<Text color="primary" font="Bold">{transaction.product_terjual}</Text>
+							</Wrapper>
+						</View>
+						<View style={{ padding: 15, paddingTop: 0 }}>
+							<Wrapper style={styles.tabButtonWrapper}>
+								{
+									['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].map((btn, i) => {
+										return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ size: 12 }} style={{ borderRadius: 0 }} _width="50%">{btn}</Button>
+									})
+								}
+							</Wrapper>
+							{indexTab == 0 ? <Keuangan /> : <Keuangan isLaba />}
+						</View>
+					</ScrollView>
+					:
+					<View style={{ alignItems: 'center' }}>
+						<Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
+						<View style={{ alignItems: 'center' }}>
+							<Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
+							<Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+						</View>
 					</View>
-					<View style={{ padding: 15, paddingTop: 0 }}>
-						<Wrapper style={styles.tabButtonWrapper}>
-							{
-								['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].map((btn, i) => {
-									return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ size: 12 }} style={{ borderRadius: 0 }} _width="50%">{btn}</Button>
-								})
-							}
-						</Wrapper>
-						{indexTab == 0 ? <Keuangan /> : <Keuangan isLaba />}
-					</View>
-				</ScrollView>
-				: 
-				<View style={{ alignItems: 'center' }}>
-                    <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
-                    <View style={{ alignItems: 'center' }}>
-                      <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
-                      <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
-                    </View>
-                  </View>
 			}
 		</View>
 	)

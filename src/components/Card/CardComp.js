@@ -77,27 +77,21 @@ export const CardTextImage = (props) => {
 
 export const ImageText = props => {
     return <View style={[styles.viewNoImageProduct, { width: props.size || '20%', height: props.size || '70%' }, props.style]}>
-        <Text style={{ fontSize: 24, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont }}>{props.name ? props.name.generateInitial() : null}</Text>
-    </View>
-}
-
-export const ImageStokHabis = props => {
-    return <View style={[styles.viewNoImageProduct, { width: props.size || '20%', height: props.size || '70%' }, props.style]}>
-        <Text style={{ fontSize: 15, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont, textAlign: 'center' }}>STOK HABIS</Text>
+        <Text style={{ fontSize: props.notGenerated ? 15 : 24, fontFamily: 'Nunito-Bold', color: ColorsList.greyFont, textAlign: 'center' }}>{props.name ? props.notGenerated ? props.name : props.name.generateInitial() : null}</Text>
     </View>
 }
 
 export const ProductCard = (props) => {
     return (
-        <View style={{ height: height / 7, backgroundColor:'white', marginBottom: 10, borderRadius: 5, }}>
+        <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5, }}>
             <View style={[styles.card, props.cardStyle]}>
                 <View style={{ ...RowChild, height: '100%', width: '90%' }}>
                     {
-                        props.stock === 0 ? <ImageStokHabis/> : props.stock - props.quantity == 0 ? <ImageStokHabis/> :
-                        props.productImage ?
-                            <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
-                            :
-                            <ImageText name={props.name} />
+                        props.stock === 0 ? <ImageText name="STOK HABIS" notGenerated /> : props.stock - props.quantity == 0 ? <ImageText name="STOK HABIS" notGenerated /> :
+                            props.productImage ?
+                                <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
+                                :
+                                <ImageText name={props.name} />
                     }
                     <View style={{ width: '50%' }}>
                         <Text style={[styles.infoText]}>{props.name}</Text>

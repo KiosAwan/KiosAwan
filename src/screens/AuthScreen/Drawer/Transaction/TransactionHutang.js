@@ -3,7 +3,6 @@ import React, { Component, useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Image, TouchableOpacity, FlatList } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
-import { Wrapper, Button } from 'src/components/Button/ButtonComp';
 import { ColorsList } from 'src/styles/colors';
 import { ImageText } from 'src/components/Card/CardComp';
 import { Icon } from 'native-base';
@@ -12,6 +11,8 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { convertRupiah } from 'src/utils/authhelper';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Button } from 'src/components/Button/Button';
 
 const TransactionDetailHutang = ({ navigation }) => {
 	const dispatch = useDispatch()

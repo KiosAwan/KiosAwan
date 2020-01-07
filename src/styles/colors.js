@@ -1,6 +1,7 @@
 export const ColorsList = {
     gradientPrimary: '#6d1d6d',
     primaryColor: "#cd0192",
+    primarySoft: '#f233ac',
     authBackground: "#f3f3f3",
     whiteColor: '#ffffff',
     whitePlaceholder: 'rgba(255,255,255,.5)',

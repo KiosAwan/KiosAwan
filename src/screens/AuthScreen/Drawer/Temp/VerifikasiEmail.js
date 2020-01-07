@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text } from 'react-native';
 import { GlobalHeader } from '../../../../components/Header/Header';
-import { Bottom, Button, ButtonPrimary } from '../../../../components/Button/ButtonComp';
 import { ColorsList } from '../../../../styles/colors';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import { WrapperItem } from '../../../../components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 
 
 const VerifikasiEmail = ({ navigation }) => {
