@@ -67,7 +67,7 @@ const Struk = ({ navigation }) => {
                                         <Text style={styles.btnwithIconText}>Kirim Struk</Text>
                                     </View>
                                 </TouchableOpacity>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/cetakstruk')}>
                                     <View style={[styles.wrapIconText]} >
                                         <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="print" />
                                         <Text style={styles.btnwithIconText}>Cetak Struk</Text>
