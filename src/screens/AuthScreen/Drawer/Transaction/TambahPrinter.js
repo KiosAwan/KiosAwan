@@ -12,17 +12,22 @@ import {
 	Switch,
 	TouchableOpacity,
 	Dimensions,
-	ToastAndroid
+	ToastAndroid,
+	Image
 } from 'react-native';
 import { BluetoothEscposPrinter, BluetoothManager, BluetoothTscPrinter } from "react-native-bluetooth-escpos-printer";
 import { convertRupiah } from 'src/utils/authhelper';
 import AsyncStorage from '@react-native-community/async-storage';
+import { ColorsList } from 'src/styles/colors';
+import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
+import { connect } from 'react-redux';
+import { addPrinter } from 'src/redux/actions/actionsPrinter';
+import { FontList } from 'src/styles/typography';
+import { Wrapper } from 'src/components/View/Wrapper';
 
 
 var { height, width } = Dimensions.get('window');
-export default class TambahPrinter extends Component {
-
-
+class TambahPrinter extends Component {
 	_listeners = [];
 
 	constructor() {
@@ -33,19 +38,10 @@ export default class TambahPrinter extends Component {
 			foundDs: [],
 			bleOpend: false,
 			loading: true,
-			boundAddress: '',
-			debugMsg: '',
-			name: 'Printer',
-			connectedPrinter: [],
-			printEnable: null
 		}
 	}
 
 	async componentDidMount() {//alert(BluetoothManager)
-		const connectedPrinter = await AsyncStorage.getItem('@connected_printer')
-		if (connectedPrinter) {
-			this.setState({ connectedPrinter: JSON.parse(connectedPrinter) })
-		}
 		BluetoothManager.isBluetoothEnabled().then((enabled) => {
 			this.setState({
 				bleOpend: Boolean(enabled),
@@ -94,13 +90,6 @@ export default class TambahPrinter extends Component {
 			))
 		}
 	}
-
-	componentWillUnmount() {
-		//for (let ls in this._listeners) {
-		//    this._listeners[ls].remove();
-		//}
-	}
-
 	_deviceAlreadPaired(rsp) {
 		var ds = null;
 		if (typeof (rsp.devices) == 'object') {
@@ -166,20 +155,18 @@ export default class TambahPrinter extends Component {
 									console.debug("SET PRINTER ARR")
 									const parseTemp = JSON.parse(temp_con_printer)
 									const a = parseTemp.find(item => item.boundAddress == row.address)
+									console.debug(this.props.Printer)
 									if (!a) {
+										this.props.addPrinter([...parseTemp, { name: row.name, boundAddress: row.address }])
 										await AsyncStorage.setItem('@connected_printer', JSON.stringify([...parseTemp, { name: row.name, boundAddress: row.address }]))
+										console.debug(this.props.Printer)
 									}
 								} else {
 									console.debug("SET PRINTER")
+									this.props.addPrinter([{ name: row.name, boundAddress: row.address }])
 									await AsyncStorage.setItem('@connected_printer', JSON.stringify([{ name: row.name, boundAddress: row.address }]))
 								}
-								this.setState({
-									connectedPrinter: [...this.state.connectedPrinter, { name: row.name, boundAddress: row.address }],
-									loading: false,
-									boundAddress: row.address,
-									name: row.name || "UNKNOWN"
-								})
-								console.debug("A", this.state.connectedPrinter)
+								this.props.navigation.navigate('/drawer/transaction/cetakstruk')
 							}, (e) => {
 								this.setState({
 									loading: false
@@ -187,28 +174,30 @@ export default class TambahPrinter extends Component {
 								alert(e);
 							})
 
-					}}><Text style={styles.name}>{row.name || "UNKNOWN"}</Text><Text
-						style={styles.address}>{row.address}</Text></TouchableOpacity>
+					}}>
+						<Wrapper>
+							<Image style={{width : 30 , height : 30, resizeMode : "contain"}} source={require('../../../../assets/icons/bluetooth.png')}/>
+						<View>
+							<Text style={styles.name}>{row.name || "UNKNOWN"}</Text>
+							<Text style={styles.address}>{row.address}</Text>
+						</View>
+						<Text style={styles.connectText}>HUBUNGKAN</Text>
+						</Wrapper>
+					</TouchableOpacity>
 				);
 			}
 		}
 		return items;
 	}
 
-	_connectedBluetoothPrint = async (printer) => {
-		BluetoothManager.connect(printer.boundAddress)
-			.then(() => {
-				this.setState({ printEnable: printer })
-				console.debug("PRINT SUCCESS", printer.name)
-			}, (e) => {
-				alert(e);
-			})
-	}
 	render() {
 		return (
 			<ScrollView style={styles.container}>
-				<Text>{this.state.debugMsg}</Text>
-				<Text style={styles.title}>Blutooth Opended:{this.state.bleOpend ? "true" : "false"} <Text>Open BLE Before Scanning</Text> </Text>
+				<GlobalHeaderWithIcon title="Bluetooth"
+					onPressBack={() => this.props.navigation.goBack()}
+					image={require('../../../../assets/icons/scanbluetooth.png')}
+					handleDeleteCategory={() => this._scan()}
+				/>
 				<View>
 					<Switch value={this.state.bleOpend} onValueChange={(v) => {
 						this.setState({
@@ -249,17 +238,6 @@ export default class TambahPrinter extends Component {
 							});
 						}
 					}} />
-					<Button disabled={this.state.loading || !this.state.bleOpend} onPress={() => {
-						this._scan();
-					}} title="Scan" />
-				</View>
-				<Text style={styles.title}>Connected:<Text style={{ color: "blue" }}>{!this.state.name ? 'No Devices' : this.state.name}</Text></Text>
-				<Text style={styles.title}>Found(tap to connect):</Text>
-				{this.state.loading ? (<ActivityIndicator animating={true} />) : null}
-				<View style={{ flex: 1, flexDirection: "column" }}>
-					{
-						this._renderRow(this.state.foundDs)
-					}
 				</View>
 				<Text style={styles.title}>Paired:</Text>
 				{this.state.loading ? (<ActivityIndicator animating={true} />) : null}
@@ -268,137 +246,67 @@ export default class TambahPrinter extends Component {
 						this._renderRow(this.state.pairedDs)
 					}
 				</View>
-				<View style={{ flex: 1 }}>
-					<Text>Connected Printer : </Text>
+				<Text style={styles.title}>Found(tap to connect):</Text>
+				<View style={{ flex: 1, flexDirection: "column" }}>
 					{
-						this.state.connectedPrinter.map(printer => (
-							printer.boundAddress != (this.state.printEnable ? this.state.printEnable.boundAddress : null) ?
-							<TouchableOpacity onPress={this.state.bleOpend ? () => this._connectedBluetoothPrint(printer) : () => alert("Mohon hidupkan bluetooth terlebih dahulu")} style={styles.connectedPrinter}>
-								<View>
-									<Text>{printer.name}</Text>
-									<Text>{printer.boundAddress}</Text>
-								</View>
-								<View>
-									<Text>{!printer.connect ? "Hubungkan" : "Terhubung"}</Text>
-								</View>
-							</TouchableOpacity>
-							: null
-						))
+						this._renderRow(this.state.foundDs)
 					}
 				</View>
-				{
-					this.state.printEnable ?
-						<TouchableOpacity onPress={this.state.bleOpend ? () => this._connectedBluetoothPrint(printer) : () => alert("Mohon hidupkan bluetooth terlebih dahulu")} style={styles.connectedPrinter}>
-							<View>
-								<Text>{this.state.printEnable.name}</Text>
-								<Text>{this.state.printEnable.boundAddress}</Text>
-							</View>
-							<View>
-								<Text>Terhubung</Text>
-								<View>
-									<Text>PRINT</Text>
-									<Text onPress={this._testPrint}>TES PRINT</Text>
-								</View>
-							</View>
-						</TouchableOpacity>
-						: null}
-				<View style={{ flexDirection: "row", justifyContent: "space-around", paddingVertical: 30 }}>
-					<Button disabled={this.state.loading || !(this.state.bleOpend && this.state.boundAddress.length > 0)}
-						title="ESC/POS" onPress={this._testPrint} />
-					<Button disabled={this.state.loading || !(this.state.bleOpend && this.state.boundAddress.length > 0)}
-						title="TSC" onPress={async () =>
-							await AsyncStorage.removeItem('@connected_printer')
-						} />
-				</View>
+
 			</ScrollView>
 		);
 	}
 
-	_testPrint = async () => {
-		this.setState({ loading: true })
-		let columnWidths = [16, 16];
-		let transaksiWidth = [16, 16];
-		let alignLeft = [32]
-		let data = [
-			{ label: "KodeTransaksi", value: "123412" },
-			{ label: "KodeTransaksi", value: "123412" },
-			{ label: "KodeTransaksi", value: "123412" },
-			{ label: "KodeTransaksi", value: "123412" },
-		]
-		let listItem = [
-			{ name: "Awan", quantity: "1", harga: 16000 },
-			{ name: "Tuppperware Baru Bekas Pakai", quantity: "2", harga: 16000 },
-			{ name: "Kertas", quantity: "3", harga: 16000 },
-			{ name: "Bacot", quantity: "4", harga: 16000 },
-		]
-		BluetoothEscposPrinter.printText("Toko Hongkong\n\rJalan Sawo , Kebayoran Baru \n\r", {});
-		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		// data.map(async item => {
-		// 	BluetoothEscposPrinter.printColumn(transaksiWidth,
-		// 		[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-		// 		[item.label, item.value], {});
-		// })
-		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		// BluetoothEscposPrinter.printText("DAFTAR PRODUK\n\r", { widthtimes: 0.9 });
-		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		// listItem.forEach(list => {
-		// 	BluetoothEscposPrinter.printColumn(alignLeft,
-		// 		[BluetoothEscposPrinter.ALIGN.LEFT],
-		// 		[list.name], { widthtimes: 0.2 })
-		// 	BluetoothEscposPrinter.printColumn(columnWidths,
-		// 		[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-		// 		[convertRupiah(list.harga) + " x " + list.quantity.toString(), convertRupiah(list.quantity * list.harga)], {})
-		// })
-		// BluetoothEscposPrinter.printText("-------------------------------\n", {});
-		// BluetoothEscposPrinter.printColumn(columnWidths,
-		// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-		// 	["Subtotal", convertRupiah(20000)], {})
-		// BluetoothEscposPrinter.printColumn(columnWidths,
-		// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-		// 	["Total", convertRupiah(20000)], {})
-		// BluetoothEscposPrinter.printText("-------------------------------\n", {});
-		// BluetoothEscposPrinter.printText("Powered by KIOSAWAN\n\r", { widthtimes: 0.8, fonttype: BluetoothTscPrinter.FONT_5 });
-		// BluetoothEscposPrinter.printText("\n\r\n\r", {});
-		this.setState({ loading: false })
-	}
-	// }
-
 	_scan() {
-		this.setState({
-			loading: true
-		})
-		BluetoothManager.scanDevices()
-			.then((s) => {
-				var ss = s;
-				var found = ss.found;
-				try {
-					found = JSON.parse(found);//@FIX_it: the parse action too weired..
-				} catch (e) {
-					//ignore
-				}
-				var fds = this.state.foundDs;
-				if (found && found.length) {
-					fds = found;
-				}
-				this.setState({
-					foundDs: fds,
-					loading: false
+		if (this.state.bleOpend) {
+			this.setState({
+				loading: true
+			})
+			BluetoothManager.scanDevices()
+				.then((s) => {
+					var ss = s;
+					var found = ss.found;
+					try {
+						found = JSON.parse(found);//@FIX_it: the parse action too weired..
+					} catch (e) {
+						//ignore
+					}
+					var fds = this.state.foundDs;
+					if (found && found.length) {
+						fds = found;
+					}
+					this.setState({
+						foundDs: fds,
+						loading: false
+					});
+				}, (er) => {
+					this.setState({
+						loading: false
+					})
+					alert('error' + JSON.stringify(er));
 				});
-			}, (er) => {
-				this.setState({
-					loading: false
-				})
-				alert('error' + JSON.stringify(er));
-			});
+		}
+		else {
+			alert('Mohon hidupkan bluetooth')
+		}
 	}
 
 
 }
 
+function mapStateToProps(state) {
+	return {
+		Printer: state.Printer
+	};
+}
+
+export default connect(mapStateToProps, { addPrinter })(TambahPrinter)
+
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: ColorsList.greyBg,
 	},
 
 	title: {
@@ -413,7 +321,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		justifyContent: "space-between",
-		alignItems: "center"
+		alignItems: "center",
+		padding : 10
 	},
 	name: {
 		flex: 1,
@@ -421,11 +330,9 @@ const styles = StyleSheet.create({
 	},
 	address: {
 		flex: 1,
-		textAlign: "right"
 	},
-	connectedPrinter: {
-		flexDirection: 'row',
-		alignItems: "center",
-		justifyContent: "space-between"
+	connectText: {
+		...FontList.titleFont,
+		color: ColorsList.primaryColor
 	}
 });

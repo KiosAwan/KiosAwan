@@ -10,6 +10,7 @@ import reducerTransactionList from './reducerTransactionList';
 import reducerCustomer from './reducerCustomer';
 import reducerStoreDiscount from './reducerDiscount';
 import reducerEditProduct from './reducerEditProduct';
+import reducerPrinter from './reducerPrinter';
 
 const appReducer = combineReducers({
     Registration : reducerRegistration,
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
     Discount : reducerStoreDiscount,
     Transaction : reducerTransactionList,
     Customer : reducerCustomer,
+    Printer : reducerPrinter
 })
 
 export default appReducer
