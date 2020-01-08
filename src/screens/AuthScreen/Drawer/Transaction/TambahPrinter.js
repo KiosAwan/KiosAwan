@@ -3,7 +3,6 @@ import {
 	ActivityIndicator,
 	Platform,
 	StyleSheet,
-	Text,
 	View,
 	Button,
 	ScrollView,
@@ -24,6 +23,8 @@ import { connect } from 'react-redux';
 import { addPrinter } from 'src/redux/actions/actionsPrinter';
 import { FontList } from 'src/styles/typography';
 import { Wrapper } from 'src/components/View/Wrapper';
+import { Text } from 'src/components/Text/CustomText';
+import { Padding } from '../../../../utils/stylehelper';
 
 
 var { height, width } = Dimensions.get('window');
@@ -137,7 +138,11 @@ class TambahPrinter extends Component {
 			}
 		}
 	}
-
+	_renderEmpty() {
+		return <Wrapper>
+			<Text styles={styles.wrapper}>Tidak ada perangkat</Text>
+		</Wrapper>
+	}
 	_renderRow(rows) {
 		let items = [];
 		for (let i in rows) {
@@ -152,10 +157,8 @@ class TambahPrinter extends Component {
 							.then(async (s) => {
 								const temp_con_printer = await AsyncStorage.getItem('@connected_printer')
 								if (temp_con_printer) {
-									console.debug("SET PRINTER ARR")
 									const parseTemp = JSON.parse(temp_con_printer)
 									const a = parseTemp.find(item => item.boundAddress == row.address)
-									console.debug(this.props.Printer)
 									if (!a) {
 										this.props.addPrinter([...parseTemp, { name: row.name, boundAddress: row.address }])
 										await AsyncStorage.setItem('@connected_printer', JSON.stringify([...parseTemp, { name: row.name, boundAddress: row.address }]))
@@ -173,15 +176,14 @@ class TambahPrinter extends Component {
 								})
 								alert(e);
 							})
-
 					}}>
-						<Wrapper>
-							<Image style={{width : 30 , height : 30, resizeMode : "contain"}} source={require('../../../../assets/icons/bluetooth.png')}/>
-						<View>
-							<Text style={styles.name}>{row.name || "UNKNOWN"}</Text>
-							<Text style={styles.address}>{row.address}</Text>
-						</View>
-						<Text style={styles.connectText}>HUBUNGKAN</Text>
+						<Wrapper style={styles.wrapper}>
+							<Image style={{ width: 30, height: 30, resizeMode: "contain" }} source={require('src/assets/icons/bluetooth.png')} />
+							<View>
+								<Text color="primary" style={styles.name}>{row.name || "UNKNOWN"}</Text>
+								<Text style={styles.address}>{row.address}</Text>
+							</View>
+							<Text style={styles.connectText}>HUBUNGKAN</Text>
 						</Wrapper>
 					</TouchableOpacity>
 				);
@@ -192,13 +194,15 @@ class TambahPrinter extends Component {
 
 	render() {
 		return (
-			<ScrollView style={styles.container}>
+			<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 				<GlobalHeaderWithIcon title="Bluetooth"
 					onPressBack={() => this.props.navigation.goBack()}
-					image={require('../../../../assets/icons/scanbluetooth.png')}
+					image={require('src/assets/icons/scanbluetooth.png')}
 					handleDeleteCategory={() => this._scan()}
 				/>
-				<View>
+				{this.state.loading ? (<ActivityIndicator animating={true} />) : null}
+				<Wrapper style={{ padding: 10, paddingHorizontal: 15 }} justify="space-between">
+					<Text>Bluetooth</Text>
 					<Switch value={this.state.bleOpend} onValueChange={(v) => {
 						this.setState({
 							loading: true
@@ -212,7 +216,6 @@ class TambahPrinter extends Component {
 									pairedDs: []
 								});
 							}, (err) => { alert(err) });
-
 						} else {
 							BluetoothManager.enableBluetooth().then((r) => {
 								var paired = [];
@@ -238,22 +241,22 @@ class TambahPrinter extends Component {
 							});
 						}
 					}} />
-				</View>
-				<Text style={styles.title}>Paired:</Text>
-				{this.state.loading ? (<ActivityIndicator animating={true} />) : null}
-				<View style={{ flex: 1, flexDirection: "column" }}>
-					{
-						this._renderRow(this.state.pairedDs)
-					}
-				</View>
-				<Text style={styles.title}>Found(tap to connect):</Text>
-				<View style={{ flex: 1, flexDirection: "column" }}>
-					{
-						this._renderRow(this.state.foundDs)
-					}
-				</View>
-
-			</ScrollView>
+				</Wrapper>
+				<ScrollView style={styles.container}>
+					<Text style={styles.title}>Perangkat disambungkan:</Text>
+					<View style={{ flex: 1, flexDirection: "column" }}>
+						{
+							this.state.pairedDs.length > 0 ? this._renderRow(this.state.pairedDs) : this._renderEmpty()
+						}
+					</View>
+					<Text style={styles.title}>Perangkat tersedia:</Text>
+					<View style={{ flex: 1, flexDirection: "column" }}>
+						{
+							this.state.foundDs.length > 0 ? this._renderRow(this.state.foundDs) : this._renderEmpty()
+						}
+					</View>
+				</ScrollView>
+			</View>
 		);
 	}
 
@@ -290,8 +293,6 @@ class TambahPrinter extends Component {
 			alert('Mohon hidupkan bluetooth')
 		}
 	}
-
-
 }
 
 function mapStateToProps(state) {
@@ -305,25 +306,21 @@ export default connect(mapStateToProps, { addPrinter })(TambahPrinter)
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: ColorsList.greyBg,
+		...Padding(0, 15),
+		flex: 1
 	},
 
 	title: {
-		width: width,
-		backgroundColor: "#eee",
-		color: "#232323",
-		paddingLeft: 8,
-		paddingVertical: 4,
-		textAlign: "left"
+		marginBottom: 5
 	},
 	wtf: {
 		flex: 1,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		padding : 10
+		padding: 10
 	},
+	wrapper: { marginBottom: 5, padding: 15, backgroundColor: ColorsList.whiteColor, borderRadius: 5 },
 	name: {
 		flex: 1,
 		textAlign: "left"
