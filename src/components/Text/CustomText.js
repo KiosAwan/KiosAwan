@@ -8,6 +8,7 @@ export const Text = (props) => {
         fontSize: props.size || 14,
         fontFamily: FontName[props.font] || FontName.SemiBold,
         color: ColorsList[props.color] || ColorsList.greyFont,
+        textAlign: props.align || null,
         width: props.width
     }
     return (<ReactNativeText {...props} style={[styles, props.style]} />)
