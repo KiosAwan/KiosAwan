@@ -33,7 +33,7 @@ export default class CetakStruk extends Component {
 			loading: true,
 			boundAddress: '',
 			debugMsg: '',
-			name: 'Printer',
+			name: '',
 			connectedPrinter: [],
 			printEnable: null
 		}
@@ -53,22 +53,22 @@ export default class CetakStruk extends Component {
 			err
 		});
 
-		if (Platform.OS === 'ios') {
-			let bluetoothManagerEmitter = new NativeEventEmitter(BluetoothManager);
-			this._listeners.push(bluetoothManagerEmitter.addListener(BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
-				(rsp) => {
-					this._deviceAlreadPaired(rsp)
-				}));
-			this._listeners.push(bluetoothManagerEmitter.addListener(BluetoothManager.EVENT_DEVICE_FOUND, (rsp) => {
-				this._deviceFoundEvent(rsp)
-			}));
-			this._listeners.push(bluetoothManagerEmitter.addListener(BluetoothManager.EVENT_CONNECTION_LOST, () => {
-				this.setState({
-					name: '',
-					boundAddress: ''
-				});
-			}));
-		} else if (Platform.OS === 'android') {
+		// if (Platform.OS === 'ios') {
+		// 	this._listeners.push(bluetoothManagerEmitter.addListener(BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
+		// 		(rsp) => {
+		// 			this._deviceAlreadPaired(rsp)
+		// 		}));
+		// 	this._listeners.push(bluetoothManagerEmitter.addListener(BluetoothManager.EVENT_DEVICE_FOUND, (rsp) => {
+		// 		this._deviceFoundEvent(rsp)
+		// 	}));
+		// 	this._listeners.push(bluetoothManagerEmitter.addListener(BluetoothManager.EVENT_CONNECTION_LOST, () => {
+		// 		this.setState({
+		// 			name: '',
+		// 			boundAddress: ''
+		// 		});
+		// 	}));
+		// } else 
+		if (Platform.OS === 'android') {
 			this._listeners.push(DeviceEventEmitter.addListener(
 				BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED, (rsp) => {
 					this._deviceAlreadPaired(rsp)
@@ -93,59 +93,59 @@ export default class CetakStruk extends Component {
 		}
 	}
 
-	componentWillUnmount() {
-		//for (let ls in this._listeners) {
-		//    this._listeners[ls].remove();
-		//}
-	}
+	// componentWillUnmount() {
+	// 	//for (let ls in this._listeners) {
+	// 	//    this._listeners[ls].remove();
+	// 	//}
+	// }
 
-	_deviceAlreadPaired(rsp) {
-		var ds = null;
-		if (typeof (rsp.devices) == 'object') {
-			ds = rsp.devices;
-		} else {
-			try {
-				ds = JSON.parse(rsp.devices);
-			} catch (e) {
-			}
-		}
-		if (ds && ds.length) {
-			let pared = this.state.pairedDs;
-			pared = pared.concat(ds || []);
-			this.setState({
-				pairedDs: pared
-			});
-		}
-	}
+	// _deviceAlreadPaired(rsp) {
+	// 	var ds = null;
+	// 	if (typeof (rsp.devices) == 'object') {
+	// 		ds = rsp.devices;
+	// 	} else {
+	// 		try {
+	// 			ds = JSON.parse(rsp.devices);
+	// 		} catch (e) {
+	// 		}
+	// 	}
+	// 	if (ds && ds.length) {
+	// 		let pared = this.state.pairedDs;
+	// 		pared = pared.concat(ds || []);
+	// 		this.setState({
+	// 			pairedDs: pared
+	// 		});
+	// 	}
+	// }
 
-	_deviceFoundEvent(rsp) {//alert(JSON.stringify(rsp))
-		var r = null;
-		try {
-			if (typeof (rsp.device) == "object") {
-				r = rsp.device;
-			} else {
-				r = JSON.parse(rsp.device);
-			}
-		} catch (e) {//alert(e.message);
-			//ignore
-		}
-		//alert('f')
-		if (r) {
-			let found = this.state.foundDs || [];
-			if (found.findIndex) {
-				let duplicated = found.findIndex(function (x) {
-					return x.address == r.address
-				});
-				//CHECK DEPLICATED HERE...
-				if (duplicated == -1) {
-					found.push(r);
-					this.setState({
-						foundDs: found
-					});
-				}
-			}
-		}
-	}
+	// _deviceFoundEvent(rsp) {//alert(JSON.stringify(rsp))
+	// 	var r = null;
+	// 	try {
+	// 		if (typeof (rsp.device) == "object") {
+	// 			r = rsp.device;
+	// 		} else {
+	// 			r = JSON.parse(rsp.device);
+	// 		}
+	// 	} catch (e) {//alert(e.message);
+	// 		//ignore
+	// 	}
+	// 	//alert('f')
+	// 	if (r) {
+	// 		let found = this.state.foundDs || [];
+	// 		if (found.findIndex) {
+	// 			let duplicated = found.findIndex(function (x) {
+	// 				return x.address == r.address
+	// 			});
+	// 			//CHECK DEPLICATED HERE...
+	// 			if (duplicated == -1) {
+	// 				found.push(r);
+	// 				this.setState({
+	// 					foundDs: found
+	// 				});
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	_renderRow(rows) {
 		let items = [];
