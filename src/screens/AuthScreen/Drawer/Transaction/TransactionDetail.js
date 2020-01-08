@@ -138,7 +138,7 @@ const TransactionDetail = ({ navigation }) => {
 											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/share.png')} />
 											<Text style={styles.btnwithIconText}>Kirim Struk</Text>
 										</Button>
-										<Button onPress={() => { }} _width="49.5%">
+										<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk',{data : data})} _width="49.5%">
 											<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
 											<Text style={styles.btnwithIconText}>Cetak Struk</Text>
 										</Button>

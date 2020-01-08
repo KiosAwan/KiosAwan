@@ -10,6 +10,8 @@ import UpdateProfil from '../screens/AuthScreen/Drawer/UpdateProfil';
 import CreatePIN from '../screens/AuthScreen/Drawer/CreatePIN';
 import AkunNavigator from './DrawerComponent';
 import VerifikasiEmail from '../screens/AuthScreen/Drawer/Temp/VerifikasiEmail';
+import TransactionCetakStruk from 'src/screens/AuthScreen/Drawer/Transaction/TransactionCetakStruk';
+import TambahPrinter from 'src/screens/AuthScreen/Drawer/Transaction/TambahPrinter';
 
 
 
@@ -61,6 +63,18 @@ const AuthNavigator = createStackNavigator(Object.assign({
   },
   '/drawer/index': {
     screen: AkunNavigator,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/transaction/cetakstruk': {
+    screen: TransactionCetakStruk,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/transaction/tambahprinter': {
+    screen: TambahPrinter,
     navigationOptions: {
       header: null
     }

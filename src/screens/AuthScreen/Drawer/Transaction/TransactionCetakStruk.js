@@ -32,19 +32,16 @@ class CetakStruk extends Component {
 		super();
 		this.state = {
 			devices: null,
-			pairedDs: [],
-			foundDs: [],
 			bleOpend: false,
 			loading: true,
-			boundAddress: '',
-			debugMsg: '',
-			name: '',
-			connectedPrinter: [],
-			printEnable: null
+			printEnable: null,
+			printData : null
 		}
 	}
 
 	async componentDidMount() {//alert(BluetoothManager)
+		const { data } = await this.props.navigation.state.params
+		this.setState({printData : data})
 		const connectedPrinter = await AsyncStorage.getItem('@connected_printer')
 		if (connectedPrinter) {
 			this.props.addPrinter(JSON.parse(connectedPrinter))
@@ -58,14 +55,6 @@ class CetakStruk extends Component {
 			err
 		});
 		if (Platform.OS === 'android') {
-			this._listeners.push(DeviceEventEmitter.addListener(
-				BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED, (rsp) => {
-					this._deviceAlreadPaired(rsp)
-				}));
-			this._listeners.push(DeviceEventEmitter.addListener(
-				BluetoothManager.EVENT_DEVICE_FOUND, (rsp) => {
-					this._deviceFoundEvent(rsp)
-				}));
 			this._listeners.push(DeviceEventEmitter.addListener(
 				BluetoothManager.EVENT_CONNECTION_LOST, () => {
 					this.setState({
@@ -140,7 +129,7 @@ class CetakStruk extends Component {
 	render() {
 		return (
 			<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-				<GlobalHeader onPress={() => navigation.goBack()} title="Cetak Struk" />
+				<GlobalHeader onPressBack={() => this.props.navigation.goBack()} title="Cetak Struk" />
 				<View style={styles.switchView}>
 					<Text>Bluetooth</Text>
 					<Switch value={this.state.bleOpend} onValueChange={(v) => {
@@ -205,7 +194,7 @@ class CetakStruk extends Component {
 								: null}
 						{
 							this.props.Printer.data.map((a, i) =>
-								a.boundAddress !=(this.state.printEnable ? this.state.printEnable.boundAddress : 0) ?
+								a.boundAddress != (this.state.printEnable ? this.state.printEnable.boundAddress : 0) ?
 									<TouchableOpacity onPress={this.state.bleOpend ? () => this._connectedBluetoothPrint(a) : () => alert("Mohon hidupkan bluetooth terlebih dahulu")}>
 										<Wrapper justify="space-between" style={{ marginBottom: 10, padding: 10, backgroundColor: ColorsList.whiteColor, borderRadius: 5 }}>
 											<View style={{ width: 50, height: 50 }}>
