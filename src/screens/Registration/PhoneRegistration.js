@@ -121,7 +121,7 @@ const PhoneRegistration = ({ navigation }) => {
                     />
                     <View style={styles.termAndCond}>
                         <Text style={{ color: "#e831ae", fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM1}
-                            <Text style={{ color: "white", fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM2}</Text>
+                            <Text onPress={() => navigation.navigate('/unauth/registration/term-condition')} style={{ color: "white", fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM2}</Text>
                         </Text>
                     </View>
                 </View>

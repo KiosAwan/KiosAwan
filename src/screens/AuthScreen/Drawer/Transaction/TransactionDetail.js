@@ -47,11 +47,10 @@ const TransactionDetail = ({ navigation }) => {
 			<AwanPopup.Loading visible={dataLoading} />
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
-					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ paddingVertical:10, backgroundColor: ColorsList.authBackground }}>
+					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom : 90 }}>
+						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ paddingVertical: 10, backgroundColor: ColorsList.authBackground }}>
 							<View>
 								<Text align="center">{data ? data.transaction.name_store : null}</Text>
-								<Text align="center">{'\nJl. Sawo no. 15 Kebayoran\n085727271716'}</Text>
 							</View>
 							<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
 								<RowOpposite
@@ -130,14 +129,14 @@ const TransactionDetail = ({ navigation }) => {
 			{dataLoading ? null :
 				<Bottom>
 					{
-						data.transaction.status_payment == 2 ?
-							[
-								<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>,
-								<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
-							]
+						data.transaction.status == 3 ?
+							null
 							:
-							data.transaction.status == 3 ?
-								<Button width="100%" onPress={() => navigation.navigate('/drawer/transaction/cetakstruk',{data : data})}>CETAK STRUK</Button>
+							data.transaction.status_payment == 2 ?
+								[
+									<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>,
+									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
+								]
 								:
 								<View style={{ width: '100%' }}>
 									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>

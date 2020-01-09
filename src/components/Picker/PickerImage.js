@@ -37,17 +37,19 @@ export const PickerImage = props => {
 		}}
 	>
 		<Bottom>
-			<Text style={{ textAlign: 'center', marginBottom: 10 }}>Pilih gambar</Text>
-			<Wrapper style={{ width: '100%' }}>
-				<Button onPress={() => _handleChoosePhoto(true)}>
-					<Image size={20} source={require('src/assets/icons/camera.png')} />
-					<Text color="whiteColor">Camera</Text>
-				</Button>
-				<Button onPress={() => _handleChoosePhoto()}>
-					<Image size={20} source={require('src/assets/icons/gallery.png')} />
-					<Text color="whiteColor">Gallery</Text>
-				</Button>
-			</Wrapper>
+			<View>
+				<Text style={{ textAlign: 'center', marginBottom: 10 }}>Pilih gambar</Text>
+				<Wrapper style={{ width: '100%' }}>
+					<Button onPress={() => _handleChoosePhoto(true)}>
+						<Image size={20} source={require('src/assets/icons/camera.png')} />
+						<Text color="whiteColor">Camera</Text>
+					</Button>
+					<Button onPress={() => _handleChoosePhoto()}>
+						<Image size={20} source={require('src/assets/icons/gallery.png')} />
+						<Text color="whiteColor">Gallery</Text>
+					</Button>
+				</Wrapper>
+			</View>
 		</Bottom>
 	</RBSheet>
 }

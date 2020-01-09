@@ -206,10 +206,10 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 					}
 				</View>
 			</ScrollView>
-			<Bottom>
-				<Button onPress={_handlePressNext}>SIMPAN</Button>
-			</Bottom>
 		</View>
+		<Bottom>
+			<Button width="100%" onPress={_handlePressNext}>SIMPAN</Button>
+		</Bottom>
 	</View>
 }
 

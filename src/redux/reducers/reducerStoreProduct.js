@@ -43,6 +43,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 discount_on: !state.discount_on
             };
         case "ADD_BY_BAROCDE":
+            console.debug("BARCODE ")
             let barcode = actions.payload
             let barcodeProduct = state.data.find(item => barcode == item.barcode_product)
             let barcodeExistedItem = state.belanja.find(item => barcode == item.barcode_product)

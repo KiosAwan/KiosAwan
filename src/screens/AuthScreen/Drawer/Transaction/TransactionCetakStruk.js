@@ -262,7 +262,7 @@ class CetakStruk extends Component {
 			this.state.printData.transaction.discount ?
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-					["Subtotal", convertRupiah(this.state.printData.transaction.discount)], {})
+					["Diskon", convertRupiah(this.state.printData.transaction.discount)], {})
 				: null
 		}
 		{
@@ -279,6 +279,7 @@ class CetakStruk extends Component {
 		BluetoothEscposPrinter.printText("Powered by KIOSAWAN\n\r", {});
 		BluetoothEscposPrinter.printText("\n\r\n\r", {});
 		this.setState({ loading: false })
+		this.props.navigation.goBack()
 	}
 	// }
 
