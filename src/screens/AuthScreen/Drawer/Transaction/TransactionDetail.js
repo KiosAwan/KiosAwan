@@ -129,18 +129,18 @@ const TransactionDetail = ({ navigation }) => {
 							]
 							:
 							data.transaction.status == 3 ?
-								<Button width="100%" onPress={_shareBill}>CETAK STRUK</Button>
+								<Button width="100%" onPress={() => navigation.navigate('/drawer/transaction/cetakstruk',{data : data})}>CETAK STRUK</Button>
 								:
 								<View style={{ width: '100%' }}>
 									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>
 									<Wrapper style={{ marginTop: 5 }} justify="space-between">
 										<Button onPress={_shareBill} _width="49.5%">
-											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../../assets/icons/share.png')} />
-											<Text style={styles.btnwithIconText}>Kirim Struk</Text>
+											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
+											<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
 										</Button>
 										<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk',{data : data})} _width="49.5%">
 											<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
-											<Text style={styles.btnwithIconText}>Cetak Struk</Text>
+											<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
 										</Button>
 									</Wrapper>
 								</View>

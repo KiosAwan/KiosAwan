@@ -19,7 +19,7 @@ export const UnauthBottomButton = (props) => {
                 onPress={props.onPressNextBtn}
                 style={{ width: (width - 40)/2, justifyContent: "center", backgroundColor: 'transparent', borderRadius: 5, borderWidth: 1,borderColor: 'white', }}
             >
-                <Text style={{fontFamily: 'Nunito-SemiBold',color : 'white'}}>LANJUT</Text>
+                <Text style={{fontFamily: 'Nunito-SemiBold',color : 'white'}}>{props.login ? "LOGIN" : "LANJUT"}</Text>
             </Button>
         </View>
 

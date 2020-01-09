@@ -112,7 +112,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 return {
                     ...state,
                     total: newTotalBaru,
-                    total_diskon: state.total_diskon + parseInt(itemDimaksud.discount_persen) / 100 * parseInt(itemDimaksud.quantity) * parseInt(itemDimaksud.price_out_product) - parseInt(temp_discount_total) +  parseInt(manual_trx_discount),
+                    total_diskon: state.total_diskon + parseInt(itemDimaksud.discount_persen) / 100 * parseInt(itemDimaksud.quantity) * parseInt(itemDimaksud.price_out_product) - parseInt(temp_discount_total) + parseInt(manual_trx_discount),
                     belanja: [...state.belanja]
                 }
             }
@@ -146,10 +146,19 @@ const reducerStoreProduct = (state = initialState, actions) => {
         case "REMOVE_ALL":
             return {
                 ...state,
-                belanja: [],
                 total: 0,
                 total_diskon: 0,
-                jumlahitem: 0
+                discount_transaction: 0,
+                belanja: [],
+                jumlahitem: 0,
+                cash_payment: 0,
+                due_debt_date: null,
+                customer: null,
+                discount_total_persen: 0,
+                discount_total_rupiah: 0,
+                discount_name: '',
+                catatan_pembelian: '',
+                discount_on: false
             }
         case "ADD_PAYMENT_CASH":
             const payment = actions.payload

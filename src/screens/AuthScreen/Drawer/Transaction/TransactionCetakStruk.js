@@ -22,6 +22,7 @@ import { ImageAuto } from 'src/components/CustomImage';
 import { ColorsList } from 'src/styles/colors';
 import { connect } from 'react-redux';
 import { addPrinter } from 'src/redux/actions/actionsPrinter';
+import { convertRupiah } from 'src/utils/authhelper';
 
 var { height, width } = Dimensions.get('window');
 
@@ -35,13 +36,13 @@ class CetakStruk extends Component {
 			bleOpend: false,
 			loading: true,
 			printEnable: null,
-			printData : null
+			printData: null
 		}
 	}
 
 	async componentDidMount() {//alert(BluetoothManager)
 		const { data } = await this.props.navigation.state.params
-		this.setState({printData : data})
+		this.setState({ printData: data })
 		const connectedPrinter = await AsyncStorage.getItem('@connected_printer')
 		if (connectedPrinter) {
 			this.props.addPrinter(JSON.parse(connectedPrinter))
@@ -224,49 +225,59 @@ class CetakStruk extends Component {
 
 	_testPrint = async () => {
 		this.setState({ loading: true })
-		let columnWidths = [16, 16];
-		let transaksiWidth = [16, 16];
+		let columnWidths = [17, 15];
+		let transaksiWidth = [15, 17];
 		let alignLeft = [32]
 		let data = [
-			{ label: "KodeTransaksi", value: "123412" },
-			{ label: "KodeTransaksi", value: "123412" },
-			{ label: "KodeTransaksi", value: "123412" },
-			{ label: "KodeTransaksi", value: "123412" },
+			{ label: "Kode Transaksi", value: this.state.printData.transaction.payment_code },
+			{ label: "Waktu", value: this.state.printData.transaction.created_at.slice(0, 16) },
+			{ label: "Pembayaran", value: this.state.printData.transaction.id_payment_type == 1 ? "Tunai" : this.state.printData.transaction.id_payment_type == 2 ? "Non Tunai" : "Piutang" },
+			{ label: "Operator", value: this.state.printData.transaction.cashier },
+			{ label: "Pelanggan", value: this.state.printData.transaction.name_customer|| "" },
 		]
-		let listItem = [
-			{ name: "Awan", quantity: "1", harga: 16000 },
-			{ name: "Tuppperware Baru Bekas Pakai", quantity: "2", harga: 16000 },
-			{ name: "Kertas", quantity: "3", harga: 16000 },
-			{ name: "Bacot", quantity: "4", harga: 16000 },
-		]
-		BluetoothEscposPrinter.printText("Toko Hongkong\n\rJalan Sawo , Kebayoran Baru \n\r", {});
-		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		// data.map(async item => {
-		// 	BluetoothEscposPrinter.printColumn(transaksiWidth,
-		// 		[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-		// 		[item.label, item.value], {});
-		// })
-		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		// BluetoothEscposPrinter.printText("DAFTAR PRODUK\n\r", { widthtimes: 0.9 });
-		// BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		// listItem.forEach(list => {
-		// 	BluetoothEscposPrinter.printColumn(alignLeft,
-		// 		[BluetoothEscposPrinter.ALIGN.LEFT],
-		// 		[list.name], { widthtimes: 0.2 })
-		// 	BluetoothEscposPrinter.printColumn(columnWidths,
-		// 		[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-		// 		[convertRupiah(list.harga) + " x " + list.quantity.toString(), convertRupiah(list.quantity * list.harga)], {})
-		// })
-		// BluetoothEscposPrinter.printText("-------------------------------\n", {});
-		// BluetoothEscposPrinter.printColumn(columnWidths,
-		// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-		// 	["Subtotal", convertRupiah(20000)], {})
-		// BluetoothEscposPrinter.printColumn(columnWidths,
-		// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-		// 	["Total", convertRupiah(20000)], {})
-		// BluetoothEscposPrinter.printText("-------------------------------\n", {});
-		// BluetoothEscposPrinter.printText("Powered by KIOSAWAN\n\r", { widthtimes: 0.8, fonttype: BluetoothTscPrinter.FONT_5 });
-		// BluetoothEscposPrinter.printText("\n\r\n\r", {});
+		BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
+		BluetoothEscposPrinter.printText(`${this.state.printData.transaction.name_store.toUpperCase()}\n\r`, {});
+		BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
+		data.map(async item => {
+			BluetoothEscposPrinter.printColumn(transaksiWidth,
+				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				[item.label, item.value], {});
+		})
+		BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
+		BluetoothEscposPrinter.printText("DAFTAR PRODUK\n\r", { widthtimes: 0.9 });
+		BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
+		this.state.printData.details_item.forEach(list => {
+			BluetoothEscposPrinter.printColumn(alignLeft,
+				[BluetoothEscposPrinter.ALIGN.LEFT],
+				[list.product], { widthtimes: 0.2 })
+			BluetoothEscposPrinter.printColumn(columnWidths,
+				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				[convertRupiah(list.price) + " x " + list.qty, convertRupiah(list.qty * list.price)], {})
+		})
+		BluetoothEscposPrinter.printText("-------------------------------\n", {});
+		BluetoothEscposPrinter.printColumn(columnWidths,
+			[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+			["Subtotal", convertRupiah(this.state.printData.transaction.sub_total)], {})
+		{
+			this.state.printData.transaction.discount ?
+				BluetoothEscposPrinter.printColumn(columnWidths,
+					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+					["Subtotal", convertRupiah(this.state.printData.transaction.discount)], {})
+				: null
+		}
+		{
+			this.state.printData.transaction.status != 1 ?
+				BluetoothEscposPrinter.printColumn(columnWidths,
+					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+					["Subtotal", convertRupiah(this.state.printData.transaction.total_return)], {})
+				: null
+		}
+		BluetoothEscposPrinter.printColumn(columnWidths,
+			[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+			["Total", convertRupiah(this.state.printData.transaction.status == 1 ? this.state.printData.transaction.total_transaction : this.state.printData.transaction.remaining_return)], {})
+		BluetoothEscposPrinter.printText("-------------------------------\n", {});
+		BluetoothEscposPrinter.printText("Powered by KIOSAWAN\n\r", {});
+		BluetoothEscposPrinter.printText("\n\r\n\r", {});
 		this.setState({ loading: false })
 	}
 	// }

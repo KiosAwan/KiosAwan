@@ -52,6 +52,7 @@ class CheckOut extends React.Component {
         }
     }
     _handlePayCash = async () => {
+        console.debug("CASH KERAS", this.state.index)
         const userId = await AsyncStorage.getItem('userId')
         const Product = this.props.Product
         let cart = []
@@ -104,6 +105,7 @@ class CheckOut extends React.Component {
     }
 
     _handlePayCredit = async () => {
+        console.debug("KREDIT", this.state.index)
         const userId = await AsyncStorage.getItem('userId')
         const Product = this.props.Product
         if (Product.due_debt_date) {
