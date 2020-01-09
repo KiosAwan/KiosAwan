@@ -4,7 +4,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { RowOpposite } from 'src/components/Row/RowComp';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getTransactionDetail, convertRupiah, formatToDays } from 'src/utils/authhelper';
 import { WrapperItem } from 'src/components/Picker/SelectBoxModal';
 import { FontList } from 'src/styles/typography';
@@ -17,6 +17,7 @@ import Screenshot, { Config } from 'src/utils/screenshot';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
+import { $Border, $BorderRadius } from '../../../../utils/stylehelper';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
@@ -47,8 +48,12 @@ const TransactionDetail = ({ navigation }) => {
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ backgroundColor: ColorsList.whiteColor }}>
-							<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, borderRadius: 5 }}>
+						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ paddingVertical:10, backgroundColor: ColorsList.authBackground }}>
+							<View>
+								<Text align="center">{data ? data.transaction.name_store : null}</Text>
+								<Text align="center">{'\nJl. Sawo no. 15 Kebayoran\n085727271716'}</Text>
+							</View>
+							<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
 								<RowOpposite
 									title="Kode Transaksi" content={data.transaction.payment_code} />
 								<RowOpposite
@@ -75,14 +80,14 @@ const TransactionDetail = ({ navigation }) => {
 								</View>
 								: null
 							}
-							<View style={{ alignSelf: "center", padding: 10 }}>
-								<Text size={16}>Daftar Produk</Text>
+							<View style={{ padding: 10, backgroundColor: ColorsList.greyAuthHard, width: '100%' }}>
+								<Text align="center" size={16}>Daftar Produk</Text>
 							</View>
-							<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
+							<View style={{ backgroundColor: 'white', marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
 								{
 									data.details_item.map((data, i) => {
 										return (
-											<WrapperItem key={i} style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+											<WrapperItem key={i} style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
 												<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.product}</Text>,
 												<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price)} x {data.qty}</Text>
 											]} right={[
@@ -92,19 +97,19 @@ const TransactionDetail = ({ navigation }) => {
 										)
 									})
 								}
-								<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+								<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
 									<Text style={{ ...FontList.subtitleFontGreyBold }}>Subtotal</Text>,
 								]} right={
 									<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.sub_total)}</Text>
 								} />
 								{data.transaction.discount ?
-									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
 										<Text style={{ ...FontList.subtitleFontGreyBold }}>Diskon</Text>,
 									]} right={
 										<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.discount)}</Text>
 									} /> : null}
 								{data.transaction.status != 1 ?
-									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
+									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
 										<Text style={{ ...FontList.subtitleFontGreyBold }}>Pembatalan transaksi</Text>,
 									]} right={
 										<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>{convertRupiah(data.transaction.total_return)}</Text>
@@ -114,6 +119,9 @@ const TransactionDetail = ({ navigation }) => {
 								]} right={
 									<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ? convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
 								} />
+							</View>
+							<View>
+								<Text align="center">Powered by <Text font="ExtraBold">KiosAwan</Text></Text>
 							</View>
 						</ViewShot>
 					</ScrollView>
@@ -138,7 +146,7 @@ const TransactionDetail = ({ navigation }) => {
 											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
 											<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
 										</Button>
-										<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk',{data : data})} _width="49.5%">
+										<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data })} _width="49.5%">
 											<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
 											<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
 										</Button>

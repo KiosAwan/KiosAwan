@@ -98,8 +98,8 @@ const ManajemenProdukEdit = ({ navigation }) => {
 			</Modal>
 			<AwanPopup.Title title="Hapus Produk" visible={alert} message={`${EditProduct.name} akan dihapus dari daftar produk.`}>
 				<View></View>
-				<XButton onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</XButton>
-				<XButton onPress={__handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</XButton>
+				<Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
+				<Button onPress={__handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
 			</AwanPopup.Title>
 			<GlobalHeaderWithIcon
 				image={require('../../../../assets/icons/trash.png')}
