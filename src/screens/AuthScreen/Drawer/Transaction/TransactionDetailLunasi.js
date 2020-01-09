@@ -14,11 +14,14 @@ import { InputCurrency } from 'src/components/Input/InputComp';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 
 const initialLayout = { width: 300, height: 300 };
 
 const TransactionDetailLunasi = ({ navigation }) => {
-
+	const dispatch = useDispatch()
+	const User = useSelector(state => state.User)
 	const [dataUtang, setDataUtang] = useState()
 	const [loading, setLoading] = useState(true)
 	const [amount_payment, setAmountPayment] = useState('')
@@ -36,6 +39,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		}
 		try {
 			const res = await payCredit(data, dataUtang.transaction.id_transaction)
+			dispatch(getTransactionList(User.store.id_store))
 			navigation.navigate('/drawer/transaction')
 		}
 		catch (err) {
@@ -66,7 +70,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 									<ToggleButtonMoney
 										style={{ marginRight: 10 }}
 										onPress={(value) => setAmountPayment(value.toString())}
-										buttons={[dataUtang.debt.remaining_debt, getNearestFifty(dataUtang.debt.remaining_debt, 2)]}
+										buttons={[dataUtang.debt.remaining_debt, getNearestFifty(dataUtang.debt.remaining_debt,1)]}
 									/>
 								</View>
 							</View>
@@ -127,7 +131,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	const [viewDetail, setViewDetail] = useState(false)
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader onPressBack={() => navigation.navigate('/drawer/transaction')} title="Lunasi" />
+			<GlobalHeader onPressBack={() => navigation.goBack()} title="Lunasi" />
 			{loading ? <Text>adfs</Text> :
 				<View style={{ flex: 1 }}>
 					<View style={{ flex: 1, marginBottom: 60 }}>
@@ -140,7 +144,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 											<Wrapper style={{ padding: 15 }}>
 												{
 													props.navigationState.routes.map((route, i) => {
-														return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
+														return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
 													})
 												}
 											</Wrapper>

@@ -25,6 +25,7 @@ import { BottomButton } from '../../components/Button/ButtonComp';
 import { SizeList } from '../../styles/size';
 import { InputText, InputNumber } from '../../components/Input/InputComp';
 import { InputPIN } from '../../components/Input/InputPIN';
+import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -56,7 +57,7 @@ const LoginVerification = ({ navigation }) => {
             }
         }
         catch (err) {
-            alert("Mohon periksa kembali jaringan Anda")
+            console.debug(err)
             setLoading(false)
         }
     }
@@ -74,7 +75,7 @@ const LoginVerification = ({ navigation }) => {
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
             <BarStatus />
             {loading ? <Spinner color="white" /> : null}
-            <View style={{padding : 20}}>
+            <View style={{ padding: 20 }}>
                 <HeaderRegister
                 />
             </View>
@@ -90,11 +91,11 @@ const LoginVerification = ({ navigation }) => {
             <Text style={styles.textForgot} onPress={_forgotPIN}>
                 Lupa password ?
             </Text>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_handlePasswordLogin}
-                    style={{ borderWidth: 1, borderColor: 'white', width: SizeList.width - 20 }}
-                    buttonTitle="LOGIN"
+            <View style={{ position: 'absolute', bottom: 10 }}>
+                <UnauthBottomButton
+                    onPressBackBtn={() => navigation.goBack()}
+                    onPressNextBtn={_handlePasswordLogin}
+                    login
                 />
             </View>
         </LinearGradient>

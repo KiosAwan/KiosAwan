@@ -10,6 +10,7 @@ import ForgotPassword from '../screens/Registration/ForgotPassword'
 import NewPassword1 from '../screens/Registration/NewPassword1'
 import NewPassword2 from '../screens/Registration/NewPassword2'
 import LoginVerification from '../screens/Registration/LoginVerification'
+import TermCondition from 'src/screens/Registration/TermCondition'
 
 
 const UnauthNavigator = createStackNavigator({
@@ -57,6 +58,12 @@ const UnauthNavigator = createStackNavigator({
   }, 
   '/unauth/registration/second-password' : {
     screen : SecondPassword,
+    navigationOptions : {
+      header : null
+    }
+  },
+  '/unauth/registration/term-condition' : {
+    screen : TermCondition,
     navigationOptions : {
       header : null
     }

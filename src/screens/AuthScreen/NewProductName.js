@@ -15,6 +15,7 @@ import { sendNewCategory, editCategory } from '../../utils/authhelper';
 import { Image } from 'src/components/CustomImage';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Button } from 'src/components/Button/Button';
+import { Bottom } from 'src/components/View/Bottom';
 
 
 const width = Dimensions.get('window').width
