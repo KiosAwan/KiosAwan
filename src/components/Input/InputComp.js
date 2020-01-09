@@ -9,6 +9,7 @@ import {
   Text
 } from 'native-base'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Wrapper } from '../View/Wrapper';
 
 const width = Dimensions.get('window').width
 
@@ -195,8 +196,11 @@ export const FloatingInput = props => {
       <Animated.Text style={[{ color: activeColor, position: 'absolute' }, {
         left: leftValue, top: topValue, transform: [{ scale: scaleAnimation }]
       }, props.labelStyle]}>{props.label}</Animated.Text>
+      <Wrapper {...props._wrapper}>
+        {child}
+      </Wrapper>
       {
-        Array.isArray(props.children) ? <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>{child}</View> : child
+        // Array.isArray(props.children) ? <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>{child}</View> : child
       }
     </TouchableOpacity >
   )

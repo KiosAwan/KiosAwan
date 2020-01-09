@@ -24,7 +24,7 @@ import { addPrinter } from 'src/redux/actions/actionsPrinter';
 import { FontList } from 'src/styles/typography';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
-import { Padding } from '../../../../utils/stylehelper';
+import { $Padding } from '../../../../utils/stylehelper';
 
 
 var { height, width } = Dimensions.get('window');
@@ -306,7 +306,7 @@ export default connect(mapStateToProps, { addPrinter })(TambahPrinter)
 
 const styles = StyleSheet.create({
 	container: {
-		...Padding(0, 15),
+		...$Padding(0, 15),
 		flex: 1
 	},
 

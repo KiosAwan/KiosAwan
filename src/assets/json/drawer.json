@@ -21,9 +21,14 @@
       "icon": "settings"
     },
     {
-      "name": "Bantuan",
+      "name":"FAQ",
+      "route":"/drawer/faq",
+      "icon":"logo-flickr"
+    },
+    {
+      "name": "Hubungi Kami",
       "route": "/drawer/help",
-      "icon": "help"
+      "icon": "call"
     }
   ]
 ]

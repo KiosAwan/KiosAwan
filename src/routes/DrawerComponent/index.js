@@ -5,6 +5,8 @@ import SettingNavigator from './SettingNavigator';
 import ManajemenNavigator from './ManajemenNavigator';
 import Akun from 'src/screens/AuthScreen/Drawer'
 import Report from 'src/screens/AuthScreen/Drawer/Report'
+import FAQ from 'src/screens/AuthScreen/Drawer/FAQ';
+import Help from 'src/screens/AuthScreen/Drawer/Help';
 
 const AkunNavigator = createStackNavigator({
     '/drawer': {
@@ -33,6 +35,18 @@ const AkunNavigator = createStackNavigator({
     },
     '/drawer/laporan': {
         screen: Report,
+        navigationOptions: {
+            header: null
+        }
+    },
+    '/drawer/faq': {
+        screen: FAQ,
+        navigationOptions: {
+            header: null
+        }
+    },
+    '/drawer/help': {
+        screen: Help,
         navigationOptions: {
             header: null
         }

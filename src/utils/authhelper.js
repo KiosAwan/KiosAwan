@@ -86,8 +86,15 @@ export const checkProductInData = async (data) => {
   return res.data
 }
 
-export const getTransactionData = async id_store => {
-  const res = await axios.get(`${HOST_URL}/transaction_data/${id_store}`)
+export const getTransactionData = async (id_store, params) => {
+  let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
+  const res = await axios.get(`${HOST_URL}/transaction_data/${id_store}?${param}`)
+  return res.data
+}
+
+export const getReportCategory = async (id_store, params) => {
+  let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
+  const res = await axios.get(`${HOST_URL}/report_category/${id_store}?${param}`)
   return res.data
 }
 
@@ -96,10 +103,6 @@ export const getReportHutang = async id_store => {
   return res.data
 }
 
-export const getReportCategory = async id_store => {
-  const res = await axios.get(`${HOST_URL}/report_category/${id_store}`)
-  return res.data
-}
 //post new category to database
 export const sendNewCategory = async (data) => {
   const res = await axios.post(`${HOST_URL}/category`, data)

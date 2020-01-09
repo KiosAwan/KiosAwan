@@ -27,7 +27,6 @@ const border = (color, style, ...sizes) => {
 		})
 		return styles
 	}
-	console.debug(color, style, sizes)
 	if (sizes.length === 1) {
 		return _genCss(sizes[0], sizes[0], sizes[0], sizes[0])
 	}
@@ -42,5 +41,5 @@ const border = (color, style, ...sizes) => {
 
 export const $Border = (color, ...sizes) => border(color, 'Width', ...sizes)
 export const $BorderRadius = (...sizes) => border(undefined, 'Radius', ...sizes)
-export const Padding = (...values) => getShortHand('padding', ...values)
-export const Margin = (...values) => getShortHand('margin', ...values)
+export const $Padding = (...values) => getShortHand('padding', ...values)
+export const $Margin = (...values) => getShortHand('margin', ...values)

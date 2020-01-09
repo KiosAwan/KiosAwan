@@ -46,17 +46,19 @@ export const HomeHeader = props => {
 export const GlobalHeader = (props) => {
     return (
         <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
-            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%' }}>
+            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%', ...props.style }}>
                 <Wrapper justify="space-between" style={{ height: '100%' }}>
-                    <Wrapper>
-                        <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
-                            <Icon name="arrow-left" size={20} color="white" />
-                        </Button>
-                        <View style={{ justifyContent: 'center' }}>
-                            <Text color="whiteColor">{props.title}</Text>
-                        </View>
-                    </Wrapper>
-                    <View></View>
+                    <View style={{ justifyContent: 'flex-start' }}>
+                        <Wrapper>
+                            <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                                <Icon name="arrow-left" size={20} color="white" />
+                            </Button>
+                            <View style={{ justifyContent: 'center' }}>
+                                <Text color="whiteColor">{props.title}</Text>
+                            </View>
+                        </Wrapper>
+                        <View></View>
+                    </View>
                 </Wrapper>
             </LinearGradient>
         </Header>

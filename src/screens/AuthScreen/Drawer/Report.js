@@ -19,23 +19,37 @@ const Report = ({ navigation }) => {
 	const [categories, setCategory] = useState([])
 	const [indexTab, setIndexTab] = useState(0)
 	const [filter, setFilter] = useState(false)
+	const [filterParam, setFilterParam] = useState({})
 	const [detailPendapatan, setDetailPendapatan] = useState(false)
 	const [detailPenjualan, setDetailPenjualan] = useState(false)
 	const [transaction, setTransaction] = useState({})
-	const [reportCategory, setReportCategory] = useState({})
+	const [reportCategory, setReportCategory] = useState([])
 	const User = useSelector(state => state.User)
-	const GetData = async () => {
-		const res1 = await getTransactionData(User.store.id_store)
-		const res2 = await getReportCategory(User.store.id_store)
+	const GetData = async (param) => {
+		const res1 = await getTransactionData(User.store.id_store, param)
+		const res2 = await getReportCategory(User.store.id_store, param)
 		setTransaction(res1.data)
 		setReportCategory(res2.data)
 	}
 	useEffect(() => {
-		GetData()
+		GetData({})
 		setCategory([])
 	}, [])
 
-
+	const format = 'YYYY-MM-DD'
+	const _handleFilter = async item => {
+		let now = moment().set({ hours: 0, minutes: 0, seconds: 0 })
+		let param = {
+			from: now.add('month', item).endOf('month').set('date', 1).format(format),
+			to: now.add('month', item).endOf('month').format(format)
+		}
+		setFilterParam(param)
+		setFilter(false)
+		GetData(param)
+	}
+	const _filterView = format => {
+		return (filterParam.from ? moment(filterParam.from) : moment()).format(format)
+	}
 	const Keuangan = props => {
 		return <View>
 			<Wrapper justify="space-between" style={styles.report}>
@@ -63,50 +77,46 @@ const Report = ({ navigation }) => {
 			}
 			<Wrapper justify="space-between" style={{ marginTop: 15, padding: 15, ...Bg.white }}>
 				<Text color="primary" font="Bold">Laporan Penjualan</Text>
-				<TouchableOpacity onPress={() => {
-					if (!detailPenjualan) setCategory([])
-					setDetailPenjualan(!detailPenjualan)
-				}}>
+				<TouchableOpacity onPress={() => setDetailPenjualan(!detailPenjualan)}>
 					<Text font="ExtraBold" size={15}>DETAIL</Text>
 				</TouchableOpacity>
 			</Wrapper>
-			{
-				detailPenjualan ?
-					<View>
-						{
-							reportCategory.sort((a, b) => b.id_category - a.id_category).map(item => {
-								let _id = item.id_category ? item.id_category : '~pesan_manual~'
-								let _hasId = categories.includes(_id)
-								if (!_hasId) categories.push(_id)
-								return [_hasId ? null : <Wrapper justify="center" style={{ ...Bg.grey, padding: 10 }}>
-									<Text font={item.id_category ? null : 'BoldItalic'}>{item.id_category ? item.nama_category : 'Pesanan Manual'}</Text>
-								</Wrapper>,
-								<Wrapper justify="space-between" style={styles.report}>
-									<View>
-										<Text>{item.Product}</Text>
-										<Text>{`${convertRupiah(item.harga_Satuan)} x ${item.jumlah}`}</Text>
-									</View>
-									<Wrapper direction="column" justify="center">
-										<Text>{convertRupiah(item.harga)}</Text>
-									</Wrapper>
-								</Wrapper>]
-							})
-						}
-					</View>
-					: null
-			}
+			<View onLayout={({ nativeEvent: { layout } }) => layout.height == 0 && categories.length > 0 ? setCategory([]) : null}>
+				{
+					detailPenjualan ?
+						reportCategory.sort((a, b) => b.id_category - a.id_category).map(item => {
+							let _id = item.id_category ? item.id_category : '~pesan_manual~'
+							let _hasId = categories.includes(_id)
+							if (!_hasId) categories.push(_id)
+							return [_hasId ? null : <Wrapper style={{ ...Bg.grey, padding: 10 }}>
+								<Text font={item.id_category ? null : 'BoldItalic'}>{item.id_category ? item.nama_category : 'Pesanan Manual'}</Text>
+							</Wrapper>,
+							<Wrapper justify="space-between" style={styles.report}>
+								<View>
+									<Text>{item.Product}</Text>
+									<Text>{`${convertRupiah(item.harga_Satuan)} x ${item.jumlah}`}</Text>
+								</View>
+								<Wrapper direction="column" justify="center">
+									<Text>{convertRupiah(item.harga)}</Text>
+								</Wrapper>
+							</Wrapper>]
+						})
+						: null
+				}
+			</View>
 		</View>
 	}
 	return (
 		<View style={styles.wrapper}>
 			<GlobalHeader title="Report" onPressBack={() => navigation.navigate('/drawer')} />
-			<AwanPopup.Menu backdropDismiss={() => setFilter(false)} visible={filter} title="Des, 2019">
-				<Button color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Bulan Ini</Button>
-				<Button color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Satu Bulan Lalu</Button>
+			<AwanPopup.Menu backdropDismiss={() => setFilter(false)} visible={filter} title={_filterView('MMM, YYYY')}>
+				<Button onPress={() => _handleFilter(0)} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Bulan Ini</Button>
+				<Button onPress={() => _handleFilter(-1)} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Satu Bulan Lalu</Button>
+				<Button onPress={() => _handleFilter(-2)} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Dua Bulan Lalu</Button>
 			</AwanPopup.Menu>
 			<Wrapper justify="space-between" style={styles.filterWrapper}>
 				<View style={{ justifyContent: 'center' }}>
-					<Text>{moment().format('MMMM YYYY')}</Text>
+					<Text>{_filterView('MMMM YYYY')}</Text>
 				</View>
 				<Button onPress={() => setFilter(true)}>
 					<Image style={{ width: 15, height: 15 }} source={require('src/assets/icons/filter.png')} />
@@ -126,11 +136,11 @@ const Report = ({ navigation }) => {
 							</Wrapper>
 							<Wrapper justify="space-between" style={styles.report}>
 								<Text>Transaksi</Text>
-								<Text color="primary" font="Bold">{transaction.jumlah_transaksi}</Text>
+								<Text color="primary" font="Bold">{transaction.jumlah_transaksi || 0}</Text>
 							</Wrapper>
 							<Wrapper justify="space-between" style={styles.report}>
 								<Text>Produk Terjual</Text>
-								<Text color="primary" font="Bold">{transaction.product_terjual}</Text>
+								<Text color="primary" font="Bold">{transaction.product_terjual || 0}</Text>
 							</Wrapper>
 						</View>
 						<View style={{ padding: 15, paddingTop: 0 }}>
