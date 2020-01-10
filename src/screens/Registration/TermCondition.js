@@ -16,7 +16,6 @@ const TermCondition = ({ navigation }) => {
 
 	const _getContent = async () => {
 		const res = await Axios.get(`${HOST_URL}/term_conditions`)
-		console.debug(res.data.data)
 		setContent(res.data.data)
 	}
 	return (
@@ -30,7 +29,7 @@ const TermCondition = ({ navigation }) => {
 					data={content}
 					renderItem={({ item }) => (
 						<View style={{ padding: 10 }}>
-							{item.id == 1 ? null :
+							{item.id == 0 ? null :
 								<View style={styles.categoryView}>
 									<View style={styles.categoryCircle}>
 										<Text color="primary">{item.id}</Text>
@@ -40,16 +39,13 @@ const TermCondition = ({ navigation }) => {
 							}
 							<View style={styles.partView}>
 								<View style={styles.line} />
-								<View style={{ width: '90%' }}>
-									{/* <Text> */}
+								<View style={{ width: '90%',marginLeft : 5 }}>
 									<HTML
 										tagsStyles={{
 											p: { fontFamily: FontList.primaryFont, color: ColorsList.greySoft },
-											// ol: { listStyle: 'none', fontFamily: FontList.primaryFont, color: ColorsList.greySoft }
 										}}
 										html={item.name}
 									/>
-									{/* </Text> */}
 								</View>
 							</View>
 						</View>

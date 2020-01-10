@@ -113,7 +113,7 @@ const KategoriEdit = ({ navigation }) => {
                 </View>
             </View>
             <Bottom>
-                <Button onPress={_handleSaveCategory}>SIMPAN</Button>
+                <Button width="100%" onPress={_handleSaveCategory}>SIMPAN</Button>
             </Bottom>
         </View>
     );
