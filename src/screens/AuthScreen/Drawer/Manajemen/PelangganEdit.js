@@ -127,7 +127,7 @@ const PelangganEdit = ({ navigation }) => {
                 </View>
             </View>
             <Bottom>
-                <Button onPress={_handleFinishEdit}>SIMPAN</Button>
+                <Button width="100%" onPress={_handleFinishEdit}>SIMPAN</Button>
             </Bottom>
         </View>
     );
