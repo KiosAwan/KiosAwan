@@ -48,7 +48,7 @@ export const GlobalHeader = (props) => {
         <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%', ...props.style }}>
                 <Wrapper justify="space-between" style={{ height: '100%' }}>
-                    <View style={{ justifyContent: 'flex-start' }}>
+                    <View style={{ justifyContent: 'flex-start', marginTop: 5 }}>
                         <Wrapper>
                             <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
                                 <Icon name="arrow-left" size={20} color="white" />

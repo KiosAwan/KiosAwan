@@ -371,7 +371,7 @@ export const SelectBoxModal = (props) => {
 						{props.footer}
 					</CardItem> : null
 			]} />
-			<TouchableOpacity onPress={() => setModalVisible(true)} style={[styles.selectBox, { borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, borderColor: activeColor }, props.style]}>
+			<TouchableOpacity activeOpacity={1} onPress={() => setModalVisible(true)} style={[styles.selectBox, { borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, borderColor: activeColor }, props.style]}>
 				<Wrapper justify="space-between">
 					<FloatingInput borderTransparent label={props.label} _width="90%">
 						<TextInput style={{ color: ColorsList.black }} value={props.value} editable={false} />
@@ -392,8 +392,6 @@ const styles = StyleSheet.create({
 	selectBoxLabel: { padding: 0, margin: 0 },
 	selectBoxInput: { margin: 0, padding: 0 },
 	selectBoxIconDown: { color: 'black' },
-
-
 
 	viewButtonPopup: { marginTop: 15, borderColor: 'transparent', flexDirection: 'row-reverse', alignItems: 'flex-start' },
 	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor, borderRadius: 5 },

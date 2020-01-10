@@ -8,6 +8,7 @@ import { ColorsList } from '../../../../styles/colors';
 import { FontList } from '../../../../styles/typography';
 import { sendOTPAuth, resendVerifyEmail } from '../../../../utils/authhelper';
 import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 const UbahEmailInfoScreen = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const _nextBtn = async () => {
@@ -56,7 +57,7 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 							<Button onPress={() => navigation.navigate('/drawer/settings/change-email/new-email')} style={{ width: '47.5%' }}>Ubah Email</Button>
 						]
 						:
-						<Button onPress={_nextBtn} color="white" style={{ width: '47.5%' }}>UBAH</Button>
+						<Button onPress={_nextBtn} color="white" style={{ width: '100%' }}>UBAH</Button>
 				}
 			</Bottom>
 		</View>

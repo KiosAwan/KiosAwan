@@ -196,7 +196,7 @@ export const FloatingInput = props => {
       <Animated.Text style={[{ color: activeColor, position: 'absolute' }, {
         left: leftValue, top: topValue, transform: [{ scale: scaleAnimation }]
       }, props.labelStyle]}>{props.label}</Animated.Text>
-      <Wrapper {...props._wrapper}>
+      <Wrapper justify="space-between" {...props._wrapper}>
         {child}
       </Wrapper>
       {
