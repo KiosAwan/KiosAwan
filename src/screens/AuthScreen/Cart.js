@@ -240,7 +240,7 @@ const Cart = ({ navigation }) => {
 												keyboardType="number-pad"
 												onChangeText={_handleChangeDiskonValue}
 											/>
-											<View style={{ width: '20%' }}>
+											<View _style={{ width: '20%' }}>
 												<ToggleButton
 													buttons={["Rp", "%"]}
 													changeToggle={(i) => {
