@@ -83,6 +83,7 @@ export const ImageText = props => {
 }
 
 export const ProductCard = (props) => {
+    console.debug(props.stock ,typeof props.stock , props.min_stock, props.name)
     return (
         <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5, }}>
             <View style={[styles.card, props.cardStyle]}>
@@ -106,8 +107,8 @@ export const ProductCard = (props) => {
                     }
                     <View style={{ width: '50%' }}>
                         <Text style={[styles.infoText]}>{props.name}</Text>
-                        <Text style={[styles.subText, props.min_stock ? props.stock <= props.min_stock ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
-                        <Text style={[styles.infoText, props.min_stock ? props.stock <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
+                        <Text style={[styles.subText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
+                        <Text style={[styles.infoText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
                     </View>
                 </View>
                 {

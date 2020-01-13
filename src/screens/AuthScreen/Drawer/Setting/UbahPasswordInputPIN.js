@@ -44,7 +44,7 @@ const UbahPasswordInputPIN = ({ navigation }) => {
                     keyboardType="numeric"
                     activeColor='#cd0192'
                     inactiveColor='#cd0192'
-                    codeLength={6}
+                    codeLength={4}
                     size={40}
                     autoFocus
                     onCodeChange

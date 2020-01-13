@@ -22,7 +22,7 @@ const Help = ({ navigation }) => {
 		const res = await Axios.get(`${HOST_URL}/pusatbantuan`)
 		setCallCenter(res.data.data[0].no_telpon)
 		setWhatsapp(res.data.data[0].no_whatsapp)
-		setMail(res.data.data[0].mail)
+		setMail(res.data.data[0].email)
 	}
 	const _openUrl = url => Linking.openURL(url)
 	return (
@@ -37,7 +37,7 @@ const Help = ({ navigation }) => {
 					<Text align="center">Hubungi nomor ini untuk pelayanan lebih lanjut</Text>
 					<TouchableOpacity onPress={() => _openUrl(`tel:${callCenter}`)}>
 						<Wrapper justify="center">
-							<Text color="primary" font="ExtraBold" size={30}>{convertPhoneNumber(callCenter)}</Text>
+							<Text color="primary" font="ExtraBold" size={30}>{convertPhoneNumber(callCenter )}</Text>
 							<Icon style={{ color: ColorsList.primary, fontSize: 30, marginLeft: 10 }} name="call" />
 						</Wrapper>
 					</TouchableOpacity>
@@ -55,8 +55,8 @@ const Help = ({ navigation }) => {
 					</Wrapper>
 				</TouchableOpacity>
 				<View style={styles.infoTag}>
-					<Text align="center" style={styles.infoTagTitle}>Hubungi kami kapanpun</Text>
-					<Text align="center" size={12}>{`Puri Imperium Office Plaza Unit G5\nJalan Kuningan Madya Kav 5-6, Jakarta Selatan\n12980 Tlp. 021 294 88 777 | Fax. 021 294 88 770\nEmail: info@kiosawan.com`}</Text>
+					<Text align="center" style={styles.infoTagTitle} size={13}>Hubungi kami kapanpun</Text>
+					<Text align="center" size={10}>{`Puri Imperium Office Plaza Unit G5\nJalan Kuningan Madya Kav 5-6, Jakarta Selatan\n12980 Tlp. 021 294 88 777 | Fax. 021 294 88 770\nEmail: info@kiosawan.com`}</Text>
 				</View>
 			</View>
 		</View>
@@ -67,5 +67,5 @@ export default Help
 const styles = StyleSheet.create({
 	white: { backgroundColor: ColorsList.whiteColor, ...$BorderRadius(5), padding: 15, width: '100%' },
 	infoTag: { ...$BorderRadius(5), ...$Border(ColorsList.greyAuthHard, 1), padding: 15, paddingTop: 15, position: 'relative', width: '100%', marginTop: 15 },
-	infoTagTitle: { backgroundColor: ColorsList.authBackground, position: 'absolute', left: '30%', right: '30%', top: -10 }
+	infoTagTitle: { backgroundColor: ColorsList.authBackground, position: 'absolute', left: '20%', right: '20%', top: -10 }
 })

@@ -27,7 +27,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
 
     const _handleSavePIN = async () => {
         if (!pin || !confirmPin) {
-            alert("Pin harus 6 digit")
+            alert("Pin harus 4 digit")
         } else if (pin != confirmPin) {
             alert("Pin harus sama")
         } else {
@@ -72,7 +72,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
                     keyboardType="numeric"
                     activeColor='#cd0192'
                     inactiveColor='#cd0192'
-                    codeLength={6}
+                    codeLength={4}
                     size={30}
                     autoFocus
                     onFulfill={(code) => _handlePINFulfilled(code)}
@@ -86,7 +86,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
                     keyboardType="numeric"
                     activeColor='#cd0192'
                     inactiveColor='#cd0192'
-                    codeLength={6}
+                    codeLength={4}
                     size={30}
                     autoFocus={false}
                     onFulfill={(code) => _handleConfirmPINFulfilled(code)}

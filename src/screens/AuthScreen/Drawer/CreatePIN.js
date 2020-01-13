@@ -25,8 +25,8 @@ const CreatePIN = ({ navigation }) => {
     }
 
     const _handleCreatePIN = async () => {
-        if (pin.length != 6 || confirmPin.length != 6) {
-            alert("Pin harus 6 digit")
+        if (pin.length != 4 || confirmPin.length != 4) {
+            alert("Pin harus 4 digit")
         } else if (pin != confirmPin) {
             alert("Pin harus sama")
         } else {
@@ -69,14 +69,14 @@ const CreatePIN = ({ navigation }) => {
 
                 </View>
                 <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
-                    <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN</Text>
+                    <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 4 Digit PIN</Text>
                     <CodeInput
                         secureTextEntry
                         className='border-circle'
                         keyboardType="numeric"
                         activeColor='#cd0192'
                         inactiveColor='#cd0192'
-                        codeLength={6}
+                        codeLength={4}
                         size={30}
                         autoFocus
                         onFulfill={(code) => _handlePINFulfilled(code)}
@@ -90,7 +90,7 @@ const CreatePIN = ({ navigation }) => {
                         keyboardType="numeric"
                         activeColor='#cd0192'
                         inactiveColor='#cd0192'
-                        codeLength={6}
+                        codeLength={4}
                         size={30}
                         autoFocus={false}
                         onFulfill={(code) => _handleConfirmPINFulfilled(code)}
