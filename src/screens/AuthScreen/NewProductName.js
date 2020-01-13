@@ -16,6 +16,7 @@ import { Image } from 'src/components/CustomImage';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
+import { Modal as ModalCustom } from 'src/components/ModalContent/Popups'
 
 
 const width = Dimensions.get('window').width
@@ -73,7 +74,7 @@ const NewProductName = ({ navigation }) => {
 				setNewCategoryName("")
 			} else {
 				await editCategory({
-					category: newCategoryName,
+					name_product_category: newCategoryName,
 				}, idEditCategory)
 				dispatch(getCategory(User.store.id_store))
 			}
@@ -93,7 +94,8 @@ const NewProductName = ({ navigation }) => {
 				thirdIsCompleteStep={false}
 				thirdIsActiveStep={false}
 			/>
-			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
+			{/* <MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={ */}
+			<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible}>
 				<View style={{ padding: 15 }}>
 					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
@@ -113,7 +115,7 @@ const NewProductName = ({ navigation }) => {
 						</Button>
 					</View>
 				</View>
-			} />
+			</ModalCustom>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>

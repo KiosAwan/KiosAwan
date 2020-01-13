@@ -127,6 +127,8 @@ export const sendNewCategory = async (data) => {
 }
 
 export const editCategory = async (data, id_category) => {
+  console.debug(data, id_category)
+
   const res = await axios.post(`${HOST_URL}/category_update/${id_category}`, data)
   return res.data
 }

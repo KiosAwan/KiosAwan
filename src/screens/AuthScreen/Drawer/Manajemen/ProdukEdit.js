@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Image, TouchableOpacity, Dimensions, StyleSheet, View, Modal, TextInput } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker'
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Grid, Col, Icon } from 'native-base';
 import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
-import { MyModal, SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
+import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Text } from 'src/components/Text/CustomText';
 import { FloatingInput } from 'src/components/Input/InputComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
@@ -18,6 +17,7 @@ import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import { Modal as ModalCustom } from 'src/components/ModalContent/Popups'
 
 
 const width = Dimensions.get('window').width
@@ -61,7 +61,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				setNewCategoryName("")
 			} else {
 				await editCategory({
-					category: newCategoryName,
+					name_product_category: newCategoryName,
 				}, idEditCategory)
 				dispatch(getCategory(User.store.id_store))
 			}
@@ -106,7 +106,8 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				title="Edit Produk"
 				handleDeleteCategory={() => setAlert(true)}
 				onPressBack={() => navigation.goBack()} />
-			<MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={
+
+			<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible}>
 				<View style={{ padding: 15 }}>
 					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
@@ -124,7 +125,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 						</Button>
 					</View>
 				</View>
-			} />
+			</ModalCustom>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
@@ -133,9 +134,9 @@ const ManajemenProdukEdit = ({ navigation }) => {
 								<TextInput editable={false} value={EditProduct.barcode} />
 							</FloatingInput>
 						</Col>
-						<Col size={.2}>
+						<Col style={{ justifyContent: 'flex-end' }} size={.2}>
 							<Button onPress={() => navigation.navigate('/drawer/manajemen/produk/edit/barcode')} style={styles.buttonScanBarcode}>
-								<Icon style={{ fontSize: 24 }} name="barcode" />
+								<Icon style={{ fontSize: 24, color: ColorsList.whiteColor }} name="barcode" />
 							</Button>
 						</Col>
 					</Grid>
@@ -212,7 +213,7 @@ export default ManajemenProdukEdit
 const styles = StyleSheet.create({
 	mainView: { backgroundColor: ColorsList.authBackground, justifyContent: 'space-between', flex: 1 },
 	scrollView: { padding: 10, paddingHorizontal: 20 },
-	buttonScanBarcode: { borderRadius: 10, backgroundColor: ColorsList.primaryColor, width: '100%', height: '100%', justifyContent: 'center' },
+	buttonScanBarcode: { borderRadius: 10, backgroundColor: ColorsList.primaryColor, width: '80%', alignSelf: 'flex-end', height: '80%', justifyContent: 'center' },
 	viewButtonPopup: { marginTop: 15, borderColor: 'transparent', flexDirection: 'row-reverse', alignItems: 'flex-end' },
 	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor },
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
