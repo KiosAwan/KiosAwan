@@ -56,6 +56,13 @@ export const editProductImage = ( image ) => {
     }
 }
 
+export const editTempImage = ( image ) => {
+    return {
+        type : "EDIT_TEMP_IMAGE",
+        payload : image
+    }
+}
+
 export const editProductManageStock = ( mngstock ) => {
     return {
         type : "EDIT_MANAGE_STOCK",

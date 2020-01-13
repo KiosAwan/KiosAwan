@@ -49,11 +49,11 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 			await formData.append('qty_stock', EditProduct.qty_stock)
 			await formData.append('qty_min_stock', EditProduct.qty_min_stock)
 			await formData.append('send_notification_stock', EditProduct.sendNotif ? EditProduct.sendNotif : 0)
-			await formData.append('photo_product', EditProduct.image != "" ? {
+			await formData.append('photo_product', EditProduct.image != "" ? EditProduct.temp_image != EditProduct.image ? {
 				uri: EditProduct.image,
 				type: "image/jpeg",
 				name: `${Date.now()}.jpeg`
-			} : null)
+			} : null : null)
 			try {
 				const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
 				if (res.data.status == 200) {

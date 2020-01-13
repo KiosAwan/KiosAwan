@@ -22,8 +22,8 @@ import { Wrapper } from 'src/components/View/Wrapper';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
-
 	const User = useSelector(state => state.User)
+	const temp_profilepic = User.store.photo_store
 	const [modalVisible, setModalVisible] = useState(false)
 	const [formValue, setFormValue] = useState({
 		name: User.data.name,
@@ -94,12 +94,13 @@ const MenuSettingProfil = ({ navigation }) => {
 		let final_address = `${formValue.address_store}%${desa.selected.nama}%${kecamatan.selected.nama}%${kabupaten.selected.nama}%${provinsi.selected.nama}`
 		formData.appendObject(formValue, ['photo_store', 'address_store']) // ('Form data yang di append', 'kecuali')
 		formData.append("address_store", final_address)
-		formData.append('photo_store', formValue.photo_store != "" ? {
+		formData.append('photo_store', formValue.photo_store != "" ? formValue.photo_store != temp_profilepic ? {
 			uri: formValue.photo_store,
 			type: "image/jpeg",
 			name: `${Date.now()}.jpeg`
-		} : null)
+		} : null : null)
 		const res = await editStoreProfile(formData, User.store.id_store)
+		console.debug(res)
 		if (res.status == 400) {
 			alert(data.errors.msg)
 		} else if (res.status == 200) {
