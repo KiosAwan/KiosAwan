@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { View, TouchableOpacity, Linking, StyleSheet } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -7,8 +7,23 @@ import { $Padding, $BorderRadius, $Margin, $Border } from 'src/utils/stylehelper
 import { Icon } from 'native-base';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { useSelector } from 'react-redux';
+import Axios from 'axios';
+import { HOST_URL } from 'src/config';
+import { convertPhoneNumber } from 'src/utils/authhelper';
 const Help = ({ navigation }) => {
 	const User = useSelector(state => state.User)
+	const [callCenter , setCallCenter] = useState()
+	const [whatsapp , setWhatsapp] = useState()
+	const [mail , setMail] = useState('info@kiosawan.com')
+	useEffect(() => {
+		_getData()
+	}, [])
+	const _getData = async() => {
+		const res = await Axios.get(`${HOST_URL}/pusatbantuan`)
+		setCallCenter(res.data.data[0].no_telpon)
+		setWhatsapp(res.data.data[0].no_whatsapp)
+		setMail(res.data.data[0].mail)
+	}
 	const _openUrl = url => Linking.openURL(url)
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
@@ -20,20 +35,20 @@ const Help = ({ navigation }) => {
 				</View>
 				<View style={styles.white}>
 					<Text align="center">Hubungi nomor ini untuk pelayanan lebih lanjut</Text>
-					<TouchableOpacity onPress={() => _openUrl('tel:622129488776')}>
+					<TouchableOpacity onPress={() => _openUrl(`tel:${callCenter}`)}>
 						<Wrapper justify="center">
-							<Text color="primary" font="ExtraBold" size={30}>021-294-88-776</Text>
+							<Text color="primary" font="ExtraBold" size={30}>{convertPhoneNumber(callCenter)}</Text>
 							<Icon style={{ color: ColorsList.primary, fontSize: 30, marginLeft: 10 }} name="call" />
 						</Wrapper>
 					</TouchableOpacity>
 				</View>
-				<TouchableOpacity style={[styles.white, { marginTop: 10 }]} onPress={() => _openUrl('https://wa.me/6285717570370')}>
+				<TouchableOpacity style={[styles.white, { marginTop: 10 }]} onPress={() => _openUrl(`https://wa.me/${whatsapp}`)}>
 					<Wrapper justify="flex-start">
 						<Icon style={{ color: ColorsList.primary, fontSize: 15, marginRight: 10 }} name="logo-whatsapp" />
 						<Text size={15}>Live Chat via WhatsApp</Text>
 					</Wrapper>
 				</TouchableOpacity>
-				<TouchableOpacity style={[styles.white, { marginTop: 10 }]} onPress={() => _openUrl('mailto:info@kiosawan.com')}>
+				<TouchableOpacity style={[styles.white, { marginTop: 10 }]} onPress={() => _openUrl(`mailto:${mail}`)}>
 					<Wrapper justify="flex-start">
 						<Icon style={{ color: ColorsList.primary, fontSize: 15, marginRight: 10 }} name="mail" />
 						<Text size={15}>Kirim Email ke Helpdesk KiosAwan</Text>

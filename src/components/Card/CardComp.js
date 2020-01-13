@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import { FontList } from '../../styles/typography';
 import { RowChild } from '../Helper/RowChild';
 import { ColorsList } from '../../styles/colors';
+import FastImage from 'react-native-fast-image'
 
 
 const height = Dimensions.get('window').height
@@ -90,19 +91,23 @@ export const ProductCard = (props) => {
                         props.manage_stock ?
                             props.stock === 0 ? <ImageText name="STOK HABIS" notGenerated /> : props.stock - props.quantity == 0 ? <ImageText name="STOK HABIS" notGenerated /> :
                                 props.productImage ?
-                                    <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
+                                    <FastImage style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
                                     :
                                     <ImageText name={props.name} />
                             :
                             props.productImage ?
-                                <Image style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
+                                <FastImage 
+                                style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} 
+                                source={{ uri: props.productImage, priority: FastImage.priority.high, }} 
+                                
+                                />
                                 :
                                 <ImageText name={props.name} />
                     }
                     <View style={{ width: '50%' }}>
                         <Text style={[styles.infoText]}>{props.name}</Text>
-                        <Text style={[styles.subText, props.min_stock ? props.stock <= props.min_stock ? { color: ColorsList.danger } : props.quantity >= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
-                        <Text style={[styles.infoText, props.min_stock ? props.stock <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : props.quantity >= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
+                        <Text style={[styles.subText, props.min_stock ? props.stock <= props.min_stock ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
+                        <Text style={[styles.infoText, props.min_stock ? props.stock <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
                     </View>
                 </View>
                 {

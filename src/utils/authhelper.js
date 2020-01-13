@@ -19,6 +19,23 @@ export const convertRupiah = nominal => {
   return final;
 };
 
+export const convertPhoneNumber = num => {
+  num = num || 0
+  const reverse = num
+    .toString()
+    .split("")
+    .reverse()
+    .join("");
+  const temp_hasil = reverse.match(/\d{1,3}/g);
+  const hasil = temp_hasil
+    .join("-")
+    .split("")
+    .reverse()
+    .join("");
+  let final = hasil
+  return final;
+};
+
 export const convertNumber = string => {
   string = string.toString()
   let matches = string.match(/\d+/g);

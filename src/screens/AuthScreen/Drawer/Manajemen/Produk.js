@@ -48,7 +48,7 @@ const ManajemenProduk = ({ navigation }) => {
 								productImage={data.photo_product !== "" ? data.photo_product : null}
 								name={data.name_product.toUpperCase()}
 								price={convertRupiah(data.price_out_product)}
-								stock={Number(data.stock) ? data.stock : null}
+								stock={data.manage_stock == 1 ? data.stock : null}
 								right={
 									<TouchableOpacity onPress={() => {
 										dispatch(editProductName(data.name_product))

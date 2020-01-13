@@ -15,6 +15,7 @@ import { FontList } from '../../styles/typography';
 import { RowChild } from '../../components/Helper/RowChild';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { SizeList } from '../../styles/size';
+import { Wrapper } from 'src/components/View/Wrapper';
 
 const width = Dimensions.get('window').width
 
@@ -96,7 +97,6 @@ const Cart = ({ navigation }) => {
 										<FloatingInputLabel
 											handleChangeText={_handleChangeDiscountItem}
 											label="Diskon" value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
-
 									</View>
 								} right={
 									<View style={{ width: 100 }}>
@@ -201,9 +201,9 @@ const Cart = ({ navigation }) => {
 							<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
 						]} right={
 							Product.total - Product.total_diskon < 0 ?
-							<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>- {convertRupiah(Product.total - Product.total_diskon)}</Text>
-							:
-							<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(Product.total - Product.total_diskon)}</Text>
+								<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>- {convertRupiah(Product.total - Product.total_diskon)}</Text>
+								:
+								<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(Product.total - Product.total_diskon)}</Text>
 						} />
 					</View>
 					<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
@@ -233,24 +233,25 @@ const Cart = ({ navigation }) => {
 										value={Product.discount_name}
 										handleChangeText={text => dispatch(AddDiscountName(text))}
 									/>
-									<View style={{ marginTop: 10 }}>
-										<FloatingInput label="Diskon">
-											<TextInput value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen }
-												style={{ width: '80%' }}
-												keyboardType="number-pad"
-												onChangeText={_handleChangeDiskonValue}
+									<View style={{ marginTop: 10, flexDirection : 'row' }}>
+										<View style={{ width: '80%' }}>
+											<FloatingInputLabel label="Diskon"
+												handleChangeText={_handleChangeDiskonValue}
+												value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen}
+											>
+											</FloatingInputLabel>
+										</View>
+										<View style={{ width: '20%',alignSelf : 'flex-end' }}>
+											<ToggleButton
+												buttons={["Rp", "%"]}
+												changeToggle={(i) => {
+													setDiscountType(i)
+													dispatch(AddDiscountRupiah(0))
+													dispatch(AddDiscountPersen(0))
+												}}
 											/>
-											<View _style={{ width: '20%' }}>
-												<ToggleButton
-													buttons={["Rp", "%"]}
-													changeToggle={(i) => {
-														setDiscountType(i)
-														dispatch(AddDiscountRupiah(0))
-														dispatch(AddDiscountPersen(0))
-													}}
-												/>
-											</View>
-										</FloatingInput>
+										</View>
+
 									</View>
 								</View>
 							</View>
