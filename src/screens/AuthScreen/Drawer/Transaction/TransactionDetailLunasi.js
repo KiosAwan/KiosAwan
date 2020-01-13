@@ -17,6 +17,7 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ImageAuto } from 'src/components/CustomImage';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -26,7 +27,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	const [dataUtang, setDataUtang] = useState()
 	const [loading, setLoading] = useState(true)
 	const [amount_payment, setAmountPayment] = useState('')
-	const [nonTunai , setNonTunai] = useState()
+	const [nonTunai, setNonTunai] = useState()
 	useEffect(() => {
 		const { paramData } = navigation.state.params
 		setDataUtang(paramData)
@@ -72,7 +73,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 									<ToggleButtonMoney
 										style={{ marginRight: 10 }}
 										onPress={(value) => setAmountPayment(value.toString())}
-										buttons={[dataUtang.debt.remaining_debt, getNearestFifty(dataUtang.debt.remaining_debt,1)]}
+										buttons={[dataUtang.debt.remaining_debt, getNearestFifty(dataUtang.debt.remaining_debt, 1)]}
 									/>
 								</View>
 							</View>
@@ -94,25 +95,25 @@ const TransactionDetailLunasi = ({ navigation }) => {
 					<Text {...propsTitleText}>DEBIT</Text>
 					<Wrapper>
 						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 1 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(1)}>
-							<Image source={require('src/assets/payment/bca.png')} style={styles.imagePayment} name="BCA" />
+							<ImageAuto source={require('src/assets/payment/bca.png')} name="BCA" />
 						</TouchableOpacity>
 						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 2 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(2)}>
-							<Image source={require('src/assets/payment/mandiri.png')} style={styles.imagePayment} name="Mandiri" />
+							<ImageAuto source={require('src/assets/payment/mandiri.png')} name="Mandiri" />
 						</TouchableOpacity>
 						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 3 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(3)}>
-							<Image source={require('src/assets/payment/bri.png')} style={styles.imagePayment} name="BRI" />
+							<ImageAuto source={require('src/assets/payment/bri.png')} name="BRI" />
 						</TouchableOpacity>
 					</Wrapper>
 					<Text {...propsTitleText}>E-WALLET</Text>
 					<Wrapper>
 						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 4 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(4)}>
-							<Image source={require('src/assets/payment/gopay.png')} style={styles.imagePayment} name="Gopay" />
+							<ImageAuto source={require('src/assets/payment/gopay.png')} name="Gopay" />
 						</TouchableOpacity>
 						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 5 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(5)}>
-							<Image source={require('src/assets/payment/dana.png')} style={styles.imagePayment} name="Dana" />
+							<ImageAuto source={require('src/assets/payment/dana.png')} name="Dana" />
 						</TouchableOpacity>
 						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 6 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(6)}>
-							<Image source={require('src/assets/payment/ovo.png')} style={styles.imagePayment} name="OVO" />
+							<ImageAuto source={require('src/assets/payment/ovo.png')} name="OVO" />
 						</TouchableOpacity>
 					</Wrapper>
 				</View>
@@ -203,7 +204,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 export default TransactionDetailLunasi
 
 const styles = StyleSheet.create({
-	wrapperImage: { padding: 5, borderRadius: 5, borderWidth: 1, borderColor: ColorsList.greyAuthHard },
+	wrapperImage: { width: 80, height: 35, padding: 5, borderRadius: 5, borderWidth: 1, borderColor: ColorsList.greyAuthHard },
 	imagePayment: { height: 35, width: 100 },
 	containerEmptyData: {
 		flex: 1,
@@ -213,8 +214,8 @@ const styles = StyleSheet.create({
 	containerWithData: {
 		flex: 1
 	},
-	selectedNonTunai : {
-		borderWidth : 1, 
-		borderColor : ColorsList.primary
+	selectedNonTunai: {
+		borderWidth: 1,
+		borderColor: ColorsList.primary
 	}
 })

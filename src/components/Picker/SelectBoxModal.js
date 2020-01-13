@@ -229,7 +229,7 @@ export const PilihPelanggan = (props) => {
 								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
 									<FloatingInput left={30} borderTransparent label="Nama pelanggan">
 										<Icon style={{ color: ColorsList.primary }} name="search" />
-										<Input
+										<TextInput width="90%"
 											value={pelanggan ? pelanggan.name_customer : ''}
 											keyboardType={props.keyboardType || "default"}
 											onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
@@ -240,7 +240,7 @@ export const PilihPelanggan = (props) => {
 								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
 									<FloatingInput left={30} borderTransparent label="No. Telepon">
 										<Icon style={{ color: ColorsList.primary }} name="search" />
-										<Input
+										<TextInput width="90%"
 											value={pelanggan ? pelanggan.phone_number_customer : ''}
 											keyboardType={props.keyboardType || "default"}
 											onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />

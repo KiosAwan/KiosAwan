@@ -19,6 +19,8 @@ const Help = ({ navigation }) => {
 		_getData()
 	}, [])
 	const _getData = async() => {
+
+		console.debug(HOST_URL)
 		const res = await Axios.get(`${HOST_URL}/pusatbantuan`)
 		setCallCenter(res.data.data[0].no_telpon)
 		setWhatsapp(res.data.data[0].no_whatsapp)

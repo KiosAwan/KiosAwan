@@ -5,7 +5,12 @@ export const Wrapper = props => {
 		{
 			props.children.length > 0 ?
 				props.children.map((item, i) => {
-					return <View style={[{ width: item.props._width, justifyContent: 'center' }, item.props._style]} key={i}>
+					return <View style={[
+						{ width: item.props._width, justifyContent: 'center' },
+						item.props._style,
+						item.props.style && item.props.style.width ? { width: item.props.style.width } : {},
+						item.props.width ? { width: item.props.width } : {}
+					]} key={i}>
 						{item}
 					</View>
 				}
