@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { RowOpposite } from 'src/components/Row/RowComp';
-import { useDispatch, useSelector } from 'react-redux';
 import { getTransactionDetail, convertRupiah, formatToDays } from 'src/utils/authhelper';
 import { WrapperItem } from 'src/components/Picker/SelectBoxModal';
 import { FontList } from 'src/styles/typography';
@@ -17,7 +16,7 @@ import Screenshot, { Config } from 'src/utils/screenshot';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { $Border, $BorderRadius } from '../../../../utils/stylehelper';
+import { $BorderRadius } from 'src/utils/stylehelper';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
@@ -28,10 +27,9 @@ const TransactionDetail = ({ navigation }) => {
 		_getData()
 	}, [])
 
-	const _shareBill = () => {
-		Screenshot.take(viewShotRef, opts => {
-			Screenshot.share(opts)
-		})
+	const _shareBill = async () => {
+		let imgPath = await Screenshot.take(viewShotRef)
+		Screenshot.share({ url: imgPath })
 	}
 
 	const _getData = async () => {
@@ -47,7 +45,7 @@ const TransactionDetail = ({ navigation }) => {
 			<AwanPopup.Loading visible={dataLoading} />
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
-					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom : 90 }}>
+					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: 90 }}>
 						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ paddingVertical: 10, backgroundColor: ColorsList.authBackground }}>
 							<View>
 								<Text align="center">{data ? data.transaction.name_store : null}</Text>
@@ -136,8 +134,7 @@ const TransactionDetail = ({ navigation }) => {
 								[
 									<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>,
 									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
-								]
-								:
+								] :
 								<View style={{ width: '100%' }}>
 									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>
 									<Wrapper style={{ marginTop: 5 }} justify="space-between">

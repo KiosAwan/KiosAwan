@@ -65,7 +65,7 @@ const UpdateProfil = ({ navigation }) => {
 	}]
 	const [rbRef, setRbRef] = useState({})
 	const _handleChoosePhoto = image => {
-			setPhotoStore(image.path)
+		setPhotoStore(image.path)
 	}
 	const [loading, setLoading] = useState(false)
 	const _handleSaveProfile = async () => {
@@ -165,10 +165,11 @@ const UpdateProfil = ({ navigation }) => {
 						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
-								<Wrapper justify="center">
+								<FloatingInput left="10%" label="Cari Provinsi">
 									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={provinsi.search} placeholder="Cari Provinsi" onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
-								</Wrapper>
+									<TextInput _width='90%' value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
+									{/* <Wrapper justify="center"></Wrapper> */}
+								</FloatingInput>
 								<Divider />
 							</View>
 						}
@@ -182,10 +183,11 @@ const UpdateProfil = ({ navigation }) => {
 						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
-								<Wrapper justify="center">
+								<FloatingInput left="10%" label="Cari Kabupaten">
 									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={kabupaten.search} placeholder="Cari Kabupaten" onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
-								</Wrapper>
+									<TextInput _width='90%' value={kabupaten.search} onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
+									{/* <Wrapper justify="center"></Wrapper> */}
+								</FloatingInput>
 								<Divider />
 							</View>
 						}
@@ -199,10 +201,11 @@ const UpdateProfil = ({ navigation }) => {
 						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
-								<Wrapper justify="center">
+								<FloatingInput left="10%" label="Cari Kecamatan">
 									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={kecamatan.search} placeholder="Cari Kecamatan" onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
-								</Wrapper>
+									<TextInput _width='90%' value={kecamatan.search} onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
+									{/* <Wrapper justify="center"></Wrapper> */}
+								</FloatingInput>
 								<Divider />
 							</View>
 						}
@@ -216,10 +219,11 @@ const UpdateProfil = ({ navigation }) => {
 						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
-								<Wrapper justify="center">
+								<FloatingInput left="10%" label="Cari Desa">
 									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={desa.search} placeholder="Cari Desa" onChangeText={text => setDesa({ ...desa, search: text })} />
-								</Wrapper>
+									<TextInput _width='90%' value={desa.search} onChangeText={text => setDesa({ ...desa, search: text })} />
+									{/* <Wrapper justify="center"></Wrapper> */}
+								</FloatingInput>
 								<Divider />
 							</View>
 						}

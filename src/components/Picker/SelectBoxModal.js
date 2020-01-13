@@ -371,7 +371,7 @@ export const SelectBoxModal = (props) => {
 						{props.footer}
 					</CardItem> : null
 			]} />
-			<TouchableOpacity activeOpacity={1} onPress={() => setModalVisible(true)} style={[styles.selectBox, { borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, borderColor: activeColor }, props.style]}>
+			<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, { borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, borderColor: activeColor }, props.style]}>
 				<Wrapper justify="space-between">
 					<FloatingInput borderTransparent label={props.label} _width="90%">
 						<TextInput style={{ color: ColorsList.black }} value={props.value} editable={false} />
