@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Image, TextInput, StyleSheet, Modal } from 'react-native';
+import { View, TextInput, StyleSheet, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import { ColorsList } from '../../../../styles/colors';
 import { Icon } from 'native-base';

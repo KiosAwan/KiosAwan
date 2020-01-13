@@ -5,6 +5,7 @@ import { CardItem } from 'native-base';
 import { ColorsList } from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { Bottom } from '../View/Bottom';
+import { $Padding } from 'src/utils/stylehelper';
 
 export const Modal = (props) => {
 	const styles = StyleSheet.create({
@@ -34,19 +35,20 @@ export const AwanPopup = {
 					style={styles.image}
 					resizeMode="stretch" /> */}
 			</LinearGradient>
-			<View style={styles.body}>
-				<Text font="Bold" size={17} style={styles.title}>{props.title.toUpperCase()}</Text>
+			<View style={[styles.body, props.style]}>
+				{typeof props.title === 'string' ? <Text font="Bold" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
 				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
+				<ButtonWrapper>{props.children}</ButtonWrapper>
+				{/* <Bottom justify="flex-end" style={{ backgroundColor: 'blue', height:100, width:100 }}>
+					{props.children}
+				</Bottom> */}
 			</View>
-			<Bottom justify="space-between">
-				{props.children}
-			</Bottom>
 		</Modal>
 	},
 	NoTitle: props => {
 		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
 			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
-				<Image source={require('../../assets/modals/awan-little.png')}
+				{/* <Image source={require('../../assets/modals/awan-little.png')}
 					style={styles.image}
 					resizeMode="stretch" />
 				<Image source={require('../../assets/modals/store.png')}
@@ -54,14 +56,13 @@ export const AwanPopup = {
 					resizeMode="stretch" />
 				<Image source={require('../../assets/modals/awan.png')}
 					style={styles.image}
-					resizeMode="stretch" />
+					resizeMode="stretch" /> */}
 			</LinearGradient>
 			<View style={styles.body}>
+				{/* {typeof props.message === 'string' ? <Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text> :  */}
 				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
+				<ButtonWrapper>{props.children}</ButtonWrapper>
 			</View>
-			<Bottom>
-				{props.children}
-			</Bottom>
 		</Modal>
 	},
 	Menu: props => {
@@ -104,6 +105,10 @@ export const AwanPopup = {
 	}
 }
 
+const ButtonWrapper = props => {
+	return <View style={styles.buttonWrapper}>{props.children}</View>
+}
+
 const styles = StyleSheet.create({
 	shadow: {
 		shadowColor: ColorsList.greySoft,
@@ -115,10 +120,11 @@ const styles = StyleSheet.create({
 		shadowRadius: 16.00,
 		elevation: 24,
 	},
+	buttonWrapper: { marginTop: 30, justifyContent: 'flex-end', flexDirection: 'row' },
 	image: { alignSelf: 'center', height: 100, width: '100%' },
-	title: { alignSelf: 'center', padding: 20 },
+	title: { textAlign: 'center', padding: 20 },
 	oldTitle: { position: 'absolute', top: 90, alignSelf: 'center', color: ColorsList.whiteColor },
-	body: { minHeight: 150, paddingHorizontal: 15, paddingBottom: 75, backgroundColor: ColorsList.whiteColor }
+	body: { ...$Padding(10, 15, 20), backgroundColor: ColorsList.whiteColor }
 })
 
 

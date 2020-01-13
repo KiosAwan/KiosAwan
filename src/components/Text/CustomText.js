@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text as ReactNativeText } from 'react-native'
-import { FontList, FontName } from '../../styles/typography';
+import { FontName } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
 
 export const Text = (props) => {
@@ -11,5 +11,6 @@ export const Text = (props) => {
         textAlign: props.align || null,
         width: props.width
     }
+    if (props.aaa) console.debug(props)
     return (<ReactNativeText {...props} style={[styles, props.style]} />)
 }
