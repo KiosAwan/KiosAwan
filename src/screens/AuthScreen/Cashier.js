@@ -86,6 +86,7 @@ const Cashier = ({ navigation }) => {
                                     onPressPlus={() => dispatch(AddQuantity(item))}
                                     plusDisabled={item.manage_stock == 1 ? item.stock == 0 ? true : (item.quantity ? item.quantity < item.stock ? false : true : false) : false}
                                     quantity={item.quantity ? item.quantity : null}
+                                    manage_stock={item.manage_stock == 1 ? true : false}
                                     stock={item.manage_stock == 1 ? item.stock : null}
                                     min_stock={item.notif == 1 ? item.min_stock : null}
                                 />

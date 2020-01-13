@@ -22,7 +22,8 @@
     },
     {
       "name":"FAQ",
-      "route":"/drawer/faq",
+      // {/drawer/faq}
+      "route":"",
       "icon":"logo-flickr"
     },
     {

@@ -90,6 +90,7 @@ const TransactionList = ({ navigation }) => {
               {
                 eval(DataTransaksi.data.map(item => filterResult(item.data).length).join('+')) > 0 ?
                   <FlatList
+                  style={{marginBottom : 70}}
                     data={DataTransaksi.data}
                     renderItem={({ item }) => [
                       filterResult(item.data).length > 0 ?

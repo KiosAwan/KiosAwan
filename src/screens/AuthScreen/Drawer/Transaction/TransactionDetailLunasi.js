@@ -16,6 +16,7 @@ import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -25,6 +26,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	const [dataUtang, setDataUtang] = useState()
 	const [loading, setLoading] = useState(true)
 	const [amount_payment, setAmountPayment] = useState('')
+	const [nonTunai , setNonTunai] = useState()
 	useEffect(() => {
 		const { paramData } = navigation.state.params
 		setDataUtang(paramData)
@@ -91,27 +93,27 @@ const TransactionDetailLunasi = ({ navigation }) => {
 				<View style={{ backgroundColor: ColorsList.whiteColor, padding: 20, paddingTop: 0 }}>
 					<Text {...propsTitleText}>DEBIT</Text>
 					<Wrapper>
-						<View style={styles.wrapperImage}>
+						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 1 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(1)}>
 							<Image source={require('src/assets/payment/bca.png')} style={styles.imagePayment} name="BCA" />
-						</View>
-						<View style={styles.wrapperImage}>
+						</TouchableOpacity>
+						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 2 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(2)}>
 							<Image source={require('src/assets/payment/mandiri.png')} style={styles.imagePayment} name="Mandiri" />
-						</View>
-						<View style={styles.wrapperImage}>
+						</TouchableOpacity>
+						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 3 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(3)}>
 							<Image source={require('src/assets/payment/bri.png')} style={styles.imagePayment} name="BRI" />
-						</View>
+						</TouchableOpacity>
 					</Wrapper>
 					<Text {...propsTitleText}>E-WALLET</Text>
 					<Wrapper>
-						<View style={styles.wrapperImage}>
+						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 4 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(4)}>
 							<Image source={require('src/assets/payment/gopay.png')} style={styles.imagePayment} name="Gopay" />
-						</View>
-						<View style={styles.wrapperImage}>
+						</TouchableOpacity>
+						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 5 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(5)}>
 							<Image source={require('src/assets/payment/dana.png')} style={styles.imagePayment} name="Dana" />
-						</View>
-						<View style={styles.wrapperImage}>
+						</TouchableOpacity>
+						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 6 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(6)}>
 							<Image source={require('src/assets/payment/ovo.png')} style={styles.imagePayment} name="OVO" />
-						</View>
+						</TouchableOpacity>
 					</Wrapper>
 				</View>
 			</ScrollView>
@@ -210,5 +212,9 @@ const styles = StyleSheet.create({
 	},
 	containerWithData: {
 		flex: 1
+	},
+	selectedNonTunai : {
+		borderWidth : 1, 
+		borderColor : ColorsList.primary
 	}
 })

@@ -22,16 +22,6 @@ import { getTransactionList } from '../../redux/actions/actionsTransactionList';
 import AsyncStorage from '@react-native-community/async-storage'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
-const FirstRoute = () => (
-    <CashPayment />
-)
-const SecondRoute = () => (
-    <NonTunai />
-)
-const ThirdRoute = () => (
-    <Piutang />
-);
-
 class CheckOut extends React.Component {
     state = {
         loadingVisible: false,
@@ -41,18 +31,32 @@ class CheckOut extends React.Component {
             { key: 'second', title: 'NON TUNAI' },
             { key: 'third', title: 'PIUTANG' }
         ],
+        nonTunai: ''
     };
 
+    FirstRoute = () => (
+        <CashPayment />
+    )
+    SecondRoute = () => (
+        <NonTunai nonTunai={this.state.nonTunai} pressImage={(id) => {
+            this.setState({ nonTunai: id })
+            console.debug("CHECKOUT", id)
+        }} />
+    )
+    ThirdRoute = () => (
+        <Piutang />
+    );
     _handleBayar = () => {
         this.setState({ loadingVisible: true })
         if (this.state.index == 0) {
+            this._handlePayCash()
+        } else if (this.state.index == 1) {
             this._handlePayCash()
         } else if (this.state.index == 2) {
             this._handlePayCredit()
         }
     }
     _handlePayCash = async () => {
-        console.debug("CASH KERAS", this.state.index)
         const userId = await AsyncStorage.getItem('userId')
         const Product = this.props.Product
         let cart = []
@@ -77,8 +81,9 @@ class CheckOut extends React.Component {
         })
         const data = {
             cashier: userId,
-            amount_payment: convertNumber(Product.cash_payment),
-            id_payment_type: 1,
+            amount_payment: this.state.index == 1 ? Product.total - Product.total_diskon : convertNumber(Product.cash_payment),
+            id_payment_type: this.state.index + 1,
+            payment_method : this.state.nonTunai,
             product_cart: cart,
             customer: Product.customer ? Product.customer.id_customer : null,
             id_store: this.props.User.store.id_store,
@@ -185,9 +190,9 @@ class CheckOut extends React.Component {
         );
     };
     _renderScene = SceneMap({
-        first: FirstRoute,
-        second: SecondRoute,
-        third: ThirdRoute
+        first: this.FirstRoute,
+        second: this.SecondRoute,
+        third: this.ThirdRoute
     });
     render() {
         return (

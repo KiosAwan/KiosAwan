@@ -6,14 +6,16 @@ import { ColorsList } from 'src/styles/colors';
 import { $Padding, $BorderRadius, $Margin, $Border } from 'src/utils/stylehelper';
 import { Icon } from 'native-base';
 import { Wrapper } from 'src/components/View/Wrapper';
+import { useSelector } from 'react-redux';
 const Help = ({ navigation }) => {
+	const User = useSelector(state => state.User)
 	const _openUrl = url => Linking.openURL(url)
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader style={{ height: 190 }} title="Hubungi Kami" onPressBack={() => navigation.goBack()} />
 			<View style={{ ...$Padding(0, 15), alignItems: 'center' }}>
 				<View style={{ ...$Margin(0, 0, 15) }}>
-					<Text color="whiteColor" align="center" size={25}>Halo Bambang!</Text>
+					<Text color="whiteColor" align="center" size={25}>Halo {User.data.name}!</Text>
 					<Text color="whiteColor" align="center">{'Silahkan hubungi tim KiosAwan\njika anda memiliki pertanyaan atau saran'}</Text>
 				</View>
 				<View style={styles.white}>

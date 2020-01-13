@@ -1,45 +1,47 @@
-import React from 'react';
-import { View , StyleSheet, Text} from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { ColorsList } from '../../../../styles/colors';
 import { FontList } from '../../../../styles/typography';
 import { RowChild } from '../../../../components/Helper/RowChild';
 import { TouchableImage } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
+import { Wrapper } from 'src/components/View/Wrapper';
 
-const NonTunai = () => {
+const NonTunai = (props) => {
+    const [index, setIndex] = useState()
+    const pressCard = (i) => {
+        setIndex(i)
+        props.pressImage(i)
+    }
     return (
-        <View style={styles.container}>
-            <View style={{ marginTop: 10, alignItems : 'center' }}>
-                <Text style={styles.categoryStyle}>DEBIT</Text>
-                <View style={{height : 1,width :'100%' ,backgroundColor : ColorsList.greySoft}}/>
-                <View style={styles.wrapList}>
-                    <TouchableImage
-                    image="data:image/png;base64,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"
-                    />
-                    <TouchableImage
-                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdPuH7TAQeXz0VThg8u3Tb8CO0dKbYAB5kj0MVuRKCU-sC-lKrzA&s"
-                    />
-                    <TouchableImage
-                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf1vPXys2BNQXEaC3PgKibZbgj5cbrWCvjlQlpHANFHBUR6fA9zg&s"
-                    />
-                </View>
+        <ScrollView style={styles.container}>
+            <View style={{ backgroundColor: ColorsList.whiteColor, padding: 20, paddingTop: 0 }}>
+                <Text style={styles.text}>DEBIT</Text>
+                <Wrapper>
+                    <TouchableOpacity style={[styles.wrapperImage, index == 1 ? styles.selectedNonTunai : null]} onPress={() => pressCard(1)}>
+                        <Image source={require('src/assets/payment/bca.png')} style={styles.imagePayment} name="BCA" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.wrapperImage, index == 2 ? styles.selectedNonTunai : null]} onPress={() => pressCard(2)}>
+                        <Image source={require('src/assets/payment/mandiri.png')} style={styles.imagePayment} name="Mandiri" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.wrapperImage,index == 3 ? styles.selectedNonTunai : null]} onPress={() => pressCard(3)}>
+                        <Image source={require('src/assets/payment/bri.png')} style={styles.imagePayment} name="BRI" />
+                    </TouchableOpacity>
+                </Wrapper>
+                <Text style={styles.text}>E-WALLET</Text>
+                <Wrapper>
+                    <TouchableOpacity style={[styles.wrapperImage, index == 4 ? styles.selectedNonTunai : null]} onPress={() =>pressCard(4)}>
+                        <Image source={require('src/assets/payment/gopay.png')} style={styles.imagePayment} name="Gopay" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.wrapperImage, index == 5 ? styles.selectedNonTunai : null]} onPress={() => pressCard(5)}>
+                        <Image source={require('src/assets/payment/dana.png')} style={styles.imagePayment} name="Dana" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.wrapperImage, index == 6 ? styles.selectedNonTunai : null]} onPress={() => pressCard(6)}>
+                        <Image source={require('src/assets/payment/ovo.png')} style={styles.imagePayment} name="OVO" />
+                    </TouchableOpacity>
+                </Wrapper>
             </View>
-            <View style={{alignItems : 'center' }}>
-                <Text style={styles.categoryStyle}>E-WALLET</Text>
-                <View style={{height : 0.5,width :'100%' ,backgroundColor : ColorsList.greySoft}}/>
-                <View style={styles.wrapList}>
-                    <TouchableImage
-                    image="data:image/png;base64,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"
-                    />
-                    <TouchableImage
-                    image="data:image/png;base64,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"
-                    />
-                    <TouchableImage
-                    image="data:image/png;base64,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"
-                    />
-                </View>
-            </View>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -48,17 +50,41 @@ export default NonTunai;
 const styles = StyleSheet.create({
     container: {
         marginTop: 10,
-        flex : 1
+        flex: 1
     },
-    categoryStyle : {
+    categoryStyle: {
         ...FontList.categoryFontBold,
-        color : ColorsList.greyFont
+        color: ColorsList.greyFont
     },
-    wrapList : { 
-        flexDirection : 'row', 
-        justifyContent : "space-around", 
-        height : SizeList.height/6, 
-        width : SizeList.width-50, 
-        padding : 10
-    }
+    wrapList: {
+        flexDirection: 'row',
+        justifyContent: "space-around",
+        height: SizeList.height / 6,
+        width: SizeList.width - 50,
+        padding: 10
+    },
+    wrapperImage: {
+        padding: 5,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: ColorsList.greyAuthHard
+    },
+    imagePayment: {
+        height: 35,
+        width: 80,
+        resizeMode: 'contain'
+    },
+    text: {
+        color: ColorsList.greyFont,
+        fontSize: 17,
+        fontFamily: FontList.boldFont,
+        marginVertical: 15,
+        borderBottomColor: ColorsList.greySoft,
+        borderBottomWidth: 1,
+        textAlign: 'center'
+    },
+    selectedNonTunai : {
+		borderWidth : 1, 
+		borderColor : ColorsList.primary
+	}
 });
