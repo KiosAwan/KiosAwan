@@ -64,11 +64,10 @@ const CreatePIN = ({ navigation }) => {
                 />
             </Modal>
             <ScrollView showsVerticalScrollIndicator={false} style={{ height: SizeList.height, marginBottom: 70 }}>
-                <View style={{ alignSelf: 'center', width: '70%', paddingTop: 15 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold }}>Untuk menunjang kemanan Anda saat bertransaksi buat PIN dengan benar dan pastikan tidak diketahui oleh orang lain</Text>
-
+                <View style={{ alignSelf: 'center', width: '90%', paddingTop: 15 }}>
+                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold }}>Untuk menunjang kemanan Anda saat bertransaksi buat PIN dengan benar dan pastikan tidak diketahui oleh orang lain.</Text>
                 </View>
-                <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
+                <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, borderRadius: 5 }}>
                     <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 4 Digit PIN</Text>
                     <CodeInput
                         secureTextEntry

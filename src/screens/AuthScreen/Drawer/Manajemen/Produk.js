@@ -9,7 +9,7 @@ import { convertRupiah } from '../../../../utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFromManajemenProduct } from '../../../../redux/actions/actionsNewProduct';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
-import { editProductName, editProductBarcode, editProductAddId, editProductImage, editProductPriceIn, editProductPriceOut, editProductIdCategory, editProductManageStock, editProductSendNotif, editQuantityStock, editMinQtyStock } from 'src/redux/actions/actionsEditProduct';
+import { editProductName, editProductBarcode, editProductAddId, editProductImage, editProductPriceIn, editProductPriceOut, editProductIdCategory, editProductManageStock, editProductSendNotif, editQuantityStock, editMinQtyStock, editTempImage } from 'src/redux/actions/actionsEditProduct';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 
@@ -55,6 +55,7 @@ const ManajemenProduk = ({ navigation }) => {
 										dispatch(editProductBarcode(data.barcode_product))
 										dispatch(editProductAddId(data.id_product))
 										dispatch(editProductImage(data.photo_product))
+										dispatch(editTempImage(data.photo_product))
 										dispatch(editProductPriceIn(data.price_in_product))
 										dispatch(editQuantityStock(data.stock))
 										dispatch(editMinQtyStock(data.min_stock))

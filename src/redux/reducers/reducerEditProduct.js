@@ -9,6 +9,7 @@ const initialState = {
     qty_stock: '',
     qty_min_stock: '',
     image: '',
+    temp_image: '',
     manageStock: '',
     sendNotif: ''
 }
@@ -65,6 +66,11 @@ const reducerEditProduct = (state = initialState, actions) => {
                 ...state,
                 image: actions.payload
             }
+        case "EDIT_TEMP_IMAGE":
+            return {
+                ...state,
+                temp_image: actions.payload
+            }
         case "EDIT_QTY_MIN_STOCK":
             return {
                 ...state,
@@ -83,7 +89,8 @@ const reducerEditProduct = (state = initialState, actions) => {
                 qty_min_stock: '',
                 image: '',
                 manageStock: '',
-                sendNotif: ''
+                sendNotif: '',
+                temp_image: ''
             }
         default:
             return state
