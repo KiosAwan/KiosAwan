@@ -68,10 +68,11 @@ const PhoneRegistration = ({ navigation }) => {
         const data = {
             phone_number: "62" + FormRegister.phone_number,
         }
+        OTPRegisterSheet.open()
         const res = await sendOTP(data)
         setLoading(false)
         if (res.status == 200) {
-            OTPRegisterSheet.open()
+
         } else {
             alert(res.data.errors.msg)
         }

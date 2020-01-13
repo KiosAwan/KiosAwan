@@ -88,7 +88,7 @@ const Cashier = ({ navigation }) => {
                                     quantity={item.quantity ? item.quantity : null}
                                     manage_stock={item.manage_stock == 1 ? true : false}
                                     stock={item.manage_stock == 1 ? item.stock : null}
-                                    min_stock={item.notif == 1 ? item.min_stock : null}
+                                    min_stock={item.manage_stock ? item.notif == 1 ? item.min_stock : null : null}
                                 />
 
                             )}
