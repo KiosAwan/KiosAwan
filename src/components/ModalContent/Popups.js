@@ -6,11 +6,12 @@ import { ColorsList } from '../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { Bottom } from '../View/Bottom';
 import { $Padding } from 'src/utils/stylehelper';
+import { Button } from '../Button/Button';
 
 export const Modal = (props) => {
 	const styles = StyleSheet.create({
 		modalBackDrop: { alignItems: 'center', justifyContent: 'center', backgroundColor: props.transparent ? 'transparent' : 'rgba(0,0,0,.5)', width: '100%', height: '100%' },
-		modalView: { backgroundColor: ColorsList.whiteColor, maxWidth: '80%', justifyContent: "center", padding: 20 }
+		modalView: { backgroundColor: ColorsList.whiteColor, maxWidth: '90%', justifyContent: "center", padding: 20 }
 	})
 	return (
 		<ModalRN
@@ -27,39 +28,16 @@ export const Modal = (props) => {
 export const AwanPopup = {
 	Title: props => {
 		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
-			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
-				{/* <Image source={require('../../assets/modals/awan-little.png')}
-					style={styles.image}
-					resizeMode="stretch" />
-				<Image source={require('../../assets/modals/awan.png')}
-					style={styles.image}
-					resizeMode="stretch" /> */}
-			</LinearGradient>
 			<View style={[styles.body, props.style]}>
-				{typeof props.title === 'string' ? <Text font="Bold" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
-				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
+				{typeof props.title === 'string' ? <Text color={props.textColor} font="Bold" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
+				<Text color={props.textColor} size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
 				<ButtonWrapper>{props.children}</ButtonWrapper>
-				{/* <Bottom justify="flex-end" style={{ backgroundColor: 'blue', height:100, width:100 }}>
-					{props.children}
-				</Bottom> */}
 			</View>
 		</Modal>
 	},
 	NoTitle: props => {
 		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
-			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
-				{/* <Image source={require('../../assets/modals/awan-little.png')}
-					style={styles.image}
-					resizeMode="stretch" />
-				<Image source={require('../../assets/modals/store.png')}
-					style={[styles.image, { position: 'absolute', bottom: 10, height: 150, left: 0, width: '70%' }]}
-					resizeMode="stretch" />
-				<Image source={require('../../assets/modals/awan.png')}
-					style={styles.image}
-					resizeMode="stretch" /> */}
-			</LinearGradient>
 			<View style={styles.body}>
-				{/* {typeof props.message === 'string' ? <Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text> :  */}
 				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
 				<ButtonWrapper>{props.children}</ButtonWrapper>
 			</View>
@@ -73,9 +51,6 @@ export const AwanPopup = {
 				<Text font="Bold" size={props.titleSize || 15} style={{ color: ColorsList.whiteColor, padding: 15 }}>
 					{props.title.toUpperCase()}
 				</Text>
-				{/* <Image source={require('../../assets/modals/awan-corner.png')}
-					style={[styles.image, { position: 'absolute', right: 0, width: '30%' }]}
-					resizeMode="stretch" /> */}
 			</LinearGradient>
 			<View style={{ padding: 15 }}>
 				{props.children}
@@ -84,29 +59,32 @@ export const AwanPopup = {
 	},
 	Loading: props => {
 		return <Modal animationType="fade" style={{ backgroundColor: ColorsList.transparent, padding: 0 }} {...props}>
-			{/* <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
-				<Image source={require('../../assets/modals/awan-little.png')}
-					style={styles.image}
-					resizeMode="stretch" />
-				<View style={{ paddingHorizontal: 20, backgroundColor: ColorsList.transparent }}>
-					<Text size={18} color="whiteColor" style={{ textAlign: 'center' }} font="Bold">{'Harap tunggu'.toUpperCase()}</Text>
-					<Text color="whiteColor" style={{ textAlign: 'center' }} font="Bold">Aplikasi sedang memproses</Text>
-				</View>
-				<Image source={require('../../assets/modals/awan.png')}
-					style={styles.image}
-					resizeMode="stretch" />
-			</LinearGradient> */}
 			<View style={{ borderRadius: 15, backgroundColor: ColorsList.whiteColor, padding: 15 }}>
 				<Image source={require('../../assets/modals/spinner.gif')}
 					style={[styles.image, { width: 50, height: 50 }]}
 					resizeMode="stretch" />
 			</View>
 		</Modal>
-	}
+	},
+	Alert: props =>
+		<Modal animationType="fade" style={{ padding: 0 }} {...props}>
+			<View style={[styles.body, props.style]}>
+				<Image source={require('../../assets/icons/circlereject.png')}
+					style={[styles.image, { width: 50, height: 50 }]}
+					resizeMode="stretch" />
+				<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>Oops...</Text>
+				<View>
+					<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{props.message}</Text>
+				</View>
+				<ButtonWrapper style={{ justifyContent: "center" }}>
+					<Button color="white" width='50%' onPress={props.closeAlert}>OK</Button>
+				</ButtonWrapper>
+			</View>
+		</Modal>
 }
 
 const ButtonWrapper = props => {
-	return <View style={styles.buttonWrapper}>{props.children}</View>
+	return <View style={[styles.buttonWrapper, props.style]}>{props.children}</View>
 }
 
 const styles = StyleSheet.create({

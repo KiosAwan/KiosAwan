@@ -21,6 +21,7 @@ import {
 import { getTransactionList } from '../../redux/actions/actionsTransactionList';
 import AsyncStorage from '@react-native-community/async-storage'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { Button } from 'src/components/Button/Button';
 
 class CheckOut extends React.Component {
     state = {
@@ -31,7 +32,9 @@ class CheckOut extends React.Component {
             { key: 'second', title: 'NON TUNAI' },
             { key: 'third', title: 'PIUTANG' }
         ],
-        nonTunai: ''
+        nonTunai: '',
+        _alert: false,
+        alertMessage: ''
     };
 
     FirstRoute = () => (
@@ -112,7 +115,8 @@ class CheckOut extends React.Component {
     _handlePayCredit = async () => {
         const userId = await AsyncStorage.getItem('userId')
         const Product = this.props.Product
-        if (Product.customer.id_customer) {
+        if (Product.customer) {
+            console.debug(Product.customer.id_customer)
             if (Product.due_debt_date) {
                 let cart = []
                 Product.belanja.map(item => {
@@ -163,10 +167,13 @@ class CheckOut extends React.Component {
                 }
             } else {
                 this.setState({ loadingVisible: false })
-                alert("Tanggal tidak boleh kosong")
+                this.setState({ alertMessage: "Tanggal tidak boleh kosong" })
+                this.setState({ _alert: true })
             }
         } else {
-            alert("Pelanggan tidak boleh kosong")
+            this.setState({ loadingVisible: false })
+            this.setState({ alertMessage: "Pelanggan tidak boleh kosong" })
+            this.setState({ _alert: true })
         }
     }
 
@@ -201,6 +208,11 @@ class CheckOut extends React.Component {
             <View style={{ flex: 1 }}>
                 <GlobalHeader title="Pembayaran" onPressBack={() => this.props.navigation.goBack()} />
                 <AwanPopup.Loading visible={this.state.loadingVisible} />
+                <AwanPopup.Alert
+                    message={this.state.alertMessage} 
+                    visible={this.state._alert}
+                    closeAlert={() => this.setState({_alert : false})}
+                />
                 <View style={styles.childContainer}>
                     <View style={styles.infoTotalContainer}>
                         <View style={{ margin: 20 }}>

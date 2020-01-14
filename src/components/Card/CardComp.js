@@ -116,7 +116,7 @@ export const ProductCards = props => {
 }
 export const ProductCard = (props) => {
     return (
-        <TouchableOpacity onPress={props.onPressPlus ? props.onPressPlus : null} activeOpacity={props.onPressPlus ? .5 : 1}>
+        <TouchableOpacity onPress={props.onPressPlus ? props.plusDisabled ? null :  props.onPressPlus : null} activeOpacity={props.onPressPlus ? .5 : 1}>
             <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5, }}>
                 <View style={[styles.card, props.cardStyle]}>
                     <View style={{ ...RowChild, height: '100%', width: '90%' }}>

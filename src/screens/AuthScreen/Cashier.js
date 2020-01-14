@@ -76,6 +76,7 @@ const Cashier = ({ navigation }) => {
                         </View>
                         :
                         <FlatList
+                        style={Product.jumlahitem > 0 ? {marginBottom : 50} : null}
                             data={Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase()))}
                             renderItem={({ item }) => (
                                 <ProductCard
@@ -102,7 +103,7 @@ const Cashier = ({ navigation }) => {
                         <Button onPress={() => {
                             navigation.navigate('/cashier/cart')
                             dispatch(getCustomer(User.store.id_store))
-                        }} width="95%">
+                        }} width="100%">
                             <Wrapper>
                                 <Icon style={{ color: ColorsList.whiteColor, marginRight: 10 }} name="ios-cart" />
                                 <Text style={styles.btnTextBelanja}>BELANJA {Product.jumlahitem} PRODUK</Text>
