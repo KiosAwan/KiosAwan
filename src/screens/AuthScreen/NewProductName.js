@@ -133,7 +133,7 @@ const NewProductName = ({ navigation }) => {
 							disabled={isDisabled}
 							label="Nama Produk"
 							value={NewProduct.name}
-							handleChangeText={(text) => dispatch(addProductName(text))}
+							handleChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
 						/>
 					</View>
 					<SelectBoxModal style={{ marginTop: 15 }}
