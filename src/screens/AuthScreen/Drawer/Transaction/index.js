@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { View, StyleSheet, TextInput, Image, FlatList, TouchableOpacity as TouchableOpacityRN } from 'react-native';
+import { View, StyleSheet, TextInput, Image, FlatList, TouchableOpacity as TouchableOpacityRN, RefreshControl } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
@@ -12,7 +12,7 @@ import { Icon } from 'native-base';
 import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { convertRupiah, getReportHutang } from 'src/utils/authhelper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
@@ -90,7 +90,7 @@ const TransactionList = ({ navigation }) => {
               {
                 eval(DataTransaksi.data.map(item => filterResult(item.data).length).join('+')) > 0 ?
                   <FlatList
-                  style={{marginBottom : 70}}
+                    style={{ marginBottom: 70 }}
                     data={DataTransaksi.data}
                     renderItem={({ item }) => [
                       filterResult(item.data).length > 0 ?
@@ -158,23 +158,28 @@ const TransactionList = ({ navigation }) => {
         </View>
       </View>
         :
-        <View style={{ flex: 1, padding: 15 }}>
-          <Wrapper style={styles.wrapper} justify="space-between">
-            <Text>Jumlah Transaksi Hutang</Text>
-            <Text font="ExtraBold" color="primary">{convertRupiah(reportHutang.jumlah_hutang)}</Text>
-          </Wrapper>
-          <Wrapper style={styles.wrapper} justify="space-between">
-            <Text>Jumlah Pelanggan</Text>
-            <Text font="ExtraBold" color="primary">{reportHutang.jumlah_pelanggan}</Text>
-          </Wrapper>
-          <Wrapper style={styles.wrapper} justify="space-between">
-            <Text>Transaksi Jatuh Tempo</Text>
-            <Text font="ExtraBold" color="primary">{reportHutang.trx_jatuh_tempo}</Text>
-          </Wrapper>
-          <Wrapper style={styles.wrapper} justify="space-between">
-            <Text>Transaksi Belum Lunas</Text>
-            <Text font="ExtraBold" color="primary">{reportHutang.trx_belum_lunas}</Text>
-          </Wrapper>
+        <View style={{flex : 1}}>
+          <ScrollView
+            refreshControl={<RefreshControl onRefresh={_reportHutang} />}
+            style={{ flex: 1, padding: 15 }}>
+            <Wrapper style={styles.wrapper} justify="space-between">
+              <Text>Jumlah Transaksi Hutang</Text>
+              <Text font="ExtraBold" color="primary">{convertRupiah(reportHutang.jumlah_hutang)}</Text>
+            </Wrapper>
+            <Wrapper style={styles.wrapper} justify="space-between">
+              <Text>Jumlah Pelanggan</Text>
+              <Text font="ExtraBold" color="primary">{reportHutang.jumlah_pelanggan}</Text>
+            </Wrapper>
+            <Wrapper style={styles.wrapper} justify="space-between">
+              <Text>Transaksi Jatuh Tempo</Text>
+              <Text font="ExtraBold" color="primary">{reportHutang.trx_jatuh_tempo}</Text>
+            </Wrapper>
+            <Wrapper style={styles.wrapper} justify="space-between">
+              <Text>Transaksi Belum Lunas</Text>
+              <Text font="ExtraBold" color="primary">{reportHutang.trx_belum_lunas}</Text>
+            </Wrapper>
+
+          </ScrollView>
           <Bottom>
             <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>
           </Bottom>
@@ -184,8 +189,8 @@ const TransactionList = ({ navigation }) => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'Daftar Transaksi' },
-    { key: 'second', title: 'Ringkasan Hutang' }
+    { key: 'first', title: 'DAFTAR TRANSAKSI' },
+    { key: 'second', title: 'RINGKASAN HUTANG' }
   ]);
 
   return (<View style={{ flex: 1 }}>

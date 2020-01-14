@@ -99,6 +99,8 @@ const Home = ({ navigation }) => {
 		else if (User.data.status == 0) {
 			_setAlert(false)
 			navigation.navigate('/drawer/settings/change-email')
+		}else {
+			_setAlert(false)
 		}
 	}
 	return (

@@ -17,6 +17,7 @@ import { FontList } from '../../styles/typography';
 import { RowChild } from '../../components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
 import ModalContent from '../../components/ModalContent/ModalContent';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const width = Dimensions.get('window').width
 
@@ -29,14 +30,18 @@ const NewProductLast = ({ navigation }) => {
 	const [modalVisible, setModalVisible] = useState(false)
 	const [manageStock, setManageStock] = useState(false)
 	const [sendNotif, setSendNotif] = useState(false)
+	const [apiLoading , setApiLoading] = useState(false)
 	const [isDisabled, setIsDisabled] = useState(true)
 
 	const _handlePressNext = async () => {
+		setApiLoading(true)
 		let intPriceIn = convertNumber(NewProduct.price_in)
 		let intPriceOut = convertNumber(NewProduct.price_out)
 		if (NewProduct.price_in == "" || NewProduct.price_out == "") {
+			setApiLoading(false)
 			alert("Harap isi harga beli dan jual")
 		} else if ((intPriceOut - intPriceIn) < 0) {
+			setApiLoading(false)
 			alert("Lu jualan apa sedekah? harga jual lu naikin lahh 🙃")
 		} else {
 			const formData = new FormData()
@@ -59,6 +64,7 @@ const NewProductLast = ({ navigation }) => {
 			} : null)
 			try {
 				const response = await Axios.post(`${HOST_URL}/product`, formData)
+				setApiLoading(false)
 				setModalVisible(true)
 				setTimeout(() => {
 					setModalVisible(false)
@@ -71,9 +77,9 @@ const NewProductLast = ({ navigation }) => {
 						navigation.navigate('/cashier')
 					}
 				}, 1000)
-
 			}
 			catch (error) {
+				setApiLoading(false)
 				alert(error.response.data.data.errors.msg)
 			}
 		}
@@ -104,6 +110,7 @@ const NewProductLast = ({ navigation }) => {
 	}
 	return (
 		<View style={{ flex: 1 }}>
+			<AwanPopup.Loading visible={apiLoading} />
 			<Modal
 				animationType="fade"
 				transparent={true}
