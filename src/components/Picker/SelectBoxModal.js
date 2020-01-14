@@ -42,7 +42,7 @@ export const ToggleButton = (props) => {
 			{
 				props.buttons.map((btn, i) => {
 					return (
-						<Button onPress={() => _handleChangeBtn(btn, i)} style={[props.style,
+						<Button onPress={() => _handleChangeBtn(btn, i)} style={[
 						{ padding: 5, flex: 1, justifyContent: 'center' },
 						{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : '#dedede' },
 						props.style

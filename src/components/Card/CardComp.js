@@ -5,6 +5,7 @@ import { FontList } from '../../styles/typography';
 import { RowChild } from '../Helper/RowChild';
 import { ColorsList } from '../../styles/colors';
 import FastImage from 'react-native-fast-image'
+import { Wrapper } from '../View/Wrapper';
 
 
 const height = Dimensions.get('window').height
@@ -82,49 +83,81 @@ export const ImageText = props => {
     </View>
 }
 
+export const ProductCards = props => {
+    return <TouchableOpacity>
+        <Wrapper justify="space-between" style={{ width: '100%' }}>
+            <ImageText style={{ backgroundColor: 'blue' }} name={props.name} />
+            <View style={{ backgroundColor: 'yellow' }}>
+                <Text>{props.name}</Text>
+                <Text style={[props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
+                <Text style={[props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
+            </View>
+            <View width="10%">
+                <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
+                    <Icon size={20} name="plus" color={ColorsList.greyFont} />
+                </TouchableOpacity>
+                <Text style={{ marginHorizontal: 8 }}>{props.quantity ? props.quantity : 0}</Text>
+                <TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
+                    <Icon size={20} name="minus" color={ColorsList.greyFont} />
+                </TouchableOpacity>
+            </View>
+        </Wrapper>
+        {/* <Wrapper justify="space-between">
+            <View width="20%" style={{ backgroundColor: 'blue' }}>
+                <ImageText style={{ width: '100%' }} name={props.name} />
+            </View>
+            <View style={{ width: '70%', backgroundColor: 'yellow' }}>
+                <Text style={[styles.infoText]}>{props.name}</Text>
+                <Text style={[styles.subText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
+                <Text style={[styles.infoText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
+            </View>
+        </Wrapper> */}
+    </TouchableOpacity>
+}
 export const ProductCard = (props) => {
-    console.debug(props.stock ,typeof props.stock , props.min_stock, props.name)
     return (
-        <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5, }}>
-            <View style={[styles.card, props.cardStyle]}>
-                <View style={{ ...RowChild, height: '100%', width: '90%' }}>
-                    {
-                        props.manage_stock ?
-                            props.stock === 0 ? <ImageText name="STOK HABIS" notGenerated /> : props.stock - props.quantity == 0 ? <ImageText name="STOK HABIS" notGenerated /> :
+        <TouchableOpacity onPress={props.onPressPlus ? props.onPressPlus : null} activeOpacity={props.onPressPlus ? .5 : 1}>
+            <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5, }}>
+                <View style={[styles.card, props.cardStyle]}>
+                    <View style={{ ...RowChild, height: '100%', width: '90%' }}>
+                        {
+                            props.manage_stock ?
+                                props.stock === 0 ? <ImageText name="STOK HABIS" notGenerated /> : props.stock - props.quantity == 0 ? <ImageText name="STOK HABIS" notGenerated /> :
+                                    props.productImage ?
+                                        <FastImage style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
+                                        :
+                                        <ImageText name={props.name} />
+                                :
                                 props.productImage ?
-                                    <FastImage style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
+                                    <FastImage
+                                        style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }}
+                                        source={{ uri: props.productImage, priority: FastImage.priority.high, }}
+
+                                    />
                                     :
                                     <ImageText name={props.name} />
-                            :
-                            props.productImage ?
-                                <FastImage 
-                                style={{ width: '20%', height: '70%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} 
-                                source={{ uri: props.productImage, priority: FastImage.priority.high, }} 
-                                
-                                />
-                                :
-                                <ImageText name={props.name} />
-                    }
-                    <View style={{ width: '50%' }}>
-                        <Text style={[styles.infoText]}>{props.name}</Text>
-                        <Text style={[styles.subText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
-                        <Text style={[styles.infoText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
-                    </View>
-                </View>
-                {
-                    props.right ? props.right :
-                        <View style={{ width: '10%', backgroundColor: '#f9faf7', height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
-                            <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
-                                <Icon size={20} name="plus" color={ColorsList.greyFont} />
-                            </TouchableOpacity>
-                            <Text style={{ marginHorizontal: 8 }}>{props.quantity ? props.quantity : 0}</Text>
-                            <TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
-                                <Icon size={20} name="minus" color={ColorsList.greyFont} />
-                            </TouchableOpacity>
+                        }
+                        <View style={{ marginLeft: 5, width: '70%' }}>
+                            <Text style={[styles.infoText]}>{props.name.length > 25 ? props.name.substr(0, 25) + '...' : props.name}</Text>
+                            <Text style={[styles.subText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
+                            <Text style={[styles.infoText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
                         </View>
-                }
+                    </View>
+                    {
+                        props.right ? props.right :
+                            <View style={{ width: '10%', backgroundColor: '#f9faf7', height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
+                                <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
+                                    <Icon size={20} name="plus" color={ColorsList.greyFont} />
+                                </TouchableOpacity>
+                                <Text style={{ marginHorizontal: 8 }}>{props.quantity ? props.quantity : 0}</Text>
+                                <TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
+                                    <Icon size={20} name="minus" color={ColorsList.greyFont} />
+                                </TouchableOpacity>
+                            </View>
+                    }
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 

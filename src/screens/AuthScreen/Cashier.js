@@ -41,22 +41,22 @@ const Cashier = ({ navigation }) => {
                 handleChangeText={(text) => setSearch(text)}
                 onPressBack={() => navigation.navigate('/')}
             />
-            <Wrapper justify="space-between" style={{ padding: 15 }}>
+            <Wrapper justify="space-between" style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
                 <Wrapper>
                     <Button padding={7} onPress={() => {
                         dispatch(setFromManajemenProduct(null))
                         navigation.navigate('/cashier/new-barcode')
                     }} color="white" style={{ paddingHorizontal: 15, marginRight: 10 }}>
                         <Image size={15} source={require('src/assets/icons/plus-primary.png')} />
-                        <Text size={12} color="primary">PRODUK BARU</Text>
+                        <Text size={11} color="primary">PRODUK BARU</Text>
                     </Button>
                     <Button padding={7} onPress={() => navigation.navigate('/cashier/input-manual')} color="white" style={{ paddingHorizontal: 15, }}>
                         <Image size={15} source={require('src/assets/icons/clock.png')} />
-                        <Text size={12} color="primary">PESAN MANUAL</Text>
+                        <Text size={11} color="primary">PESAN MANUAL</Text>
                     </Button>
                 </Wrapper>
                 <Button padding={7} onPress={() => navigation.navigate('/cashier/add-cart-with-barcode')}>
-                    <Image size={20} source={require('src/assets/icons/barcode.png')} />
+                    <Image size={18} source={require('src/assets/icons/barcode.png')} />
                 </Button>
             </Wrapper>
             <View style={[styles.childContainer, { backgroundColor: Product.isLoading ? "white" : ColorsList.authBackground, justifyContent: Product.data.length == 0 ? 'center' : null, alignItems: Product.data.length == 0 ? 'center' : null }]}>
@@ -90,7 +90,6 @@ const Cashier = ({ navigation }) => {
                                     stock={item.manage_stock == 1 ? item.stock : null}
                                     min_stock={item.manage_stock ? item.notif == 1 ? item.min_stock : null : null}
                                 />
-
                             )}
                             showsVerticalScrollIndicator={false}
                             keyExtractor={(item, index) => index.toString()}

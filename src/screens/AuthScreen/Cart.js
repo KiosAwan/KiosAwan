@@ -84,12 +84,15 @@ const Cart = ({ navigation }) => {
 					body={
 						<View>
 							<CardItem style={{ height: 100 }}>
-								<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-									<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{pesanan.name_product}</Text>,
-									<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(pesanan.price_out_product)} x {pesanan.quantity}</Text>
-								]} right={[
-									<Text style={{ height: '100%', textAlignVertical: 'center', color: ColorsList.greyFont }}>{convertRupiah(Number(pesanan.price_out_product) * pesanan.quantity)}</Text>
-								]} />
+								<Wrapper style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} justify="space-between">
+									<View _width="70%">
+										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{pesanan.name_product}</Text>
+										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(pesanan.price_out_product)} x {pesanan.quantity}</Text>
+									</View>
+									<View _width="30%" style={{ alignItems: 'flex-end' }}>
+										<Text style={{ height: '100%', textAlignVertical: 'center', color: ColorsList.greyFont }}>{convertRupiah(Number(pesanan.price_out_product) * pesanan.quantity)}</Text>
+									</View>
+								</Wrapper>
 							</CardItem>
 							<CardItem>
 								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
@@ -172,18 +175,18 @@ const Cart = ({ navigation }) => {
 					<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
 						{
 							Product.belanja.map((data, i) => {
-								return (
-									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.name_product}</Text>,
-										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>,
-										data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen + "%"}</Text>
-
-									]} right={[
-										<Icon onPress={() => _editPesanan(i, data)} style={{ color: ColorsList.primaryColor }} name="create" />,
-										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product * data.quantity)}</Text>,
-										data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.discount_total)}</Text>
-									]} />
-								)
+								return <Wrapper style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} justify="space-between">
+									<View _width="70%">
+										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.name_product}</Text>
+										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>
+										{data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen + "%"}</Text>}
+									</View>
+									<View _width="30%" style={{ alignItems: 'flex-end' }}>
+										<Icon onPress={() => _editPesanan(i, data)} style={{ color: ColorsList.primaryColor }} name="create" />
+										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product * data.quantity)}</Text>
+										{data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.discount_total)}</Text>}
+									</View>
+								</Wrapper>
 							})
 						}
 						<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
@@ -234,7 +237,7 @@ const Cart = ({ navigation }) => {
 										value={Product.discount_name}
 										handleChangeText={text => dispatch(AddDiscountName(text))}
 									/> */}
-									<View style={{ marginTop: 10, flexDirection : 'row' }}>
+									<View style={{ marginTop: 10, flexDirection: 'row' }}>
 										<View style={{ width: '80%' }}>
 											<FloatingInputLabel label="Diskon"
 												handleChangeText={_handleChangeDiskonValue}
@@ -242,7 +245,7 @@ const Cart = ({ navigation }) => {
 											>
 											</FloatingInputLabel>
 										</View>
-										<View style={{ width: '20%',alignSelf : 'flex-end' }}>
+										<View style={{ width: '20%', alignSelf: 'flex-end' }}>
 											<ToggleButton
 												buttons={["Rp", "%"]}
 												changeToggle={(i) => {
