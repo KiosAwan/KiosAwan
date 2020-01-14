@@ -233,7 +233,7 @@ class CetakStruk extends Component {
 			{ label: "Waktu", value: this.state.printData.transaction.created_at.slice(0, 16) },
 			{ label: "Pembayaran", value: this.state.printData.transaction.id_payment_type == 1 ? "Tunai" : this.state.printData.transaction.id_payment_type == 2 ? "Non Tunai" : "Piutang" },
 			{ label: "Operator", value: this.state.printData.transaction.cashier },
-			{ label: "Pelanggan", value: this.state.printData.transaction.name_customer|| "" },
+			this.state.printData.transaction.name_customer ? { label: "Pelanggan", value: this.state.printData.transaction.name_customer} : nu,
 		]
 		BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
 		BluetoothEscposPrinter.printText(`${this.state.printData.transaction.name_store.toUpperCase()}\n\r`, {});
