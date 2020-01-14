@@ -90,12 +90,23 @@ const Home = ({ navigation }) => {
 		dispatch(getProfile(User.data.id))
 		setOnRefresh(false)
 	}
+
+	const _completeProfile = () => {
+		if (!User.store) {
+			_setAlert(false)
+			navigation.navigate('/temp/create-pin')
+		}
+		else if (User.data.status == 0) {
+			_setAlert(false)
+			navigation.navigate('/drawer/settings/change-email')
+		}
+	}
 	return (
 		<View style={styles.container}>
 			<HomeHeader onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
 			<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
 				<View></View>
-				<Button width='30%' onPress={() => _setAlert(false)}>OK</Button>
+				<Button width='30%' onPress={_completeProfile}>OK</Button>
 			</AwanPopup.Title>
 			<ScrollView
 				refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}

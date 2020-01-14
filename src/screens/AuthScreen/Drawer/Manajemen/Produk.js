@@ -34,14 +34,14 @@ const ManajemenProduk = ({ navigation }) => {
 		<View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
 			<GlobalHeader title="Produk"
 				onPressBack={() => navigation.goBack()} />
-			<View style={{ padding: 20 }}>
+			<View style={{ padding: 20, flex : 1 }}>
 				<SearchInput
 					search={search}
 					placeholder="Cari produk"
 					handleChangeInput={(text) => setSearch(text)}
 					handleDeleteSearch={() => setSearch('')}
 				/>
-				<ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 15 }}>
+				<ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 15, flex : 1, marginBottom : 40 }}>
 					{
 						Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase())).map((data, i) => {
 							return <ProductCard key={i}
