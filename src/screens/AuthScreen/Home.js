@@ -5,7 +5,8 @@ import {
 	Dimensions,
 	ScrollView,
 	TouchableOpacity,
-	RefreshControl
+	RefreshControl,
+	Animated
 } from 'react-native'
 import TextTicker from 'react-native-text-ticker'
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -17,13 +18,15 @@ import { CardTextImage } from 'src/components/Card/CardComp'
 import { CategoryText } from 'src/components/Text/CategoryText'
 import Axios from 'axios'
 import { HOST_URL } from 'src/config'
-import { HomeHeader } from 'src/components/Header/Header'
+import { HomeHeader, GlobalHeader } from 'src/components/Header/Header'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { getProfile } from 'src/redux/actions/actionsUserData'
 import { Image } from 'src/components/CustomImage';
 import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button'
 import { Wrapper } from 'src/components/View/Wrapper'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
+import { RectButton } from 'react-native-gesture-handler'
 
 const height = Dimensions.get('window').height
 const Home = ({ navigation }) => {
@@ -90,100 +93,111 @@ const Home = ({ navigation }) => {
 		dispatch(getProfile(User.data.id))
 		setOnRefresh(false)
 	}
+	let swipeRef
+	const renderSwipeLeft = (progress, dragX) => {
+		// return <GlobalHeader title="Setting" />
+
+	}
+	const _swipeOpen = () => {
+		swipeRef.close()
+		_handlePressDrawer()
+	}
 	return (
 		<View style={styles.container}>
-			<HomeHeader onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
-			<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
-				<View></View>
-				<Button width='30%' onPress={() => _setAlert(false)}>OK</Button>
-			</AwanPopup.Title>
-			<ScrollView
-				refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
-				style={styles.childContainer} showsVerticalScrollIndicator={false}>
-				<View style={{ paddingVertical: 10 }}>
-					{
-						maintanance ?
-							<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
-								<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
-								<TextTicker
-									style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
-									duration={20000}
-									loop
-									bounce
-									marqueeDelay={500}
-								>
-									{message}
-								</TextTicker>
-							</View>
-							: null}
-					{
-						User.store ? User.data.status == 0 ?
-							<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
-								<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
-									<Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Verifikasi Email Anda Sekarang!</Text>
-								</View>
-							</TouchableOpacity>
-							: null :
-							<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
-								<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
-									<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<View style={{ width: '80%' }}>
-										<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>
-											Lengkapi profil Anda agar bisa menggunakan fitur-fitur yang tersedia. <Text style={{ color: ColorsList.whiteColor, textDecorationLine: 'underline' }}>Klik disini</Text>
-										</Text>
-									</View>
-								</View>
-							</TouchableOpacity>
-					}
-					<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
-						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons/icon-cashier.png")} />
-							<View _width="75%">
-								<Text font="ExtraBold" color="primary">KASIR</Text>
-								<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
-							</View>
-						</Wrapper>
-					</Button>
-					<Button onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
-						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons/icon-payment.png")} />
-							<View _width="75%">
-								<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
-								<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
-							</View>
-						</Wrapper>
-					</Button>
-					<Button onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
-						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons/icon-restock.png")} />
-							<View _width="75%">
-								<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
-								<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
-							</View>
-						</Wrapper>
-					</Button>
-				</View>
-				<SliderImage />
-				<View style={styles.infoCategoryStyle}>
-					<CategoryText title="TAHUKAH KAMU??" />
-				</View>
+			{/* <Swipeable ref={ref => swipeRef = ref} onSwipeableLeftWillOpen={_swipeOpen} renderLeftActions={renderSwipeLeft}> */}
+				<HomeHeader onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
+				<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
+					<View></View>
+					<Button width='30%' onPress={() => _setAlert(false)}>OK</Button>
+				</AwanPopup.Title>
 				<ScrollView
-					horizontal={true}
-					style={{ paddingBottom: 15, height: height / 3 }}
-					showsHorizontalScrollIndicator={false}>
-					<CardTextImage
-						onPressCard={() => navigation.navigate('/cashier/news-screen', { weburl: 'https://kiosawan.com/peta-persaingan-50-e-commerce-di-indonesia/' })}
-						image="https://kiosawan.com/wp-content/uploads/2019/11/blog-02a-780x390.jpg"
-						info="Peta Persaingan 50 E-Commerce di Indonesia Versi IPRICE 2019"
-					/>
-					<CardTextImage
-						onPressCard={() => navigation.navigate('/cashier/news-screen', { weburl: 'https://kiosawan.com/potensi-fintech-dukung-umkm/' })}
-						image="https://kiosawan.com/wp-content/uploads/2019/11/blog-01-780x390.jpg"
-						info="Mengulik Potensi Fintech untuk Mendukung UMKM"
-					/>
+					refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
+					style={styles.childContainer} showsVerticalScrollIndicator={false}>
+					<View style={{ paddingVertical: 10 }}>
+						{
+							maintanance ?
+								<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
+									<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
+									<TextTicker
+										style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+										duration={20000}
+										loop
+										bounce
+										marqueeDelay={500}
+									>
+										{message}
+									</TextTicker>
+								</View>
+								: null}
+						{
+							User.store ? User.data.status == 0 ?
+								<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
+									<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
+										<Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+										<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Verifikasi Email Anda Sekarang!</Text>
+									</View>
+								</TouchableOpacity>
+								: null :
+								<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
+									<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
+										<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+										<View style={{ width: '80%' }}>
+											<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>
+												Lengkapi profil Anda agar bisa menggunakan fitur-fitur yang tersedia. <Text style={{ color: ColorsList.whiteColor, textDecorationLine: 'underline' }}>Klik disini</Text>
+											</Text>
+										</View>
+									</View>
+								</TouchableOpacity>
+						}
+						<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+							<Wrapper justify="space-between">
+								<Image size={75} _width="25%" source={require("src/assets/icons/icon-cashier.png")} />
+								<View _width="75%">
+									<Text font="ExtraBold" color="primary">KASIR</Text>
+									<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
+								</View>
+							</Wrapper>
+						</Button>
+						<Button onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+							<Wrapper justify="space-between">
+								<Image size={75} _width="25%" source={require("src/assets/icons/icon-payment.png")} />
+								<View _width="75%">
+									<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
+									<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
+								</View>
+							</Wrapper>
+						</Button>
+						<Button onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+							<Wrapper justify="space-between">
+								<Image size={75} _width="25%" source={require("src/assets/icons/icon-restock.png")} />
+								<View _width="75%">
+									<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
+									<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
+								</View>
+							</Wrapper>
+						</Button>
+					</View>
+					<SliderImage />
+					<View style={styles.infoCategoryStyle}>
+						<CategoryText title="TAHUKAH KAMU??" />
+					</View>
+					<ScrollView
+						horizontal={true}
+						style={{ paddingBottom: 15, height: height / 3 }}
+						showsHorizontalScrollIndicator={false}>
+						<CardTextImage
+							onPressCard={() => navigation.navigate('/cashier/news-screen', { weburl: 'https://kiosawan.com/peta-persaingan-50-e-commerce-di-indonesia/' })}
+							image="https://kiosawan.com/wp-content/uploads/2019/11/blog-02a-780x390.jpg"
+							info="Peta Persaingan 50 E-Commerce di Indonesia Versi IPRICE 2019"
+						/>
+						<CardTextImage
+							onPressCard={() => navigation.navigate('/cashier/news-screen', { weburl: 'https://kiosawan.com/potensi-fintech-dukung-umkm/' })}
+							image="https://kiosawan.com/wp-content/uploads/2019/11/blog-01-780x390.jpg"
+							info="Mengulik Potensi Fintech untuk Mendukung UMKM"
+						/>
+					</ScrollView>
 				</ScrollView>
-			</ScrollView>
+			{/* </Swipeable> */}
 		</View>
 	)
 }
