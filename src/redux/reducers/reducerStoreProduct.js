@@ -136,8 +136,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
             const temp_rmvitem_price = removedItem.price_out_product
             let newTotalRemove = state.total - (parseInt(temp_rmvitem_quantity) * parseInt(temp_rmvitem_price))
             let notRemoveBelanja = state.belanja.filter(item => item.id_product != removedItem.id_product)
-            let theRemovedProduct = state.data.find(item => removedItem.id_product === item.id_product)
-            theRemovedProduct.quantity = 0
+            removedItem.quantity = 0
             return {
                 ...state,
                 total: newTotalRemove,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Dimensions, StyleSheet, TextInput } from 'react-native';
+import { View, Dimensions, StyleSheet, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
@@ -7,15 +7,19 @@ import { ColorsList } from '../../styles/colors';
 import { addDiscountProductPersen, AddDiscountName, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount } from '../../redux/actions/actionsStoreProduct';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
-import { GlobalHeader } from '../../components/Header/Header';
+import { GlobalHeader, GlobalHeaderWithIcon } from '../../components/Header/Header';
 import { WrapperItem, PilihPelanggan, MyModal, ToggleButton, ToggleButtonMoney } from '../../components/Picker/SelectBoxModal';
-import { Icon, Item, CardItem, Grid, Col, Input, Button } from 'native-base';
+import { Icon, Item, CardItem, Grid, Col, Input } from 'native-base';
 import { FloatingInputLabel, FloatingInput } from '../../components/Input/InputComp';
 import { FontList } from '../../styles/typography';
 import { RowChild } from '../../components/Helper/RowChild';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { SizeList } from '../../styles/size';
 import { Wrapper } from 'src/components/View/Wrapper';
+import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
+import { Text } from 'src/components/Text/CustomText';
+import { Button } from 'src/components/Button/Button';
+import { ImageAuto, Image } from 'src/components/CustomImage';
 
 const width = Dimensions.get('window').width
 
@@ -26,6 +30,7 @@ const Cart = ({ navigation }) => {
 	const Customer = useSelector(state => state.Customer)
 	const [pilihPelangganOpen, setPilihPelangganOpen] = useState(false)
 	const [editPesananOpen, setEditPesananOpen] = useState(false)
+	const [hapusPesananOpen, setHapusPesananOpen] = useState(false)
 	const [pesanan, setPesanan] = useState({})
 	const [toggle, setToggle] = useState(0)
 	const [discount_type, setDiscountType] = useState(0)
@@ -33,6 +38,20 @@ const Cart = ({ navigation }) => {
 	const _editPesanan = (index, item) => {
 		setEditPesananOpen(true);
 		setPesanan(item)
+	}
+
+	const _prompDeletePesanan = (index, item) => {
+		// setPesanan(item)
+		setHapusPesananOpen(true)
+		setConfirm({
+			title: 'Hapus dari cart?',
+			action: () => _deletePesanan(item)
+		})
+	}
+	const _deletePesanan = pesanan => {
+		setHapusPesananOpen(false)
+		dispatch(RemoveCartProduct(pesanan))
+		if (Product.belanja.length <= 1) navigation.goBack()
 	}
 
 	const _handleChangeToggle = () => {
@@ -72,117 +91,108 @@ const Cart = ({ navigation }) => {
 			}
 		}
 	}
+	const _quantityControl = control => {
+		if (control == 'add') {
+			if (pesanan.manage_stock == 1) {
+				if (pesanan.quantity < pesanan.stock) {
+					setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) + 1 })
+				}
+			} else {
+				setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) + 1 })
+			}
+		} else {
+			if (pesanan.quantity > 1) {
+				setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) - 1 })
+			}
+		}
+	}
+	const [confirm, setConfirm] = useState({})
+	const _emptyCart = (force) => {
+		if (force) {
+			Product.belanja.forEach(item => dispatch(RemoveCartProduct(item)))
+			setHapusPesananOpen(false)
+			navigation.goBack()
+		} else {
+			setConfirm({
+				title: 'Batalkan transaksi?',
+				action: () => _emptyCart(true)
+			})
+			setHapusPesananOpen(true)
+		}
+	}
 	return (
 		<View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
-			<GlobalHeader title="Detail Pesanan" onPressBack={() => navigation.goBack()} />
+			<GlobalHeader
+				title="Detail Pesanan"
+				onPressBack={() => navigation.goBack()} />
+			<PilihPelanggan action={(action, pelanggan) => {
+				console.log(action, pelanggan)
+			}} visible={pilihPelangganOpen} data={Customer.data} dismiss={() => setPilihPelangganOpen(false)} />
+			<AwanPopup.NoTitle visible={hapusPesananOpen} message={confirm.title}>
+				<Button width="35%" onPress={() => setHapusPesananOpen(false)} color="link">Tidak</Button>
+				<Button width="35%" onPress={confirm.action}>Ya</Button>
+			</AwanPopup.NoTitle>
+			<Modal style={{ padding: 10 }} visible={editPesananOpen}>
+				<Wrapper style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} justify="space-between">
+					<View _width="70%">
+						<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{pesanan.name_product}</Text>
+						<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(pesanan.price_out_product)} x {pesanan.quantity}</Text>
+					</View>
+					<Text _style={{ width: '30%', alignItems: 'flex-end' }} style={{ textAlignVertical: 'center', color: ColorsList.greyFont }}>{convertRupiah(Number(pesanan.price_out_product) * pesanan.quantity)}</Text>
+				</Wrapper>
+				<Wrapper justify="space-between">
+					<FloatingInput width="70%" label="Diskon">
+						<TextInput keyboardType="number-pad" onChangeText={_handleChangeDiscountItem}
+							value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
+					</FloatingInput>
+					<ToggleButton _width="30%"
+						toggle={toggle}
+						buttons={["Rp", "%"]}
+						changeToggle={(i) => {
+							setToggle(i)
+						}}
+					/>
+				</Wrapper>
+				<Wrapper justify="space-around" style={{ marginTop: 20 }}>
+					<Icon onPress={() => _quantityControl('min')} _style={{ width: '40%', alignItems: 'flex-end' }} style={{ fontSize: 50, color: ColorsList.primaryColor }} name="remove-circle-outline" />
+					<TextInput _width="10%" textAlign={'center'} keyboardType="numeric" onChangeText={text => {
+						let a = Number(text)
+						if ((a > 0 && a < pesanan.stock)) {
+							setPesanan({ ...pesanan, quantity: text })
+						}
+					}} value={pesanan.quantity ? pesanan.quantity.toString() : ''} />
+					<Icon onPress={() => _quantityControl('add')} _style={{ width: '40%', alignItems: 'flex-start' }} style={{ fontSize: 50, color: ColorsList.primaryColor }} name="add-circle" />
+				</Wrapper>
+				<Wrapper justify="flex-end" style={{ marginTop: 20 }}>
+					<Button color="link" onPress={() => setEditPesananOpen(false)}>Batal</Button>
+					<Button onPress={() => {
+						setEditPesananOpen(false)
+						dispatch(ChangeCartQuantity(pesanan))
+					}} style={styles.buttonSimpan}>
+						<Text style={{ color: 'white' }}>Simpan</Text>
+					</Button>
+				</Wrapper>
+			</Modal>
 			<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: 50 }}>
-				<PilihPelanggan action={(action, pelanggan) => {
-					console.log(action, pelanggan)
-				}} visible={pilihPelangganOpen} data={Customer.data} dismiss={() => setPilihPelangganOpen(false)} />
-
-				<MyModal onRequestClose={() => { }} visible={editPesananOpen}
-					body={
-						<View>
-							<CardItem style={{ height: 100 }}>
-								<Wrapper style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} justify="space-between">
-									<View _width="70%">
-										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{pesanan.name_product}</Text>
-										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(pesanan.price_out_product)} x {pesanan.quantity}</Text>
-									</View>
-									<View _width="30%" style={{ alignItems: 'flex-end' }}>
-										<Text style={{ height: '100%', textAlignVertical: 'center', color: ColorsList.greyFont }}>{convertRupiah(Number(pesanan.price_out_product) * pesanan.quantity)}</Text>
-									</View>
-								</Wrapper>
-							</CardItem>
-							<CardItem>
-								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
-									<View style={{ width: width - 100 - 150 }}>
-										<FloatingInputLabel
-											handleChangeText={_handleChangeDiscountItem}
-											label="Diskon" value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
-									</View>
-								} right={
-									<View style={{ width: 100 }}>
-										<ToggleButton
-											toggle={toggle}
-											buttons={["Rp", "%"]}
-											changeToggle={(i) => {
-												setToggle(i)
-											}}
-										/>
-									</View>
-								} />
-							</CardItem>
-							<CardItem>
-								<Grid>
-									<Col size={2} style={{ alignItems: 'flex-end' }}>
-										<Icon onPress={() => {
-											if (pesanan.quantity > 1) {
-												setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) - 1 })
-											}
-										}} style={{ width: 85, fontSize: 70, color: ColorsList.primaryColor }} name="remove-circle-outline" />
-
-									</Col>
-									<Col size={1} style={{ alignItems: 'center' }}>
-										{/* <Text>{JSON.stringify(pesanan.quantity)}</Text> */}
-										<Input keyboardType="numeric" onChangeText={text => {
-											let a = Number(text)
-											if ((a > 0 && a < pesanan.stock)) {
-												setPesanan({ ...pesanan, quantity: text })
-											}
-										}} value={pesanan.quantity ? pesanan.quantity.toString() : ''} />
-									</Col>
-									<Col size={2} style={{ alignItems: 'flex-start' }}>
-										<Icon onPress={() => {
-											if (pesanan.manage_stock == 1) {
-												if (pesanan.quantity < pesanan.stock) {
-													setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) + 1 })
-												}
-											} else {
-												setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) + 1 })
-											}
-										}} style={{ width: 85, fontSize: 70, color: ColorsList.primaryColor }} name="add-circle" />
-
-									</Col>
-								</Grid>
-							</CardItem>
-							<CardItem footer>
-								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={
-									<Icon onPress={() => {
-										setEditPesananOpen(false)
-										dispatch(RemoveCartProduct(pesanan))
-									}} style={{ width: 85, fontSize: 50, color: ColorsList.primaryColor }} name="trash" />
-								} right={
-									<View style={{ flexDirection: 'row' }}>
-										<Button style={styles.buttonBatal} onPress={() => setEditPesananOpen(false)}>
-											<Text>Batal</Text>
-										</Button>
-										<Button onPress={() => {
-											setEditPesananOpen(false)
-											dispatch(ChangeCartQuantity(pesanan))
-										}} style={styles.buttonSimpan}>
-											<Text style={{ color: 'white' }}>Simpan</Text>
-										</Button>
-									</View>
-								} />
-							</CardItem>
-						</View >
-					}
-					backdropDismiss={false}
-				/>
-
 				<View style={{ padding: 15 }}>
 					<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
 						{
 							Product.belanja.map((data, i) => {
-								return <Wrapper style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} justify="space-between">
+								return <Wrapper key={i} style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} justify="space-between">
 									<View _width="70%">
 										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.name_product}</Text>
 										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>
 										{data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen + "%"}</Text>}
 									</View>
 									<View _width="30%" style={{ alignItems: 'flex-end' }}>
-										<Icon onPress={() => _editPesanan(i, data)} style={{ color: ColorsList.primaryColor }} name="create" />
+										<Wrapper>
+											<TouchableOpacity activeOpacity={.5} onPress={() => _prompDeletePesanan(i, data)} style={{ width: 30, height: 30 }}>
+												<ImageAuto source={require('src/assets/icons/trash-primary.png')} />
+											</TouchableOpacity>
+											<TouchableOpacity activeOpacity={.5} onPress={() => _editPesanan(i, data)} style={{ width: 35, height: 35 }}>
+												<ImageAuto source={require('src/assets/icons/edit.png')} />
+											</TouchableOpacity>
+										</Wrapper>
 										<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product * data.quantity)}</Text>
 										{data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.discount_total)}</Text>}
 									</View>
@@ -209,6 +219,16 @@ const Cart = ({ navigation }) => {
 								<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(Product.total - Product.total_diskon)}</Text>
 						} />
 					</View>
+					<Wrapper style={{ marginBottom: 10 }}>
+						<Button _width="49%" onPress={() => navigation.goBack()}>
+							<Image size={25} source={require('src/assets/icons/plus-white.png')} />
+							<Text color="whiteColor">TAMBAH PRODUK</Text>
+						</Button>
+						<Button _width="49%" onPress={() => _emptyCart()}>
+							<Image size={25} source={require('src/assets/icons/trash.png')} />
+							<Text color="whiteColor">HAPUS PESANAN</Text>
+						</Button>
+					</Wrapper>
 					<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
 						<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
 							<Item style={{ borderColor: 'transparent' }}>

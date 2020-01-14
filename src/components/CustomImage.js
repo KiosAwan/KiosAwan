@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image as ImageRN } from "react-native"
+import { Image as ImageRN ,TouchableOpacity} from "react-native"
 
 export const Image = props => {
 	return <ImageRN {...props} style={[{ width: props.size || null, height: props.size || null }, props.style]} />
