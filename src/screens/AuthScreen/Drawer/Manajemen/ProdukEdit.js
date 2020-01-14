@@ -145,7 +145,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 							<TextInput
 								editable={false}
 								value={EditProduct.name}
-								onChangeText={text => dispatch(editProductName(text))}
+								onChangeText={text => text.length <= 45 ? dispatch(editProductName(text)) : null}
 							/>
 						</FloatingInput>
 					</View>
