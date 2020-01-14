@@ -83,11 +83,11 @@ class CheckOut extends React.Component {
             cashier: userId,
             amount_payment: this.state.index == 1 ? Product.total - Product.total_diskon : convertNumber(Product.cash_payment),
             id_payment_type: this.state.index + 1,
-            payment_method : this.state.nonTunai,
+            payment_method: this.state.nonTunai,
             product_cart: cart,
             customer: Product.customer ? Product.customer.id_customer : null,
             id_store: this.props.User.store.id_store,
-            discount_name: Product.discount_name,
+            discount_name: '',
             discount_transaction: Product.discount_transaction
         }
         const res = await sendNewTransaction(data)
@@ -110,62 +110,64 @@ class CheckOut extends React.Component {
     }
 
     _handlePayCredit = async () => {
-        console.debug("KREDIT", this.state.index)
         const userId = await AsyncStorage.getItem('userId')
         const Product = this.props.Product
-        if (Product.due_debt_date) {
-            let cart = []
-            Product.belanja.map(item => {
-                if (item.id_product > 0) {
-                    let a = {
-                        id: item.id_product,
-                        qty: item.quantity,
-                        discount: item.discount_total
+        if (Product.customer.id_customer) {
+            if (Product.due_debt_date) {
+                let cart = []
+                Product.belanja.map(item => {
+                    if (item.id_product > 0) {
+                        let a = {
+                            id: item.id_product,
+                            qty: item.quantity,
+                            discount: item.discount_total
+                        }
+                        cart.push(a)
+                    } else {
+                        let a = {
+                            name_product: item.name_product,
+                            qty: item.quantity,
+                            priceIn: item.price_in_product,
+                            priceOut: item.price_out_product,
+                            discount: item.discount_total
+                        }
+                        cart.push(a)
                     }
-                    cart.push(a)
-                } else {
-                    let a = {
-                        name_product: item.name_product,
-                        qty: item.quantity,
-                        priceIn: item.price_in_product,
-                        priceOut: item.price_out_product,
-                        discount: item.discount_total
-                    }
-                    cart.push(a)
+                })
+                const data = {
+                    cashier: userId,
+                    amount_payment: convertNumber(Product.cash_payment),
+                    id_payment_type: 3,
+                    product_cart: cart,
+                    customer: Product.customer.id_customer,
+                    id_store: this.props.User.store.id_store,
+                    due_debt_date: formatToDate(Product.due_debt_date),
+                    discount_name: '',
+                    discount_transaction: Product.discount_transaction
                 }
-            })
-            const data = {
-                cashier: userId,
-                amount_payment: convertNumber(Product.cash_payment),
-                id_payment_type: 3,
-                product_cart: cart,
-                customer: Product.customer.id_customer,
-                id_store: this.props.User.store.id_store,
-                due_debt_date: formatToDate(Product.due_debt_date),
-                discount_name: Product.discount_name,
-                discount_transaction: Product.discount_transaction
-            }
-            const res = await sendNewTransaction(data)
-            this.setState({ loadingVisible: false })
-            if (res.status == 400) {
-                alert(res.data.errors.msg)
+                const res = await sendNewTransaction(data)
+                this.setState({ loadingVisible: false })
+                if (res.status == 400) {
+                    alert(res.data.errors.msg)
+                } else {
+                    this.props.removeAllCart()
+                    this.props.AddDiscountName('')
+                    this.props.AddDiscountPersen('')
+                    this.props.AddDiscountRupiah('')
+                    this.props.changeTransactionDiscount()
+                    this.props.AddCashPayment(0)
+                    this.props.AddCustomer(null)
+                    this.props.getProduct(this.props.User.store.id_store)
+                    this.props.getTransactionList(this.props.User.store.id_store)
+                    this.props.navigation.navigate('/cashier/struk', { response: res.data })
+                }
             } else {
-                this.props.removeAllCart()
-                this.props.AddDiscountName('')
-                this.props.AddDiscountPersen('')
-                this.props.AddDiscountRupiah('')
-                this.props.changeTransactionDiscount()
-                this.props.AddCashPayment(0)
-                this.props.AddCustomer(null)
-                this.props.getProduct(this.props.User.store.id_store)
-                this.props.getTransactionList(this.props.User.store.id_store)
-                this.props.navigation.navigate('/cashier/struk', { response: res.data })
+                this.setState({ loadingVisible: false })
+                alert("Tanggal tidak boleh kosong")
             }
         } else {
-            this.setState({ loadingVisible: false })
-            alert("Tanggal tidak boleh kosong")
+            alert("Pelanggan tidak boleh kosong")
         }
-
     }
 
     _handleIndexChange = index => this.setState({ index });

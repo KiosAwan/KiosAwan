@@ -76,7 +76,7 @@ const Cashier = ({ navigation }) => {
                         </View>
                         :
                         <FlatList
-                            data={Product.data.filter(item => item.name_product.toLowerCase().includes(search))}
+                            data={Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase()))}
                             renderItem={({ item }) => (
                                 <ProductCard
                                     productImage={item.photo_product !== "" ? item.photo_product : null}

@@ -276,7 +276,7 @@ export const PilihPelanggan = (props) => {
 					<View style={{ height: SizeList.height / 5, paddingHorizontal: 20 }}>
 						<FlatList
 							showsVerticalScrollIndicator={false}
-							data={props.data.filter(item => item.name_customer.toLowerCase().includes(search))}
+							data={props.data.filter(item => item.name_customer.toLowerCase().includes(search.toLowerCase()))}
 							renderItem={({ item }) => (
 								<TouchableOpacity onPress={() => {
 									dispatch(AddCustomer(item))

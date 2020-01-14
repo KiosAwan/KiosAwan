@@ -162,7 +162,7 @@ const UpdateProfil = ({ navigation }) => {
 					}
 
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
 								<FloatingInput left="10%" label="Cari Provinsi">
@@ -180,7 +180,7 @@ const UpdateProfil = ({ navigation }) => {
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
 								<FloatingInput left="10%" label="Cari Kabupaten">
@@ -198,7 +198,7 @@ const UpdateProfil = ({ navigation }) => {
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
 								<FloatingInput left="10%" label="Cari Kecamatan">
@@ -216,7 +216,7 @@ const UpdateProfil = ({ navigation }) => {
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<View>
 								<FloatingInput left="10%" label="Cari Desa">

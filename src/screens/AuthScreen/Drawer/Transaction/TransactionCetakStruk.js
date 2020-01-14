@@ -244,8 +244,6 @@ class CetakStruk extends Component {
 				[item.label, item.value], {});
 		})
 		BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-		BluetoothEscposPrinter.printText("DAFTAR PRODUK\n\r", { widthtimes: 0.9 });
-		BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
 		this.state.printData.details_item.forEach(list => {
 			BluetoothEscposPrinter.printColumn(alignLeft,
 				[BluetoothEscposPrinter.ALIGN.LEFT],

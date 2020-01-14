@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native'
+import { View, TouchableOpacity, Image,ScrollView } from 'react-native'
 import SearchInput from '../../../../components/Input/SearchInput';
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
@@ -41,7 +41,7 @@ const ManajemenProduk = ({ navigation }) => {
 					handleChangeInput={(text) => setSearch(text)}
 					handleDeleteSearch={() => setSearch('')}
 				/>
-				<View style={{ marginTop: 15 }}>
+				<ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 15 }}>
 					{
 						Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase())).map((data, i) => {
 							return <ProductCard key={i}
@@ -79,7 +79,7 @@ const ManajemenProduk = ({ navigation }) => {
 							/>
 						})
 					}
-				</View>
+				</ScrollView>
 				<AwanPopup.Loading visible={visible} />
 			</View>
 			<Bottom>

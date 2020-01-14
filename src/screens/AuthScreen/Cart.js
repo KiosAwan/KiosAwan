@@ -228,11 +228,12 @@ const Cart = ({ navigation }) => {
 							<View>
 								<View style={{ height: 1, backgroundColor: "#e0dada" }} />
 								<View style={styles.wrapInputHarga}>
-									<FloatingInputLabel
+									{/* {Nama Diskon} */}
+									{/* <FloatingInputLabel
 										label="Nama diskon"
 										value={Product.discount_name}
 										handleChangeText={text => dispatch(AddDiscountName(text))}
-									/>
+									/> */}
 									<View style={{ marginTop: 10, flexDirection : 'row' }}>
 										<View style={{ width: '80%' }}>
 											<FloatingInputLabel label="Diskon"
