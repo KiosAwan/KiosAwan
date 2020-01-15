@@ -6,11 +6,13 @@ import { GlobalHeader } from '../../../../components/Header/Header';
 import CodeInput from 'react-native-confirmation-code-input';
 import { ColorsList } from '../../../../styles/colors';
 import { sendOTPAuth, verifyOTPAuth } from '../../../../utils/authhelper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const MenuSettingUbahEmail = ({ navigation }) => {
 	const User = useSelector(state => state.User)
     const [showedNumber, setShowedNumber] = useState('')
     const [isResendDisabled, setIsResendDisabled] = useState(true)
+    const [apiLoading, setApiLoading] = useState(false)
     let [countdown, setCountdown] = useState(59)
     useEffect(() => {
             _formatPhoneNum()
@@ -64,11 +66,13 @@ const MenuSettingUbahEmail = ({ navigation }) => {
     }
 
     const _handleOTPFulfilled = async (code) => {
+        setApiLoading(true)
         const data = {
             phone_number: User.data.phone_number,
             otp: code
         }
         const res = await verifyOTPAuth(data)
+        setApiLoading(false)
         if (res.status == 400) {
             alert(res.data.errors.msg)
         }
@@ -78,6 +82,7 @@ const MenuSettingUbahEmail = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
+            <AwanPopup.Loading visible={apiLoading} />
             <GlobalHeader
                 onPressBack={_handleBack}
                 title="Ubah Email"

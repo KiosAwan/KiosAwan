@@ -9,7 +9,7 @@ import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Text } from 'src/components/Text/CustomText';
 import { FloatingInput } from 'src/components/Input/InputComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
-import { editProductImage, editProductIdCategory, editProductName, editRemoveAllNewProduct } from 'src/redux/actions/actionsEditProduct';
+import { editProductImage, editProductIdCategory, editProductName, editRemoveAllNewProduct, editProductBarcode } from 'src/redux/actions/actionsEditProduct';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { sendNewCategory, editCategory, deleteProduct } from 'src/utils/authhelper';
 import ModalContent from 'src/components/ModalContent/ModalContent';
@@ -131,7 +131,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
 							<FloatingInput label="Nomor Barcode">
-								<TextInput editable={false} value={EditProduct.barcode} />
+								<TextInput onChangeText={(text) => dispatch(editProductBarcode(text))} value={EditProduct.barcode} />
 							</FloatingInput>
 						</Col>
 						<Col style={{ justifyContent: 'flex-end' }} size={.2}>

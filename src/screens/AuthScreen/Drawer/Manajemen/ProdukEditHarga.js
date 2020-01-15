@@ -26,11 +26,12 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const EditProduct = useSelector(state => state.EditProduct)
 
-
+	const [apiLoading, setApiLoading] = useState(false)
 	const [modalVisible, setModalVisible] = useState(false)
 	const [alert, setAlert] = useState(false)
 
 	const _handlePressNext = async () => {
+		setApiLoading(true)
 		let intPriceIn = convertNumber(EditProduct.price_in)
 		let intPriceOut = convertNumber(EditProduct.price_out)
 		if (EditProduct.price_in == "" || EditProduct.price_out == "") {
@@ -56,6 +57,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 			} : null : null)
 			try {
 				const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
+				setApiLoading(false)
 				if (res.data.status == 200) {
 					setModalVisible(true)
 					setTimeout(() => {
@@ -67,6 +69,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 				}
 			}
 			catch (err) {
+				setApiLoading(false)
 				alert(err.response.data.data.errors.msg)
 			}
 		}
@@ -110,6 +113,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 		}, 1000)
 	}
 	return <View style={{ flex: 1 }}>
+		<AwanPopup.Loading visible={apiLoading} />
 		<Modal
 			animationType="fade"
 			transparent={true}

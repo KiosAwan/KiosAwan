@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Text, Image } from 'react-native';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import { SizeList } from '../../../../styles/size';
@@ -9,18 +9,23 @@ import { FontList } from '../../../../styles/typography';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { sendCodeToEmail } from '../../../../utils/authhelper';
 import { showPhoneNumber } from 'src/utils/unauthhelper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 const UbahNoHPInfoScreen = ({ navigation }) => {
     const User = useSelector(state => state.User)
+    const [apiLoading, setApiLoading] = useState(false)
     const _nextBtn = async () => {
+        setApiLoading(true)
         const data = {
             email: User.data.email
         }
         await sendCodeToEmail(data)
+        setApiLoading(false)
         navigation.navigate('/drawer/settings/change-phone-number/otp-validation')
     }
 
     return (
         <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+            <AwanPopup.Loading visible={apiLoading} />
             <GlobalHeader title="Ubah No HP" onPressBack={() => navigation.goBack()} />
             <View style={{ padding: 30 }}>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
