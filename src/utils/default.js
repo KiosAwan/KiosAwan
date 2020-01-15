@@ -6,6 +6,9 @@ FormData.prototype.appendObject = function (obj, except) {
       this.append(key, obj[key])
   }
 }
+Array.generateEmpty = function (length) {
+  return Array.from(new Array(length), function (a, i) { return i })
+}
 Array.prototype.loopCallback = function (callback, reverse, index) {
   var arr = this;
   function retCallback(timeout) {
