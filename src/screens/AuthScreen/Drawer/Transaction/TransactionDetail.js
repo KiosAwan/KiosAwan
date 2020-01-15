@@ -39,8 +39,10 @@ const TransactionDetail = ({ navigation }) => {
 		setBack(navigation.state.params.backState)
 		SetDataLoading(false)
 	}
-	const _renderEdge = ({ nativeEvent }) => {
-		console.debug(nativeEvent)
+	const [edgeWidth, setEdgeWidth] = useState(0)
+	const _renderEdge = ({ nativeEvent: { layout } }) => {
+		let width = Math.round(layout.width / 20)
+		setEdgeWidth(width)
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
@@ -49,9 +51,12 @@ const TransactionDetail = ({ navigation }) => {
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: 90 }}>
-						<Button onPress={() => console.debug(Object.keys(strukRef.viewConfig))}>lkasjdf</Button>
 						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ paddingVertical: 10, backgroundColor: ColorsList.authBackground }}>
-							<Image style={{ height: 20, width: 20, resizeMode: 'stretch', marginBottom: -1 }} source={require('src/assets/icons/bill-edge.png')} />
+							<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+								{
+									edgeWidth > 0 ? Array.generateEmpty(edgeWidth).map((i) => <Image key={i} style={{ height: 20, width: 20, resizeMode: 'stretch', marginBottom: -1 }} source={require('src/assets/icons/bill-edge.png')} />) : null
+								}
+							</View>
 							<View onLayout={_renderEdge} style={{ backgroundColor: ColorsList.whiteColor }}>
 								<View>
 									<Text align="center">{data ? data.transaction.name_store : null}</Text>
@@ -126,6 +131,11 @@ const TransactionDetail = ({ navigation }) => {
 								<View>
 									<Text align="center">Powered by <Text font="ExtraBold">KiosAwan</Text></Text>
 								</View>
+							</View>
+							<View style={{ flexDirection: 'row', justifyContent: 'center', transform: [{ rotate: '180deg' }] }}>
+								{
+									edgeWidth > 0 ? Array.generateEmpty(edgeWidth).map((i) => <Image key={i} style={{ height: 20, width: 20, resizeMode: 'stretch', marginBottom: -1 }} source={require('src/assets/icons/bill-edge.png')} />) : null
+								}
 							</View>
 						</ViewShot>
 					</ScrollView>
