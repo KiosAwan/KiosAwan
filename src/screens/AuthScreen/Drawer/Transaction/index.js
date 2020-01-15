@@ -35,7 +35,7 @@ const TransactionList = ({ navigation }) => {
   const iconImage = {
     '3': {
       image: require('src/assets/icons/round-return.png'),
-      text: 'DIBATALKAN',
+      text: 'BATAL',
       color: 'danger'
     },
     '2': {
@@ -203,7 +203,7 @@ const TransactionList = ({ navigation }) => {
             <Wrapper style={{ padding: 15 }}>
               {
                 props.navigationState.routes.map((route, i) => {
-                  return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
+                  return <Button textStyle={{fontSize : 12}} disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
                 })
               }
             </Wrapper>

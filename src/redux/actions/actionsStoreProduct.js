@@ -134,6 +134,13 @@ export const changeTransactionDiscount = () => {
   }
 }
 
+export const addTransactionNote = (text) => {
+  return {
+    type: "ADD_NOTE",
+    payload : text
+  }
+}
+
 export const resetTotalDiskon = () => {
   return {
     type: "RESET_ALL_DISCOUNT",

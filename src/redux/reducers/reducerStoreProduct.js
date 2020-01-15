@@ -14,7 +14,8 @@ const initialState = {
     discount_total_rupiah: 0,
     discount_name: '',
     catatan_pembelian: '',
-    discount_on: false
+    discount_on: false,
+    note: ''
 }
 
 const reducerStoreProduct = (state = initialState, actions) => {
@@ -163,13 +164,20 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 discount_total_rupiah: 0,
                 discount_name: '',
                 catatan_pembelian: '',
-                discount_on: false
+                discount_on: false,
+                note : ''
             }
         case "ADD_PAYMENT_CASH":
             const payment = actions.payload
             return {
                 ...state,
                 cash_payment: payment
+            }
+        case "ADD_NOTE":
+            const note_text = actions.payload
+            return {
+                ...state,
+                note: note_text
             }
         case "ADD_DEBT_DATE":
             const date = actions.payload

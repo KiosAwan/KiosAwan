@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
-import { addDiscountProductPersen, resetTotalDiskon, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart } from '../../redux/actions/actionsStoreProduct';
+import { addDiscountProductPersen, resetTotalDiskon, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote } from '../../redux/actions/actionsStoreProduct';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader } from '../../components/Header/Header';
@@ -224,12 +224,12 @@ const Cart = ({ navigation }) => {
 					</View>
 					<Wrapper style={{ marginBottom: 10 }}>
 						<Button color="white" _width="49%" onPress={() => navigation.goBack()}>
-							<Image size={25} source={require('src/assets/icons/plus-primary.png')} />
-							<Text color="primary">TAMBAH PRODUK</Text>
+							<Image size={17} source={require('src/assets/icons/plus-primary.png')} />
+							<Text size={12} color="primary">TAMBAH PRODUK</Text>
 						</Button>
 						<Button color="white" _width="49%" onPress={() => _emptyCart()}>
-							<Image size={25} source={require('src/assets/icons/trash-primary.png')} />
-							<Text color="primary">HAPUS PESANAN</Text>
+							<Image size={17} source={require('src/assets/icons/trash-primary.png')} />
+							<Text size={12} color="primary">HAPUS PESANAN</Text>
 						</Button>
 					</Wrapper>
 					<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
@@ -283,10 +283,9 @@ const Cart = ({ navigation }) => {
 								</View>
 							</View>
 							: null}
-
 					</View>
 					<View style={[{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }, { padding: 10, paddingHorizontal: 15 }]}>
-						<FloatingInputLabel label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
+						<FloatingInputLabel value={Product.note} handleChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
 					</View>
 				</View>
 			</ScrollView>

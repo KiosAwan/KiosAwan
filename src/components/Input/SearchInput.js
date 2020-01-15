@@ -12,7 +12,7 @@ const SearchInput = (props) => {
 
     return (
         <View style={[styles.searchWrapper, isFocused ? { borderWidth: 1, borderColor: ColorsList.primaryColor, borderRadius: 5 } : { borderBottomWidth: 0.5, borderColor: ColorsList.greySoft }]}>
-            <Animatable.View duration={300} style={{ width: '5%' }} animation={isFocused ? null : null}>
+            <Animatable.View duration={300} style={{ width: '5%', marginHorizontal : 5 }} animation={isFocused ? null : null}>
                 <Icon size={15} style={{ width: '100%', color: ColorsList.primary }} name="search" />
             </Animatable.View>
             <TextInput style={{ width: '75%' }}
@@ -24,7 +24,7 @@ const SearchInput = (props) => {
                 placeholder={props.placeholder} />
             <Animatable.View duration={500} style={styles.deleteIcon} animation={isFocused ? "slideInRight" : 'bounceOutRight'}>
                 <TouchableOpacity onPress={props.handleDeleteSearch}>
-                    <Image style={{ width: 50, height: 50 }} source={require('../../assets/icons/circlereject.png')} />
+                    <Image style={{ width: 25, height: 25 }} source={require('../../assets/icons/circlereject.png')} />
                 </TouchableOpacity>
             </Animatable.View>
         </View>
@@ -47,8 +47,9 @@ const styles = StyleSheet.create({
         color: ColorsList.primaryColor
     },
     deleteIcon: {
-        width: '5%',
+        width: '10%',
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        paddingVertical: 7
     }
 })

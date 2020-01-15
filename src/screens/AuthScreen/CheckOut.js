@@ -91,7 +91,8 @@ class CheckOut extends React.Component {
             customer: Product.customer ? Product.customer.id_customer : null,
             id_store: this.props.User.store.id_store,
             discount_name: '',
-            discount_transaction: Product.discount_transaction
+            discount_transaction: Product.discount_transaction,
+            note : Product.note,
         }
         const res = await sendNewTransaction(data)
         this.setState({ loadingVisible: false })
@@ -140,6 +141,7 @@ class CheckOut extends React.Component {
                 })
                 const data = {
                     cashier: userId,
+                    note : Product.note,
                     amount_payment: convertNumber(Product.cash_payment),
                     id_payment_type: 3,
                     product_cart: cart,
@@ -186,7 +188,7 @@ class CheckOut extends React.Component {
                             this.state.index == 2 ? { borderTopRightRadius: 4, borderBottomRightRadius: 4 } : null,
                             ]}
                             onPress={() => this.setState({ index: i })}>
-                            <Animated.Text style={{ fontSize: 12, color: this.state.index == i ? 'white' : '#cd0196', fontWeight: '700' }}>{route.title}</Animated.Text>
+                            <Animated.Text style={{ fontSize: 10, color: this.state.index == i ? 'white' : '#cd0196', fontWeight: '700' }}>{route.title}</Animated.Text>
                         </TouchableOpacity>
                     );
                 })}
@@ -216,7 +218,7 @@ class CheckOut extends React.Component {
                         </View>
                     </View>
                     <View style={styles.tabContainer}>
-                        <View style={{ flex: 1, margin: 15 }}>
+                        <View style={{ flex: 1, margin : 10}}>
                             <TabView
                                 navigationState={this.state}
                                 renderScene={this._renderScene}

@@ -32,10 +32,17 @@ const Home = ({ navigation }) => {
 	const [maintanance, setMaintanance] = useState(false)
 	const [message, setMessage] = useState(false)
 	const [onRefresh, setOnRefresh] = useState(false)
-
+	const [news, setNews] = useState()
 	useEffect(() => {
 		_checkService()
+		_getNewsData()
 	}, [])
+
+	const _getNewsData = async () => {
+		const res = await Axios.get('https://kiosawan.com/wp-json/wp/v2/posts')
+		console.debug(res.data)
+		setNews(res.data)
+	}
 
 	const _checkService = async () => {
 		const res = await Axios.get(`${HOST_URL}/check_service`)
