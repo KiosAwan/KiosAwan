@@ -100,7 +100,7 @@ const TransactionDetail = ({ navigation }) => {
 													<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price)} x {data.qty}</Text>
 												]} right={[
 													<Text></Text>,
-													<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price * data.qty)}</Text>
+													<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.total)}</Text>
 												]} />
 											)
 										})

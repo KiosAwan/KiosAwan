@@ -45,7 +45,7 @@ const TransactionDetailHutang = ({ navigation }) => {
 				<Button {...menuProps}>Dibatalkan</Button>
 			</AwanPopup.Menu>
 			<View style={{ backgroundColor: ColorsList.whiteColor, padding: 15 }}>
-				<FloatingInput label="Cari produk" left={30}>
+				<FloatingInput label="Cari transaksi" left={30}>
 					<Icon style={{ color: ColorsList.primary }} name="search" />
 					<TextInput style={{ width: '92%' }} value={search} onChangeText={text => setSearch(text)} />
 				</FloatingInput>
