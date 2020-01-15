@@ -3,7 +3,6 @@ import { createStackNavigator } from 'react-navigation-stack'
 
 import Stock from '../../screens/AuthScreen/Stock'
 import Cashier from '../../screens/AuthScreen/Cashier'
-import NewsScreen from '../../screens/AuthScreen/NewsScreen'
 import NewBarcodeProduct from '../../screens/AuthScreen/NewBarcodeProduct'
 import NewProductName from '../../screens/AuthScreen/NewProductName'
 import NewProductLast from '../../screens/AuthScreen/NewProductLast'
@@ -22,12 +21,6 @@ const Navs = {
   },
   '/cashier/stock': {
     screen: Stock,
-    navigationOptions: {
-      header: null
-    }
-  },
-  '/cashier/news-screen': {
-    screen: NewsScreen,
     navigationOptions: {
       header: null
     }
