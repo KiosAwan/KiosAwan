@@ -6,12 +6,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FloatingInputLabel } from '../../components/Input/InputComp';
 import { SelectBoxModal, MyModal } from '../../components/Picker/SelectBoxModal';
 import { getCategory } from '../../redux/actions/actionsStoreCategory';
-import { addProductName, addProductImage, addProductIdCategory } from '../../redux/actions/actionsNewProduct';
+import { addProductName, addProductImage, addProductIdCategory, addProductBarcode } from '../../redux/actions/actionsNewProduct';
 import { GlobalHeader } from '../../components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ColorsList } from '../../styles/colors';
 import { Grid, Col, Icon } from 'native-base';
-import { sendNewCategory, editCategory } from '../../utils/authhelper';
+import { sendNewCategory, editCategory, validNumber } from '../../utils/authhelper';
 import { Image } from 'src/components/CustomImage';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Button } from 'src/components/Button/Button';
@@ -128,7 +128,11 @@ const NewProductName = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
-							<FloatingInputLabel label="Nomor Barcode" value={NewProduct.barcode} />
+							<FloatingInputLabel handleChangeText={(text) => {
+								if (validNumber(text)){
+									dispatch(addProductBarcode(text))
+								}
+								}} label="Nomor Barcode" value={NewProduct.barcode} />
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}>

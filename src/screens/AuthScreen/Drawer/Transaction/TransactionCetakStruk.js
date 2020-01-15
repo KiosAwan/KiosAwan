@@ -250,7 +250,7 @@ class CetakStruk extends Component {
 				[list.product], { widthtimes: 0.2 })
 			BluetoothEscposPrinter.printColumn(columnWidths,
 				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				[convertRupiah(list.price) + " x " + list.qty, convertRupiah(list.qty * list.price)], {})
+				[convertRupiah(list.price) + " x " + list.qty, convertRupiah(list.total)], {})
 		})
 		BluetoothEscposPrinter.printText("-------------------------------\n", {});
 		BluetoothEscposPrinter.printColumn(columnWidths,
