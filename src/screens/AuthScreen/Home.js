@@ -5,7 +5,8 @@ import {
 	Dimensions,
 	ScrollView,
 	TouchableOpacity,
-	RefreshControl
+	RefreshControl,
+	FlatList
 } from 'react-native'
 import TextTicker from 'react-native-text-ticker'
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -191,21 +192,19 @@ const Home = ({ navigation }) => {
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_2.png')} />
 				</ScrollView>
 				<Text style={{ paddingVertical: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
-				<ScrollView
+				<FlatList
+					data={news}
 					horizontal={true}
-					style={{ paddingBottom: 15, height: height / 3 }}
-					showsHorizontalScrollIndicator={false}>
-					<CardTextImage
-						onPressCard={() => navigation.navigate('/cashier/news-screen', { weburl: 'https://kiosawan.com/peta-persaingan-50-e-commerce-di-indonesia/' })}
-						image="https://kiosawan.com/wp-content/uploads/2019/11/blog-02a-780x390.jpg"
-						info="Peta Persaingan 50 E-Commerce di Indonesia Versi IPRICE 2019"
-					/>
-					<CardTextImage
-						onPressCard={() => navigation.navigate('/cashier/news-screen', { weburl: 'https://kiosawan.com/potensi-fintech-dukung-umkm/' })}
-						image="https://kiosawan.com/wp-content/uploads/2019/11/blog-01-780x390.jpg"
-						info="Mengulik Potensi Fintech untuk Mendukung UMKM"
-					/>
-				</ScrollView>
+					showsHorizontalScrollIndicator={false}
+					renderItem={({ item }) => (
+						<CardTextImage
+							onPressCard={() => navigation.navigate('/news-screen', { title :item.title.rendered, data : item.content.rendered , newsImage : item.jetpack_featured_media_url })}
+							image={item.jetpack_featured_media_url}
+							info={item.title.rendered}
+						/>
+					)}
+					keyExtractor={(item, index) => index.toString()}
+				/>
 			</ScrollView>
 		</View>
 	)

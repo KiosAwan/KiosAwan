@@ -23,8 +23,6 @@ import Strings from '../../utils/Strings'
 import { sendPhoneNumber, phoneValidation, sendOTP } from 'src/utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { HeaderRegister } from '../../components/Header/Header';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { SizeList } from '../../styles/size';
 import { FontList } from 'src/styles/typography';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Button } from 'src/components/Button/Button';
