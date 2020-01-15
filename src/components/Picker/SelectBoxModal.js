@@ -42,12 +42,12 @@ export const ToggleButton = (props) => {
 			{
 				props.buttons.map((btn, i) => {
 					return (
-						<Button onPress={() => _handleChangeBtn(btn, i)} style={[
+						<Button key={i} onPress={() => _handleChangeBtn(btn, i)} style={[
 						{ padding: 5, flex: 1, justifyContent: 'center' },
 						{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : '#dedede' },
 						props.style
 						]}>
-							<Text style={
+							<Text key={i} style={
 								{ fontFamily: FontList.boldFont, color: activeIndex == i ? 'white' : ColorsList.greySoft }
 							}>{btn}</Text>
 						</Button>
@@ -227,9 +227,8 @@ export const PilihPelanggan = (props) => {
 							</CardItem>
 							<CardItem>
 								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
-									<FloatingInput left={30} borderTransparent label="Nama pelanggan">
-										<Icon style={{ color: ColorsList.primary }} name="search" />
-										<TextInput width="90%"
+									<FloatingInput borderTransparent label="Nama pelanggan">
+										<TextInput width="100%"
 											value={pelanggan ? pelanggan.name_customer : ''}
 											keyboardType={props.keyboardType || "default"}
 											onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
@@ -238,9 +237,8 @@ export const PilihPelanggan = (props) => {
 							</CardItem>
 							<CardItem>
 								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
-									<FloatingInput left={30} borderTransparent label="No. Telepon">
-										<Icon style={{ color: ColorsList.primary }} name="search" />
-										<TextInput width="90%"
+									<FloatingInput borderTransparent label="No. Telepon">
+										<TextInput width="100%"
 											value={pelanggan ? pelanggan.phone_number_customer : ''}
 											keyboardType={props.keyboardType || "default"}
 											onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />

@@ -155,12 +155,6 @@ class CheckOut extends React.Component {
                     alert(res.data.errors.msg)
                 } else {
                     this.props.removeAllCart()
-                    this.props.AddDiscountName('')
-                    this.props.AddDiscountPersen('')
-                    this.props.AddDiscountRupiah('')
-                    this.props.changeTransactionDiscount()
-                    this.props.AddCashPayment(0)
-                    this.props.AddCustomer(null)
                     this.props.getProduct(this.props.User.store.id_store)
                     this.props.getTransactionList(this.props.User.store.id_store)
                     this.props.navigation.navigate('/cashier/struk', { response: res.data })
@@ -185,6 +179,7 @@ class CheckOut extends React.Component {
                 {props.navigationState.routes.map((route, i) => {
                     return (
                         <TouchableOpacity
+                            key={i}
                             style={[styles.tabItem, (i + 1) % 2 == 0 ? { borderRightWidth: 1, borderLeftWidth: 1, borderColor: '#cd0196' } : null,
                             this.state.index == i ? { backgroundColor: '#cd0196' } : null,
                             this.state.index == 0 ? { borderTopLeftRadius: 4, borderBottomLeftRadius: 4 } : null,
@@ -209,9 +204,9 @@ class CheckOut extends React.Component {
                 <GlobalHeader title="Pembayaran" onPressBack={() => this.props.navigation.goBack()} />
                 <AwanPopup.Loading visible={this.state.loadingVisible} />
                 <AwanPopup.Alert
-                    message={this.state.alertMessage} 
+                    message={this.state.alertMessage}
                     visible={this.state._alert}
-                    closeAlert={() => this.setState({_alert : false})}
+                    closeAlert={() => this.setState({ _alert: false })}
                 />
                 <View style={styles.childContainer}>
                     <View style={styles.infoTotalContainer}>

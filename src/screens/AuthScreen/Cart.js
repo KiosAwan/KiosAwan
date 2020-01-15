@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { View, Dimensions, StyleSheet, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
-import { addDiscountProductPersen, AddDiscountName, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount } from '../../redux/actions/actionsStoreProduct';
+import { addDiscountProductPersen, resetTotalDiskon, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart } from '../../redux/actions/actionsStoreProduct';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
-import { GlobalHeader, GlobalHeaderWithIcon } from '../../components/Header/Header';
-import { WrapperItem, PilihPelanggan, MyModal, ToggleButton, ToggleButtonMoney } from '../../components/Picker/SelectBoxModal';
-import { Icon, Item, CardItem, Grid, Col, Input } from 'native-base';
+import { GlobalHeader } from '../../components/Header/Header';
+import { WrapperItem, PilihPelanggan, ToggleButton } from '../../components/Picker/SelectBoxModal';
+import { Icon, Item } from 'native-base';
 import { FloatingInputLabel, FloatingInput } from '../../components/Input/InputComp';
 import { FontList } from '../../styles/typography';
 import { RowChild } from '../../components/Helper/RowChild';
@@ -110,6 +110,9 @@ const Cart = ({ navigation }) => {
 	const _emptyCart = (force) => {
 		if (force) {
 			Product.belanja.forEach(item => dispatch(RemoveCartProduct(item)))
+			dispatch(AddDiscountPersen(''))
+			dispatch(AddDiscountRupiah(''))
+			dispatch(resetTotalDiskon(''))
 			setHapusPesananOpen(false)
 			navigation.goBack()
 		} else {
@@ -164,12 +167,12 @@ const Cart = ({ navigation }) => {
 					<Icon onPress={() => _quantityControl('add')} _style={{ width: '40%', alignItems: 'flex-start' }} style={{ fontSize: 50, color: ColorsList.primaryColor }} name="add-circle" />
 				</Wrapper>
 				<Wrapper justify="flex-end" style={{ marginTop: 20 }}>
-					<Button color="link" onPress={() => setEditPesananOpen(false)}>Batal</Button>
+					<Button color="link" onPress={() => setEditPesananOpen(false)}>BATAL</Button>
 					<Button onPress={() => {
 						setEditPesananOpen(false)
 						dispatch(ChangeCartQuantity(pesanan))
 					}} style={styles.buttonSimpan}>
-						<Text style={{ color: 'white' }}>Simpan</Text>
+						<Text style={{ color: 'white' }}>SIMPAN</Text>
 					</Button>
 				</Wrapper>
 			</Modal>
@@ -220,13 +223,13 @@ const Cart = ({ navigation }) => {
 						} />
 					</View>
 					<Wrapper style={{ marginBottom: 10 }}>
-						<Button _width="49%" onPress={() => navigation.goBack()}>
-							<Image size={25} source={require('src/assets/icons/plus-white.png')} />
-							<Text color="whiteColor">TAMBAH PRODUK</Text>
+						<Button color="white" _width="49%" onPress={() => navigation.goBack()}>
+							<Image size={25} source={require('src/assets/icons/plus-primary.png')} />
+							<Text color="primary">TAMBAH PRODUK</Text>
 						</Button>
-						<Button _width="49%" onPress={() => _emptyCart()}>
-							<Image size={25} source={require('src/assets/icons/trash.png')} />
-							<Text color="whiteColor">HAPUS PESANAN</Text>
+						<Button color="white" _width="49%" onPress={() => _emptyCart()}>
+							<Image size={25} source={require('src/assets/icons/trash-primary.png')} />
+							<Text color="primary">HAPUS PESANAN</Text>
 						</Button>
 					</Wrapper>
 					<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>

@@ -134,4 +134,11 @@ export const changeTransactionDiscount = () => {
   }
 }
 
+export const resetTotalDiskon = () => {
+  return {
+    type: "RESET_ALL_DISCOUNT",
+  }
+}
+
+
 
