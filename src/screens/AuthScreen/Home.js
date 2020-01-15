@@ -25,7 +25,7 @@ import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button'
 import { Wrapper } from 'src/components/View/Wrapper'
 
-const height = Dimensions.get('window').height
+const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const dispatch = useDispatch()
@@ -99,7 +99,7 @@ const Home = ({ navigation }) => {
 		else if (User.data.status == 0) {
 			_setAlert(false)
 			navigation.navigate('/drawer/settings/change-email')
-		}else {
+		} else {
 			_setAlert(false)
 		}
 	}
@@ -177,10 +177,13 @@ const Home = ({ navigation }) => {
 						</Wrapper>
 					</Button>
 				</View>
-				<SliderImage />
-				<View style={styles.infoCategoryStyle}>
-					<CategoryText title="TAHUKAH KAMU??" />
-				</View>
+				<ScrollView
+					horizontal={true}
+					showsHorizontalScrollIndicator={false}>
+					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5 }} source={require('src/assets/images/card_1.png')} />
+					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_2.png')} />
+				</ScrollView>
+				<Text style={{ paddingVertical: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
 				<ScrollView
 					horizontal={true}
 					style={{ paddingBottom: 15, height: height / 3 }}

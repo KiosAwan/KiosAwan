@@ -8,24 +8,23 @@ import { Button } from '../Button/Button';
 import { Wrapper } from '../View/Wrapper';
 import { Bottom } from '../View/Bottom';
 
-export const PickerImage = props => {
+export const PickerImage = ({ rbRef, close, imageResolve }) => {
 	let err = err => console.debug(err)
 	const _handleChoosePhoto = (isCamera) => {
-		props.close()
+		close()
 		if (isCamera) {
 			ImagePicker.openCamera({
-				width: 300,
-				height: 300,
-				cropping: true
-			}).then(props.imageResolve, err);
+				compressImageQuality: .7
+			}).then(imageResolve, err);
 		} else {
 			ImagePicker.openPicker({
+				compressImageQuality: .7,
 				mediaType: 'image'
-			}).then(props.imageResolve, err);
+			}).then(imageResolve, err);
 		}
 	}
 	return <RBSheet
-		ref={props.rbRef}
+		ref={rbRef}
 		duration={500}
 		animationType="slide"
 		customStyles={{
