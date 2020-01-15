@@ -42,6 +42,11 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 ...state,
                 discount_on: !state.discount_on
             };
+        case "RESET_ALL_DISCOUNT":
+            return {
+                ...state,
+                total_diskon: 0
+            };
         case "ADD_BY_BAROCDE":
             console.debug("BARCODE ")
             let barcode = actions.payload

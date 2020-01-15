@@ -16,7 +16,7 @@ import { Image } from 'src/components/CustomImage';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
-import { Modal as ModalCustom } from 'src/components/ModalContent/Popups'
+import { Modal as ModalCustom, AwanPopup } from 'src/components/ModalContent/Popups'
 
 
 const width = Dimensions.get('window').width
@@ -30,7 +30,8 @@ const NewProductName = ({ navigation }) => {
 	const [imageProduct, setImageProduct] = useState()
 	const [newCategoryName, setNewCategoryName] = useState('')
 	const [editNewCategory, setEditNewCategory] = useState('new')
-
+	const [errorMessage, setErrorMessage] = useState()
+	const [errorAlert, setErrorAlert] = useState(false)
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
 	const [idEditCategory, setIdEditCategory] = useState()
 	const [isDisabled, setDisabled] = useState(true)
@@ -46,10 +47,12 @@ const NewProductName = ({ navigation }) => {
 	}
 	const _handlePressNext = async () => {
 		if (NewProduct.name == "") {
-			alert("Nama tidak boleh kosong")
+			setErrorMessage("Nama tidak boleh kosong")
+			setErrorAlert(true)
 		}
 		else if (NewProduct.id_category == null) {
-			alert("Category tidak boleh kosong")
+			setErrorMessage("Category tidak boleh kosong")
+			setErrorAlert(true)
 		}
 		else {
 			navigation.navigate('/cashier/new-product-last')
@@ -84,6 +87,11 @@ const NewProductName = ({ navigation }) => {
 	}
 	return (
 		<View style={styles.mainView}>
+			<AwanPopup.Alert
+				message={errorMessage}
+				visible={errorAlert}
+				closeAlert={() => setErrorAlert(false)}
+			/>
 			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
 			<ProgressIndicator
 				firstIsCompleteStep={true}
