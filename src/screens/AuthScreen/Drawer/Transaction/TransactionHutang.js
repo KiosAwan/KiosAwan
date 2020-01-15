@@ -23,7 +23,7 @@ const TransactionDetailHutang = ({ navigation }) => {
 	const filterResult = (data) => {
 		return data
 			.filter(item => item.status_payment.includes('2'))
-			.filter(item => item.name_customer.toLowerCase().includes(search))
+			.filter(item => `${item.name_customer.toLowerCase()}${item.payment_code.toLowerCase()}`.includes(search))
 	}
 	console.debug(JSON.stringify(DataTransaksi))
 	useEffect(() => {

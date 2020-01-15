@@ -8,7 +8,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { convertRupiah, getNearestFifty, payCredit, convertNumber } from 'src/utils/authhelper';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { RowChild } from 'src/components/Helper/RowChild';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { FloatingInput, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
 import AsyncStorage from '@react-native-community/async-storage';
 import { InputCurrency } from 'src/components/Input/InputComp';
 import { Bottom } from 'src/components/View/Bottom';
@@ -16,7 +16,7 @@ import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 import { ImageAuto } from 'src/components/CustomImage';
 
 const initialLayout = { width: 300, height: 300 };
@@ -63,11 +63,11 @@ const TransactionDetailLunasi = ({ navigation }) => {
 					route.key == 'first' ?
 						<ScrollView showsVerticalScrollIndicator={false}>
 							<View style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
-								<FloatingInput label="Uang yang diterima" style={{ margin: 0 }}>
-									<InputCurrency
-										value={amount_payment}
-										onChangeText={(text) => setAmountPayment(text)} />
-								</FloatingInput>
+								<FloatingInputLabelCurrency style={{ margin: 0 }}
+									handleChangeText={(text) => setAmountPayment(text)}
+									value={amount_payment}
+									label="Uang yang diterima"
+								/>
 								<Text color="primary">{_renderKembalian()}</Text>
 								<View style={{ ...RowChild, marginTop: 20 }}>
 									<ToggleButtonMoney
@@ -123,8 +123,8 @@ const TransactionDetailLunasi = ({ navigation }) => {
 
 	const [index, setIndex] = React.useState(0);
 	const [routes] = React.useState([
-		{ key: 'first', title: 'Tunai' },
-		{ key: 'second', title: 'Non Tunai' }
+		{ key: 'first', title: 'TUNAI' },
+		{ key: 'second', title: 'NON TUNAI' }
 	]);
 
 	const renderScene = SceneMap({
@@ -137,61 +137,63 @@ const TransactionDetailLunasi = ({ navigation }) => {
 			<GlobalHeader onPressBack={() => navigation.goBack()} title="Lunasi" />
 			{loading ? <Text>adfs</Text> :
 				<View style={{ flex: 1 }}>
-					<View style={{ flex: 1, marginBottom: 60 }}>
-						<TabView
-							renderTabBar={props => {
-								const width = 100 / props.navigationState.routes.length
-								return (
-									<View>
-										<View style={{ backgroundColor: ColorsList.whiteColor }}>
-											<Wrapper style={{ padding: 15 }}>
-												{
-													props.navigationState.routes.map((route, i) => {
-														return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
-													})
-												}
-											</Wrapper>
-										</View>
-										<View style={{ padding: 15, paddingBottom: 0 }}>
-											<Wrapper justify="space-between" style={{ marginBottom: 5, padding: 20, backgroundColor: ColorsList.whiteColor }}>
-												<Wrapper direction="column">
-													<Text font="Bold">Total Tagihan</Text>
-													<Text color="primary" font="ExtraBold" size={30}>{convertRupiah(dataUtang.debt.remaining_debt)}</Text>
+					<ScrollView>
+						<View style={{ flex: 1, marginBottom: 60 }}>
+							<TabView
+								renderTabBar={props => {
+									const width = 100 / props.navigationState.routes.length
+									return (
+										<View>
+											<View style={{ backgroundColor: ColorsList.whiteColor }}>
+												<Wrapper style={{ padding: 15 }}>
+													{
+														props.navigationState.routes.map((route, i) => {
+															return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
+														})
+													}
 												</Wrapper>
-												{/* <View style={{ justifyContent: 'flex-end' }}>
+											</View>
+											<View style={{ padding: 15, paddingBottom: 0 }}>
+												<Wrapper justify="space-between" style={{ marginBottom: 5, padding: 20, backgroundColor: ColorsList.whiteColor }}>
+													<Wrapper direction="column">
+														<Text font="Bold">Total Tagihan</Text>
+														<Text color="primary" font="ExtraBold" size={30}>{convertRupiah(dataUtang.debt.remaining_debt)}</Text>
+													</Wrapper>
+													{/* <View style={{ justifyContent: 'flex-end' }}>
 											<TouchableOpacity onPress={() => setViewDetail(!viewDetail)}>
 												<Text font="Bold" size={18}>DETAIL</Text>
 											</TouchableOpacity>
 										</View> */}
-											</Wrapper>
-											{
-												viewDetail ?
-													<View>
-														<Wrapper justify="space-between" style={{ marginBottom: 5, padding: 20, backgroundColor: ColorsList.whiteColor }}>
-															<Wrapper direction="column">
-																<Text color="primary" font="ExtraBold" size={18}>Nama Produk</Text>
-																<Text font="Bold">Rp. 25.000 x 2</Text>
+												</Wrapper>
+												{
+													viewDetail ?
+														<View>
+															<Wrapper justify="space-between" style={{ marginBottom: 5, padding: 20, backgroundColor: ColorsList.whiteColor }}>
+																<Wrapper direction="column">
+																	<Text color="primary" font="ExtraBold" size={18}>Nama Produk</Text>
+																	<Text font="Bold">Rp. 25.000 x 2</Text>
+																</Wrapper>
+																<View style={{ justifyContent: 'flex-end' }}>
+																	<Text font="Bold" size={16}>Rp. 50.000</Text>
+																</View>
 															</Wrapper>
-															<View style={{ justifyContent: 'flex-end' }}>
-																<Text font="Bold" size={16}>Rp. 50.000</Text>
-															</View>
-														</Wrapper>
-														<Wrapper justify="space-between" style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
-															<Text font="Bold">Subtotal</Text>
-															<Text font="Bold" size={18}>Rp. 50.000</Text>
-														</Wrapper>
-													</View> : null
-											}
+															<Wrapper justify="space-between" style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
+																<Text font="Bold">Subtotal</Text>
+																<Text font="Bold" size={18}>Rp. 50.000</Text>
+															</Wrapper>
+														</View> : null
+												}
+											</View>
 										</View>
-									</View>
-								)
-							}}
-							navigationState={{ index, routes }}
-							renderScene={Tunai}
-							onIndexChange={setIndex}
-							initialLayout={initialLayout}
-						/>
-					</View>
+									)
+								}}
+								navigationState={{ index, routes }}
+								renderScene={Tunai}
+								onIndexChange={setIndex}
+								initialLayout={initialLayout}
+							/>
+						</View>
+					</ScrollView>
 					<Bottom>
 						<Button onPress={_handlePayCredit} width="100%">LUNASI</Button>
 					</Bottom>

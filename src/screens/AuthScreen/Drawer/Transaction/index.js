@@ -102,9 +102,9 @@ const TransactionList = ({ navigation }) => {
                         </View> : null,
                       <View style={{ padding: 15 }}>
                         {
-                          filterResult(item.data).map(trx => {
+                          filterResult(item.data).map((trx, i) => {
                             return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
-                              <Wrapper style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} justify="space-between">
+                              <Wrapper style={[i > 0 ? { marginTop: 10 } : null, { backgroundColor: ColorsList.whiteColor }]} justify="space-between">
                                 <View style={{ padding: 15 }}>
                                   <Wrapper>
                                     <View style={{ justifyContent: 'center' }}>
@@ -117,7 +117,7 @@ const TransactionList = ({ navigation }) => {
                                     </View>
                                   </Wrapper>
                                 </View>
-                                <View _style={{ width: '35%', backgroundColor: ColorsList.greyBg }}>
+                                <View _style={{ width: '30%', backgroundColor: ColorsList.greyBg }}>
                                   <View style={{ padding: 10 }}>
                                     <Text color={iconImage[trx.status].color} style={{ textAlign: 'center' }} font="ExtraBold" size={15}>{iconImage[trx.status].text}</Text>
                                   </View>
@@ -158,7 +158,7 @@ const TransactionList = ({ navigation }) => {
         </View>
       </View>
         :
-        <View style={{flex : 1}}>
+        <View style={{ flex: 1 }}>
           <ScrollView
             refreshControl={<RefreshControl onRefresh={_reportHutang} />}
             style={{ flex: 1, padding: 15 }}>
@@ -178,7 +178,6 @@ const TransactionList = ({ navigation }) => {
               <Text>Transaksi Belum Lunas</Text>
               <Text font="ExtraBold" color="primary">{reportHutang.trx_belum_lunas}</Text>
             </Wrapper>
-
           </ScrollView>
           <Bottom>
             <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>
@@ -203,7 +202,7 @@ const TransactionList = ({ navigation }) => {
             <Wrapper style={{ padding: 15 }}>
               {
                 props.navigationState.routes.map((route, i) => {
-                  return <Button textStyle={{fontSize : 12}} disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
+                  return <Button textStyle={{ fontSize: 12 }} disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
                 })
               }
             </Wrapper>

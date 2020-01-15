@@ -84,20 +84,18 @@ export const InputWithLabel = (props) => {
 }
 
 export const InputCurrency = props => {
-  return (
-    <TextInputMask
-      type={'money'}
-      keyboardType='decimal-pad'
-      options={{
-        precision: 0,
-        separator: '',
-        delimiter: '.',
-        unit: 'Rp. ',
-        suffixUnit: ''
-      }}
-      {...props}
-    />
-  )
+  return <TextInputMask
+    type={'money'}
+    keyboardType='decimal-pad'
+    options={{
+      precision: 0,
+      separator: '',
+      delimiter: '.',
+      unit: 'Rp. ',
+      suffixUnit: ''
+    }}
+    {...props}
+  />
 }
 
 export const FloatingInput = props => {
