@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Text, Image } from 'react-native';
 import { SizeList } from '../../../../styles/size';
 import { useSelector } from 'react-redux'
@@ -8,18 +8,23 @@ import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { sendOTPAuth } from 'src/utils/authhelper';
 import { FontList } from 'src/styles/typography';
 import { showPhoneNumber } from 'src/utils/unauthhelper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 const MenuSettingLupaPIN = ({ navigation }) => {
     const User = useSelector(state => state.User)
+    const [apiLoading, setApiLoading] = useState(false)
     const _nextBtn = async () => {
+        setApiLoading(true)
         const data = {
             phone_number: User.data.phone_number
         }
-		await sendOTPAuth(data)
+        await sendOTPAuth(data)
+        setApiLoading(false)
         navigation.navigate('/drawer/settings/forgot-pin')
     }
 
     return (
         <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+            <AwanPopup.Loading visible={apiLoading} />
             <GlobalHeader title="Lupa PIN" onPressBack={() => navigation.goBack()} />
             <View style={{ padding: 30 }}>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5, alignItems :"center" }}>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Text, Image } from 'react-native';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import { SizeList } from '../../../../styles/size';
@@ -9,21 +9,27 @@ import { FontList } from '../../../../styles/typography';
 import { sendOTPAuth, resendVerifyEmail } from '../../../../utils/authhelper';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 const UbahEmailInfoScreen = ({ navigation }) => {
 	const User = useSelector(state => state.User)
+	const [apiLoading, setApiLoading] = useState(false)
 	const _nextBtn = async () => {
+		setApiLoading(true)
 		const data = {
 			phone_number: User.data.phone_number
 		}
 		await sendOTPAuth(data)
+		setApiLoading(false)
 		navigation.navigate('/drawer/settings/change-email/otp-validation')
 	}
 
 	const _handleSendEmail = async () => {
+		setApiLoading(true)
 		const data = {
 			email: User.data.email
 		}
 		const res = await resendVerifyEmail(data)
+		setApiLoading(false)
 		if (res.status == 400) {
 			alert(res.data.errors.msg)
 		}
@@ -31,6 +37,7 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader title="Ubah Email" onPressBack={() => navigation.goBack()} />
+			<AwanPopup.Loading visible={apiLoading} />
 			<View style={{ padding: 30 }}>
 				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
 					<FloatingInput label="Email Anda">

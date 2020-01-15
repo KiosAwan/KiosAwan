@@ -128,7 +128,7 @@ const NewProductName = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
-							<FloatingInputLabel label="Nomor Barcode" disabled value={NewProduct.barcode} />
+							<FloatingInputLabel label="Nomor Barcode" value={NewProduct.barcode} />
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}>

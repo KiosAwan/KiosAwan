@@ -19,12 +19,14 @@ import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
 	const temp_profilepic = User.store.photo_store
 	const [modalVisible, setModalVisible] = useState(false)
+	const [apiLoading, setApiLoading] = useState(false)
 	const [formValue, setFormValue] = useState({
 		name: User.data.name,
 		email_store: User.store.email_store,
@@ -90,6 +92,7 @@ const MenuSettingProfil = ({ navigation }) => {
 	};
 
 	const _handleSaveProfile = async () => {
+		setApiLoading(true)
 		const formData = new FormData()
 		let final_address = `${formValue.address_store}%${desa.selected.nama}%${kecamatan.selected.nama}%${kabupaten.selected.nama}%${provinsi.selected.nama}`
 		formData.appendObject(formValue, ['photo_store', 'address_store']) // ('Form data yang di append', 'kecuali')
@@ -100,7 +103,7 @@ const MenuSettingProfil = ({ navigation }) => {
 			name: `${Date.now()}.jpeg`
 		} : null : null)
 		const res = await editStoreProfile(formData, User.store.id_store)
-		console.debug(res)
+		setApiLoading(false)
 		if (res.status == 400) {
 			alert(data.errors.msg)
 		} else if (res.status == 200) {
@@ -149,6 +152,7 @@ const MenuSettingProfil = ({ navigation }) => {
 
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+			<AwanPopup.Loading visible={apiLoading} />
 			<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
 			<Modal
 				animationType="fade"
