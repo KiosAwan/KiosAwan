@@ -21,6 +21,7 @@ export const InputPIN = (props) =>  {
             value={props.value}
             keyboardType="default"
             onChangeText={props.handleChangeText}
+            {...props.inputProps}
             />
         </Item>
         <Icon onPress={() => setSecure(!secure)} style={{color : 'white'}} name={secure ? "eye" : "eye-off"}/>

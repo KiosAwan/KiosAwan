@@ -128,8 +128,9 @@ const TransactionDetail = ({ navigation }) => {
 										<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ? convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
 									} />
 								</View>
-								<View>
-									<Text align="center">Powered by <Text font="ExtraBold">KiosAwan</Text></Text>
+								<View style={{ alignItems: 'center' }}>
+									<Text align="center">Powered by</Text>
+									<Image style={{ width: 150, height: 70 }} source={require('src/assets/images/logo.png')} />
 								</View>
 							</View>
 							<View style={{ flexDirection: 'row', justifyContent: 'center', transform: [{ rotate: '180deg' }] }}>

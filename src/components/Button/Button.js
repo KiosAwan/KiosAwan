@@ -17,15 +17,32 @@ export const Button = props => {
 			text: ColorsList.whiteColor
 		},
 		link: {
-			borderColor: 'transparent',
-			backgroundColor: 'transparent',
+			borderColor: ColorsList.transparent,
+			backgroundColor: ColorsList.transparent,
 			text: ColorsList.greyFont
+		},
+		transparent: {
+			borderColor: ColorsList.primary,
+			backgroundColor: ColorsList.transparent,
+			text: ColorsList.primary
+		},
+		transparentWhite: {
+			borderColor: ColorsList.whiteColor,
+			backgroundColor: ColorsList.transparent,
+			text: ColorsList.whiteColor
 		}
 	}
 	let _color = Colors.primary
 	for (let key in Colors) {
 		if (props.color === key)
 			_color = Colors[props.color]
+	}
+	if (Array.isArray(props.color) && props.color.length > 2) {
+		_color = {
+			borderColor: props.color[0],
+			backgroundColor: props.color[1],
+			text: props.color.length === 3 ? props.color[2] : props.color[0]
+		}
 	}
 	return <TouchableOpacity {...props} style={[{
 		padding: props.padding || 10,

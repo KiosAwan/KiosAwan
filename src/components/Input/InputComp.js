@@ -45,6 +45,7 @@ export const InputNumber = (props) => {
           value={props.value}
           keyboardType="phone-pad"
           onChangeText={props.handleChangeText}
+          {...props.inputProps}
         />
       </Item>
     </View>

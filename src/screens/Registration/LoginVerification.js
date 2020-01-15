@@ -32,7 +32,7 @@ const LoginVerification = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     const [loading, setLoading] = useState(false)
-
+    const [viewForgot, setViewForgot] = useState(true)
     //Sending OTP code to server
     const _handlePasswordLogin = async (psw) => {
         setLoading(true)
@@ -76,8 +76,7 @@ const LoginVerification = ({ navigation }) => {
             <BarStatus />
             {loading ? <Spinner color="white" /> : null}
             <View style={{ padding: 20 }}>
-                <HeaderRegister
-                />
+                <HeaderRegister />
             </View>
             <Text style={[styles.subtitleEnterPhone, {}]}>Nomor ini telah terdaftar</Text>
             <Text style={[styles.subtitleEnterPhone, { paddingBottom: 20 }]}>Masukkan password Anda</Text>
@@ -86,11 +85,15 @@ const LoginVerification = ({ navigation }) => {
                     inputWidth={250}
                     value={FormRegister.secondPIN}
                     handleChangeText={(psw) => dispatch(addFirstPassword(psw))}
+                    inputProps={{
+                        onBlur: () => setViewForgot(true),
+                        onFocus: () => setViewForgot(false)
+                    }}
                 />
             </View>
-            <Text style={styles.textForgot} onPress={_forgotPIN}>
-                Lupa password ?
-            </Text>
+            {
+                viewForgot ? <Text style={styles.textForgot} onPress={_forgotPIN}>Lupa password ?</Text> : null
+            }
             <View style={{ position: 'absolute', bottom: 10 }}>
                 <UnauthBottomButton
                     onPressBackBtn={() => navigation.goBack()}
