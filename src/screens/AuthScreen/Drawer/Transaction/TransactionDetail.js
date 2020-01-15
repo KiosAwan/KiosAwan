@@ -39,6 +39,9 @@ const TransactionDetail = ({ navigation }) => {
 		setBack(navigation.state.params.backState)
 		SetDataLoading(false)
 	}
+	const _renderEdge = ({ nativeEvent }) => {
+		console.debug(nativeEvent)
+	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader title="Detail Transaksi" onPressBack={() => back ? navigation.navigate(back) : navigation.goBack()} />
@@ -46,79 +49,83 @@ const TransactionDetail = ({ navigation }) => {
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: 90 }}>
+						<Button onPress={() => console.debug(Object.keys(strukRef.viewConfig))}>lkasjdf</Button>
 						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ paddingVertical: 10, backgroundColor: ColorsList.authBackground }}>
-							<View>
-								<Text align="center">{data ? data.transaction.name_store : null}</Text>
-							</View>
-							<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
-								<RowOpposite
-									title="Kode Transaksi" content={data.transaction.payment_code} />
-								<RowOpposite
-									title="Waktu dan Tanggal" content={data.transaction.created_at} />
-								<RowOpposite
-									title="Pembayaran" content={data.transaction.id_payment_type == 1 ? "Tunai" : data.transaction.id_payment_type == 2 ? "Non Tunai" : "Piutang"} />
-								<RowOpposite
-									title="Operator" content={data.transaction.cashier} />
-								{data.debt ?
-									<RowOpposite
-										title="Pelanggan" content={data.transaction.name_customer} />
-									: null}
-							</View>
-							{data.debt ?
-								// <View style={{ height: 1, backgroundColor: ColorsList.greyFont, width: '100%' }} />
-								<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderTopColor: ColorsList.greySoft, borderTopWidth: 1 }}>
-									<RowOpposite
-										title="Jumlah Hutang" content={convertRupiah(data.debt.total)} />
-									<RowOpposite
-										title="Jumlah yang sudah dibayar" content={convertRupiah(data.transaction.amount_payment)} />
-									<RowOpposite
-										style={data.transaction.status == 0 ? { color: ColorsList.warning } : null}
-										title="Jatuh Tempo" content={formatToDays(data.debt.due_debt_date)} />
+							<Image style={{ height: 20, width: 20, resizeMode: 'stretch', marginBottom: -1 }} source={require('src/assets/icons/bill-edge.png')} />
+							<View onLayout={_renderEdge} style={{ backgroundColor: ColorsList.whiteColor }}>
+								<View>
+									<Text align="center">{data ? data.transaction.name_store : null}</Text>
 								</View>
-								: null
-							}
-							<View style={{ padding: 10, backgroundColor: ColorsList.greyAuthHard, width: '100%' }}>
-								<Text align="center" size={16}>Daftar Produk</Text>
-							</View>
-							<View style={{ backgroundColor: 'white', marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
-								{
-									data.details_item.map((data, i) => {
-										return (
-											<WrapperItem key={i} style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
-												<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.product}</Text>,
-												<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price)} x {data.qty}</Text>
-											]} right={[
-												<Text></Text>,
-												<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price * data.qty)}</Text>
-											]} />
-										)
-									})
+								<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
+									<RowOpposite
+										title="Kode Transaksi" content={data.transaction.payment_code} />
+									<RowOpposite
+										title="Waktu dan Tanggal" content={data.transaction.created_at} />
+									<RowOpposite
+										title="Pembayaran" content={data.transaction.id_payment_type == 1 ? "Tunai" : data.transaction.id_payment_type == 2 ? "Non Tunai" : "Piutang"} />
+									<RowOpposite
+										title="Operator" content={data.transaction.cashier} />
+									{data.debt ?
+										<RowOpposite
+											title="Pelanggan" content={data.transaction.name_customer} />
+										: null}
+								</View>
+								{data.debt ?
+									// <View style={{ height: 1, backgroundColor: ColorsList.greyFont, width: '100%' }} />
+									<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderTopColor: ColorsList.greySoft, borderTopWidth: 1 }}>
+										<RowOpposite
+											title="Jumlah Hutang" content={convertRupiah(data.debt.total)} />
+										<RowOpposite
+											title="Jumlah yang sudah dibayar" content={convertRupiah(data.transaction.amount_payment)} />
+										<RowOpposite
+											style={data.transaction.status == 0 ? { color: ColorsList.warning } : null}
+											title="Jatuh Tempo" content={formatToDays(data.debt.due_debt_date)} />
+									</View>
+									: null
 								}
-								<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>Subtotal</Text>,
-								]} right={
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.sub_total)}</Text>
-								} />
-								{data.transaction.discount ?
+								<View style={{ padding: 10, backgroundColor: ColorsList.greyAuthHard, width: '100%' }}>
+									<Text align="center" size={16}>Daftar Produk</Text>
+								</View>
+								<View style={{ backgroundColor: 'white', marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
+									{
+										data.details_item.map((data, i) => {
+											return (
+												<WrapperItem key={i} style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
+													<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.product}</Text>,
+													<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price)} x {data.qty}</Text>
+												]} right={[
+													<Text></Text>,
+													<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price * data.qty)}</Text>
+												]} />
+											)
+										})
+									}
 									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>Diskon</Text>,
+										<Text style={{ ...FontList.subtitleFontGreyBold }}>Subtotal</Text>,
 									]} right={
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.discount)}</Text>
-									} /> : null}
-								{data.transaction.status != 1 ?
-									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>Pembatalan transaksi</Text>,
+										<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.sub_total)}</Text>
+									} />
+									{data.transaction.discount ?
+										<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
+											<Text style={{ ...FontList.subtitleFontGreyBold }}>Diskon</Text>,
+										]} right={
+											<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.discount)}</Text>
+										} /> : null}
+									{data.transaction.status != 1 ?
+										<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
+											<Text style={{ ...FontList.subtitleFontGreyBold }}>Pembatalan transaksi</Text>,
+										]} right={
+											<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>{convertRupiah(data.transaction.total_return)}</Text>
+										} /> : null}
+									<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
+										<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
 									]} right={
-										<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>{convertRupiah(data.transaction.total_return)}</Text>
-									} /> : null}
-								<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
-								]} right={
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ? convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
-								} />
-							</View>
-							<View>
-								<Text align="center">Powered by <Text font="ExtraBold">KiosAwan</Text></Text>
+										<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ? convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
+									} />
+								</View>
+								<View>
+									<Text align="center">Powered by <Text font="ExtraBold">KiosAwan</Text></Text>
+								</View>
 							</View>
 						</ViewShot>
 					</ScrollView>
