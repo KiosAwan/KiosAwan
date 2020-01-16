@@ -231,7 +231,7 @@ class CetakStruk extends Component {
 		let data = [
 			{ label: "Kode Transaksi", value: this.state.printData.transaction.payment_code },
 			{ label: "Waktu", value: this.state.printData.transaction.created_at.slice(0, 16) },
-			{ label: "Pembayaran", value: this.state.printData.transaction.id_payment_type == 1 ? "Tunai" : this.state.printData.transaction.id_payment_type == 2 ? "Non Tunai" : "Piutang" },
+			{ label: "Pembayaran", value: this.state.printData.transaction.id_payment_type == 1 ? "Tunai" : this.state.printData.transaction.id_payment_type == 2 ? `Non Tunai(${this.state.printData.transaction.method})` : "Piutang" },
 			{ label: "Operator", value: this.state.printData.transaction.cashier },
 			this.state.printData.transaction.name_customer ? { label: "Pelanggan", value: this.state.printData.transaction.name_customer} : null,
 		]

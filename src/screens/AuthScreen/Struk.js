@@ -50,7 +50,7 @@ const Struk = ({ navigation }) => {
                     <View style={{ flex: 1, margin: 15 }}>
                         <View style={{ margin: 20 }}>
                             <RowOpposite
-                                title="Pembayaran" content={response.id_payment_type == 1 ? "Tunai" : response.id_payment_type == 2 ? "Non Tunai" : "Piutang"} />
+                                title="Pembayaran" content={response.id_payment_type == 1 ? "Tunai" : response.id_payment_type == 2 ? `NonTunai(${response.method})` : "Piutang"} />
                             <RowOpposite
                                 title="Total Tagihan" content={convertRupiah(response.total_payment)} />
                             <RowOpposite

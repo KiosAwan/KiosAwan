@@ -67,7 +67,7 @@ const TransactionDetail = ({ navigation }) => {
 									<RowOpposite
 										title="Waktu dan Tanggal" content={data.transaction.created_at} />
 									<RowOpposite
-										title="Pembayaran" content={data.transaction.id_payment_type == 1 ? "Tunai" : data.transaction.id_payment_type == 2 ? "Non Tunai" : "Piutang"} />
+										title="Pembayaran" content={data.transaction.id_payment_type == 1 ? "Tunai" : data.transaction.id_payment_type == 2 ? `Non Tunai(${data.transaction.method})` : "Piutang"} />
 									<RowOpposite
 										title="Operator" content={data.transaction.cashier} />
 									{data.debt ?
