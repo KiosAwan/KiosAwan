@@ -135,7 +135,7 @@ const Cart = ({ navigation }) => {
 			</AwanPopup.NoTitle>
 			<Modal style={{ padding: 10 }} visible={editPesananOpen}>
 				<Wrapper style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} justify="space-between">
-					<View _width="70%">
+					<View width="70%">
 						<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{pesanan.name_product}</Text>
 						<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(pesanan.price_out_product)} x {pesanan.quantity}</Text>
 					</View>

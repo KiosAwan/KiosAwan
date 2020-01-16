@@ -21,10 +21,9 @@
       "icon": "settings"
     },
     {
-      "name":"FAQ",
-      // {/drawer/faq}
-      "route":"",
-      "icon":"logo-flickr"
+      "name": "FAQ",
+      "route": "/drawer/faq",
+      "icon": "logo-flickr"
     },
     {
       "name": "Hubungi Kami",

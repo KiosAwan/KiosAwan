@@ -24,7 +24,7 @@ const SearchInput = (props) => {
                 placeholder={props.placeholder} />
             <Animatable.View duration={500} style={styles.deleteIcon} animation={isFocused ? "slideInRight" : 'bounceOutRight'}>
                 <TouchableOpacity onPress={props.handleDeleteSearch}>
-                    <Image style={{ width: 25, height: 25 }} source={require('../../assets/icons/circlereject.png')} />
+                    <Image style={{ width: 25, height: 25 }} source={require('src/assets/icons/circlereject.png')} />
                 </TouchableOpacity>
             </Animatable.View>
         </View>

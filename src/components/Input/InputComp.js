@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Dimensions, Animated } from 'react-native';
+import { TouchableOpacity, View, Dimensions, Animated } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text'
 import {
   Item,
@@ -8,7 +8,6 @@ import {
   Textarea,
   Text
 } from 'native-base'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Wrapper } from '../View/Wrapper';
 
 const width = Dimensions.get('window').width
@@ -191,7 +190,7 @@ export const FloatingInput = props => {
   //   changeUpDown(haveValue)
   // }, [])
   return (
-    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={{ justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: props.borderTransparent ? 'transparent' : activeColor, ...props.style }}>
+    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={{  justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: props.borderTransparent ? 'transparent' : activeColor, ...props.style }}>
       <Animated.Text style={[{ color: activeColor, position: 'absolute' }, {
         left: leftValue, top: topValue, transform: [{ scale: scaleAnimation }]
       }, props.labelStyle]}>{props.label}</Animated.Text>
