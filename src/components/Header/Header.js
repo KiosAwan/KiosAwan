@@ -2,9 +2,8 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import LinearGradient from 'react-native-linear-gradient'
 import { View, Image, StyleSheet, Dimensions } from 'react-native'
-import { Header, Input } from 'native-base'
+import { Header } from 'native-base'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
-import { InputSimple } from '../Input/InputComp'
 import { Text } from '../Text/CustomText'
 import BarStatus from '../BarStatus';
 import { ColorsList } from 'src/styles/colors'
@@ -25,14 +24,14 @@ export const HeaderRegister = (props) => {
 export const HomeHeader = props => {
     return [
         <BarStatus />,
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: 80 }}>
+        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: props.height || 80 }}>
             <Wrapper justify="space-between" style={{ padding: 15, paddingTop: 0 }}>
                 <View style={{ justifyContent: 'center' }}>
                     <TouchableOpacity onPress={props.onPressMenu}>
                         <Icon color="white" size={20} name="bars" />
                     </TouchableOpacity>
                 </View>
-                <Image style={{ width: 150, height: 80 }} source={require('src/assets/images/logo.png')} />
+                {props.children ? props.children : <Image style={{ width: 150, height: 80 }} source={require('src/assets/images/logo.png')} />}
                 <View style={{ justifyContent: 'center' }}>
                     <TouchableOpacity>
                         <Icon color="white" size={20} name="bell" />

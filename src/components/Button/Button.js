@@ -3,6 +3,7 @@ import { Text } from '../Text/CustomText';
 import { TouchableOpacity, View } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Wrapper } from '../View/Wrapper';
+import { $Padding } from 'src/utils/stylehelper';
 
 export const Button = props => {
 	let Colors = {
@@ -44,16 +45,18 @@ export const Button = props => {
 			text: props.color.length === 3 ? props.color[2] : props.color[0]
 		}
 	}
-	return <TouchableOpacity {...props} style={[{
-		padding: props.padding || 10,
+	return <TouchableOpacity activeOpacity={.7} {...props} style={[{
 		borderWidth: 1,
 		justifyContent: 'center',
 		borderRadius: 5,
 		width: props.width || undefined
-	}, _color, props.style]}>
+	},
+	props.padding ? { padding: props.padding } : $Padding(5, 10),
+		_color, props.style]
+	}>
 		{
 			typeof props.children === 'string' ?
-				<Text font="ExtraBold" {...props.textProps}
+				<Text font="ExtraBold" align="center" {...props.textProps}
 					style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]}>
 					{props.children}
 				</Text>

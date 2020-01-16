@@ -26,6 +26,9 @@ import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button'
 import { Wrapper } from 'src/components/View/Wrapper'
 import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
+import Divider from 'src/components/Row/Divider'
+import { $Padding } from 'src/utils/stylehelper'
+import { convertRupiah } from 'src/utils/authhelper'
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -115,14 +118,53 @@ const Home = ({ navigation }) => {
 	}
 	return (
 		<View style={styles.container}>
-			<HomeHeader onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
 			<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
 				<View></View>
 				<Button width='30%' onPress={_completeProfile}>OK</Button>
 			</AwanPopup.Title>
+			<HomeHeader height={50} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
+				<View style={{ alignItems: 'center' }}>
+					<Text color="whiteColor">{'Kios Albert'.toUpperCase()}</Text>
+					<Wrapper>
+						<Icon color="white" name="map-marker-alt" />
+						<Text color="whiteColor"> Jl. Wow, Jakarta Selatan</Text>
+					</Wrapper>
+				</View>
+			</HomeHeader>
 			<ScrollView
 				refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
 				style={styles.childContainer} showsVerticalScrollIndicator={false}>
+				<View style={{ borderRadius: 5, marginTop: 10, backgroundColor: ColorsList.whiteColor }}>
+					<Wrapper justify="space-between" style={$Padding(10, 15)}>
+						<Wrapper justify="flex-start">
+							<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
+							<Text>Saldo: {convertRupiah(450000)}</Text>
+						</Wrapper>
+						<Wrapper justify="flex-end">
+							<Button color="link">
+								<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
+							</Button>
+							<Button textProps={{ size: 10 }}>TOP UP</Button>
+						</Wrapper>
+					</Wrapper>
+					<Divider />
+					<Wrapper justify="space-around">
+						<Button color="link">
+							<Image source={require('src/assets/icons/home/chart-up.png')} size={15} />
+							<Text>Riwayat</Text>
+						</Button>
+						<Divider height={40} />
+						<Button color="link">
+							<Image source={require('src/assets/icons/home/coupon.png')} size={15} />
+							<Text>Kupon</Text>
+						</Button>
+						<Divider height={40} />
+						<Button color="link">
+							<Image source={require('src/assets/icons/home/star.png')} size={15} />
+							<Text>Favorit</Text>
+						</Button>
+					</Wrapper>
+				</View>
 				<View style={{ paddingVertical: 10 }}>
 					{
 						maintanance ?
@@ -212,7 +254,7 @@ const Home = ({ navigation }) => {
 					/>
 				}
 			</ScrollView>
-		</View>
+		</View >
 	)
 }
 

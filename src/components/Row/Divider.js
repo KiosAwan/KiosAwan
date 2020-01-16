@@ -3,7 +3,11 @@ import { View } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 
 const Divider = props => {
-	return <View style={{ backgroundColor: props.color || ColorsList.greyAuthHard, padding: isNaN(props.size) ? .5 : props.size / 2, ...props.style }}></View>
+	const { width, height } = props
+	return <View style={{
+		backgroundColor: props.color || ColorsList.greyAuthHard,
+		padding: isNaN(props.size) ? .5 : props.size / 2, width, height, ...props.style
+	}} />
 }
 
 export default Divider

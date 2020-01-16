@@ -8,6 +8,7 @@ import { Bottom } from '../View/Bottom';
 import { $Padding } from 'src/utils/stylehelper';
 import { Button } from '../Button/Button';
 import Divider from '../Row/Divider';
+import { FlatList } from 'react-native-gesture-handler';
 
 export const Modal = (props) => {
 	const styles = StyleSheet.create({
@@ -16,7 +17,7 @@ export const Modal = (props) => {
 	})
 	return (
 		<ModalRN
-			animationType="slide"
+			animationType={props.animation || 'slide'}
 			transparent={true}
 			{...props}>
 			<TouchableOpacity activeOpacity={1} style={styles.modalBackDrop} disabled={!props.backdropDismiss ? true : false} onPress={!props.backdropDismiss ? null : props.backdropDismiss}>
@@ -56,9 +57,12 @@ export const AwanPopup = {
 			<View style={[{ padding: 5 }, props.contentStyle]}>
 				{
 					props.children.length > 0 ?
-						props.children.map((child, i) => [
-							child, props.children.length - 1 != i ? <Divider /> : null
-						])
+						props.children.map((child, i) => {
+							return [
+								child,
+								props.children.length - 1 != i ? <Divider /> : null
+							]
+						})
 						: props.children
 				}
 			</View>

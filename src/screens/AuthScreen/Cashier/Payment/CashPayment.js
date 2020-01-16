@@ -34,7 +34,7 @@ const CashPayment = () => {
                 <View style={{ ...RowChild, marginTop: 20 }}>
                     <ToggleButtonMoney
                         style={{ marginRight: 10, }}
-                        buttons={[Product.total- Product.total_diskon, getNearestFifty(Product.total-Product.total_diskon, 1)]}
+                        buttons={[Product.total - Product.total_diskon, getNearestFifty(Product.total - Product.total_diskon, 1)]}
                     />
                 </View>
             </View>

@@ -1,4 +1,4 @@
-import { Item, Input, Icon, Label, Card, CardItem, Button, Left, Thumbnail, Body, Grid, Col } from 'native-base';
+import { Item, Input, Icon, Label, Card, CardItem, Left, Thumbnail, Body, Grid, Col } from 'native-base';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { ScrollView, FlatList, TextInput } from 'react-native-gesture-handler';
@@ -12,6 +12,7 @@ import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { FontList } from '../../styles/typography';
 import { SizeList } from '../../styles/size';
 import { Wrapper } from '../View/Wrapper';
+import { Button } from '../Button/Button';
 
 const height = Dimensions.get('window').height
 
@@ -43,9 +44,9 @@ export const ToggleButton = (props) => {
 				props.buttons.map((btn, i) => {
 					return (
 						<Button key={i} onPress={() => _handleChangeBtn(btn, i)} style={[
-						{ padding: 5, flex: 1, justifyContent: 'center' },
-						{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : '#dedede' },
-						props.style
+							{ padding: 5, flex: 1, justifyContent: 'center' },
+							{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : '#dedede' },
+							props.style
 						]}>
 							<Text key={i} style={
 								{ fontFamily: FontList.boldFont, color: activeIndex == i ? 'white' : ColorsList.greySoft }
@@ -57,34 +58,29 @@ export const ToggleButton = (props) => {
 		</Item>
 	)
 }
-
 export const ToggleButtonMoney = (props) => {
 	const [activeIndex, setActiveIndex] = useState()
 	const dispatch = useDispatch()
+	const width = 100 / props.buttons.length
 	return (
-		<Item style={{ width: '100%' }}>
+		<Wrapper>
 			{
 				props.buttons.map((btn, i) => {
-					return (
-						<Button onPress={() => {
+					return <Button
+						onPress={() => {
 							props.onPress ?
 								props.onPress(btn)
 								:
 								setActiveIndex(i)
 							dispatch(AddCashPayment(btn))
-						}} style={[props.style,
-						{ padding: 5, flex: 1, justifyContent: 'center' },
-						{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : 'white' },
-						props.style
-						]}>
-							<Text style={
-								{ fontFamily: 'Nunito-Bold', color: activeIndex == i ? 'white' : ColorsList.primaryColor }
-							}>{i == 0 ? "UANG PAS" : convertRupiah(btn).toUpperCase()}</Text>
-						</Button>
-					)
+						}}
+						_width={`${width}%`}
+						color={activeIndex == i ? 'primary' : 'white'} style={props.style}>
+						{i == 0 ? "UANG PAS" : convertRupiah(btn).toUpperCase()}
+					</Button>
 				})
 			}
-		</Item>
+		</Wrapper>
 	)
 }
 

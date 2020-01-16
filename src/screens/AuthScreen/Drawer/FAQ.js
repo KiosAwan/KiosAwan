@@ -1,10 +1,8 @@
-import React, { Component, useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
-import { FloatingInput } from 'src/components/Input/InputComp';
 import { ColorsList } from 'src/styles/colors';
-import { Icon } from 'native-base';
 import { $Padding, $BorderRadius } from 'src/utils/stylehelper';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Axios from 'axios';
@@ -12,14 +10,12 @@ import { HOST_URL } from 'src/config';
 import SearchInput from 'src/components/Input/SearchInput';
 const FAQ = ({ navigation }) => {
 	const [search, setSearch] = useState('')
-	const [activeColor, setActiveColor] = useState(ColorsList.greyFont)
 	const [toggled, setToggled] = useState({})
 	const [Faqs, setFaqs] = useState([])
 
 	const getFaqs = async () => {
 		let { data } = await Axios.get(`${HOST_URL}/faqs`)
 		setFaqs(data.data)
-		console.debug(Faqs)
 	}
 
 	useEffect(() => {
@@ -33,7 +29,6 @@ const FAQ = ({ navigation }) => {
 			</View>
 			<View style={{ padding: 15 }}>
 				{
-					// [{answer:'jasd'},{answer:'lkajshgd'}]
 					Faqs.filter(faq => faq.answer.toLowerCase().includes(search)).map((faq, i) => {
 						return [<TouchableOpacity key={i} style={{ marginTop: i == 0 ? 0 : 10 }} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
 							<Wrapper justify="space-between" style={[styles.content, toggled[i] ? styles.contentToggled : styles.contentNotToggled]}>
