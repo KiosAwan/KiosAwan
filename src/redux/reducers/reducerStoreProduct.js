@@ -49,38 +49,38 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 total_diskon: 0
             };
         case "ADD_BY_BAROCDE":
-            console.debug("BARCODE ")
-            let barcode = actions.payload
+            let barcode = actions.payload.barcode
+            let barcodeQty = actions.payload.quantity
             let barcodeProduct = state.data.find(item => barcode == item.barcode_product)
             let barcodeExistedItem = state.belanja.find(item => barcode == item.barcode_product)
             if (barcodeExistedItem) {
-                barcodeProduct.quantity++ ,
-                    barcodeProduct.total += barcodeProduct.price_out_product
-                state.jumlahitem++
+                barcodeProduct.quantity += barcodeQty ,
+                    barcodeProduct.total += barcodeProduct.price_out_product * barcodeQty
+                state.jumlahitem += barcodeQty
                 if (!barcodeProduct.discount_rupiah) {
                     barcodeProduct.discount_total += parseInt(barcodeProduct.discount_persen) / 100 * parseInt(barcodeProduct.price_out_product)
                     return {
                         ...state,
-                        total: state.total + parseInt(barcodeProduct.price_out_product),
-                        total_diskon: state.total_diskon + parseInt(barcodeProduct.discount_persen) / 100 * parseInt(barcodeProduct.price_out_product),
+                        total: state.total + parseInt(barcodeProduct.price_out_product) * parseInt(barcodeQty),
+                        total_diskon: state.total_diskon + parseInt(barcodeProduct.discount_persen) / 100 * parseInt(barcodeProduct.price_out_product) * parseInt(barcodeQty),
                         belanja: [...state.belanja]
                     }
                 }
                 else {
                     return {
                         ...state,
-                        total: state.total + parseInt(barcodeProduct.price_out_product)
+                        total: state.total + parseInt(barcodeProduct.price_out_product) * parseInt(barcodeQty)
                     }
                 }
             }
             else {
-                barcodeProduct.quantity = 1
-                state.jumlahitem++
+                barcodeProduct.quantity = barcodeQty
+                state.jumlahitem += barcodeQty
                 barcodeProduct.discount_rupiah = false
                 barcodeProduct.discount_persen = 0
                 barcodeProduct.discount_total = 0
-                barcodeProduct.total = barcodeProduct.price_out_product
-                let newTotal = state.total + parseInt(barcodeProduct.price_out_product)
+                barcodeProduct.total = barcodeProduct.price_out_product * barcodeQty
+                let newTotal = state.total + parseInt(barcodeProduct.price_out_product) * parseInt(barcodeQty)
                 return {
                     ...state,
                     total: newTotal,
