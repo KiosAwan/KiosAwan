@@ -82,6 +82,8 @@ const TransactionDetail = ({ navigation }) => {
 											title="Jumlah Hutang" content={convertRupiah(data.debt.total)} />
 										<RowOpposite
 											title="Jumlah yang sudah dibayar" content={convertRupiah(data.transaction.amount_payment)} />
+											<RowOpposite
+											title="Sisa hutang" content={convertRupiah(data.debt.remaining_debt)} />
 										<RowOpposite
 											style={data.transaction.status == 0 ? { color: ColorsList.warning } : null}
 											title="Jatuh Tempo" content={formatToDays(data.debt.due_debt_date)} />

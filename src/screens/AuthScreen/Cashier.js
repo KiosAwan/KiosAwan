@@ -33,7 +33,6 @@ const Cashier = ({ navigation }) => {
     const _loadProduct = () => {
         dispatch(getProduct(User.store.id_store))
         dispatch(removeAllCart())
-        console.debug(Product.data[1])
     }
     return (
         <View style={{ flex: 1 }}>

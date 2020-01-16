@@ -25,6 +25,7 @@ import { Image } from 'src/components/CustomImage';
 import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button'
 import { Wrapper } from 'src/components/View/Wrapper'
+import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -34,6 +35,7 @@ const Home = ({ navigation }) => {
 	const [message, setMessage] = useState(false)
 	const [onRefresh, setOnRefresh] = useState(false)
 	const [news, setNews] = useState()
+	const [newsLoading, setNewsLoading] = useState(true)
 	useEffect(() => {
 		_checkService()
 		_getNewsData()
@@ -41,8 +43,8 @@ const Home = ({ navigation }) => {
 
 	const _getNewsData = async () => {
 		const res = await Axios.get('https://kiosawan.com/wp-json/wp/v2/posts')
-		console.debug(res.data)
 		setNews(res.data)
+		setNewsLoading(false)
 	}
 
 	const _checkService = async () => {
@@ -192,19 +194,23 @@ const Home = ({ navigation }) => {
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_2.png')} />
 				</ScrollView>
 				<Text style={{ paddingVertical: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
-				<FlatList
-					data={news}
-					horizontal={true}
-					showsHorizontalScrollIndicator={false}
-					renderItem={({ item }) => (
-						<CardTextImage
-							onPressCard={() => navigation.navigate('/news-screen', { title :item.title.rendered, data : item.content.rendered , newsImage : item.jetpack_featured_media_url })}
-							image={item.jetpack_featured_media_url}
-							info={item.title.rendered}
-						/>
-					)}
-					keyExtractor={(item, index) => index.toString()}
-				/>
+				{newsLoading ?
+					<NewsCardPlaceholder />
+					:
+					<FlatList
+						data={news}
+						horizontal={true}
+						showsHorizontalScrollIndicator={false}
+						renderItem={({ item }) => (
+							<CardTextImage
+								onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
+								image={item.jetpack_featured_media_url}
+								info={item.title.rendered}
+							/>
+						)}
+						keyExtractor={(item, index) => index.toString()}
+					/>
+				}
 			</ScrollView>
 		</View>
 	)

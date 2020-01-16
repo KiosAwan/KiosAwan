@@ -23,3 +23,9 @@ export const ProductPlaceholder = () => (
         <Rect x="100" y="45" rx="3" ry="3" width="100" height="10" />
     </ContentLoader>
 )
+
+export const NewsCardPlaceholder = () => (
+    <ContentLoader height={height/7}>
+        <Rect x="0" y="0" rx="5" ry="5" width={width} height="100" />
+    </ContentLoader>
+)

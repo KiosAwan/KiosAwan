@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
-import { addDiscountProductPersen, resetTotalDiskon, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote } from '../../redux/actions/actionsStoreProduct';
+import { addDiscountProductPersen, resetTotalDiskon, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct } from '../../redux/actions/actionsStoreProduct';
 import { BottomButton } from '../../components/Button/ButtonComp';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader } from '../../components/Header/Header';
@@ -109,10 +109,8 @@ const Cart = ({ navigation }) => {
 	const [confirm, setConfirm] = useState({})
 	const _emptyCart = (force) => {
 		if (force) {
-			Product.belanja.forEach(item => dispatch(RemoveCartProduct(item)))
-			dispatch(AddDiscountPersen(''))
-			dispatch(AddDiscountRupiah(''))
-			dispatch(resetTotalDiskon(''))
+			dispatch(removeAllCart())
+			dispatch(getProduct(User.store.id_store))
 			setHapusPesananOpen(false)
 			navigation.goBack()
 		} else {
