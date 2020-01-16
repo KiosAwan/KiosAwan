@@ -9,6 +9,7 @@ import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText'
 import { BottomButton } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
+import { Image } from 'src/components/CustomImage';
 
 const Akun = ({ navigation }) => {
 	const ListMenu = require('src/assets/json/drawer.json')
@@ -23,13 +24,21 @@ const Akun = ({ navigation }) => {
 		};
 
 	}
+	const images = [
+		require('src/assets/icons/setting1.png'),
+		require('src/assets/icons/setting2.png'),
+		require('src/assets/icons/setting3.png'),
+		require('src/assets/icons/setting4.png'),
+		require('src/assets/icons/setting5.png'),
+		require('src/assets/icons/setting6.png')
+	]
 	return (
 		<View style={{ flex: 1 }}>
 			<GlobalHeader title="Setting" onPressBack={() => navigation.navigate('/')} />
 			<Grid style={{ backgroundColor: ColorsList.authBackground, height: 100 }}>
 				<Row size={.75} style={{ backgroundColor: 'white', padding: 10 }}>
 					<Col style={{ justifyContent: 'center' }} size={1.5}>
-						<Icon name="contact" style={{ fontSize: 60, color: ColorsList.primaryColor }} />
+					<Image size={50} source={require('src/assets/icons/profile.png')} />
 					</Col>
 					<Col style={{ justifyContent: 'center' }} size={8}>
 						<Grid style={{ justifyContent: 'center' }}>
@@ -48,7 +57,7 @@ const Akun = ({ navigation }) => {
 							return (
 								<Col key={i} style={{ padding: '5%' }}>
 									{
-										groupMenu.map((menu, o) => {
+										groupMenu.map((menu, o) => {											
 											return <TouchableOpacity key={o} onPress={() => User.store ? User.data.status == 1 ? navigation.navigate(menu.route) : null : null} style={{
 												backgroundColor: 'white',
 												marginBottom: 5,
@@ -57,14 +66,14 @@ const Akun = ({ navigation }) => {
 												height: 45
 											}}>
 												<Grid>
-													<Col style={{ alignItems: 'center' }} size={1}>
-														<Icon name={menu.icon} style={{ color: ColorsList.primaryColor }} />
+													<Col style={{ alignItems: 'center', justifyContent : "center" }} size={1}>
+														<Image size={30} source={images[o]} />
 													</Col>
 													<Col style={{ justifyContent: 'center', marginLeft: 10 }} size={8}>
 														<Text>{menu.name}</Text>
 													</Col>
 													<Col style={{ justifyContent: 'center', alignItems: 'flex-end' }} size={1}>
-														<Icon name="arrow-dropright" style={{ color: ColorsList.greySoft }} />
+														<Image size={20} source={require('src/assets/icons/next.png')} />
 													</Col>
 												</Grid>
 											</TouchableOpacity>
