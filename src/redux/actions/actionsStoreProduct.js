@@ -44,10 +44,10 @@ export const MinusQuantity = (data) => {
 
 
 //Adding product cart using barcode scanner
-export const AddCartByBarcode = (barcode) => {
+export const AddCartByBarcode = (barang) => {
   return {
     type: "ADD_BY_BAROCDE",
-    payload: barcode
+    payload: barang
   }
 }
 
