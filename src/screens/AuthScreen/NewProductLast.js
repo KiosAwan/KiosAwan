@@ -46,11 +46,13 @@ const NewProductLast = ({ navigation }) => {
 			let intPriceIn = convertNumber(NewProduct.price_in)
 			let intPriceOut = convertNumber(NewProduct.price_out)
 			if (NewProduct.price_in == "" || NewProduct.price_out == "") {
+				setErrorMessage("Harap isi harga beli dan jual")
 				setApiLoading(false)
-				alert("Harap isi harga beli dan jual")
+				setErrorAlert(true)
 			} else if ((intPriceOut - intPriceIn) < 0) {
+				setErrorMessage("Harga jual harus melebihi harga modal")
 				setApiLoading(false)
-				alert("Lu jualan apa sedekah? harga jual lu naikin lahh 🙃")
+				setErrorAlert(true)
 			} else {
 				const formData = new FormData()
 				await formData.append('barcode', NewProduct.barcode)

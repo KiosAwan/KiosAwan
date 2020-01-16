@@ -45,27 +45,20 @@ const InputManual = ({ navigation }) => {
 	}
 
 	const _handleMinusQuantity = () => {
-		if (quantity > 0) {
+		if (parseInt(quantity) > 0) {
 			let a = parseInt(quantity) - 1
 			setQuantity(a)
 		}
 	}
 	const _handlePlusQuantity = () => {
-		if (quantity != "") {
-			let a = parseInt(quantity) + 1
-			setQuantity(a)
-		}
+		let a = parseInt(quantity == "" ? 0 : quantity) + 1
+		setQuantity(a)
 	}
 	const _handleChangePriceIn = (value) => {
-		// if (validNumber(value)) {
 		setPriceIn(value)
-		// }
 	}
-
 	const _handleChangePriceOut = (value) => {
-		// if (validNumber(value)) {
 		setPriceOut(value)
-		// }
 	}
 	return (
 		<View style={{ flex: 1 }}>

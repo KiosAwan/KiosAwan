@@ -26,7 +26,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
             <AwanPopup.Loading visible={apiLoading} />
             <GlobalHeader title="Lupa PIN" onPressBack={() => navigation.goBack()} />
-            <View style={{ padding: 30 }}>
+            <View style={{ padding: 20 }}>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5, alignItems :"center" }}>
                     <Text style={{...FontList.titleFont, color : ColorsList.greySoft, marginBottom : 15}}>Kode OTP akan dikirim melalui SMS ke</Text>
 					<View style={{alignItems :"center", backgroundColor : ColorsList.greyAuthHard, padding : 10, width : '90%', borderRadius:5}}>
