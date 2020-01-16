@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Dimensions, StyleSheet, TextInput,TouchableOpacity } from 'react-native';
+import { View, Dimensions, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
@@ -20,6 +20,7 @@ import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import { ImageAuto, Image } from 'src/components/CustomImage';
+import { Bottom } from 'src/components/View/Bottom';
 
 const width = Dimensions.get('window').width
 
@@ -156,7 +157,7 @@ const Cart = ({ navigation }) => {
 				</Wrapper>
 				<Wrapper justify="space-around" style={{ marginTop: 20 }}>
 					<TouchableOpacity onPress={() => _quantityControl('min')} _style={{ width: '40%', alignItems: 'flex-end' }} style={{ fontSize: 50, color: ColorsList.primaryColor }}>
-						<Image size={45} source={require('src/assets/icons/minusedit.png')}/>
+						<Image size={45} source={require('src/assets/icons/minusedit.png')} />
 					</TouchableOpacity>
 					<TextInput _width="10%" textAlign={'center'} keyboardType="numeric" onChangeText={text => {
 						let a = Number(text)
@@ -165,7 +166,7 @@ const Cart = ({ navigation }) => {
 						}
 					}} value={pesanan.quantity ? pesanan.quantity.toString() : ''} />
 					<TouchableOpacity onPress={() => _quantityControl('add')} _style={{ width: '40%', alignItems: 'flex-start' }} style={{ fontSize: 50, color: ColorsList.primaryColor }}>
-						<Image size={45} source={require('src/assets/icons/plusedit.png')}/>
+						<Image size={45} source={require('src/assets/icons/plusedit.png')} />
 					</TouchableOpacity>
 				</Wrapper>
 				<Wrapper justify="flex-end" style={{ marginTop: 20 }}>
@@ -291,21 +292,16 @@ const Cart = ({ navigation }) => {
 					</View>
 				</View>
 			</ScrollView>
-			<View style={styles.absoluteButton}>
-				<BottomButton
-					onPressBtn={() => {
-						if (Product.jumlahitem > 0) {
-							navigation.navigate('/cashier/check-out')
-							dispatch(getCustomer(User.store.id_store))
-						} else {
-							alert("Keranjang anda kosong")
-						}
-					}}
-					style={{ width: SizeList.width - 30, backgroundColor: ColorsList.primaryColor }}
-					buttonTitle="LANJUTKAN"
-				/>
-			</View>
-
+			<Bottom>
+				<Button onPress={() => {
+					if (Product.jumlahitem > 0) {
+						navigation.navigate('/cashier/check-out')
+						dispatch(getCustomer(User.store.id_store))
+					} else {
+						alert("Keranjang anda kosong")
+					}
+				}} width="100%">LANJUTKAN</Button>
+			</Bottom>
 		</View>
 	);
 }

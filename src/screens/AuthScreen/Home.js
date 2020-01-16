@@ -116,6 +116,16 @@ const Home = ({ navigation }) => {
 			_setAlert(false)
 		}
 	}
+	const _addressStore = () => {
+		if (User.store.address_store) {
+			let address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
+			if (address.length > 30) {
+				return address.substr(0, 30) + '...'
+			}
+			return address
+		}
+		return null
+	}
 	return (
 		<View style={styles.container}>
 			<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
@@ -124,10 +134,10 @@ const Home = ({ navigation }) => {
 			</AwanPopup.Title>
 			<HomeHeader height={50} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
 				<View style={{ alignItems: 'center' }}>
-					<Text color="whiteColor">{'Kios Albert'.toUpperCase()}</Text>
+					<Text color="whiteColor">{User.store.name_store.toUpperCase()}</Text>
 					<Wrapper>
 						<Icon color="white" name="map-marker-alt" />
-						<Text color="whiteColor"> Jl. Wow, Jakarta Selatan</Text>
+						<Text color="whiteColor"> {_addressStore()}</Text>
 					</Wrapper>
 				</View>
 			</HomeHeader>
