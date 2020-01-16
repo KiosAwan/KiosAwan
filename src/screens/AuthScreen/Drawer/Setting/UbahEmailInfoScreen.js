@@ -38,7 +38,7 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader title="Ubah Email" onPressBack={() => navigation.goBack()} />
 			<AwanPopup.Loading visible={apiLoading} />
-			<View style={{ padding: 30 }}>
+			<View style={{ padding: 20 }}>
 				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
 					<FloatingInput label="Email Anda">
 						<TextInput value={User.data.email}
@@ -49,10 +49,10 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 				</View>
 				{User.data.status == 0 ?
 					<View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: 30 }}>
-						<Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.danger, padding: 5 }}>Email anda belum terverifikasi ,mohon segera verifikasi email Anda</Text>
+						<Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.danger, padding: 5 }}>Email anda belum terverifikasi, mohon segera verifikasi email Anda</Text>
 					</View> :
 					<View style={{ backgroundColor: ColorsList.successSoft, marginTop: 30 }}>
-						<Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.success, padding: 5 }}>Email anda telah terverifikasi , tekan tombol dibawah untuk mengganti</Text>
+						<Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.success, padding: 5 }}>Email anda telah terverifikasi, tekan tombol dibawah untuk mengganti</Text>
 					</View>
 				}
 			</View>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Dimensions, StyleSheet, TextInput } from 'react-native';
+import { View, Dimensions, StyleSheet, TextInput,TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { addDiscountProductPersen, resetTotalDiskon, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct } from '../../redux/actions/actionsStoreProduct';
@@ -155,14 +155,18 @@ const Cart = ({ navigation }) => {
 					/>
 				</Wrapper>
 				<Wrapper justify="space-around" style={{ marginTop: 20 }}>
-					<Icon onPress={() => _quantityControl('min')} _style={{ width: '40%', alignItems: 'flex-end' }} style={{ fontSize: 50, color: ColorsList.primaryColor }} name="remove-circle-outline" />
+					<TouchableOpacity onPress={() => _quantityControl('min')} _style={{ width: '40%', alignItems: 'flex-end' }} style={{ fontSize: 50, color: ColorsList.primaryColor }}>
+						<Image size={45} source={require('src/assets/icons/minusedit.png')}/>
+					</TouchableOpacity>
 					<TextInput _width="10%" textAlign={'center'} keyboardType="numeric" onChangeText={text => {
 						let a = Number(text)
 						if ((a > 0 && a < pesanan.stock)) {
 							setPesanan({ ...pesanan, quantity: text })
 						}
 					}} value={pesanan.quantity ? pesanan.quantity.toString() : ''} />
-					<Icon onPress={() => _quantityControl('add')} _style={{ width: '40%', alignItems: 'flex-start' }} style={{ fontSize: 50, color: ColorsList.primaryColor }} name="add-circle" />
+					<TouchableOpacity onPress={() => _quantityControl('add')} _style={{ width: '40%', alignItems: 'flex-start' }} style={{ fontSize: 50, color: ColorsList.primaryColor }}>
+						<Image size={45} source={require('src/assets/icons/plusedit.png')}/>
+					</TouchableOpacity>
 				</Wrapper>
 				<Wrapper justify="flex-end" style={{ marginTop: 20 }}>
 					<Button color="link" onPress={() => setEditPesananOpen(false)}>BATAL</Button>

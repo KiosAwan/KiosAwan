@@ -29,48 +29,65 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 	const [apiLoading, setApiLoading] = useState(false)
 	const [modalVisible, setModalVisible] = useState(false)
 	const [alert, setAlert] = useState(false)
+	const [errorMessage, setErrorMessage] = useState()
+	const [errorAlert, setErrorAlert] = useState(false)
 
 	const _handlePressNext = async () => {
 		setApiLoading(true)
-		let intPriceIn = convertNumber(EditProduct.price_in)
-		let intPriceOut = convertNumber(EditProduct.price_out)
-		if (EditProduct.price_in == "" || EditProduct.price_out == "") {
-			alert("Harap isi harga beli dan jual")
-		} else if ((intPriceOut - intPriceIn) < 0) {
-			alert("Lu jualan apa sedekah? harga jual lu naikin lahh 🙃")
-		} else {
-			const formData = new FormData()
-			await formData.append('barcode', EditProduct.barcode)
-			await formData.append('name', EditProduct.name)
-			await formData.append('price_in', intPriceIn)
-			await formData.append('price_out', intPriceOut)
-			await formData.append('id_category', EditProduct.id_category)
-			await formData.append('id_store', User.store.id_store)
-			await formData.append('manage_stock', EditProduct.manageStock)
-			await formData.append('qty_stock', EditProduct.qty_stock)
-			await formData.append('qty_min_stock', EditProduct.qty_min_stock)
-			await formData.append('send_notification_stock', EditProduct.sendNotif ? EditProduct.sendNotif : 0)
-			await formData.append('photo_product', EditProduct.image != "" ? EditProduct.temp_image != EditProduct.image ? {
-				uri: EditProduct.image,
-				type: "image/jpeg",
-				name: `${Date.now()}.jpeg`
-			} : null : null)
-			try {
-				const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
+		if (!EditProduct.price_in) {
+			setErrorMessage("Harga modal tidak boleh kosong")
+			setApiLoading(false)
+			setErrorAlert(true)
+		} else if (!EditProduct.price_out) {
+			setErrorMessage("Harga jual tidak boleh kosong")
+			setApiLoading(false)
+			setErrorAlert(true)
+		}
+		else {
+			let intPriceIn = convertNumber(EditProduct.price_in)
+			let intPriceOut = convertNumber(EditProduct.price_out)
+			if (EditProduct.price_in == "" || EditProduct.price_out == "") {
+				setErrorMessage("Harap isi harga beli dan jual")
 				setApiLoading(false)
-				if (res.data.status == 200) {
-					setModalVisible(true)
-					setTimeout(() => {
-						setModalVisible(false)
-						dispatch(editRemoveAllNewProduct())
-						dispatch(getProduct(User.store.id_store))
-						navigation.navigate('/drawer/manajemen/produk')
-					}, 1000)
+				setErrorAlert(true)
+			} else if ((intPriceOut - intPriceIn) < 0) {
+				setErrorMessage("Harga jual harus melebihi harga modal")
+				setApiLoading(false)
+				setErrorAlert(true)
+			} else {
+				const formData = new FormData()
+				await formData.append('barcode', EditProduct.barcode)
+				await formData.append('name', EditProduct.name)
+				await formData.append('price_in', intPriceIn)
+				await formData.append('price_out', intPriceOut)
+				await formData.append('id_category', EditProduct.id_category)
+				await formData.append('id_store', User.store.id_store)
+				await formData.append('manage_stock', EditProduct.manageStock)
+				await formData.append('qty_stock', EditProduct.qty_stock)
+				await formData.append('qty_min_stock', EditProduct.qty_min_stock)
+				await formData.append('send_notification_stock', EditProduct.sendNotif ? EditProduct.sendNotif : 0)
+				await formData.append('photo_product', EditProduct.image != "" ? EditProduct.temp_image != EditProduct.image ? {
+					uri: EditProduct.image,
+					type: "image/jpeg",
+					name: `${Date.now()}.jpeg`
+				} : null : null)
+				try {
+					const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
+					setApiLoading(false)
+					if (res.data.status == 200) {
+						setModalVisible(true)
+						setTimeout(() => {
+							setModalVisible(false)
+							dispatch(editRemoveAllNewProduct())
+							dispatch(getProduct(User.store.id_store))
+							navigation.navigate('/drawer/manajemen/produk')
+						}, 1000)
+					}
 				}
-			}
-			catch (err) {
-				setApiLoading(false)
-				alert(err.response.data.data.errors.msg)
+				catch (err) {
+					setApiLoading(false)
+					alert(err.response.data.data.errors.msg)
+				}
 			}
 		}
 
@@ -114,6 +131,11 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 	}
 	return <View style={{ flex: 1 }}>
 		<AwanPopup.Loading visible={apiLoading} />
+		<AwanPopup.Alert
+			message={errorMessage}
+			visible={errorAlert}
+			closeAlert={() => setErrorAlert(false)}
+		/>
 		<Modal
 			animationType="fade"
 			transparent={true}
