@@ -55,7 +55,7 @@ const Report = ({ navigation }) => {
 			<Wrapper justify="space-between" style={styles.report}>
 				<View>
 					<Text>{props.isLaba ? 'Laba/Rugi Kotor' : 'Total Pendapatan'}</Text>
-					<Text font="ExtraBold" size={25} color="primary">{convertRupiah(indexTab == 0 ? transaction.total_penjualan : transaction.total_profit)}</Text>
+					<Text font="ExtraBold" size={22} color="primary">{convertRupiah(indexTab == 0 ? transaction.total_penjualan : transaction.total_profit)}</Text>
 				</View>
 				<TouchableOpacity onPress={() => setDetailPendapatan(!detailPendapatan)} style={{ justifyContent: 'flex-end' }}>
 					<Text font="ExtraBold" size={15}>DETAIL</Text>
@@ -92,7 +92,7 @@ const Report = ({ navigation }) => {
 								<Text font={item.id_category ? null : 'BoldItalic'}>{item.id_category ? item.nama_category : 'Pesanan Manual'}</Text>
 							</Wrapper>,
 							<Wrapper justify="space-between" style={styles.report}>
-								<View>
+								<View width="70%">
 									<Text>{item.Product}</Text>
 									<Text>{`${convertRupiah(item.harga_Satuan)} x ${item.jumlah}`}</Text>
 								</View>
@@ -110,9 +110,12 @@ const Report = ({ navigation }) => {
 		<View style={styles.wrapper}>
 			<GlobalHeader title="Report" onPressBack={() => navigation.navigate('/drawer')} />
 			<AwanPopup.Menu backdropDismiss={() => setFilter(false)} visible={filter} title={_filterView('MMM, YYYY')}>
-				<Button onPress={() => _handleFilter(0)} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Bulan Ini</Button>
-				<Button onPress={() => _handleFilter(-1)} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Satu Bulan Lalu</Button>
-				<Button onPress={() => _handleFilter(-2)} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Dua Bulan Lalu</Button>
+				<Button onPress={() => _handleFilter(0)} color="link" style={{ padding: 10 }} textProps={{ font: 'Regular' }} align="flex-start">Bulan Ini</Button>
+				<Button onPress={() => _handleFilter(-1)} color="link" style={{ padding: 10 }} textProps={{ font: 'Regular' }} align="flex-start">Satu Bulan Lalu</Button>
+				<Button onPress={() => _handleFilter(-2)} color="link" style={{ padding: 10 }} textProps={{ font: 'Regular' }} align="flex-start">Dua Bulan Lalu</Button>
+				{/* <View style={{ padding: 10 }}>
+					<Text>kjaskdhj</Text>
+				</View> */}
 			</AwanPopup.Menu>
 			<Wrapper justify="space-between" style={styles.filterWrapper}>
 				<View style={{ justifyContent: 'center' }}>
@@ -147,7 +150,7 @@ const Report = ({ navigation }) => {
 							<Wrapper style={styles.tabButtonWrapper}>
 								{
 									['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].map((btn, i) => {
-										return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ size: 12 }} style={{ borderRadius: 0 }} _width="50%">{btn}</Button>
+										return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ align: 'center', size: 11 }} style={{ borderRadius: 0 }} _width="50%">{btn}</Button>
 									})
 								}
 							</Wrapper>

@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Bottom } from '../View/Bottom';
 import { $Padding } from 'src/utils/stylehelper';
 import { Button } from '../Button/Button';
+import Divider from '../Row/Divider';
 
 export const Modal = (props) => {
 	const styles = StyleSheet.create({
@@ -44,21 +45,27 @@ export const AwanPopup = {
 		</Modal>
 	},
 	Menu: props => {
-		return <Modal animationType="fade" transparents style={[styles.shadow, {
-			padding: 0, minWidth: 250, position: props.absolute ? 'absolute' : undefined
-		}, props.position]} {...props}>
+		return <Modal {...props} animationType="fade" transparents style={[styles.shadow, {
+			padding: 0, minWidth: '70%', position: props.position ? 'absolute' : undefined
+		}, props.style]}>
 			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
-				<Text font="Bold" size={props.titleSize || 15} style={{ color: ColorsList.whiteColor, padding: 15 }}>
+				<Text font="Bold" size={props.titleSize || 15} style={{ color: ColorsList.whiteColor, ...$Padding(10, 15) }}>
 					{props.title.toUpperCase()}
 				</Text>
 			</LinearGradient>
-			<View style={{ padding: 15 }}>
-				{props.children}
+			<View style={[{ padding: 5 }, props.contentStyle]}>
+				{
+					props.children.length > 0 ?
+						props.children.map((child, i) => [
+							child, props.children.length - 1 != i ? <Divider /> : null
+						])
+						: props.children
+				}
 			</View>
 		</Modal>
 	},
 	Loading: props => {
-		return <Modal animationType="fade" style={{ backgroundColor: ColorsList.transparent, padding: 0 }} {...props}>
+		return <Modal {...props} animationType="fade" style={{ backgroundColor: ColorsList.transparent, padding: 0 }}>
 			<View style={{ borderRadius: 15, backgroundColor: ColorsList.whiteColor, padding: 15 }}>
 				<Image source={require('../../assets/modals/spinner.gif')}
 					style={[styles.image, { width: 50, height: 50 }]}

@@ -71,10 +71,10 @@ const TransactionList = ({ navigation }) => {
           route.key == 'first' ?
             <View>
               <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
-                <Button onPress={() => selectFilter('all')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Semua</Button>
-                <Button onPress={() => selectFilter('1')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Lunas</Button>
-                <Button onPress={() => selectFilter('2')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Hutang</Button>
-                <Button onPress={() => selectFilter('3')} color="link" style={{ padding: 0 }} textProps={{ font: 'Regular' }} align="flex-start">Dibatalkan</Button>
+                <Button onPress={() => selectFilter('all')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Semua</Button>
+                <Button onPress={() => selectFilter('1')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Lunas</Button>
+                <Button onPress={() => selectFilter('2')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Hutang</Button>
+                <Button onPress={() => selectFilter('3')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Dibatalkan</Button>
               </AwanPopup.Menu>
               <View style={{ padding: 15, paddingTop: 0, backgroundColor: ColorsList.whiteColor }}>
                 <Wrapper justify="space-between">
@@ -108,7 +108,7 @@ const TransactionList = ({ navigation }) => {
                                 <View style={{ padding: 15 }}>
                                   <Wrapper>
                                     <View style={{ justifyContent: 'center' }}>
-                                      <Image style={{ width: 50, height: 50 }} source={iconImage[trx.status].image} />
+                                      <Image style={{ width: 35, height: 35 }} source={iconImage[trx.status].image} />
                                     </View>
                                     <View style={{ paddingLeft: 15, justifyContent: 'center' }}>
                                       <Text color="primary">{convertRupiah(trx.total_transaction)}</Text>
@@ -133,10 +133,10 @@ const TransactionList = ({ navigation }) => {
                   />
                   :
                   <View style={{ alignItems: 'center' }}>
-                    <Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
-                    <View style={{ alignItems: 'center' }}>
+                    <Image style={{ width: 200, height: 200 }} source={require('src/assets/images/no-transaction.png')} />
+                    <View style={{ padding: 20, alignItems: 'center' }}>
                       <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
-                      <Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+                      <Text align="center">Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
                     </View>
                   </View>
               }
