@@ -50,7 +50,7 @@ const TransactionDetail = ({ navigation }) => {
 			<AwanPopup.Loading visible={dataLoading} />
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
-					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: 90 }}>
+					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: data.transaction.status == 3 ? 0 : 90 }}>
 						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ paddingVertical: 10, backgroundColor: ColorsList.authBackground }}>
 							<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 								{

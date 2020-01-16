@@ -2,34 +2,27 @@
   [
     {
       "name": "Transaksi",
-      "route": "/drawer/transaction",
-      "icon": "sync"
+      "route": "/drawer/transaction"
     },
     {
       "name": "Manajemen",
-      "route": "/drawer/manajemen",
-      "icon": "analytics"
+      "route": "/drawer/manajemen"
     },
     {
       "name": "Laporan",
-      "route": "/drawer/laporan",
-      "icon": "paper"
+      "route": "/drawer/laporan"
     },
     {
       "name": "Pengaturan",
-      "route": "/drawer/settings",
-      "icon": "settings"
+      "route": "/drawer/settings"
     },
     {
       "name":"FAQ",
-      // {/drawer/faq}
-      "route":"",
-      "icon":"logo-flickr"
+      "route":"/drawer/faq"
     },
     {
       "name": "Hubungi Kami",
-      "route": "/drawer/help",
-      "icon": "call"
+      "route": "/drawer/help"
     }
   ]
 ]
