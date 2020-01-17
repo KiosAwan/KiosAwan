@@ -90,7 +90,7 @@ const Akun = ({ navigation }) => {
 				<BottomButton
 					onPressBtn={_onPressLogout}
 					style={{ width: SizeList.width - 30, backgroundColor: ColorsList.primaryColor }}
-					buttonTitle="LOGOUT"
+					buttonTitle="KELUAR"
 				/>
 			</View>
 		</View>
