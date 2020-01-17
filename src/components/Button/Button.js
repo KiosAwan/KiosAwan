@@ -38,11 +38,11 @@ export const Button = props => {
 		if (props.color === key)
 			_color = Colors[props.color]
 	}
-	if (Array.isArray(props.color) && props.color.length > 2) {
+	if (Array.isArray(props.color)) {
 		_color = {
-			borderColor: props.color[0],
-			backgroundColor: props.color[1],
-			text: props.color.length === 3 ? props.color[2] : props.color[0]
+			backgroundColor: ColorsList[props.color[0]],
+			text: ColorsList[props.color[1]],
+			borderColor: props.color.length === 3 ? ColorsList[props.color[2]] : ColorsList[props.color[0]]
 		}
 	}
 	return <TouchableOpacity activeOpacity={.7} {...props} style={[{
@@ -61,15 +61,7 @@ export const Button = props => {
 					{props.children}
 				</Text>
 				:
-				<Wrapper {...props.wrapper}>
-					{props.children.length > 0 ?
-						props.children.map((child, i) => {
-							return <View key={i} style={{ marginRight: 5, justifyContent: 'center' }}>{child}</View>
-						})
-						:
-						props.children
-					}
-				</Wrapper>
+				<Wrapper {...props.wrapper}>{props.children}</Wrapper>
 		}
 	</TouchableOpacity>
 }

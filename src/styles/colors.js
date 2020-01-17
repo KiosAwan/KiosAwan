@@ -18,5 +18,7 @@ export const ColorsList = {
     danger: '#f04184',
     dangerSoft: '#fbdbe7',
     black: '#000',
+    purple:'#904bb7',
+    purpleSoft:'#ebcbfd',
     transparent: 'transparent'
 }

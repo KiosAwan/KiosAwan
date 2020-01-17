@@ -116,13 +116,23 @@ const Home = ({ navigation }) => {
 			_setAlert(false)
 		}
 	}
+	const _nameStore = () => {
+		return User.store ? {
+			children: User.store.name_store.toUpperCase()
+		} : {
+				children: 'Belum ada toko',
+				font: 'BoldItalic'
+			}
+	}
 	const _addressStore = () => {
-		if (User.store.address_store) {
+		if (User.store && User.store.address_store) {
 			let address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
 			if (address.length > 30) {
 				return address.substr(0, 30) + '...'
 			}
 			return address
+		} else {
+			return 'Lokasi belum di tentukan'
 		}
 		return null
 	}
@@ -134,7 +144,7 @@ const Home = ({ navigation }) => {
 			</AwanPopup.Title>
 			<HomeHeader height={50} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
 				<View style={{ alignItems: 'center' }}>
-					<Text color="whiteColor">{User.store.name_store.toUpperCase()}</Text>
+					<Text color="whiteColor" {..._nameStore()} />
 					<Wrapper>
 						<Icon color="white" name="map-marker-alt" />
 						<Text color="whiteColor"> {_addressStore()}</Text>
@@ -144,37 +154,6 @@ const Home = ({ navigation }) => {
 			<ScrollView
 				refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
 				style={styles.childContainer} showsVerticalScrollIndicator={false}>
-				<View style={{ borderRadius: 5, marginTop: 10, backgroundColor: ColorsList.whiteColor }}>
-					<Wrapper justify="space-between" style={$Padding(10, 15)}>
-						<Wrapper justify="flex-start">
-							<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
-							<Text>Saldo: {convertRupiah(450000)}</Text>
-						</Wrapper>
-						<Wrapper justify="flex-end">
-							<Button color="link">
-								<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
-							</Button>
-							<Button textProps={{ size: 10 }}>TOP UP</Button>
-						</Wrapper>
-					</Wrapper>
-					<Divider />
-					<Wrapper justify="space-around">
-						<Button color="link">
-							<Image source={require('src/assets/icons/home/chart-up.png')} size={15} />
-							<Text>Riwayat</Text>
-						</Button>
-						<Divider height={40} />
-						<Button color="link">
-							<Image source={require('src/assets/icons/home/coupon.png')} size={15} />
-							<Text>Kupon</Text>
-						</Button>
-						<Divider height={40} />
-						<Button color="link">
-							<Image source={require('src/assets/icons/home/star.png')} size={15} />
-							<Text>Favorit</Text>
-						</Button>
-					</Wrapper>
-				</View>
 				<View style={{ paddingVertical: 10 }}>
 					{
 						maintanance ?
@@ -190,7 +169,8 @@ const Home = ({ navigation }) => {
 									{message}
 								</TextTicker>
 							</View>
-							: null}
+							: null
+					}
 					{
 						User.store ? User.data.status == 0 ?
 							<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
@@ -200,17 +180,44 @@ const Home = ({ navigation }) => {
 								</View>
 							</TouchableOpacity>
 							: null :
-							<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
-								<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
-									<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<View style={{ width: '80%' }}>
-										<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont }}>
-											Lengkapi profil Anda agar bisa menggunakan fitur-fitur yang tersedia. <Text style={{ color: ColorsList.whiteColor, textDecorationLine: 'underline' }}>Klik disini</Text>
-										</Text>
-									</View>
+							<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
+								<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
+									<Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+									<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Verifikasi Email Anda Sekarang!</Text>
 								</View>
 							</TouchableOpacity>
 					}
+					<View style={{ borderRadius: 5, marginBottom: 10, backgroundColor: ColorsList.whiteColor }}>
+						<Wrapper justify="space-between" style={$Padding(10, 15)}>
+							<Wrapper justify="flex-start">
+								<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
+								<Text>Saldo: {convertRupiah(0)}</Text>
+							</Wrapper>
+							<Wrapper justify="flex-end">
+								<Button color="link">
+									<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
+								</Button>
+								<Button textProps={{ size: 10 }}>TOP UP</Button>
+							</Wrapper>
+						</Wrapper>
+						<Divider />
+						<Wrapper justify="space-around">
+							<Button color="link">
+								<Image source={require('src/assets/icons/home/chart-up.png')} size={15} />
+								<Text>Riwayat</Text>
+							</Button>
+							<Divider height={40} />
+							<Button color="link">
+								<Image source={require('src/assets/icons/home/coupon.png')} size={15} />
+								<Text>Kupon</Text>
+							</Button>
+							<Divider height={40} />
+							<Button color="link">
+								<Image source={require('src/assets/icons/home/star.png')} size={15} />
+								<Text>Favorit</Text>
+							</Button>
+						</Wrapper>
+					</View>
 					<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 						<Wrapper justify="space-between">
 							<Image size={75} _width="25%" source={require("src/assets/icons/icon-cashier.png")} />
