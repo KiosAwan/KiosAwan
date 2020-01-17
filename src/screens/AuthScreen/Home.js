@@ -142,12 +142,44 @@ const Home = ({ navigation }) => {
 				<View></View>
 				<Button width='30%' onPress={_completeProfile}>OK</Button>
 			</AwanPopup.Title>
-			<HomeHeader height={50} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
+			<HomeHeader center={
 				<View style={{ alignItems: 'center' }}>
 					<Text color="whiteColor" {..._nameStore()} />
 					<Wrapper>
 						<Icon color="white" name="map-marker-alt" />
 						<Text color="whiteColor"> {_addressStore()}</Text>
+					</Wrapper>
+				</View>
+			} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
+				<View style={{ borderRadius: 5, marginHorizontal: 15, backgroundColor: ColorsList.whiteColor }}>
+					<Wrapper justify="space-between" style={$Padding(10, 15)}>
+						<Wrapper justify="flex-start">
+							<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
+							<Text>Saldo: {convertRupiah(User.data.saldo)}</Text>
+						</Wrapper>
+						<Wrapper justify="flex-end">
+							<Button color="link">
+								<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
+							</Button>
+							<Button textProps={{ size: 10 }}>TOP UP</Button>
+						</Wrapper>
+					</Wrapper>
+					<Divider />
+					<Wrapper justify="space-around">
+						<Button color="link">
+							<Image source={require('src/assets/icons/home/chart-up.png')} size={15} />
+							<Text>Riwayat</Text>
+						</Button>
+						<Divider height={40} />
+						<Button color="link">
+							<Image source={require('src/assets/icons/home/coupon.png')} size={15} />
+							<Text>Kupon</Text>
+						</Button>
+						<Divider height={40} />
+						<Button color="link">
+							<Image source={require('src/assets/icons/home/star.png')} size={15} />
+							<Text>Favorit</Text>
+						</Button>
 					</Wrapper>
 				</View>
 			</HomeHeader>
@@ -188,40 +220,10 @@ const Home = ({ navigation }) => {
 								</View>
 							</TouchableOpacity>
 					}
-					<View style={{ borderRadius: 5, marginBottom: 10, backgroundColor: ColorsList.whiteColor }}>
-						<Wrapper justify="space-between" style={$Padding(10, 15)}>
-							<Wrapper justify="flex-start">
-								<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
-								<Text>Saldo: {convertRupiah(0)}</Text>
-							</Wrapper>
-							<Wrapper justify="flex-end">
-								<Button color="link">
-									<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
-								</Button>
-								<Button textProps={{ size: 10 }}>TOP UP</Button>
-							</Wrapper>
-						</Wrapper>
-						<Divider />
-						<Wrapper justify="space-around">
-							<Button color="link">
-								<Image source={require('src/assets/icons/home/chart-up.png')} size={15} />
-								<Text>Riwayat</Text>
-							</Button>
-							<Divider height={40} />
-							<Button color="link">
-								<Image source={require('src/assets/icons/home/coupon.png')} size={15} />
-								<Text>Kupon</Text>
-							</Button>
-							<Divider height={40} />
-							<Button color="link">
-								<Image source={require('src/assets/icons/home/star.png')} size={15} />
-								<Text>Favorit</Text>
-							</Button>
-						</Wrapper>
-					</View>
+
 					<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons/icon-cashier.png")} />
+							<Image size={75} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">KASIR</Text>
 								<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
@@ -230,7 +232,7 @@ const Home = ({ navigation }) => {
 					</Button>
 					<Button onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons/icon-payment.png")} />
+							<Image size={75} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
 								<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
@@ -239,7 +241,7 @@ const Home = ({ navigation }) => {
 					</Button>
 					<Button onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons/icon-restock.png")} />
+							<Image size={75} _width="25%" source={require("src/assets/icons/home/restock.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
 								<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
