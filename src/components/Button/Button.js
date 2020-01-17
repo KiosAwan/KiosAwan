@@ -51,7 +51,7 @@ export const Button = props => {
 		borderRadius: 5,
 		width: props.width || undefined
 	},
-	props.padding ? { padding: props.padding } : $Padding(5, 10),
+	props.padding ? typeof props.padding === 'number' ? { padding: props.padding } : props.padding : $Padding(5, 10),
 		_color, props.style]
 	}>
 		{

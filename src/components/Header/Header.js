@@ -23,8 +23,8 @@ export const HeaderRegister = (props) => {
 
 export const HomeHeader = props => {
     return [
-        <BarStatus />,
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: props.height || 80 }}>
+            <BarStatus />
             <Wrapper justify="space-between" style={{ padding: 15, paddingTop: 0 }}>
                 <View style={{ justifyContent: 'center' }}>
                     <TouchableOpacity onPress={props.onPressMenu}>

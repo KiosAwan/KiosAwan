@@ -21,6 +21,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import { ImageAuto, Image } from 'src/components/CustomImage';
 import { Bottom } from 'src/components/View/Bottom';
+import { $Padding } from 'src/utils/stylehelper';
 
 const width = Dimensions.get('window').width
 
@@ -226,11 +227,11 @@ const Cart = ({ navigation }) => {
 						} />
 					</View>
 					<Wrapper style={{ marginBottom: 10 }}>
-						<Button color="white" _width="49%" onPress={() => navigation.goBack()}>
+						<Button color="white" _width="49%" padding={10} onPress={() => navigation.goBack()}>
 							<Image size={17} source={require('src/assets/icons/plus-primary.png')} />
 							<Text size={12} color="primary">TAMBAH PRODUK</Text>
 						</Button>
-						<Button color="white" _width="49%" onPress={() => _emptyCart()}>
+						<Button color="white" _width="49%" padding={10} onPress={() => _emptyCart()}>
 							<Image size={17} source={require('src/assets/icons/trash-primary.png')} />
 							<Text size={12} color="primary">HAPUS PESANAN</Text>
 						</Button>
