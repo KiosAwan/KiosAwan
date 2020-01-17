@@ -23,7 +23,7 @@ export const HeaderRegister = (props) => {
 
 export const HomeHeader = props => {
     return [
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: props.height || 80 }}>
+        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: props.height || 170, justifyContent : "center" }}>
             <BarStatus />
             <Wrapper justify="space-between" style={{ padding: 15, paddingTop: 0 }}>
                 <View style={{ justifyContent: 'center' }}>
@@ -31,13 +31,14 @@ export const HomeHeader = props => {
                         <Icon color="white" size={20} name="bars" />
                     </TouchableOpacity>
                 </View>
-                {props.children ? props.children : <Image style={{ width: 150, height: 80 }} source={require('src/assets/images/logo.png')} />}
+                {props.center ? props.center : <Image style={{ width: 150, height: 80 }} source={require('src/assets/images/logo.png')} />}
                 <View style={{ justifyContent: 'center' }}>
                     <TouchableOpacity>
                         <Icon color="white" size={20} name="bell" />
                     </TouchableOpacity>
                 </View>
             </Wrapper>
+            {props.children}
         </LinearGradient>
     ]
 }
