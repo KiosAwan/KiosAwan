@@ -43,6 +43,7 @@ class CetakStruk extends Component {
 	async componentDidMount() {//alert(BluetoothManager)
 		const { data } = await this.props.navigation.state.params
 		this.setState({ printData: data })
+		console.debug(data)
 		const connectedPrinter = await AsyncStorage.getItem('@connected_printer')
 		if (connectedPrinter) {
 			this.props.addPrinter(JSON.parse(connectedPrinter))

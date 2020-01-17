@@ -26,6 +26,7 @@ import { SizeList } from '../../styles/size';
 import { InputText, InputNumber } from '../../components/Input/InputComp';
 import { InputPIN } from '../../components/Input/InputPIN';
 import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -74,7 +75,7 @@ const LoginVerification = ({ navigation }) => {
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
             <BarStatus />
-            {loading ? <Spinner color="white" /> : null}
+            <AwanPopup.Loading visible={loading} />
             <View style={{ padding: 20 }}>
                 <HeaderRegister />
             </View>
