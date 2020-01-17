@@ -78,11 +78,11 @@ const TransactionDetailHutang = ({ navigation }) => {
 							}}
 						/>
 						:
-						<View style={{ alignItems: 'center' }}>
-							<Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
+						<View style={{ alignItems: 'center', width : '75%' }}>
+							<Image style={{ width: 250, height: 250, marginTop : 50 }} source={require('src/assets/images/no-transaction.png')} />
 							<View style={{ alignItems: 'center' }}>
-								<Text font="ExtraBold" size={17}>Anda belum memiliki piutang</Text>
-								<Text>Silahkan lalukan transaksi baru untuk mengisi laporan</Text>
+								<Text font="ExtraBold" size={17}>Anda belum memiliki piutang!</Text>
+								<Text align="center">Silahkan lalukan transaksi baru untuk mengisi laporan.</Text>
 							</View>
 						</View>
 				}
