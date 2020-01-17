@@ -65,7 +65,7 @@ const Home = ({ navigation }) => {
 		switch (action) {
 			case 'ppob':
 				title = 'FITUR PAYMENT POINT'
-				message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+				message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
 				break;
 			case 'stock':
 				title = 'FITUR BELANJA STOK'

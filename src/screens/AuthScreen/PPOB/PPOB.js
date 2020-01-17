@@ -63,6 +63,7 @@ const PPOB = ({ navigation }) => {
 						/>
 					</View>
 				)}
+				keyExtractor={(item, index) => index.toString()}
 			/>
 		</View>
 	)

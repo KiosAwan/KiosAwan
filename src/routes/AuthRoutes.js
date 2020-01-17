@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 
 //Import Screen
 import CashierNavigator from './DrawerComponent/CashierNavigator'
-import { fromLeft, flipX, flipY, zoomIn, zoomOut, fromBottom } from 'react-navigation-transitions';
+import { fromLeft, flipX, flipY, zoomIn, zoomOut, fromBottom, fadeIn, fromTop, fromRight } from 'react-navigation-transitions';
 import Home from '../screens/AuthScreen/Home';
 import NewsScreen from 'src/screens/AuthScreen/NewsScreen';
 import PPOBNavigator from './PPOBNavigator';
@@ -16,7 +16,7 @@ const handleCustomTransition = ({ scenes }) => {
   if (prevScene && prevScene.route.routeName === '/' && nextScene.route.routeName === '/drawer') {
     return fromLeft(250);
   }
-  return fromBottom();
+  return fromRight();
 }
 
 const Navs = {
