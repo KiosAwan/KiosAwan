@@ -223,7 +223,7 @@ const Home = ({ navigation }) => {
 
 					<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
+							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">KASIR</Text>
 								<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
@@ -232,7 +232,7 @@ const Home = ({ navigation }) => {
 					</Button>
 					<Button onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
+							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
 								<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
@@ -241,7 +241,7 @@ const Home = ({ navigation }) => {
 					</Button>
 					<Button onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 						<Wrapper justify="space-between">
-							<Image size={75} _width="25%" source={require("src/assets/icons/home/restock.png")} />
+							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/restock.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
 								<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
