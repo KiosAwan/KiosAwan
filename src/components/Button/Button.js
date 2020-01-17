@@ -51,12 +51,12 @@ export const Button = props => {
 		borderRadius: 5,
 		width: props.width || undefined
 	},
-	props.padding ? typeof props.padding === 'number' ? { padding: props.padding } : props.padding : $Padding(5, 10),
+	props.padding ? typeof props.padding === 'number' ? { padding: props.padding } : props.padding : $Padding(8, 10),
 		_color, props.style]
 	}>
 		{
 			typeof props.children === 'string' ?
-				<Text font="ExtraBold" align="center" {...props.textProps}
+				<Text align="center" {...props.textProps}
 					style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]}>
 					{props.children}
 				</Text>
