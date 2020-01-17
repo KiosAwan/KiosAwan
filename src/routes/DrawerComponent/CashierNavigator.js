@@ -1,6 +1,3 @@
-import { createAppContainer } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
-
 import Stock from '../../screens/AuthScreen/Stock'
 import Cashier from '../../screens/AuthScreen/Cashier'
 import NewBarcodeProduct from '../../screens/AuthScreen/NewBarcodeProduct'
@@ -12,7 +9,7 @@ import InputManual from '../../screens/AuthScreen/InputManual'
 import CheckOut from '../../screens/AuthScreen/CheckOut'
 import AddCartWithBarcode from '../../screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
 
-const Navs = {
+const CashierNavigator = {
   '/cashier': {
     screen: Cashier,
     navigationOptions: {
@@ -74,6 +71,5 @@ const Navs = {
     }
   }
 }
-const CashierNavigator = createStackNavigator(Navs)
 
-export default createAppContainer(CashierNavigator)
+export default CashierNavigator

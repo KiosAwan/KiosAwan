@@ -1,5 +1,3 @@
-import { createAppContainer } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
 import MenuSetting from '../../screens/AuthScreen/Drawer/Setting/MenuSetting'
 import MenuSettingProfil from '../../screens/AuthScreen/Drawer/Setting/MenuSettingProfil'
 import MenuSettingUbahEmail from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahEmail'
@@ -13,10 +11,9 @@ import ChangePINInputPwd from '../../screens/AuthScreen/Drawer/Setting/ChangePIN
 import UbahPasswordInputPIN from '../../screens/AuthScreen/Drawer/Setting/UbahPasswordInputPIN';
 import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmailNewEmail'
 import MenuSettingUbahNoHPInputOTP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHPInputOTP'
-import UbahEmailInfoScreen from '../../screens/AuthScreen/Drawer/Setting/UbahEmailInfoScreen'
 import UbahNoHPInfoScreen from '../../screens/AuthScreen/Drawer/Setting/UbahNoHPInfoScreen'
 
-const SettingNavigator = createStackNavigator({
+const SettingNavigator = {
   '/drawer/settings': {
     screen: MenuSetting,
     navigationOptions: {
@@ -101,6 +98,6 @@ const SettingNavigator = createStackNavigator({
       header : null
     }
   },
-})
+}
 
-export default createAppContainer(SettingNavigator)
+export default SettingNavigator

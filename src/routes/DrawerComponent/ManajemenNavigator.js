@@ -1,21 +1,19 @@
-import { createAppContainer } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
-import Manajemen from '../../screens/AuthScreen/Drawer/Manajemen'
-import ManajemenProduk from '../../screens/AuthScreen/Drawer/Manajemen/Produk'
-import ManajemenKategori from '../../screens/AuthScreen/Drawer/Manajemen/Kategori'
-import ManajemenDiskon from '../../screens/AuthScreen/Drawer/Manajemen/Diskon'
-import ManajemenPelanggan from '../../screens/AuthScreen/Drawer/Manajemen/Pelanggan'
-import KategoriAdd from '../../screens/AuthScreen/Drawer/Manajemen/KategoriAdd'
-import KategoriEdit from '../../screens/AuthScreen/Drawer/Manajemen/KategoriEdit'
-import PelangganAdd from '../../screens/AuthScreen/Drawer/Manajemen/PelangganAdd'
-import PelangganEdit from '../../screens/AuthScreen/Drawer/Manajemen/PelangganEdit'
-import DiskonAdd from '../../screens/AuthScreen/Drawer/Manajemen/DiskonAdd'
-import DiskonEdit from '../../screens/AuthScreen/Drawer/Manajemen/DiskonEdit'
-import ManajemenProdukEdit from 'src/screens/AuthScreen/Drawer/Manajemen/ProdukEdit'
-import ManajemenProdukEditBarcode from 'src/screens/AuthScreen/Drawer/Manajemen/ProdukEditBarcode'
-import ManajemenProdukEditHarga from 'src/screens/AuthScreen/Drawer/Manajemen/ProdukEditHarga'
+import Manajemen from "src/screens/AuthScreen/Drawer/Manajemen"
+import ManajemenProduk from "src/screens/AuthScreen/Drawer/Manajemen/Produk"
+import ManajemenProdukEdit from "src/screens/AuthScreen/Drawer/Manajemen/ProdukEdit"
+import ManajemenProdukEditBarcode from "src/screens/AuthScreen/Drawer/Manajemen/ProdukEditBarcode"
+import ManajemenProdukEditHarga from "src/screens/AuthScreen/Drawer/Manajemen/ProdukEditHarga"
+import ManajemenKategori from "src/screens/AuthScreen/Drawer/Manajemen/Kategori"
+import KategoriAdd from "src/screens/AuthScreen/Drawer/Manajemen/KategoriAdd"
+import KategoriEdit from "src/screens/AuthScreen/Drawer/Manajemen/KategoriEdit"
+import ManajemenDiskon from "src/screens/AuthScreen/Drawer/Manajemen/Diskon"
+import DiskonAdd from "src/screens/AuthScreen/Drawer/Manajemen/DiskonAdd"
+import DiskonEdit from "src/screens/AuthScreen/Drawer/Manajemen/DiskonEdit"
+import ManajemenPelanggan from "src/screens/AuthScreen/Drawer/Manajemen/Pelanggan"
+import PelangganAdd from "src/screens/AuthScreen/Drawer/Manajemen/PelangganAdd"
+import PelangganEdit from "src/screens/AuthScreen/Drawer/Manajemen/PelangganEdit"
 
-const ManajemenNavigator = createStackNavigator({
+const ManajemenNavigator = {
 	'/drawer/manajemen': {
 		screen: Manajemen,
 		navigationOptions: {
@@ -100,5 +98,5 @@ const ManajemenNavigator = createStackNavigator({
 			header: null
 		}
 	},
-})
-export default createAppContainer(ManajemenNavigator)
+}
+export default ManajemenNavigator
