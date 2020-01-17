@@ -89,7 +89,7 @@ const Home = ({ navigation }) => {
 		}
 	}
 
-	const _onPressPayment = () => _featureDisabled('ppob')
+	const _onPressPayment = () => navigation.navigate('/ppob') //_featureDisabled('ppob')
 	const _onPressStock = () => _featureDisabled('stock')
 
 	const _handlePressDrawer = () => {
@@ -184,7 +184,7 @@ const Home = ({ navigation }) => {
 								<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
 									<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 									<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Lengkapi Profil Anda Sekarang!</Text>
-									<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont,  textDecorationLine : 'underline' }}>Klik disini</Text>
+									<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, textDecorationLine: 'underline' }}>Klik disini</Text>
 								</View>
 							</TouchableOpacity>
 					}

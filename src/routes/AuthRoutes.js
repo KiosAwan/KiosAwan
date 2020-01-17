@@ -14,6 +14,7 @@ import TransactionCetakStruk from 'src/screens/AuthScreen/Drawer/Transaction/Tra
 import TambahPrinter from 'src/screens/AuthScreen/Drawer/Transaction/TambahPrinter';
 import NewsScreen from 'src/screens/AuthScreen/NewsScreen';
 import UbahEmailInfoScreen from 'src/screens/AuthScreen/Drawer/Setting/UbahEmailInfoScreen';
+import PPOB from 'src/screens/AuthScreen/PPOB/PPOB';
 
 
 
@@ -89,6 +90,12 @@ const AuthNavigator = createStackNavigator(Object.assign({
   },
   '/drawer/settings/change-email': {
     screen: UbahEmailInfoScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/ppob': {
+    screen: PPOB,
     navigationOptions: {
       header: null
     }
