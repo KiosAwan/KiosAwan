@@ -13,6 +13,7 @@ import VerifikasiEmail from '../screens/AuthScreen/Drawer/Temp/VerifikasiEmail';
 import TransactionCetakStruk from 'src/screens/AuthScreen/Drawer/Transaction/TransactionCetakStruk';
 import TambahPrinter from 'src/screens/AuthScreen/Drawer/Transaction/TambahPrinter';
 import NewsScreen from 'src/screens/AuthScreen/NewsScreen';
+import UbahEmailInfoScreen from 'src/screens/AuthScreen/Drawer/Setting/UbahEmailInfoScreen';
 
 
 
@@ -82,6 +83,12 @@ const AuthNavigator = createStackNavigator(Object.assign({
   },
   '/news-screen': {
     screen: NewsScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/settings/change-email': {
+    screen: UbahEmailInfoScreen,
     navigationOptions: {
       header: null
     }

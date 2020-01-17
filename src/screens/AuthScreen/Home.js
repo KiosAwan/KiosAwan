@@ -180,10 +180,11 @@ const Home = ({ navigation }) => {
 								</View>
 							</TouchableOpacity>
 							: null :
-							<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
-								<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
-									<Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Verifikasi Email Anda Sekarang!</Text>
+							<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
+								<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
+									<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+									<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Lengkapi Profil Anda Sekarang!</Text>
+									<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont,  textDecorationLine : 'underline' }}>Klik disini</Text>
 								</View>
 							</TouchableOpacity>
 					}

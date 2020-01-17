@@ -29,12 +29,6 @@ const SettingNavigator = createStackNavigator({
       header: null
     }
 	},
-	'/drawer/settings/change-email': {
-    screen: UbahEmailInfoScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
   '/drawer/settings/change-email/otp-validation': {
     screen: MenuSettingUbahEmail,
     navigationOptions: {
