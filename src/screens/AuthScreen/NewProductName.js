@@ -129,10 +129,10 @@ const NewProductName = ({ navigation }) => {
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
 							<FloatingInputLabel handleChangeText={(text) => {
-								if (validNumber(text)){
+								if (validNumber(text)) {
 									dispatch(addProductBarcode(text))
 								}
-								}} label="Nomor Barcode" value={NewProduct.barcode} />
+							}} label="Nomor Barcode" value={NewProduct.barcode} />
 						</Col>
 						<Col size={.2}>
 							<Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}>
@@ -211,14 +211,14 @@ export default NewProductName
 
 const styles = StyleSheet.create({
 	mainView: { backgroundColor: ColorsList.authBackground, justifyContent: 'space-between', flex: 1 },
-	scrollView: { marginBottom: 80, padding: 10, paddingHorizontal: 20 },
+	scrollView: { marginBottom: 70, padding: 10, paddingHorizontal: 20 },
 	buttonScanBarcode: { borderRadius: 10, backgroundColor: ColorsList.primaryColor, width: '100%', height: '100%', justifyContent: 'center' },
 	viewButtonPopup: { marginTop: 15, borderColor: 'transparent', flexDirection: 'row-reverse', alignItems: 'flex-end' },
 	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor },
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: '#000', borderWidth: 1, height: 200, borderColor:ColorsList.greyFont },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: '#000', borderWidth: 1, height: 200, borderColor: ColorsList.greyFont },
 	image: { width: '100%', height: '100%' },
 
 })
