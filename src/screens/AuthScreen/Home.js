@@ -28,6 +28,7 @@ import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
 import { convertRupiah } from 'src/utils/authhelper'
 import { $Padding } from 'src/utils/stylehelper'
 
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -135,54 +136,69 @@ const Home = ({ navigation }) => {
 		return null
 	}
 	return (
-		<View style={styles.container}>
-			<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
-				<View></View>
-				<Button width='30%' onPress={_completeProfile}>OK</Button>
-			</AwanPopup.Title>
-			<HomeHeader center={
-				<View style={{ alignItems: 'center' }}>
-					<Text color="whiteColor" {..._nameStore()} />
-					<Wrapper>
-						<Icon color="white" name="map-marker-alt" />
-						<Text color="whiteColor"> {_addressStore()}</Text>
-					</Wrapper>
-				</View>
-			} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
-				<View style={{ borderRadius: 5, marginHorizontal: 15, backgroundColor: ColorsList.whiteColor }}>
-					<Wrapper justify="space-between" style={$Padding(10, 15)}>
-						<Wrapper justify="flex-start">
-							<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
-							<Text>Saldo: {convertRupiah(User.data.saldo)}</Text>
+		<ParallaxScrollView
+			refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
+			showsVerticalScrollIndicator={false}
+			backgroundColor={ColorsList.primary}
+			contentBackgroundColor={ColorsList.authBackground}
+			parallaxHeaderHeight={170}
+			stickyHeaderHeight={60}
+			renderStickyHeader={() => (
+				<HomeHeader height={60} key="parallax-header" center={
+					<View style={{ alignItems: 'center' }}>
+						<Text color="whiteColor" {..._nameStore()} />
+						<Wrapper>
+							<Icon color="white" name="map-marker-alt" />
+							<Text color="whiteColor"> {_addressStore()}</Text>
 						</Wrapper>
-						<Wrapper justify="flex-end">
+					</View>
+				} onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
+			)}
+			renderForeground={() => (
+				<HomeHeader center={
+					<View style={{ alignItems: 'center' }}>
+						<Text color="whiteColor" {..._nameStore()} />
+						<Wrapper>
+							<Icon color="white" name="map-marker-alt" />
+							<Text color="whiteColor"> {_addressStore()}</Text>
+						</Wrapper>
+					</View>
+				} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
+					<View style={{ borderRadius: 5, marginHorizontal: 15, backgroundColor: ColorsList.whiteColor }}>
+						<Wrapper justify="space-between" style={$Padding(10, 15)}>
+							<Wrapper justify="flex-start">
+								<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
+								<Text>Saldo: {convertRupiah(User.data.saldo)}</Text>
+							</Wrapper>
+							<Wrapper justify="flex-end">
+								<Button color="link">
+									<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
+								</Button>
+								<Button textProps={{ size: 10 }}>TOP UP</Button>
+							</Wrapper>
+						</Wrapper>
+						<Divider />
+						<Wrapper justify="space-around">
 							<Button color="link">
-								<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
+								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
+								<Text>Riwayat</Text>
 							</Button>
-							<Button textProps={{ size: 10 }}>TOP UP</Button>
+							<Divider height={40} />
+							<Button color="link">
+								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
+								<Text>Kupon</Text>
+							</Button>
+							<Divider height={40} />
+							<Button color="link">
+								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
+								<Text>Favorit</Text>
+							</Button>
 						</Wrapper>
-					</Wrapper>
-					<Divider />
-					<Wrapper justify="space-around">
-						<Button color="link">
-							<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
-							<Text>Riwayat</Text>
-						</Button>
-						<Divider height={40} />
-						<Button color="link">
-							<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
-							<Text>Kupon</Text>
-						</Button>
-						<Divider height={40} />
-						<Button color="link">
-							<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
-							<Text>Favorit</Text>
-						</Button>
-					</Wrapper>
-				</View>
-			</HomeHeader>
-			<ScrollView
-				refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
+					</View>
+				</HomeHeader>
+			)}>
+			<View
+
 				style={styles.childContainer} showsVerticalScrollIndicator={false}>
 				<View style={{ paddingVertical: 10 }}>
 					{
@@ -271,8 +287,8 @@ const Home = ({ navigation }) => {
 						keyExtractor={(item, index) => index.toString()}
 					/>
 				}
-			</ScrollView>
-		</View >
+			</View>
+		</ParallaxScrollView>
 	)
 }
 

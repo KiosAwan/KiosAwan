@@ -73,19 +73,21 @@ const Cart = ({ navigation }) => {
 	}
 
 	const _handleChangeDiskonValue = (num) => {
-		if (discount_type == 1) {
-			if (num < 100 && num > 0) {
-				dispatch(AddDiscountPersen(num))
+		// if (num[0] != 0) {
+			if (discount_type == 1) {
+				if (num < 100 && num > 0) {
+					dispatch(AddDiscountPersen(num))
+				} else {
+					dispatch(AddDiscountPersen(''))
+				}
 			} else {
-				dispatch(AddDiscountPersen(''))
+				if (num > 0 && num < (Product.total - Product.total_diskon)) {
+					dispatch(AddDiscountRupiah(num))
+				} else {
+					dispatch(AddDiscountRupiah(''))
+				}
 			}
-		} else {
-			if (num > 0 && num < (Product.total - Product.total_diskon)) {
-				dispatch(AddDiscountRupiah(num))
-			} else {
-				dispatch(AddDiscountRupiah(''))
-			}
-		}
+		// }
 	}
 	const _quantityControl = control => {
 		if (control == 'add') {
@@ -245,7 +247,7 @@ const Cart = ({ navigation }) => {
 						<Divider />
 						<Wrapper justify="space-between" style={{ padding: 10 }}>
 							<FloatingInput _width="70%" label="Diskon">
-								<TextInput keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
+								<TextInput keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah.toString() : Product.discount_total_persen.toString()} onChangeText={_handleChangeDiskonValue} />
 							</FloatingInput>
 							<ToggleButton
 								buttons={["Rp", "%"]}
