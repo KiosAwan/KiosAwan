@@ -37,6 +37,8 @@ const Cashier = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
             <CashierHeader
+                clear={() => setSearch('')}
+                value={search}
                 handleChangeText={(text) => setSearch(text)}
                 onPressBack={() => navigation.navigate('/')}
             />
@@ -46,11 +48,11 @@ const Cashier = ({ navigation }) => {
                         dispatch(setFromManajemenProduct(null))
                         navigation.navigate('/cashier/new-barcode')
                     }} color="white" style={{ paddingHorizontal: 15, marginRight: 10 }}>
-                        <Image style={{marginRight: 10,}} size={15} source={require('src/assets/icons/plus-primary.png')} />
+                        <Image style={{ marginRight: 10, }} size={15} source={require('src/assets/icons/plus-primary.png')} />
                         <Text size={11} color="primary">PRODUK BARU</Text>
                     </Button>
                     <Button padding={7} onPress={() => navigation.navigate('/cashier/input-manual')} color="white" style={{ paddingHorizontal: 15, }}>
-                        <Image style={{marginRight: 10,}} size={15} source={require('src/assets/icons/clock.png')} />
+                        <Image style={{ marginRight: 10, }} size={15} source={require('src/assets/icons/clock.png')} />
                         <Text size={11} color="primary">PESAN MANUAL</Text>
                     </Button>
                 </Wrapper>
@@ -75,7 +77,7 @@ const Cashier = ({ navigation }) => {
                         </View>
                         :
                         <FlatList
-                        style={Product.jumlahitem > 0 ? {marginBottom : 50} : null}
+                            style={Product.jumlahitem > 0 ? { marginBottom: 50 } : null}
                             data={Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase()))}
                             renderItem={({ item }) => (
                                 <ProductCard

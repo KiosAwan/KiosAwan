@@ -29,7 +29,7 @@ const PPOB = ({ navigation }) => {
 	]
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: 170 }}>
+			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ height: 170 }}>
 				<BarStatus />
 				<Wrapper justify="space-between" style={{ padding: 15, paddingTop: 5 }}>
 					<View style={{ justifyContent: 'center' }}>

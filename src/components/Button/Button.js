@@ -48,7 +48,7 @@ export const Button = props => {
 	return <TouchableOpacity activeOpacity={.7} {...props} style={[{
 		borderWidth: 1,
 		justifyContent: 'center',
-		borderRadius: 5,
+		borderRadius: props.noRadius ? 0 : 5,
 		width: props.width || undefined
 	},
 	props.padding ? (typeof props.padding != 'number' ? props.padding : { padding: props.padding }) : $Padding(8, 10),

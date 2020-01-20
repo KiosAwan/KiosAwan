@@ -10,13 +10,12 @@ import {
 } from 'react-native'
 import TextTicker from 'react-native-text-ticker'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import SliderImage from 'src/components/SliderImage'
+import Divider from 'src/components/Row/Divider'
+import Axios from 'axios'
 import { ColorsList } from 'src/styles/colors'
 import { FontList } from 'src/styles/typography'
 import { useSelector, useDispatch } from 'react-redux'
 import { CardTextImage } from 'src/components/Card/CardComp'
-import { CategoryText } from 'src/components/Text/CategoryText'
-import Axios from 'axios'
 import { HOST_URL } from 'src/config'
 import { HomeHeader } from 'src/components/Header/Header'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
@@ -26,9 +25,8 @@ import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button'
 import { Wrapper } from 'src/components/View/Wrapper'
 import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
-import Divider from 'src/components/Row/Divider'
-import { $Padding } from 'src/utils/stylehelper'
 import { convertRupiah } from 'src/utils/authhelper'
+import { $Padding } from 'src/utils/stylehelper'
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -167,17 +165,17 @@ const Home = ({ navigation }) => {
 					<Divider />
 					<Wrapper justify="space-around">
 						<Button color="link">
-							<Image style={{marginRight : 5}} source={require('src/assets/icons/home/chart-up.png')} size={15} />
+							<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 							<Text>Riwayat</Text>
 						</Button>
 						<Divider height={40} />
 						<Button color="link">
-							<Image style={{marginRight : 5}} source={require('src/assets/icons/home/coupon.png')} size={15} />
+							<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
 							<Text>Kupon</Text>
 						</Button>
 						<Divider height={40} />
 						<Button color="link">
-							<Image style={{marginRight : 5}} source={require('src/assets/icons/home/star.png')} size={15} />
+							<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 							<Text>Favorit</Text>
 						</Button>
 					</Wrapper>

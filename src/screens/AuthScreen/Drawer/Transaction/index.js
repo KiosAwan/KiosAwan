@@ -17,6 +17,7 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
 import { TransactionPlaceholder } from 'src/components/LoadingPlaceholder';
+import SearchInput from 'src/components/Input/SearchInput';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -87,10 +88,12 @@ const TransactionList = ({ navigation }) => {
                 </AwanPopup.Menu>
                 <View style={{ padding: 15, paddingTop: 0, backgroundColor: ColorsList.whiteColor }}>
                   <Wrapper justify="space-between">
-                    <FloatingInput left={30} _style={{ width: "85%" }} label="Cari transaksi">
+                    <SearchInput width="85%" clear={() => setSearch('')}>
+                      <TextInput placeholder="Cari transaksi" onFocus={() => setSearchIconColor(ColorsList.primary)} onBlur={() => setSearchIconColor(ColorsList.greyFont)} value={search} onChangeText={text => setSearch(text)} />
+                    </SearchInput>
+                    {/* <FloatingInput left={30} _style={{ width: "85%" }} label="Cari transaksi">
                       <Icon style={{ color: searchIconColor }} name="search" />
-                      <TextInput style={{ width: '90%' }} onFocus={() => setSearchIconColor(ColorsList.primary)} onBlur={() => setSearchIconColor(ColorsList.greyFont)} value={search} onChangeText={text => setSearch(text)} />
-                    </FloatingInput>
+                    </FloatingInput> */}
                     <Button _style={{ width: '12%', justifyContent: 'flex-end' }} onPress={() => setFilterPopup(true)}>
                       <Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/filter.png')} />
                     </Button>
@@ -160,13 +163,13 @@ const TransactionList = ({ navigation }) => {
   const RingkasanHutang = ({ route }) => {
     return (
       !reportHutang ?
-          <View style={{ alignItems: 'center', flex: 1 }}>
-            <Image style={{ width: 250, height: 250, marginTop : 50 }} source={require('src/assets/images/no-transaction.png')} />
-            <View style={{ alignItems: 'center', width: '75%' }}>
-              <Text font="ExtraBold" size={17}>Anda belum memiliki piutang!</Text>
-              <Text align="center">Silahkan melalukan transaksi baru untuk mengisi laporan.</Text>
-            </View>
+        <View style={{ alignItems: 'center', flex: 1 }}>
+          <Image style={{ width: 250, height: 250, marginTop: 50 }} source={require('src/assets/images/no-transaction.png')} />
+          <View style={{ alignItems: 'center', width: '75%' }}>
+            <Text font="ExtraBold" size={17}>Anda belum memiliki piutang!</Text>
+            <Text align="center">Silahkan melalukan transaksi baru untuk mengisi laporan.</Text>
           </View>
+        </View>
         :
         <View style={{ flex: 1 }}>
           <ScrollView

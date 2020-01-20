@@ -1,18 +1,17 @@
-import { Item, Input, Icon, Label, Card, CardItem, Left, Thumbnail, Body, Grid, Col } from 'native-base';
-import { View, Modal, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Item, Input, Icon, Card, CardItem, Body, Grid, Col } from 'native-base';
+import { View, Modal, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { ScrollView, FlatList, TextInput } from 'react-native-gesture-handler';
 import { FloatingInputLabel, FloatingInput } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
-import { RowChild } from '../Helper/RowChild';
 import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer } from '../../utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux'
 import { AddCashPayment, AddCustomer } from '../../redux/actions/actionsStoreProduct';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
-import { FontList } from '../../styles/typography';
-import { SizeList } from '../../styles/size';
 import { Wrapper } from '../View/Wrapper';
 import { Button } from '../Button/Button';
+import { Text } from '../Text/CustomText';
+import SearchInput from '../Input/SearchInput';
 
 const height = Dimensions.get('window').height
 
@@ -39,23 +38,13 @@ export const ToggleButton = (props) => {
 		props.changeToggle(i)
 	}
 	return (
-		<Item style={{ width: '100%' }}>
+		<Wrapper {...props}>
 			{
 				props.buttons.map((btn, i) => {
-					return (
-						<Button key={i} onPress={() => _handleChangeBtn(btn, i)} style={[
-							{ padding: 5, flex: 1, justifyContent: 'center' },
-							{ backgroundColor: activeIndex == i ? ColorsList.primaryColor : '#dedede' },
-							props.style
-						]}>
-							<Text key={i} style={
-								{ fontFamily: FontList.boldFont, color: activeIndex == i ? 'white' : ColorsList.greySoft }
-							}>{btn}</Text>
-						</Button>
-					)
+					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius>{btn}</Button>
 				})
 			}
-		</Item>
+		</Wrapper>
 	)
 }
 export const ToggleButtonMoney = (props) => {
@@ -123,7 +112,7 @@ export const PopupDetailPesanan = (props) => {
 					<CardItem>
 						<Grid>
 							<Col size={2} style={{ alignItems: 'flex-end' }}>
-								<TouchableOpacity style={{}}>
+								<TouchableOpacity >
 									<Icon style={{ width: 85, fontSize: 100, color: ColorsList.primaryColor }} name="remove-circle-outline" />
 								</TouchableOpacity>
 							</Col>
@@ -214,101 +203,69 @@ export const PilihPelanggan = (props) => {
 	return (
 		<MyModal onRequestClose={props.onRequestClose} visible={props.visible}
 			body={
-				<View>
+				<View style={{ padding: 15 }}>
 					{/* Modal AddEditPelanggan */}
 					<MyModal visible={pelangganVisible} backdropDismiss={false} body={
-						<View>
-							<CardItem header style={{ justifyContent: 'center' }}>
-								<Text style={{ ...FontList.subtitleFontGreyBold, fontSize: 18 }}>{action == 'add' ? 'Tambah Pelanggan' : 'Edit Pelanggan'}</Text>
-							</CardItem>
-							<CardItem>
-								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
-									<FloatingInput borderTransparent label="Nama pelanggan">
-										<TextInput width="100%"
-											value={pelanggan ? pelanggan.name_customer : ''}
-											keyboardType={props.keyboardType || "default"}
-											onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
-									</FloatingInput>
-								</Item>
-							</CardItem>
-							<CardItem>
-								<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
-									<FloatingInput borderTransparent label="No. Telepon">
-										<TextInput width="100%"
-											value={pelanggan ? pelanggan.phone_number_customer : ''}
-											keyboardType={props.keyboardType || "default"}
-											onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
-									</FloatingInput>
-								</Item>
-							</CardItem>
-							<CardItem footer style={styles.viewButtonPopup}>
-								<Button onPress={_handleButtonSimpan} style={styles.buttonSimpan}>
-									<Text style={{ ...FontList.subtitleFontGreyBold, color: 'white' }}>SIMPAN</Text>
-								</Button>
-								<Button onPress={() => setPelangganVisible(false)} style={styles.buttonBatal}>
-									<Text style={{ ...FontList.subtitleFontGreyBold }}>BATAL</Text>
-								</Button>
-							</CardItem>
+						<View style={{ padding: 15 }}>
+							<Text size={20} align="center">{action == 'add' ? 'Tambah Pelanggan' : 'Edit Pelanggan'}</Text>
+							<FloatingInput label="Nama pelanggan">
+								<TextInput width="100%"
+									value={pelanggan ? pelanggan.name_customer : ''}
+									keyboardType={props.keyboardType || "default"}
+									onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
+							</FloatingInput>
+							<FloatingInput label="No. Telepon">
+								<TextInput width="100%"
+									value={pelanggan ? pelanggan.phone_number_customer : ''}
+									keyboardType={props.keyboardType || "default"}
+									onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
+							</FloatingInput>
+							<Wrapper style={{ paddingTop: 15 }} justify="flex-end">
+								<Button style={{ marginRight: 10 }} onPress={() => setPelangganVisible(false)} color="link">BATAL</Button>
+								<Button onPress={_handleButtonSimpan}>SIMPAN</Button>
+							</Wrapper>
 						</View>
 					} />
-					<CardItem header style={{ justifyContent: 'center' }}>
-						<Text style={{ ...FontList.subtitleFontGreyBold, fontSize: 20 }}>Pilih Pelanggan</Text>
-					</CardItem>
-					<CardItem>
-						<Item style={{ width: '100%', borderBottomColor: ColorsList.primaryColor, borderBottomWidth: 1 }}>
-							<Icon name="search" style={{ color: ColorsList.greyFont }} />
-							<Input
-								disabled={props.disabled || false}
-								value={search}
-								placeholder="Cari nama atau no hp"
-								keyboardType={props.keyboardType || "default"}
-								onChangeText={text => setSearch(text)}
-								style={{ fontFamily: FontList.regularFont, color: ColorsList.greyFont }}
-							/>
-						</Item>
-					</CardItem>
-					<View style={{ height: SizeList.height / 5, paddingHorizontal: 20 }}>
-						<FlatList
-							showsVerticalScrollIndicator={false}
-							data={props.data.filter(item => item.name_customer.toLowerCase().includes(search.toLowerCase()))}
-							renderItem={({ item }) => (
-								<TouchableOpacity onPress={() => {
-									dispatch(AddCustomer(item))
-									props.dismiss()
-								}}>
-									<WrapperItem left={[
-										<Text style={{ ...FontList.titleFont, color: ColorsList.primaryColor }}>{item.name_customer}</Text>,
-										<Text style={{ ...FontList.subtitleFont, fontSize: 12, color: ColorsList.greyFont }} note>{item.phone_number_customer}</Text>
-									]} right={
-										<View style={{ flexDirection: 'row-reverse', width: 75, alignItems: 'center', flex: 1 }}>
-											<WrapperItem left={
-												<Icon onPress={() => _handleDeleteCustomer(item)} style={{ color: ColorsList.primaryColor }} name="trash" />
-											} right={
-												<Icon onPress={() => {
-													setAction('edit')
-													setPelanggan(item)
-													setPelangganVisible(true)
-												}} style={{ color: ColorsList.primaryColor }} name="create" />
-											} />
-										</View>
-									} />
-								</TouchableOpacity>
-							)}
-							keyExtractor={(item, index) => index.toString()}
-						/>
-					</View>
-					<CardItem footer style={styles.viewButtonPopup}>
-						<Button onPress={() => {
+					<Text size={20} align="center">Pilih Pelanggan</Text>
+					<SearchInput clear={() => setSearch('')}>
+						<TextInput disabled={props.disabled || false}
+							value={search}
+							placeholder="Cari nama atau no hp"
+							keyboardType={props.keyboardType || "default"}
+							onChangeText={text => setSearch(text)} />
+					</SearchInput>
+					<FlatList
+						showsVerticalScrollIndicator={false}
+						data={props.data.filter(item => item.name_customer.toLowerCase().includes(search.toLowerCase()))}
+						renderItem={({ item }) => <TouchableOpacity onPress={() => {
+							dispatch(AddCustomer(item))
+							props.dismiss()
+						}}>
+							<Wrapper justify="space-between">
+								<View>
+									<Text color="primary">{item.name_customer}</Text>
+									<Text>{item.phone_number_customer}</Text>
+								</View>
+								<Wrapper justify="flex-end">
+									<Icon onPress={() => _handleDeleteCustomer(item)} style={{ color: ColorsList.primaryColor }} name="trash" />
+									<Icon onPress={() => {
+										setAction('edit')
+										setPelanggan(item)
+										setPelangganVisible(true)
+									}} style={{ marginLeft: 10, color: ColorsList.primaryColor }} name="create" />
+								</Wrapper>
+							</Wrapper>
+						</TouchableOpacity>}
+						keyExtractor={(item, index) => index.toString()}
+					/>
+					<Wrapper style={{ marginTop: 15 }} justify="flex-end">
+						<Button onPress={props.dismiss} color="link">BATAL</Button>
+						<Button style={{ marginLeft: 10 }} onPress={() => {
 							setAction('add')
 							setPelanggan({ nama: '', notelp: '' })
 							setPelangganVisible(true)
-						}} style={styles.buttonSimpan}>
-							<Text style={{ ...FontList.subtitleFontGreyBold, color: 'white' }}>TAMBAH</Text>
-						</Button>
-						<Button onPress={props.dismiss} style={styles.buttonBatal}>
-							<Text style={{ ...FontList.subtitleFontGreyBold, }}>BATAL</Text>
-						</Button>
-					</CardItem>
+						}}>TAMBAH</Button>
+					</Wrapper>
 				</View>
 			}
 			backdropDismiss={false}
@@ -366,7 +323,7 @@ export const SelectBoxModal = (props) => {
 					</CardItem> : null
 			]} />
 			<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, { borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, borderColor: activeColor }, props.style]}>
-				<Wrapper justify="space-between" style={{alignItems : 'flex-end'}}>
+				<Wrapper justify="space-between" style={{ alignItems: 'flex-end' }}>
 					<FloatingInput borderTransparent label={props.label} _width="90%">
 						<TextInput style={{ color: ColorsList.black }} value={props.value} editable={false} />
 					</FloatingInput>
@@ -385,7 +342,7 @@ const styles = StyleSheet.create({
 	selectBox: { width: '100%' },
 	selectBoxLabel: { padding: 0, margin: 0 },
 	selectBoxInput: { margin: 0, padding: 0 },
-	selectBoxIconDown: { color: ColorsList.greyFont, marginBottom : 8 },
+	selectBoxIconDown: { color: ColorsList.greyFont, marginBottom: 8 },
 
 	viewButtonPopup: { marginTop: 15, borderColor: 'transparent', flexDirection: 'row-reverse', alignItems: 'flex-start' },
 	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor, borderRadius: 5 },

@@ -9,6 +9,7 @@ import BarStatus from '../BarStatus';
 import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { Wrapper } from '../View/Wrapper'
+import SearchInput from '../Input/SearchInput'
 
 
 const width = Dimensions.get('window').width
@@ -23,7 +24,7 @@ export const HeaderRegister = (props) => {
 
 export const HomeHeader = props => {
     return [
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: props.height || 170, justifyContent : "center" }}>
+        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: props.height || 170, justifyContent: "center" }}>
             <BarStatus />
             <Wrapper justify="space-between" style={{ padding: 15, paddingTop: 0 }}>
                 <View style={{ justifyContent: 'center' }}>
@@ -94,17 +95,19 @@ export const CashierHeader = (props) => {
         <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%' }}>
                 <Wrapper justify="space-between" style={{ height: '100%' }}>
-                    <Wrapper>
+                    <Wrapper _width="85%">
                         <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
                             <Icon name="arrow-left" size={20} color="white" />
                         </Button>
-                        <TextInput style={{ color: ColorsList.whiteColor }} placeholderTextColor={ColorsList.whitePlaceholder} onChangeText={props.handleChangeText} placeholder="Cari produk" />
+                        <SearchInput _width="90%" clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor}>
+                            <TextInput style={{ color: ColorsList.whiteColor }} placeholderTextColor={ColorsList.whitePlaceholder} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk" />
+                        </SearchInput>
                     </Wrapper>
-                    <View style={{ justifyContent: 'center', paddingRight: 15 }}>
+                    <Wrapper _width="10%">
                         <TouchableOpacity onPress={props.onPressMenu}>
                             <Icon name="ellipsis-v" size={20} color="white" />
                         </TouchableOpacity>
-                    </View>
+                    </Wrapper>
                 </Wrapper>
             </LinearGradient>
         </Header>
