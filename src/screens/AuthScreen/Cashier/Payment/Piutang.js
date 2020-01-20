@@ -46,7 +46,7 @@ const Piutang = () => {
 						<View>
 							<Text style={styles.textNamaPelanggan}>{Product.customer ? Product.customer.name_customer : "Nama pelanggan"}</Text>
 						</View>
-						<Icon size={20} name="chevron-down" />
+						<Icon color={ColorsList.greyFont} size={17} name="chevron-down" />
 					</View>
 				</TouchableOpacity>
 			</View>

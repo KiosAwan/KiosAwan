@@ -120,6 +120,11 @@ export const getReportHutang = async id_store => {
   return res.data
 }
 
+export const getReportNonTunai = async id_store => {
+  const res = await axios.get(`${HOST_URL}/report_nontunai/${id_store}`)
+  return res.data
+}
+
 //post new category to database
 export const sendNewCategory = async (data) => {
   const res = await axios.post(`${HOST_URL}/category`, data)

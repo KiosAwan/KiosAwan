@@ -132,7 +132,7 @@ const TransactionDetail = ({ navigation }) => {
 								</View>
 								<View style={{ alignItems: 'center' }}>
 									<Text align="center">Powered by</Text>
-									<Image style={{ width: 150, height: 70 }} source={require('src/assets/images/logo.png')} />
+									<Image style={{ width: 150, height: 70 }} source={require('src/assets/images/logostruk.png')} />
 								</View>
 							</View>
 							<View style={{ flexDirection: 'row', justifyContent: 'center', transform: [{ rotate: '180deg' }] }}>
