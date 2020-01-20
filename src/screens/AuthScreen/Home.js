@@ -198,8 +198,11 @@ const Home = ({ navigation }) => {
 				</HomeHeader>
 			)}>
 			<View
-
-				style={styles.childContainer} showsVerticalScrollIndicator={false}>
+				style={styles.childContainer}>
+				<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
+					<View></View>
+					<Button width='30%' onPress={_completeProfile}>OK</Button>
+				</AwanPopup.Title>
 				<View style={{ paddingVertical: 10 }}>
 					{
 						maintanance ?
