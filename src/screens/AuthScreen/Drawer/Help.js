@@ -39,8 +39,8 @@ const Help = ({ navigation }) => {
 					<Text align="center">Hubungi nomor ini untuk pelayanan lebih lanjut</Text>
 					<TouchableOpacity onPress={() => _openUrl(`tel:${callCenter}`)}>
 						<Wrapper justify="center">
-							<Text color="primary" font="ExtraBold" size={30}>{convertPhoneNumber(callCenter )}</Text>
-							<Icon style={{ color: ColorsList.primary, fontSize: 30, marginLeft: 10 }} name="call" />
+							<Icon style={{ color: ColorsList.primary, fontSize: 25, marginRight: 10 }} name="call" />
+							<Text color="primary" font="ExtraBold" size={30}>{convertPhoneNumber(callCenter)}</Text>
 						</Wrapper>
 					</TouchableOpacity>
 				</View>

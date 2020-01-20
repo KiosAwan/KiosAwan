@@ -42,15 +42,15 @@ const Cashier = ({ navigation }) => {
             />
             <Wrapper justify="space-between" style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
                 <Wrapper>
-                    <Button padding={7} onPress={() => {
+                    <Button justify="space-around" padding={7} onPress={() => {
                         dispatch(setFromManajemenProduct(null))
                         navigation.navigate('/cashier/new-barcode')
                     }} color="white" style={{ paddingHorizontal: 15, marginRight: 10 }}>
-                        <Image size={15} source={require('src/assets/icons/plus-primary.png')} />
+                        <Image style={{marginRight: 10,}} size={15} source={require('src/assets/icons/plus-primary.png')} />
                         <Text size={11} color="primary">PRODUK BARU</Text>
                     </Button>
                     <Button padding={7} onPress={() => navigation.navigate('/cashier/input-manual')} color="white" style={{ paddingHorizontal: 15, }}>
-                        <Image size={15} source={require('src/assets/icons/clock.png')} />
+                        <Image style={{marginRight: 10,}} size={15} source={require('src/assets/icons/clock.png')} />
                         <Text size={11} color="primary">PESAN MANUAL</Text>
                     </Button>
                 </Wrapper>

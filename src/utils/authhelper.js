@@ -26,7 +26,7 @@ export const convertPhoneNumber = num => {
     .split("")
     .reverse()
     .join("");
-  const temp_hasil = reverse.match(/\d{1,3}/g);
+  const temp_hasil = reverse.match(/\d{1,4}/g);
   const hasil = temp_hasil
     .join("-")
     .split("")
