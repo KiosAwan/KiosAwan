@@ -92,9 +92,7 @@ const LoginVerification = ({ navigation }) => {
                     }}
                 />
             </View>
-            {
-                viewForgot ? <Text style={styles.textForgot} onPress={_forgotPIN}>Lupa password ?</Text> : null
-            }
+            <Text style={styles.textForgot} onPress={_forgotPIN}>Lupa password ?</Text>
             <View style={{ position: 'absolute', bottom: 10 }}>
                 <UnauthBottomButton
                     onPressBackBtn={() => navigation.goBack()}
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     textForgot: {
-        marginTop: 20,
+        marginTop: 5,
         color: 'white',
         ...FontList.titleFont
     },

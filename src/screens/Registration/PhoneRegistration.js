@@ -153,7 +153,8 @@ const PhoneRegistration = ({ navigation }) => {
 						handleChangeText={(phone) => _handleChangePhone(phone)}
 						inputProps={{
 							onBlur: () => setViewTerm(true),
-							onFocus: () => setViewTerm(false)
+							onFocus: () => setViewTerm(false),
+							autoFocus: false
 						}}
 					/>
 					{viewTerm ?
