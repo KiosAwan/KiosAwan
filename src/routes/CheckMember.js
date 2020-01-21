@@ -6,13 +6,15 @@ import {
 } from "react-native";
 import { useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import { Text } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient'
 import Strings from '../utils/Strings';
 import BarStatus from '../components/BarStatus';
 import { getProfile } from '../redux/actions/actionsUserData';
 
-const CheckMember = ({ navigation }) => {
+const CheckMember = (props) => {
+  const { navigation } = props
   const dispatch = useDispatch()
   useEffect(() => {
     setTimeout(() => _checkFunc(), 1500);
@@ -23,6 +25,11 @@ const CheckMember = ({ navigation }) => {
       //Cek Token Pas Awal
       const checkUserIntro = await AsyncStorage.getItem('introApp');
       const checkUserData = await AsyncStorage.getItem('userId');
+      NetInfo.addEventListener(state => {
+        if (!state.isInternetReachable) {
+          navigation.navigate('/not-connected')
+        }
+      });
       if (checkUserData != null) {
         await dispatch(getProfile(checkUserData))
         navigation.navigate('/')

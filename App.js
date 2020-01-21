@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import store from './src/redux/store'
 import { Deeplink } from './src/routes/Deeplink';
 
-
 const prefix = 'awanapp://';
 export default class App extends Component {
   componentDidMount() {
