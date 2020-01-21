@@ -247,7 +247,7 @@ const Cart = ({ navigation }) => {
 						<Divider />
 						<Wrapper justify="space-between" style={{ padding: 10 }}>
 							<FloatingInput _width="70%" label="Diskon">
-								<TextInput keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah.toString() : Product.discount_total_persen.toString()} onChangeText={_handleChangeDiskonValue} />
+								<TextInput keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
 							</FloatingInput>
 							<ToggleButton
 								buttons={["Rp", "%"]}

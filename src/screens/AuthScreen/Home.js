@@ -142,9 +142,9 @@ const Home = ({ navigation }) => {
 			backgroundColor={ColorsList.primary}
 			contentBackgroundColor={ColorsList.authBackground}
 			parallaxHeaderHeight={170}
-			stickyHeaderHeight={60}
+			stickyHeaderHeight={55}
 			renderStickyHeader={() => (
-				<HomeHeader height={60} key="parallax-header" center={
+				<HomeHeader height={55} key="parallax-header" center={
 					<View style={{ alignItems: 'center' }}>
 						<Text color="whiteColor" {..._nameStore()} />
 						<Wrapper>
