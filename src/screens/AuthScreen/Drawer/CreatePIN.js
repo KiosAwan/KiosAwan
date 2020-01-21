@@ -11,12 +11,18 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ModalContent from '../../../components/ModalContent/ModalContent';
 import { useSelector } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const CreatePIN = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const [pin, setPin] = useState()
     const [confirmPin, setConfirmPin] = useState()
     const [modalVisible, setModalVisible] = useState(false)
+
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
+
     const _handlePINFulfilled = (code) => {
         setPin(code)
     }
@@ -26,9 +32,11 @@ const CreatePIN = ({ navigation }) => {
 
     const _handleCreatePIN = async () => {
         if (pin.length != 4 || confirmPin.length != 4) {
-            alert("Pin harus 4 digit")
+            setAlertMessage("PIN harus 4 digit")
+            setAlert(true)
         } else if (pin != confirmPin) {
-            alert("Pin harus sama")
+            setAlertMessage("PIN harus sama")
+            setAlert(true)
         } else {
             setModalVisible(true)
             const id = User.data.id
@@ -43,12 +51,18 @@ const CreatePIN = ({ navigation }) => {
                     navigation.navigate('/temp/update-profile')
                 }, 800)
             } else {
-                alert('Gagal membuat pin')
+                setAlertMessage("Gagal membuat PIN")
+                setAlert(true)
             }
         }
     }
     return (
         <View style={{ flex: 1, alignItems: "center", backgroundColor: ColorsList.authBackground }}>
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader title="Buat PIN" onPressBack={() => navigation.goBack()} />
             <Modal
                 animationType="fade"

@@ -100,7 +100,8 @@ class CheckOut extends React.Component {
 		const res = await sendNewTransaction(data)
 		this.setState({ loadingVisible: false })
 		if (res.status == 400) {
-			alert(res.data.errors.msg)
+			this.setState({ alertMessage: res.data.errors.msg })
+			this.setState({ _alert: true })
 		} else if (res.status == 200) {
 			this.props.removeAllCart()
 			this.props.AddCashPayment(0)
@@ -157,14 +158,15 @@ class CheckOut extends React.Component {
 				const res = await sendNewTransaction(data)
 				this.setState({ loadingVisible: false })
 				if (res.status == 400) {
-					alert(res.data.errors.msg)
-				} else if(res.status == 200) {
+					this.setState({ alertMessage: res.data.errors.msg })
+					this.setState({ _alert: true })
+				} else if (res.status == 200) {
 					this.props.removeAllCart()
 					this.props.getProduct(this.props.User.store.id_store)
 					this.props.getTransactionList(this.props.User.store.id_store)
 					this.props.navigation.navigate('/cashier/struk', { response: res.data })
 				}
-				else{
+				else {
 					alert(JSON.stringify(res))
 				}
 			} else {

@@ -14,9 +14,7 @@ import BarStatus from '../../../../components/BarStatus';
 import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
-import { editDiscount, deleteDiscount, validNumber } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
+import { editDiscount, deleteDiscount } from '../../../../utils/authhelper';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
@@ -24,9 +22,6 @@ import { ToggleButton } from '../../../../components/Picker/SelectBoxModal';
 import { getDiscount } from '../../../../redux/actions/actionsDiscount';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
-
-
-const height = Dimensions.get('window').height
 
 const DiskonEdit = ({ navigation }) => {
     const dispatch = useDispatch()

@@ -66,7 +66,8 @@ const NewProductName = ({ navigation }) => {
 
 	const _handleSaveNewCategory = async () => {
 		if (newCategoryName == "") {
-			alert("Nama tidak boleh kosong")
+			setErrorMessage("Nama tidak boleh kosong")
+			setErrorAlert(true)
 		}
 		else {
 			if (editNewCategory == 'add') {

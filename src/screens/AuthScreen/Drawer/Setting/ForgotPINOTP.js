@@ -10,12 +10,17 @@ import { GlobalHeader } from '../../../../components/Header/Header';
 import { showPhoneNumber } from '../../../../utils/unauthhelper';
 import { ColorsList } from '../../../../styles/colors';
 import { sendOTPAuth, verifyOTPAuth } from '../../../../utils/authhelper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const ForgotPINOTP = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const [showedNumber, setShowedNumber] = useState('')
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     let [countdown, setCountdown] = useState(59)
+
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     useEffect(() => {
         setTimeout(() => {
             _formatPhoneNum()
@@ -23,15 +28,19 @@ const ForgotPINOTP = ({ navigation }) => {
         }, 1000)
     }, [])
 
-    const _sendOTP = async() => {
+    const _sendOTP = async () => {
         const data = {
-            phone_number : User.data.phone_number
+            phone_number: User.data.phone_number
         }
-        await sendOTPAuth(data)
+        const res = await sendOTPAuth(data)
+        if (res.status == 400) {
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
+        }
     }
 
     const _formatPhoneNum = () => {
-        setShowedNumber(showPhoneNumber(User.data.phone_number.slice(2,User.data.length)))
+        setShowedNumber(showPhoneNumber(User.data.phone_number.slice(2, User.data.length)))
     }
 
     const _handleBack = () => {
@@ -79,7 +88,8 @@ const ForgotPINOTP = ({ navigation }) => {
         }
         const res = await verifyOTPAuth(data)
         if (res.status == 400) {
-            alert(res.data.errors.msg)
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
         }
         else if (res.status == 200) {
             navigation.navigate('/drawer/settings/forgot-pin/new-pin')
@@ -87,11 +97,16 @@ const ForgotPINOTP = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader
                 onPressBack={_handleBack}
                 title="Lupa PIN"
             />
-            <View style={{ alignItems: "center", height : 160, backgroundColor : 'white', margin : 30 }}>
+            <View style={{ alignItems: "center", height: 160, backgroundColor: 'white', margin: 30 }}>
                 <Text style={{ paddingTop: 20 }}>A 4 digit code has been sent to</Text>
                 <Text>62-{showedNumber}</Text>
                 <CodeInput
@@ -117,7 +132,7 @@ export default ForgotPINOTP;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor : ColorsList.authBackground
+        backgroundColor: ColorsList.authBackground
     },
     borderStyleBase: {
         width: 30,

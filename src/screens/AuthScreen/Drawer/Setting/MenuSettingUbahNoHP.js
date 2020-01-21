@@ -18,6 +18,11 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 	const [modalVisible, setModalVisible] = useState(false)
 	const [loading, setLoading] = useState(false)
 
+
+	//alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState(false)
+
 	const _nextBtn = async () => {
 		setLoading(true)
 		const a = phoneValidation(newPhoneNum[0] == 0 ? newPhoneNum.replace("0", "62") : newPhoneNum)
@@ -32,7 +37,8 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 			const res = await changeNewPhoneNumber(data)
 			setLoading(false)
 			if (res.status == 400) {
-				alert(res.data.errors.msg)
+				setAlertMessage(res.data.errors.msg)
+				setAlert(true)
 			} else if (res.status == 200) {
 				setModalVisible(true)
 				dispatch(getProfile(User.data.id))
@@ -48,6 +54,11 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
+			/>
 			<Modal
 				animationType="fade"
 				transparent={true}

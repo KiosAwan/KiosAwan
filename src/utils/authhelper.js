@@ -249,8 +249,13 @@ export const verifyUserPIN = async (data) => {
 
 //Send OTP
 export const sendOTPAuth = async (data) => {
+  try{
   const res = await axios.post(`${HOST_URL}/send_otp`, data)
   return res.data
+  }
+  catch (err){
+    return err.response.data
+  }
 }
 
 
