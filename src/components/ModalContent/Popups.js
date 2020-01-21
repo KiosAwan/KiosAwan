@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { View, Modal as ModalRN, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Text } from '../Text/CustomText'
-import { CardItem } from 'native-base';
 import { ColorsList } from '../../styles/colors';
+import { SizeList } from '../../styles/size';
 import LinearGradient from 'react-native-linear-gradient';
-import { Bottom } from '../View/Bottom';
 import { $Padding } from 'src/utils/stylehelper';
 import { Button } from '../Button/Button';
 import Divider from '../Row/Divider';
-import { FlatList } from 'react-native-gesture-handler';
 
 export const Modal = (props) => {
 	const styles = StyleSheet.create({
@@ -78,13 +76,13 @@ export const AwanPopup = {
 		</Modal>
 	},
 	Alert: props =>
-		<Modal animationType="fade" style={{ padding: 0 }} {...props}>
+		<Modal animationType="fade" style={{ padding: 0,width : SizeList.width *2/3}} {...props}>
 			<View style={[styles.body, props.style]}>
 				<Image source={require('../../assets/icons/circlereject.png')}
 					style={[styles.image, { width: 50, height: 50 }]}
 					resizeMode="stretch" />
 				<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>Oops...</Text>
-				<View>
+				<View style={{width : '80%', alignItems : "center"}}>
 					<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{props.message}</Text>
 				</View>
 				<ButtonWrapper style={{ justifyContent: "center" }}>
@@ -113,7 +111,7 @@ const styles = StyleSheet.create({
 	image: { alignSelf: 'center', height: 100, width: '100%' },
 	title: { textAlign: 'center', padding: 20 },
 	oldTitle: { position: 'absolute', top: 90, alignSelf: 'center', color: ColorsList.whiteColor },
-	body: { ...$Padding(10, 15, 20), backgroundColor: ColorsList.whiteColor }
+	body: { ...$Padding(10, 15, 20), backgroundColor: ColorsList.whiteColor, alignItems :"center" }
 })
 
 

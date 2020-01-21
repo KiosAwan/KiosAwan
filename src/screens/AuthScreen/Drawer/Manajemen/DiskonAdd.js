@@ -14,12 +14,13 @@ import BarStatus from '../../../../components/BarStatus';
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
-import { addNewDiscount} from '../../../../utils/authhelper';
+import { addNewDiscount } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FloatingInput } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { ToggleButton } from '../../../../components/Picker/SelectBoxModal';
 import { getDiscount } from '../../../../redux/actions/actionsDiscount';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 
 const height = Dimensions.get('window').height
@@ -32,15 +33,20 @@ const DiskonAdd = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false)
     const User = useSelector(state => state.User)
 
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
+
     const _handleSaveNewDiscount = async () => {
         if (name == "" || value == "") {
-            alert("Kolom tidak boleh kosong")
+            setAlertMessage("Harap isi semua kolom")
+            setAlert(true)
         }
         else {
             const res = await addNewDiscount({
                 id_store: User.store.id_store,
                 discount: name,
-                value : discount_type ==1 ? value/100 : value,
+                value: discount_type == 1 ? value / 100 : value,
                 discount_type
             })
             if (res.status == 201) {
@@ -51,7 +57,8 @@ const DiskonAdd = ({ navigation }) => {
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
 
         }
@@ -59,22 +66,27 @@ const DiskonAdd = ({ navigation }) => {
     }
 
     const _handleChangeDiskon = (num) => {
-        if(discount_type == 1){
-            if(num < 100 && num > 0){
+        if (discount_type == 1) {
+            if (num < 100 && num > 0) {
                 setValue(num)
-            }else {
+            } else {
                 setValue("")
             }
-        }else {
-            if(num > 0 && num < 10000000000){
+        } else {
+            if (num > 0 && num < 10000000000) {
                 setValue(num)
-            }else {
+            } else {
                 setValue('')
             }
         }
     }
     return (
         <View style={styles.container} >
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <BarStatus />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
@@ -103,7 +115,7 @@ const DiskonAdd = ({ navigation }) => {
                     <View style={{ marginTop: 10 }}>
                         <FloatingInput label="Diskon">
                             <TextInput value={value}
-                            style={{width : '80%'}}
+                                style={{ width: '80%' }}
                                 keyboardType="number-pad"
                                 onChangeText={_handleChangeDiskon}
                             />
@@ -111,7 +123,8 @@ const DiskonAdd = ({ navigation }) => {
                                 <ToggleButton
                                     buttons={["Rp", "%"]}
                                     changeToggle={(i) => {
-                                        setDiscountType(i)}}
+                                        setDiscountType(i)
+                                    }}
                                 />
                             </View>
                         </FloatingInput>

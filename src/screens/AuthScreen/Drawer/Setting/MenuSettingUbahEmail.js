@@ -14,6 +14,10 @@ const MenuSettingUbahEmail = ({ navigation }) => {
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     const [apiLoading, setApiLoading] = useState(false)
     let [countdown, setCountdown] = useState(59)
+
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     useEffect(() => {
             _formatPhoneNum()
             _firstRender()
@@ -62,7 +66,11 @@ const MenuSettingUbahEmail = ({ navigation }) => {
         const data = {
             phone_number:  User.data.phone_number,
         }
-        await sendOTPAuth(data)
+        const res = await sendOTPAuth(data)
+        if(res.status == 400){
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
+        }
     }
 
     const _handleOTPFulfilled = async (code) => {
@@ -74,14 +82,24 @@ const MenuSettingUbahEmail = ({ navigation }) => {
         const res = await verifyOTPAuth(data)
         setApiLoading(false)
         if (res.status == 400) {
-            alert(res.data.errors.msg)
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
         }
         else if (res.status == 200) {
             navigation.navigate('/drawer/settings/change-email/new-email')
+        }else {
+            setApiLoading(false)
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
         }
     }
     return (
         <View style={styles.container}>
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <AwanPopup.Loading visible={apiLoading} />
             <GlobalHeader
                 onPressBack={_handleBack}

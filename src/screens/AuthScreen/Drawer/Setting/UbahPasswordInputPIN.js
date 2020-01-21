@@ -8,13 +8,20 @@ import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
 import { FontList } from '../../../../styles/typography';
 import { verifyUserPIN } from '../../../../utils/authhelper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const UbahPasswordInputPIN = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const [pinCode, setPinCode] = useState()
+
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
+
     const _nextBtn = async () => {
         if (!pinCode) {
-            alert("Pin tidak boleh kosong")
+            setAlertMessage("PIN tidak boleh kosong")
+            setAlert(true)
         } else {
             const data = {
                 pin: pinCode,
@@ -27,12 +34,18 @@ const UbahPasswordInputPIN = ({ navigation }) => {
                 })
             }
             else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
         }
     }
     return (
         <View style={{ flex: 1, backgroundColor: ColorsList.authBackground, alignItems: "center" }}>
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader title="Ubah Password" onPressBack={() => navigation.goBack()} />
             <View style={{ width: '70%', padding: 20 }}>
                 <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 16 }}>Masukkan PIN</Text>

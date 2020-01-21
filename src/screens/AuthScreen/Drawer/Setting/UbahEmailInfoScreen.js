@@ -13,14 +13,24 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 const UbahEmailInfoScreen = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [apiLoading, setApiLoading] = useState(false)
+
+	//alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState(false)
 	const _nextBtn = async () => {
 		setApiLoading(true)
 		const data = {
 			phone_number: User.data.phone_number
 		}
-		await sendOTPAuth(data)
-		setApiLoading(false)
-		navigation.navigate('/drawer/settings/change-email/otp-validation')
+		const res = await sendOTPAuth(data)
+		if (res.status == 400) {
+			setApiLoading(false)
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
+		}else {
+			setApiLoading(false)
+			navigation.navigate('/drawer/settings/change-email/otp-validation')
+		}
 	}
 
 	const _handleSendEmail = async () => {
@@ -31,13 +41,19 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 		const res = await resendVerifyEmail(data)
 		setApiLoading(false)
 		if (res.status == 400) {
-			alert(res.data.errors.msg)
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
 		}
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader title="Ubah Email" onPressBack={() => navigation.goBack()} />
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
+			/>
 			<AwanPopup.Loading visible={apiLoading} />
+			<GlobalHeader title="Ubah Email" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 20 }}>
 				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
 					<FloatingInput label="Email Anda">

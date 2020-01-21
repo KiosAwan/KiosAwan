@@ -20,6 +20,8 @@ const ChangePINNewPIN = ({ navigation }) => {
     const [old_pin, setOld_pin] = useState()
     const [modalVisible, setModalVisible] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     const _handlePINFulfilled = (code) => {
         setPin(code)
     }
@@ -49,12 +51,18 @@ const ChangePINNewPIN = ({ navigation }) => {
                     navigation.navigate('/drawer/settings')
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
         }
     }
     return (
         <View style={{ flex: 1, alignItems: "center", backgroundColor: ColorsList.authBackground }}>
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader title="Ganti PIN" onPressBack={() => navigation.goBack()} />
             <Modal
                 animationType="fade"

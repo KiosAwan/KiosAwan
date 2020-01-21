@@ -20,6 +20,11 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 
 	const [modalVisible, setModalVisible] = useState(false)
 	const [loading, setLoading] = useState(false)
+
+	//alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState(false)
+
 	const [formValue, setFormValue] = useState({
 		old_password: '',
 		new_password: '',
@@ -49,9 +54,11 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 
 	const _handleSavePassword = async () => {
 		if (formValue.old_password == "" || formValue.new_password == "") {
-			alert("Password tidak boleh kosong")
+			setAlertMessage("Password tidak boleh kosong")
+			setAlert(true)
 		} else if (formValue.new_password != formValue.confirm_new_password) {
-			alert("Password baru harus sama")
+			setAlertMessage("Password baru harus sama")
+			setAlert(true)
 		} else {
 			setLoading(true)
 			const data = {
@@ -62,7 +69,8 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 			const res = await changePassword(data)
 			setLoading(false)
 			if (res.status == 400) {
-				alert(res.data.errors.msg)
+				setAlertMessage(res.data.errors.msg)
+				setAlert(true)
 			} else {
 				setModalVisible(true)
 				setTimeout(() => {
@@ -75,6 +83,11 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
+			/>
 			<Modal
 				animationType="fade"
 				transparent={true}
