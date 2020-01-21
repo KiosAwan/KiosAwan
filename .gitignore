@@ -59,3 +59,4 @@ buck-out/
 /ios/Pods/
 .vscode
 outputs
+/package-lock.json
