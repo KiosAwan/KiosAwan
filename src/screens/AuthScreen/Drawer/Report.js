@@ -30,7 +30,7 @@ const Report = ({ navigation }) => {
 	//Non Tunai
 	const [detailNonTunai, setDetailNonTunai] = useState(false)
 	const [modalFilterNonTunai, setModalFilterNonTunai] = useState(false)
-	const [indexNonTunai, setIndexNonTunai] = useState(2)
+	const [indexNonTunai, setIndexNonTunai] = useState(0)
 	const [dataNonTunai, setDataNonTunai] = useState()
 	const nonTunaiKey = ["Penjualan kotor", "Diskon", "Pembatalan", "Penjualan bersih", "Pajak"]
 

@@ -22,6 +22,7 @@ import { SizeList } from '../../styles/size';
 import { sendNewPassword } from '../../utils/unauthhelper';
 import { Spinner } from 'native-base';
 import { FontList } from 'src/styles/typography';
+import AsyncStorage from '@react-native-community/async-storage';
 
 //Functions
 
@@ -46,6 +47,7 @@ const NewPassword2 = ({ navigation }) => {
             }
             const res = await sendNewPassword(data)
             if (res.status == 200) {
+                await AsyncStorage.setItem('userId', res.data.id.toString())
                 dispatch(clearAllRegistration())
                 setIsLoading(false)
                 navigation.navigate('/')

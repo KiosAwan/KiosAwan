@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Image } from 'react-native';
+import { View, TextInput, StyleSheet, Image,TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import * as Animatable from "react-native-animatable";
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontList } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
 import Divider from '../Row/Divider';
