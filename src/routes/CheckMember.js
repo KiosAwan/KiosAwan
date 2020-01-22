@@ -32,7 +32,7 @@ const CheckMember = (props) => {
       });
       if (checkUserData != null) {
         await dispatch(getProfile(checkUserData))
-        navigation.navigate('/')
+        navigation.navigate('/ppob/topup/detail')
       } else {
         if (checkUserIntro == "sudah") {
           navigation.navigate('/unauth')
