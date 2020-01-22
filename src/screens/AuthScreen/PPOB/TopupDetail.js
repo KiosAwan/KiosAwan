@@ -92,8 +92,8 @@ const TopupDetail = ({ navigation }) => {
                 </View>
             </ScrollView>
             <Bottom>
-                <Button style={{width :"48%"}} color="white">BATALKAN</Button>
-                <Button style={{width :"48%"}}>SELESAI</Button>
+                <Button width="49%" color="white">BATALKAN</Button>
+                <Button width="49%" onPress={() => navigation.navigate('/')}>SELESAI</Button>
             </Bottom>
         </View>
     )
