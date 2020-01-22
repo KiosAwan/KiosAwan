@@ -133,7 +133,6 @@ const Home = ({ navigation }) => {
 		} else {
 			return 'Lokasi belum di tentukan'
 		}
-		return null
 	}
 	return (
 		<ParallaxScrollView

@@ -39,6 +39,7 @@
     "react-native-masked-text": "^1.13.0",
     "react-native-modal-datetime-picker": "^7.6.0",
     "react-native-parallax-scroll-view": "^0.21.3",
+    "react-native-pin-view": "^2.5.0",
     "react-native-raw-bottom-sheet": "^2.0.5",
     "react-native-reanimated": "^1.4.0",
     "react-native-render-html": "^4.2.0",

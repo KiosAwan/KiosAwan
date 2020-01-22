@@ -189,7 +189,7 @@ class CheckOut extends React.Component {
 				{
 					props.navigationState.routes.map((route, i) => {
 						console.debug(this.state.index, i)
-						return <Button textProps={{ size: 11 }} disabled={this.state.index == i} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
+						return <Button textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
 					})
 				}
 			</Wrapper>
