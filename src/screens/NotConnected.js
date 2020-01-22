@@ -5,6 +5,8 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import { ColorsList } from 'src/styles/colors';
 import NetInfo from '@react-native-community/netinfo';
+import { Bottom } from 'src/components/View/Bottom';
+import { ImageAuto, Image } from 'src/components/CustomImage';
 
 const NotConnected = ({ navigation }) => {
 	const [loading, setLoading] = useState(false)
@@ -20,20 +22,26 @@ const NotConnected = ({ navigation }) => {
 	}
 	const goBack = () => {
 		setLoading(true)
-		if (nextScene && Object.keys(nextScene).includes('route')) {
+		try {
 			let { routeName, params } = nextScene.route
 			navigate(routeName, params)
-		} else {
+		} catch (err) {
 			navigate('/splashscreen')
 		}
 	}
-	return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+	return <View style={{ flex: 1, alignItems: 'center', backgroundColor: ColorsList.authBackground, justifyContent: 'center' }}>
 		<BarStatus />
-		<Text align="center" style={{ marginBottom: 15 }}>Anda tidak terhubung ke jaringan internet, silahkan periksa koneksi</Text>
-		<Button disabled={loading} wrapper={{ justify: 'center' }} onPress={goBack} width="50%" >
-			<Text color="whiteColor">Coba Lagi</Text>
-			{loading ? <ActivityIndicator style={{ marginLeft: 5 }} color={ColorsList.whiteColor} /> : <View></View>}
-		</Button>
+		<View style={{ padding: 15 }}>
+			<Image align="center" size={200} source={require('src/assets/images/not-connected.png')} />
+			<Text align="center" size={20} font="ExtraBold">Internet tidak tersedia</Text>
+			<Text align="center" style={{ marginBottom: 15 }}>Mohon hubungkan ke jaringan internet untuk memulai kembali</Text>
+		</View>
+		<Bottom>
+			<Button width="100%" disabled={loading} wrapper={{ justify: 'center' }} onPress={goBack} >
+				<Text color="whiteColor">Coba Lagi</Text>
+				{loading ? <ActivityIndicator style={{ marginLeft: 5 }} color={ColorsList.whiteColor} /> : <View></View>}
+			</Button>
+		</Bottom>
 	</View>
 }
 export default NotConnected

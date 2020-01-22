@@ -174,7 +174,7 @@ const Home = ({ navigation }) => {
 								<Button color="link">
 									<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
 								</Button>
-								<Button textProps={{ size: 10 }}>TOP UP</Button>
+								<Button onPress={() => navigation.navigate('/ppob/topup')} textProps={{ size: 10 }}>TOP UP</Button>
 							</Wrapper>
 						</Wrapper>
 						<Divider />

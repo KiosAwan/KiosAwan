@@ -51,8 +51,10 @@ export const Button = props => {
 			justifyContent: 'center',
 			borderRadius: props.noRadius ? 0 : 5
 		},
-		props.padding ? (typeof props.padding != 'number' ? props.padding : { padding: props.padding }) : $Padding(8, 10),
-			_color]
+		props.padding ?
+			(typeof props.padding != 'number' ? props.padding : { padding: props.padding }) :
+			$Padding(8, 10),
+			_color, props.noBorder && { borderColor: ColorsList.transparent }]
 		}>
 			{
 				['string', 'number'].includes(typeof props.children) ?

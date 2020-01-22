@@ -17,8 +17,7 @@ export const Wrapper = props => {
 					]} key={i}>
 						{itemCLoned}
 					</View>
-				}
-				) : props.children
+				}) : props.children
 		}
 	</View>
 }

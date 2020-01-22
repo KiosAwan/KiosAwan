@@ -138,6 +138,7 @@ export const FloatingInput = props => {
   const renderInput = input => {
     return React.cloneElement(input, {
       ref: ref => toFocus = ref,
+      refInput: ref => toFocus = ref,
       onFocus: () => {
         setActiveColor('#cd0192')
         setIsFocused(true)
@@ -184,7 +185,7 @@ export const FloatingInput = props => {
       child = renderInput(_input)
     }
   }
-  haveValue = isFocused || _input.props.value //Array.isArray(props.children) ? child[inIndex].props.value : child.props.value
+  haveValue = isFocused || _input.props.value || _input.props.value == '0' //Array.isArray(props.children) ? child[inIndex].props.value : child.props.value
   changeUpDown(haveValue)
   // useEffect(() => {
   //   changeUpDown(haveValue)

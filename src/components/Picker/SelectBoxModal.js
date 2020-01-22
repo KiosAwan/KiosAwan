@@ -37,15 +37,21 @@ export const ToggleButton = (props) => {
 		setActiveIndex(i)
 		props.changeToggle(i)
 	}
-	return (
+	return props.vertical ?
+		<View {...props}>
+			{
+				props.buttons.map((btn, i) => {
+					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius {...props.buttonProps}>{btn}</Button>
+				})
+			}
+		</View> :
 		<Wrapper {...props}>
 			{
 				props.buttons.map((btn, i) => {
-					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius>{btn}</Button>
+					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius {...props.buttonProps}>{btn}</Button>
 				})
 			}
 		</Wrapper>
-	)
 }
 export const ToggleButtonMoney = (props) => {
 	const [activeIndex, setActiveIndex] = useState()
