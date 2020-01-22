@@ -58,7 +58,7 @@ const TopupDetail = ({ navigation }) => {
                         </Wrapper>
                     </View>
                 </View>
-                <View style={{ alignItems: "center", paddingVertical: 5 }}>
+                <View style={{ alignItems: "center", paddingVertical: 10 }}>
                     <Text size={18}>Petunjuk Pembayaran</Text>
                 </View>
                 {
@@ -67,7 +67,7 @@ const TopupDetail = ({ navigation }) => {
                             <TouchableOpacity style={{ marginBottom: 0, backgroundColor: 'white', padding: 5 }} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
                                 <Wrapper justify="space-between" style={[styles.content, toggled[i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
                                     <Text>{ttr.title}</Text>
-                                    <Image style={{ transform: toggled[i] ? [{ rotate: '270deg' }] : [{ rotate: '90deg' }] }} size={20} source={require('src/assets/icons/next.png')} />
+                                    <Image style={{ transform: toggled[i] ? [{ rotate: '270deg' }] : [{ rotate: '90deg' }] }} size={30} source={require('src/assets/icons/next.png')} />
                                 </Wrapper>
                             </TouchableOpacity>
                             {toggled[i] ?

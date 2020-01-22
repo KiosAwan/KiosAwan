@@ -9,6 +9,7 @@ import NewsScreen from 'src/screens/AuthScreen/NewsScreen';
 import PPOBNavigator from './PPOBNavigator';
 import TempNavigator from './TempNavigator';
 import DrawerNavigation from './DrawerNavigator';
+import EnterPIN from 'src/screens/AuthScreen/EnterPIN';
 
 const handleCustomTransition = ({ scenes }) => {
   global.prevScene = scenes[scenes.length - 2];
@@ -22,6 +23,12 @@ const handleCustomTransition = ({ scenes }) => {
 const Navs = {
   '/': {
     screen: Home,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/enterpin': {
+    screen: EnterPIN,
     navigationOptions: {
       header: null
     }
