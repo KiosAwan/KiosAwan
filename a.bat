@@ -15,8 +15,6 @@ set sass_master=scss/master.scss
 set sass_output=www/css/style.css
 set rundevice=react-native run-android
 
-
-
 IF [%1]==[] GOTO NOARGS
 IF [%1]==[build] GOTO BUILDAPK
 IF [%1]==[release] GOTO RELEASE
@@ -40,7 +38,11 @@ explorer %output_folder%
 GOTO END
 
 :STARTSERVER
-react-native start
+react-native start %2 %3 %4 %5 %6 %7 %8 %9
+GOTO END
+
+:RUNDROID
+%rundevice% %2 %3 %4 %5 %6 %7 %8 %9
 GOTO END
 
 :DEVICE
@@ -73,10 +75,6 @@ GOTO END
 :MOVEAPK
 set /P APPVERSION=Input your app version: 
 copy "%output_path%\%app_unsigned%" "%output_folder%\%app_name% (%APPVERSION%) %CURRENT_DATE%.apk"
-GOTO END
-
-:RUNDROID
-%rundevice%
 GOTO END
 
 :WATCHSASS

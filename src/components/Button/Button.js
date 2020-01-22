@@ -45,18 +45,17 @@ export const Button = props => {
 			borderColor: props.color.length === 3 ? ColorsList[props.color[2]] : ColorsList[props.color[0]]
 		}
 	}
-	return <Animated.View style={{ opacity: props.disabled ? .5 : 1 }}>
+	return <Animated.View style={{ width: props.width || undefined, opacity: props.disabled ? .5 : 1 }}>
 		<TouchableOpacity activeOpacity={.5} {...props} style={[{
 			borderWidth: 1,
 			justifyContent: 'center',
-			borderRadius: props.noRadius ? 0 : 5,
-			width: props.width || undefined
+			borderRadius: props.noRadius ? 0 : 5
 		},
 		props.padding ? (typeof props.padding != 'number' ? props.padding : { padding: props.padding }) : $Padding(8, 10),
 			_color, props.style]
 		}>
 			{
-				typeof props.children === 'string' ?
+				['string', 'number'].includes(typeof props.children) ?
 					<Text align="center" {...props.textProps}
 						style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]}>
 						{props.children}
