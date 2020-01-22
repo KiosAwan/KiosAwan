@@ -45,6 +45,7 @@ const LoginVerification = ({ navigation }) => {
         }
         try {
             const res = await loginData(data)
+            console.debug(res.data)
             if (res.data.errors) {
                 alert(res.data.errors.msg)
                 setLoading(false)
@@ -52,6 +53,7 @@ const LoginVerification = ({ navigation }) => {
             else {
                 await dispatch(clearAllRegistration())
                 await AsyncStorage.setItem('userId', res.data.id)
+                await AsyncStorage.setItem('@user_token', res.data.token)
                 await dispatch(getProfile(res.data.id))
                 setLoading(false)
                 navigation.navigate('/')
