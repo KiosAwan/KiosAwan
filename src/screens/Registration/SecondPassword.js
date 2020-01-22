@@ -49,6 +49,7 @@ const SecondPassword = ({ navigation }) => {
             const res = await registerUser(data)
             if (res.status == 200) {
                 await AsyncStorage.setItem('userId', res.data.id.toString())
+                await AsyncStorage.setItem('@user_token', res.data.token)
                 await dispatch(getProfile(res.data.id.toString()))
                 setIsLoading(false)
                 await dispatch(clearAllRegistration())

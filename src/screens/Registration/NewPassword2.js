@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 //Styling
@@ -33,10 +33,10 @@ const NewPassword2 = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false)
     // //Sending OTP code to server
     const _handleChangePIN = (psw) => {
-            dispatch(addSecondPassword(psw))
+        dispatch(addSecondPassword(psw))
     }
 
-    const _handleSendNewPIN =async () => {
+    const _handleSendNewPIN = async () => {
         if (FormRegister.password != FormRegister.secondpassword) {
             alert("Pin harus sama")
         } else {
@@ -48,6 +48,7 @@ const NewPassword2 = ({ navigation }) => {
             const res = await sendNewPassword(data)
             if (res.status == 200) {
                 await AsyncStorage.setItem('userId', res.data.id.toString())
+                await AsyncStorage.setItem('@user_token', res.data.token)
                 dispatch(clearAllRegistration())
                 setIsLoading(false)
                 navigation.navigate('/')
@@ -71,7 +72,7 @@ const NewPassword2 = ({ navigation }) => {
             />
             <View style={{ alignItems: "center" }}>
                 <View style={{ width: '70%', paddingTop: 30 }}>
-                    <Text style={{...FontList.title, textAlign: "center", color: ColorsList.greySoft }}>Masukkan kembali password</Text>
+                    <Text style={{ ...FontList.title, textAlign: "center", color: ColorsList.greySoft }}>Masukkan kembali password</Text>
                 </View>
                 <InputPIN
                     textColor="black"
@@ -84,7 +85,7 @@ const NewPassword2 = ({ navigation }) => {
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
                     onPressBtn={_handleSendNewPIN}
-                    style={{backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
+                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
                     buttonTitle="LANJUT"
                 />
             </View>
