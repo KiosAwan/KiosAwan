@@ -43,20 +43,20 @@ const Cashier = ({ navigation }) => {
                 onPressBack={() => navigation.navigate('/')}
             />
             <Wrapper justify="space-between" style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
-                <Wrapper>
-                    <Button justify="space-around" padding={7} onPress={() => {
+                <Wrapper _width="80%" justify="space-between">
+                    <Button _width="50%" wrapper={{ justify: 'center' }} padding={7} onPress={() => {
                         dispatch(setFromManajemenProduct(null))
                         navigation.navigate('/cashier/new-barcode')
-                    }} color="white" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                    }} color="white" >
                         <Image style={{ marginRight: 10, }} size={15} source={require('src/assets/icons/plus-primary.png')} />
                         <Text size={11} color="primary">PRODUK BARU</Text>
                     </Button>
-                    <Button padding={7} onPress={() => navigation.navigate('/cashier/input-manual')} color="white" style={{ paddingHorizontal: 15, }}>
+                    <Button _width="50%" padding={7} wrapper={{ justify: 'center' }} onPress={() => navigation.navigate('/cashier/input-manual')} color="white" style={{ paddingLeft: 15, }}>
                         <Image style={{ marginRight: 10, }} size={15} source={require('src/assets/icons/clock.png')} />
                         <Text size={11} color="primary">PESAN MANUAL</Text>
                     </Button>
                 </Wrapper>
-                <Button padding={7} onPress={() => navigation.navigate('/cashier/add-cart-with-barcode')}>
+                <Button _width="10%" padding={7} onPress={() => navigation.navigate('/cashier/add-cart-with-barcode')}>
                     <Image size={18} source={require('src/assets/icons/barcode.png')} />
                 </Button>
             </Wrapper>
