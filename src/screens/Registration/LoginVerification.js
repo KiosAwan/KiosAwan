@@ -78,11 +78,11 @@ const LoginVerification = ({ navigation }) => {
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
             <BarStatus />
             <AwanPopup.Loading visible={loading} />
-            <View style={{ paddingTop : 20 }}>
+            <View style={{ paddingTop : 10 }}>
                 <HeaderRegister />
             </View>
             <Text style={[styles.subtitleEnterPhone, {}]}>Nomor ini telah terdaftar</Text>
-            <Text style={[styles.subtitleEnterPhone, { paddingBottom: 20 }]}>Masukkan password Anda</Text>
+            <Text style={[styles.subtitleEnterPhone, { paddingBottom: 10 }]}>Masukkan password Anda</Text>
             <View style={styles.inputView}>
                 <InputPIN
                     inputWidth={250}
