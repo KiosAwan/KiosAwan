@@ -1,5 +1,18 @@
 import axios from 'axios'
 import { HOST_URL } from '../config'
+import AsyncStorage from '@react-native-community/async-storage';
+
+//get User token
+export const getUserToken = async () => {
+  const userToken = await AsyncStorage.getItem('@user_token') 
+  return userToken
+}
+
+//get User ID
+export const getUserId = async () => {
+  const userId = await AsyncStorage.getItem('userId') 
+  return userId
+}
 
 //helper
 export const convertRupiah = nominal => {

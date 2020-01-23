@@ -330,7 +330,7 @@ export const SelectBoxModal = (props) => {
 			]} />
 			<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, { borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, borderColor: activeColor }, props.style]}>
 				<Wrapper justify="space-between" style={{ alignItems: 'flex-end' }}>
-					<FloatingInput borderTransparent label={props.label} _width="90%">
+					<FloatingInput onPress={() => setModalVisible(true)} borderTransparent label={props.label} _width="90%">
 						<TextInput style={{ color: ColorsList.black }} value={props.value} editable={false} />
 					</FloatingInput>
 					<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />

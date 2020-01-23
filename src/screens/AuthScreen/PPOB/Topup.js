@@ -11,6 +11,7 @@ import { Image } from 'src/components/CustomImage';
 import Accordion from 'src/components/View/Accordion';
 import { Bottom } from 'src/components/View/Bottom';
 import { useSelector } from 'react-redux';
+import { requestTopUp } from 'src/utils/api/ppobapi';
 
 const Topup = ({ navigation }) => {
 	const [topupValue, setTopupValue] = useState(0)
@@ -52,8 +53,12 @@ const Topup = ({ navigation }) => {
 	}
 
 	const _handleTopUp = async () => {
-		console.debug(topupMethod)
-		navigation.navigate('/ppob/topup/detail')
+		const data = {
+			amount : topupValue,
+			id_va :  topupMethod + 1
+		}
+		const res = await requestTopUp(data)
+		navigation.navigate('/ppob/topup/detail', {response : res.data})
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
@@ -106,7 +111,7 @@ const Topup = ({ navigation }) => {
 				</Accordion>
 			</ScrollView>
 			<Bottom>
-				<Button disabled={topupValue > 0 ? false : true} onPress={_handleTopUp} width="100%">TOPUP DENGAN VIRTUAL ACCOUNT</Button>
+				<Button disabled={topupValue > 0 ? topupMethod >= 0 ? false : true : true} onPress={_handleTopUp} width="100%">TOPUP DENGAN VIRTUAL ACCOUNT</Button>
 			</Bottom>
 		</View>
 	)

@@ -78,7 +78,7 @@ const LoginVerification = ({ navigation }) => {
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
             <BarStatus />
             <AwanPopup.Loading visible={loading} />
-            <View style={{ padding: 20 }}>
+            <View style={{ paddingTop : 20 }}>
                 <HeaderRegister />
             </View>
             <Text style={[styles.subtitleEnterPhone, {}]}>Nomor ini telah terdaftar</Text>

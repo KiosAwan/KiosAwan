@@ -46,7 +46,6 @@ class CheckOut extends React.Component {
 	SecondRoute = () => (
 		<NonTunai nonTunai={this.state.nonTunai} pressImage={(id) => {
 			this.setState({ nonTunai: id })
-			console.debug("CHECKOUT", id)
 		}} />
 	)
 	ThirdRoute = () => (
@@ -188,7 +187,6 @@ class CheckOut extends React.Component {
 			<Wrapper>
 				{
 					props.navigationState.routes.map((route, i) => {
-						console.debug(this.state.index, i)
 						return <Button textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
 					})
 				}
