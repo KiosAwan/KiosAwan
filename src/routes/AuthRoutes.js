@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 
 //Import Screen
 import CashierNavigator from './DrawerComponent/CashierNavigator'
-import { fromLeft, fromRight } from 'react-navigation-transitions';
+import { fromLeft, fromRight, fadeOut } from 'react-navigation-transitions';
 import Home from '../screens/AuthScreen/Home';
 import NewsScreen from 'src/screens/AuthScreen/NewsScreen';
 import PPOBNavigator from './PPOBNavigator';

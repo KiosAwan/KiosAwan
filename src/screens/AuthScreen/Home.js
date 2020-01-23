@@ -88,7 +88,13 @@ const Home = ({ navigation }) => {
 		}
 	}
 
-	const _onPressPayment = () => navigation.navigate('/ppob') //_featureDisabled('ppob')
+	const _onPressPayment = () => {
+		if (User.data.status == 1) {
+			navigation.navigate('/ppob')
+		} else {
+			_featureDisabled('ppob')
+		}
+	}
 	const _onPressStock = () => _featureDisabled('stock')
 
 	const _handlePressDrawer = () => {
@@ -134,6 +140,16 @@ const Home = ({ navigation }) => {
 			return 'Lokasi belum di tentukan'
 		}
 	}
+
+	const _onPressTopUp = () => {
+		if (User.data.status == 1) {
+			navigation.navigate('/ppob/topup')
+		} else {
+			_setAlertTitle("FITUR INI")
+			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
+			_setAlert(true)
+		}
+	}
 	return (
 		<ParallaxScrollView
 			refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
@@ -163,7 +179,7 @@ const Home = ({ navigation }) => {
 						</Wrapper>
 					</View>
 				} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
-					<View style={{ borderRadius: 5, marginHorizontal: 15, backgroundColor: ColorsList.whiteColor }}>
+					<View style={{ borderRadius: 5, marginHorizontal: 10, backgroundColor: ColorsList.whiteColor }}>
 						<Wrapper justify="space-between" style={$Padding(10, 15)}>
 							<Wrapper justify="flex-start">
 								<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
@@ -173,7 +189,7 @@ const Home = ({ navigation }) => {
 								<Button color="link">
 									<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
 								</Button>
-								<Button onPress={() => navigation.navigate('/ppob/topup')} textProps={{ size: 10 }}>TOP UP</Button>
+								<Button onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
 							</Wrapper>
 						</Wrapper>
 						<Divider />
@@ -188,7 +204,7 @@ const Home = ({ navigation }) => {
 								<Text>Kupon</Text>
 							</Button>
 							<Divider height={40} />
-							<Button color="link" onPress={() => navigation.navigate('/ppob/topup')}>
+							<Button color="link">
 								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 								<Text>Favorit</Text>
 							</Button>

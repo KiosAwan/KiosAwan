@@ -72,7 +72,6 @@ const UpdateProfil = ({ navigation }) => {
 		if (desa.selected == "" || kecamatan.selected == "" || kabupaten.selected == "" || provinsi.selected == "") {
 			alert("Harap pilih daerah toko")
 		} else {
-			console.debug(email_store)
 			setLoading(true)
 			const id_user = await AsyncStorage.getItem('userId')
 			const formData = new FormData()

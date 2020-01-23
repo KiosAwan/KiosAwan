@@ -46,7 +46,7 @@ const Akun = ({ navigation }) => {
 						<View>
 							<Text color="primary">{User.data.name}</Text>
 							<Text>{User.store ? User.store.name_store : '~ Belum Ada Toko ~'}</Text>
-							<Text>#AWN00000001</Text>
+							<Text>{User.data.reff_code}</Text>
 						</View>
 						<Button disabled color={['transparent', 'greyFont', 'greyFont']} padding={5}>Free User</Button>
 					</Wrapper>

@@ -191,7 +191,7 @@ export const FloatingInput = props => {
   //   changeUpDown(haveValue)
   // }, [])
   return (
-    <TouchableOpacity activeOpacity={1} onPress={() => toFocus.focus()} style={{ justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: props.borderTransparent ? 'transparent' : activeColor, ...props.style }}>
+    <TouchableOpacity activeOpacity={1} onPress={props.onPress ? props.onPress : () => toFocus.focus()} style={{ justifyContent: 'flex-end', height: 65, position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: props.borderTransparent ? 'transparent' : activeColor, ...props.style }}>
       <Animated.Text style={[{ color: activeColor, position: 'absolute' }, {
         left: leftValue, top: topValue, transform: [{ scale: scaleAnimation }]
       }, props.labelStyle]}>{props.label}</Animated.Text>

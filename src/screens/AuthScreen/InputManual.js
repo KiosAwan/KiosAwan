@@ -12,6 +12,7 @@ import { ScrollView, TouchableOpacity, TextInput } from 'react-native-gesture-ha
 import { AddCart } from '../../redux/actions/actionsStoreProduct';
 import { Input, Icon, Button, Text } from 'native-base';
 import { TextInputMask } from 'react-native-masked-text'
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 
 const width = Dimensions.get('window').width
@@ -22,14 +23,23 @@ const InputManual = ({ navigation }) => {
 	const [price_in_product, setPriceIn] = useState("")
 	const [price_out_product, setPriceOut] = useState("")
 	const [quantity, setQuantity] = useState("0")
-	const [qshsh, setQshsh] = useState()
+
+	//error
+	const [errorMessage, setErrorMessage] = useState()
+	const [errorAlert, setErrorAlert] = useState(false)
 
 	const _handlePressBtn = () => {
 		if (name_product == "" || price_in_product == "" || price_out_product == "") {
-			alert("Harap isi semua field")
+			setErrorMessage("Harap isi semua field")
+			setErrorAlert(true)
 		}
 		else if (quantity == 0) {
-			alert("Kuantitas tidak boleh nol")
+			setErrorMessage("Kuantitas tidak boleh nol")
+			setErrorAlert(true)
+		}
+		else if (price_out_product.extractNumber() < price_in_product.extractNumber()) {
+			setErrorMessage("Harga jual harus melebihi harga modal")
+			setErrorAlert(true)
 		}
 		else {
 			const manualProduct = {
@@ -62,6 +72,11 @@ const InputManual = ({ navigation }) => {
 	}
 	return (
 		<View style={{ flex: 1 }}>
+			<AwanPopup.Alert
+				message={errorMessage}
+				visible={errorAlert}
+				closeAlert={() => setErrorAlert(false)}
+			/>
 			<GlobalHeader title="Pesanan Manual" onPressBack={() => navigation.goBack()} />
 			<View style={styles.childContainer}>
 				<ScrollView showsVerticalScrollIndicator={false}>
