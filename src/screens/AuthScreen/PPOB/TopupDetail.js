@@ -13,26 +13,6 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 import moment from 'moment';
 
 const TopupDetail = ({ navigation }) => {
-    const [tutorials, setTutorials] = useState([
-        {
-            title: "Mobile Banking", steps: [
-                "Masukkan pin ATM Anda",
-                "Pada menu utama, pilih menu \"Transfer\"",
-                "Pilih menu \"Virtual Account\"",
-                "Masukkan nomor virtual account lalu pilih \"Benar\"",
-                "Periksa kembali data transaksi Anda"
-            ]
-        },
-        {
-            title: "ATM", steps: [
-                "Masukkan pin ATM Anda",
-                "Pada menu utama, pilih menu \"Transfer\"",
-                "Pilih menu \"Virtual Account\"",
-                "Masukkan nomor virtual account lalu pilih \"Benar\"",
-                "Periksa kembali data transaksi Anda"
-            ]
-        }
-    ])
     const [loading, setLoading] = useState(true)
     const [toggled, setToggled] = useState({})
 
@@ -45,6 +25,10 @@ const TopupDetail = ({ navigation }) => {
         const {response} = await navigation.state.params
         setData(response)
         setLoading(false)
+    }
+
+    const _handleSelesai = () => {
+        navigation.navigate('/')
     }
     return (
         <View style={styles.container}>
@@ -78,7 +62,7 @@ const TopupDetail = ({ navigation }) => {
                         <Text size={18}>Petunjuk Pembayaran</Text>
                     </View>
                     {
-                        tutorials.map((ttr, i) => (
+                        data.tutorials.map((ttr, i) => (
                             <View key={i} style={{ marginBottom: 15 }}>
                                 <TouchableOpacity style={{ marginBottom: 0, backgroundColor: 'white', padding: 5 }} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
                                     <Wrapper justify="space-between" style={[styles.content, toggled[i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
@@ -108,7 +92,7 @@ const TopupDetail = ({ navigation }) => {
                 }
             <Bottom>
                 <Button width="49%" color="white">BATALKAN</Button>
-                <Button width="49%" onPress={() => navigation.navigate('/')}>SELESAI</Button>
+                <Button width="49%" onPress={_handleSelesai}>SELESAI</Button>
             </Bottom>
         </View>
     )
