@@ -140,7 +140,7 @@ const PhoneRegistration = ({ navigation }) => {
 					<Text style={styles.subtitleEnterPhone}>
 						{
 							__DEV__ ?
-								<Text color="whiteColor" onPress={() => _handleChangePhone('82134156961')}>{Strings.REGISTERPHONESUBTITLE}</Text>
+								<Text color="whiteColor" onPress={() => _handleChangePhone('85767834888')}>{Strings.REGISTERPHONESUBTITLE}</Text>
 								:
 								Strings.REGISTERPHONESUBTITLE
 						}
