@@ -27,7 +27,7 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 			setApiLoading(false)
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
-		}else {
+		} else {
 			setApiLoading(false)
 			navigation.navigate('/drawer/settings/change-email/otp-validation')
 		}
@@ -76,11 +76,11 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 				{
 					User.data.status == 0 ?
 						[
-							<Button onPress={_handleSendEmail} color="white" style={{ width: '47.5%' }}>Kirim Ulang</Button>,
-							<Button onPress={() => navigation.navigate('/drawer/settings/change-email/new-email')} style={{ width: '47.5%' }}>Ubah Email</Button>
+							<Button onPress={_handleSendEmail} color="white" width="47.5%">Kirim Ulang</Button>,
+							<Button onPress={() => navigation.navigate('/drawer/settings/change-email/new-email')} width="47.5%">Ubah Email</Button>
 						]
 						:
-						<Button onPress={_nextBtn} color="white" style={{ width: '100%' }}>UBAH</Button>
+						<Button onPress={_nextBtn} color="white" width="100%">UBAH</Button>
 				}
 			</Bottom>
 		</View>
