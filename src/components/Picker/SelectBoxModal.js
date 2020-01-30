@@ -308,7 +308,7 @@ export const SelectBoxModal = (props) => {
 				props.header ? <CardItem header>
 					{props.header}
 				</CardItem> : null,
-				<ScrollView style={{ height: '30%' }}>{
+				<ScrollView persistentScrollbar style={{ height: '30%' }}>{
 					props.data.length > 0 ? props.data.map((item) => {
 						return (
 							<CardItem style={styles.modalCardItem} button onPress={() => {

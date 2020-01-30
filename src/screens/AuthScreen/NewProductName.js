@@ -17,6 +17,7 @@ import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
 import { Modal as ModalCustom, AwanPopup } from 'src/components/ModalContent/Popups'
+import { Wrapper } from 'src/components/View/Wrapper';
 
 
 const width = Dimensions.get('window').width
@@ -104,51 +105,39 @@ const NewProductName = ({ navigation }) => {
 				thirdIsActiveStep={false}
 			/>
 			{/* <MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={ */}
-			<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible}>
-				<View style={{ padding: 15 }}>
-					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
-					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
-					<View style={{ marginTop: 10 }}>
-						<FloatingInputLabel
-							label={"Nama Kategori"}
-							value={newCategoryName}
-							handleChangeText={(text) => setNewCategoryName(text)}
-						/>
-					</View>
-					<View style={styles.viewButtonPopup}>
-						<Button style={styles.buttonSimpan} onPress={_handleSaveNewCategory}>
-							<Text style={{ color: 'white' }}>SIMPAN</Text>
-						</Button>
-						<Button onPress={() => setAddCategoryVisible(false)} style={styles.buttonBatal}>
-							<Text style={{ color: ColorsList.greyFont }}>BATAL</Text>
-						</Button>
-					</View>
+			<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} style={{ width: '80%' }}>
+				<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
+				<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
+				<View style={{ marginTop: 10 }}>
+					<FloatingInputLabel
+						label={"Nama Kategori"}
+						value={newCategoryName}
+						handleChangeText={(text) => setNewCategoryName(text)}
+					/>
+				</View>
+				<View style={styles.viewButtonPopup}>
+					<Button style={{ marginLeft: 10 }} onPress={_handleSaveNewCategory}>SIMPAN</Button>
+					<Button onPress={() => setAddCategoryVisible(false)} color="white">BATAL</Button>
 				</View>
 			</ModalCustom>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
 				<View styles={{ paddingHorizontal: 30 }}>
-					<Grid>
-						<Col style={{ paddingRight: 10 }}>
-							<FloatingInputLabel handleChangeText={(text) => {
-								if (validNumber(text)) {
-									dispatch(addProductBarcode(text))
-								}
-							}} label="Nomor Barcode" value={NewProduct.barcode} />
-						</Col>
-						<Col size={.2}>
-							<Button onPress={() => navigation.goBack()} style={styles.buttonScanBarcode}>
-								<Image size={35} source={require('src/assets/icons/barcode.png')} />
-							</Button>
-						</Col>
-					</Grid>
-					<View style={{ marginTop: 15 }}>
-						<FloatingInputLabel
-							disabled={isDisabled}
-							label="Nama Produk"
-							value={NewProduct.name}
-							handleChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
-						/>
-					</View>
+					<Wrapper style={{ marginBottom: 15 }} justify="space-between">
+						<FloatingInputLabel _width="80%" handleChangeText={(text) => {
+							if (validNumber(text)) {
+								dispatch(addProductBarcode(text))
+							}
+						}} label="Nomor Barcode" value={NewProduct.barcode} />
+						<Button onPress={() => navigation.goBack()}>
+							<Image size={25} source={require('src/assets/icons/barcode.png')} />
+						</Button>
+					</Wrapper>
+					<FloatingInputLabel
+						disabled={isDisabled}
+						label="Nama Produk"
+						value={NewProduct.name}
+						handleChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
+					/>
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Pilih Kategori"
 						header={
