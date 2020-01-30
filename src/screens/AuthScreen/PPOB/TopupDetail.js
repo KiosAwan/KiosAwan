@@ -38,7 +38,7 @@ const TopupDetail = ({ navigation }) => {
                 <ScrollView showsVerticalScrollIndicator={false} style={styles.childContainer}>
                     <View style={styles.infoPembayaran}>
                         <View style={{ alignItems: "center", paddingBottom: 25 }}>
-                            <Image style={{ resizeMode: 'contain' }} size={70} source={{uri : data.image}} />
+                            <Image style={{ resizeMode: 'contain' }} size={70} source={{uri : data.tutorials.image}} />
                             <Text>Nomor {data.va}</Text>
                             <Text size={23} font="Bold" color="primary" style={{ marginBottom: 10, }}>{data.va_code}</Text>
                             <Button onPress={() => Clipboard.setString(data.va_code)} width="30%" color={['transparent', 'greyFont', 'greyFont']} padding={3}>Salin Nomor</Button>
