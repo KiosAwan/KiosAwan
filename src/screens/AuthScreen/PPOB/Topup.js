@@ -12,26 +12,32 @@ import Accordion from 'src/components/View/Accordion';
 import { Bottom } from 'src/components/View/Bottom';
 import { useSelector } from 'react-redux';
 import { requestTopUp } from 'src/utils/api/ppobapi';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const Topup = ({ navigation }) => {
 	const [topupValue, setTopupValue] = useState(0)
 	const [topupMethod, setTopupMethod] = useState()
+	const [apiLoading, setApiLoading] = useState(false)
+	//alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState(false)
+
 	const User = useSelector(state => state.User)
 	const TopupMethods = [{
 		title: 'BCA Virtual Account',
-		subtitle: 'Total pembayaran ' + convertRupiah(topupValue+3000),
+		subtitle: 'Total pembayaran ' + convertRupiah(topupValue + 3000),
 		image: require('src/assets/icons/ppob/topup/BCA.png')
 	}, {
 		title: 'Mandiri Virtual Account',
-		subtitle: 'Total pembayaran ' + convertRupiah(topupValue+3000),
+		subtitle: 'Total pembayaran ' + convertRupiah(topupValue + 3000),
 		image: require('src/assets/icons/ppob/topup/Mandiri.png')
 	}, {
 		title: 'BNI Virtual Account',
-		subtitle: 'Total pembayaran ' + convertRupiah(topupValue+3000),
+		subtitle: 'Total pembayaran ' + convertRupiah(topupValue + 3000),
 		image: require('src/assets/icons/ppob/topup/BNI.png')
 	}, {
 		title: 'BRI Virtual Account',
-		subtitle: 'Total pembayaran ' + convertRupiah(topupValue+3000),
+		subtitle: 'Total pembayaran ' + convertRupiah(topupValue + 3000),
 		image: require('src/assets/icons/ppob/topup/BRI.png')
 	}]
 	const _selectTopupMethod = (item, i) => {
@@ -53,15 +59,28 @@ const Topup = ({ navigation }) => {
 	}
 
 	const _handleTopUp = async () => {
+		setApiLoading(true)
 		const data = {
-			amount : topupValue,
-			id_va :  topupMethod + 1
+			amount: topupValue,
+			id_va: topupMethod + 1
 		}
 		const res = await requestTopUp(data)
-		navigation.navigate('/ppob/topup/detail', {response : res.data})
+		setApiLoading(false)
+		if (res.status == 200) {
+			navigation.navigate('/ppob/topup/detail', { response: res.data })
+		} else if (res.status == 400) {
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
+		}
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
+			/>
+			<AwanPopup.Loading visible={apiLoading} />
 			<GlobalHeader title="Top Up" onPressBack={() => navigation.goBack()} />
 			<ScrollView style={{ padding: 15, marginBottom: 70 }}>
 				<Wrapper style={styles.group} justify="space-between">
@@ -79,7 +98,7 @@ const Topup = ({ navigation }) => {
 						keyExtractor={(item, i) => i.toString()} />
 				</View>
 				<Text style={{ marginBottom: 10 }} font="Regular" align="center">Metode Pembayaran</Text>
-				<Accordion style={[styles.group, { padding: 0 }]} titleColor="primary" button={{disabled: topupValue > 0 ? false : true, color: 'link' }} title={
+				<Accordion style={[styles.group, { padding: 0 }]} titleColor="primary" button={{ disabled: topupValue > 0 ? false : true, color: 'link' }} title={
 					<Wrapper justify="flex-start">
 						<Image size={25} style={{ marginRight: 10, }} source={require('src/assets/icons/ppob/topup/VirtualAccount.png')} />
 						<Text>Virtual Account</Text>

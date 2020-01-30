@@ -106,6 +106,7 @@ const Home = ({ navigation }) => {
 
 	const _handleRefresh = () => {
 		dispatch(getProfile(User.data.id))
+		_checkService()
 		setOnRefresh(false)
 	}
 
@@ -144,6 +145,16 @@ const Home = ({ navigation }) => {
 	const _onPressTopUp = () => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/topup')
+		} else {
+			_setAlertTitle("FITUR INI")
+			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
+			_setAlert(true)
+		}
+	}
+
+	const _onPressRiwayat = () => {
+		if (User.data.status == 1) {
+			navigation.navigate('/ppob/riwayat')
 		} else {
 			_setAlertTitle("FITUR INI")
 			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
@@ -194,7 +205,7 @@ const Home = ({ navigation }) => {
 						</Wrapper>
 						<Divider />
 						<Wrapper justify="space-around">
-							<Button color="link">
+							<Button color="link" onPress={_onPressRiwayat}>
 								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 								<Text>Riwayat</Text>
 							</Button>
@@ -281,31 +292,32 @@ const Home = ({ navigation }) => {
 						</Wrapper>
 					</Button>
 				</View>
-				<ScrollView
-					horizontal={true}
-					showsHorizontalScrollIndicator={false}>
-					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5 }} source={require('src/assets/images/card_1.png')} />
-					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_2.png')} />
-				</ScrollView>
-				<Text style={{ paddingVertical: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
-				{newsLoading ?
-					<NewsCardPlaceholder />
-					:
-					<FlatList
-						data={news}
-						horizontal={true}
-						showsHorizontalScrollIndicator={false}
-						renderItem={({ item }) => (
-							<CardTextImage
-								onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
-								image={item.jetpack_featured_media_url}
-								info={item.title.rendered}
-							/>
-						)}
-						keyExtractor={(item, index) => index.toString()}
-					/>
-				}
 			</View>
+			<ScrollView
+				horizontal={true}
+				showsHorizontalScrollIndicator={false}>
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_2.png')} />
+			</ScrollView>
+			<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
+			{newsLoading ?
+				<NewsCardPlaceholder />
+				:
+				<FlatList
+					data={news}
+					horizontal={true}
+					showsHorizontalScrollIndicator={false}
+					renderItem={({ item }) => (
+						<CardTextImage
+							style={{ marginLeft: 10 }}
+							onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
+							image={item.jetpack_featured_media_url}
+							info={item.title.rendered}
+						/>
+					)}
+					keyExtractor={(item, index) => index.toString()}
+				/>
+			}
 		</ParallaxScrollView>
 	)
 }

@@ -7,7 +7,6 @@ import { ColorsList } from '../../../styles/colors';
 import { SizeList } from '../../../styles/size';
 import { FontList } from '../../../styles/typography';
 import { createUserPIN } from '../../../utils/authhelper';
-import AsyncStorage from '@react-native-community/async-storage';
 import ModalContent from '../../../components/ModalContent/ModalContent';
 import { useSelector } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';

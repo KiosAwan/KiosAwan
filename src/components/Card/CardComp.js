@@ -67,7 +67,7 @@ export const LinearCardComp = (props) => {
 export const CardTextImage = (props) => {
     return (
         <TouchableOpacity onPress={props.onPressCard}>
-            <View style={styles.CardTextImage}>
+            <View style={[styles.CardTextImage, props.style]}>
                 <Image style={styles.imageCardTextImage} source={{ uri: props.image }} />
                 <View style={styles.textImageWrapper}>
                     <Text style={{ fontSize: FontList.titleSize, color: ColorsList.greyFont, paddingHorizontal: '6%' }}>{props.info}</Text>
@@ -102,16 +102,6 @@ export const ProductCards = props => {
                 </TouchableOpacity>
             </View>
         </Wrapper>
-        {/* <Wrapper justify="space-between">
-            <View width="20%" style={{ backgroundColor: 'blue' }}>
-                <ImageText style={{ width: '100%' }} name={props.name} />
-            </View>
-            <View style={{ width: '70%', backgroundColor: 'yellow' }}>
-                <Text style={[styles.infoText]}>{props.name}</Text>
-                <Text style={[styles.subText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
-                <Text style={[styles.infoText, props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger, fontFamily: FontList.regularFont } : { color: ColorsList.greyFont } : { color: ColorsList.greyFont }]}>{props.price}</Text>
-            </View>
-        </Wrapper> */}
     </TouchableOpacity>
 }
 export const ProductCard = (props) => {
@@ -219,7 +209,6 @@ const styles = StyleSheet.create({
         width: width * 4 / 5,
         height: height / 3,
         alignItems: "center",
-        marginRight: 10
     },
     imageCardTextImage: {
         width: '100%',

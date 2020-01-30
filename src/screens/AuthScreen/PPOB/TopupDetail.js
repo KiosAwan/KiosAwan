@@ -50,7 +50,7 @@ const TopupDetail = ({ navigation }) => {
                             </Wrapper>
                             <Wrapper justify="space-between" style={styles.wrapperDetail}>
                                 <Text>Tanggal</Text>
-                                <Text font="Bold">{moment(data.created_at).format('DD MMM YYYY')}</Text>
+                                <Text font="Bold">{moment(data.created_at).format('DD MMM YYYY HH:mm')}</Text>
                             </Wrapper>
                             <Wrapper justify="space-between" style={[styles.wrapperDetail, { borderBottomWidth: 0 }]}>
                                 <Text>Total Pembayaran</Text>

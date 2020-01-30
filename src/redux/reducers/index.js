@@ -11,6 +11,7 @@ import reducerCustomer from './reducerCustomer';
 import reducerStoreDiscount from './reducerDiscount';
 import reducerEditProduct from './reducerEditProduct';
 import reducerPrinter from './reducerPrinter';
+import reducerRiwayatTransaksi from './reducerRiwayatTransaksi';
 
 const appReducer = combineReducers({
     Registration : reducerRegistration,
@@ -22,7 +23,10 @@ const appReducer = combineReducers({
     Discount : reducerStoreDiscount,
     Transaction : reducerTransactionList,
     Customer : reducerCustomer,
-    Printer : reducerPrinter
+    Printer : reducerPrinter,
+
+    //PPOB
+    RiwayatTransaksi : reducerRiwayatTransaksi,
 })
 
 export default appReducer

@@ -95,7 +95,7 @@ const ChangePINNewPIN = ({ navigation }) => {
                     />
                 </View>
                 <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
-                    <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN Baru</Text>
+                    <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 4 Digit PIN Baru</Text>
                     <CodeInput
                         secureTextEntry
                         className='border-circle'
