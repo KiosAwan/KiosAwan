@@ -45,7 +45,7 @@ export const Button = props => {
 			borderColor: props.color.length === 3 ? ColorsList[props.color[2]] : ColorsList[props.color[0]]
 		}
 	}
-	return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? .5 : 1 }, props.style]}>
+	return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? 1 : 1 }]}>
 		<TouchableOpacity activeOpacity={.5} {...props} style={[{
 			borderWidth: 1,
 			justifyContent: 'center',
@@ -54,8 +54,9 @@ export const Button = props => {
 		props.padding ?
 			(typeof props.padding != 'number' ? props.padding : { padding: props.padding }) :
 			$Padding(8, 10),
-			_color, props.noBorder && { borderColor: ColorsList.transparent }]
-		}>
+			_color, props.noBorder && { borderColor: ColorsList.transparent },
+		props.style
+		]}>
 			{
 				['string', 'number'].includes(typeof props.children) ?
 					<Text align="center" {...props.textProps}
