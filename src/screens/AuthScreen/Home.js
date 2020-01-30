@@ -296,8 +296,8 @@ const Home = ({ navigation }) => {
 			<ScrollView
 				horizontal={true}
 				showsHorizontalScrollIndicator={false}>
-				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
-				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_2.png')} />
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_1.png')} />
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginRight: 10 }} source={require('src/assets/images/card_2.png')} />
 			</ScrollView>
 			<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
 			{newsLoading ?
@@ -307,9 +307,9 @@ const Home = ({ navigation }) => {
 					data={news}
 					horizontal={true}
 					showsHorizontalScrollIndicator={false}
-					renderItem={({ item }) => (
+					renderItem={({ item, index }) => (
 						<CardTextImage
-							style={{ marginLeft: 10 }}
+							style={{ marginLeft: 10, marginRight: index == news.length ? 10 : 0 }}
 							onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
 							image={item.jetpack_featured_media_url}
 							info={item.title.rendered}

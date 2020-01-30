@@ -66,7 +66,7 @@ const Topup = ({ navigation }) => {
 		setApiLoading(true)
 		const data = {
 			amount: topupValue,
-			id_va: topupMethod
+			payment_channel: topupMethod
 		}
 		const res = await requestTopUp(data)
 		setApiLoading(false)
