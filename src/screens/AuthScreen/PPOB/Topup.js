@@ -26,22 +26,26 @@ const Topup = ({ navigation }) => {
 	const TopupMethods = [{
 		title: 'BCA Virtual Account',
 		subtitle: 'Total pembayaran ' + convertRupiah(topupValue + 3000),
-		image: require('src/assets/icons/ppob/topup/BCA.png')
+		image: require('src/assets/icons/ppob/topup/BCA.png'),
+		key: 702
 	}, {
 		title: 'Mandiri Virtual Account',
 		subtitle: 'Total pembayaran ' + convertRupiah(topupValue + 3000),
-		image: require('src/assets/icons/ppob/topup/Mandiri.png')
+		image: require('src/assets/icons/ppob/topup/Mandiri.png'),
+		key: 802
 	}, {
 		title: 'BNI Virtual Account',
 		subtitle: 'Total pembayaran ' + convertRupiah(topupValue + 3000),
-		image: require('src/assets/icons/ppob/topup/BNI.png')
+		image: require('src/assets/icons/ppob/topup/BNI.png'),
+		key: 801
 	}, {
 		title: 'BRI Virtual Account',
 		subtitle: 'Total pembayaran ' + convertRupiah(topupValue + 3000),
-		image: require('src/assets/icons/ppob/topup/BRI.png')
+		image: require('src/assets/icons/ppob/topup/BRI.png'),
+		key: 800
 	}]
 	const _selectTopupMethod = (item, i) => {
-		setTopupMethod(i)
+		setTopupMethod(item.key)
 	}
 
 	const _pressAddTopUpValue = (value) => {
@@ -62,7 +66,7 @@ const Topup = ({ navigation }) => {
 		setApiLoading(true)
 		const data = {
 			amount: topupValue,
-			id_va: topupMethod + 1
+			id_va: topupMethod
 		}
 		const res = await requestTopUp(data)
 		setApiLoading(false)
@@ -94,7 +98,7 @@ const Topup = ({ navigation }) => {
 					<Text size={10} font="Regular" color="primary">Nominal Kelipatan {convertRupiah(100000)}</Text>
 					<FlatList style={{ marginTop: 10 }} data={[100000, 200000, 500000]}
 						numColumns={3}
-						renderItem={({ item }) => <Button onPress={() => _pressAddTopUpValue(item)} width="31.333%" style={{ marginHorizontal: '1%' }} color="white">{`+ ${convertRupiah(item)}`}</Button>}
+						renderItem={({ item }) => <Button onPress={() => _pressAddTopUpValue(item)} width="31.333%" style={{ marginHorizontal: '1%' }} color="white" textStyle={{ fontSize: 12 }}>{`+ ${convertRupiah(item)}`}</Button>}
 						keyExtractor={(item, i) => i.toString()} />
 				</View>
 				<Text style={{ marginBottom: 10 }} font="Regular" align="center">Metode Pembayaran</Text>
@@ -109,7 +113,7 @@ const Topup = ({ navigation }) => {
 							data={TopupMethods}
 							keyExtractor={(item, i) => i.toString()}
 							renderItem={({ item, index }) => index < 4 &&
-								<Button onPress={() => _selectTopupMethod(item, index)} style={{ paddingVertical: 5 }} noBorder={!(topupMethod == index)} color="white">
+								<Button onPress={() => _selectTopupMethod(item, index)} style={{ paddingVertical: 5 }} noBorder={!(topupMethod == item.key)} color="white">
 									<Image style={{ resizeMode: 'contain', width: 70, height: 50 }} source={item.image} />
 									<View>
 										<Text color="primary">{item.title}</Text>
