@@ -75,6 +75,9 @@ const Topup = ({ navigation }) => {
 		} else if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
+		}else {
+			setAlertMessage(JSON.stringify(res))
+			setAlert(true)
 		}
 	}
 	return (

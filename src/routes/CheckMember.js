@@ -12,6 +12,8 @@ import LinearGradient from 'react-native-linear-gradient'
 import Strings from '../utils/Strings';
 import BarStatus from '../components/BarStatus';
 import { getProfile } from '../redux/actions/actionsUserData';
+import Axios from 'axios';
+import { HOST_URL } from 'src/config';
 
 const CheckMember = (props) => {
   const { navigation } = props
@@ -25,12 +27,17 @@ const CheckMember = (props) => {
       //Cek Token Pas Awal
       const checkUserIntro = await AsyncStorage.getItem('introApp');
       const checkUserData = await AsyncStorage.getItem('userId');
+      const userToken = await AsyncStorage.getItem('@user_token');
       NetInfo.addEventListener(state => {
         if (!state.isInternetReachable) {
           navigation.navigate('/not-connected')
         }
       });
       if (checkUserData != null) {
+        const res = await Axios.get(`${HOST_URL}/auth/check`, {
+          headers: { "authorization": userToken }
+        })
+        await AsyncStorage.setItem('@user_token', res.data.data.token)
         await dispatch(getProfile(checkUserData))
         navigation.navigate('/')
       } else {

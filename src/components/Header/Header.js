@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import LinearGradient from 'react-native-linear-gradient'
 import { View, Image, StyleSheet, Dimensions } from 'react-native'
@@ -91,23 +91,30 @@ export const GlobalHeaderWithIcon = (props) => {
 }
 
 export const CashierHeader = (props) => {
+    const [focus, setFocus] = useState(false)
     return (
         <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%' }}>
-                <Wrapper justify="space-between" style={{ height: '100%' }}>
-                    <Wrapper _width="85%">
-                        <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
-                            <Icon name="arrow-left" size={20} color="white" />
-                        </Button>
-                        <SearchInput _width="90%" clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor}>
-                            <TextInput style={{ color: ColorsList.whiteColor }} placeholderTextColor={ColorsList.whitePlaceholder} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk" />
+                <Wrapper justify="space-between" style={{ height: '100%', alignSelf :focus ? "center" : null }}>
+                    <Wrapper _width={!focus ?"85%" : "95%"}>
+                        {!focus ?
+                            <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                                <Icon name="arrow-left" size={20} color="white" />
+                            </Button>
+                            : <View style={{ width: 1 }} />
+                        }
+                        <SearchInput _width={!focus ? "90%" : "100%"} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor} blurColor="transparent">
+                            <TextInput style={{ color: ColorsList.whiteColor }} placeholderTextColor={ColorsList.authBackground} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk..." />
                         </SearchInput>
                     </Wrapper>
-                    <Wrapper _width="10%">
-                        <TouchableOpacity onPress={props.onPressMenu}>
-                            <Icon name="ellipsis-v" size={20} color="white" />
-                        </TouchableOpacity>
-                    </Wrapper>
+                    {!focus ?
+                        <Wrapper _width="10%">
+                            <TouchableOpacity onPress={props.onPressMenu}>
+                                <Icon name="ellipsis-v" size={20} color="white" />
+                            </TouchableOpacity>
+                        </Wrapper>
+                        : <View style={{ width: 1 }} />
+                    }
                 </Wrapper>
             </LinearGradient>
         </Header>

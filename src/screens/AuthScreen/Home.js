@@ -194,7 +194,7 @@ const Home = ({ navigation }) => {
 						<Wrapper justify="space-between" style={$Padding(10, 15)}>
 							<Wrapper justify="flex-start">
 								<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
-								<Text>Saldo: {convertRupiah(User.data.saldo)}</Text>
+								<Text>Saldo: {convertRupiah(User.data.saldo || 0)}</Text>
 							</Wrapper>
 							<Wrapper justify="flex-end">
 								<Button color="link">
@@ -309,7 +309,7 @@ const Home = ({ navigation }) => {
 					showsHorizontalScrollIndicator={false}
 					renderItem={({ item, index }) => (
 						<CardTextImage
-							style={{ marginLeft: 10, marginRight: index == news.length ? 10 : 0 }}
+							style={{ marginLeft: 10, marginRight: index == news.length-1 ? 10 : 0 }}
 							onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
 							image={item.jetpack_featured_media_url}
 							info={item.title.rendered}

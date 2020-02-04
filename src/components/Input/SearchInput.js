@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Image,TouchableOpacity } from 'react-native';
+import { View, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import * as Animatable from "react-native-animatable";
@@ -11,17 +11,26 @@ import { $Border } from 'src/utils/stylehelper';
 
 const SearchInput = (props) => {
 	const [isFocused, setIsFocused] = useState(false)
-
+	const _onBlur = () => {
+		props.onBlur()
+		setIsFocused(false)
+	}
+	const _onFocus = () => {
+		props.onFocus()
+		setIsFocused(true)
+	}
 	return (
 		<View style={props.style}>
 			<Wrapper justify="space-between">
 				<Wrapper _width="80%" justify="flex-start">
-					<Icon _width="10%" size={15} style={{ color: props.color || ColorsList.primary }} name="search" />
+					{isFocused ?
+						<Icon _width="10%" size={15} style={{ color: props.color || ColorsList.primary }} name="search" />
+						: <View/>}
 					{props.children ?
 						React.cloneElement(props.children, {
 							_width: '80%',
-							onBlur: () => setIsFocused(false),
-							onFocus: () => setIsFocused(true),
+							onBlur: _onBlur,
+							onFocus: _onFocus,
 							style: [{ color: props.color || ColorsList.primary }, props.style]
 						})
 						:
@@ -36,12 +45,12 @@ const SearchInput = (props) => {
 					}
 				</Wrapper>
 				<Animatable.View duration={500} animation={isFocused ? "slideInRight" : 'bounceOutRight'}>
-					<TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-end' }} onPress={props.clear||props.handleDeleteSearch}>
+					<TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'flex-end' }} onPress={props.clear || props.handleDeleteSearch}>
 						<Image style={{ width: 20, height: 20 }} source={props.icon || require('src/assets/icons/circlereject.png')} />
 					</TouchableOpacity>
 				</Animatable.View>
 			</Wrapper>
-			<Divider color={isFocused ? props.color || ColorsList.primary : ColorsList.greyAuthHard} />
+			<Divider color={isFocused ? props.color || ColorsList.primary : props.blurColor|| ColorsList.greyAuthHard} />
 		</View>
 		// <View style={[styles.searchWrapper, isFocused ? { borderWidth: 1, borderColor: props.color || ColorsList.primary, borderRadius: 5 } : {}]}>
 		//     <Animatable.View duration={300} style={{ backgroundColor: 'blue', width: '5%', marginHorizontal: 5 }} animation={isFocused ? null : null}>

@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
         ...FontList.subtitleFont
     },
     CardTextImage: {
-        width: width * 4 / 5,
+        width: width /1.3,
         height: height / 3,
         alignItems: "center",
     },

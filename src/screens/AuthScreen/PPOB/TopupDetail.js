@@ -39,9 +39,9 @@ const TopupDetail = ({ navigation }) => {
                     <View style={styles.infoPembayaran}>
                         <View style={{ alignItems: "center", paddingBottom: 25 }}>
                             <Image style={{ resizeMode: 'contain' }} size={70} source={{uri : data.tutorials.image}} />
-                            <Text>Nomor {data.va}</Text>
-                            <Text size={23} font="Bold" color="primary" style={{ marginBottom: 10, }}>{data.va_code}</Text>
-                            <Button onPress={() => Clipboard.setString(data.va_code)} width="30%" color={['transparent', 'greyFont', 'greyFont']} padding={3}>Salin Nomor</Button>
+                            <Text>Nomor {data.payment_channel}</Text>
+                            <Text size={23} font="Bold" color="primary" style={{ marginBottom: 10, }}>{data.trx_id}</Text>
+                            <Button onPress={() => Clipboard.setString(data.trx_id)} width="30%" color={['transparent', 'greyFont', 'greyFont']} padding={3}>Salin Nomor</Button>
                         </View>
                         <View style={styles.detailTagihan}>
                             <Wrapper justify="space-between" style={styles.wrapperDetail}>
@@ -62,7 +62,7 @@ const TopupDetail = ({ navigation }) => {
                         <Text size={18}>Petunjuk Pembayaran</Text>
                     </View>
                     {
-                        data.tutorials.map((ttr, i) => (
+                        data.tutorials.tutorials.map((ttr, i) => (
                             <View key={i} style={{ marginBottom: 15 }}>
                                 <TouchableOpacity style={{ marginBottom: 0, backgroundColor: 'white', padding: 5 }} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
                                     <Wrapper justify="space-between" style={[styles.content, toggled[i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>

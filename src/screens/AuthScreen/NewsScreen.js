@@ -45,7 +45,7 @@ const NewsScreen = ({ navigation }) => {
                     source={{ uri: url }}
                 /> */}
                 <Text style={{ alignSelf: 'center', textAlign : 'center' }}>{title}</Text>
-                <Image source={{uri : imageData ? imageData : null}} style={{width : SizeList.width, height : 200,marginVertical : 10, resizeMode : 'stretch'}}/>
+                <Image source={{uri : imageData ? imageData : null}} style={{width : SizeList.width, height : 200,marginVertical : 10, resizeMode : 'contain'}}/>
                 <HTML
                     tagsStyles={{
                         p: { fontFamily: FontList.primaryFont, color: ColorsList.greySoft },
