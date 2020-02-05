@@ -5,6 +5,7 @@ import RiwayatTransaksi from "src/screens/AuthScreen/PPOB/RiwayatTransaksi"
 import PpobPulsa from "src/screens/AuthScreen/PPOB/Pulsa"
 import SettingHargaPPOB from "src/screens/AuthScreen/PPOB/HargaPPOB"
 import AturPaketData from "src/screens/AuthScreen/PPOB/HargaPPOB/PaketData"
+import AturPulsa from "src/screens/AuthScreen/PPOB/HargaPPOB/Pulsa"
 
 const PPOBNavigator = {
 	'/ppob': {
@@ -43,13 +44,13 @@ const PPOBNavigator = {
 			header: null
 		}
 	},
-	'/ppob/pulsa': {
+	'/ppob/settings/pulsa': {
 		screen: AturPulsa,
 		navigationOptions: {
 			header: null
 		}
 	},
-	'/ppob/paketdata': {
+	'/ppob/settings/paketdata': {
 		screen: AturPaketData,
 		navigationOptions: {
 			header: null
