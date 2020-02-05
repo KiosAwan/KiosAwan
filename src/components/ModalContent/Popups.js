@@ -11,7 +11,7 @@ import Divider from '../Row/Divider';
 export const Modal = (props) => {
 	const styles = StyleSheet.create({
 		modalBackDrop: { alignItems: 'center', justifyContent: 'center', backgroundColor: props.transparent ? 'transparent' : 'rgba(0,0,0,.5)', width: '100%', height: '100%' },
-		modalView: { backgroundColor: ColorsList.whiteColor, maxWidth: '90%', justifyContent: "center", padding: 20 }
+		modalView: { backgroundColor: props.transparent ? 'transparent' : ColorsList.whiteColor, maxWidth: '90%', justifyContent: "center", padding: 20 }
 	})
 	return (
 		<ModalRN
@@ -45,20 +45,20 @@ export const AwanPopup = {
 	},
 	Menu: props => {
 		return <Modal {...props} animationType="fade" transparents style={[styles.shadow, {
-			padding: 0, minWidth: '70%', position: props.position ? 'absolute' : undefined
+			padding: 0, minWidth: '70%', position: props.absolute ? 'absolute' : undefined
 		}, props.style]}>
-			<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
+			{!props.noTitle && <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
 				<Text font="Bold" size={props.titleSize || 15} style={{ color: ColorsList.whiteColor, ...$Padding(10, 15) }}>
 					{props.title.toUpperCase()}
 				</Text>
-			</LinearGradient>
-			<View style={[{ padding: 5 }, props.contentStyle]}>
+			</LinearGradient>}
+			<View style={[{ padding: 5 }, props.noTitle ? { borderRadius: 5 } : {}, props.contentStyle]}>
 				{
 					props.children.length > 0 ?
 						props.children.map((child, i) => {
 							return [
 								child,
-								props.children.length - 1 != i ? <Divider /> : null
+								!props.noTitle && props.children.length - 1 != i ? <Divider /> : null
 							]
 						})
 						: props.children
@@ -76,13 +76,13 @@ export const AwanPopup = {
 		</Modal>
 	},
 	Alert: props =>
-		<Modal animationType="fade" style={{ padding: 0,width : SizeList.width *2/3}} {...props}>
+		<Modal animationType="fade" style={{ padding: 0, width: SizeList.width * 2 / 3 }} {...props}>
 			<View style={[styles.body, props.style]}>
 				<Image source={require('../../assets/icons/circlereject.png')}
 					style={[styles.image, { width: 50, height: 50 }]}
 					resizeMode="stretch" />
 				<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>Oops...</Text>
-				<View style={{width : '80%', alignItems : "center"}}>
+				<View style={{ width: '80%', alignItems: "center" }}>
 					<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{props.message}</Text>
 				</View>
 				<ButtonWrapper style={{ justifyContent: "center" }}>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
 	image: { alignSelf: 'center', height: 100, width: '100%' },
 	title: { textAlign: 'center', padding: 20 },
 	oldTitle: { position: 'absolute', top: 90, alignSelf: 'center', color: ColorsList.whiteColor },
-	body: { ...$Padding(10, 15, 20), backgroundColor: ColorsList.whiteColor, alignItems :"center" }
+	body: { ...$Padding(10, 15, 20), backgroundColor: ColorsList.whiteColor, alignItems: "center" }
 })
 
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -16,9 +16,10 @@ import { Image } from 'src/components/CustomImage';
 import { $Padding } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 const PPOB = ({ navigation }) => {
 	const User = useSelector(state => state.User)
-
+	const [moreVisible, setMoreVisible] = useState(false)
 	const productData = [
 		{ icon: require('src/assets/icons/ppob/Asuransi.png'), name: "Asuransi" },
 		{ icon: require('src/assets/icons/ppob/BPJS.png'), name: "BPJS" },
@@ -53,6 +54,7 @@ const PPOB = ({ navigation }) => {
 			_setAlert(true)
 		}
 	}
+	const _moreMenu = () => setMoreVisible(true)
 	return (
 		<ParallaxScrollView
 			showsVerticalScrollIndicator={false}
@@ -71,7 +73,7 @@ const PPOB = ({ navigation }) => {
 						</View>
 						<Text color="whiteColor">PAYMENT POINT</Text>
 						<View style={{ justifyContent: 'center' }}>
-							<TouchableOpacity>
+							<TouchableOpacity onPress={_moreMenu}>
 								<Icon color="white" size={20} name="ellipsis-v" />
 							</TouchableOpacity>
 						</View>
@@ -89,7 +91,7 @@ const PPOB = ({ navigation }) => {
 						</View>
 						<Text color="whiteColor">PAYMENT POINT</Text>
 						<View style={{ justifyContent: 'center' }}>
-							<TouchableOpacity>
+							<TouchableOpacity onPress={_moreMenu}>
 								<Icon color="white" size={20} name="ellipsis-v" />
 							</TouchableOpacity>
 						</View>
@@ -143,7 +145,14 @@ const PPOB = ({ navigation }) => {
 				)}
 				keyExtractor={(item, index) => index.toString()}
 			/>
-		</ParallaxScrollView >
+			<AwanPopup.Menu noTitle transparent absolute visible={moreVisible}
+				backdropDismiss={() => setMoreVisible(false)}
+				style={{ top: 10, right: 5, minWidth: '50%' }}
+				contentStyle={{ elevation: 5, backgroundColor: ColorsList.whiteColor }}
+			>
+				<Button color="link" textProps={{ size: 13 }}>Atur Harga Produk</Button>
+			</AwanPopup.Menu>
+		</ParallaxScrollView>
 	)
 }
 export default PPOB
