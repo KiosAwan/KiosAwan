@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,  StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -28,7 +28,7 @@ const PPOB = ({ navigation }) => {
 		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data" },
 		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM" },
 		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "PLN" },
-		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa" },
+		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa", navigate: "/ppob/pulsa" },
 		{ icon: require('src/assets/icons/ppob/Telkom.png'), name: "Telkom" },
 		{ icon: require('src/assets/icons/ppob/TV-Kabel.png'), name: "TV Kabel" },
 		{ icon: require('src/assets/icons/ppob/Zakat.png'), name: "Zakat" },
@@ -79,9 +79,9 @@ const PPOB = ({ navigation }) => {
 				</LinearGradient>
 			)}
 			renderForeground={() => (
-				<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ height: 170, justifyContent : "center" }}>
+				<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ height: 170, justifyContent: "center" }}>
 					<BarStatus />
-					<Wrapper justify="space-between" style={{ padding: 15, paddingTop: 10,alignItems : "center" }}>
+					<Wrapper justify="space-between" style={{ padding: 15, paddingTop: 10, alignItems: "center" }}>
 						<View style={{ justifyContent: 'center' }}>
 							<TouchableOpacity onPress={() => navigation.goBack()}>
 								<Icon color="white" size={20} name="arrow-left" />
@@ -94,7 +94,7 @@ const PPOB = ({ navigation }) => {
 							</TouchableOpacity>
 						</View>
 					</Wrapper>
-					<View style={{ borderRadius: 5,justifyContent : "flex-end",margin : 10, marginTop : 20, backgroundColor: ColorsList.whiteColor }}>
+					<View style={{ borderRadius: 5, justifyContent: "flex-end", margin: 10, marginTop: 20, backgroundColor: ColorsList.whiteColor }}>
 						<Wrapper justify="space-between" style={$Padding(10, 15)}>
 							<Wrapper justify="flex-start">
 								<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
@@ -128,13 +128,14 @@ const PPOB = ({ navigation }) => {
 				</LinearGradient>
 			)}>
 			<FlatList
-				style={{margin: 10 }}
+				style={{ margin: 10 }}
 				showsVerticalScrollIndicator={false}
 				data={productData}
 				numColumns={3}
 				renderItem={({ item }) => (
 					<View style={{ flex: 1, alignItems: "center", marginVertical: 10 }}>
 						<CardIcon
+							onPress={() => navigation.navigate(item.navigate)}
 							icon={item.icon}
 							name={item.name}
 						/>

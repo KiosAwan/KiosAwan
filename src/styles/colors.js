@@ -10,6 +10,7 @@ export const ColorsList = {
     greyAuthHard: '#dedede',
     greyBg: '#f9faf7',
     primary: '#cd0192',
+    secondary: '#808080',
     text: '#8b8b8b',
     success: '#55c09b',
     successSoft: '#d6f6eb',
@@ -18,7 +19,7 @@ export const ColorsList = {
     danger: '#f04184',
     dangerSoft: '#fbdbe7',
     black: '#000',
-    purple:'#904bb7',
-    purpleSoft:'#ebcbfd',
+    purple: '#904bb7',
+    purpleSoft: '#ebcbfd',
     transparent: 'transparent'
 }

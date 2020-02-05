@@ -58,7 +58,7 @@ export const GlobalHeader = (props) => {
                                 <Text color="whiteColor">{props.title}</Text>
                             </View>
                         </Wrapper>
-                        <View></View>
+                        <View />
                     </View>
                 </Wrapper>
             </LinearGradient>
@@ -95,8 +95,8 @@ export const CashierHeader = (props) => {
     return (
         <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%' }}>
-                <Wrapper justify="space-between" style={{ height: '100%', alignSelf :focus ? "center" : null }}>
-                    <Wrapper _width={!focus ?"85%" : "95%"}>
+                <Wrapper justify="space-between" style={{ height: '100%', alignSelf: focus ? "center" : null }}>
+                    <Wrapper _width={!focus ? "85%" : "95%"}>
                         {!focus ?
                             <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
                                 <Icon name="arrow-left" size={20} color="white" />
