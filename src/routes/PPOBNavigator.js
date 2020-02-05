@@ -6,6 +6,7 @@ import PpobPulsa from "src/screens/AuthScreen/PPOB/Pulsa"
 import SettingHargaPPOB from "src/screens/AuthScreen/PPOB/HargaPPOB"
 import AturPaketData from "src/screens/AuthScreen/PPOB/HargaPPOB/PaketData"
 import AturPulsa from "src/screens/AuthScreen/PPOB/HargaPPOB/Pulsa"
+import AturListrik from "src/screens/AuthScreen/PPOB/HargaPPOB/Listrik"
 
 const PPOBNavigator = {
 	'/ppob': {
@@ -52,6 +53,12 @@ const PPOBNavigator = {
 	},
 	'/ppob/settings/paketdata': {
 		screen: AturPaketData,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/ppob/settings/listrik': {
+		screen: AturListrik,
 		navigationOptions: {
 			header: null
 		}

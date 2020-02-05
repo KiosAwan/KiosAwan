@@ -28,7 +28,7 @@ const PPOB = ({ navigation }) => {
 		{ icon: require('src/assets/icons/ppob/Kredit.png'), name: "Kredit" },
 		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data" },
 		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM" },
-		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "PLN" },
+		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "Listrik" },
 		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa", navigate: "/ppob/pulsa" },
 		{ icon: require('src/assets/icons/ppob/Telkom.png'), name: "Telkom" },
 		{ icon: require('src/assets/icons/ppob/TV-Kabel.png'), name: "TV Kabel" },
@@ -150,7 +150,10 @@ const PPOB = ({ navigation }) => {
 				style={{ top: 10, right: 5, minWidth: '50%' }}
 				contentStyle={{ elevation: 5, backgroundColor: ColorsList.whiteColor }}
 			>
-				<Button color="link" textProps={{ size: 13 }}>Atur Harga Produk</Button>
+				<Button onPress={() => {
+					setMoreVisible(false)
+					navigation.navigate('/ppob/settings/listrik')
+				}} color="link" textProps={{ size: 13 }}>Atur Harga Produk</Button>
 			</AwanPopup.Menu>
 		</ParallaxScrollView>
 	)
