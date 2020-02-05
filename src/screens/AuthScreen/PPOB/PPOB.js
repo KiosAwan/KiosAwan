@@ -148,7 +148,7 @@ const PPOB = ({ navigation }) => {
 			<AwanPopup.Menu noTitle transparent absolute visible={moreVisible}
 				backdropDismiss={() => setMoreVisible(false)}
 				style={{ top: 10, right: 5, minWidth: '50%' }}
-				contentStyle={{ elevation: 5,  backgroundColor: ColorsList.whiteColor }}
+				contentStyle={{ elevation: 5, backgroundColor: ColorsList.whiteColor }}
 			>
 				<Button color="link" textProps={{ size: 13 }}>Atur Harga Produk</Button>
 			</AwanPopup.Menu>
