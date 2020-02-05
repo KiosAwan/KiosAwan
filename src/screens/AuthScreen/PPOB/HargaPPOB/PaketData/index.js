@@ -9,14 +9,20 @@ import { Text } from 'src/components/Text/CustomText'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import styles from './PaketDataStyle'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
+import { Button } from 'src/components/Button/Button'
+import { SizeList } from 'src/styles/size'
+import Divider from 'src/components/Row/Divider'
 
 const AturPaketData = ({ navigation }) => {
-    const [dropdownVisible, setDropdownVisible ] = useState(false)
-
+    const [dropdownVisible, setDropdownVisible] = useState(false)
+    const [nativeEvent, setNativeEvent] = useState({})
+    const _layout = ({ nativeEvent }) => {
+        setNativeEvent(nativeEvent)
+    }
     return (
         <Container>
             <GlobalHeader title="Atur Harga Paket Data" onPressBack={() => navigation.goBack()} />
-            <TouchableOpacity onPress={() => setDropdownVisible(true)}>
+            <TouchableOpacity onLayout={_layout} onPress={() => setDropdownVisible(true)}>
                 <View style={styles.selectContainer}>
                     <Wrapper justify="space-between" style={styles.selectWrapper}>
                         <Text size={16}>Pilih layanan seluler</Text>
@@ -24,9 +30,21 @@ const AturPaketData = ({ navigation }) => {
                     </Wrapper>
                 </View>
             </TouchableOpacity>
-            {dropdownVisible ?
-            <AwanPopup    
-        }
+            <AwanPopup.Menu noTitle transparent absolute visible={dropdownVisible}
+                backdropDismiss={() => setDropdownVisible(false)}
+                style={styles.dropdownStyle}
+                contentStyle={[styles.dropdownContentStyle, Object.keys(nativeEvent).length > 0 ? { top: parseInt(nativeEvent.layout.y) + parseInt(nativeEvent.layout.height) } : { top: 60 }]}
+            >
+                {
+                    [1, 2].map((item, i) => [
+                        <Button width={SizeList.width} wrapper={{justify:'flex-start',}} key={i} justify="space-between" color="link">
+                            <Text>{i}</Text>
+                            <Text>Pilihan nya ada berapa makan</Text>
+                        </Button>,
+                        <Divider/>
+                    ])
+                }
+            </AwanPopup.Menu>
             <ContainerBody>
             </ContainerBody>
         </Container>
