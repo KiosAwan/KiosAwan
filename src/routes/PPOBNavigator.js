@@ -4,7 +4,7 @@ import TopupDetail from "src/screens/AuthScreen/PPOB/TopupDetail"
 import RiwayatTransaksi from "src/screens/AuthScreen/PPOB/RiwayatTransaksi"
 import PpobPulsa from "src/screens/AuthScreen/PPOB/Pulsa"
 import SettingHargaPPOB from "src/screens/AuthScreen/PPOB/HargaPPOB"
-import AturPaketData from "src/screens/AuthScreen/PPOB/HargaPPOB/AturPaketData"
+import AturPaketData from "src/screens/AuthScreen/PPOB/HargaPPOB/PaketData"
 
 const PPOBNavigator = {
 	'/ppob': {
