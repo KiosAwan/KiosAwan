@@ -8,6 +8,7 @@ import { ColorsList } from '../../styles/colors';
 import Divider from '../Row/Divider';
 import { Wrapper } from '../View/Wrapper';
 import { $Border } from 'src/utils/stylehelper';
+import MDInput from './MDInput';
 
 const SearchInput = (props) => {
 	const [isFocused, setIsFocused] = useState(false)
@@ -58,8 +59,12 @@ const InputClear = props => {
 	return <SearchInput noSearch {...props} />
 }
 
+const SearchInputV2 = props => {
+	return <MDInput {...props} />
+}
+
 export default SearchInput
-export { InputClear }
+export { InputClear, SearchInputV2 }
 
 const styles = StyleSheet.create({
 	searchWrapper: {
