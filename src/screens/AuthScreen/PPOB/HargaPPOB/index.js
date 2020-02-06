@@ -20,7 +20,7 @@ const SettingHargaPPOB = ({ navigation }) => {
                     padding={$Padding(5, 10)}
                     wrapper={{ justify: 'flex-start' }}
                     color={['whiteColor', 'greyFont']}>
-                    <Image width="13%" size={30} source={require('src/assets/icons/next.png')} />
+                    <Image width="13%" size={30} source={require('src/assets/icons/phone.png')} />
                     <Wrapper width="87%" justify="space-between">
                         <Text>{item}</Text>
                         <Image size={20} source={require('src/assets/icons/next.png')} />

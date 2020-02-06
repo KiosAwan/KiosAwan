@@ -3,12 +3,13 @@ import { View, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-nati
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import * as Animatable from "react-native-animatable";
-import { FontList } from '../../styles/typography';
+import { FontList, FontName } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
 import Divider from '../Row/Divider';
 import { Wrapper } from '../View/Wrapper';
 import { $Border } from 'src/utils/stylehelper';
 import MDInput from './MDInput';
+import { Button } from '../Button/Button';
 
 const SearchInput = (props) => {
 	const [isFocused, setIsFocused] = useState(false)
@@ -32,7 +33,7 @@ const SearchInput = (props) => {
 						_width: '80%',
 						onBlur: _onBlur,
 						onFocus: _onFocus,
-						style: [{ color: props.color || ColorsList.primary }, props.style]
+						style: [{ color: props.color || ColorsList.primary, padding: 0 }, props.style]
 					})
 					:
 					<TextInput
@@ -51,7 +52,7 @@ const SearchInput = (props) => {
 				</TouchableOpacity>
 			</Animatable.View>
 		</Wrapper>
-		<Divider color={isFocused ? props.color || ColorsList.primary : props.blurColor || ColorsList.greyAuthHard} />
+		<Divider style={{ marginTop: 5 }} color={isFocused ? props.color || ColorsList.primary : props.blurColor || ColorsList.greyAuthHard} />
 	</View>
 }
 
@@ -60,7 +61,50 @@ const InputClear = props => {
 }
 
 const SearchInputV2 = props => {
-	return <MDInput {...props} />
+	const [visible, setVisible] = useState({
+		left: true,
+		right: true
+	})
+	const { onPressLeft, onPressRight, focusLeft, focusRight } = props
+	const left = () => {
+		const btn = <Button color="link" onPress={onPressLeft} disabled={!onPressLeft}>
+			<Icon _width="10%" size={15} style={{ color: ColorsList.primary }} name="search" />
+		</Button>
+		if (focusLeft) {
+			if (visible.left) {
+				return btn
+			} else {
+				return null
+			}
+		}
+		return btn
+	}
+	const right = () => {
+		const btn = <Button color="link" onPress={onPressRight} disabled={!onPressRight}>
+			<Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/circlereject.png')} />
+		</Button>
+		if (focusRight) {
+			if (visible.right) {
+				return btn
+			} else {
+				return null
+			}
+		}
+		return btn
+	}
+	const focus = () => setVisible({ left: true, right: true })
+	const blur = () => setVisible({ left: false, right: false })
+	useEffect(() => {
+		if (focusLeft) setVisible({ ...visible, left: false })
+		if (focusRight) setVisible({ ...visible, right: false })
+	}, [])
+	return <MDInput
+		renderLeftAccessory={left}
+		renderRightAccessory={right}
+		onFocus={focus}
+		onBlur={blur}
+		{...props}
+	/>
 }
 
 export default SearchInput
@@ -73,9 +117,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around'
 	},
 	textInput: {
-		fontWeight: '500',
 		textDecorationLine: 'none',
-		fontFamily: FontList.regularFont,
+		fontFamily: FontName.Regular,
 		color: ColorsList.primary
 	},
 	deleteIcon: {

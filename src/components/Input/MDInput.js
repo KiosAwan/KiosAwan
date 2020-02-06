@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField } from "react-native-materialui-textfield"
+import { TextField } from "react-native-material-textfield"
 import { ColorsList } from 'src/styles/colors'
 
 const MDInput = props => {
