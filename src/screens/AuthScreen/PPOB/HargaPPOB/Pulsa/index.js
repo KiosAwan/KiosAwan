@@ -14,6 +14,7 @@ import Divider from 'src/components/Row/Divider'
 import styles from './HargaPulsaStyle'
 import MDInput from 'src/components/Input/MDInput'
 import { convertRupiah } from 'src/utils/authhelper'
+import { Bottom } from 'src/components/View/Bottom'
 
 const AturPulsa = ({ navigation }) => {
     const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -58,6 +59,9 @@ const AturPulsa = ({ navigation }) => {
                     </Wrapper>
                 ))}
             </ContainerBody>
+            <Bottom>
+                <Button width="100%">SIMPAN</Button>
+            </Bottom>
         </Container>
     )
 }

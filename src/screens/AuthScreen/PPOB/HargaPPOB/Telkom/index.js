@@ -9,6 +9,7 @@ import { Text } from 'src/components/Text/CustomText'
 import MDInput from 'src/components/Input/MDInput'
 import { ColorsList } from 'src/styles/colors'
 import { StyleSheet } from 'react-native'
+import { Bottom } from 'src/components/View/Bottom'
 
 const AturTelkom = ({ navigation }) => {
     return <Container>
@@ -22,6 +23,9 @@ const AturTelkom = ({ navigation }) => {
                 <MDInput _style={styles.rightWrapper} value="20000" label="Biaya Pembayaran" />
             </Wrapper>))}
         </ContainerBody>
+        <Bottom>
+            <Button width="100%">SIMPAN</Button>
+        </Bottom>
     </Container>
 }
 
@@ -30,7 +34,7 @@ export default AturTelkom
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: ColorsList.whiteColor,
-        marginBottom : 10
+        marginBottom: 10
     },
     leftWrapper: {
         padding: 5,

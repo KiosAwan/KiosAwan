@@ -15,6 +15,7 @@ import Divider from 'src/components/Row/Divider'
 import { Image } from 'src/components/CustomImage'
 import MDInput from 'src/components/Input/MDInput'
 import { convertRupiah } from 'src/utils/authhelper'
+import { Bottom } from 'src/components/View/Bottom'
 
 const AturPaketData = ({ navigation }) => {
     const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -59,6 +60,9 @@ const AturPaketData = ({ navigation }) => {
                     </Wrapper>
                 ))}
             </ContainerBody>
+            <Bottom>
+                <Button width="100%">SIMPAN</Button>
+            </Bottom>
         </Container>
     )
 }

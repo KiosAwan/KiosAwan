@@ -11,9 +11,9 @@ import { ColorsList } from 'src/styles/colors'
 import { StyleSheet } from 'react-native'
 import { Bottom } from 'src/components/View/Bottom'
 
-const AturTvKabel = ({ navigation }) => {
+const AturKredit = ({ navigation }) => {
     return <Container>
-        <GlobalHeader title="Atur Harga TV Kabel" onPressBack={() => navigation.goBack()} />
+        <GlobalHeader title="Atur Harga Pembayaran Kredit" onPressBack={() => navigation.goBack()} />
         <ContainerBody>
             {[1, 2].map((item, i) => (<Wrapper key={i} style={styles.wrapper} justify="space-between">
                 <Wrapper _width="60%" style={styles.leftWrapper}>
@@ -29,7 +29,7 @@ const AturTvKabel = ({ navigation }) => {
     </Container>
 }
 
-export default AturTvKabel
+export default AturKredit
 
 const styles = StyleSheet.create({
     wrapper: {

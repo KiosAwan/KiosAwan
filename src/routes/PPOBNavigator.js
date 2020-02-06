@@ -10,6 +10,8 @@ import AturListrik from "src/screens/AuthScreen/PPOB/HargaPPOB/Listrik"
 import AturBPJS from "src/screens/AuthScreen/PPOB/HargaPPOB/BPJS"
 import AturTvKabel from "src/screens/AuthScreen/PPOB/HargaPPOB/TVKabel"
 import AturTelkom from "src/screens/AuthScreen/PPOB/HargaPPOB/Telkom"
+import AturKredit from "src/screens/AuthScreen/PPOB/HargaPPOB/Kredit"
+import AturPDAM from "src/screens/AuthScreen/PPOB/HargaPPOB/PDAM"
 
 const PPOBNavigator = {
 	'/ppob': {
@@ -80,6 +82,18 @@ const PPOBNavigator = {
 	},
 	'/ppob/settings/telkom': {
 		screen: AturTelkom,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/ppob/settings/kredit': {
+		screen: AturKredit,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/ppob/settings/pdam': {
+		screen: AturPDAM,
 		navigationOptions: {
 			header: null
 		}
