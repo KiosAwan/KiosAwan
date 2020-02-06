@@ -14,13 +14,13 @@ const AturListrik = ({ navigation }) => {
     return <Container>
         <GlobalHeader title="Atur Harga Listrik" onPressBack={() => navigation.goBack()} />
         <ContainerBody>
-            <Wrapper style={styles.wrapper} justify="space-between">
-                <Wrapper _width="60%">
-                    <Image size={50} source={require('src/assets/ppob/bca.png')} />
+            {[1, 2].map((item, i) => (<Wrapper key={i} style={styles.wrapper} justify="space-between">
+                <Wrapper _width="60%" style={styles.leftWrapper}>
+                    <Image style={{ resizeMode: "contain" }} size={50} source={require('src/assets/ppob/bca.png')} />
                     <Text _width="60%">Telekomunikasi - Halo</Text>
                 </Wrapper>
-                <MDInput _style={{ width: '40%', }} label="Biaya Pembayaran" />
-            </Wrapper>
+                <MDInput _style={styles.rightWrapper} value="20000" label="Biaya Pembayaran" />
+            </Wrapper>))}
         </ContainerBody>
     </Container>
 }
@@ -30,6 +30,14 @@ export default AturListrik
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: ColorsList.whiteColor,
-        padding: 10
+        marginBottom : 10
+    },
+    leftWrapper: {
+        padding: 5,
+    },
+    rightWrapper: {
+        width: '40%',
+        backgroundColor: ColorsList.greyBg,
+        padding: 5,
     }
 })

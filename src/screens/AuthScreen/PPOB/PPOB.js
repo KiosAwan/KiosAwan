@@ -152,7 +152,7 @@ const PPOB = ({ navigation }) => {
 			>
 				<Button onPress={() => {
 					setMoreVisible(false)
-					navigation.navigate('/ppob/settings/listrik')
+					navigation.navigate('/ppob/settings')
 				}} color="link" textProps={{ size: 13 }}>Atur Harga Produk</Button>
 			</AwanPopup.Menu>
 		</ParallaxScrollView>

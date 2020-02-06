@@ -7,6 +7,9 @@ import SettingHargaPPOB from "src/screens/AuthScreen/PPOB/HargaPPOB"
 import AturPaketData from "src/screens/AuthScreen/PPOB/HargaPPOB/PaketData"
 import AturPulsa from "src/screens/AuthScreen/PPOB/HargaPPOB/Pulsa"
 import AturListrik from "src/screens/AuthScreen/PPOB/HargaPPOB/Listrik"
+import AturBPJS from "src/screens/AuthScreen/PPOB/HargaPPOB/BPJS"
+import AturTvKabel from "src/screens/AuthScreen/PPOB/HargaPPOB/TVKabel"
+import AturTelkom from "src/screens/AuthScreen/PPOB/HargaPPOB/Telkom"
 
 const PPOBNavigator = {
 	'/ppob': {
@@ -59,6 +62,24 @@ const PPOBNavigator = {
 	},
 	'/ppob/settings/listrik': {
 		screen: AturListrik,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/ppob/settings/bpjs': {
+		screen: AturBPJS,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/ppob/settings/tvkabel': {
+		screen: AturTvKabel,
+		navigationOptions: {
+			header: null
+		}
+	},
+	'/ppob/settings/telkom': {
+		screen: AturTelkom,
 		navigationOptions: {
 			header: null
 		}

@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
 		shadowRadius: 16.00,
 		elevation: 24,
 	},
-	buttonWrapper: { marginTop: 30, justifyContent: 'flex-end', flexDirection: 'row' },
+	buttonWrapper: { marginTop: 30, alignSelf: 'flex-end', flexDirection: 'row' },
 	image: { alignSelf: 'center', height: 100, width: '100%' },
 	title: { textAlign: 'center', padding: 20 },
 	oldTitle: { position: 'absolute', top: 90, alignSelf: 'center', color: ColorsList.whiteColor },

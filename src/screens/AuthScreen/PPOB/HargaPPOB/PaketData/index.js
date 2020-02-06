@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import Container, { ContainerBody } from 'src/components/View/Container'
 import { GlobalHeader } from 'src/components/Header/Header'
 import { ColorsList } from 'src/styles/colors'
@@ -12,6 +12,9 @@ import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { Button } from 'src/components/Button/Button'
 import { SizeList } from 'src/styles/size'
 import Divider from 'src/components/Row/Divider'
+import { Image } from 'src/components/CustomImage'
+import MDInput from 'src/components/Input/MDInput'
+import { convertRupiah } from 'src/utils/authhelper'
 
 const AturPaketData = ({ navigation }) => {
     const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -37,18 +40,28 @@ const AturPaketData = ({ navigation }) => {
             >
                 {
                     [1, 2].map((item, i) => [
-                        <Button width={SizeList.width} wrapper={{justify:'flex-start',}} key={i} justify="space-between" color="link">
+                        <Button key={i} width={SizeList.width} wrapper={{ justify: 'flex-start', }} key={i} justify="space-between" color="link">
                             <Text>{i}</Text>
                             <Text>Pilihan nya ada berapa makan</Text>
                         </Button>,
-                        <Divider/>
+                        <Divider />
                     ])
                 }
             </AwanPopup.Menu>
             <ContainerBody>
+                {[1, 2, 3, 4].map((item, i) => (
+                    <Wrapper key={i} style={styles.wrapper} justify="space-between">
+                        <View _width="60%" style={styles.leftWrapper}>
+                            <Text font="Bold" color="primary" _width="60%">Paket Data 28MB</Text>
+                            <Text _width="60%">Modal : {convertRupiah(28100)}</Text>
+                        </View>
+                        <MDInput _style={styles.rightWrapper} value="20000" label="Biaya Pembayaran" />
+                    </Wrapper>
+                ))}
             </ContainerBody>
         </Container>
     )
 }
 
 export default AturPaketData
+

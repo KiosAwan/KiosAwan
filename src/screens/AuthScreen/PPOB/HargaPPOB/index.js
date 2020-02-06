@@ -12,18 +12,20 @@ const SettingHargaPPOB = ({ navigation }) => {
     return <Container>
         <GlobalHeader title="Atur Harga Produk" onPressBack={() => navigation.goBack()} />
         <ContainerBody>
-            <Button
-                onPress={() => { }}
-                style={{ marginBottom: 5 }}
-                padding={$Padding(5, 10)}
-                wrapper={{ justify: 'flex-start' }}
-                color={['whiteColor', 'greyFont']}>
-                <Image width="13%" size={30} source={require('src/assets/icons/next.png')} />
-                <Wrapper width="87%" justify="space-between">
-                    <Text>kjaskhdasjd</Text>
-                    <Image size={20} source={require('src/assets/icons/next.png')} />
-                </Wrapper>
-            </Button>
+            {["listrik", "pulsa", "paketdata", "bpjs", "tvkabel", "telkom"].map((item, i) => (
+                <Button
+                    key={i}
+                    onPress={() => navigation.navigate(`/ppob/settings/${item}`)}
+                    style={{ marginBottom: 5 }}
+                    padding={$Padding(5, 10)}
+                    wrapper={{ justify: 'flex-start' }}
+                    color={['whiteColor', 'greyFont']}>
+                    <Image width="13%" size={30} source={require('src/assets/icons/next.png')} />
+                    <Wrapper width="87%" justify="space-between">
+                        <Text>{item}</Text>
+                        <Image size={20} source={require('src/assets/icons/next.png')} />
+                    </Wrapper>
+                </Button>))}
         </ContainerBody>
     </Container>
 }

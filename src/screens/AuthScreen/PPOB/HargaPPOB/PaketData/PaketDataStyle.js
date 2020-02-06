@@ -18,6 +18,19 @@ const styles = StyleSheet.create({
     dropdownContentStyle : {
         elevation: 3, 
         backgroundColor: ColorsList.whiteColor,
+    },
+    wrapper: {
+        backgroundColor: ColorsList.whiteColor,
+        marginBottom : 10
+    },
+    leftWrapper: {
+        padding: 5,
+        paddingHorizontal : 10
+    },
+    rightWrapper: {
+        width: '40%',
+        backgroundColor: ColorsList.greyBg,
+        padding: 5,
     }
 })
 export default styles

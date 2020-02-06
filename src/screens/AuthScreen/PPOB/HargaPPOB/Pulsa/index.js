@@ -12,6 +12,8 @@ import { Button } from 'src/components/Button/Button'
 import { SizeList } from 'src/styles/size'
 import Divider from 'src/components/Row/Divider'
 import styles from './HargaPulsaStyle'
+import MDInput from 'src/components/Input/MDInput'
+import { convertRupiah } from 'src/utils/authhelper'
 
 const AturPulsa = ({ navigation }) => {
     const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -37,15 +39,24 @@ const AturPulsa = ({ navigation }) => {
             >
                 {
                     [1, 2].map((item, i) => [
-                        <Button width={SizeList.width} wrapper={{justify:'flex-start',}} key={i} justify="space-between" color="link">
+                        <Button key={i} width={SizeList.width} wrapper={{ justify: 'flex-start', }} key={i} justify="space-between" color="link">
                             <Text>{i}</Text>
                             <Text>Pilihan nya ada berapa makan</Text>
                         </Button>,
-                        <Divider/>
+                        <Divider />
                     ])
                 }
             </AwanPopup.Menu>
             <ContainerBody>
+                {[1, 2, 3, 4].map((item, i) => (
+                    <Wrapper key={i} style={styles.wrapper} justify="space-between">
+                        <View _width="60%" style={styles.leftWrapper}>
+                            <Text font="Bold" color="primary" _width="60%">Pulsa Reguler 5.000</Text>
+                            <Text _width="60%">Modal : {convertRupiah(5050)}</Text>
+                        </View>
+                        <MDInput _style={styles.rightWrapper} value="5000" label="Biaya Pembayaran" />
+                    </Wrapper>
+                ))}
             </ContainerBody>
         </Container>
     )
