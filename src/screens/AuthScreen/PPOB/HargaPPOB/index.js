@@ -12,7 +12,7 @@ const SettingHargaPPOB = ({ navigation }) => {
     return <Container>
         <GlobalHeader title="Atur Harga Produk" onPressBack={() => navigation.goBack()} />
         <ContainerBody>
-            {["listrik", "pulsa", "paketdata", "bpjs", "tvkabel", "telkom", "pdam", "kredit"].map((item, i) => (
+            {["listrik", "pulsa", "paketdata", "bpjs", "tvkabel", "telkom", "pdam", "kredit", "games","emoney"].map((item, i) => (
                 <Button
                     key={i}
                     onPress={() => navigation.navigate(`/ppob/settings/${item}`)}
