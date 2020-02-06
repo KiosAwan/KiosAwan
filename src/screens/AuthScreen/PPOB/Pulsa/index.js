@@ -45,6 +45,7 @@ const PpobPulsa = ({ navigation }) => {
 			</Wrapper>
 		</View>
 		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
+			showsVerticalScrollIndicator={false}
 			data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
 			renderItem={({ item, index }) =>
 				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, index === selected && styles.pulsaWrapperActive]}>

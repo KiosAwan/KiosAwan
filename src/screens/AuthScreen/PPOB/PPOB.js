@@ -26,7 +26,7 @@ const PPOB = ({ navigation }) => {
 		{ icon: require('src/assets/icons/ppob/E-Money.png'), name: "E - Money" },
 		{ icon: require('src/assets/icons/ppob/Games.png'), name: "Games" },
 		{ icon: require('src/assets/icons/ppob/Kredit.png'), name: "Kredit" },
-		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data" },
+		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data", navigate: "/ppob/paketdata" },
 		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM" },
 		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "Listrik" },
 		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa", navigate: "/ppob/pulsa" },

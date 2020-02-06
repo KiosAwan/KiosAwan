@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
 		backgroundColor: ColorsList.whiteColor
 	},
 	listPulsa: {
-		padding: 10,
-		marginBottom : 70
+        padding: 10,
+        marginBottom : 70
 	},
 	pulsaWrapper: {
 		flex: 1,
