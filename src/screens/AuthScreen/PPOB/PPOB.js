@@ -28,7 +28,7 @@ const PPOB = ({ navigation }) => {
 		{ icon: require('src/assets/icons/ppob/Kredit.png'), name: "Kredit" },
 		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data", navigate: "/ppob/paketdata" },
 		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM" },
-		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "Listrik" },
+		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "Listrik", navigate: '/ppob/listrik' },
 		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa", navigate: "/ppob/pulsa" },
 		{ icon: require('src/assets/icons/ppob/Telkom.png'), name: "Telkom" },
 		{ icon: require('src/assets/icons/ppob/TV-Kabel.png'), name: "TV Kabel" },

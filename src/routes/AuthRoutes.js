@@ -6,10 +6,10 @@ import CashierNavigator from './DrawerComponent/CashierNavigator'
 import { fromLeft, fromRight, fadeOut } from 'react-navigation-transitions';
 import Home from '../screens/AuthScreen/Home';
 import NewsScreen from 'src/screens/AuthScreen/NewsScreen';
-import PPOBNavigator from './PPOBNavigator';
 import TempNavigator from './TempNavigator';
 import DrawerNavigation from './DrawerNavigator';
 import EnterPIN from 'src/screens/AuthScreen/EnterPIN';
+import PPOBNavigator from './PPOB';
 
 const handleCustomTransition = ({ scenes }) => {
   global.prevScene = scenes[scenes.length - 2];
@@ -48,6 +48,7 @@ const Navs = {
 
 // https://github.com/plmok61/react-navigation-transitions
 const AuthNavigator = createStackNavigator(Navs, {
+  headerMode: 'none',
   initialRouteName: '/',
   transitionConfig: nav => handleCustomTransition(nav),
 })
