@@ -20,7 +20,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(index)
 	}
-	const data = [1, 2, 3, 4, 5, 6, 7]
+	const data = [{ a: 'Nama Pelanggan', b: 'Albert Stanley' }, { a: 'ID Pelanggan', b: '1234567 ' }]
 	return <Container>
 		<GlobalHeader onPressBack={() => navigation.goBack()} title="Non Tagihan Listrik" />
 		<View style={styles.topComp}>
@@ -34,8 +34,8 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 			<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
 				{data.map((item, i) => [
 					<Wrapper justify="space-between" style={{ padding: 10 }}>
-						<Text>Nama Pelanggan</Text>
-						<Text>Alber Stanley</Text>
+						<Text font="Regular">{item.a}</Text>
+						<Text font="Regular">{item.b}</Text>
 					</Wrapper>,
 					i != data.length - 1 && <Divider />
 				])}
