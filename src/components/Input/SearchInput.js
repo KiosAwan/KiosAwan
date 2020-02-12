@@ -60,55 +60,8 @@ const InputClear = props => {
 	return <SearchInput noSearch {...props} />
 }
 
-const SearchInputV2 = props => {
-	const [visible, setVisible] = useState({
-		left: true,
-		right: true
-	})
-	const { onPressLeft, onPressRight, focusLeft, focusRight } = props
-	const left = () => {
-		const btn = <Button color="link" onPress={onPressLeft} disabled={!onPressLeft}>
-			<Icon _width="10%" size={15} style={{ color: ColorsList.primary }} name="search" />
-		</Button>
-		if (focusLeft) {
-			if (visible.left) {
-				return btn
-			} else {
-				return null
-			}
-		}
-		return btn
-	}
-	const right = () => {
-		const btn = <Button color="link" onPress={onPressRight} disabled={!onPressRight}>
-			<Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/circlereject.png')} />
-		</Button>
-		if (focusRight) {
-			if (visible.right) {
-				return btn
-			} else {
-				return null
-			}
-		}
-		return btn
-	}
-	const focus = () => setVisible({ left: true, right: true })
-	const blur = () => setVisible({ left: false, right: false })
-	useEffect(() => {
-		if (focusLeft) setVisible({ ...visible, left: false })
-		if (focusRight) setVisible({ ...visible, right: false })
-	}, [])
-	return <MDInput
-		renderLeftAccessory={left}
-		renderRightAccessory={right}
-		onFocus={focus}
-		onBlur={blur}
-		{...props}
-	/>
-}
-
 export default SearchInput
-export { InputClear, SearchInputV2 }
+export { InputClear }
 
 const styles = StyleSheet.create({
 	searchWrapper: {
