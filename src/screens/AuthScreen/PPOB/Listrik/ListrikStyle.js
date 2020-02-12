@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
 	},
 	pulsaComp: {
 		...$Margin(5, 10)
-	}
+	},
+	cekTagihan : {
+        paddingHorizontal : 20,
+        alignSelf : "center",
+        paddingBottom : 10
+    }
 })
 export default styles

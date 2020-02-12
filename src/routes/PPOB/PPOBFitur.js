@@ -4,6 +4,13 @@ import PpobListrik from "src/screens/AuthScreen/PPOB/Listrik"
 import ListrikToken from "src/screens/AuthScreen/PPOB/Listrik/ListrikToken"
 import ListrikNonTagihanListrik from "src/screens/AuthScreen/PPOB/Listrik/ListrikNonTagihanListrik"
 import ListrikPrabayar from "src/screens/AuthScreen/PPOB/Listrik/ListrikPrabayar"
+import BPJS from "src/screens/AuthScreen/PPOB/BPJS"
+import TVKabel from "src/screens/AuthScreen/PPOB/TVKabel"
+import Telkom from "src/screens/AuthScreen/PPOB/Telkom"
+import Kredit from "src/screens/AuthScreen/PPOB/Kredit"
+import PDAM from "src/screens/AuthScreen/PPOB/PDAM"
+import Emoney from "src/screens/AuthScreen/PPOB/Emoney"
+import Asuransi from "src/screens/AuthScreen/PPOB/Asuransi"
 
 const PPOBFitur = {
 	'/ppob/pulsa': {
@@ -23,6 +30,27 @@ const PPOBFitur = {
 	},
 	'/ppob/listrik/prabayar': {
 		screen: ListrikPrabayar
+	},
+	'/ppob/bpjs': {
+		screen: BPJS
+	},
+	'/ppob/telkom': {
+		screen: Telkom
+	},
+	'/ppob/tvkabel': {
+		screen: TVKabel
+	},
+	'/ppob/kredit': {
+		screen: Kredit
+	},
+	'/ppob/pdam': {
+		screen: PDAM
+	},
+	'/ppob/emoney': {
+		screen: Emoney
+	},
+	'/ppob/asuransi': {
+		screen: Asuransi
 	},
 }
 

@@ -5,7 +5,8 @@ export const Image = props => {
 	return <ImageRN {...props} style={[{
 		width: props.size || null,
 		height: props.size || null,
-		alignSelf: props.align || undefined
+		alignSelf: props.align || undefined,
+		resizeMode : "contain"
 	}, props.style]} />
 }
 

@@ -6,6 +6,7 @@ const initialState = {
     total_diskon: 0,
     discount_transaction: 0,
     belanja: [],
+    ppob_cart: [],
     jumlahitem: 0,
     cash_payment: 0,
     due_debt_date: null,
@@ -54,7 +55,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
             let barcodeProduct = state.data.find(item => barcode == item.barcode_product)
             let barcodeExistedItem = state.belanja.find(item => barcode == item.barcode_product)
             if (barcodeExistedItem) {
-                barcodeProduct.quantity += barcodeQty ,
+                barcodeProduct.quantity += barcodeQty,
                     barcodeProduct.total += barcodeProduct.price_out_product * barcodeQty
                 state.jumlahitem += barcodeQty
                 if (!barcodeProduct.discount_rupiah) {
@@ -165,7 +166,8 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 discount_name: '',
                 catatan_pembelian: '',
                 discount_on: false,
-                note : ''
+                ppob_cart: [],
+                note: ''
             }
         case "ADD_PAYMENT_CASH":
             const payment = actions.payload
@@ -304,40 +306,21 @@ const reducerStoreProduct = (state = initialState, actions) => {
                     total_diskon: parseInt(state.total_diskon) - parseInt(diskon_sebelum) + parseInt(itemDiskonPersen.discount_total)
                 }
             }
-        case "QUANTITY_DECREMENT":
-            let itemKurang = actions.payload
-            const itemMauDikurang = state.belanja.find(item => itemKurang.id_product === item.id_product)
-            if (itemMauDikurang) {
-                if (itemMauDikurang.quantity != 0) {
-                    itemMauDikurang.total -= itemMauDikurang.price_out_product
-                    itemMauDikurang.quantity--
-                    state.jumlahitem--
-                    let minus_trx_discount = 0
-                    if (state.discount_total_persen > 0) {
-                        minus_trx_discount = (parseInt(state.discount_total_persen) / 100) * parseInt(itemMauDikurang.price_out_product)
-                        state.discount_transaction -= minus_trx_discount
-                    }
-                    if (!itemMauDikurang.discount_rupiah) {
-                        itemMauDikurang.discount_total -= parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product)
-                        if (itemMauDikurang.quantity == 0) {
-                            let a = state.belanja.filter(item => item.id_product != itemMauDikurang.id_product)
-                            return {
-                                ...state,
-                                total: state.total - parseInt(itemMauDikurang.price_out_product),
-                                total_diskon: state.total_diskon - parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product) - minus_trx_discount,
-                                belanja: a
-                            }
-                        }
-                        else {
-                            return {
-                                ...state,
-                                total: state.total - parseInt(itemMauDikurang.price_out_product),
-                                total_diskon: state.total_diskon - parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product) - minus_trx_discount,
-                            }
-                        }
-                    }
-
-                }
+        case "ADD_PRODUCT_PPOB":
+            let ppob_item = actions.payload
+            ppob_item.quantity = 1
+            state.jumlahitem++
+            let plus_trx_discount = 0
+            if (state.discount_total_persen > 0) {
+                plus_trx_discount = (parseInt(state.discount_total_persen) / 100) * parseInt(ppob_item.price)
+                state.discount_transaction += plus_trx_discount
+            }
+            let totalWithPPOB = state.total + parseInt(ppob_item.price)
+            return {
+                ...state,
+                total: totalWithPPOB,
+                ppob_cart: [...state.ppob_cart, ppob_item],
+                total_diskon: state.total_diskon + plus_trx_discount
             }
         default:
             return state
