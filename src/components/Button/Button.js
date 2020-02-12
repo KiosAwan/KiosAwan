@@ -48,7 +48,7 @@ export const Button = props => {
 
 	// return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? 1 : 1 }]}>
 	return <TouchableOpacity activeOpacity={.5} {...props} style={[{
-		borderWidth: 1,
+		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
 		justifyContent: 'center',
 		borderRadius: props.noRadius ? 0 : 5

@@ -116,7 +116,7 @@ const Topup = ({ navigation }) => {
 							data={TopupMethods}
 							keyExtractor={(item, i) => i.toString()}
 							renderItem={({ item, index }) => index < 4 &&
-								<Button onPress={() => _selectTopupMethod(item, index)} style={{ paddingVertical: 5 }} noBorder={!(topupMethod == item.key)} color="white">
+								<Button onPress={() => _selectTopupMethod(item, index)} style={{ marginVertical: 5 }} noBorder={!(topupMethod == item.key)} color="white">
 									<Image style={{ resizeMode: 'contain', width: 70, height: 50 }} source={item.image} />
 									<View>
 										<Text color="primary">{item.title}</Text>

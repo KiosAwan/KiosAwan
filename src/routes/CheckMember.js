@@ -37,9 +37,11 @@ const CheckMember = (props) => {
         const res = await Axios.get(`${HOST_URL}/auth/check`, {
           headers: { "authorization": userToken }
         })
-        await AsyncStorage.setItem('@user_token', res.data.data.token)
-        await dispatch(getProfile(checkUserData))
-        navigation.navigate('/')
+        if(res.status == 200){
+          await AsyncStorage.setItem('@user_token', res.data.data.token)
+          await dispatch(getProfile(checkUserData))
+          navigation.navigate('/')
+        }
       } else {
         if (checkUserIntro == "sudah") {
           navigation.navigate('/unauth')

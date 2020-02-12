@@ -30,6 +30,9 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 				onChangeText={text => setPhoneNumber(text)}
 			/>
 		</View>
+		<TouchableOpacity style={styles.cekTagihan}>
+            <Text color="primary">CEK TAGIHAN</Text>
+        </TouchableOpacity>
 		<ContainerBody style={{ padding: 0 }}>
 			<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
 				{data.map((item, i) => [

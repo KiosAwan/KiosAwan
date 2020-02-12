@@ -73,21 +73,19 @@ const Cart = ({ navigation }) => {
 	}
 
 	const _handleChangeDiskonValue = (num) => {
-		// if (num[0] != 0) {
-			if (discount_type == 1) {
-				if (num < 100 && num > 0) {
-					dispatch(AddDiscountPersen(num))
-				} else {
-					dispatch(AddDiscountPersen(''))
-				}
+		if (discount_type == 1) {
+			if (num < 100 && num > 0) {
+				dispatch(AddDiscountPersen(num))
 			} else {
-				if (num > 0 && num < (Product.total - Product.total_diskon)) {
-					dispatch(AddDiscountRupiah(num))
-				} else {
-					dispatch(AddDiscountRupiah(''))
-				}
+				dispatch(AddDiscountPersen(''))
 			}
-		// }
+		} else {
+			if (num > 0 && num < (Product.total - Product.total_diskon)) {
+				dispatch(AddDiscountRupiah(num))
+			} else {
+				dispatch(AddDiscountRupiah(''))
+			}
+		}
 	}
 	const _quantityControl = control => {
 		if (control == 'add') {
@@ -173,8 +171,13 @@ const Cart = ({ navigation }) => {
 				</Button>
 			</Wrapper>
 		</Modal>
-		<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15, flex: 1, marginBottom: 50 }}>
+		<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15, flex: 1 }}>
 			<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, borderRadius: 5 }}>
+				{Product.belanja.length > 0 ?
+					<View style={{ backgroundColor: ColorsList.greyAuthHard, padding: 5, alignItems: "center" }}>
+						<Text size={16}>Daftar Produk</Text>
+					</View>
+					: null}
 				{
 					Product.belanja.map((data, i) => {
 						return <View>
@@ -201,6 +204,30 @@ const Cart = ({ navigation }) => {
 						</View>
 					})
 				}
+				{Product.ppob_cart.length > 0 ?
+					<View style={{ backgroundColor: ColorsList.greyAuthHard, padding: 5, alignItems: "center" }}>
+						<Text size={16}>Payment Point</Text>
+					</View>
+					: null}
+				{
+					Product.ppob_cart.map((data, i) => {
+						return <View>
+							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
+								<View _width="70%">
+									<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.productName.toUpperCase()}</Text>
+									<Text style={{ color: ColorsList.greyFont }}>{data.customerID}</Text>
+								</View>
+								<View _width="30%" style={{ alignItems: 'flex-end' }}>
+									<TouchableOpacity activeOpacity={.5} onPress={() => _prompDeletePesanan(i, data)} style={{ width: 30, height: 30 }}>
+										<ImageAuto source={require('src/assets/icons/trash-primary.png')} />
+									</TouchableOpacity>
+									<Text>{convertRupiah(data.price)}</Text>
+								</View>
+							</Wrapper>
+							<Divider size={2} color={ColorsList.authBackground} />
+						</View>
+					})
+				}
 				<Wrapper justify="space-between">
 					<Text style={{ padding: 10 }} font="Bold">Subtotal</Text>
 					<Text style={{ padding: 10 }} font="Bold">{convertRupiah(Product.total)}</Text>
@@ -221,7 +248,7 @@ const Cart = ({ navigation }) => {
 				</Wrapper>
 			</View>
 			<Wrapper style={{ marginBottom: 10 }}>
-				<Button color="white" _width="49%" padding={10} onPress={() => navigation.goBack()}>
+				<Button color="white" _width="49%" padding={10} onPress={() => navigation.navigate('/cashier')}>
 					<Image size={17} source={require('src/assets/icons/plus-primary.png')} />
 					<Text size={12} color="primary">TAMBAH PRODUK</Text>
 				</Button>
@@ -230,6 +257,9 @@ const Cart = ({ navigation }) => {
 					<Text size={12} color="primary">HAPUS PESANAN</Text>
 				</Button>
 			</Wrapper>
+			<Button style={{ marginBottom: 10 }} _width="100%" justify="center" padding={10} onPress={() => navigation.navigate("/ppob")}>
+				PAYMENT POINT
+			</Button>
 			<Wrapper justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
 				<Wrapper justify="flex-start">
 					<Icon style={{ marginRight: 10, color: ColorsList.primaryColor }} name="contact" />
@@ -264,8 +294,6 @@ const Cart = ({ navigation }) => {
 			<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5, padding: 10, paddingHorizontal: 15 }}>
 				<FloatingInputLabel value={Product.note} handleChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
 			</View>
-		</ScrollView>
-		<Bottom>
 			<Button onPress={() => {
 				if (Product.jumlahitem > 0) {
 					navigation.navigate('/cashier/check-out')
@@ -273,8 +301,8 @@ const Cart = ({ navigation }) => {
 				} else {
 					alert("Keranjang anda kosong")
 				}
-			}} width="100%">LANJUTKAN</Button>
-		</Bottom>
+			}} width="100%" style={{ marginBottom: 30 }}>LANJUTKAN</Button>
+		</ScrollView>
 	</View>
 }
 

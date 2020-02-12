@@ -29,6 +29,9 @@ const ListrikToken = ({ navigation }) => {
 				onChangeText={text => setPhoneNumber(text)}
 			/>
 		</View>
+		<TouchableOpacity style={styles.cekTagihan}>
+			<Text color="primary">CEK TAGIHAN</Text>
+		</TouchableOpacity>
 		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
 			showsVerticalScrollIndicator={false}
 			data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
