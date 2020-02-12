@@ -19,6 +19,9 @@ const Asuransi = ({ navigation }) => {
         setSelected({ index: 1, name: "Gopay" })
         setDropdownVisible(false)
     }
+    const _selectProduct = args => {
+        navigation.navigate('/ppob/asuransi/tipus')
+    }
     const data = [{ a: 'Nama Pelanggan', b: 'Albert Stanley' }, { a: 'ID Pelanggan', b: '1234567 ' }]
     return <Container>
         <GlobalHeader onPressBack={() => navigation.goBack()} title="Asuransi" />
@@ -27,8 +30,8 @@ const Asuransi = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 data={[1, 2, 3, 4, 5, 6]}
                 renderItem={({ item, index }) =>
-                    <TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, index === selected && styles.pulsaWrapperActive]}>
-                        <Image size={50} source={require('src/assets/payment/gopay.png')}/>
+                    <TouchableOpacity onPress={() => _selectProduct({ item, index })} style={[styles.pulsaWrapper, index === selected && styles.pulsaWrapperActive]}>
+                        <Image size={50} source={require('src/assets/payment/gopay.png')} />
                         <Divider />
                         <Text style={styles.pulsaComp}>Tipus</Text>
                     </TouchableOpacity>

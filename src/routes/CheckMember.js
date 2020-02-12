@@ -34,13 +34,18 @@ const CheckMember = (props) => {
         }
       });
       if (checkUserData != null) {
-        const res = await Axios.get(`${HOST_URL}/auth/check`, {
-          headers: { "authorization": userToken }
-        })
-        if(res.status == 200){
-          await AsyncStorage.setItem('@user_token', res.data.data.token)
-          await dispatch(getProfile(checkUserData))
-          navigation.navigate('/')
+        try {
+
+          const res = await Axios.get(`${HOST_URL}/auth/check`, {
+            headers: { "authorization": userToken }
+          })
+          if (res.status == 200) {
+            await AsyncStorage.setItem('@user_token', res.data.data.token)
+            await dispatch(getProfile(checkUserData))
+            navigation.navigate('/')
+          }
+        } catch (err) {
+          alert(JSON.stringify(err))
         }
       } else {
         if (checkUserIntro == "sudah") {

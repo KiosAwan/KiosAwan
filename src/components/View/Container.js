@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
+import { GlobalHeaderWithIcon } from '../Header/Header';
 
 const Container = props => {
 	const { style } = props
-	return <View {...props} style={{ flex: 1, backgroundColor: ColorsList.authBackground, ...style }} />
+	return <View {...props} style={{ flex: 1, backgroundColor: ColorsList.authBackground, ...style }} >
+		{props.header && <GlobalHeaderWithIcon {...props.header} />}
+		{props.children}
+	</View>
 }
 
 const ContainerBody = props => {

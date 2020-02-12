@@ -11,6 +11,7 @@ import Kredit from "src/screens/AuthScreen/PPOB/Kredit"
 import PDAM from "src/screens/AuthScreen/PPOB/PDAM"
 import Emoney from "src/screens/AuthScreen/PPOB/Emoney"
 import Asuransi from "src/screens/AuthScreen/PPOB/Asuransi"
+import AsuransiTipus from "src/screens/AuthScreen/PPOB/Asuransi/AsuransiTipus"
 
 const PPOBFitur = {
 	'/ppob/pulsa': {
@@ -52,6 +53,9 @@ const PPOBFitur = {
 	'/ppob/asuransi': {
 		screen: Asuransi
 	},
+	'/ppob/asuransi/tipus':{
+		screen: AsuransiTipus
+	}
 }
 
 export default PPOBFitur

@@ -44,7 +44,7 @@ export const AwanPopup = {
 		</Modal>
 	},
 	Menu: props => {
-		return <Modal {...props} animationType="fade" transparents style={[styles.shadow, {
+		return <Modal {...props} animationType="fade" style={[styles.shadow, {
 			padding: 0, minWidth: '70%', position: props.absolute ? 'absolute' : undefined
 		}, props.style]}>
 			{!props.noTitle && <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
