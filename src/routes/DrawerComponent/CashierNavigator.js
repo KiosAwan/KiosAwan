@@ -8,7 +8,7 @@ import Struk from '../../screens/AuthScreen/Struk'
 import InputManual from '../../screens/AuthScreen/InputManual'
 import CheckOut from '../../screens/AuthScreen/CheckOut'
 import AddCartWithBarcode from '../../screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
-
+import EWalletPayment from "src/screens/AuthScreen/Cashier/Payment/E-WalletPayment"
 const CashierNavigator = {
   '/cashier': {
     screen: Cashier,
@@ -54,6 +54,12 @@ const CashierNavigator = {
   },
   '/cashier/struk': {
     screen: Struk,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/cashier/check-out/payewallet': {
+    screen: EWalletPayment,
     navigationOptions: {
       header: null
     }
