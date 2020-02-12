@@ -21,17 +21,19 @@ const DropdownSelect = props => {
 	return <View style={{ position: 'relative' }} onLayout={_layout}>
 		<TouchableOpacity onPress={() => setDropdownVisible(true)}>
 			<View style={[style]}>
+				<Text color={!value && ColorsList.transparent}>{placeholder}</Text>
 				<Wrapper justify="space-between" style={styles.selectWrapper}>
-					<Text size={16}>{value ? value : placeholder}</Text>
+					<Text>{value ? value : placeholder}</Text>
 					<Icon color={ColorsList.greyFont} size={15} name="chevron-down" />
 				</Wrapper>
 			</View>
 		</TouchableOpacity>
-		<AwanPopup.Menu noTitle transparents absolute visible={dropdownVisible}
+		<AwanPopup.Menu noTitle visible={dropdownVisible}
 			backdropDismiss={() => setDropdownVisible(false)}
-			style={[styles.dropdownStyle, nativeEvent.layout ? {
-				top: nativeEvent.layout.y + nativeEvent.layout.height
-			} : null]}
+			style={[styles.dropdownStyle]}
+			// , nativeEvent.layout ? {
+			// top: nativeEvent.layout.y + nativeEvent.layout.height
+			// } : null]}
 			contentStyle={[styles.dropdownContentStyle]}
 		>
 			{
@@ -39,7 +41,7 @@ const DropdownSelect = props => {
 					<Button onPress={() => {
 						setDropdownVisible(false)
 						onSelect({ item, index: i })
-					}} key={i} width={SizeList.width} wrapper={{ justify: 'flex-start', }} key={i} justify="space-between" color="link">
+					}} key={i} wrapper={{ justify: 'flex-start' }} color="link">
 						{renderItem({ item, index: i })}
 					</Button>,
 					data.length - 1 != i && <Divider />
@@ -57,6 +59,7 @@ const styles = StyleSheet.create({
 		zIndex: 1
 	},
 	selectWrapper: {
+		marginVertical: 10,
 		borderBottomWidth: 1,
 		borderBottomColor: ColorsList.greyAuthHard
 	},
