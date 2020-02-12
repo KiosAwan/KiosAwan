@@ -25,7 +25,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 	const [alertVisible, setAlertVisible] = useState(false)
 	const [newData, setNewData] = useState()
 	const [alasan, setAlasan] = useState('')
-	const [amount_cancel, setAmountCancel] = useState()
+	const [amount_cancel, setAmountCancel] = useState(0)
 	useEffect(() => {
 		_getParams()
 	}, [])
@@ -37,13 +37,13 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 			paramData.return_item.forEach(a => {
 				a.newQty = a.qty
 			})
-			setAmountCancel(paramData.transaction.remaining_return)
+			// setAmountCancel(paramData.transaction.remaining_return)
 			setNewData(paramData.return_item)
 		} else {
 			paramData.details_item.forEach(a => {
 				a.newQty = a.qty
 			})
-			setAmountCancel(paramData.transaction.total_transaction)
+			// setAmountCancel(paramData.transaction.total_transaction)
 			setNewData(paramData.details_item)
 		}
 		setLoading(false)
@@ -52,7 +52,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 	const _handlePlusItem = (barang) => {
 		let a = newData.find(item => item.id == barang.id)
 		if (a.newQty != a.qty) {
-			let newTotal = parseInt(amount_cancel) + parseInt(a.price)
+			let newTotal = parseInt(amount_cancel) - parseInt(a.price)
 			setAmountCancel(newTotal)
 			a.newQty++
 			setNewData([...newData])
@@ -62,7 +62,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 	const _handleMinusItem = (barang) => {
 		const a = newData.find(item => item.id == barang.id)
 		if (a.newQty !== 0) {
-			let newTotal = parseInt(amount_cancel) - parseInt(a.price)
+			let newTotal = parseInt(amount_cancel) + parseInt(a.price)
 			setAmountCancel(newTotal)
 			a.newQty--
 			setNewData([...newData])
@@ -74,7 +74,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 		const userId = await AsyncStorage.getItem('userId')
 		let product_cart = []
 		newData.map(item => {
-			product_cart.push({ qty_in: item.newQty })
+			product_cart.push({ qty_in: item.qty- item.newQty  })
 		})
 		const data = {
 			id_transaction: dataTransaksi.transaction.id_transaction,
@@ -103,9 +103,9 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 				{loading ? <Text>asdfsfd</Text> :
 					<View>
 						<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
-							<Text style={{ padding: 10 }}>Total yang dapat dibatalkan</Text>
+							<Text style={{ padding: 10 }}>Total yang dibatalkan</Text>
 							<WrapperItem style={{ paddingBottom: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-								<Text color="primaryColor" size={24}>{convertRupiah(dataTransaksi.transaction.status == 1 ? dataTransaksi.transaction.total_transaction - parseInt(amount_cancel) : dataTransaksi.transaction.remaining_return - amount_cancel)}</Text>
+								<Text color="primaryColor" size={24}>{convertRupiah(dataTransaksi.transaction.status == 1 ? parseInt(amount_cancel) : amount_cancel)}</Text>
 							]} right={
 								<Text onPress={() => setDetailItem(!detailItem)} size={16}>DETAIL</Text>
 							} />
@@ -137,24 +137,24 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 								: null}
 						</View>
 						<View style={{ alignItems: "center", paddingBottom: 10 }}>
-							<Text>Pilih barang yang ingin dibatalkan</Text>
+							<Text>Daftar produk belanja</Text>
 						</View>
-							<FlatList
-								data={newData}
-								renderItem={({ item }) => (
-									<ReturnTransactionCard
-										name={item.product}
-										price={convertRupiah(item.price)}
-										onPressMinus={() => _handleMinusItem(item)}
-										minusDisabled={dataTransaksi.transaction.discount  ? true : false}
-										onPressPlus={() => _handlePlusItem(item)}
-										plusDisabled={dataTransaksi.transaction.discount ? true : false}
-										quantity={item.newQty ? item.newQty : null}
-									/>
-								)}
-								showsVerticalScrollIndicator={false}
-								keyExtractor={(item, index) => index.toString()}
-							/>
+						<FlatList
+							data={newData}
+							renderItem={({ item }) => (
+								<ReturnTransactionCard
+									name={item.product}
+									price={convertRupiah(item.price)}
+									onPressMinus={() => _handleMinusItem(item)}
+									minusDisabled={dataTransaksi.transaction.discount ? true : false}
+									onPressPlus={() => _handlePlusItem(item)}
+									plusDisabled={dataTransaksi.transaction.discount ? true : false}
+									quantity={item.newQty ? item.newQty : null}
+								/>
+							)}
+							showsVerticalScrollIndicator={false}
+							keyExtractor={(item, index) => index.toString()}
+						/>
 						<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, marginBottom: 100 }}>
 							<FloatingInput label="Alasan pembatalan">
 								<TextInput

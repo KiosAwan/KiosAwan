@@ -296,8 +296,8 @@ const Home = ({ navigation }) => {
 			<ScrollView
 				horizontal={true}
 				showsHorizontalScrollIndicator={false}>
-				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_1.png')} />
-				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginRight: 10 }} source={require('src/assets/images/card_2.png')} />
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft : 10 }} source={require('src/assets/images/card_1.png')} />
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal : 10 }} source={require('src/assets/images/card_2.png')} />
 			</ScrollView>
 			<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
 			{newsLoading ?
