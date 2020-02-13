@@ -4,13 +4,14 @@ import PPOB from "src/screens/AuthScreen/PPOB/PPOB"
 import Topup from "src/screens/AuthScreen/PPOB/Topup"
 import TopupDetail from "src/screens/AuthScreen/PPOB/TopupDetail"
 import RiwayatTransaksi from "src/screens/AuthScreen/PPOB/RiwayatTransaksi"
+import Favorite from "src/screens/AuthScreen/PPOB/Favorite"
 
 const PPOBNavigator = {
 	'/ppob': {
 		screen: PPOB,
-		// navigationOptions: {
-		// 	header: null
-		// }
+	},
+	'/ppob/favorit': {
+		screen: Favorite,
 	},
 	'/ppob/riwayat': {
 		screen: RiwayatTransaksi,
