@@ -38,6 +38,10 @@ export const Button = props => {
 		if (props.color === key)
 			_color = Colors[props.color]
 	}
+	if (props.color === 'linkPrimary'){
+		_color = Colors.link
+		_color.text = ColorsList.primary
+	}
 	if (Array.isArray(props.color)) {
 		_color = {
 			backgroundColor: ColorsList[props.color[0]],
@@ -62,8 +66,8 @@ export const Button = props => {
 	]}>
 		{
 			['string', 'number'].includes(typeof props.children) ?
-				<Text align="center" {...props.textProps}
-					style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]}>
+				<Text align="center"
+					style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]} {...props.textProps}>
 					{props.children}
 				</Text>
 				:

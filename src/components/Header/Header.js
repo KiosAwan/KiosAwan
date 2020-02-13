@@ -80,7 +80,7 @@ export const GlobalHeaderWithIcon = (props) => {
                         </View>
                     </Wrapper>
                     <View style={{ justifyContent: 'center', paddingRight: 15 }}>
-                        <TouchableOpacity onPress={props.handleDeleteCategory || props.handlePressIcon}>
+                        <TouchableOpacity onPress={props.handleDeleteCategory || props.handlePressIcon || props.onPressIcon}>
                             <Image style={{ width: 30, height: 30 }} source={props.image} />
                         </TouchableOpacity>
                     </View>

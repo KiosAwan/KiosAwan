@@ -6,10 +6,35 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import { $Padding } from 'src/utils/stylehelper';
 import { Image } from 'src/components/CustomImage';
+import { Modal } from 'src/components/ModalContent/Popups';
+import SearchInput from 'src/components/Input/SearchInput';
+import Divider from 'src/components/Row/Divider';
+import { View, ScrollView } from 'react-native';
 
 const PpobListrik = ({ navigation }) => {
-	return <Container>
-		<GlobalHeader title="Listrik" onPressBack={() => navigation.goBack()} />
+	const [modal, setModal] = useState(false)
+	return <Container header={{
+		title: "Listrik",
+		image: require('src/assets/icons/phonebook.png'),
+		onPressIcon: () => setModal(true),
+		onPressBack: () => navigation.goBack(),
+	}}>
+		<Modal backdropDismiss={() => setModal(false)} visible={modal}>
+			<View>
+				<Text size={17} align="center">Nomor Pelanggan</Text>
+				<SearchInput textInput={{
+					placeholder: 'Cari nomor'
+				}} />
+				<ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
+					{[1, 2, 3, 4, 5, 6]
+						.map((item, i) => [
+							<Button color="link">Albert Stanley - 123456789123456789</Button>,
+							i != 5 && <Divider />
+						])
+					}
+				</ScrollView>
+			</View>
+		</Modal>
 		<ContainerBody>
 			{["token", "prabayar", "ntl"].map((item, i) => (
 				<Button

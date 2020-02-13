@@ -30,7 +30,7 @@ const PPOB = ({ navigation }) => {
 		{ icon: require('src/assets/icons/ppob/Asuransi.png'), name: "Asuransi", navigate: "/ppob/asuransi" },
 		{ icon: require('src/assets/icons/ppob/BPJS.png'), name: "BPJS", navigate: "/ppob/bpjs" },
 		{ icon: require('src/assets/icons/ppob/E-Money.png'), name: "E - Money", navigate: "/ppob/emoney" },
-		{ icon: require('src/assets/icons/ppob/Games.png'), name: "Games", navigate: "/ppob/bpjs" },
+		{ icon: require('src/assets/icons/ppob/Games.png'), name: "Games", navigate: "/ppob" },
 		{ icon: require('src/assets/icons/ppob/Kredit.png'), name: "Kredit", navigate: "/ppob/kredit" },
 		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data", navigate: "/ppob/paketdata" },
 		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM", navigate: "/ppob/pdam" },
@@ -62,7 +62,7 @@ const PPOB = ({ navigation }) => {
 	}
 	const _moreMenu = () => setMoreVisible(true)
 	return (
-		<View style={{flex : 1}}>
+		<View style={{ flex: 1 }}>
 			<ParallaxScrollView
 				showsVerticalScrollIndicator={false}
 				backgroundColor={ColorsList.primary}
@@ -122,12 +122,12 @@ const PPOB = ({ navigation }) => {
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 									<Text>Riwayat</Text>
 								</Button>
-								<Divider height={40} />
+								<Divider height={39} />
 								<Button color="link">
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
 									<Text>Kupon</Text>
 								</Button>
-								<Divider height={40} />
+								<Divider height={39} />
 								<Button color="link">
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 									<Text>Favorit</Text>
@@ -172,7 +172,7 @@ const PPOB = ({ navigation }) => {
 							dispatch(getCustomer(User.store.id_store))
 						}} width="100%">
 							<Wrapper>
-								<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize : 30 }} name="ios-cart" />
+								<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize: 30 }} name="ios-cart" />
 								<Text color="white">BELANJA {Product.jumlahitem} PRODUK</Text>
 							</Wrapper>
 							<View style={{ backgroundColor: ColorsList.primarySoft, height: '100%', width: 2 }} />

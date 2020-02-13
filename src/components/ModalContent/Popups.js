@@ -8,10 +8,10 @@ import { $Padding } from 'src/utils/stylehelper';
 import { Button } from '../Button/Button';
 import Divider from '../Row/Divider';
 
-export const Modal = (props) => {
+const Modal = (props) => {
 	const styles = StyleSheet.create({
 		modalBackDrop: { alignItems: 'center', justifyContent: 'center', backgroundColor: props.transparent ? 'transparent' : 'rgba(0,0,0,.5)', width: '100%', height: '100%' },
-		modalView: { backgroundColor: props.transparent ? 'transparent' : ColorsList.whiteColor, maxWidth: '90%', justifyContent: "center", padding: 20 }
+		modalView: { backgroundColor: props.transparent ? 'transparent' : ColorsList.whiteColor, maxWidth: '90%', justifyContent: "center", padding: 10 }
 	})
 	return (
 		<ModalRN
@@ -25,7 +25,7 @@ export const Modal = (props) => {
 	)
 }
 
-export const AwanPopup = {
+const AwanPopup = {
 	Title: props => {
 		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
 			<View style={[styles.body, props.style]}>
@@ -95,7 +95,7 @@ export const AwanPopup = {
 const ButtonWrapper = props => {
 	return <View style={[styles.buttonWrapper, props.style]}>{props.children}</View>
 }
-
+export { Modal, AwanPopup }
 const styles = StyleSheet.create({
 	shadow: {
 		shadowColor: ColorsList.greySoft,

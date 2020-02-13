@@ -43,7 +43,8 @@ const SearchInput = (props) => {
 						onChangeText={props.handleChangeInput}
 						value={props.search}
 						style={styles.textInput}
-						placeholder={props.placeholder} />
+						placeholder={props.placeholder}
+						{...props.textInput} />
 				}
 			</Wrapper>
 			<Animatable.View duration={500} animation={isFocused ? "slideInRight" : 'bounceOutRight'}>

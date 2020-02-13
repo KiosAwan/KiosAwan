@@ -6,15 +6,16 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
 import { Bottom } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
+import SearchInput from 'src/components/Input/SearchInput';
 
 const Telkom = ({ navigation }) => {
     const [idPelanggan, setIdPelanggan] = useState(123123)
@@ -29,9 +30,29 @@ const Telkom = ({ navigation }) => {
         setDropdownVisible(false)
     }
     const data = [{ a: 'Nama Pelanggan', b: 'Albert Stanley' }, { a: 'ID Pelanggan', b: '1234567 ' }]
-    return <Container>
-        <GlobalHeader onPressBack={() => navigation.goBack()} title="Telkom" />
-        <View style={styles.topComp}>
+    const [modal, setModal] = useState(false)
+    return <Container header={{
+        title: "Telkom",
+        image: require('src/assets/icons/phonebook.png'),
+        onPressIcon: () => setModal(true),
+        onPressBack: () => navigation.goBack(),
+    }}>
+        <Modal backdropDismiss={() => setModal(false)} visible={modal}>
+            <View>
+                <Text size={17} align="center">Nomor Pelanggan</Text>
+                <SearchInput textInput={{
+                    placeholder: 'Cari nomor'
+                }} />
+                <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
+                    {[1, 2, 3, 4, 5, 6]
+                        .map((item, i) => [
+                            <Button color="link">Albert Stanley - 123456789123456789</Button>,
+                            i != 5 && <Divider />
+                        ])
+                    }
+                </ScrollView>
+            </View>
+        </Modal><View style={styles.topComp}>
             <View onLayout={_layout}>
                 <TouchableOpacity onPress={() => setDropdownVisible(true)}>
                     <View style={styles.selectContainer}>
@@ -63,9 +84,7 @@ const Telkom = ({ navigation }) => {
                 onChangeText={text => setVirtualNumber(text)}
             />
         </View>
-        <TouchableOpacity style={styles.cekTagihan}>
-            <Text color="primary">CEK TAGIHAN</Text>
-        </TouchableOpacity>
+        <Button color="linkPrimary">CEK TAGIHAN</Button>
         <ContainerBody style={{ padding: 0 }}>
             <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
                 {data.map((item, i) => [
