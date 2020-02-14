@@ -4,7 +4,7 @@ import { GlobalHeader } from 'src/components/Header/Header'
 import { Text } from 'src/components/Text/CustomText'
 import { convertRupiah } from 'src/utils/authhelper'
 import { useSelector } from 'react-redux'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet , Image as NativeImage} from 'react-native'
 import { ColorsList } from 'src/styles/colors'
 import Divider from 'src/components/Row/Divider'
 import { Image } from 'src/components/CustomImage'
@@ -30,7 +30,8 @@ const EWalletPayment = ({ navigation }) => {
                     <Text>{`${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`}</Text>
                     <View style={[styles.qrWrap, {marginTop: 10}]}>
                         <View style={styles.group}>
-                            <Image size={250} source={require("src/assets/payment/AssetQR.png")} />
+                            <Image size={220} source={require("src/assets/payment/AssetQR.png")} />
+                            <NativeImage style={{width : 200, height : 30, marginBottom : 20}} source={require("src/assets/payment/iconQris.png")} />
                             <Text align="center">Silahkan scan kode QR untuk melanjutkan transaksi</Text>
                         </View>
                         <Divider style={{ width: "100%" }} />
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     childCont: {
         alignItems: "center",
         marginHorizontal: 25,
-        padding: 5
+        marginBottom : 90
     },
     qrWrap: {
         backgroundColor: ColorsList.whiteColor,
