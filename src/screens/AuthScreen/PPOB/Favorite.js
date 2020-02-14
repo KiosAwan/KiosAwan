@@ -4,7 +4,6 @@ import Container, { ContainerBody } from 'src/components/View/Container';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import { ColorsList } from 'src/styles/colors';
-import { Wrapper } from 'src/components/View/Wrapper';
 import { Image } from 'src/components/CustomImage';
 
 const Favorite = ({ navigation }) => {

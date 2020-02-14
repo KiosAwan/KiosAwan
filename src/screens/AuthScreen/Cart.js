@@ -246,20 +246,18 @@ const Cart = ({ navigation }) => {
 					<Text style={{ padding: 10 }} font="Bold">Total</Text>
 					<Text style={{ padding: 10 }} font="Bold">{convertRupiah(Product.total - Product.total_diskon)}</Text>
 				</Wrapper>
+				<Wrapper justify="space-between" style={{ marginVertical: 20, marginHorizontal : 10 }}>
+					<Text size={12} color="primary" onPress={() => navigation.navigate('/cashier')}>TAMBAH PRODUK</Text>
+					<Text size={12} color="primary" onPress={() => _emptyCart()}>HAPUS PESANAN</Text>
+				</Wrapper>
 			</View>
-			<Wrapper style={{ marginBottom: 10 }}>
-				<Button color="white" _width="49%" padding={10} onPress={() => navigation.navigate('/cashier')}>
-					<Image size={17} source={require('src/assets/icons/plus-primary.png')} />
-					<Text size={12} color="primary">TAMBAH PRODUK</Text>
-				</Button>
-				<Button color="white" _width="49%" padding={10} onPress={() => _emptyCart()}>
-					<Image size={17} source={require('src/assets/icons/trash-primary.png')} />
-					<Text size={12} color="primary">HAPUS PESANAN</Text>
-				</Button>
-			</Wrapper>
-			<Button style={{ marginBottom: 10 }} _width="100%" justify="center" padding={10} onPress={() => navigation.navigate("/ppob")}>
-				PAYMENT POINT
+			{/* <View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, marginBottom: 10 }}> */}
+
+			<Button wrapper={{ justify: "center" }} color="white" style={{ marginBottom: 10 }} _width="100%" justify="center" padding={10} onPress={() => navigation.navigate("/ppob")}>
+				<Image style={{ marginHorizontal: 10 }} size={10} source={require('src/assets/icons/plus-primary.png')} />
+				<Text color="primary">TAGIHAN DAN ISI ULANG</Text>
 			</Button>
+			{/* </View> */}
 			<Wrapper justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
 				<Wrapper justify="flex-start">
 					<Icon style={{ marginRight: 10, color: ColorsList.primaryColor }} name="contact" />

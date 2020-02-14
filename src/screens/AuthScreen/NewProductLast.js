@@ -213,10 +213,9 @@ const NewProductLast = ({ navigation }) => {
 								</View>
 							</View>
 							: null}
-
 					</View>
 				</ScrollView>
-				<View style={styles.absoluteButton}>
+				<View style={{ alignSelf: "flex-end", marginBottom: 20 }}>
 					<BottomButton
 						onPressBtn={_handlePressNext}
 						buttonTitle="SIMPAN"

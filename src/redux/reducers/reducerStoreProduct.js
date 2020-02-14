@@ -309,19 +309,55 @@ const reducerStoreProduct = (state = initialState, actions) => {
         case "ADD_PRODUCT_PPOB":
             let ppob_item = actions.payload
             ppob_item.quantity = 1
+            console.debug("PPOB")
             state.jumlahitem++
-            let plus_trx_discount = 0
+            let c = 0
             if (state.discount_total_persen > 0) {
-                plus_trx_discount = (parseInt(state.discount_total_persen) / 100) * parseInt(ppob_item.price)
-                state.discount_transaction += plus_trx_discount
+                c = (parseInt(state.discount_total_persen) / 100) * parseInt(ppob_item.price)
             }
             let totalWithPPOB = state.total + parseInt(ppob_item.price)
             return {
                 ...state,
                 total: totalWithPPOB,
                 ppob_cart: [...state.ppob_cart, ppob_item],
-                total_diskon: state.total_diskon + plus_trx_discount
+                total_diskon: state.total_diskon + c
             }
+        case "QUANTITY_DECREMENT":
+            let itemKurang = actions.payload
+            const itemMauDikurang = state.belanja.find(item => itemKurang.id_product === item.id_product)
+            if (itemMauDikurang) {
+                if (itemMauDikurang.quantity != 0) {
+                    itemMauDikurang.total -= itemMauDikurang.price_out_product
+                    itemMauDikurang.quantity--
+                    state.jumlahitem--
+                    let minus_trx_discount = 0
+                    if (state.discount_total_persen > 0) {
+                        minus_trx_discount = (parseInt(state.discount_total_persen) / 100) * parseInt(itemMauDikurang.price_out_product)
+                        state.discount_transaction -= minus_trx_discount
+                    }
+                    if (!itemMauDikurang.discount_rupiah) {
+                        itemMauDikurang.discount_total -= parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product)
+                        if (itemMauDikurang.quantity == 0) {
+                            let a = state.belanja.filter(item => item.id_product != itemMauDikurang.id_product)
+                            return {
+                                ...state,
+                                total: state.total - parseInt(itemMauDikurang.price_out_product),
+                                total_diskon: state.total_diskon - parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product) - minus_trx_discount,
+                                belanja: a
+                            }
+                        }
+                        else {
+                            return {
+                                ...state,
+                                total: state.total - parseInt(itemMauDikurang.price_out_product),
+                                total_diskon: state.total_diskon - parseInt(itemMauDikurang.discount_persen) / 100 * parseInt(itemMauDikurang.price_out_product) - minus_trx_discount,
+                            }
+                        }
+                    }
+
+                }
+            }
+
         default:
             return state
     }
