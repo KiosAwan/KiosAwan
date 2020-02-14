@@ -12,13 +12,16 @@ import MDInput from './MDInput';
 import { Button } from '../Button/Button';
 
 const SearchInput = (props) => {
+	let nullFn = () => { }
 	const [isFocused, setIsFocused] = useState(false)
+	const onFocus = props.onFocus || nullFn
+	const onBlur = props.onBlur || nullFn
 	const _onBlur = () => {
-		props.onBlur()
+		onBlur()
 		setIsFocused(false)
 	}
 	const _onFocus = () => {
-		props.onFocus()
+		onFocus()
 		setIsFocused(true)
 	}
 	return <View style={props.style}>
