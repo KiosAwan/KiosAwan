@@ -24,28 +24,28 @@ const PpobPaketData = ({ navigation }) => {
     }
     const [modal, setModal] = useState(false)
     return <Container header={{
-            title: "Paket Data",
-            image: require('src/assets/icons/phonebook.png'),
-            onPressIcon: () => setModal(true),
-            onPressBack: () => navigation.goBack(),
-        }}>
-            <Modal backdropDismiss={() => setModal(false)} visible={modal}>
-                <View>
-                    <Text size={17} align="center">Nomor Pelanggan</Text>
-                    <SearchInput textInput={{
-                        placeholder: 'Cari nomor'
-                    }} />
-                    <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
-                        {[1, 2, 3, 4, 5, 6]
-                            .map((item, i) => [
-                                <Button color="link">Albert Stanley - 123456789123456789</Button>,
-                                i != 5 && <Divider />
-                            ])
-                        }
-                    </ScrollView>
-                </View>
-            </Modal>
-            <View style={styles.topComp}>
+        title: "Paket Data",
+        image: require('src/assets/icons/phonebook.png'),
+        onPressIcon: () => setModal(true),
+        onPressBack: () => navigation.goBack(),
+    }}>
+        <Modal backdropDismiss={() => setModal(false)} visible={modal}>
+            <View>
+                <Text size={17} align="center">Nomor Pelanggan</Text>
+                <SearchInput textInput={{
+                    placeholder: 'Cari nomor'
+                }} />
+                <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
+                    {[1, 2, 3, 4, 5, 6]
+                        .map((item, i) => [
+                            <Button color="link">Albert Stanley - 123456789123456789</Button>,
+                            i != 5 && <Divider />
+                        ])
+                    }
+                </ScrollView>
+            </View>
+        </Modal>
+        <View style={styles.topComp}>
             <Wrapper justify="space-between" style={$Padding(5, 15)}>
                 <MDInput _width="80%"
                     label="No. Handphone"
@@ -60,7 +60,7 @@ const PpobPaketData = ({ navigation }) => {
                     <Image style={{ marginRight: 5 }} source={require('src/assets/icons/phone.png')} size={15} />
                     <Text>Nomor Saya</Text>
                 </Button>
-                <Divider height={40} />
+                <Divider />
                 <Button _width="49%" color="link">
                     <Image style={{ marginRight: 5 }} source={require('src/assets/icons/contact.png')} size={15} />
                     <Text>Kontak</Text>

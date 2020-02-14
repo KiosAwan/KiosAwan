@@ -60,7 +60,7 @@ const PpobPulsa = ({ navigation }) => {
 					<Image style={{ marginRight: 5 }} source={require('src/assets/icons/phone.png')} size={15} />
 					<Text>Nomor Saya</Text>
 				</Button>
-				<Divider height={40} />
+				<Divider />
 				<Button _width="49%" color="link">
 					<Image style={{ marginRight: 5 }} source={require('src/assets/icons/contact.png')} size={15} />
 					<Text>Kontak</Text>

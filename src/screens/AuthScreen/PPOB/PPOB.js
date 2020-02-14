@@ -122,12 +122,12 @@ const PPOB = ({ navigation }) => {
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 									<Text>Riwayat</Text>
 								</Button>
-								<Divider height={39} />
+								<Divider />
 								<Button color="link">
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
 									<Text>Kupon</Text>
 								</Button>
-								<Divider height={39} />
+								<Divider />
 								<Button color="link">
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 									<Text>Favorit</Text>

@@ -209,12 +209,12 @@ const Home = ({ navigation }) => {
 								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 								<Text>Riwayat</Text>
 							</Button>
-							<Divider height={41} />
+							<Divider />
 							<Button color="link">
 								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
 								<Text>Kupon</Text>
 							</Button>
-							<Divider height={41} />
+							<Divider />
 							<Button color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
 								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 								<Text>Favorit</Text>
@@ -296,8 +296,8 @@ const Home = ({ navigation }) => {
 			<ScrollView
 				horizontal={true}
 				showsHorizontalScrollIndicator={false}>
-				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft : 10 }} source={require('src/assets/images/card_1.png')} />
-				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal : 10 }} source={require('src/assets/images/card_2.png')} />
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_2.png')} />
 			</ScrollView>
 			<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
 			{newsLoading ?
@@ -309,7 +309,7 @@ const Home = ({ navigation }) => {
 					showsHorizontalScrollIndicator={false}
 					renderItem={({ item, index }) => (
 						<CardTextImage
-							style={{ marginLeft: 10, marginRight: index == news.length-1 ? 10 : 0 }}
+							style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
 							onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
 							image={item.jetpack_featured_media_url}
 							info={item.title.rendered}
