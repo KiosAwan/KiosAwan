@@ -48,6 +48,13 @@ const styles = StyleSheet.create({
         paddingHorizontal : 20,
         alignSelf : "center",
         paddingBottom : 10
+    },  
+    simpan: {
+        alignSelf: "flex-end",
+        flexDirection: "row",
+        alignItems: "center",
+        marginRight: 10,
+        marginBottom: 10
     }
 })
 export default styles

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     },
     selectContainer: {
         backgroundColor: ColorsList.whiteColor,
-        marginVertical : 10
+        marginVertical: 10
     },
     selectWrapper: {
         borderBottomWidth: 1,
@@ -45,10 +45,18 @@ const styles = StyleSheet.create({
         elevation: 3,
         backgroundColor: ColorsList.whiteColor,
     },
-    cekTagihan : {
-        paddingHorizontal : 20,
-        alignSelf : "center",
-        paddingBottom : 10
+    cekTagihan: {
+        paddingHorizontal: 20,
+        alignSelf: "center",
+        paddingBottom: 10
+    },
+
+    simpan: {
+        alignSelf: "flex-end",
+        flexDirection: "row",
+        alignItems: "center",
+        marginRight: 10,
+        marginBottom: 10
     }
 })
 export default styles

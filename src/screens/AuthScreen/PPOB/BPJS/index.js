@@ -11,11 +11,12 @@ import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
-import { Bottom } from 'src/components/View/Bottom';
+import { BottomVertical } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import SearchInput from 'src/components/Input/SearchInput';
+import SwitchButton from 'src/components/Button/SwitchButton';
 
 const BPJS = ({ navigation }) => {
     const [virtualNumber, setVirtualNumber] = useState()
@@ -82,6 +83,13 @@ const BPJS = ({ navigation }) => {
                 }
             </AwanPopup.Menu>
         </View>
+        <View style={styles.simpan}>
+            <Text>Simpan VA ini untuk masuk ke favorit</Text>
+            <SwitchButton
+                // handleChangeToggle={_handleChangeToggle}
+                toggleValue={true}
+            />
+        </View>
         <ContainerBody style={{ padding: 0 }}>
             <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
                 {data.map((item, i) => [
@@ -93,18 +101,14 @@ const BPJS = ({ navigation }) => {
                 ])}
             </View>
         </ContainerBody>
-        <Bottom>
-            <Button width="100%" wrapper={{ justify: 'space-between' }}>
-                <Wrapper>
-                    <Icon name="shopping-cart" color={ColorsList.whiteColor} />
-                    <Text style={{ marginLeft: 5 }} color="white">Belanja 1 Produk</Text>
-                </Wrapper>
-                <Wrapper _width="40%">
-                    <Divider color={ColorsList.whiteColor} height="100%" />
-                    <Text color="white">Rp. 2.500</Text>
-                </Wrapper>
+        <BottomVertical>
+            <Button color="white" width="100%" wrapper={{ justify: 'space-between' }}>
+                CEK TAGIHAN
             </Button>
-        </Bottom>
+            <Button width="100%" style={{marginTop : 5}} wrapper={{ justify: 'space-between' }}>
+                SIMPAN
+            </Button>
+        </BottomVertical>
     </Container >
 }
 export default BPJS

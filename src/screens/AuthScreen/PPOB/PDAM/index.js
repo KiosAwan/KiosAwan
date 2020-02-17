@@ -11,7 +11,7 @@ import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
-import { Bottom } from 'src/components/View/Bottom';
+import { Bottom, BottomVertical } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
@@ -22,6 +22,7 @@ import { convertRupiah } from 'src/utils/authhelper';
 import { useDispatch } from 'react-redux';
 import { AddPPOBToCart } from 'src/redux/actions/actionsPPOB';
 import SearchInput from 'src/components/Input/SearchInput';
+import SwitchButton from 'src/components/Button/SwitchButton';
 
 const PDAM = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -116,9 +117,13 @@ const PDAM = ({ navigation }) => {
                 onChangeText={text => setIdPelanggan(text)}
             />
         </View>
-        <TouchableOpacity style={styles.cekTagihan}>
-            <Text color="primary" onPress={_cekTagihan}>CEK TAGIHAN</Text>
-        </TouchableOpacity>
+        <View style={styles.simpan}>
+            <Text>Simpan VA ini untuk masuk ke favorit</Text>
+            <SwitchButton
+                // handleChangeToggle={_handleChangeToggle}
+                toggleValue={true}
+            />
+        </View>
         {tagihanData ?
             <ContainerBody style={{ padding: 0 }}>
                 <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
@@ -154,11 +159,14 @@ const PDAM = ({ navigation }) => {
                 </View>
             </ContainerBody>
             : null}
-        <Bottom>
-            <Button onPress={_onPressSimpan} width="100%" wrapper={{ justify: 'space-between' }}>
+        <BottomVertical>
+            <Button onPress={_cekTagihan} color="white" width="100%">
+                CEK TAGIHAN
+            </Button>
+            <Button style={{ marginTop: 5 }} onPress={_onPressSimpan} width="100%">
                 SIMPAN
             </Button>
-        </Bottom>
+        </BottomVertical>
     </Container >
 }
 export default PDAM

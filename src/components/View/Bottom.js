@@ -15,3 +15,17 @@ export const Bottom = props => {
 		</View>
 	)
 }
+
+export const BottomVertical = props => {
+	return (
+		<View style={{
+			alignSelf: 'center',
+			position: 'absolute',
+			bottom: 0,
+			padding: props.padding || 20,
+			width: '100%',
+		}}>
+			{props.children}
+		</View>
+	)
+}

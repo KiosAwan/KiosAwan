@@ -41,6 +41,7 @@ const Home = ({ navigation }) => {
 	useEffect(() => {
 		_checkService()
 		_getNewsData()
+		console.debug(User.data.saldo)
 	}, [])
 
 	const _getNewsData = async () => {
