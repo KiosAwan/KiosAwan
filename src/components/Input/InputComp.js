@@ -9,6 +9,7 @@ import {
   Text
 } from 'native-base'
 import { Wrapper } from '../View/Wrapper';
+import MDInput from './MDInput';
 
 const width = Dimensions.get('window').width
 
@@ -95,6 +96,21 @@ export const InputCurrency = props => {
     }}
     {...props}
   />
+}
+
+export const FloatingInputs = props => {
+  let _input, inIndex
+  if (Array.isArray(props.children)) {
+    props.children.forEach((component, i) => {
+      if ('value' in component.props) {
+        inIndex = i
+        _input = component
+      }
+    })
+  } else {
+    _input = props.children
+  }
+  return <MDInput {...props} {..._input.props} />
 }
 
 export const FloatingInput = props => {

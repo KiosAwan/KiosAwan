@@ -12,6 +12,7 @@ import { Wrapper } from '../View/Wrapper';
 import { Button } from '../Button/Button';
 import { Text } from '../Text/CustomText';
 import SearchInput from '../Input/SearchInput';
+import MDInput from '../Input/MDInput';
 
 const height = Dimensions.get('window').height
 
@@ -335,6 +336,7 @@ export const SelectBoxModal = (props) => {
 					</FloatingInput>
 					<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
 				</Wrapper>
+				{/* <MDInput value={props.value} editable={false} /> */}
 			</TouchableOpacity>
 		</View >
 	);
