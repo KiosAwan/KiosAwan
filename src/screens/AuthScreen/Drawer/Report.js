@@ -39,6 +39,8 @@ const Report = ({ navigation }) => {
 		const res1 = await getTransactionData(User.store.id_store, param)
 		const res2 = await getReportCategory(User.store.id_store, param)
 		const res3 = await getReportNonTunai(User.store.id_store)
+
+		console.debug(res2.data[0])
 		setTransaction(res1.data)
 		setReportCategory(res2.data)
 		setDataNonTunai(res3.data)
@@ -145,14 +147,14 @@ const Report = ({ navigation }) => {
 			<View onLayout={({ nativeEvent: { layout } }) => layout.height == 0 && categories.length > 0 ? setCategory([]) : null}>
 				{
 					detailPenjualan ?
-						reportCategory.sort((a, b) => b.id_category - a.id_category).map((item, i) => {
-							let _id = item.id_category ? item.id_category : '~pesan_manual~'
+						reportCategory.sort((a, b) => b.id_category - a.id_category).map((category, i) => {
+							let _id = category.id_category ? category.id_category : '~pesan_manual~'
 							let _hasId = categories.includes(_id)
 							if (!_hasId) categories.push(_id)
-							return [_hasId ? null : <Wrapper key={(i + 1) * 3} style={{ ...Bg.grey, padding: 10 }}>
-								<Text font={item.id_category ? null : 'BoldItalic'}>{item.id_category ? item.nama_category : 'Pesanan Manual'}</Text>
+							return [_hasId ? null : <Wrapper key={i} style={{ ...Bg.grey, padding: 10 }}>
+								<Text font={category.id_category ? null : 'BoldItalic'}>{category.id_category ? category.nama_category : 'Pesanan Manual'}</Text>
 							</Wrapper>,
-							<Wrapper key={(i + 1) * 7} justify="space-between" style={styles.report}>
+							category.data.map((item, index) => <Wrapper key={index} justify="space-between" style={styles.report}>
 								<View width="70%">
 									<Text>{item.Product}</Text>
 									<Text>{`${convertRupiah(item.harga_Satuan)} x ${item.jumlah}`}</Text>
@@ -160,7 +162,7 @@ const Report = ({ navigation }) => {
 								<Wrapper direction="column" justify="center">
 									<Text>{convertRupiah(item.harga)}</Text>
 								</Wrapper>
-							</Wrapper>]
+							</Wrapper>)]
 						})
 						: null
 				}
