@@ -167,7 +167,6 @@ const UpdateProfil = ({ navigation }) => {
 								<FloatingInput left="10%" label="Cari Provinsi">
 									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
 									<TextInput _width='90%' value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
-									{/* <Wrapper justify="center"></Wrapper> */}
 								</FloatingInput>
 								<Divider />
 							</View>
@@ -185,7 +184,6 @@ const UpdateProfil = ({ navigation }) => {
 								<FloatingInput left="10%" label="Cari Kabupaten">
 									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
 									<TextInput _width='90%' value={kabupaten.search} onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
-									{/* <Wrapper justify="center"></Wrapper> */}
 								</FloatingInput>
 								<Divider />
 							</View>
@@ -203,7 +201,6 @@ const UpdateProfil = ({ navigation }) => {
 								<FloatingInput left="10%" label="Cari Kecamatan">
 									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
 									<TextInput _width='90%' value={kecamatan.search} onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
-									{/* <Wrapper justify="center"></Wrapper> */}
 								</FloatingInput>
 								<Divider />
 							</View>
@@ -221,7 +218,6 @@ const UpdateProfil = ({ navigation }) => {
 								<FloatingInput left="10%" label="Cari Desa">
 									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
 									<TextInput _width='90%' value={desa.search} onChangeText={text => setDesa({ ...desa, search: text })} />
-									{/* <Wrapper justify="center"></Wrapper> */}
 								</FloatingInput>
 								<Divider />
 							</View>

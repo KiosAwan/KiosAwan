@@ -306,9 +306,10 @@ export const SelectBoxModal = (props) => {
 	return (
 		<View>
 			<MyModal visible={modalVisible} backdropDismiss={() => setModalVisible(false)} body={[
-				props.header ? <CardItem header>
-					{props.header}
-				</CardItem> : null,
+				props.header ?
+					<View style={{ padding: 10 }}>
+						{props.header}
+					</View> : null,
 				<ScrollView persistentScrollbar style={{ height: '30%' }}>{
 					props.data.length > 0 ? props.data.map((item) => {
 						return (
@@ -329,14 +330,11 @@ export const SelectBoxModal = (props) => {
 						{props.footer}
 					</CardItem> : null
 			]} />
-			<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, { borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, borderColor: activeColor }, props.style]}>
-				<Wrapper justify="space-between" style={{ alignItems: 'flex-end' }}>
-					<FloatingInput onPress={() => setModalVisible(true)} borderTransparent label={props.label} _width="90%">
-						<TextInput style={{ color: ColorsList.greySoft }} value={props.value} editable={false} />
-					</FloatingInput>
+			<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, props.style]}>
+				<FloatingInput onPress={() => setModalVisible(true)} borderTransparent label={props.label} _width="90%">
+					<TextInput style={{ color: ColorsList.greySoft }} value={props.value} editable={false} />
 					<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
-				</Wrapper>
-				{/* <MDInput value={props.value} editable={false} /> */}
+				</FloatingInput>
 			</TouchableOpacity>
 		</View >
 	);

@@ -149,128 +149,118 @@ const MenuSettingProfil = ({ navigation }) => {
 			setProvinsi({ ...provinsi, data: res.data.semuaprovinsi })
 		})
 	}, [])
+	return <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+		<AwanPopup.Loading visible={apiLoading} />
+		<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={modalVisible}
+			onRequestClose={() => {
+				setModalVisible(!modalVisible);
+			}}
+		>
+			<ModalContent
+				image={require('../../../../assets/images/successupdateprofile.png')}
+				infoText="Pembaruan Profil Berhasil!"
+				closeModal={() => setModalVisible(false)}
+			/>
+		</Modal>
+		<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
+			<View style={{ paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
+				{
+					inputan.map((input, i) => {
+						return <FloatingInput key={i} style={styles.floatingInput} label={input._label}>
+							<TextInput style={{ width: '90%' }} {...input} />
+						</FloatingInput>
+					})
+				}
 
-	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<AwanPopup.Loading visible={apiLoading} />
-			<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
-			<Modal
-				animationType="fade"
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			><ModalContent
-					image={require('../../../../assets/images/successupdateprofile.png')}
-					infoText="Pembaruan Profil Berhasil!"
-					closeModal={() => setModalVisible(false)}
-				/>
-			</Modal>
-			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
-				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
-					{
-						inputan.map((input, i) => {
-							return <FloatingInput key={i} style={styles.floatingInput} label={input._label}>
-								<TextInput style={{ width: '90%' }} {...input} />
+				<SelectBoxModal
+					label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+					header={
+						<View>
+							<FloatingInput left="10%" label="Cari Provinsi">
+								<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+								<TextInput _width='90%' value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
 							</FloatingInput>
-						})
+						</View>
 					}
+					value={provinsi.selected ? provinsi.selected.nama : null}
+					handleChangePicker={_setProvinsi}
+					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginBottom: 15 }}
-						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<View>
-								<FloatingInput left="10%" label="Cari Provinsi">
-									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
-								</FloatingInput>
-								{/* <Wrapper justify="center"></Wrapper> */}
-								<Divider />
-							</View>
-						}
-						value={provinsi.selected ? provinsi.selected.nama : null}
-						handleChangePicker={_setProvinsi}
-						renderItem={(item) => (<Text>{item.nama}</Text>)}>
-						<Text>Data tidak ditemukan</Text>
-					</SelectBoxModal>
+				<SelectBoxModal
+					label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+					header={
+						<View>
+							<FloatingInput left="10%" label="Cari Kabupaten">
+								<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+								<TextInput _width='90%' value={kabupaten.search} onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
+							</FloatingInput>
+						</View>
+					}
+					value={kabupaten.selected ? kabupaten.selected.nama : null}
+					handleChangePicker={_setKabupaten}
+					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginBottom: 15 }}
-						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<View>
-								<FloatingInput left="10%" label="Cari Kabupaten">
-									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={kabupaten.search} onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
-								</FloatingInput>
-								{/* <Wrapper justify="center"></Wrapper> */}
-								<Divider />
-							</View>
-						}
-						value={kabupaten.selected ? kabupaten.selected.nama : null}
-						handleChangePicker={_setKabupaten}
-						renderItem={(item) => (<Text>{item.nama}</Text>)}>
-						<Text>Data tidak ditemukan</Text>
-					</SelectBoxModal>
+				<SelectBoxModal
+					label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+					header={
+						<View>
+							<FloatingInput left="10%" label="Cari Kecamatan">
+								<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+								<TextInput _width='90%' value={kecamatan.search} onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
+							</FloatingInput>
+						</View>
+					}
+					value={kecamatan.selected ? kecamatan.selected.nama : null}
+					handleChangePicker={_setKecamatan}
+					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginBottom: 15 }}
-						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<View>
-								<FloatingInput left="10%" label="Cari Kecamatan">
-									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={kecamatan.search} onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
-								</FloatingInput>
-								{/* <Wrapper justify="center"></Wrapper> */}
-								<Divider />
-							</View>
-						}
-						value={kecamatan.selected ? kecamatan.selected.nama : null}
-						handleChangePicker={_setKecamatan}
-						renderItem={(item) => (<Text>{item.nama}</Text>)}>
-						<Text>Data tidak ditemukan</Text>
-					</SelectBoxModal>
-
-					<SelectBoxModal
-						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<View>
-								<FloatingInput left="10%" label="Cari Desa">
-									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={desa.search} onChangeText={text => setDesa({ ...desa, search: text })} />
-								</FloatingInput>
-								{/* <Wrapper justify="center"></Wrapper> */}
-								<Divider />
-							</View>
-						}
-						value={desa.selected ? desa.selected.nama : null}
-						handleChangePicker={_setDesa}
-						renderItem={(item) => (<Text>{item.nama}</Text>)}>
-						<Text>Data tidak ditemukan</Text>
-					</SelectBoxModal>
+				<SelectBoxModal
+					label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+					header={
+						<View>
+							<FloatingInput left="10%" label="Cari Desa">
+								<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
+								<TextInput _width='90%' value={desa.search} onChangeText={text => setDesa({ ...desa, search: text })} />
+							</FloatingInput>
+						</View>
+					}
+					value={desa.selected ? desa.selected.nama : null}
+					handleChangePicker={_setDesa}
+					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
+			</View>
+			<View style={{ marginBottom: 70 }}>
+				<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
+				<View style={styles.imageWrapper}>
+					<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
+						<Image style={styles.image} source={formValue.photo_store ? { uri: formValue.photo_store } : require('../../../../assets/images/img-product.png')} />
+					</TouchableOpacity>
 				</View>
-				<View style={{ marginBottom: 70 }}>
-					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
-					<View style={styles.imageWrapper}>
-						<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
-							<Image style={styles.image} source={formValue.photo_store ? { uri: formValue.photo_store } : require('../../../../assets/images/img-product.png')} />
-						</TouchableOpacity>
-					</View>
-				</View>
+			</View>
 
-			</ScrollView>
-			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
-			<Bottom>
-				<Button width="100%" onPress={_handleSaveProfile}>SIMPAN</Button>
-			</Bottom>
-		</View>
-	)
+		</ScrollView>
+		<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
+		<Bottom>
+			<Button width="100%" onPress={_handleSaveProfile}>SIMPAN</Button>
+		</Bottom>
+	</View>
+
 }
 
 export default MenuSettingProfil
 
 const styles = StyleSheet.create({
-	floatingInput: { marginBottom: 15 },
 	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: '#000', borderWidth: 1, height: 250 },
 	image: { width: '100%', height: '100%' },
 })

@@ -11,7 +11,12 @@ import Divider from '../Row/Divider';
 const Modal = (props) => {
 	const styles = StyleSheet.create({
 		modalBackDrop: { alignItems: 'center', justifyContent: 'center', backgroundColor: props.transparent ? 'transparent' : 'rgba(0,0,0,.5)', width: '100%', height: '100%' },
-		modalView: { backgroundColor: props.transparent ? 'transparent' : ColorsList.whiteColor, maxWidth: '90%', justifyContent: "center", padding: 10 }
+		modalView: {
+			...$Padding(5, 0),
+			backgroundColor: props.transparent ? 'transparent' : ColorsList.whiteColor,
+			maxHeight: '50%',
+			maxWidth: '90%'
+		}
 	})
 	return (
 		<ModalRN
@@ -19,7 +24,11 @@ const Modal = (props) => {
 			transparent={true}
 			{...props}>
 			<TouchableOpacity activeOpacity={1} style={styles.modalBackDrop} disabled={!props.backdropDismiss ? true : false} onPress={!props.backdropDismiss ? null : props.backdropDismiss}>
-				<TouchableOpacity activeOpacity={1} onPress={() => { }} style={[styles.modalView, props.style]}>{props.children}</TouchableOpacity>
+				{/* <TouchableOpacity activeOpacity={1} onPress={() => { }} style={[styles.modalView, props.style]}>{props.children}</TouchableOpacity> */}
+				{/* {props.children} */}
+				<TouchableOpacity activeOpacity={1} style={[styles.modalView, props.style]}>
+					{props.children}
+				</TouchableOpacity>
 			</TouchableOpacity>
 		</ModalRN>
 	)

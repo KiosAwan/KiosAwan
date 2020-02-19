@@ -10,6 +10,7 @@ import {
 } from 'native-base'
 import { Wrapper } from '../View/Wrapper';
 import MDInput from './MDInput';
+import Divider from '../Row/Divider';
 
 const width = Dimensions.get('window').width
 
@@ -98,22 +99,34 @@ export const InputCurrency = props => {
   />
 }
 
-export const FloatingInputs = props => {
-  let _input, inIndex
+export const FloatingInput = props => {
+  let _input, inputFounded, leftRight = {}
+  const { children, ...exceptChildren } = props
   if (Array.isArray(props.children)) {
-    props.children.forEach((component, i) => {
+    children.forEach((component, i) => {
       if ('value' in component.props) {
-        inIndex = i
+        inputFounded = true
         _input = component
+      } else {
+        if (inputFounded) {
+          leftRight.renderRightAccessory = () => children[i]
+        } else {
+          leftRight.renderLeftAccessory = () => children[i]
+        }
       }
     })
   } else {
-    _input = props.children
+    _input = children
   }
-  return <MDInput {...props} {..._input.props} />
+  return <MDInput
+    {...leftRight}
+    {..._input.props}
+    {...exceptChildren}
+    // style={{ ...style }}
+  />
 }
 
-export const FloatingInput = props => {
+export const FloatingInputs = props => {
   let { width } = Dimensions.get('window')
   let _bot = 30, _top = 0
   let _input, inIndex, child, toFocus, haveValue, _left
