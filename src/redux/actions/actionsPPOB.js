@@ -9,7 +9,7 @@ export const AddPPOBToCart = (data) => {
 
 export const RemovePPOBFromCart = (item) => {
     return {
-        type: "REMOVE_PPOB_ITEM",
+        type: "REMOVE_PPOB_PRODUCT",
         payload: item
     }
 }

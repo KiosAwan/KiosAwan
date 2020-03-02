@@ -1,12 +1,13 @@
-import { PPOB_URL } from "src/config"
+import { PPOB_URL, DEV_URL } from "src/config"
 import axios from 'axios'
 import { getUserToken, getUserId } from "src/utils/authhelper"
 
-// function for get pdam product list
-export const getPDAMProductList = async () => {
+// function for check tagihan listrik postpaid
+export const checkTagihanListrik = async (data) => {
     const userToken = await getUserToken()
     try {
-        const res = await axios.get(`${PPOB_URL}/service/ppob/pdam/product`,
+        const res = await axios.post(`${DEV_URL}/service/ppob/pln_postpaid/inquiry`,
+            data,
             {
                 headers: { "authorization": userToken }
             }
@@ -17,11 +18,11 @@ export const getPDAMProductList = async () => {
     }
 }
 
-// function for get pdam product list
-export const checkTagihanPDAM = async (data) => {
+// function for check nomor listrik token
+export const checkListrikToken = async (data) => {
     const userToken = await getUserToken()
     try {
-        const res = await axios.post(`${PPOB_URL}/service/ppob/pdam/inquiry`,
+        const res = await axios.post(`${DEV_URL}/service/ppob/pln_prepaid/inquiry`,
             data,
             {
                 headers: { "authorization": userToken }

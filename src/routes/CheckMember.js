@@ -45,7 +45,7 @@ const CheckMember = (props) => {
             navigation.navigate('/')
           }
         } catch (err) {
-          alert(JSON.stringify(err))
+          // alert(JSON.stringify(err))
         }
       } else {
         if (checkUserIntro == "sudah") {

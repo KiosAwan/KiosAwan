@@ -2,12 +2,10 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux'
 import { TabView, SceneMap } from 'react-native-tab-view';
-import Animated from 'react-native-reanimated';
 import { SizeList } from '../../styles/size';
 import { convertRupiah, sendNewTransaction, formatToDate, convertNumber } from '../../utils/authhelper';
 import { FontList } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
-import { BottomButton } from '../../components/Button/ButtonComp';
 import { GlobalHeader } from '../../components/Header/Header';
 import CashPayment from './Cashier/Payment/CashPayment';
 import NonTunai from './Cashier/Payment/NonTunai';
@@ -46,8 +44,8 @@ class CheckOut extends React.Component {
 	SecondRoute = () => (
 		<NonTunai nonTunai={this.state.nonTunai} pressImage={(id) => {
 			this.setState({ nonTunai: id })
-			if(id > 2){
-				this.props.navigation.navigate("/cashier/check-out/payewallet", {amount : parseInt(this.props.Product.total)-parseInt(this.props.Product.total_diskon)})
+			if (id > 2) {
+				this.props.navigation.navigate("/cashier/check-out/payewallet", { amount: parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon) })
 			}
 		}} />
 	)

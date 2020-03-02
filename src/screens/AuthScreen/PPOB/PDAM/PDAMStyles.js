@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
         alignSelf : "center",
         paddingBottom : 10
     },
-    
     simpan: {
         alignSelf: "flex-end",
         flexDirection: "row",

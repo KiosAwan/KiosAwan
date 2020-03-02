@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 	},
 	listPulsa: {
 		padding: 10,
-		marginBottom: 70
+		marginBottom: 120
 	},
 	pulsaWrapper: {
 		flex: 1,
@@ -28,10 +28,23 @@ const styles = StyleSheet.create({
 	pulsaComp: {
 		...$Margin(5, 10)
 	},
-	cekTagihan : {
-        paddingHorizontal : 20,
-        alignSelf : "center",
-        paddingBottom : 10
-    }
+	cekTagihan: {
+		paddingHorizontal: 20,
+		alignSelf: "center",
+		paddingBottom: 10
+	},
+	simpan: {
+		alignSelf: "flex-end",
+		flexDirection: "row",
+		alignItems: "center",
+		marginRight: 10,
+		marginBottom: 10
+	},
+	custInfo : {
+		borderRadius : 5,
+		backgroundColor : ColorsList.whiteColor,
+		marginHorizontal : 15, 
+		padding : 10
+	}
 })
 export default styles

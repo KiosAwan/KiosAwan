@@ -150,6 +150,20 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 jumlahitem: state.jumlahitem - temp_rmvitem_quantity,
                 belanja: notRemoveBelanja
             }
+        // Reducer logic for removing ppob product from cart
+        case "REMOVE_PPOB_PRODUCT":
+            let ppobRemovedProduct = actions.payload
+            const removedPPOBItem = state.ppob_cart.find(item => ppobRemovedProduct.productID === item.productID)
+            let newTotalPPOBRemove = state.total - parseInt(removedPPOBItem.price)
+            let notRemovePPOB = state.ppob_cart.filter(item => item.productID != removedPPOBItem.productID)
+            return {
+                ...state,
+                total: newTotalPPOBRemove,
+                jumlahitem: state.jumlahitem - 1,
+                ppob_cart: notRemovePPOB
+            }
+
+        //Reset the reducer to initial value
         case "REMOVE_ALL":
             return {
                 ...state,
@@ -309,7 +323,6 @@ const reducerStoreProduct = (state = initialState, actions) => {
         case "ADD_PRODUCT_PPOB":
             let ppob_item = actions.payload
             ppob_item.quantity = 1
-            console.debug("PPOB")
             state.jumlahitem++
             let c = 0
             if (state.discount_total_persen > 0) {

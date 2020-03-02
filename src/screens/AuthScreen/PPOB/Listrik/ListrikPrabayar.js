@@ -6,56 +6,117 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, FlatList, TouchableOpacity } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
-import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
-import { Bottom } from 'src/components/View/Bottom';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Bottom, BottomVertical } from 'src/components/View/Bottom';
+import { checkTagihanListrik } from 'src/utils/api/ppob/listrik_api';
+import { convertRupiah } from 'src/utils/authhelper';
+import SwitchButton from 'src/components/Button/SwitchButton';
+import { useDispatch } from 'react-redux';
+import { AddPPOBToCart } from 'src/redux/actions/actionsPPOB';
 
 const ListrikPrabayar = ({ navigation }) => {
-	const [phoneNumber, setPhoneNumber] = useState()
+	const dispatch = useDispatch()
+	const [custId, setCustId] = useState(112000026979)
 	const [selected, setSelected] = useState()
-	const _selectPulsa = ({ item, index }) => {
-		setSelected(index)
+	//Data tagihan
+	const [tagihanLoading, setTagihanLoading] = useState(false)
+	const [tagihanData, setTagihanData] = useState()
+    const [modal, setModal] = useState(false)
+
+	//Function for check tagihan
+	const _cekTagihan = async () => {
+		setTagihanLoading(true)
+		const data = {
+			productID: 100301,
+			customerID: custId
+		}
+		const res = await checkTagihanListrik(data)
+		setTagihanLoading(false)
+		if (res.status == 400) {
+			alert(res.data.errors.msg)
+		} else {
+			setTagihanData(res.data)
+		}
 	}
-	const data = [{ a: 'Nama Pelanggan', b: 'Albert Stanley' }, { a: 'ID Pelanggan', b: '1234567 ' }]
-	return <Container>
-		<GlobalHeader onPressBack={() => navigation.goBack()} title="Prabayar" />
+
+	//Function for add product to cart
+	const _onPressSimpan = async () => {
+		if (tagihanData) {
+			const data = { type: "pln_postpaid", customerID: tagihanData.transaction.customerID, productID: 100301, price: tagihanData.transaction.total, productName: "TAGIHAN PLN" }
+			dispatch(AddPPOBToCart(data))
+			navigation.goBack()
+		} else {
+			alert("Harap cek tagihan terlebih dahulu")
+		}
+	}
+	return <Container header={{
+		title: "Listrik Prabayar",
+		image: require('src/assets/icons/phonebook.png'),
+		onPressIcon: () => setModal(true),
+		onPressBack: () => navigation.goBack(),
+	}}>
 		<View style={styles.topComp}>
 			<MDInput _width="80%"
 				label="ID Pelanggan"
-				value={phoneNumber}
-				onChangeText={text => setPhoneNumber(text)}
+				value={custId}
+				onChangeText={text => setCustId(text)}
 			/>
 		</View>
-		<TouchableOpacity style={styles.cekTagihan}>
-			<Text color="primary">CEK TAGIHAN</Text>
-		</TouchableOpacity>
-		<ContainerBody style={{ padding: 0 }}>
-			<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
-				{data.map((item, i) => [
-					<Wrapper justify="space-between" style={{ padding: 10 }}>
-						<Text font="Regular">{item.a}</Text>
-						<Text font="Regular">{item.b}</Text>
-					</Wrapper>,
-					i != data.length - 1 && <Divider />
-				])}
-			</View>
-		</ContainerBody>
-		<Bottom>
-			<Button width="100%" wrapper={{ justify: 'space-between' }}>
-				<Wrapper>
-					<Icon name="shopping-cart" color={ColorsList.whiteColor} />
-					<Text style={{ marginLeft: 5 }} color="white">Belanja 1 Produk</Text>
-				</Wrapper>
-				<Wrapper _width="40%">
-					<Divider color={ColorsList.whiteColor} height="100%" />
-					<Text color="white">Rp. 2.500</Text>
-				</Wrapper>
-			</Button>
-		</Bottom>
+		<View style={styles.simpan}>
+			<Text>Simpan VA ini untuk masuk ke favorit</Text>
+			<SwitchButton
+				// handleChangeToggle={_handleChangeToggle}
+				toggleValue={true}
+			/>
+		</View>
+		{tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
+			:
+			tagihanData ?
+				<ContainerBody style={{ padding: 0, marginBottom: 120 }}>
+					<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+						<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Text font="Regular">Nama Pelanggan</Text>
+							<Text font="Regular">{tagihanData.transaction.nama}</Text>
+						</Wrapper>
+						<Divider />
+						<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Text font="Regular">Id Pelanggan</Text>
+							<Text font="Regular">{tagihanData.transaction.customerID}</Text>
+						</Wrapper>
+						<Divider />
+						<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Text font="Regular">Jumlah Tagihan</Text>
+							<Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
+						</Wrapper>
+						<Divider />
+						<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Text font="Regular">Denda</Text>
+							<Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
+						</Wrapper>
+						<Divider />
+						<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Text font="Regular">Admin</Text>
+							<Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
+						</Wrapper>
+						<Divider />
+						<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Text font="Regular">Total Tagihan</Text>
+							<Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
+						</Wrapper>
+					</View>
+				</ContainerBody>
+				: null}
+		<BottomVertical>
+			<Button onPress={_cekTagihan} color="white" width="100%">
+				CEK TAGIHAN
+            </Button>
+			<Button style={{ marginTop: 5 }} onPress={_onPressSimpan} width="100%">
+				SIMPAN
+            </Button>
+		</BottomVertical>
 	</Container >
 }
 export default ListrikPrabayar

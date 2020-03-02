@@ -15,14 +15,46 @@ import { Bottom } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Modal } from 'src/components/ModalContent/Popups';
 import SearchInput from 'src/components/Input/SearchInput';
+import { getProductPulsa } from 'src/utils/api/ppob/pulsa_api';
+import { convertRupiah } from 'src/utils/authhelper';
+import { useDispatch } from 'react-redux';
+import { AddPPOBToCart } from 'src/redux/actions/actionsPPOB';
 
 const PpobPulsa = ({ navigation }) => {
+	//Initialize dispatch
+	const dispatch = useDispatch()
+
+	//Phone number state
 	const [phoneNumber, setPhoneNumber] = useState()
 	const [selected, setSelected] = useState()
+	//Product state
+	const [data, setData] = useState()
+
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(index)
+		const data = { type: "pulsa", customerID: phoneNumber, productID: item.code, price: item.price, productName: item.name }
+		dispatch(AddPPOBToCart(data))
+		navigation.goBack()
 	}
 	const [modal, setModal] = useState(false)
+
+	//Function onchange phone number
+	const _onChangePhoneNum = async (text) => {
+		setPhoneNumber(text)
+		let x = {
+			phone_number: text,
+			type: "pulsa"
+		}
+		let res = await getProductPulsa(x)
+		if (res.status == 200) {
+			setSelected()
+			if (res.data.length == 0) {
+				setData()
+			} else {
+				setData(res.data)
+			}
+		}
+	}
 	return <Container header={{
 		title: "Pulsa",
 		image: require('src/assets/icons/phonebook.png'),
@@ -50,47 +82,26 @@ const PpobPulsa = ({ navigation }) => {
 				<MDInput _width="80%"
 					label="No. Handphone"
 					value={phoneNumber}
-					onChangeText={text => setPhoneNumber(text)}
+					onChangeText={_onChangePhoneNum}
+					keyboardType="phone-pad"
 				/>
-				<Image style={{ borderWidth: 1, borderColor: ColorsList.greyAuthHard }} source={require('src/assets/icons/phone.png')} size={50} />
-			</Wrapper>
-			<Divider />
-			<Wrapper justify="space-between">
-				<Button _width="49%" color="link" onPress={() => { }}>
-					<Image style={{ marginRight: 5 }} source={require('src/assets/icons/phone.png')} size={15} />
-					<Text>Nomor Saya</Text>
-				</Button>
-				<Divider />
-				<Button _width="49%" color="link">
-					<Image style={{ marginRight: 5 }} source={require('src/assets/icons/contact.png')} size={15} />
-					<Text>Kontak</Text>
-				</Button>
+				<Image style={{ borderWidth: 1, borderColor: ColorsList.greyAuthHard }} source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={50} />
 			</Wrapper>
 		</View>
 		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
+			columnWrapperStyle={{ justifyContent: 'space-between', }}
 			showsVerticalScrollIndicator={false}
-			data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+			data={data ? data.products : []}
 			renderItem={({ item, index }) =>
 				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, index === selected && styles.pulsaWrapperActive]}>
-					<Text style={styles.pulsaComp}>Reguler</Text>
-					<Text color="primary" size={20} style={styles.pulsaComp}>Rp. 5.000</Text>
-					<Divider />
-					<Text style={styles.pulsaComp}>Harga: Rp. 5.925</Text>
+					<Text style={styles.pulsaComp}>{item.type}</Text>
+					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
+					<View style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
+						<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
+					</View>
 				</TouchableOpacity>
 			}
 		/>
-		<Bottom>
-			<Button width="100%" wrapper={{ justify: 'space-between' }}>
-				<Wrapper>
-					<Icon name="shopping-cart" color={ColorsList.whiteColor} />
-					<Text style={{ marginLeft: 5 }} color="white">Belanja 1 Produk</Text>
-				</Wrapper>
-				<Wrapper _width="40%">
-					<Divider color={ColorsList.whiteColor} height="100%" />
-					<Text color="white">Rp. 2.500</Text>
-				</Wrapper>
-			</Button>
-		</Bottom>
 	</Container>
 }
 export default PpobPulsa

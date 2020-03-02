@@ -6,7 +6,7 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, TouchableOpacity, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
@@ -17,7 +17,7 @@ import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { FloatingInput } from 'src/components/Input/InputComp';
-import { getPDAMProductList, checkTagihan } from 'src/utils/api/ppob/pdam_api';
+import { getPDAMProductList, checkTagihanPDAM } from 'src/utils/api/ppob/pdam_api';
 import { convertRupiah } from 'src/utils/authhelper';
 import { useDispatch } from 'react-redux';
 import { AddPPOBToCart } from 'src/redux/actions/actionsPPOB';
@@ -27,11 +27,13 @@ import SwitchButton from 'src/components/Button/SwitchButton';
 const PDAM = ({ navigation }) => {
     const dispatch = useDispatch()
 
+    const [modal, setModal] = useState(false)
     const [idPelanggan, setIdPelanggan] = useState('000790922')
     const [search, setSearch] = useState('')
     const [selected, setSelected] = useState({ name: "pdam palyja test", code: 400441 })
     const [productData, setProductData] = useState([])
 
+    const [tagihanLoading, setTagihanLoading] = useState(false)
     const [tagihanData, setTagihanData] = useState()
 
     useEffect(() => {
@@ -48,11 +50,13 @@ const PDAM = ({ navigation }) => {
             alert("Harap pilih PDAM")
         }
         else {
+            setTagihanLoading(true)
             const data = {
                 productID: selected.code,
                 customerID: idPelanggan
             }
-            const res = await checkTagihan(data)
+            const res = await checkTagihanPDAM(data)
+            setTagihanLoading(false)
             if (res.status == 400) {
                 alert(res.data.errors.msg)
             } else {
@@ -63,14 +67,13 @@ const PDAM = ({ navigation }) => {
 
     const _onPressSimpan = async () => {
         if (tagihanData) {
-            const data = { customerID: tagihanData.customerID, productID: tagihanData.productID, price: tagihanData.data.total, productName: selected.name }
+            const data = {type : "pdam", customerID: tagihanData.customerID, productID: tagihanData.productID, price: tagihanData.data.total, productName: selected.name }
             dispatch(AddPPOBToCart(data))
             navigation.goBack()
         } else {
             alert("Harap cek tagihan terlebih dahulu")
         }
     }
-    const [modal, setModal] = useState(false)
     return <Container header={{
         title: "PDAM",
         image: require('src/assets/icons/phonebook.png'),
@@ -124,41 +127,43 @@ const PDAM = ({ navigation }) => {
                 toggleValue={true}
             />
         </View>
-        {tagihanData ?
-            <ContainerBody style={{ padding: 0 }}>
-                <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
-                    <Wrapper justify="space-between" style={{ padding: 10 }}>
-                        <Text font="Regular">Nama Pelanggan</Text>
-                        <Text font="Regular">{tagihanData.data.nama}</Text>
-                    </Wrapper>
-                    <Divider />
-                    <Wrapper justify="space-between" style={{ padding: 10 }}>
-                        <Text font="Regular">Id Pelanggan</Text>
-                        <Text font="Regular">{tagihanData.customerID}</Text>
-                    </Wrapper>
-                    <Divider />
-                    <Wrapper justify="space-between" style={{ padding: 10 }}>
-                        <Text font="Regular">Jumlah Tagihan</Text>
-                        <Text font="Regular">{convertRupiah(tagihanData.data.tagihan)}</Text>
-                    </Wrapper>
-                    <Divider />
-                    <Wrapper justify="space-between" style={{ padding: 10 }}>
-                        <Text font="Regular">Denda</Text>
-                        <Text font="Regular">{convertRupiah(tagihanData.data.denda)}</Text>
-                    </Wrapper>
-                    <Divider />
-                    <Wrapper justify="space-between" style={{ padding: 10 }}>
-                        <Text font="Regular">Admin</Text>
-                        <Text font="Regular">{convertRupiah(tagihanData.data.admin)}</Text>
-                    </Wrapper>
-                    <Divider />
-                    <Wrapper justify="space-between" style={{ padding: 10 }}>
-                        <Text font="Regular">Total Tagihan</Text>
-                        <Text font="Regular">{convertRupiah(tagihanData.data.total)}</Text>
-                    </Wrapper>
-                </View>
-            </ContainerBody>
-            : null}
+        {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
+            :
+            tagihanData ?
+                <ContainerBody style={{ padding: 0 }}>
+                    <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Nama Pelanggan</Text>
+                            <Text font="Regular">{tagihanData.data.nama}</Text>
+                        </Wrapper>
+                        <Divider />
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Id Pelanggan</Text>
+                            <Text font="Regular">{tagihanData.customerID}</Text>
+                        </Wrapper>
+                        <Divider />
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Jumlah Tagihan</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.data.tagihan)}</Text>
+                        </Wrapper>
+                        <Divider />
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Denda</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.data.denda)}</Text>
+                        </Wrapper>
+                        <Divider />
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Admin</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.data.admin)}</Text>
+                        </Wrapper>
+                        <Divider />
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Total Tagihan</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.data.total)}</Text>
+                        </Wrapper>
+                    </View>
+                </ContainerBody>
+                : null}
         <BottomVertical>
             <Button onPress={_cekTagihan} color="white" width="100%">
                 CEK TAGIHAN

@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
 		backgroundColor: ColorsList.whiteColor
 	},
 	listPulsa: {
-		padding: 10,
-		marginBottom : 70
+		margin : 10,
 	},
 	pulsaWrapper: {
-		flex: 1,
+		justifyContent : "space-between",
+		width : "47%",
 		borderRadius: 5,
 		borderWidth: 1,
 		borderColor: ColorsList.whiteColor,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		borderColor: ColorsList.primary,
 	},
 	pulsaComp: {
-		...$Margin(5, 10)
+		...$Margin(3, 10)
 	}
 })
 export default styles
