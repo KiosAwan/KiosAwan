@@ -33,3 +33,20 @@ export const checkListrikToken = async (data) => {
         return (err.response.data)
     }
 }
+
+// function for pay tagihan listrik
+export const payTagihanListrik = async (data) => {
+    const userToken = await getUserToken()
+    const userId = await getUserId()
+    try {
+        const res = await axios.post(`${DEV_URL}/user/${userId}/service/ppob/pln_postpaid/payment`,
+            data,
+            {
+                headers: { "authorization": userToken }
+            }
+        )
+        return res.data
+    } catch (err) {
+        return (err.response.data)
+    }
+}

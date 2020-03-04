@@ -17,25 +17,30 @@ import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { FloatingInput } from 'src/components/Input/InputComp';
-import { getPDAMProductList, checkTagihanPDAM } from 'src/utils/api/ppob/pdam_api';
+import { getPDAMProductList, checkTagihanPDAM, payTagihanPDAM } from 'src/utils/api/ppob/pdam_api';
 import { convertRupiah } from 'src/utils/authhelper';
 import { useDispatch } from 'react-redux';
-import { AddPPOBToCart } from 'src/redux/actions/actionsPPOB';
+import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
 
 const PDAM = ({ navigation }) => {
     const dispatch = useDispatch()
+    //Reducer for product data
+    const Product = useSelector(state => state.Product)
 
     const [modal, setModal] = useState(false)
-    const [idPelanggan, setIdPelanggan] = useState('000790922')
+    const [idPelanggan, setIdPelanggan] = useState('000537789')
     const [search, setSearch] = useState('')
-    const [selected, setSelected] = useState({ name: "pdam palyja test", code: 400441 })
+    const [selected, setSelected] = useState({ name: "PDAM Palyja test", code: 400441 })
+
     const [productData, setProductData] = useState([])
 
     const [tagihanLoading, setTagihanLoading] = useState(false)
     const [tagihanData, setTagihanData] = useState()
 
+
+    const [payLoading, setPayLoading] = useState(false)
     useEffect(() => {
         _getProductList()
     }, [[]])
@@ -58,28 +63,53 @@ const PDAM = ({ navigation }) => {
             const res = await checkTagihanPDAM(data)
             setTagihanLoading(false)
             if (res.status == 400) {
-                alert(res.data.errors.msg)
+                alert(res.data.errors.msg.trim())
             } else {
                 setTagihanData(res.data)
             }
         }
     }
 
-    const _onPressSimpan = async () => {
+    // const _onPressSimpan = async () => {
+    //     if (tagihanData) {
+    //         const data = { type: "pdam", customerID: tagihanData.customerID, productID: tagihanData.productID, price: tagihanData.data.total, productName: selected.name }
+    //         dispatch(AddPPOBToCart(data))
+    //         navigation.goBack()
+    //     } else {
+    //         alert("Harap cek tagihan terlebih dahulu")
+    //     }
+    // }
+
+    const _onPressBayar = async () => {
         if (tagihanData) {
-            const data = {type : "pdam", customerID: tagihanData.customerID, productID: tagihanData.productID, price: tagihanData.data.total, productName: selected.name }
-            dispatch(AddPPOBToCart(data))
-            navigation.goBack()
+            setPayLoading(true)
+            const data = {
+                customerID: tagihanData.transaction.customerID,
+                productID: tagihanData.transaction.productID,
+                id_multi: Product.id_multi
+            }
+            const res = await payTagihanPDAM(data)
+            setPayLoading(false)
+            if (res.status == 200) {
+                const data = { type: "pdam", customerID: res.data.customerID, price: parseInt(res.data.data.total), productName: selected.name }
+                dispatch(AddPPOBToCart(data))
+                // dispatch(SetIdMultiCart(res.data.id_multi))
+                navigation.goBack()
+                // navigation.navigate("Status", {params : res.data})
+            } else if (res.status == 400) {
+                alert(res.data.errors.msg)
+            }
         } else {
             alert("Harap cek tagihan terlebih dahulu")
         }
     }
     return <Container header={{
         title: "PDAM",
-        image: require('src/assets/icons/phonebook.png'),
-        onPressIcon: () => setModal(true),
+        // image: require('src/assets/icons/phonebook.png'),
+        // onPressIcon: () => setModal(true),
         onPressBack: () => navigation.goBack(),
     }}>
+        <AwanPopup.Loading visible={payLoading} />
         <Modal backdropDismiss={() => setModal(false)} visible={modal}>
             <View>
                 <Text size={17} align="center">Nomor Pelanggan</Text>
@@ -109,7 +139,7 @@ const PDAM = ({ navigation }) => {
                         <Divider />
                     </View>
                 }
-                value={selected ? selected.name : null}
+                value={selected ? selected.name : ""}
                 handleChangePicker={(item) => setSelected(item)}
                 renderItem={(item) => (<Text>{item.name}</Text>)}>
                 <Text>Data tidak ditemukan</Text>
@@ -134,32 +164,32 @@ const PDAM = ({ navigation }) => {
                     <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Nama Pelanggan</Text>
-                            <Text font="Regular">{tagihanData.data.nama}</Text>
+                            <Text font="Regular">{tagihanData.transaction.nama}</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Id Pelanggan</Text>
-                            <Text font="Regular">{tagihanData.customerID}</Text>
+                            <Text font="Regular">{tagihanData.transaction.customerID}</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Jumlah Tagihan</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.data.tagihan)}</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Denda</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.data.denda)}</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Admin</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.data.admin)}</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Total Tagihan</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.data.total)}</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
                         </Wrapper>
                     </View>
                 </ContainerBody>
@@ -168,8 +198,8 @@ const PDAM = ({ navigation }) => {
             <Button onPress={_cekTagihan} color="white" width="100%">
                 CEK TAGIHAN
             </Button>
-            <Button style={{ marginTop: 5 }} onPress={_onPressSimpan} width="100%">
-                SIMPAN
+            <Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
+                BAYAR
             </Button>
         </BottomVertical>
     </Container >
