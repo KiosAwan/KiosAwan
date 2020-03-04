@@ -7,6 +7,7 @@ const initialState = {
     discount_transaction: 0,
     belanja: [],
     ppob_cart: [],
+    id_multi: 0,
     jumlahitem: 0,
     cash_payment: 0,
     due_debt_date: null,
@@ -150,6 +151,14 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 jumlahitem: state.jumlahitem - temp_rmvitem_quantity,
                 belanja: notRemoveBelanja
             }
+        // Reducer logic for setting id_multi cart
+        case "SET_ID_MULTI":
+            let id_multi_payload = actions.payload
+            return {
+                ...state,
+                id_multi: id_multi_payload
+            }
+        //Reset the reducer to initial value
         case "REMOVE_ALL":
             return {
                 ...state,
@@ -167,6 +176,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 catatan_pembelian: '',
                 discount_on: false,
                 ppob_cart: [],
+                id_multi: 0,
                 note: ''
             }
         case "ADD_PAYMENT_CASH":
@@ -309,7 +319,6 @@ const reducerStoreProduct = (state = initialState, actions) => {
         case "ADD_PRODUCT_PPOB":
             let ppob_item = actions.payload
             ppob_item.quantity = 1
-            console.debug("PPOB")
             state.jumlahitem++
             let c = 0
             if (state.discount_total_persen > 0) {

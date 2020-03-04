@@ -18,6 +18,7 @@ import { Button } from 'src/components/Button/Button';
 import { ImageAuto, Image } from 'src/components/CustomImage';
 import { Bottom } from 'src/components/View/Bottom';
 import Divider from 'src/components/Row/Divider';
+import { RemovePPOBFromCart } from 'src/redux/actions/actionsPPOB';
 
 const Cart = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -46,8 +47,16 @@ const Cart = ({ navigation }) => {
 	}
 	const _deletePesanan = pesanan => {
 		setHapusPesananOpen(false)
-		dispatch(RemoveCartProduct(pesanan))
-		if (Product.belanja.length <= 1) navigation.goBack()
+		//Condition if item is electronic product
+		if (pesanan.productID) {
+			//Action for removing electronic product from cart
+			dispatch(RemovePPOBFromCart(pesanan))
+		} else {
+			//Action for removing cashier product from cart
+			dispatch(RemoveCartProduct(pesanan))
+		}
+		//Condition if the cart is empty, the user will be redirect to previous screen
+		if (Product.jumlahitem <= 1) navigation.goBack()
 	}
 
 	const _handleChangeToggle = () => {
@@ -213,16 +222,16 @@ const Cart = ({ navigation }) => {
 					Product.ppob_cart.map((data, i) => {
 						return <View>
 							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
-								<View _width="70%">
+								<View _width="90%">
 									<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.productName.toUpperCase()}</Text>
 									<Text style={{ color: ColorsList.greyFont }}>{data.customerID}</Text>
 								</View>
-								<View _width="30%" style={{ alignItems: 'flex-end' }}>
+								{/* <View _width="30%" style={{ alignItems: 'flex-end' }}>
 									<TouchableOpacity activeOpacity={.5} onPress={() => _prompDeletePesanan(i, data)} style={{ width: 30, height: 30 }}>
 										<ImageAuto source={require('src/assets/icons/trash-primary.png')} />
 									</TouchableOpacity>
 									<Text>{convertRupiah(data.price)}</Text>
-								</View>
+								</View> */}
 							</Wrapper>
 							<Divider size={2} color={ColorsList.authBackground} />
 						</View>
@@ -246,7 +255,7 @@ const Cart = ({ navigation }) => {
 					<Text style={{ padding: 10 }} font="Bold">Total</Text>
 					<Text style={{ padding: 10 }} font="Bold">{convertRupiah(Product.total - Product.total_diskon)}</Text>
 				</Wrapper>
-				<Wrapper justify="space-between" style={{ marginVertical: 20, marginHorizontal : 10 }}>
+				<Wrapper justify="space-between" style={{ marginVertical: 20, marginHorizontal: 10 }}>
 					<Text size={12} color="primary" onPress={() => navigation.navigate('/cashier')}>TAMBAH PRODUK</Text>
 					<Text size={12} color="primary" onPress={() => _emptyCart()}>HAPUS PESANAN</Text>
 				</Wrapper>

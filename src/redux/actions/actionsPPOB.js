@@ -7,9 +7,9 @@ export const AddPPOBToCart = (data) => {
     }
 }
 
-export const RemovePPOBFromCart = (item) => {
+export const SetIdMultiCart = (item) => {
     return {
-        type: "REMOVE_PPOB_ITEM",
+        type: "SET_ID_MULTI",
         payload: item
     }
 }

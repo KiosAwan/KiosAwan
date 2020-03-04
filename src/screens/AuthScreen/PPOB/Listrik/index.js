@@ -15,8 +15,8 @@ const PpobListrik = ({ navigation }) => {
 	const [modal, setModal] = useState(false)
 	return <Container header={{
 		title: "Listrik",
-		image: require('src/assets/icons/phonebook.png'),
-		onPressIcon: () => setModal(true),
+		// image: require('src/assets/icons/phonebook.png'),
+		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
 		<Modal backdropDismiss={() => setModal(false)} visible={modal}>

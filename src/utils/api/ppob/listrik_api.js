@@ -2,26 +2,11 @@ import { PPOB_URL, DEV_URL } from "src/config"
 import axios from 'axios'
 import { getUserToken, getUserId } from "src/utils/authhelper"
 
-// function for get pdam product list
-export const getPDAMProductList = async () => {
+// function for check tagihan listrik postpaid
+export const checkTagihanListrik = async (data) => {
     const userToken = await getUserToken()
     try {
-        const res = await axios.get(`${PPOB_URL}/service/ppob/pdam/product`,
-            {
-                headers: { "authorization": userToken }
-            }
-        )
-        return res.data
-    } catch (err) {
-        return (err.response.data)
-    }
-}
-
-// function for check user bill
-export const checkTagihanPDAM = async (data) => {
-    const userToken = await getUserToken()
-    try {
-        const res = await axios.post(`${DEV_URL}/service/ppob/pdam/inquiry`,
+        const res = await axios.post(`${DEV_URL}/service/ppob/pln_postpaid/inquiry`,
             data,
             {
                 headers: { "authorization": userToken }
@@ -33,12 +18,28 @@ export const checkTagihanPDAM = async (data) => {
     }
 }
 
-// function for pay pdam bill
-export const payTagihanPDAM = async (data) => {
+// function for check nomor listrik token
+export const checkListrikToken = async (data) => {
+    const userToken = await getUserToken()
+    try {
+        const res = await axios.post(`${DEV_URL}/service/ppob/pln_prepaid/inquiry`,
+            data,
+            {
+                headers: { "authorization": userToken }
+            }
+        )
+        return res.data
+    } catch (err) {
+        return (err.response.data)
+    }
+}
+
+// function for pay tagihan listrik
+export const payTagihanListrik = async (data) => {
     const userToken = await getUserToken()
     const userId = await getUserId()
     try {
-        const res = await axios.post(`${DEV_URL}/user/${userId}/service/ppob/pdam/payment`,
+        const res = await axios.post(`${DEV_URL}/user/${userId}/service/ppob/pln_postpaid/payment`,
             data,
             {
                 headers: { "authorization": userToken }
