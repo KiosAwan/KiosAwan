@@ -77,7 +77,7 @@ const PDAM = ({ navigation }) => {
             const res = await checkTagihanPDAM(data)
             setTagihanLoading(false)
             if (res.status == 400) {
-                setAlertMessage(res.data.errors.msg.trim())
+                setAlertMessage("Data tidak ditemukan")
                 setAlert(true)
             } else {
                 setTagihanData(res.data)
