@@ -13,6 +13,8 @@ import { Button } from '../Button/Button';
 import { Text } from '../Text/CustomText';
 import SearchInput from '../Input/SearchInput';
 import MDInput from '../Input/MDInput';
+import { Modal as AwanModal } from '../ModalContent/Popups';
+import { $Padding, $Border } from 'src/utils/stylehelper';
 
 const height = Dimensions.get('window').height
 
@@ -303,41 +305,38 @@ export const MyModal = (props) => {
 export const SelectBoxModal = (props) => {
 	const [activeColor, setActiveColor] = useState('grey');
 	const [modalVisible, setModalVisible] = useState(false);
-	return (
-		<View>
-			<MyModal visible={modalVisible} backdropDismiss={() => setModalVisible(false)} body={[
-				props.header ?
-					<View style={{ padding: 10 }}>
-						{props.header}
-					</View> : null,
-				<ScrollView persistentScrollbar style={{ height: '30%' }}>{
-					props.data.length > 0 ? props.data.map((item) => {
-						return (
-							<CardItem style={styles.modalCardItem} button onPress={() => {
-								props.handleChangePicker(item)
-								props.closeOnSelect ? setModalVisible(false) : null
-							}}>
-								{props.renderItem(item)}
-							</CardItem>
-						)
-					}) : <CardItem style={styles.modalCardItem}>
-							{props.children}
-						</CardItem>
-				}
-				</ScrollView>,
-				props.footer ?
-					<CardItem footer>
-						{props.footer}
-					</CardItem> : null
-			]} />
-			<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, props.style]}>
-				<FloatingInput onPress={() => setModalVisible(true)} borderTransparent label={props.label} _width="90%">
-					<TextInput style={{ color: ColorsList.greySoft }} value={props.value} editable={false} />
-					<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
-				</FloatingInput>
-			</TouchableOpacity>
-		</View >
-	);
+	return <View>
+		<AwanModal visible={modalVisible}
+			backdropDismiss={() => setModalVisible(false)}
+			style={{
+				width: '90%',
+				height: 500,
+				padding: 10
+			}}>
+			{props.header}
+			<ScrollView persistentScrollbar style={{ height: '30%' }}>{
+				props.data.length > 0 ? props.data.map((item) => {
+					return <CardItem style={styles.modalCardItem} button onPress={() => {
+						props.handleChangePicker(item)
+						props.closeOnSelect ? setModalVisible(false) : null
+					}}>
+						{props.renderItem(item)}
+					</CardItem>
+				}) : props.children
+			}
+			</ScrollView>
+			{props.footer}
+		</AwanModal>
+		<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, props.style, {
+			marginTop: 5
+		}]}>
+			<Text font="Regular" style={{ color: props.value ? ColorsList.greyFont : ColorsList.transparent }}>{props.label}</Text>
+			<Wrapper justify="space-between" style={$Border(ColorsList.secondary, 0, 0, .5)}>
+				<Text font="Regular" size={13}>{props.value}</Text>
+				<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
+			</Wrapper>
+		</TouchableOpacity>
+	</View>
 }
 
 const styles = StyleSheet.create({

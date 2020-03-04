@@ -27,8 +27,8 @@ import { Wrapper } from 'src/components/View/Wrapper'
 import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
 import { convertRupiah } from 'src/utils/authhelper'
 import { $Padding } from 'src/utils/stylehelper'
-
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -41,9 +41,7 @@ const Home = ({ navigation }) => {
 	useEffect(() => {
 		_checkService()
 		_getNewsData()
-		console.debug(User.data.saldo)
 	}, [])
-
 	const _getNewsData = async () => {
 		const res = await Axios.get('https://kiosawan.com/wp-json/wp/v2/posts')
 		setNews(res.data)
@@ -162,165 +160,161 @@ const Home = ({ navigation }) => {
 			_setAlert(true)
 		}
 	}
-	return (
-		<ParallaxScrollView
-			refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
-			showsVerticalScrollIndicator={false}
-			backgroundColor={ColorsList.primary}
-			contentBackgroundColor={ColorsList.authBackground}
-			parallaxHeaderHeight={170}
-			stickyHeaderHeight={55}
-			renderStickyHeader={() => (
-				<HomeHeader height={55} key="parallax-header" center={
-					<View style={{ alignItems: 'center' }}>
-						<Text color="whiteColor" {..._nameStore()} />
-						<Wrapper>
-							<Icon color="white" name="map-marker-alt" />
-							<Text color="whiteColor"> {_addressStore()}</Text>
-						</Wrapper>
-					</View>
-				} onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
-			)}
-			renderForeground={() => (
-				<HomeHeader center={
-					<View style={{ alignItems: 'center' }}>
-						<Text color="whiteColor" {..._nameStore()} />
-						<Wrapper>
-							<Icon color="white" name="map-marker-alt" />
-							<Text color="whiteColor"> {_addressStore()}</Text>
-						</Wrapper>
-					</View>
-				} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
-					<View style={{ borderRadius: 5, marginHorizontal: 10, backgroundColor: ColorsList.whiteColor }}>
-						<Wrapper justify="space-between" style={$Padding(10, 15)}>
-							<Wrapper justify="flex-start">
-								<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
-								<Text>Saldo: {convertRupiah(User.data.saldo || 0)}</Text>
-							</Wrapper>
-							<Wrapper justify="flex-end">
-								<Button color="link">
-									<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
-								</Button>
-								<Button onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
-							</Wrapper>
-						</Wrapper>
-						<Divider />
-						<Wrapper justify="space-around">
-							<Button color="link" onPress={_onPressRiwayat}>
-								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
-								<Text>Riwayat</Text>
-							</Button>
-							<Divider />
-							<Button color="link">
-								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
-								<Text>Kupon</Text>
-							</Button>
-							<Divider />
-							<Button color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
-								<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
-								<Text>Favorit</Text>
-							</Button>
-						</Wrapper>
-					</View>
-				</HomeHeader>
-			)}>
-			<View
-				style={styles.childContainer}>
-				<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
-					<View></View>
-					<Button width='30%' onPress={_completeProfile}>OK</Button>
-				</AwanPopup.Title>
-				<View style={{ paddingVertical: 10 }}>
-					{
-						maintanance ?
-							<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
-								<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
-								<TextTicker
-									style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
-									duration={20000}
-									loop
-									bounce
-									marqueeDelay={500}
-								>
-									{message}
-								</TextTicker>
-							</View>
-							: null
-					}
-					{
-						User.store ? User.data.status == 0 ?
-							<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
-								<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
-									<Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Verifikasi Email Anda Sekarang!</Text>
-								</View>
-							</TouchableOpacity>
-							: null :
-							<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
-								<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
-									<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Lengkapi Profil Anda Sekarang!</Text>
-									<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, textDecorationLine: 'underline' }}>Klik disini</Text>
-								</View>
-							</TouchableOpacity>
-					}
-
-					<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
-						<Wrapper justify="space-between">
-							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
-							<View _width="75%">
-								<Text font="ExtraBold" color="primary">KASIR</Text>
-								<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
-							</View>
-						</Wrapper>
-					</Button>
-					<Button onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
-						<Wrapper justify="space-between">
-							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
-							<View _width="75%">
-								<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
-								<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
-							</View>
-						</Wrapper>
-					</Button>
-					<Button onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
-						<Wrapper justify="space-between">
-							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/restock.png")} />
-							<View _width="75%">
-								<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
-								<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
-							</View>
-						</Wrapper>
-					</Button>
+	return <ParallaxScrollView
+		refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
+		showsVerticalScrollIndicator={false}
+		backgroundColor={ColorsList.primary}
+		contentBackgroundColor={ColorsList.authBackground}
+		parallaxHeaderHeight={170}
+		stickyHeaderHeight={55}
+		renderStickyHeader={() => (
+			<HomeHeader height={55} key="parallax-header" center={
+				<View style={{ alignItems: 'center' }}>
+					<Text color="whiteColor" {..._nameStore()} />
+					<Wrapper>
+						<Icon color="white" name="map-marker-alt" />
+						<Text color="whiteColor"> {_addressStore()}</Text>
+					</Wrapper>
 				</View>
+			} onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
+		)}
+		renderForeground={() => <HomeHeader center={
+			<View style={{ alignItems: 'center' }}>
+				<Text color="whiteColor" {..._nameStore()} />
+				<Wrapper>
+					<Icon color="white" name="map-marker-alt" />
+					<Text color="whiteColor"> {_addressStore()}</Text>
+				</Wrapper>
 			</View>
-			<ScrollView
+		} onPressMenu={_handlePressDrawer} onPressBell={() => { }}>
+			<View style={{ borderRadius: 5, marginHorizontal: 10, backgroundColor: ColorsList.whiteColor }}>
+				<Wrapper justify="space-between" style={$Padding(10, 15)}>
+					<Wrapper justify="flex-start">
+						<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
+						<Text>Saldo: {convertRupiah(User.data.saldo || 0)}</Text>
+					</Wrapper>
+					<Wrapper justify="flex-end">
+						<Button color="link">
+							<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
+						</Button>
+						<Button onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
+					</Wrapper>
+				</Wrapper>
+				<Divider />
+				<Wrapper justify="space-around">
+					<Button color="link" onPress={_onPressRiwayat}>
+						<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
+						<Text>Riwayat</Text>
+					</Button>
+					<Divider />
+					<Button color="link">
+						<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
+						<Text>Kupon</Text>
+					</Button>
+					<Divider />
+					<Button color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
+						<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
+						<Text>Favorit</Text>
+					</Button>
+				</Wrapper>
+			</View>
+		</HomeHeader>
+		}>
+		<View
+			style={styles.childContainer}>
+			<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
+				<View></View>
+				<Button width='30%' onPress={_completeProfile}>OK</Button>
+			</AwanPopup.Title>
+			<View style={{ paddingVertical: 10 }}>
+				{
+					maintanance &&
+					<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
+						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
+						<TextTicker
+							style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+							duration={20000}
+							loop
+							bounce
+							marqueeDelay={500}
+						>
+							{message}
+						</TextTicker>
+					</View>
+				}
+				{
+					User.store ?
+						User.data.status == 0 &&
+						<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
+							<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
+								<Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+								<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Verifikasi Email Anda Sekarang!</Text>
+							</View>
+						</TouchableOpacity>
+						:
+						<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
+							<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
+								<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+								<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Lengkapi Profil Anda Sekarang!</Text>
+								<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, textDecorationLine: 'underline' }}>Klik disini</Text>
+							</View>
+						</TouchableOpacity>
+				}
+				<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+					<Wrapper justify="space-between">
+						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
+						<View _width="75%">
+							<Text font="ExtraBold" color="primary">KASIR</Text>
+							<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
+						</View>
+					</Wrapper>
+				</Button>
+				<Button onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+					<Wrapper justify="space-between">
+						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
+						<View _width="75%">
+							<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
+							<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
+						</View>
+					</Wrapper>
+				</Button>
+				<Button onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+					<Wrapper justify="space-between">
+						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/restock.png")} />
+						<View _width="75%">
+							<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
+							<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
+						</View>
+					</Wrapper>
+				</Button>
+			</View>
+		</View>
+		<ScrollView
+			horizontal={true}
+			showsHorizontalScrollIndicator={false}>
+			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
+			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_2.png')} />
+		</ScrollView>
+		<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
+		{newsLoading ?
+			<NewsCardPlaceholder />
+			:
+			<FlatList
+				data={news}
 				horizontal={true}
-				showsHorizontalScrollIndicator={false}>
-				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
-				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_2.png')} />
-			</ScrollView>
-			<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
-			{newsLoading ?
-				<NewsCardPlaceholder />
-				:
-				<FlatList
-					data={news}
-					horizontal={true}
-					showsHorizontalScrollIndicator={false}
-					renderItem={({ item, index }) => (
-						<CardTextImage
-							style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
-							onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
-							image={item.jetpack_featured_media_url}
-							info={item.title.rendered}
-						/>
-					)}
-					keyExtractor={(item, index) => index.toString()}
-				/>
-			}
-		</ParallaxScrollView>
-	)
+				showsHorizontalScrollIndicator={false}
+				renderItem={({ item, index }) => (
+					<CardTextImage
+						style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
+						onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
+						image={item.jetpack_featured_media_url}
+						info={item.title.rendered}
+					/>
+				)}
+				keyExtractor={(item, index) => index.toString()}
+			/>
+		}
+	</ParallaxScrollView>
 }
 
 export default Home

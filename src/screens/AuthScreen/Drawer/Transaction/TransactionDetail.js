@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, BackHandler } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
@@ -16,34 +16,42 @@ import Screenshot, { Config } from 'src/utils/screenshot';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { $BorderRadius } from 'src/utils/stylehelper';
+import { $BorderRadius, $Border, $Padding, $Margin } from 'src/utils/stylehelper';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
 	const [data, setData] = useState()
 	const [dataLoading, SetDataLoading] = useState(true)
 	const [back, setBack] = useState()
-	useEffect(() => {
-		_getData()
-	}, [])
-
 	const _shareBill = async () => {
 		let imgPath = await Screenshot.take(viewShotRef)
 		Screenshot.share({ url: imgPath })
 	}
-
 	const _getData = async () => {
-		const { transactionId } = await navigation.state.params
+		const { transactionId, backState } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
-		setBack(navigation.state.params.backState)
+		setBack(backState)
 		SetDataLoading(false)
+		_backHandler(backState)
 	}
 	const [edgeWidth, setEdgeWidth] = useState(0)
 	const _renderEdge = ({ nativeEvent: { layout } }) => {
 		let width = Math.round(layout.width / 20)
 		setEdgeWidth(width)
 	}
+	const _backHandler = route => {
+		BackHandler.addEventListener('hardwareBackPress', (e) => {
+			if (true) {
+				navigation.navigate(route)
+				BackHandler.removeEventListener('hardwareBackPress')
+				return true
+			}
+		})
+	}
+	useEffect(() => {
+		_getData()
+	}, [])
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader title="Detail Transaksi" onPressBack={() => back ? navigation.navigate(back) : navigation.goBack()} />
@@ -51,7 +59,10 @@ const TransactionDetail = ({ navigation }) => {
 			{dataLoading ? null :
 				<View style={{ padding: 20, flex: 1 }}>
 					<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, marginBottom: data.transaction.status == 3 ? 0 : 90 }}>
-						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ paddingVertical: 10, backgroundColor: ColorsList.authBackground }}>
+						<ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{
+							elevation: 3,
+							paddingVertical: 10, backgroundColor: ColorsList.authBackground
+						}}>
 							<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 								{
 									edgeWidth > 0 ? Array.generateEmpty(edgeWidth).map((i) => <Image key={i} style={{ height: 20, width: 20, resizeMode: 'stretch', marginBottom: -1 }} source={require('src/assets/icons/bill-edge.png')} />) : null
@@ -82,7 +93,7 @@ const TransactionDetail = ({ navigation }) => {
 											title="Jumlah Hutang" content={convertRupiah(data.debt.total)} />
 										<RowOpposite
 											title="Jumlah yang sudah dibayar" content={convertRupiah(data.transaction.amount_payment)} />
-											<RowOpposite
+										<RowOpposite
 											title="Sisa hutang" content={convertRupiah(data.debt.remaining_debt)} />
 										<RowOpposite
 											style={data.transaction.status == 0 ? { color: ColorsList.warning } : null}
@@ -90,45 +101,88 @@ const TransactionDetail = ({ navigation }) => {
 									</View>
 									: null
 								}
-								<View style={{ padding: 10, backgroundColor: ColorsList.greyAuthHard, width: '100%' }}>
-									<Text align="center" size={16}>Daftar Produk</Text>
-								</View>
-								<View style={{ backgroundColor: 'white', marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
+								<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
+									<View name="Daftar Produk">
+										<View style={{ padding: 10, ...$Border(ColorsList.primary, 2, 0) }}>
+											<Text align="center" size={16} color="primary">Daftar Produk</Text>
+										</View>
+										{
+											data.details_item.map((data, i) => {
+												return <Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+													<View>
+														<Text color="primary" size={15}>{data.product}</Text>
+														<Text>{convertRupiah(data.price)} x {data.qty}</Text>
+													</View>
+													<Text _justify="flex-end">{convertRupiah(data.total)}</Text>
+												</Wrapper>
+											})
+										}
+									</View>
+									<View name="Daftar Produk Digital" style={{ display: 'none' }}>
+										<View style={{ padding: 10, ...$Border(ColorsList.primary, 2, 0) }}>
+											<Text align="center" size={16} color="primary">Tagihan dan Isi Ulang</Text>
+										</View>
+										{
+											[1, 2, 3].map((data, i) => {
+												return <View>
+													<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+														<View>
+															<Text color="primary" size={15}>Produk Name</Text>
+															<Text>085712123434</Text>
+														</View>
+														<View style={{ alignItems: 'flex-end' }}>
+															<Text color={data === 1 ? 'success' : (data === 2 ? 'info' : 'danger')}>{data === 1 ? 'Berhasil' : (data === 2 ? 'Proses' : 'Batal')}</Text>
+															<Text>{convertRupiah(100000)}</Text>
+														</View>
+													</Wrapper>
+													{
+														data === 2 && <View style={{ backgroundColor: ColorsList.greyBg, }}>
+															<Wrapper style={[$Padding(15, 10), $Border(ColorsList.borderBg, 0, 0, 1)]} justify="space-between">
+																<Text>Nama Pelanggan</Text>
+																<Text>{convertRupiah(5000)}</Text>
+															</Wrapper>
+															<Wrapper style={[$Padding(15, 10), $Border(ColorsList.borderBg, 0, 0, 1)]} justify="space-between">
+																<Text>Layanan</Text>
+																<Text>Smartfren</Text>
+															</Wrapper>
+															<Wrapper style={[$Padding(15, 10)]} justify="space-between">
+																<Text>Biaya Admin</Text>
+																<Text>{convertRupiah(200)}</Text>
+															</Wrapper>
+														</View>
+													}
+												</View>
+											})
+										}
+									</View>
+									<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+										<Text font="Bold">Subtotal</Text>
+										<Text font="Bold">{convertRupiah(data.transaction.sub_total)}</Text>
+									</Wrapper>
 									{
-										data.details_item.map((data, i) => {
-											return (
-												<WrapperItem key={i} style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
-													<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.product}</Text>,
-													<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price)} x {data.qty}</Text>
-												]} right={[
-													<Text></Text>,
-													<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.total)}</Text>
-												]} />
-											)
-										})
+										data.transaction.discount &&
+										<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+											<Text font="Bold">Diskon</Text>
+											<Text font="Bold">{convertRupiah(data.transaction.discount)}</Text>
+										</Wrapper>
 									}
-									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>Subtotal</Text>,
-									]} right={
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.sub_total)}</Text>
-									} />
-									{data.transaction.discount ?
-										<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
-											<Text style={{ ...FontList.subtitleFontGreyBold }}>Diskon</Text>,
-										]} right={
-											<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(data.transaction.discount)}</Text>
-										} /> : null}
-									{data.transaction.status != 1 ?
-										<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: ColorsList.authBackground }} left={[
-											<Text style={{ ...FontList.subtitleFontGreyBold }}>Pembatalan transaksi</Text>,
-										]} right={
-											<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>{convertRupiah(data.transaction.total_return)}</Text>
-										} /> : null}
-									<WrapperItem style={{ padding: 10, paddingHorizontal: 15 }} left={[
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>Total</Text>,
-									]} right={
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>{data.transaction.status == 1 ? convertRupiah(data.transaction.total_transaction) : convertRupiah(data.transaction.remaining_return)}</Text>
-									} />
+									{
+										data.transaction.status != 1 &&
+										<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+											<Text font="Bold">Pembatalan Transaksi</Text>
+											<Text font="Bold">{convertRupiah(data.transaction.total_return)}</Text>
+										</Wrapper>
+									}
+									<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+										<Text font="Bold">Total</Text>
+										<Text font="Bold">
+											{
+												data.transaction.status == 1 ?
+													convertRupiah(data.transaction.total_transaction) :
+													convertRupiah(data.transaction.remaining_return)
+											}
+										</Text>
+									</Wrapper>
 								</View>
 								<View style={{ alignItems: 'center' }}>
 									<Text align="center">Powered by</Text>

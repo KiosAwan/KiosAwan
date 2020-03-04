@@ -40,20 +40,14 @@ class CheckOut extends React.Component {
 		alertMessage: ''
 	};
 
-	FirstRoute = () => (
-		<CashPayment />
-	)
-	SecondRoute = () => (
-		<NonTunai nonTunai={this.state.nonTunai} pressImage={(id) => {
-			this.setState({ nonTunai: id })
-			if(id > 2){
-				this.props.navigation.navigate("/cashier/check-out/payewallet", {amount : parseInt(this.props.Product.total)-parseInt(this.props.Product.total_diskon)})
-			}
-		}} />
-	)
-	ThirdRoute = () => (
-		<Piutang />
-	);
+	FirstRoute = () => <CashPayment />
+	SecondRoute = () => <NonTunai nonTunai={this.state.nonTunai} pressImage={(id) => {
+		this.setState({ nonTunai: id })
+		if (id > 2) {
+			this.props.navigation.navigate("/cashier/check-out/payewallet", { amount: parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon) })
+		}
+	}} />
+	ThirdRoute = () => <Piutang />
 	_handleBayar = () => {
 		this.setState({ loadingVisible: true })
 		if (this.state.index == 0) {
@@ -100,6 +94,7 @@ class CheckOut extends React.Component {
 			note: Product.note,
 		}
 		const res = await sendNewTransaction(data)
+		const { id_transaction } = res.data
 		this.setState({ loadingVisible: false })
 		if (res.status == 400) {
 			this.setState({ alertMessage: res.data.errors.msg })
@@ -113,7 +108,7 @@ class CheckOut extends React.Component {
 			this.props.AddDiscountRupiah('')
 			this.props.getProduct(this.props.User.store.id_store)
 			this.props.getTransactionList(this.props.User.store.id_store)
-			this.props.navigation.navigate('/cashier/struk', { response: res.data })
+			this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
 		} else {
 			alert(JSON.stringify(res))
 		}
@@ -158,6 +153,7 @@ class CheckOut extends React.Component {
 					discount_transaction: Product.discount_transaction
 				}
 				const res = await sendNewTransaction(data)
+				const { id_transaction } = res.data
 				this.setState({ loadingVisible: false })
 				if (res.status == 400) {
 					this.setState({ alertMessage: res.data.errors.msg })
@@ -166,7 +162,7 @@ class CheckOut extends React.Component {
 					this.props.removeAllCart()
 					this.props.getProduct(this.props.User.store.id_store)
 					this.props.getTransactionList(this.props.User.store.id_store)
-					this.props.navigation.navigate('/cashier/struk', { response: res.data })
+					this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
 				}
 				else {
 					alert(JSON.stringify(res))

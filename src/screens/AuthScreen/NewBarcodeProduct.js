@@ -64,10 +64,10 @@ const NewBarcodeProduct = ({ navigation }) => {
     }
   }
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', (e) => {
+    BackHandler.addEventListener('hardwareBackPress', (e) => {
       if (NewProduct.fromManajemen) {
         navigation.navigate(NewProduct.fromManajemen.back)
-        backHandler.remove()
+        BackHandler.removeEventListener('hardwareBackPress')
         return true
       }
       return false

@@ -11,6 +11,7 @@ export const ColorsList = {
     greyBg: '#f9faf7',
     primary: '#cd0192',
     secondary: '#808080',
+    borderBg:'#cdd3e0',
     text: '#8b8b8b',
     success: '#55c09b',
     successSoft: '#d6f6eb',

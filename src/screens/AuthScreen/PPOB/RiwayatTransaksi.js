@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Image } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { getRiwayatTransaksi } from 'src/redux/actions/actionsRiwayatTransaksi';
@@ -7,40 +7,43 @@ import { getUserToken, getUserId, convertRupiah } from 'src/utils/authhelper';
 import { Text } from 'src/components/Text/CustomText';
 import { ColorsList } from 'src/styles/colors';
 import moment from 'moment';
+import { Wrapper } from 'src/components/View/Wrapper';
+import Container, { Body } from 'src/components/View/Container';
 
 const RiwayatTransaksi = ({ navigation }) => {
-    const dispatch = useDispatch()
-    const RiwayatTransaksi = useSelector(state => state.RiwayatTransaksi)
+	const dispatch = useDispatch()
+	const RiwayatTransaksi = useSelector(state => state.RiwayatTransaksi)
 
-    useEffect(() => {
-        _getRiwayat()
-    }, [])
+	useEffect(() => {
+		_getRiwayat()
+	}, [])
 
-    const _getRiwayat = async () => {
-        const userToken = await getUserToken()
-        const userId = await getUserId()
-        await dispatch(getRiwayatTransaksi(userToken, userId))
-    }
-    return (
-        RiwayatTransaksi.isLoading ? <Text>Loading</Text>
-            :
-            <View style={{ flex: 1 }}>
-                <GlobalHeader title="Riwayat Transaksi" onPressBack={() => navigation.goBack()} />
-                <FlatList
-                    data={RiwayatTransaksi.data}
-                    renderItem={({ item }) => (
-                        <View style={{ padding: 20, borderWidth: 1, borderColor: ColorsList.greyAuthHard }}>
-                            <Text>Nominal : {convertRupiah(item.amount)}</Text>
-                            <Text>Nomer VA : {item.trx_id}</Text>
-                            <Text>Topup Code : {item.topup_code}</Text>
-                            <Text>Metode : {item.payment_channel}</Text>
-                            <Text>Tanggal : {moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
-                        </View>
-                    )}
-                    keyExtractor={(item, i) => i.toString()}
-                />
-            </View>
-    )
+	const _getRiwayat = async () => {
+		const userToken = await getUserToken()
+		const userId = await getUserId()
+		await dispatch(getRiwayatTransaksi(userToken, userId))
+	}
+	return RiwayatTransaksi.isLoading ? <Text>Loading</Text>
+		:
+		<Container>
+			<GlobalHeader title="Riwayat" onPressBack={() => navigation.goBack()} />
+			<Body>
+				<FlatList
+					data={RiwayatTransaksi.data}
+					renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
+						<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={require('src/assets/icons/ppob/pulsa.png')} />
+						<View _width="55%">
+							<Text font="ExtraBold" color="primary">{item.payment_channel}</Text>
+							<Text font="ExtraBold">{item.trx_id}</Text>
+							<Text>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
+						</View>
+						<Text align="right" _justify="flex-end" _width="25%">{convertRupiah(item.amount)}</Text>
+					</Wrapper>
+					}
+					keyExtractor={(item, i) => i.toString()}
+				/>
+			</Body>
+		</Container>
 }
 
 export default RiwayatTransaksi;

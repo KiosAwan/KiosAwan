@@ -5,14 +5,16 @@ import { Button } from '../Button/Button'
 import { Icon } from 'native-base'
 import { Image } from '../CustomImage'
 import { Animated } from 'react-native'
+import { FontName } from 'src/styles/typography'
 
 const MDInput = props => {
 	return <TextField
+		{...props}
 		fontSize={13}
 		tintColor={ColorsList.primary}
 		textColor={ColorsList.text}
 		baseColor={ColorsList.secondary}
-		{...props}
+		style={{ fontFamily: FontName.Regular, ...props.style }}
 	/>
 }
 

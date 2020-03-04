@@ -12,7 +12,7 @@ const Modal = (props) => {
 	const styles = StyleSheet.create({
 		modalBackDrop: { alignItems: 'center', justifyContent: 'center', backgroundColor: props.transparent ? 'transparent' : 'rgba(0,0,0,.5)', width: '100%', height: '100%' },
 		modalView: {
-			...$Padding(5, 0),
+			paddingVertical: 5,
 			backgroundColor: props.transparent ? 'transparent' : ColorsList.whiteColor,
 			maxHeight: '50%',
 			maxWidth: '90%'
