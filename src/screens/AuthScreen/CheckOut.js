@@ -92,6 +92,7 @@ class CheckOut extends React.Component {
 			discount_name: '',
 			discount_transaction: Product.discount_transaction,
 			note: Product.note,
+			id_multi : Product.id_multi
 		}
 		const res = await sendNewTransaction(data)
 		const { id_transaction } = res.data

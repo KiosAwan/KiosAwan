@@ -18,38 +18,52 @@ import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { FloatingInput } from 'src/components/Input/InputComp';
 import { getPDAMProductList, checkTagihanPDAM, payTagihanPDAM } from 'src/utils/api/ppob/pdam_api';
-import { convertRupiah } from 'src/utils/authhelper';
-import { useDispatch } from 'react-redux';
+import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
+import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
+import GlobalEnterPin from '../../GlobalEnterPin';
 
 const PDAM = ({ navigation }) => {
     const dispatch = useDispatch()
     //Reducer for product data
     const Product = useSelector(state => state.Product)
+    //User data
+    const User = useSelector(state => state.User)
 
     const [modal, setModal] = useState(false)
-    const [idPelanggan, setIdPelanggan] = useState('000537789')
+    const [idPelanggan, setIdPelanggan] = useState('0211070175')
     const [search, setSearch] = useState('')
-    const [selected, setSelected] = useState({ name: "PDAM Palyja test", code: 400441 })
+    const [selected, setSelected] = useState({ name: "PDAM Testing", code: 400241 })
 
+    //PDAM Product data list state
     const [productData, setProductData] = useState([])
 
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState()
+
+    //Tagihan state
     const [tagihanLoading, setTagihanLoading] = useState(false)
     const [tagihanData, setTagihanData] = useState()
 
+    //PIN Modal state 
+    const [pinVisible, setPinVisible] = useState(false)
 
+    //Loading pay state
     const [payLoading, setPayLoading] = useState(false)
     useEffect(() => {
         _getProductList()
     }, [[]])
 
+    //Function for getting pdam product list
     const _getProductList = async () => {
         const res = await getPDAMProductList()
         setProductData(res.data)
     }
 
+    //Function when user clicked check tagihan button
     const _cekTagihan = async () => {
         if (!selected) {
             alert("Harap pilih PDAM")
@@ -63,44 +77,62 @@ const PDAM = ({ navigation }) => {
             const res = await checkTagihanPDAM(data)
             setTagihanLoading(false)
             if (res.status == 400) {
-                alert(res.data.errors.msg.trim())
+                setAlertMessage(res.data.errors.msg.trim())
+                setAlert(true)
             } else {
                 setTagihanData(res.data)
             }
         }
     }
 
-    // const _onPressSimpan = async () => {
-    //     if (tagihanData) {
-    //         const data = { type: "pdam", customerID: tagihanData.customerID, productID: tagihanData.productID, price: tagihanData.data.total, productName: selected.name }
-    //         dispatch(AddPPOBToCart(data))
-    //         navigation.goBack()
-    //     } else {
-    //         alert("Harap cek tagihan terlebih dahulu")
-    //     }
-    // }
-
-    const _onPressBayar = async () => {
+    //Set pin modal visible when user clicked pay button
+    const _onPressBayar = () => {
         if (tagihanData) {
-            setPayLoading(true)
-            const data = {
-                customerID: tagihanData.transaction.customerID,
-                productID: tagihanData.transaction.productID,
-                id_multi: Product.id_multi
-            }
-            const res = await payTagihanPDAM(data)
-            setPayLoading(false)
-            if (res.status == 200) {
-                const data = { type: "pdam", customerID: res.data.customerID, price: parseInt(res.data.data.total), productName: selected.name }
-                dispatch(AddPPOBToCart(data))
-                // dispatch(SetIdMultiCart(res.data.id_multi))
-                navigation.goBack()
-                // navigation.navigate("Status", {params : res.data})
-            } else if (res.status == 400) {
-                alert(res.data.errors.msg)
-            }
+            setPinVisible(true)
         } else {
-            alert("Harap cek tagihan terlebih dahulu")
+            setAlertMessage("Harap cek tagihan terlebih dahulu")
+            setAlert(true)
+        }
+    }
+
+    //Check user pin 
+    const _userAuthentication = async (pin) => {
+        const data = {
+            pin,
+            phone_number: User.data.phone_number
+        }
+        const res = await verifyUserPIN(data)
+        if (res.status == 200) {
+            setPinVisible(false)
+            _processPayment()
+        }
+        else if (res.status == 400) {
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
+        }
+    }
+
+    const _processPayment = async () => {
+        setPayLoading(true)
+        const data = {
+            customerID: tagihanData.transaction.customerID,
+            productID: tagihanData.transaction.productID,
+            id_multi: Product.id_multi
+        }
+        const res = await payTagihanPDAM(data)
+        setPayLoading(false)
+        if (res.status == 200) {
+            const data = { type: "pdam", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
+            dispatch(AddPPOBToCart(data))
+            dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
+            // console.debug("BERHASIL")
+            navigation.goBack()
+            // navigation.navigate("Status", {params : res.data})
+        } else if (res.status == 400) {
+            setAlertMessage(res.data.errors.msg.trim())
+            setAlert(true)
+        }else {
+            console.debug(res)
         }
     }
     return <Container header={{
@@ -109,6 +141,21 @@ const PDAM = ({ navigation }) => {
         // onPressIcon: () => setModal(true),
         onPressBack: () => navigation.goBack(),
     }}>
+        {/* Modal for check user pin */}
+        <GlobalEnterPin
+            title="Masukkan PIN"
+            codeLength={4}
+            subtitle="Masukkan PIN untuk melanjutkan transaksi"
+            visible={pinVisible}
+            visibleToggle={setPinVisible}
+            pinResolve={(pin) => _userAuthentication(pin)} />
+        {/* Modal for check user pin */}
+        {/* Popup components */}
+        <AwanPopup.Alert
+            message={alertMessage}
+            visible={alert}
+            closeAlert={() => setAlert(false)}
+        />
         <AwanPopup.Loading visible={payLoading} />
         <Modal backdropDismiss={() => setModal(false)} visible={modal}>
             <View>
@@ -126,6 +173,7 @@ const PDAM = ({ navigation }) => {
                 </ScrollView>
             </View>
         </Modal>
+        {/* Popup components */}
         <View style={styles.topComp}>
             <SelectBoxModal style={{ marginTop: 15 }}
                 label="Pilih PDAM" closeOnSelect
