@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Container, { ContainerBody } from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
 import styles from './PDAMStyles'
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -33,9 +33,9 @@ const PDAM = ({ navigation }) => {
     const User = useSelector(state => state.User)
 
     const [modal, setModal] = useState(false)
-    const [idPelanggan, setIdPelanggan] = useState('0211070175')
+    const [idPelanggan, setIdPelanggan] = useState('01-00062')
     const [search, setSearch] = useState('')
-    const [selected, setSelected] = useState({ name: "PDAM Testing", code: 400241 })
+    const [selected, setSelected] = useState({ name: "PDAM Testing", code: 401031 })
 
     //PDAM Product data list state
     const [productData, setProductData] = useState([])
@@ -64,7 +64,7 @@ const PDAM = ({ navigation }) => {
     }
 
     //Function when user clicked check tagihan button
-    const _cekTagihan = async () => {
+    const _cekTagihan = async (selected, idPelanggan) => {
         if (!selected) {
             alert("Harap pilih PDAM")
         }
@@ -125,16 +125,17 @@ const PDAM = ({ navigation }) => {
             const data = { type: "pdam", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
             dispatch(AddPPOBToCart(data))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
-            // console.debug("BERHASIL")
-            navigation.goBack()
-            // navigation.navigate("Status", {params : res.data})
+            navigation.navigate("/ppob/status", { params: res.data })
         } else if (res.status == 400) {
             setAlertMessage(res.data.errors.msg.trim())
             setAlert(true)
-        }else {
+        } else {
             console.debug(res)
         }
     }
+
+    const testJsonData = require('src/assets/json/test-pdam.json')
+    const [testSelected, setTestSelected] = useState({})
     return <Container header={{
         title: "PDAM",
         // image: require('src/assets/icons/phonebook.png'),
@@ -142,6 +143,7 @@ const PDAM = ({ navigation }) => {
         onPressBack: () => navigation.goBack(),
     }}>
         {/* Modal for check user pin */}
+
         <GlobalEnterPin
             title="Masukkan PIN"
             codeLength={4}
@@ -174,6 +176,17 @@ const PDAM = ({ navigation }) => {
             </View>
         </Modal>
         {/* Popup components */}
+        {/* <SelectBoxModal style={{ marginTop: 15 }}
+            label="Pilih PDAM" closeOnSelect
+            data={testJsonData}
+            value={testSelected ? testSelected.id_pelanggan : ""}
+            handleChangePicker={(item) => {
+                setTestSelected(item)
+                _cekTagihan({ code: item.code }, item.id_pelanggan)
+            }}
+            renderItem={(item) => (<Text color={testSelected.id_pelanggan == item.id_pelanggan && 'primary'}>{item.id_pelanggan}</Text>)}>
+            <Text>Data tidak ditemukan</Text>
+        </SelectBoxModal> */}
         <View style={styles.topComp}>
             <SelectBoxModal style={{ marginTop: 15 }}
                 label="Pilih PDAM" closeOnSelect
@@ -208,7 +221,7 @@ const PDAM = ({ navigation }) => {
         {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
             :
             tagihanData ?
-                <ContainerBody style={{ padding: 0 }}>
+                <Body style={{ padding: 0 }}>
                     <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Nama Pelanggan</Text>
@@ -240,10 +253,10 @@ const PDAM = ({ navigation }) => {
                             <Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
                         </Wrapper>
                     </View>
-                </ContainerBody>
+                </Body>
                 : null}
         <BottomVertical>
-            <Button onPress={_cekTagihan} color="white" width="100%">
+            <Button onPress={() => _cekTagihan(selected, idPelanggan)} color="white" width="100%">
                 CEK TAGIHAN
             </Button>
             <Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">

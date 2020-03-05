@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import Container, { ContainerBody } from 'src/components/View/Container'
+import Container, { Body } from 'src/components/View/Container'
 import { GlobalHeader } from 'src/components/Header/Header'
 import { Button } from 'src/components/Button/Button'
 import { $Padding } from 'src/utils/stylehelper'
@@ -11,7 +11,7 @@ import { Text } from 'src/components/Text/CustomText'
 const SettingHargaPPOB = ({ navigation }) => {
     return <Container>
         <GlobalHeader title="Atur Harga Produk" onPressBack={() => navigation.goBack()} />
-        <ContainerBody>
+        <Body>
             {["listrik", "pulsa", "paketdata", "bpjs", "tvkabel", "telkom", "pdam", "kredit", "games","emoney"].map((item, i) => (
                 <Button
                     key={i}
@@ -26,7 +26,7 @@ const SettingHargaPPOB = ({ navigation }) => {
                         <Image size={20} source={require('src/assets/icons/next.png')} />
                     </Wrapper>
                 </Button>))}
-        </ContainerBody>
+        </Body>
     </Container>
 }
 

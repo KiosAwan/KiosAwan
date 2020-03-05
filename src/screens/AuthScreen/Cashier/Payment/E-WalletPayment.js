@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Container, { ContainerBody } from 'src/components/View/Container'
+import Container, { Body } from 'src/components/View/Container'
 import { GlobalHeader } from 'src/components/Header/Header'
 import { Text } from 'src/components/Text/CustomText'
 import { convertRupiah } from 'src/utils/authhelper'
@@ -24,7 +24,7 @@ const EWalletPayment = ({ navigation }) => {
     return (
         <Container>
             <GlobalHeader title="Kode QR" onPressBack={() => navigation.goBack()} />
-            <ContainerBody>
+            <Body>
                 <View style={styles.childCont}>
                     <Text>{User.store.name_store.toUpperCase()}</Text>
                     <Text>{`${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`}</Text>
@@ -41,7 +41,7 @@ const EWalletPayment = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
-            </ContainerBody>
+            </Body>
             <Bottom>
                 <Button onPress={() => navigation.goBack()} width="100%">
                     SIMPAN

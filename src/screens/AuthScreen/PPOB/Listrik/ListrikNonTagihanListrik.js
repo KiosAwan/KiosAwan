@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Container, { ContainerBody } from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -33,7 +33,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 		<TouchableOpacity style={styles.cekTagihan}>
             <Text color="primary">CEK TAGIHAN</Text>
         </TouchableOpacity>
-		<ContainerBody style={{ padding: 0 }}>
+		<Body style={{ padding: 0 }}>
 			<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
 				{data.map((item, i) => [
 					<Wrapper justify="space-between" style={{ padding: 10 }}>
@@ -43,7 +43,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 					i != data.length - 1 && <Divider />
 				])}
 			</View>
-		</ContainerBody>
+		</Body>
 		<Bottom>
 			<Button width="100%" wrapper={{ justify: 'space-between' }}>
 				<Wrapper>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, TouchableOpacity } from 'react-native'
-import Container, { ContainerBody } from 'src/components/View/Container'
+import Container, { Body } from 'src/components/View/Container'
 import { GlobalHeader } from 'src/components/Header/Header'
 import { ColorsList } from 'src/styles/colors'
 import { Wrapper } from 'src/components/View/Wrapper'
@@ -48,7 +48,7 @@ const AturPulsa = ({ navigation }) => {
                     ])
                 }
             </AwanPopup.Menu>
-            <ContainerBody>
+            <Body>
                 {[1, 2, 3, 4].map((item, i) => (
                     <Wrapper key={i} style={styles.wrapper} justify="space-between">
                         <View _width="60%" style={styles.leftWrapper}>
@@ -58,7 +58,7 @@ const AturPulsa = ({ navigation }) => {
                         <MDInput _style={styles.rightWrapper} value="5000" label="Biaya Pembayaran" />
                     </Wrapper>
                 ))}
-            </ContainerBody>
+            </Body>
             <Bottom>
                 <Button width="100%">SIMPAN</Button>
             </Bottom>

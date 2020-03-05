@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList, StyleSheet, TouchableOpacity, Image as NativeImage } from 'react-native';
-import Container, { ContainerBody } from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import { ColorsList } from 'src/styles/colors';

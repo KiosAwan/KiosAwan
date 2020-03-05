@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image, View } from 'react-native';
-import Container, { ContainerBody } from "src/components/View/Container"
+import Container, { Body } from "src/components/View/Container"
 import { Text } from 'src/components/Text/CustomText';
 import DropdownSelect from 'src/components/Picker/Dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -18,7 +18,7 @@ const AsuransiTipus = ({ navigation }) => {
 		title: 'Tipus',
 		onPressBack: () => navigation.goBack()
 	}}>
-		<ContainerBody style={{ padding: 10, borderRadius: 5 }}>
+		<Body style={{ padding: 10, borderRadius: 5 }}>
 			<Wrapper justify="flex-start">
 				<Image style={{ height: 30, width: 70, resizeMode: 'contain' }} source={require('src/assets/icons/ppob/topup/BNI.png')} />
 				<Icon style={{ marginLeft: 20 }} color={ColorsList.greyFont} onPress={() => setDetailOn(!detailOn)} size={15} name={detailOn ? "chevron-up" : "chevron-down"} />
@@ -74,7 +74,7 @@ const AsuransiTipus = ({ navigation }) => {
 					i != 3 && <Divider />
 				])}
 			</View>
-		</ContainerBody>
+		</Body>
 	</Container>
 }
 export default AsuransiTipus

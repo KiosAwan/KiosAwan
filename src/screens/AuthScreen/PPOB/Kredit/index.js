@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Container, { ContainerBody } from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
 import styles from './KreditStyles'
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -100,7 +100,7 @@ const Kredit = ({ navigation }) => {
                 toggleValue={true}
             />
         </View>
-        <ContainerBody style={{ padding: 0 }}>
+        <Body style={{ padding: 0 }}>
             <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
                 {data.map((item, i) => [
                     <Wrapper key={i} justify="space-between" style={{ padding: 10 }}>
@@ -110,7 +110,7 @@ const Kredit = ({ navigation }) => {
                     i != data.length - 1 && <Divider />
                 ])}
             </View>
-        </ContainerBody>
+        </Body>
         <BottomVertical>
             <Button onPress={() => { }} color="white" width="100%">
                 CEK TAGIHAN

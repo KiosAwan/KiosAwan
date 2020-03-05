@@ -13,8 +13,23 @@ export const Button = props => {
 			text: ColorsList.primary
 		},
 		primary: {
-			borderColor: ColorsList.primary,
+			borderColor: ColorsList.transparent,
 			backgroundColor: ColorsList.primary,
+			text: ColorsList.whiteColor
+		},
+		success: {
+			borderColor: ColorsList.transparent,
+			backgroundColor: ColorsList.success,
+			text: ColorsList.whiteColor
+		},
+		danger: {
+			borderColor: ColorsList.transparent,
+			backgroundColor: ColorsList.danger,
+			text: ColorsList.whiteColor
+		},
+		warning: {
+			borderColor: ColorsList.transparent,
+			backgroundColor: ColorsList.warning,
 			text: ColorsList.whiteColor
 		},
 		link: {

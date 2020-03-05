@@ -1,0 +1,2662 @@
+[
+  {
+    "id_pelanggan": "00000000325",
+    "code": "400941"
+  },
+  {
+    "id_pelanggan": "00000525",
+    "code": "400251"
+  },
+  {
+    "id_pelanggan": "000026795",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000036319",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000038417",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000055835",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000072594",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "00010101739",
+    "code": "401001"
+  },
+  {
+    "id_pelanggan": "0003483",
+    "code": "400181"
+  },
+  {
+    "id_pelanggan": "000535084",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000537789",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000545297",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000549519",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000568298",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000616581",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "00062131",
+    "code": "400251"
+  },
+  {
+    "id_pelanggan": "000705689",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "000712009",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "0007180",
+    "code": "400181"
+  },
+  {
+    "id_pelanggan": "000742502",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "0007732",
+    "code": "400181"
+  },
+  {
+    "id_pelanggan": "000790922",
+    "code": "400441"
+  },
+  {
+    "id_pelanggan": "00082179",
+    "code": "400251"
+  },
+  {
+    "id_pelanggan": "000G0013",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "000r0004",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "000u0033",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "00105210076",
+    "code": "400461"
+  },
+  {
+    "id_pelanggan": "0012009",
+    "code": "400181"
+  },
+  {
+    "id_pelanggan": "0012749",
+    "code": "400181"
+  },
+  {
+    "id_pelanggan": "0014193",
+    "code": "400181"
+  },
+  {
+    "id_pelanggan": "00200502124",
+    "code": "400971"
+  },
+  {
+    "id_pelanggan": "00205901050",
+    "code": "400461"
+  },
+  {
+    "id_pelanggan": "00205950240",
+    "code": "400461"
+  },
+  {
+    "id_pelanggan": "0023733",
+    "code": "400181"
+  },
+  {
+    "id_pelanggan": "0024091",
+    "code": "400181"
+  },
+  {
+    "id_pelanggan": "002795",
+    "code": "400291"
+  },
+  {
+    "id_pelanggan": "00411750620",
+    "code": "400461"
+  },
+  {
+    "id_pelanggan": "004886",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "00500300233",
+    "code": "400461"
+  },
+  {
+    "id_pelanggan": "00503200770",
+    "code": "400461"
+  },
+  {
+    "id_pelanggan": "005391",
+    "code": "400291"
+  },
+  {
+    "id_pelanggan": "007922",
+    "code": "401081"
+  },
+  {
+    "id_pelanggan": "00900200814",
+    "code": "400461"
+  },
+  {
+    "id_pelanggan": "00910850500",
+    "code": "400461"
+  },
+  {
+    "id_pelanggan": "009645",
+    "code": "400671"
+  },
+  {
+    "id_pelanggan": "01-00062",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "01-00128",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "01-00310",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "01-00311",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "01-00342",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "01-00659",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "01-01-00634",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "01-01-01349",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "01-01-03726",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "01-05-04943",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "01-07-05446",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "01000021",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "01000052",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "0100006",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "01000084",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "01000091",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "0100010198",
+    "code": "400391"
+  },
+  {
+    "id_pelanggan": "01000107",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "0100013",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "0100031",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "0100053333",
+    "code": "400521"
+  },
+  {
+    "id_pelanggan": "0100075",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "01000890",
+    "code": "400191"
+  },
+  {
+    "id_pelanggan": "010010000325",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "01001204",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "01001600",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "0100164",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "01001966",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "010020001793",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "0100256",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "0100274",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "01004356",
+    "code": "400191"
+  },
+  {
+    "id_pelanggan": "01005613",
+    "code": "400901"
+  },
+  {
+    "id_pelanggan": "0100573",
+    "code": "400361"
+  },
+  {
+    "id_pelanggan": "01005881",
+    "code": "400191"
+  },
+  {
+    "id_pelanggan": "01006159",
+    "code": "400161"
+  },
+  {
+    "id_pelanggan": "0100616",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "01006641",
+    "code": "400191"
+  },
+  {
+    "id_pelanggan": "01006671",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "01007941",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "01008488",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "01010000175",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "01010002",
+    "code": "400591"
+  },
+  {
+    "id_pelanggan": "0101000405",
+    "code": "400651"
+  },
+  {
+    "id_pelanggan": "010100082",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "010100151",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "0101001796",
+    "code": "400881"
+  },
+  {
+    "id_pelanggan": "01010018",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "01010023",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "0101002378",
+    "code": "400961"
+  },
+  {
+    "id_pelanggan": "01010039",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "01010041",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "01010048",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "010100508",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "01010076",
+    "code": "400141"
+  },
+  {
+    "id_pelanggan": "01010090008",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "01010100043",
+    "code": "400211"
+  },
+  {
+    "id_pelanggan": "0101010005",
+    "code": "400341"
+  },
+  {
+    "id_pelanggan": "01010100107",
+    "code": "400211"
+  },
+  {
+    "id_pelanggan": "0101010011",
+    "code": "400681"
+  },
+  {
+    "id_pelanggan": "0101010016",
+    "code": "400331"
+  },
+  {
+    "id_pelanggan": "0101010023",
+    "code": "400091"
+  },
+  {
+    "id_pelanggan": "0101010028",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0101010068",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "0101010073",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "010101077",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "0101011381",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "01010117",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "0101016178",
+    "code": "401091"
+  },
+  {
+    "id_pelanggan": "0101020045",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "0101020117",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "0101020905",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0101022076",
+    "code": "400681"
+  },
+  {
+    "id_pelanggan": "01010235",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "010102459",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "01010249",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "01010289",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "01010300213",
+    "code": "400211"
+  },
+  {
+    "id_pelanggan": "0101030244",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "0101030417",
+    "code": "400331"
+  },
+  {
+    "id_pelanggan": "0101040167",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "0101040645",
+    "code": "401151"
+  },
+  {
+    "id_pelanggan": "0101040843",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "01010420394",
+    "code": "400991"
+  },
+  {
+    "id_pelanggan": "0101050002",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "0101060078",
+    "code": "400331"
+  },
+  {
+    "id_pelanggan": "0101060191",
+    "code": "400091"
+  },
+  {
+    "id_pelanggan": "0101095064",
+    "code": "401061"
+  },
+  {
+    "id_pelanggan": "0101101420",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0101111059",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "01011362",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "0101160070",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "01012200416",
+    "code": "400211"
+  },
+  {
+    "id_pelanggan": "01012211",
+    "code": "400771"
+  },
+  {
+    "id_pelanggan": "0101277",
+    "code": "400741"
+  },
+  {
+    "id_pelanggan": "01012905",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "0101670197",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "0101810074",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "01018125",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "01019364",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "01020001017",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "0102010488",
+    "code": "400331"
+  },
+  {
+    "id_pelanggan": "0102010745",
+    "code": "400681"
+  },
+  {
+    "id_pelanggan": "01020120",
+    "code": "400141"
+  },
+  {
+    "id_pelanggan": "0102012172",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0102020406",
+    "code": "400331"
+  },
+  {
+    "id_pelanggan": "01020217",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "0102025974",
+    "code": "400881"
+  },
+  {
+    "id_pelanggan": "0102041027",
+    "code": "400881"
+  },
+  {
+    "id_pelanggan": "0102050550",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "01020810129",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "0102384021",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "01025100283",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "01026284",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "01026528",
+    "code": "400781"
+  },
+  {
+    "id_pelanggan": "0102692",
+    "code": "400361"
+  },
+  {
+    "id_pelanggan": "01030000008",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "01030000088",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "01030000105",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "01030000270",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "0103000099",
+    "code": "401011"
+  },
+  {
+    "id_pelanggan": "0103001878",
+    "code": "401011"
+  },
+  {
+    "id_pelanggan": "01030040114",
+    "code": "401111"
+  },
+  {
+    "id_pelanggan": "0103005010",
+    "code": "400881"
+  },
+  {
+    "id_pelanggan": "0103020121",
+    "code": "400681"
+  },
+  {
+    "id_pelanggan": "0103020265",
+    "code": "400881"
+  },
+  {
+    "id_pelanggan": "01030210171",
+    "code": "400991"
+  },
+  {
+    "id_pelanggan": "0103022740",
+    "code": "401091"
+  },
+  {
+    "id_pelanggan": "0103040171",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "0103080601",
+    "code": "400651"
+  },
+  {
+    "id_pelanggan": "01031190018",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "0103139",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "01031599",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "01034400171",
+    "code": "400211"
+  },
+  {
+    "id_pelanggan": "0103915",
+    "code": "400071"
+  },
+  {
+    "id_pelanggan": "0104002373",
+    "code": "400881"
+  },
+  {
+    "id_pelanggan": "01040161",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "0104030064",
+    "code": "400681"
+  },
+  {
+    "id_pelanggan": "0104033801",
+    "code": "400651"
+  },
+  {
+    "id_pelanggan": "0104034001",
+    "code": "400651"
+  },
+  {
+    "id_pelanggan": "0104034301",
+    "code": "400651"
+  },
+  {
+    "id_pelanggan": "01040414",
+    "code": "401181"
+  },
+  {
+    "id_pelanggan": "0104070673",
+    "code": "401151"
+  },
+  {
+    "id_pelanggan": "0104070937",
+    "code": "401151"
+  },
+  {
+    "id_pelanggan": "0104071578",
+    "code": "401151"
+  },
+  {
+    "id_pelanggan": "01041400031",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "01050011",
+    "code": "401181"
+  },
+  {
+    "id_pelanggan": "0105009446",
+    "code": "400871"
+  },
+  {
+    "id_pelanggan": "01050139",
+    "code": "400431"
+  },
+  {
+    "id_pelanggan": "01050210120",
+    "code": "400991"
+  },
+  {
+    "id_pelanggan": "0105040412",
+    "code": "400681"
+  },
+  {
+    "id_pelanggan": "0105100023",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "010601018",
+    "code": "401171"
+  },
+  {
+    "id_pelanggan": "0106051088",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0106318",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "0107001440",
+    "code": "400881"
+  },
+  {
+    "id_pelanggan": "01070087",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "0107010701",
+    "code": "400651"
+  },
+  {
+    "id_pelanggan": "01070430050",
+    "code": "401101"
+  },
+  {
+    "id_pelanggan": "0107233361",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0107251477",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0107342",
+    "code": "400361"
+  },
+  {
+    "id_pelanggan": "0108010190",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "010802011234",
+    "code": "400141"
+  },
+  {
+    "id_pelanggan": "0110012131",
+    "code": "401091"
+  },
+  {
+    "id_pelanggan": "011101454",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "0111069057",
+    "code": "400871"
+  },
+  {
+    "id_pelanggan": "0112002080",
+    "code": "400871"
+  },
+  {
+    "id_pelanggan": "01120383",
+    "code": "400731"
+  },
+  {
+    "id_pelanggan": "011300830",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "0113046",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "0114210261",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "0114230008",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "0114420030",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "011491",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "0115070035",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "0116003132",
+    "code": "400871"
+  },
+  {
+    "id_pelanggan": "0116016017",
+    "code": "400871"
+  },
+  {
+    "id_pelanggan": "0116023072",
+    "code": "400871"
+  },
+  {
+    "id_pelanggan": "011606443",
+    "code": "400751"
+  },
+  {
+    "id_pelanggan": "011609022",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "0118130005",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "0120005556",
+    "code": "401091"
+  },
+  {
+    "id_pelanggan": "012109693",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "0121223",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "012503595",
+    "code": "400751"
+  },
+  {
+    "id_pelanggan": "0125092030",
+    "code": "401091"
+  },
+  {
+    "id_pelanggan": "012587",
+    "code": "400931"
+  },
+  {
+    "id_pelanggan": "012687",
+    "code": "400501"
+  },
+  {
+    "id_pelanggan": "014411",
+    "code": "400501"
+  },
+  {
+    "id_pelanggan": "0148770036",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "0148780129",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "0148880022",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "015279",
+    "code": "400671"
+  },
+  {
+    "id_pelanggan": "01542810",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "01840199",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "018628",
+    "code": "401051"
+  },
+  {
+    "id_pelanggan": "0190019",
+    "code": "400361"
+  },
+  {
+    "id_pelanggan": "019693",
+    "code": "400661"
+  },
+  {
+    "id_pelanggan": "02-05-04606",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "0200000204",
+    "code": "400391"
+  },
+  {
+    "id_pelanggan": "02000745",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "02001997",
+    "code": "400161"
+  },
+  {
+    "id_pelanggan": "020030005302",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "020030011302",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "02004403",
+    "code": "400561"
+  },
+  {
+    "id_pelanggan": "0200469",
+    "code": "400361"
+  },
+  {
+    "id_pelanggan": "0201001087",
+    "code": "401011"
+  },
+  {
+    "id_pelanggan": "0201001344",
+    "code": "401011"
+  },
+  {
+    "id_pelanggan": "02013914",
+    "code": "400691"
+  },
+  {
+    "id_pelanggan": "0201400016",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "0201530003",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "0201590503",
+    "code": "400511"
+  },
+  {
+    "id_pelanggan": "02020000233",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "0202001594",
+    "code": "400881"
+  },
+  {
+    "id_pelanggan": "0202026054",
+    "code": "401121"
+  },
+  {
+    "id_pelanggan": "0202031097",
+    "code": "401121"
+  },
+  {
+    "id_pelanggan": "0202033040",
+    "code": "401121"
+  },
+  {
+    "id_pelanggan": "02030069",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "020301",
+    "code": "400501"
+  },
+  {
+    "id_pelanggan": "02032070041",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "02032080026",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "02040152",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "02050220",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "02050223",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "0206565",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "02071027",
+    "code": "401181"
+  },
+  {
+    "id_pelanggan": "0208005009",
+    "code": "401161"
+  },
+  {
+    "id_pelanggan": "0208030078",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "02090058",
+    "code": "400431"
+  },
+  {
+    "id_pelanggan": "02110084",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "0211070175",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "021306602",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "0217506036",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0218020022",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "0218110047",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "023461",
+    "code": "400291"
+  },
+  {
+    "id_pelanggan": "027032",
+    "code": "400471"
+  },
+  {
+    "id_pelanggan": "029920",
+    "code": "400661"
+  },
+  {
+    "id_pelanggan": "029976",
+    "code": "400661"
+  },
+  {
+    "id_pelanggan": "03000249",
+    "code": "400161"
+  },
+  {
+    "id_pelanggan": "0300065",
+    "code": "400361"
+  },
+  {
+    "id_pelanggan": "03005350",
+    "code": "400371"
+  },
+  {
+    "id_pelanggan": "030080005205",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "0301020043",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "0301040645",
+    "code": "400341"
+  },
+  {
+    "id_pelanggan": "03012310009",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "0302010030",
+    "code": "400101"
+  },
+  {
+    "id_pelanggan": "0302010226",
+    "code": "400101"
+  },
+  {
+    "id_pelanggan": "0302100034",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "03022194",
+    "code": "400161"
+  },
+  {
+    "id_pelanggan": "0303020510",
+    "code": "400341"
+  },
+  {
+    "id_pelanggan": "03036101",
+    "code": "400691"
+  },
+  {
+    "id_pelanggan": "0304011000",
+    "code": "400341"
+  },
+  {
+    "id_pelanggan": "0304130402",
+    "code": "400341"
+  },
+  {
+    "id_pelanggan": "03042614",
+    "code": "400691"
+  },
+  {
+    "id_pelanggan": "03060406",
+    "code": "400431"
+  },
+  {
+    "id_pelanggan": "03064216",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "0308010075",
+    "code": "400911"
+  },
+  {
+    "id_pelanggan": "030900017174",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "030920007461",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "030990020204",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "03100300281",
+    "code": "400211"
+  },
+  {
+    "id_pelanggan": "031050013669",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "031060018536",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "031090010860",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "031100009496",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "03110018",
+    "code": "400591"
+  },
+  {
+    "id_pelanggan": "0313140038",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "0314060075",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "0314060140",
+    "code": "400261"
+  },
+  {
+    "id_pelanggan": "0316070655",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "031715050",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "03240109",
+    "code": "400591"
+  },
+  {
+    "id_pelanggan": "0332442",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "0333601",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "033393",
+    "code": "400801"
+  },
+  {
+    "id_pelanggan": "03530257",
+    "code": "400591"
+  },
+  {
+    "id_pelanggan": "03610087",
+    "code": "400591"
+  },
+  {
+    "id_pelanggan": "03620255",
+    "code": "400591"
+  },
+  {
+    "id_pelanggan": "03838",
+    "code": "401231"
+  },
+  {
+    "id_pelanggan": "03940258",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "04-11-01088",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "04002174",
+    "code": "400561"
+  },
+  {
+    "id_pelanggan": "04002298",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "040030022286",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "04003610",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "04006352",
+    "code": "400611"
+  },
+  {
+    "id_pelanggan": "0401002069",
+    "code": "401161"
+  },
+  {
+    "id_pelanggan": "04011302365",
+    "code": "401021"
+  },
+  {
+    "id_pelanggan": "040120",
+    "code": "401051"
+  },
+  {
+    "id_pelanggan": "04030242",
+    "code": "400591"
+  },
+  {
+    "id_pelanggan": "04030411",
+    "code": "400431"
+  },
+  {
+    "id_pelanggan": "04031704",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "04033000088",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "040400003708",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "0404010579",
+    "code": "400821"
+  },
+  {
+    "id_pelanggan": "04040277",
+    "code": "401181"
+  },
+  {
+    "id_pelanggan": "04040509",
+    "code": "401181"
+  },
+  {
+    "id_pelanggan": "04043270064",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "04043290015",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "041080024500",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "0412070076",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "041769",
+    "code": "400661"
+  },
+  {
+    "id_pelanggan": "042166",
+    "code": "400501"
+  },
+  {
+    "id_pelanggan": "04220043",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "04280032",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "0442190065",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "049875",
+    "code": "400661"
+  },
+  {
+    "id_pelanggan": "05001000",
+    "code": "400191"
+  },
+  {
+    "id_pelanggan": "050100214",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "0501005008",
+    "code": "401061"
+  },
+  {
+    "id_pelanggan": "0501020063",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "0501060022",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "05034520156",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "050570019353",
+    "code": "400541"
+  },
+  {
+    "id_pelanggan": "050617039",
+    "code": "400721"
+  },
+  {
+    "id_pelanggan": "050913806",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "0513020438",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "0517020029",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "05218030040",
+    "code": "400621"
+  },
+  {
+    "id_pelanggan": "05218030063",
+    "code": "400621"
+  },
+  {
+    "id_pelanggan": "05218030065",
+    "code": "400621"
+  },
+  {
+    "id_pelanggan": "054608",
+    "code": "400661"
+  },
+  {
+    "id_pelanggan": "056049",
+    "code": "401081"
+  },
+  {
+    "id_pelanggan": "056312",
+    "code": "401081"
+  },
+  {
+    "id_pelanggan": "058379",
+    "code": "401081"
+  },
+  {
+    "id_pelanggan": "0600004591",
+    "code": "400391"
+  },
+  {
+    "id_pelanggan": "06005192",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "06010083",
+    "code": "401181"
+  },
+  {
+    "id_pelanggan": "060103515",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "060180002179",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "06020030024",
+    "code": "400621"
+  },
+  {
+    "id_pelanggan": "060240011962",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "06024980101",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "060300018533",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "0603005438",
+    "code": "400631"
+  },
+  {
+    "id_pelanggan": "06051011",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "060904519",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "06100139",
+    "code": "400431"
+  },
+  {
+    "id_pelanggan": "0614543719",
+    "code": "400051"
+  },
+  {
+    "id_pelanggan": "0617040272",
+    "code": "400911"
+  },
+  {
+    "id_pelanggan": "0622170010",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "06610805",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "066522",
+    "code": "401081"
+  },
+  {
+    "id_pelanggan": "070090026655",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "0701140060",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "0701140086",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "07040296",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "070524912",
+    "code": "400721"
+  },
+  {
+    "id_pelanggan": "070572",
+    "code": "400811"
+  },
+  {
+    "id_pelanggan": "0706001049",
+    "code": "400631"
+  },
+  {
+    "id_pelanggan": "0706001058",
+    "code": "400631"
+  },
+  {
+    "id_pelanggan": "0706001070",
+    "code": "400631"
+  },
+  {
+    "id_pelanggan": "0706001127",
+    "code": "400631"
+  },
+  {
+    "id_pelanggan": "0732575",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "0735464",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "07730594",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "07C14694",
+    "code": "400321"
+  },
+  {
+    "id_pelanggan": "07F11943",
+    "code": "400321"
+  },
+  {
+    "id_pelanggan": "0801003089",
+    "code": "401191"
+  },
+  {
+    "id_pelanggan": "0801010383",
+    "code": "400101"
+  },
+  {
+    "id_pelanggan": "08015740163",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "08030129",
+    "code": "401141"
+  },
+  {
+    "id_pelanggan": "08140162",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "0816890031",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "0826020063",
+    "code": "400091"
+  },
+  {
+    "id_pelanggan": "0832080038",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "0832100001",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "09000444",
+    "code": "400191"
+  },
+  {
+    "id_pelanggan": "09010010135",
+    "code": "400171"
+  },
+  {
+    "id_pelanggan": "09010146",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "09010175",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "09010176",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "09010274",
+    "code": "400431"
+  },
+  {
+    "id_pelanggan": "090400154",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "090400169",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "09040052",
+    "code": "400411"
+  },
+  {
+    "id_pelanggan": "090816",
+    "code": "400501"
+  },
+  {
+    "id_pelanggan": "0910440115",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "0910440163",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "0911699",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "09239511",
+    "code": "400711"
+  },
+  {
+    "id_pelanggan": "09300016",
+    "code": "400061"
+  },
+  {
+    "id_pelanggan": "0941240386",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "10000",
+    "code": "400351"
+  },
+  {
+    "id_pelanggan": "10000566",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "10003787",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "10004477",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "10007248",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "1000731",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "10031038",
+    "code": "400701"
+  },
+  {
+    "id_pelanggan": "10037739",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "1004000101",
+    "code": "400651"
+  },
+  {
+    "id_pelanggan": "10056135",
+    "code": "400931"
+  },
+  {
+    "id_pelanggan": "1008010004",
+    "code": "400151"
+  },
+  {
+    "id_pelanggan": "10085",
+    "code": "400351"
+  },
+  {
+    "id_pelanggan": "10100103852",
+    "code": "400851"
+  },
+  {
+    "id_pelanggan": "1010030221",
+    "code": "401151"
+  },
+  {
+    "id_pelanggan": "1010050323",
+    "code": "401151"
+  },
+  {
+    "id_pelanggan": "10100503345",
+    "code": "400851"
+  },
+  {
+    "id_pelanggan": "10100504006",
+    "code": "400851"
+  },
+  {
+    "id_pelanggan": "10100823",
+    "code": "401001"
+  },
+  {
+    "id_pelanggan": "101010008",
+    "code": "400421"
+  },
+  {
+    "id_pelanggan": "10103825",
+    "code": "401001"
+  },
+  {
+    "id_pelanggan": "101040739",
+    "code": "400421"
+  },
+  {
+    "id_pelanggan": "10114837",
+    "code": "401001"
+  },
+  {
+    "id_pelanggan": "1013832",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "1015002099",
+    "code": "401161"
+  },
+  {
+    "id_pelanggan": "1015002099z",
+    "code": "401161"
+  },
+  {
+    "id_pelanggan": "102030487",
+    "code": "400421"
+  },
+  {
+    "id_pelanggan": "1021096",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "10349",
+    "code": "400601"
+  },
+  {
+    "id_pelanggan": "10371",
+    "code": "400601"
+  },
+  {
+    "id_pelanggan": "10413093",
+    "code": "400761"
+  },
+  {
+    "id_pelanggan": "1042946",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "1044010182",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "1046891",
+    "code": "400761"
+  },
+  {
+    "id_pelanggan": "10600094",
+    "code": "400791"
+  },
+  {
+    "id_pelanggan": "10625",
+    "code": "400641"
+  },
+  {
+    "id_pelanggan": "10711",
+    "code": "400641"
+  },
+  {
+    "id_pelanggan": "10K21069",
+    "code": "400321"
+  },
+  {
+    "id_pelanggan": "11000266",
+    "code": "400191"
+  },
+  {
+    "id_pelanggan": "1100301",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "11012380",
+    "code": "400561"
+  },
+  {
+    "id_pelanggan": "1101990",
+    "code": "400071"
+  },
+  {
+    "id_pelanggan": "11030003",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "11030937",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "11050000091",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "11060062",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "11072432",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "111208",
+    "code": "400501"
+  },
+  {
+    "id_pelanggan": "1120200205",
+    "code": "400111"
+  },
+  {
+    "id_pelanggan": "1120900060",
+    "code": "400111"
+  },
+  {
+    "id_pelanggan": "112258",
+    "code": "400501"
+  },
+  {
+    "id_pelanggan": "113992",
+    "code": "400581"
+  },
+  {
+    "id_pelanggan": "1152050018",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "1166579",
+    "code": "400861"
+  },
+  {
+    "id_pelanggan": "120030000720",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "1201003155",
+    "code": "401071"
+  },
+  {
+    "id_pelanggan": "1201003200",
+    "code": "401071"
+  },
+  {
+    "id_pelanggan": "120102674",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "120209626",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "120209631",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "120215836",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "120215850",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "120215930",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "120216031",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "120216086",
+    "code": "400311"
+  },
+  {
+    "id_pelanggan": "1203359",
+    "code": "400011"
+  },
+  {
+    "id_pelanggan": "12051772",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "12062072",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "120800400276",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "120800700211",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "120800900412",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "122500351108",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "122500380117",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "1253010001",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "12661076",
+    "code": "400701"
+  },
+  {
+    "id_pelanggan": "1301049001",
+    "code": "400651"
+  },
+  {
+    "id_pelanggan": "13030020137",
+    "code": "400171"
+  },
+  {
+    "id_pelanggan": "130330000766",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "13036",
+    "code": "400641"
+  },
+  {
+    "id_pelanggan": "13040010019",
+    "code": "400171"
+  },
+  {
+    "id_pelanggan": "1321400449",
+    "code": "400111"
+  },
+  {
+    "id_pelanggan": "13481271",
+    "code": "400701"
+  },
+  {
+    "id_pelanggan": "135053",
+    "code": "400581"
+  },
+  {
+    "id_pelanggan": "13551144",
+    "code": "400701"
+  },
+  {
+    "id_pelanggan": "1401020321",
+    "code": "400241"
+  },
+  {
+    "id_pelanggan": "1401300001",
+    "code": "400341"
+  },
+  {
+    "id_pelanggan": "14100032",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "147658",
+    "code": "400581"
+  },
+  {
+    "id_pelanggan": "1501020018",
+    "code": "400521"
+  },
+  {
+    "id_pelanggan": "150200088",
+    "code": "400121"
+  },
+  {
+    "id_pelanggan": "15020151",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "150220000675",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "150360009008",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "1505001184",
+    "code": "401161"
+  },
+  {
+    "id_pelanggan": "15062151",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "15072493",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "15471434",
+    "code": "400701"
+  },
+  {
+    "id_pelanggan": "156326",
+    "code": "400581"
+  },
+  {
+    "id_pelanggan": "156665",
+    "code": "400581"
+  },
+  {
+    "id_pelanggan": "16010160",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "1602",
+    "code": "400351"
+  },
+  {
+    "id_pelanggan": "16020130",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "160310009790",
+    "code": "400551"
+  },
+  {
+    "id_pelanggan": "1657",
+    "code": "400351"
+  },
+  {
+    "id_pelanggan": "17030369",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "17121",
+    "code": "400641"
+  },
+  {
+    "id_pelanggan": "1783",
+    "code": "400641"
+  },
+  {
+    "id_pelanggan": "17F5334",
+    "code": "400321"
+  },
+  {
+    "id_pelanggan": "1801002142",
+    "code": "401091"
+  },
+  {
+    "id_pelanggan": "18110126",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "18142",
+    "code": "400601"
+  },
+  {
+    "id_pelanggan": "19087403",
+    "code": "400711"
+  },
+  {
+    "id_pelanggan": "19090040",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "19120569",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "19120593",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "19B120355",
+    "code": "400321"
+  },
+  {
+    "id_pelanggan": "2001003095",
+    "code": "401041"
+  },
+  {
+    "id_pelanggan": "20040000192",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "20040000350",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "20060171",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "20063830",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "20063831",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "20074",
+    "code": "400601"
+  },
+  {
+    "id_pelanggan": "201686",
+    "code": "400581"
+  },
+  {
+    "id_pelanggan": "2017030215",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "2018010982",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "2018080314",
+    "code": "400381"
+  },
+  {
+    "id_pelanggan": "202122441",
+    "code": "400201"
+  },
+  {
+    "id_pelanggan": "203020232",
+    "code": "400421"
+  },
+  {
+    "id_pelanggan": "203071896",
+    "code": "400421"
+  },
+  {
+    "id_pelanggan": "2032424",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "2039698",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "2041566",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "2044773",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "206992",
+    "code": "400501"
+  },
+  {
+    "id_pelanggan": "2074361",
+    "code": "400861"
+  },
+  {
+    "id_pelanggan": "20923",
+    "code": "400601"
+  },
+  {
+    "id_pelanggan": "20a12916",
+    "code": "400321"
+  },
+  {
+    "id_pelanggan": "21010091",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "2110100090",
+    "code": "400111"
+  },
+  {
+    "id_pelanggan": "2110200061",
+    "code": "400111"
+  },
+  {
+    "id_pelanggan": "211151",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "21160124",
+    "code": "400081"
+  },
+  {
+    "id_pelanggan": "217010166",
+    "code": "400201"
+  },
+  {
+    "id_pelanggan": "2267378",
+    "code": "400861"
+  },
+  {
+    "id_pelanggan": "2304011114",
+    "code": "401041"
+  },
+  {
+    "id_pelanggan": "2304011120",
+    "code": "401041"
+  },
+  {
+    "id_pelanggan": "23049580078",
+    "code": "400021"
+  },
+  {
+    "id_pelanggan": "23977",
+    "code": "400351"
+  },
+  {
+    "id_pelanggan": "2403290096",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "2407150095",
+    "code": "401131"
+  },
+  {
+    "id_pelanggan": "24259",
+    "code": "400941"
+  },
+  {
+    "id_pelanggan": "248129",
+    "code": "400581"
+  },
+  {
+    "id_pelanggan": "250560",
+    "code": "400581"
+  },
+  {
+    "id_pelanggan": "26793",
+    "code": "400601"
+  },
+  {
+    "id_pelanggan": "27625",
+    "code": "400531"
+  },
+  {
+    "id_pelanggan": "2a2160800263",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "2a2160800264",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "2a2160900160",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "2b0100401083",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "2b0110100010",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "30028620",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "301010040",
+    "code": "400421"
+  },
+  {
+    "id_pelanggan": "30102708",
+    "code": "400981"
+  },
+  {
+    "id_pelanggan": "3010319",
+    "code": "400761"
+  },
+  {
+    "id_pelanggan": "3022820",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "3041737",
+    "code": "400761"
+  },
+  {
+    "id_pelanggan": "3051656",
+    "code": "400761"
+  },
+  {
+    "id_pelanggan": "3051657",
+    "code": "400761"
+  },
+  {
+    "id_pelanggan": "31010077",
+    "code": "400271"
+  },
+  {
+    "id_pelanggan": "3105001157",
+    "code": "400631"
+  },
+  {
+    "id_pelanggan": "32027",
+    "code": "400531"
+  },
+  {
+    "id_pelanggan": "3302246",
+    "code": "400571"
+  },
+  {
+    "id_pelanggan": "33062046",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "332559",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "339256",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "342334",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "342403",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "344778",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "35072434",
+    "code": "400041"
+  },
+  {
+    "id_pelanggan": "364179",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "366642",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "3899",
+    "code": "400641"
+  },
+  {
+    "id_pelanggan": "40006870",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "40032213",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "40033655",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "40033804",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "40042878",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "40052737",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "40062614",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "4006361",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "401010023",
+    "code": "400421"
+  },
+  {
+    "id_pelanggan": "401060581",
+    "code": "400421"
+  },
+  {
+    "id_pelanggan": "4030572",
+    "code": "400231"
+  },
+  {
+    "id_pelanggan": "4101018267",
+    "code": "401041"
+  },
+  {
+    "id_pelanggan": "4101018407",
+    "code": "401041"
+  },
+  {
+    "id_pelanggan": "4103461",
+    "code": "400861"
+  },
+  {
+    "id_pelanggan": "4116581",
+    "code": "400861"
+  },
+  {
+    "id_pelanggan": "414012",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "416950",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "45079",
+    "code": "400531"
+  },
+  {
+    "id_pelanggan": "4511679",
+    "code": "400571"
+  },
+  {
+    "id_pelanggan": "4632",
+    "code": "400601"
+  },
+  {
+    "id_pelanggan": "48000268",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "4a440003100106",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "500179",
+    "code": "400401"
+  },
+  {
+    "id_pelanggan": "5002002002",
+    "code": "401191"
+  },
+  {
+    "id_pelanggan": "50072412",
+    "code": "400981"
+  },
+  {
+    "id_pelanggan": "501151",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "5027535",
+    "code": "400861"
+  },
+  {
+    "id_pelanggan": "5074592",
+    "code": "400861"
+  },
+  {
+    "id_pelanggan": "5376653",
+    "code": "400861"
+  },
+  {
+    "id_pelanggan": "57-00449",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "57-00583",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "57-00883",
+    "code": "401031"
+  },
+  {
+    "id_pelanggan": "60002714",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "60092256",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "60157057",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "60214931",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "60216554",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "60226322",
+    "code": "400451"
+  },
+  {
+    "id_pelanggan": "632637",
+    "code": "400221"
+  },
+  {
+    "id_pelanggan": "720810160415",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "8a2160700040",
+    "code": "400481"
+  },
+  {
+    "id_pelanggan": "99201900001",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "99201900401",
+    "code": "400281"
+  },
+  {
+    "id_pelanggan": "BG-01-00008",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "BG-01-00080",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "BL-06-10007",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "KL-04-00095",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "LA-01-10037",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "LA-03-00201",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "la-05-10095",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "PC-02-10189",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "PC-04-00078",
+    "code": "400301"
+  },
+  {
+    "id_pelanggan": "SG-10-00134",
+    "code": "400301"
+  }
+]

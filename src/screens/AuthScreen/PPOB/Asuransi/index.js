@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Container, { ContainerBody } from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import styles from './AsuransiStyles';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -49,7 +49,7 @@ const Asuransi = ({ navigation }) => {
                 </ScrollView>
             </View>
         </Modal>
-        <ContainerBody style={{ padding: 0 }}>
+        <Body style={{ padding: 0 }}>
             <FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
                 showsVerticalScrollIndicator={false}
                 data={[1, 2, 3, 4, 5, 6]}
@@ -61,7 +61,7 @@ const Asuransi = ({ navigation }) => {
                     </TouchableOpacity>
                 }
             />
-        </ContainerBody>
+        </Body>
         <Bottom>
             <Button width="100%" wrapper={{ justify: 'space-between' }}>
                 <Wrapper>

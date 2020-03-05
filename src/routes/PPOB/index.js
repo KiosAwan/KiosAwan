@@ -5,6 +5,7 @@ import Topup from "src/screens/AuthScreen/PPOB/Topup"
 import TopupDetail from "src/screens/AuthScreen/PPOB/TopupDetail"
 import RiwayatTransaksi from "src/screens/AuthScreen/PPOB/RiwayatTransaksi"
 import Favorite from "src/screens/AuthScreen/PPOB/Favorite"
+import StatusPesanan from "src/screens/AuthScreen/PPOB/StatusPesanan"
 
 const PPOBNavigator = {
 	'/ppob': {
@@ -30,6 +31,9 @@ const PPOBNavigator = {
 		navigationOptions: {
 			header: null
 		}
+	},
+	'/ppob/status': {
+		screen: StatusPesanan
 	},
 	...PPOBFitur,
 	...PPOBSetting

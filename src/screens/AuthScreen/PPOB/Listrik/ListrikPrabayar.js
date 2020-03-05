@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Container, { ContainerBody } from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -75,7 +75,7 @@ const ListrikPrabayar = ({ navigation }) => {
 		{tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
 			:
 			tagihanData ?
-				<ContainerBody style={{ padding: 0, marginBottom: 120 }}>
+				<Body style={{ padding: 0, marginBottom: 120 }}>
 					<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
 						<Wrapper justify="space-between" style={{ padding: 10 }}>
 							<Text font="Regular">Nama Pelanggan</Text>
@@ -107,7 +107,7 @@ const ListrikPrabayar = ({ navigation }) => {
 							<Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
 						</Wrapper>
 					</View>
-				</ContainerBody>
+				</Body>
 				: null}
 		<BottomVertical>
 			<Button onPress={_cekTagihan} color="white" width="100%">

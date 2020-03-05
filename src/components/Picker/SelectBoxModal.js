@@ -332,7 +332,7 @@ export const SelectBoxModal = (props) => {
 		}]}>
 			<Text font="Regular" style={{ color: props.value ? ColorsList.greyFont : ColorsList.transparent }}>{props.label}</Text>
 			<Wrapper justify="space-between" style={$Border(ColorsList.secondary, 0, 0, .5)}>
-				<Text font="Regular" size={13}>{props.value}</Text>
+				<Text font="Regular" size={13}>{props.value ? props.value : props.label}</Text>
 				<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
 			</Wrapper>
 		</TouchableOpacity>

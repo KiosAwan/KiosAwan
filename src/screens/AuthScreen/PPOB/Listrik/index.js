@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Container, { ContainerBody } from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
@@ -35,7 +35,7 @@ const PpobListrik = ({ navigation }) => {
 				</ScrollView>
 			</View>
 		</Modal>
-		<ContainerBody>
+		<Body>
 			{["token", "prabayar", "ntl"].map((item, i) => (
 				<Button
 					key={i}
@@ -50,7 +50,7 @@ const PpobListrik = ({ navigation }) => {
 						<Image size={20} source={require('src/assets/icons/next.png')} />
 					</Wrapper>
 				</Button>))}
-		</ContainerBody>
+		</Body>
 	</Container>
 }
 export default PpobListrik
