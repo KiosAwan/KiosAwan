@@ -9,11 +9,10 @@ import { Button } from 'src/components/Button/Button';
 import { View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import MDInput from 'src/components/Input/MDInput';
 import { Bottom, BottomVertical } from 'src/components/View/Bottom';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { checkListrikToken } from 'src/utils/api/ppob/listrik_api';
+import { checkListrikToken, payTokenListrik } from 'src/utils/api/ppob/listrik_api';
 import { ColorsList } from 'src/styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddPPOBToCart } from 'src/redux/actions/actionsPPOB';
+import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { verifyUserPIN, convertRupiah } from 'src/utils/authhelper';
@@ -42,7 +41,7 @@ const ListrikToken = ({ navigation }) => {
 	//Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
 	const _selectPulsa = ({ item, index }) => {
-		setSelected(index)
+		setSelected(item)
 	}
 
 	const _cekTagihan = async () => {
@@ -90,27 +89,29 @@ const ListrikToken = ({ navigation }) => {
 	}
 
 	const _processPayment = async () => {
-		// setPayLoading(true)
-		// const data = {
-		// 	customerID: response.transaction.customerID,
-		// 	productID: response.transaction.productID,
-		// 	id_multi: Product.id_multi
-		// }
-		// const res = await payTagihanPDAM(data)
-		// setPayLoading(false)
-		// if (res.status == 200) {
-		// 	const data = { type: "pdam", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
-		// 	dispatch(AddPPOBToCart(data))
-		// 	dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
-		// 	console.debug("BERHASIL TOKEN")
-		// 	navigation.goBack()
-		// 	// navigation.navigate("Status", {params : res.data})
-		// } else if (res.status == 400) {
-		// 	setAlertMessage(res.data.errors.msg.trim())
-		// 	setAlert(true)
-		// } else {
-		// 	console.debug(res)
-		// }
+		setPayLoading(true)
+		const data = {
+			customerID: response.transaction.customerID,
+			productID: response.transaction.productID,
+			amount : selected.price,
+			id_multi: Product.id_multi
+		}
+		const res = await payTokenListrik(data)
+		setPayLoading(false)
+		if (res.status == 200) {
+			console.debug(res.data)
+			const data = { type: "token", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.product }
+			dispatch(AddPPOBToCart(data))
+			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
+			console.debug("BERHASIL TOKEN")
+			navigation.goBack()
+			// navigation.navigate("Status", {params : res.data})
+		} else if (res.status == 400) {
+			setAlertMessage(res.data.errors.msg.trim())
+			setAlert(true)
+		} else {
+			console.debug(res)
+		}
 	}
 	return <Container>
 		{/* Modal for check user pin */}
@@ -166,7 +167,7 @@ const ListrikToken = ({ navigation }) => {
 			showsVerticalScrollIndicator={false}
 			data={response ? response.product : []}
 			renderItem={({ item, index }) =>
-				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, index === selected && styles.pulsaWrapperActive]}>
+				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
 					<Text style={styles.pulsaComp}>{item.product.slice(0, 9)}</Text>
 					<Text color="primary" size={20} style={styles.pulsaComp}>Rp. {item.product.slice(10, item.length)}</Text>
 					<Divider />
@@ -176,7 +177,7 @@ const ListrikToken = ({ navigation }) => {
 		/>
 		<BottomVertical>
 			<Button onPress={_cekTagihan} color="white" width="100%">
-				CEK TAGIHAN
+				CEK PELANGGAN
             </Button>
 			<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
 				BAYAR
