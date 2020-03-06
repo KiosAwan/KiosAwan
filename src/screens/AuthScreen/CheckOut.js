@@ -16,8 +16,12 @@ import {
 	removeAllCart, getProduct, AddCashPayment, AddCustomer, AddDiscountName,
 	AddDiscountRupiah,
 	AddDiscountPersen,
-	changeTransactionDiscount
+	changeTransactionDiscount,
+	
 } from '../../redux/actions/actionsStoreProduct';
+import {
+	SetIdMultiCart
+} from '../../redux/actions/actionsPPOB';
 import { getTransactionList } from '../../redux/actions/actionsTransactionList';
 import AsyncStorage from '@react-native-community/async-storage'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -92,10 +96,10 @@ class CheckOut extends React.Component {
 			discount_name: '',
 			discount_transaction: Product.discount_transaction,
 			note: Product.note,
-			id_multi : Product.id_multi
+			id_multi: Product.id_multi
 		}
 		const res = await sendNewTransaction(data)
-		// const { id_transaction } = res.data
+		const { id_transaction } = res.data
 		this.setState({ loadingVisible: false })
 		if (res.status == 400) {
 			this.setState({ alertMessage: res.data.errors.msg })
@@ -108,6 +112,7 @@ class CheckOut extends React.Component {
 			this.props.AddDiscountPersen('')
 			this.props.AddDiscountRupiah('')
 			this.props.getProduct(this.props.User.store.id_store)
+			this.props.SetIdMultiCart(0)
 			this.props.getTransactionList(this.props.User.store.id_store)
 			this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
 		} else {
@@ -250,7 +255,8 @@ export default connect(
 		AddDiscountName,
 		AddDiscountRupiah,
 		AddDiscountPersen,
-		changeTransactionDiscount
+		changeTransactionDiscount,
+		SetIdMultiCart
 	}
 )(CheckOut)
 

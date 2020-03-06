@@ -102,7 +102,7 @@ const TransactionDetail = ({ navigation }) => {
 									: null
 								}
 								<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
-									<View name="Daftar Produk">
+									<View name="Daftar Produk" style={{ display: data.details_item.length == 0 ? "none" : "flex" }}>
 										<View style={{ padding: 10, ...$Border(ColorsList.primary, 2, 0) }}>
 											<Text align="center" size={16} color="primary">Daftar Produk</Text>
 										</View>
@@ -118,21 +118,22 @@ const TransactionDetail = ({ navigation }) => {
 											})
 										}
 									</View>
-									<View name="Daftar Produk Digital" style={{ display: 'none' }}>
+									<View name="Daftar Produk Digital" style={{ display: data.product_digital.length == 0 ? "none" : "flex" }}>
 										<View style={{ padding: 10, ...$Border(ColorsList.primary, 2, 0) }}>
 											<Text align="center" size={16} color="primary">Tagihan dan Isi Ulang</Text>
 										</View>
 										{
-											[1, 2, 3].map((data, i) => {
+											data.product_digital.map((item, i) => {
 												return <View>
 													<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
 														<View>
-															<Text color="primary" size={15}>Produk Name</Text>
-															<Text>085712123434</Text>
+															<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
+															<Text>{item.transaction.customerID}</Text>
+															<Text>{item.transaction.transaction_code}</Text>
 														</View>
 														<View style={{ alignItems: 'flex-end' }}>
-															<Text color={data === 1 ? 'success' : (data === 2 ? 'info' : 'danger')}>{data === 1 ? 'Berhasil' : (data === 2 ? 'Proses' : 'Batal')}</Text>
-															<Text>{convertRupiah(100000)}</Text>
+															<Text color={item.transaction.status === "SUCCESS" ? 'success' : (data === "PENDING" ? 'info' : 'danger')}>{item.transaction.status}</Text>
+															<Text>{convertRupiah(item.transaction.total)}</Text>
 														</View>
 													</Wrapper>
 													{
