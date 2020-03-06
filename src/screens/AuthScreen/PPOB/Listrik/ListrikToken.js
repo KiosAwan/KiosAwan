@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -9,13 +9,14 @@ import { Button } from 'src/components/Button/Button';
 import { View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import MDInput from 'src/components/Input/MDInput';
 import { Bottom, BottomVertical } from 'src/components/View/Bottom';
-import { checkListrikToken, payTokenListrik } from 'src/utils/api/ppob/listrik_api';
+import { checkListrikToken, payTokenListrik, getProductToken } from 'src/utils/api/ppob/listrik_api';
 import { ColorsList } from 'src/styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { verifyUserPIN, convertRupiah } from 'src/utils/authhelper';
+import { Toast } from 'native-base';
 
 const ListrikToken = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -23,14 +24,14 @@ const ListrikToken = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	//User data
 	const User = useSelector(state => state.User)
-	const [custId, setCustId] = useState(32127971177)
+	const [custId, setCustId] = useState()
 	const [selected, setSelected] = useState()
 
 	//Loading state
 	const [loading, setLoading] = useState(false)
 	//Response after checking tagihan
 	const [response, setResponse] = useState()
-
+	const [productToken, setProduct] = useState()
 	//alert
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState()
@@ -44,15 +45,24 @@ const ListrikToken = ({ navigation }) => {
 		setSelected(item)
 	}
 
-	const _cekTagihan = async () => {
+	useEffect(() => {
+		_getProduct()
+	}, [])
+
+	const _getProduct = async () => {
+		const res = await getProductToken()
+		setProduct(res.data)
+	}
+	const _cekTagihan = async (idPel) => {
 		setLoading(true)
 		const data = {
 			productID: 100302,
-			customerID: custId
+			customerID: idPel
 		}
 		//Checking the customer ID to server
 		const res = await checkListrikToken(data)
 		setLoading(false)
+		setSelected()
 		//Set the response data to state
 		if (res.status == 200) {
 			setResponse(res.data)
@@ -64,9 +74,14 @@ const ListrikToken = ({ navigation }) => {
 	//Set pin modal visible when user clicked pay button
 	const _onPressBayar = () => {
 		if (response) {
-			setPinVisible(true)
+			if (!selected) {
+				setAlertMessage("Harap pilih product")
+				setAlert(true)
+			} else {
+				setPinVisible(true)
+			}
 		} else {
-			setAlertMessage("Harap cek tagihan terlebih dahulu")
+			setAlertMessage("Harap masukkan nomer pelanggan yang benar")
 			setAlert(true)
 		}
 	}
@@ -93,13 +108,12 @@ const ListrikToken = ({ navigation }) => {
 		const data = {
 			customerID: response.transaction.customerID,
 			productID: response.transaction.productID,
-			amount : selected.price,
+			amount: selected.price,
 			id_multi: Product.id_multi
 		}
 		const res = await payTokenListrik(data)
 		setPayLoading(false)
 		if (res.status == 200) {
-			console.debug(res.data)
 			const data = { type: "token", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.product }
 			dispatch(AddPPOBToCart(data))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
@@ -135,9 +149,14 @@ const ListrikToken = ({ navigation }) => {
 		<View style={styles.topComp}>
 			<MDInput _width="80%"
 				label="ID Pelanggan"
-				value={custId}
-				onChangeText={text => setCustId(text)}
+				value={custId ? custId.toString() : null}
+				onChangeText={text => {
+					setCustId(text)
+					_cekTagihan(text)
+				}}
+				keyboardType="number-pad"
 			/>
+			<Text>32127971177</Text>
 		</View>
 		{loading ?
 			<View style={styles.custInfo}>
@@ -165,9 +184,18 @@ const ListrikToken = ({ navigation }) => {
 		}
 		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
 			showsVerticalScrollIndicator={false}
-			data={response ? response.product : []}
+			data={productToken ? productToken : []}
 			renderItem={({ item, index }) =>
-				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
+				<TouchableOpacity onPress={() => {
+					if (response && response.length !== 0) {
+						_selectPulsa({ item, index })
+					} else {
+						Toast.show({
+							text: "Harap isi nomer pelanggan dengan benar",
+							type: "danger"
+						})
+					}
+				}} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
 					<Text style={styles.pulsaComp}>{item.product.slice(0, 9)}</Text>
 					<Text color="primary" size={20} style={styles.pulsaComp}>Rp. {item.product.slice(10, item.length)}</Text>
 					<Divider />
@@ -175,14 +203,11 @@ const ListrikToken = ({ navigation }) => {
 				</TouchableOpacity>
 			}
 		/>
-		<BottomVertical>
-			<Button onPress={_cekTagihan} color="white" width="100%">
-				CEK PELANGGAN
-            </Button>
+		<Bottom>
 			<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
 				BAYAR
             </Button>
-		</BottomVertical>
+		</Bottom>
 	</Container>
 }
 export default ListrikToken

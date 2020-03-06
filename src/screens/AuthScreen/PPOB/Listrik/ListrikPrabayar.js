@@ -111,8 +111,8 @@ const ListrikPrabayar = ({ navigation }) => {
 	}
 	return <Container header={{
 		title: "Listrik Prabayar",
-		image: require('src/assets/icons/phonebook.png'),
-		onPressIcon: () => setModal(true),
+		// image: require('src/assets/icons/phonebook.png'),
+		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
 		{/* Modal for check user pin */}
@@ -139,13 +139,13 @@ const ListrikPrabayar = ({ navigation }) => {
 				onChangeText={text => setCustId(text)}
 			/>
 		</View>
-		<View style={styles.simpan}>
+		{/* <View style={styles.simpan}>
 			<Text>Simpan VA ini untuk masuk ke favorit</Text>
 			<SwitchButton
 				// handleChangeToggle={_handleChangeToggle}
 				toggleValue={true}
 			/>
-		</View>
+		</View> */}
 		{tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
 			:
 			tagihanData ?

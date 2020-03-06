@@ -56,6 +56,20 @@ export const checkListrikToken = async (data) => {
     }
 }
 
+// function for get product listrik token
+export const getProductToken = async () => {
+    const userToken = await getUserToken()
+    try {
+        const res = await axios.get(`${DEV_URL}/service/ppob/pln_prepaid/product`,
+            {
+                headers: { "authorization": userToken }
+            }
+        )
+        return res.data
+    } catch (err) {
+        return (err.response.data)
+    }
+}
 // function for pay token
 export const payTokenListrik = async (data) => {
     const userToken = await getUserToken()

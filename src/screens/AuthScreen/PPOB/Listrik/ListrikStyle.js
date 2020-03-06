@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 	},
 	listPulsa: {
 		padding: 10,
-		marginBottom: 120
+		marginBottom: 70
 	},
 	pulsaWrapper: {
 		flex: 1,

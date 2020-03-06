@@ -211,13 +211,13 @@ const PDAM = ({ navigation }) => {
                 onChangeText={text => setIdPelanggan(text)}
             />
         </View>
-        <View style={styles.simpan}>
+        {/* <View style={styles.simpan}>
             <Text>Simpan VA ini untuk masuk ke favorit</Text>
             <SwitchButton
                 // handleChangeToggle={_handleChangeToggle}
                 toggleValue={true}
             />
-        </View>
+        </View> */}
         {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
             :
             tagihanData ?

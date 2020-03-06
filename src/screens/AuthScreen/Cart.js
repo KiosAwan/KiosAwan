@@ -256,7 +256,12 @@ const Cart = ({ navigation }) => {
 					<Text style={{ padding: 10 }} font="Bold">{convertRupiah(Product.total - Product.total_diskon)}</Text>
 				</Wrapper>
 				<Wrapper justify="space-between" style={{ marginVertical: 20, marginHorizontal: 10 }}>
-					<Text size={12} color="primary" onPress={() => navigation.navigate('/cashier')}>TAMBAH PRODUK</Text>
+					<Text size={12} color="primary" onPress={() => {
+						if (Product.data.length == 0) {
+							dispatch(getProduct(User.store.id_store))
+						}
+						navigation.navigate('/cashier')
+					}}>TAMBAH PRODUK</Text>
 					<Text size={12} color="primary" onPress={() => _emptyCart()}>HAPUS PESANAN</Text>
 				</Wrapper>
 			</View>

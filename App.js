@@ -5,6 +5,7 @@ import { Linking } from 'react-native';
 import { Provider } from 'react-redux'
 import store from './src/redux/store'
 import { Deeplink } from './src/routes/Deeplink';
+import { Root } from 'native-base';
 
 const prefix = 'awanapp://';
 export default class App extends Component {
@@ -20,9 +21,11 @@ export default class App extends Component {
   }
   render() {
     return (
-      <Provider store={store}>
-        <AppNavigator uriPrefix={prefix} />
-      </Provider>
+      <Root>
+        <Provider store={store}>
+          <AppNavigator uriPrefix={prefix} />
+        </Provider>
+      </Root>
     );
   }
 }

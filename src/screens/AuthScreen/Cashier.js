@@ -31,8 +31,10 @@ const Cashier = ({ navigation }) => {
     }, [])
 
     const _loadProduct = () => {
-        dispatch(getProduct(User.store.id_store))
-        dispatch(removeAllCart())
+        if (Product.belanja.length == 0) {
+            dispatch(getProduct(User.store.id_store))
+            // dispatch(removeAllCart())
+        }
     }
     return (
         <View style={{ flex: 1 }}>

@@ -95,7 +95,7 @@ class CheckOut extends React.Component {
 			id_multi : Product.id_multi
 		}
 		const res = await sendNewTransaction(data)
-		const { id_transaction } = res.data
+		// const { id_transaction } = res.data
 		this.setState({ loadingVisible: false })
 		if (res.status == 400) {
 			this.setState({ alertMessage: res.data.errors.msg })
