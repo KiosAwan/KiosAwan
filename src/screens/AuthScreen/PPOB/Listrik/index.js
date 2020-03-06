@@ -35,22 +35,23 @@ const PpobListrik = ({ navigation }) => {
 			</View>
 		</Modal>
 		<Body>
-			{[{screen : "token", title : "Prabayar"}, 
-			{screen : "prabayar", title : "Pascabayar"},
-			{screen : "ntl", title : "Non Tagihan Listrik"}].map((item, i) => (
-				<Button
-					key={i}
-					onPress={() => navigation.navigate(`/ppob/listrik/${item.screen}`)}
-					style={{ marginBottom: 5 }}
-					padding={$Padding(5, 10)}
-					wrapper={{ justify: 'flex-start' }}
-					color={['whiteColor', 'greyFont']}>
-					<Image width="13%" size={30} source={require('src/assets/icons/phone.png')} />
-					<Wrapper width="87%" justify="space-between">
-						<Text>{item.title}</Text>
-						<Image size={20} source={require('src/assets/icons/next.png')} />
-					</Wrapper>
-				</Button>))}
+			{[
+				{ screen: "token", title: "Prabayar" },
+				{ screen: "prabayar", title: "Pascabayar" },
+				{ screen: "ntl", title: "Non Tagihan Listrik" }
+			].map((item, i) => <Button
+				key={i}
+				onPress={() => navigation.navigate(`/ppob/listrik/${item.screen}`)}
+				style={{ marginBottom: 5 }}
+				padding={$Padding(5, 10)}
+				wrapper={{ justify: 'flex-start' }}
+				color={['whiteColor']}>
+				<Image width="13%" size={30} source={require('src/assets/icons/phone.png')} />
+				<Wrapper width="87%" justify="space-between">
+					<Text>{item.title}</Text>
+					<Image size={20} source={require('src/assets/icons/next.png')} />
+				</Wrapper>
+			</Button>)}
 		</Body>
 	</Container>
 }

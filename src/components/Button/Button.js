@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text } from '../Text/CustomText';
-import { TouchableOpacity, Animated } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Wrapper } from '../View/Wrapper';
 import { $Padding } from 'src/utils/stylehelper';
 
 export const Button = props => {
+	const { padding, color, children } = props
 	let Colors = {
 		white: {
 			borderColor: ColorsList.primary,
@@ -50,43 +51,40 @@ export const Button = props => {
 	}
 	let _color = Colors.primary
 	for (let key in Colors) {
-		if (props.color === key)
-			_color = Colors[props.color]
+		if (color === key)
+			_color = Colors[color]
 	}
-	if (props.color === 'linkPrimary'){
+	if (color === 'linkPrimary') {
 		_color = Colors.link
 		_color.text = ColorsList.primary
 	}
-	if (Array.isArray(props.color)) {
+	if (Array.isArray(color)) {
 		_color = {
-			backgroundColor: ColorsList[props.color[0]],
-			text: ColorsList[props.color[1]],
-			borderColor: props.color.length === 3 ? ColorsList[props.color[2]] : ColorsList[props.color[0]]
+			backgroundColor: ColorsList[color[0]],
+			text: ColorsList[color[1]],
+			borderColor: color.length === 3 ? ColorsList[color[2]] : ColorsList[color[0]]
 		}
 	}
 
 	// return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? 1 : 1 }]}>
-	return <TouchableOpacity activeOpacity={.5} {...props} style={[{
+	return <TouchableOpacity activeOpacity={.5} {...props} style={{
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
 		justifyContent: 'center',
-		borderRadius: props.noRadius ? 0 : 5
-	},
-	props.padding ?
-		(typeof props.padding != 'number' ? props.padding : { padding: props.padding }) :
-		$Padding(8, 10),
-	props.noBorder && { borderColor: ColorsList.transparent },
-		_color,
-	props.style
-	]}>
+		borderRadius: props.noRadius ? 0 : 5,
+		..._color,
+		...padding ? typeof padding != 'number' ? padding : { padding: padding } : $Padding(8, 10),
+		...props.noBorder && { borderColor: ColorsList.transparent },
+		...props.style
+	}}>
 		{
-			['string', 'number'].includes(typeof props.children) ?
+			['string', 'number'].includes(typeof children) ?
 				<Text align="center"
 					style={[{ alignSelf: props.align || 'center', color: _color.text }, props.textStyle]} {...props.textProps}>
-					{props.children}
+					{children}
 				</Text>
 				:
-				<Wrapper {...props.wrapper}>{props.children}</Wrapper>
+				<Wrapper {...props.wrapper}>{children}</Wrapper>
 		}
 	</TouchableOpacity>
 	{/* </Animated.View> */ }

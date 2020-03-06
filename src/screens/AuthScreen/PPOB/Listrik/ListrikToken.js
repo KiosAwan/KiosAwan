@@ -20,26 +20,26 @@ import { Toast } from 'native-base';
 
 const ListrikToken = ({ navigation }) => {
 	const dispatch = useDispatch()
-	//Reducer for product data
+	// Reducer for product data
 	const Product = useSelector(state => state.Product)
-	//User data
+	// User data
 	const User = useSelector(state => state.User)
 	const [custId, setCustId] = useState()
 	const [selected, setSelected] = useState()
 
-	//Loading state
+	// Loading state
 	const [loading, setLoading] = useState(false)
-	//Response after checking tagihan
+	// Response after checking tagihan
 	const [response, setResponse] = useState()
 	const [productToken, setProduct] = useState()
-	//alert
+	// alert
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState()
 
-	//PIN Modal state 
+	// PIN Modal state 
 	const [pinVisible, setPinVisible] = useState(false)
 
-	//Loading pay state
+	// Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
@@ -47,6 +47,7 @@ const ListrikToken = ({ navigation }) => {
 
 	useEffect(() => {
 		_getProduct()
+		_cekTagihan(custId)
 	}, [])
 
 	const _getProduct = async () => {
@@ -59,11 +60,11 @@ const ListrikToken = ({ navigation }) => {
 			productID: 100302,
 			customerID: idPel
 		}
-		//Checking the customer ID to server
+		// Checking the customer ID to server
 		const res = await checkListrikToken(data)
 		setLoading(false)
 		setSelected()
-		//Set the response data to state
+		// Set the response data to state
 		if (res.status == 200) {
 			setResponse(res.data)
 		} else {
@@ -71,7 +72,7 @@ const ListrikToken = ({ navigation }) => {
 		}
 	}
 
-	//Set pin modal visible when user clicked pay button
+	// Set pin modal visible when user clicked pay button
 	const _onPressBayar = () => {
 		if (response) {
 			if (!selected) {
@@ -86,7 +87,7 @@ const ListrikToken = ({ navigation }) => {
 		}
 	}
 
-	//Check user pin 
+	// Check user pin 
 	const _userAuthentication = async (pin) => {
 		const data = {
 			pin,
@@ -117,9 +118,7 @@ const ListrikToken = ({ navigation }) => {
 			const data = { type: "token", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.product }
 			dispatch(AddPPOBToCart(data))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
-			console.debug("BERHASIL TOKEN")
-			navigation.goBack()
-			// navigation.navigate("Status", {params : res.data})
+			navigation.navigate("/ppob/status", { params: res.data })
 		} else if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg.trim())
 			setAlert(true)
@@ -127,7 +126,10 @@ const ListrikToken = ({ navigation }) => {
 			console.debug(res)
 		}
 	}
-	return <Container>
+	return <Container header={{
+		onPressBack: () => navigation.goBack(),
+		title: "Listrik Prabayar"
+	}}>
 		{/* Modal for check user pin */}
 		<GlobalEnterPin
 			title="Masukkan PIN"
@@ -145,7 +147,6 @@ const ListrikToken = ({ navigation }) => {
 		/>
 		<AwanPopup.Loading visible={payLoading} />
 		{/* Popup components */}
-		<GlobalHeader onPressBack={() => navigation.goBack()} title="Token" />
 		<View style={styles.topComp}>
 			<MDInput _width="80%"
 				label="ID Pelanggan"

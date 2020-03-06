@@ -3,7 +3,7 @@ import PpobPaketData from "src/screens/AuthScreen/PPOB/PaketData"
 import PpobListrik from "src/screens/AuthScreen/PPOB/Listrik"
 import ListrikToken from "src/screens/AuthScreen/PPOB/Listrik/ListrikToken"
 import ListrikNonTagihanListrik from "src/screens/AuthScreen/PPOB/Listrik/ListrikNonTagihanListrik"
-import ListrikPrabayar from "src/screens/AuthScreen/PPOB/Listrik/ListrikPrabayar"
+import ListrikPascabayar from "src/screens/AuthScreen/PPOB/Listrik/ListrikPascabayar"
 import BPJS from "src/screens/AuthScreen/PPOB/BPJS"
 import TVKabel from "src/screens/AuthScreen/PPOB/TVKabel"
 import Telkom from "src/screens/AuthScreen/PPOB/Telkom"
@@ -30,7 +30,7 @@ const PPOBFitur = {
 		screen: ListrikNonTagihanListrik
 	},
 	'/ppob/listrik/prabayar': {
-		screen: ListrikPrabayar
+		screen: ListrikPascabayar
 	},
 	'/ppob/bpjs': {
 		screen: BPJS

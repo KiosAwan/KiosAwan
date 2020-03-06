@@ -20,9 +20,8 @@ const StatusPesanan = ({ navigation }) => {
 	})
 
 	useEffect(() => {
-		if (navigation.state.params) {
-			console.debug(navigation.state.params)
-			setParams(navigation.state.params)
+		if (navigation.state.params.params) {
+			setParams(navigation.state.params.params)
 		}
 	}, [])
 
@@ -32,48 +31,66 @@ const StatusPesanan = ({ navigation }) => {
 	}
 	const { details, payment, transaction } = params
 
+	const _checkData = (key, isCondition) => {
+		let data = transaction ? transaction[key] : ''
+		return isCondition ? Boolean(data) : data
+	}
+
 	return <Container onlyTitle header={{ title: 'Status Pesanan' }}>
 		<Body>
-			<Button disabled color="success" wrapper={{ justify: 'flex-start' }}>
-				<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
-				<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
-			</Button>
-			<Button disabled color="warning" wrapper={{ justify: 'flex-start' }}>
-				<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
-				<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
-			</Button>
+			{
+				_checkData('status') === 'PENDING' ?
+					<Button disabled color="warning" wrapper={{ justify: 'flex-start' }}>
+						<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
+						<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
+					</Button>
+					:
+					<Button disabled color="success" wrapper={{ justify: 'flex-start' }}>
+						<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
+						<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
+					</Button>
+			}
 			<View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: 5, marginTop: 15 }}>
 				<Wrapper {...wrapper}>
 					<View>
-						<Text color="primary" size={16}>Lorem</Text>
-						<Text>{987654332}</Text>
+						<Text color="primary" size={16}>{_checkData('transaction_name').split('_').join(' ').toUpperCase()}</Text>
+						<Text>{_checkData('customerID')}</Text>
 					</View>
-					<Text>{convertRupiah(103000)}</Text>
+					<Text>{convertRupiah(_checkData('tagihan'))}</Text>
 				</Wrapper>
 				<Divider />
 				<Wrapper {...wrapper}>
-					<Text>Nama Pelanggan</Text>
-					<Text>{'Albert Stanley'}</Text>
+					<Text>Kode Transaksi</Text>
+					<Text>{_checkData('transaction_code')}</Text>
+				</Wrapper>
+				<Divider />
+				{_checkData('customer_name', true) && [
+					<Wrapper {...wrapper}>
+						<Text>Nama Pelanggan</Text>
+						<Text>{_checkData('customer_name')}</Text>
+					</Wrapper>,
+					<Divider />
+				]}
+				<Wrapper {...wrapper}>
+					<Text>Tanggal Transaksi</Text>
+					<Text>{moment(_checkData('date')).format('MM / YYYY')}</Text>
 				</Wrapper>
 				<Divider />
 				<Wrapper {...wrapper}>
-					<Text>No. Jastel</Text>
-					<Text>{123456789}</Text>
+					<Text>Biaya Admin</Text>
+					<Text>{convertRupiah(_checkData('admin'))}</Text>
 				</Wrapper>
 				<Divider />
-				<Wrapper {...wrapper}>
-					<Text>Divre / datel</Text>
-					<Text>{moment().format('MM / YYYY')}</Text>
-				</Wrapper>
-				<Divider />
+				{_checkData('denda', true) && [
+					<Wrapper {...wrapper}>
+						<Text>Denda</Text>
+						<Text>{convertRupiah(_checkData('denda'))}</Text>
+					</Wrapper>,
+					<Divider />
+				]}
 				<Wrapper {...wrapper}>
 					<Text>Total Tagihan</Text>
-					<Text>{convertRupiah(100000)}</Text>
-				</Wrapper>
-				<Divider />
-				<Wrapper {...wrapper}>
-					<Text>Biaya Pembayaran</Text>
-					<Text>{convertRupiah(3000)}</Text>
+					<Text>{convertRupiah(_checkData('total'))}</Text>
 				</Wrapper>
 			</View>
 		</Body>

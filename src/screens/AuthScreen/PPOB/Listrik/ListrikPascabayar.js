@@ -19,7 +19,7 @@ import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
-const ListrikPrabayar = ({ navigation }) => {
+const ListrikPascabayar = ({ navigation }) => {
 	const dispatch = useDispatch()
 	//Reducer for product data
 	const Product = useSelector(state => state.Product)
@@ -96,12 +96,11 @@ const ListrikPrabayar = ({ navigation }) => {
 		const res = await payTagihanListrik(data)
 		setPayLoading(false)
 		if (res.status == 200) {
-			const data = { type: "tagihan_listrik", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: "Listrik Prabayar" }
+			const data = { type: "tagihan_listrik", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: "Listrik Pascabayar" }
 			dispatch(AddPPOBToCart(data))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
 			console.debug("BERHASIL BAYAR PRABAYAR")
-			navigation.goBack()
-			// navigation.navigate("Status", {params : res.data})
+			navigation.navigate("/ppob/status", { params: res.data })
 		} else if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg.trim())
 			setAlert(true)
@@ -110,7 +109,7 @@ const ListrikPrabayar = ({ navigation }) => {
 		}
 	}
 	return <Container header={{
-		title: "Listrik Prabayar",
+		title: "Listrik Pascabayar",
 		// image: require('src/assets/icons/phonebook.png'),
 		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
@@ -193,4 +192,4 @@ const ListrikPrabayar = ({ navigation }) => {
 		</BottomVertical>
 	</Container >
 }
-export default ListrikPrabayar
+export default ListrikPascabayar
