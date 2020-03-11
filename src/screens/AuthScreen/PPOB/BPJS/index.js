@@ -9,44 +9,42 @@ import { Button } from 'src/components/Button/Button';
 import { View, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
-import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
 import { BottomVertical } from 'src/components/View/Bottom';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
-import { SizeList } from 'src/styles/size';
 import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
-import { convertRupiah } from 'src/utils/authhelper';
-import { AddPPOBToCart } from 'src/redux/actions/actionsPPOB';
-import { checkTagihanBPJS } from 'src/utils/api/ppob/bpjs_api';
-import { useDispatch } from 'react-redux';
+import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
+import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
+import { checkTagihanBPJS, payTagihanBPJS } from 'src/utils/api/ppob/bpjs_api';
+import { useDispatch, useSelector } from 'react-redux';
+import GlobalEnterPin from '../../GlobalEnterPin';
 
 const BPJS = ({ navigation }) => {
     //Initialize dispatch 
     const dispatch = useDispatch()
-
+    // Reducer for product data
+    const Product = useSelector(state => state.Product)
+    //Reducer User data
+    const User = useSelector(state => state.User)
 
     const [tagihanLoading, setTagihanLoading] = useState(false)
     const [tagihanData, setTagihanData] = useState()
     const [detail, setDetail] = useState(false)
+    const [phoneNumber, setPhoneNumber] = useState("081232131")
     const [virtualNumber, setVirtualNumber] = useState(8888801314742533)
-    const [selected, setSelected] = useState()
-    const [dropdownVisible, setDropdownVisible] = useState(false)
-    const [nativeEvent, setNativeEvent] = useState({})
-    const _layout = ({ nativeEvent }) => {
-        setNativeEvent(nativeEvent)
-    }
-    const _selectMonth = () => {
-        setSelected({ index: 1, name: "Januari 2020" })
-    }
     const [modal, setModal] = useState(false)
 
+    // alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState()
+
+    // PIN Modal state 
+    const [pinVisible, setPinVisible] = useState(false)
+
+    // Loading pay state
+    const [payLoading, setPayLoading] = useState(false)
     const _cekTagihan = async () => {
-        // if (!selected) {
-        //     alert("Harap pilih PDAM")
-        // }
-        // else {
         setTagihanLoading(true)
         const data = {
             productID: 900001,
@@ -59,16 +57,61 @@ const BPJS = ({ navigation }) => {
         } else {
             setTagihanData(res.data)
         }
-        // }
     }
 
-    const _onPressSimpan = async () => {
+    // Set pin modal visible when user clicked pay button
+    const _onPressBayar = () => {
+        // If response not equal to undefined 
         if (tagihanData) {
-            const data = { type: "bpjs", customerID: tagihanData.idPelanggan, productID: 900001, price: tagihanData.total, productName: "BPJS" }
-            dispatch(AddPPOBToCart(data))
-            navigation.goBack()
+            if (!phoneNumber) {
+                setAlertMessage("Harap masukkan nomer telepon pelanggan")
+                setAlert(true)
+            } else {
+                setPinVisible(true)
+            }
         } else {
-            alert("Harap cek tagihan terlebih dahulu")
+            setAlertMessage("Harap masukkan nomer virtual yang benar")
+            setAlert(true)
+        }
+    }
+
+    // Check user pin 
+    const _userAuthentication = async (pin) => {
+        const data = {
+            pin,
+            phone_number: User.data.phone_number
+        }
+        const res = await verifyUserPIN(data)
+        if (res.status == 200) {
+            setPinVisible(false)
+            _processPayment()
+        }
+        else if (res.status == 400) {
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
+        }
+    }
+
+    const _processPayment = async () => {
+        setPayLoading(true)
+        const data = {
+            customerID: tagihanData.transaction.customerID,
+            productID: tagihanData.transaction.productID,
+            noHanphone: phoneNumber,
+            id_multi: Product.id_multi
+        }
+        const res = await payTagihanBPJS(data)
+        setPayLoading(false)
+        if (res.status == 200) {
+            const data = { type: "bpjs", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: "BPJS" }
+            dispatch(AddPPOBToCart(data))
+            dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
+            navigation.navigate("/ppob/status", { params: res.data })
+        } else if (res.status == 400) {
+            setAlertMessage(res.data.errors.msg.trim())
+            setAlert(true)
+        } else {
+            console.debug(res)
         }
     }
     return <Container header={{
@@ -77,6 +120,22 @@ const BPJS = ({ navigation }) => {
         onPressIcon: () => setModal(true),
         onPressBack: () => navigation.goBack(),
     }}>
+        {/* Modal for check user pin */}
+        <GlobalEnterPin
+            title="Masukkan PIN"
+            codeLength={4}
+            subtitle="Masukkan PIN untuk melanjutkan transaksi"
+            visible={pinVisible}
+            visibleToggle={setPinVisible}
+            pinResolve={(pin) => _userAuthentication(pin)} />
+        {/* Modal for check user pin */}
+        {/* Popup components */}
+        <AwanPopup.Alert
+            message={alertMessage}
+            visible={alert}
+            closeAlert={() => setAlert(false)}
+        />
+        <AwanPopup.Loading visible={payLoading} />
         <Modal backdropDismiss={() => setModal(false)} visible={modal}>
             <View>
                 <Text size={17} align="center">Nomor Pelanggan</Text>
@@ -93,35 +152,17 @@ const BPJS = ({ navigation }) => {
                 </ScrollView>
             </View>
         </Modal>
-        <View onLayout={_layout} style={styles.topComp}>
+        <View style={styles.topComp}>
             <MDInput _width="80%"
                 label="No. Virtual Account"
                 value={virtualNumber}
                 onChangeText={text => setVirtualNumber(text)}
             />
-            {/* <TouchableOpacity onPress={() => setDropdownVisible(true)}>
-                <View style={styles.selectContainer}>
-                    <Wrapper justify="space-between" style={styles.selectWrapper}>
-                        <Text size={16}>{selected ? selected.name : "Pembayaran sampai"}</Text>
-                        <Icon color={ColorsList.greyFont} size={15} name="chevron-down" />
-                    </Wrapper>
-                </View>
-            </TouchableOpacity> */}
-            <AwanPopup.Menu noTitle transparent absolute visible={dropdownVisible}
-                backdropDismiss={() => setDropdownVisible(false)}
-                style={[styles.dropdownStyle, { width: "100%", top: Object.keys(nativeEvent).length > 0 ? nativeEvent.layout.y + nativeEvent.layout.height : 200 }]}
-                contentStyle={[styles.dropdownContentStyle]}
-            >
-                {
-                    [1, 2].map((item, i) => [
-                        <Button onPress={_selectMonth} key={i} width={SizeList.width} wrapper={{ justify: 'flex-start', }} key={i} justify="space-between" color="link">
-                            <Text>{i}</Text>
-                            <Text>Pilihan nya ada berapa makan</Text>
-                        </Button>,
-                        <Divider />
-                    ])
-                }
-            </AwanPopup.Menu>
+            <MDInput _width="80%"
+                label="No. Handphone"
+                value={phoneNumber}
+                onChangeText={text => setPhoneNumber(text)}
+            />
         </View>
         <View style={styles.simpan}>
             <Text>Simpan VA ini untuk masuk ke favorit</Text>
@@ -137,33 +178,33 @@ const BPJS = ({ navigation }) => {
                     <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Nama pelanggan</Text>
-                            <Text font="Regular">{tagihanData.nama.trim()}</Text>
+                            <Text font="Regular">{tagihanData.transaction.nama.trim()}</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Jumlah peserta</Text>
-                            <Text font="Regular">{tagihanData.peserta} orang</Text>
+                            <Text font="Regular">{tagihanData.transaction.peserta} orang</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Periode</Text>
-                            <Text font="Regular">{tagihanData.periode} bulan</Text>
+                            <Text font="Regular">{tagihanData.transaction.periode} bulan</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Admin</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.adminBank)}</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.transaction.adminBank)}</Text>
                         </Wrapper>
                         <Divider />
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Jumlah tagihan</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.total)}</Text>
+                            <Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
                         </Wrapper>
                         <TouchableOpacity onPress={() => setDetail(!detail)} style={{ padding: 10, alignSelf: "flex-end" }}>
                             <Text color="primary" font="Regular">DETAIL</Text>
                             {/* <Text font="Regular">{convertRupiah(tagihanData.total)}</Text> */}
                         </TouchableOpacity>
-                        {detail ? tagihanData.detail.map((item, i) => (
+                        {detail ? tagihanData.details.map((item, i) => (
                             <View key={i}>
                                 <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
                                     <Text font="Regular">{item.nama.trim()}</Text>
@@ -185,8 +226,8 @@ const BPJS = ({ navigation }) => {
             <Button onPress={_cekTagihan} color="white" width="100%" wrapper={{ justify: 'space-between' }}>
                 CEK TAGIHAN
             </Button>
-            <Button onPress={_onPressSimpan} width="100%" style={{ marginTop: 5 }} wrapper={{ justify: 'space-between' }}>
-                SIMPAN
+            <Button onPress={_onPressBayar} width="100%" style={{ marginTop: 5 }} wrapper={{ justify: 'space-between' }}>
+                BAYAR
             </Button>
         </BottomVertical>
     </Container >

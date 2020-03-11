@@ -13,30 +13,42 @@ import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
 import { Bottom } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Modal } from 'src/components/ModalContent/Popups';
+import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import SearchInput from 'src/components/Input/SearchInput';
-import { getProductPulsa } from 'src/utils/api/ppob/pulsa_api';
-import { convertRupiah } from 'src/utils/authhelper';
-import { useDispatch } from 'react-redux';
-import { AddPPOBToCart } from 'src/redux/actions/actionsPPOB';
+import { getProductPulsa,payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
+import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
+import { useDispatch,useSelector } from 'react-redux';
+import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
+import GlobalEnterPin from '../../GlobalEnterPin';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
 	const dispatch = useDispatch()
-
+	// Reducer for product data
+	const Product = useSelector(state => state.Product)
+	//Reducer User data
+	const User = useSelector(state => state.User)
+	const [modal, setModal] = useState(false)
 	//Phone number state
-	const [phoneNumber, setPhoneNumber] = useState()
+	const [phoneNumber, setPhoneNumber] = useState("085856740755")
 	const [selected, setSelected] = useState()
 	//Product state
 	const [data, setData] = useState()
 
+	// alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState()
+
+	// PIN Modal state 
+	const [pinVisible, setPinVisible] = useState(false)
+
+	// Loading pay state
+	const [payLoading, setPayLoading] = useState(false)
+
 	const _selectPulsa = ({ item, index }) => {
-		setSelected(index)
-		const data = { type: "pulsa", customerID: phoneNumber, productID: item.code, price: item.price, productName: item.name }
-		dispatch(AddPPOBToCart(data))
-		navigation.goBack()
+		setSelected(item)
+		setPinVisible(true)
 	}
-	const [modal, setModal] = useState(false)
 
 	//Function onchange phone number
 	const _onChangePhoneNum = async (text) => {
@@ -55,12 +67,66 @@ const PpobPulsa = ({ navigation }) => {
 			}
 		}
 	}
+	// Check user pin 
+	const _userAuthentication = async (pin) => {
+		const data = {
+			pin,
+			phone_number: User.data.phone_number
+		}
+		const res = await verifyUserPIN(data)
+		if (res.status == 200) {
+			setPinVisible(false)
+			_processPayment()
+		}
+		else if (res.status == 400) {
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
+		}
+	}
+
+	const _processPayment = async () => {
+		setPayLoading(true)
+		const data = {
+			phone_number: phoneNumber,
+			productID: selected.code,
+			id_multi: Product.id_multi
+		}
+		const res = await payPulsaHandphone(data)
+		setPayLoading(false)
+		if (res.status == 200) {
+			const data = { type: "Pulsa", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
+			dispatch(AddPPOBToCart(data))
+			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
+			navigation.navigate("/ppob/status", { params: res.data })
+		} else if (res.status == 400) {
+			setAlertMessage(res.data.errors.msg.trim())
+			setAlert(true)
+		} else {
+			console.debug(res)
+		}
+	}
 	return <Container header={{
 		title: "Pulsa",
 		image: require('src/assets/icons/phonebook.png'),
 		onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
+		{/* Modal for check user pin */}
+		<GlobalEnterPin
+			title="Masukkan PIN"
+			codeLength={4}
+			subtitle="Masukkan PIN untuk melanjutkan transaksi"
+			visible={pinVisible}
+			visibleToggle={setPinVisible}
+			pinResolve={(pin) => _userAuthentication(pin)} />
+		{/* Modal for check user pin */}
+		{/* Popup components */}
+		<AwanPopup.Alert
+			message={alertMessage}
+			visible={alert}
+			closeAlert={() => setAlert(false)}
+		/>
+		<AwanPopup.Loading visible={payLoading} />
 		<Modal backdropDismiss={() => setModal(false)} visible={modal}>
 			<View>
 				<Text size={17} align="center">Nomor Pelanggan</Text>
@@ -93,8 +159,8 @@ const PpobPulsa = ({ navigation }) => {
 			showsVerticalScrollIndicator={false}
 			data={data ? data.products : []}
 			renderItem={({ item, index }) =>
-				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, index === selected && styles.pulsaWrapperActive]}>
-					<Text style={styles.pulsaComp}>{item.type}</Text>
+				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
+					<Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text>
 					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
 					<View style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
 						<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
