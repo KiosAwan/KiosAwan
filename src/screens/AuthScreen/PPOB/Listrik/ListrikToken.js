@@ -47,7 +47,7 @@ const ListrikToken = ({ navigation }) => {
 
 	useEffect(() => {
 		_getProduct()
-		_cekTagihan(custId)
+		// _cekTagihan(custId)
 	}, [])
 
 	const _getProduct = async () => {

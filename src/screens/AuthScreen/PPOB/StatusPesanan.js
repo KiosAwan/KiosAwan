@@ -56,7 +56,11 @@ const StatusPesanan = ({ navigation }) => {
 						<Text color="primary" size={16}>{_checkData('transaction_name').split('_').join(' ').toUpperCase()}</Text>
 						<Text>{_checkData('customerID')}</Text>
 					</View>
-					<Text>{convertRupiah(_checkData('tagihan'))}</Text>
+					{
+						transaction && transaction.tagihan == 0 ?
+							<View/> :
+							<Text>{convertRupiah(parseInt(_checkData('tagihan')))}</Text>
+					}
 				</Wrapper>
 				<Divider />
 				<Wrapper {...wrapper}>
@@ -67,7 +71,7 @@ const StatusPesanan = ({ navigation }) => {
 				{_checkData('customer_name', true) && [
 					<Wrapper {...wrapper}>
 						<Text>Nama Pelanggan</Text>
-						<Text>{_checkData('customer_name')}</Text>
+						<Text>{_checkData('customer_name').trim()}</Text>
 					</Wrapper>,
 					<Divider />
 				]}
@@ -78,19 +82,19 @@ const StatusPesanan = ({ navigation }) => {
 				<Divider />
 				<Wrapper {...wrapper}>
 					<Text>Biaya Admin</Text>
-					<Text>{convertRupiah(_checkData('admin'))}</Text>
+					<Text>{convertRupiah(parseInt(_checkData('admin')))}</Text>
 				</Wrapper>
 				<Divider />
 				{_checkData('denda', true) && [
 					<Wrapper {...wrapper}>
 						<Text>Denda</Text>
-						<Text>{convertRupiah(_checkData('denda'))}</Text>
+						<Text>{convertRupiah(parseInt(_checkData('denda')))}</Text>
 					</Wrapper>,
 					<Divider />
 				]}
 				<Wrapper {...wrapper}>
 					<Text>Total Tagihan</Text>
-					<Text>{convertRupiah(_checkData('total'))}</Text>
+					<Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
 				</Wrapper>
 			</View>
 		</Body>

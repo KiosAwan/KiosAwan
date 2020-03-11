@@ -222,16 +222,13 @@ const Cart = ({ navigation }) => {
 					Product.ppob_cart.map((data, i) => {
 						return <View>
 							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
-								<View _width="90%">
+								<View _width="60%">
 									<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.productName.toUpperCase()}</Text>
 									<Text style={{ color: ColorsList.greyFont }}>{data.customerID}</Text>
 								</View>
-								{/* <View _width="30%" style={{ alignItems: 'flex-end' }}>
-									<TouchableOpacity activeOpacity={.5} onPress={() => _prompDeletePesanan(i, data)} style={{ width: 30, height: 30 }}>
-										<ImageAuto source={require('src/assets/icons/trash-primary.png')} />
-									</TouchableOpacity>
-									<Text>{convertRupiah(data.price)}</Text>
-								</View> */}
+								<View _width="40%" style={{ alignItems: 'flex-end' }}>
+									<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price)}</Text>
+								</View>
 							</Wrapper>
 							<Divider size={2} color={ColorsList.authBackground} />
 						</View>

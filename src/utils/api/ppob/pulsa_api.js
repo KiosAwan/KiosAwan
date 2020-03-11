@@ -6,7 +6,7 @@ import { getUserToken, getUserId } from "src/utils/authhelper"
 export const getProductPulsa = async (data) => {
     const userToken = await getUserToken()
     try {
-        const res = await axios.get(`${DEV_URL}/service/ppob/pulsa?phone_number=${data.phone_number}&type=pulsa`,
+        const res = await axios.get(`${DEV_URL}/service/ppob/pulsa?phone_number=${data.phone_number}&type=${data.type}`,
             {
                 //Authorization with jwt
                 headers: { "authorization": userToken },
@@ -17,19 +17,19 @@ export const getProductPulsa = async (data) => {
         return (err.response.data)
     }
 }
-
-// // function for check nomor listrik token
-// export const checkListrikToken = async (data) => {
-//     const userToken = await getUserToken()
-//     try {
-//         const res = await axios.post(`${DEV_URL}/service/ppob/pln_prepaid/inquiry`,
-//             data,
-//             {
-//                 headers: { "authorization": userToken }
-//             }
-//         )
-//         return res.data
-//     } catch (err) {
-//         return (err.response.data)
-//     }
-// }
+// function for pay pulsa order
+export const payPulsaHandphone = async (data) => {
+    const userToken = await getUserToken()
+    const userId = await getUserId()
+    try {
+        const res = await axios.post(`${DEV_URL}/user/${userId}/service/ppob/pulsa/payment`,
+        data,
+        {
+            headers: { "authorization": userToken }
+        }
+        )
+        return res.data
+    } catch (err) {
+        return (err.response.data)
+    }
+}

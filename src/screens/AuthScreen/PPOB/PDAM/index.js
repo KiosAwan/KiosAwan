@@ -33,9 +33,9 @@ const PDAM = ({ navigation }) => {
     const User = useSelector(state => state.User)
 
     const [modal, setModal] = useState(false)
-    const [idPelanggan, setIdPelanggan] = useState('01008488')
+    const [idPelanggan, setIdPelanggan] = useState('0007180')
     const [search, setSearch] = useState('')
-    const [selected, setSelected] = useState({ name: "PDAM Kota Semarang", code: 400371 })
+    const [selected, setSelected] = useState({ name: "PDAM Kota Semarang", code: 400181 })
 
     //PDAM Product data list state
     const [productData, setProductData] = useState([])
