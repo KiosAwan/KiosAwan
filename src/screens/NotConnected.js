@@ -24,9 +24,9 @@ const NotConnected = ({ navigation }) => {
 		setLoading(true)
 		try {
 			let { routeName, params } = nextScene.route
+			routeName = Boolean(routeName) ? routeName : {}
 			navigate(routeName, params)
 		} catch (err) {
-			console.debug("ASB")
 			navigate('/splashscreen')
 		}
 	}
