@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 export const Wrapper = props => {
-
+	const { children } = props
 	return <View style={[{ flexDirection: props.direction || 'row', justifyContent: props.justify || 'space-around' }, props.style]}>
 		{
-			props.children.length > 0 ?
-				props.children.map((item, i) => {
+			children.length > 0 ?
+				children.map((item, i) => {
 					const itemCLoned = React.cloneElement(item, {
 						// style: [item.style]//, item.props.style && item.props.style.width ? { width: '100%' } : {}]
 					})
@@ -17,7 +17,7 @@ export const Wrapper = props => {
 					]} key={i}>
 						{itemCLoned}
 					</View>
-				}) : props.children
+				}) : (children)
 		}
 	</View>
 }

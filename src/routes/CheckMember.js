@@ -42,7 +42,7 @@ const CheckMember = (props) => {
           if (res.status == 200) {
             await AsyncStorage.setItem('@user_token', res.data.data.token)
             await dispatch(getProfile(checkUserData))
-            navigation.navigate('/')
+            navigation.navigate('/enterpin')
           }
         } catch (err) {
           // alert(JSON.stringify(err))

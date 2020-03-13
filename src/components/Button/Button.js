@@ -65,7 +65,6 @@ export const Button = props => {
 			borderColor: color.length === 3 ? ColorsList[color[2]] : ColorsList[color[0]]
 		}
 	}
-
 	// return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? 1 : 1 }]}>
 	return <TouchableOpacity activeOpacity={.5} {...props} style={{
 		borderWidth: props.noBorder ? 0 : 1,
