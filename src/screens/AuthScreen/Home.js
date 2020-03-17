@@ -260,6 +260,12 @@ const Home = ({ navigation }) => {
 							</View>
 						</TouchableOpacity>
 				}
+				<ScrollView
+					horizontal={true}
+					showsHorizontalScrollIndicator={false}>
+					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
+					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_2.png')} />
+				</ScrollView>
 				<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 					<Wrapper justify="space-between">
 						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
@@ -289,12 +295,6 @@ const Home = ({ navigation }) => {
 				</Button>
 			</View>
 		</View>
-		<ScrollView
-			horizontal={true}
-			showsHorizontalScrollIndicator={false}>
-			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
-			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_2.png')} />
-		</ScrollView>
 		<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
 		{newsLoading ?
 			<NewsCardPlaceholder />
