@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import LinearGradient from 'react-native-linear-gradient'
 import { View, Image, StyleSheet, Dimensions } from 'react-native'
-import { Header } from 'native-base'
+import { Header as HeaderNB } from 'native-base'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { Text } from '../Text/CustomText'
 import BarStatus from '../BarStatus';
@@ -11,8 +11,28 @@ import { Button } from '../Button/Button'
 import { Wrapper } from '../View/Wrapper'
 import SearchInput from '../Input/SearchInput'
 
-
 const width = Dimensions.get('window').width
+
+export const Header = props => {
+    const { title, onPressLeft, onPressRight, iconLeft, iconRight, color, children } = props
+    return <View>
+        <BarStatus />
+        <Wrapper justify="space-between">
+            <Button onPress={onPressLeft} color={['transparent']}>
+                <Icon color={color || ColorsList.greyFont} size={20} name={iconLeft || "arrow-left"} />
+            </Button>
+            {
+                title ? <Text style={{ width: '75%' }} align="left">{title}</Text> :
+                    <View>
+                        {children}
+                    </View>
+            }
+            <Button onPress={onPressRight} color={['transparent']}>
+                <Icon color={color || ColorsList.greyFont} size={20} name={iconRight || "ellipsis-v"} />
+            </Button>
+        </Wrapper>
+    </View>
+}
 
 export const HeaderRegister = (props) => {
     return (
@@ -46,7 +66,7 @@ export const HomeHeader = props => {
 
 export const GlobalHeader = (props) => {
     return (
-        <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <HeaderNB androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%', ...props.style }}>
                 <Wrapper justify="space-between" style={{ height: '100%' }}>
                     <View style={{ justifyContent: 'flex-start', marginTop: 5 }}>
@@ -62,13 +82,13 @@ export const GlobalHeader = (props) => {
                     </View>
                 </Wrapper>
             </LinearGradient>
-        </Header>
+        </HeaderNB>
     )
 }
 
 export const GlobalHeaderWithIcon = (props) => {
     return (
-        <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <HeaderNB androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%', justifyContent: 'center' }}>
                 {
                     props.onlyTitle ?
@@ -93,14 +113,14 @@ export const GlobalHeaderWithIcon = (props) => {
                         </Wrapper>
                 }
             </LinearGradient>
-        </Header>
+        </HeaderNB>
     )
 }
 
 export const CashierHeader = (props) => {
     const [focus, setFocus] = useState(false)
     return (
-        <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <HeaderNB androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
             <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%' }}>
                 <Wrapper justify="space-between" style={{ height: '100%', alignSelf: focus ? "center" : null }}>
                     <Wrapper _width={!focus ? "85%" : "95%"}>
@@ -124,7 +144,7 @@ export const CashierHeader = (props) => {
                     }
                 </Wrapper>
             </LinearGradient>
-        </Header>
+        </HeaderNB>
     )
 }
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text } from '../Text/CustomText';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Wrapper } from '../View/Wrapper';
-import { $Padding } from 'src/utils/stylehelper';
+import { $Padding, $Border } from 'src/utils/stylehelper';
 
 export const Button = props => {
-	const { padding, color, children } = props
+	const { padding, color, children, iconText } = props
 	let Colors = {
 		white: {
 			borderColor: ColorsList.primary,
@@ -65,8 +65,18 @@ export const Button = props => {
 			borderColor: color.length === 3 ? ColorsList[color[2]] : ColorsList[color[0]]
 		}
 	}
+	const _renderComponent = (comp, i) => {
+		return i > 0 ? comp : <View style={{
+			...$Border(ColorsList.greyAuthHard, 1),
+			borderRadius: 10,
+			width: 65,
+			height: 65,
+			alignItems: 'center',
+			justifyContent: 'center'
+		}}>{comp}</View>
+	}
 	// return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? 1 : 1 }]}>
-	return <TouchableOpacity activeOpacity={.5} {...props} style={{
+	return <TouchableOpacity activeOpacity={.5} {...props} style={!iconText && {
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
 		justifyContent: 'center',
@@ -83,7 +93,11 @@ export const Button = props => {
 					{children}
 				</Text>
 				:
-				<Wrapper {...props.wrapper}>{children}</Wrapper>
+				iconText ? <View style={{ alignItems: 'center' }}>
+					{Array.isArray(children) ?
+						children.map((child, i) => _renderComponent(child, i)) :
+						_renderComponent(children, 0)}
+				</View> : <Wrapper {...props.wrapper}>{children}</Wrapper>
 		}
 	</TouchableOpacity>
 	{/* </Animated.View> */ }

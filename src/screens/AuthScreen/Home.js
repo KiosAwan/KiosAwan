@@ -17,7 +17,7 @@ import { FontList } from 'src/styles/typography'
 import { useSelector, useDispatch } from 'react-redux'
 import { CardTextImage } from 'src/components/Card/CardComp'
 import { HOST_URL } from 'src/config'
-import { HomeHeader } from 'src/components/Header/Header'
+import { HomeHeader, Header } from 'src/components/Header/Header'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { getProfile } from 'src/redux/actions/actionsUserData'
 import { Image } from 'src/components/CustomImage';
@@ -28,6 +28,7 @@ import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
 import { convertRupiah } from 'src/utils/authhelper'
 import { $Padding } from 'src/utils/stylehelper'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import Container, { Body } from 'src/components/View/Container'
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -80,12 +81,11 @@ const Home = ({ navigation }) => {
 	}
 
 	const _onPressCashier = () => {
-		// if (User.data.status == 1) {
-		// 	navigation.navigate('/cashier')
-		// } else {
-		// 	_featureDisabled()
-		// }
-		alert(876545)
+		if (User.data.status == 1) {
+			navigation.navigate('/cashier')
+		} else {
+			_featureDisabled()
+		}
 	}
 
 	const _onPressPayment = () => {
@@ -161,7 +161,7 @@ const Home = ({ navigation }) => {
 			_setAlert(true)
 		}
 	}
-	return <ParallaxScrollView
+	const oldDesign = <ParallaxScrollView
 		refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}
 		showsVerticalScrollIndicator={false}
 		backgroundColor={ColorsList.primary}
@@ -316,6 +316,94 @@ const Home = ({ navigation }) => {
 			/>
 		}
 	</ParallaxScrollView>
+	return <Container style={{
+		backgroundColor: ColorsList.whiteColor
+	}}>
+		<Header iconLeft="bars" iconRight="bell" onPressLeft={_handlePressDrawer}>
+			<Text>kjhgf</Text>
+			<Text>kjhgf</Text>
+		</Header>
+		<Body style={{ padding: 0 }}>
+			<Wrapper justify="space-between" style={{ padding: 15 }}>
+				<Text>Saldo Kios Awan:</Text>
+				<Wrapper>
+					<Text>{convertRupiah(User.data.saldo || 0)}</Text>
+					<Button color="link">
+						<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
+					</Button>
+				</Wrapper>
+			</Wrapper>
+			<Divider />
+			<Wrapper style={{ padding: 15 }}>
+				<Button iconText flex>
+					<Image source={require('src/assets/icons/home/coupon.png')} size={30} />
+					<Text>Isi Ulang</Text>
+				</Button>
+				<Button iconText flex>
+					<Image source={require('src/assets/icons/home/chart-up.png')} size={30} />
+					<Text>Riwayat</Text>
+				</Button>
+				<Button iconText flex>
+					<Image source={require('src/assets/icons/home/star.png')} size={30} />
+					<Text>Favorit</Text>
+				</Button>
+				<Button iconText flex>
+					<Image source={require('src/assets/icons/home/wallet.png')} size={30} />
+					<Text>Upgrade</Text>
+				</Button>
+			</Wrapper>
+			<ScrollView
+				style={{ marginHorizontal: 15 }}
+				horizontal={true}
+				showsHorizontalScrollIndicator={false}>
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginRight: 10 }} source={require('src/assets/images/card_1.png')} />
+				<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5 }} source={require('src/assets/images/card_2.png')} />
+			</ScrollView>
+			<View>
+				<Button wrapper={{ justify: 'space-between' }} onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+					<Image size={70} style={{ resizeMode: 'contain' }} source={require("src/assets/icons/home/kasir.png")} />
+					<View style={{ width: '75%' }}>
+						<Text font="ExtraBold" color="primary">KASIR</Text>
+						<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
+					</View>
+					<Icon name="chevron-right" />
+				</Button>
+				<Button wrapper={{ justify: 'space-between' }} onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+					<Image size={70} style={{ resizeMode: 'contain' }} source={require("src/assets/icons//home/ppob.png")} />
+					<View style={{ width: '75%' }}>
+						<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
+						<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
+					</View>
+					<Icon name="chevron-right" />
+				</Button>
+				<Button wrapper={{ justify: 'space-between' }} onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+					<Image size={70} style={{ resizeMode: 'contain' }} source={require("src/assets/icons/home/restock.png")} />
+					<View style={{ width: '75%' }}>
+						<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
+						<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
+					</View>
+					<Icon name="chevron-right" />
+				</Button>
+			</View>
+			<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
+			{newsLoading ? <NewsCardPlaceholder /> :
+				<FlatList
+					data={news}
+					horizontal={true}
+					showsHorizontalScrollIndicator={false}
+					renderItem={({ item, index }) => (
+						<CardTextImage
+							style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
+							onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
+							image={item.jetpack_featured_media_url}
+							info={item.title.rendered}
+						/>
+					)}
+					keyExtractor={(item, index) => index.toString()}
+				/>
+			}
+		</Body>
+	</Container>
 }
 
 export default Home

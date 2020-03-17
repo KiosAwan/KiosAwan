@@ -10,7 +10,11 @@ export const Wrapper = props => {
 						// style: [item.style]//, item.props.style && item.props.style.width ? { width: '100%' } : {}]
 					})
 					return <View style={[
-						{ width: item.props._width, justifyContent: item.props._justify || 'center' },
+						{
+							width: item.props._width,
+							justifyContent: item.props._justify || 'center'
+						},
+						item.props.flex && { flex: 1 },
 						item.props._style,
 						item.props.style && item.props.style.width ? { width: item.props.style.width } : {},
 						item.props.width ? { width: item.props.width } : {}
