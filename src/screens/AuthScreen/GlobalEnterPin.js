@@ -34,7 +34,10 @@ const GlobalEnterPin = props => {
 			<PinView
 				onPressBack={_closePin}
 				pinLength={codeLength || 4}
-				onComplete={(code, clear) => pinResolve(code)}
+				onComplete={(code, clear) => pinResolve(code, () => {
+					clear()
+					_closePin()
+				})}
 			/>
 		</LinearGradient>
 		{/* <Text style={{ padding: 20 }}>{title ? title : 'Masukkan PIN'}</Text>

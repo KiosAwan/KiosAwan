@@ -40,6 +40,7 @@ const PinView = props => {
 			</View>
 		</Wrapper>
 		<View style={{ alignSelf: 'center', flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+			{props.title}
 			{
 				[
 					Array.generateEmpty(pinLength).map((item, i) => {
