@@ -80,12 +80,11 @@ const Home = ({ navigation }) => {
 	}
 
 	const _onPressCashier = () => {
-		// if (User.data.status == 1) {
-		// 	navigation.navigate('/cashier')
-		// } else {
-		// 	_featureDisabled()
-		// }
-		alert(876545)
+		if (User.data.status == 1) {
+			navigation.navigate('/cashier')
+		} else {
+			_featureDisabled()
+		}
 	}
 
 	const _onPressPayment = () => {
