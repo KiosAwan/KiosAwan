@@ -5,7 +5,7 @@ import { GlobalHeaderWithIcon } from '../Header/Header';
 
 const Container = props => {
 	const { style, onlyTitle } = props
-	return <View {...props} style={{ flex: 1, backgroundColor: ColorsList.authBackground, ...style }} >
+	return <View {...props} style={{ flex: 1, justifyContent:'space-between', backgroundColor: ColorsList.authBackground, ...style }} >
 		{props.header && <GlobalHeaderWithIcon onlyTitle={onlyTitle} {...props.header} />}
 		{props.children}
 	</View>

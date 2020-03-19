@@ -9,6 +9,7 @@ import AturPDAM from "src/screens/AuthScreen/PPOB/HargaPPOB/PDAM"
 import AturGames from "src/screens/AuthScreen/PPOB/HargaPPOB/Games"
 import AturEmoney from "src/screens/AuthScreen/PPOB/HargaPPOB/Emoney"
 import SettingHargaPPOB from "src/screens/AuthScreen/PPOB/HargaPPOB"
+import SubProduct from "src/screens/AuthScreen/PPOB/HargaPPOB/SubProduct"
 
 const PPOBSetting = {
 	'/ppob/settings': {
@@ -16,6 +17,9 @@ const PPOBSetting = {
 		navigationOptions: {
 			header: null
 		}
+	},
+	'/ppob/settings/sub-product': {
+		screen: SubProduct
 	},
 	'/ppob/settings/pulsa': {
 		screen: AturPulsa,

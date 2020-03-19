@@ -7,12 +7,12 @@ import { $Padding } from 'src/utils/stylehelper'
 import { Image } from 'src/components/CustomImage'
 import { Wrapper } from 'src/components/View/Wrapper'
 import { Text } from 'src/components/Text/CustomText'
-import { getListSetupHargaPpob } from 'src/utils/api/setupharga'
+import { getListProducts } from 'src/utils/api/setupharga'
 
 const SettingHargaPPOB = ({ navigation }) => {
     const [listProducts, setListProducts] = useState()
     const _getData = async () => {
-        const { status, data } = await getListSetupHargaPpob()
+        const { status, data } = await getListProducts()
         if (status == 200) {
             setListProducts(data)
         } else {
@@ -28,7 +28,7 @@ const SettingHargaPPOB = ({ navigation }) => {
             <FlatList
                 data={listProducts}
                 renderItem={({ item }) => <Button
-                    onPress={() => navigation.navigate(`/ppob/settings/${item.type}`)}
+                    onPress={() => navigation.navigate(`/ppob/settings/sub-product`, item)}
                     style={{ marginBottom: 5 }}
                     padding={$Padding(5, 10)}
                     wrapper={{ justify: 'flex-start' }}

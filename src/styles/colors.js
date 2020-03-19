@@ -5,6 +5,7 @@ export const ColorsList = {
     authBackground: "#f3f3f3",
     whiteColor: '#ffffff',
     whitePlaceholder: 'rgba(255,255,255,.5)',
+    blackTransparent: 'rgba(0,0,0,.5)',
     greyFont: '#808080',
     greySoft: '#8b8b8b',
     greyAuthHard: '#dedede',

@@ -7,6 +7,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { $Padding } from 'src/utils/stylehelper';
 import { Button } from '../Button/Button';
 import Divider from '../Row/Divider';
+import Icon from 'react-native-vector-icons/FontAwesome5'
+import { Wrapper } from '../View/Wrapper';
 
 const Modal = (props) => {
 	const styles = StyleSheet.create({
@@ -104,7 +106,43 @@ const AwanPopup = {
 const ButtonWrapper = props => {
 	return <View style={[styles.buttonWrapper, props.style]}>{props.children}</View>
 }
-export { Modal, AwanPopup }
+const Dropdown = props => {
+	const { style, children, visible, state, selected } = props
+	return <View>
+		<TouchableOpacity onPress={() => state(true)} style={{
+			backgroundColor: ColorsList.whiteColor,
+			padding: 10
+		}}>
+			<Wrapper justify="space-between" style={{
+				borderBottomWidth: 1,
+				borderBottomColor: ColorsList.greySoft
+			}}>
+				<Text size={16}>{!selected ? 'Pilih Salah Satu' : selected}</Text>
+				<Icon color={ColorsList.greyFont} size={15} name="chevron-down" />
+			</Wrapper>
+		</TouchableOpacity>
+		<View style={!visible && { display: 'none' }}>
+			<TouchableOpacity onPress={() => state(false)} activeOpacity={1} style={{
+				position: 'absolute',
+				// backgroundColor: ColorsList.blackTransparent,
+				zIndex: 999,
+				width: '100%',
+				height: 9999,
+				top: -999
+			}} />
+			<View {...props} style={{
+				position: 'absolute',
+				zIndex: 1000,
+				...style
+			}}>
+				<View style={style}>
+					{children}
+				</View>
+			</View>
+		</View>
+	</View>
+}
+export { Modal, Dropdown, AwanPopup }
 const styles = StyleSheet.create({
 	shadow: {
 		shadowColor: ColorsList.greySoft,
