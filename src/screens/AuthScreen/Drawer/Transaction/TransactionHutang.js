@@ -6,13 +6,14 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { ImageText } from 'src/components/Card/CardComp';
 import { Icon } from 'native-base';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { } from 'src/components/Input/InputComp';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { convertRupiah } from 'src/utils/authhelper';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
+import MDInput from 'src/components/Input/MDInput';
 
 const TransactionDetailHutang = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -45,10 +46,9 @@ const TransactionDetailHutang = ({ navigation }) => {
 				<Button {...menuProps}>Dibatalkan</Button>
 			</AwanPopup.Menu>
 			<View style={{ backgroundColor: ColorsList.whiteColor, padding: 15 }}>
-				<FloatingInput label="Cari transaksi" left={30}>
-					<Icon style={{ color: ColorsList.primary }} name="search" />
-					<TextInput style={{ width: '92%' }} value={search} onChangeText={text => setSearch(text)} />
-				</FloatingInput>
+				<MDInput label="Cari transaksi" left={30}
+					renderLeftAccessory={() => <Icon style={{ color: ColorsList.primary }} name="search" />}
+					style={{ width: '92%' }} value={search} onChangeText={text => setSearch(text)} />
 			</View>
 			<View style={{ flex: 1, padding: 15 }}>
 				{
@@ -78,8 +78,8 @@ const TransactionDetailHutang = ({ navigation }) => {
 							}}
 						/>
 						:
-						<View style={{ alignItems: 'center', width : '75%' }}>
-							<Image style={{ width: 250, height: 250, marginTop : 50 }} source={require('src/assets/images/no-transaction.png')} />
+						<View style={{ alignItems: 'center', width: '75%' }}>
+							<Image style={{ width: 250, height: 250, marginTop: 50 }} source={require('src/assets/images/no-transaction.png')} />
 							<View style={{ alignItems: 'center' }}>
 								<Text font="ExtraBold" size={17}>Anda belum memiliki piutang!</Text>
 								<Text align="center">Silahkan lalukan transaksi baru untuk mengisi laporan.</Text>

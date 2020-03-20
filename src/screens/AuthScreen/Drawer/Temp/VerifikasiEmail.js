@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text } from 'react-native';
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { } from '../../../../components/Input/InputComp';
 import { WrapperItem } from '../../../../components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const VerifikasiEmail = ({ navigation }) => {
@@ -15,9 +16,7 @@ const VerifikasiEmail = ({ navigation }) => {
 			<GlobalHeader title="Verifikasi Email" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 15 }}>
 				<View style={{ padding: 20, backgroundColor: ColorsList.whiteColor, marginBottom: 15 }}>
-					<FloatingInput label="Email">
-						<TextInput value="" />
-					</FloatingInput>
+					<MDInput label="Email" value="" />
 				</View>
 				<View style={{ padding: 20, backgroundColor: ColorsList.dangerSoft }}>
 					<WrapperItem rightStyle={{ alignItems: 'flex-start', width: '85%' }} left={

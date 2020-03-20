@@ -11,18 +11,19 @@ import {
     Modal
 } from 'react-native';
 import BarStatus from '../../../../components/BarStatus';
-import {  GlobalHeaderWithIcon } from '../../../../components/Header/Header';
+import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import { editCategory, deleteCategory } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const KategoriEdit = ({ navigation }) => {
@@ -102,11 +103,9 @@ const KategoriEdit = ({ navigation }) => {
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama Kategori">
-                        <TextInput value={categoryName}
-                            onChangeText={(text) => setCategoryName(text)}
-                        />
-                    </FloatingInput>
+                    <MDInput label="Nama Kategori" value={categoryName}
+                        onChangeText={(text) => setCategoryName(text)}
+                    />
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Masukkan nama kategori baru</Text>

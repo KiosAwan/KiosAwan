@@ -5,7 +5,7 @@ import { SizeList } from "src/styles/size"
 
 const styles = StyleSheet.create({
     topComp: {
-        ...$Margin(15, 15, 10),
+        // ...$Margin(15, 15, 10),
         ...$Padding(0, 10),
         borderRadius: 5,
         justifyContent: "flex-end",

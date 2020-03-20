@@ -5,7 +5,7 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { Text } from 'src/components/Text/CustomText';
 import { ColorsList } from 'src/styles/colors';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { } from 'src/components/Input/InputComp';
 import AsyncStorage from '@react-native-community/async-storage';
 import { sendProfileData } from 'src/utils/authhelper';
 import { getProfile } from 'src/redux/actions/actionsUserData';
@@ -19,6 +19,7 @@ import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const UpdateProfil = ({ navigation }) => {
@@ -153,23 +154,15 @@ const UpdateProfil = ({ navigation }) => {
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
 					{
-						inputan.map((input, i) => {
-							return <FloatingInput key={i} style={styles.floatingInput} label={input.label}>
-								<TextInput onChangeText={input.handleChangeText} value={input.value} />
-							</FloatingInput>
-						})
+						inputan.map((input, i) => <MDInput key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} />)
 					}
 
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
-							<View>
-								<FloatingInput left="10%" label="Cari Provinsi">
-									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
-								</FloatingInput>
-								<Divider />
-							</View>
+							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
+								<Icon style={{ color: ColorsList.primary }} name="search" />}
+								value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
 						}
 						value={provinsi.selected ? provinsi.selected.nama : null}
 						handleChangePicker={_setProvinsi}
@@ -180,13 +173,9 @@ const UpdateProfil = ({ navigation }) => {
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
-							<View>
-								<FloatingInput left="10%" label="Cari Kabupaten">
-									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={kabupaten.search} onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
-								</FloatingInput>
-								<Divider />
-							</View>
+							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
+								<Icon style={{ color: ColorsList.primary }} name="search" />}
+								value={kabupaten.search} onChangeText={text => setProvinsi({ ...kabupaten, search: text })} />
 						}
 						value={kabupaten.selected ? kabupaten.selected.nama : null}
 						handleChangePicker={_setKabupaten}
@@ -197,13 +186,9 @@ const UpdateProfil = ({ navigation }) => {
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
-							<View>
-								<FloatingInput left="10%" label="Cari Kecamatan">
-									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={kecamatan.search} onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
-								</FloatingInput>
-								<Divider />
-							</View>
+							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
+								<Icon style={{ color: ColorsList.primary }} name="search" />}
+								value={kecamatan.search} onChangeText={text => setProvinsi({ ...kecamatan, search: text })} />
 						}
 						value={kecamatan.selected ? kecamatan.selected.nama : null}
 						handleChangePicker={_setKecamatan}
@@ -214,13 +199,9 @@ const UpdateProfil = ({ navigation }) => {
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
-							<View>
-								<FloatingInput left="10%" label="Cari Desa">
-									<Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-									<TextInput _width='90%' value={desa.search} onChangeText={text => setDesa({ ...desa, search: text })} />
-								</FloatingInput>
-								<Divider />
-							</View>
+							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
+								<Icon style={{ color: ColorsList.primary }} name="search" />}
+								value={desa.search} onChangeText={text => setProvinsi({ ...desa, search: text })} />
 						}
 						value={desa.selected ? desa.selected.nama : null}
 						handleChangePicker={_setDesa}

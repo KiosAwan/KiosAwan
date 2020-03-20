@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { } from '../../../../components/Input/InputComp';
 import { ColorsList } from '../../../../styles/colors';
 import { Icon } from 'native-base';
 import { changePassword } from '../../../../utils/authhelper'
@@ -12,6 +12,7 @@ import { getProfile } from '../../../../redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import MDInput from 'src/components/Input/MDInput';
 
 const MenuSettingUbahPassword = ({ navigation }) => {
 	const PIN = navigation.params ? navigation.params.PIN : undefined
@@ -107,10 +108,8 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
 					{
 						inputan.map((input, i) => {
-							return <FloatingInput key={i} style={styles.floatingInput} label={input._label}>
-								<TextInput style={{ width: '90%' }} {...input} />
-								<Icon name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />
-							</FloatingInput>
+							return <MDInput key={i} style={styles.floatingInput} label={input._label} style={{ width: '90%' }} {...input}
+								renderRightAccessory={() => <Icon name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />} />
 						})
 					}
 				</View>

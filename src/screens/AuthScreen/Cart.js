@@ -9,7 +9,6 @@ import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader } from '../../components/Header/Header';
 import { PilihPelanggan, ToggleButton } from '../../components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
-import { FloatingInputLabel, FloatingInput } from '../../components/Input/InputComp';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
@@ -19,6 +18,7 @@ import { ImageAuto, Image } from 'src/components/CustomImage';
 import { Bottom } from 'src/components/View/Bottom';
 import Divider from 'src/components/Row/Divider';
 import { RemovePPOBFromCart } from 'src/redux/actions/actionsPPOB';
+import MDInput from 'src/components/Input/MDInput';
 
 const Cart = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -144,10 +144,8 @@ const Cart = ({ navigation }) => {
 				<Text _style={{ width: '30%', alignItems: 'flex-end' }} style={{ textAlignVertical: 'center', color: ColorsList.greyFont }}>{convertRupiah(Number(pesanan.price_out_product) * pesanan.quantity)}</Text>
 			</Wrapper>
 			<Wrapper justify="space-between">
-				<FloatingInput width="70%" label="Diskon">
-					<TextInput keyboardType="number-pad" onChangeText={_handleChangeDiscountItem}
-						value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
-				</FloatingInput>
+				<MDInput width="70%" label="Diskon" keyboardType="number-pad" onChangeText={_handleChangeDiscountItem}
+					value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
 				<ToggleButton
 					toggle={toggle}
 					buttons={["Rp", "%"]}
@@ -285,9 +283,7 @@ const Cart = ({ navigation }) => {
 					<View>
 						<Divider />
 						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<FloatingInput _width="70%" label="Diskon">
-								<TextInput keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
-							</FloatingInput>
+							<MDInput _width="70%" label="Diskon" keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
 							<ToggleButton
 								buttons={["Rp", "%"]}
 								changeToggle={(i) => {
@@ -301,7 +297,7 @@ const Cart = ({ navigation }) => {
 					: null}
 			</View>
 			<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5, padding: 10, paddingHorizontal: 15 }}>
-				<FloatingInputLabel value={Product.note} handleChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
+				<MDInput value={Product.note} onChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
 			</View>
 			<Button onPress={() => {
 				if (Product.jumlahitem > 0) {

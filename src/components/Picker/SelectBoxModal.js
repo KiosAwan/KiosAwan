@@ -2,7 +2,7 @@ import { Item, Input, Icon, Card, CardItem, Body, Grid, Col } from 'native-base'
 import { View, Modal, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { ScrollView, FlatList, TextInput } from 'react-native-gesture-handler';
-import { FloatingInputLabel, FloatingInput } from '../Input/InputComp';
+import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
 import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer } from '../../utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux'
@@ -217,18 +217,14 @@ export const PilihPelanggan = (props) => {
 					<MyModal visible={pelangganVisible} backdropDismiss={false} body={
 						<View style={{ padding: 15 }}>
 							<Text size={20} align="center">{action == 'add' ? 'Tambah Pelanggan' : 'Edit Pelanggan'}</Text>
-							<FloatingInput label="Nama pelanggan">
-								<TextInput width="100%"
-									value={pelanggan ? pelanggan.name_customer : ''}
-									keyboardType={props.keyboardType || "default"}
-									onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
-							</FloatingInput>
-							<FloatingInput label="No. Telepon">
-								<TextInput width="100%"
-									value={pelanggan ? pelanggan.phone_number_customer : ''}
-									keyboardType={props.keyboardType || "default"}
-									onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
-							</FloatingInput>
+							<MDInput label="Nama pelanggan" width="100%"
+								value={pelanggan ? pelanggan.name_customer : ''}
+								keyboardType={props.keyboardType || "default"}
+								onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
+							<MDInput label="No. Telepon" width="100%"
+								value={pelanggan ? pelanggan.phone_number_customer : ''}
+								keyboardType={props.keyboardType || "default"}
+								onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
 							<Wrapper style={{ paddingTop: 15 }} justify="flex-end">
 								<Button style={{ marginRight: 10 }} onPress={() => setPelangganVisible(false)} color="link">BATAL</Button>
 								<Button onPress={_handleButtonSimpan}>SIMPAN</Button>
@@ -309,9 +305,7 @@ export const SelectBoxModal = (props) => {
 		<AwanModal visible={modalVisible}
 			backdropDismiss={() => setModalVisible(false)}
 			style={{
-				width: '90%',
-				height: 500,
-				padding: 10
+				height: 500
 			}}>
 			{props.header}
 			<ScrollView persistentScrollbar style={{ height: '30%' }}>{

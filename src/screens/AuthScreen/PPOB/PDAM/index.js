@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Container, { Body } from 'src/components/View/Container';
+import Container, { Body, Footer } from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
 import styles from './PDAMStyles'
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { } from 'src/components/Input/InputComp';
 import { getPDAMProductList, checkTagihanPDAM, payTagihanPDAM } from 'src/utils/api/ppob/pdam_api';
 import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -138,45 +138,43 @@ const PDAM = ({ navigation }) => {
     const [testSelected, setTestSelected] = useState({})
     return <Container header={{
         title: "PDAM",
-        // image: require('src/assets/icons/phonebook.png'),
-        // onPressIcon: () => setModal(true),
-        onPressBack: () => navigation.goBack(),
+        onPressBack: () => navigation.goBack()
     }}>
         {/* Modal for check user pin */}
-
-        <GlobalEnterPin
-            title="Masukkan PIN"
-            codeLength={4}
-            subtitle="Masukkan PIN untuk melanjutkan transaksi"
-            visible={pinVisible}
-            visibleToggle={setPinVisible}
-            pinResolve={(pin) => _userAuthentication(pin)} />
-        {/* Modal for check user pin */}
-        {/* Popup components */}
-        <AwanPopup.Alert
-            message={alertMessage}
-            visible={alert}
-            closeAlert={() => setAlert(false)}
-        />
-        <AwanPopup.Loading visible={payLoading} />
-        <Modal backdropDismiss={() => setModal(false)} visible={modal}>
-            <View>
-                <Text size={17} align="center">Nomor Pelanggan</Text>
-                <SearchInput textInput={{
-                    placeholder: 'Cari nomor'
-                }} />
-                <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
-                    {[1, 2, 3, 4, 5, 6]
-                        .map((item, i) => [
-                            <Button color="link">Albert Stanley - 123456789123456789</Button>,
-                            i != 5 && <Divider />
-                        ])
-                    }
-                </ScrollView>
-            </View>
-        </Modal>
-        {/* Popup components */}
-        {/* <SelectBoxModal style={{ marginTop: 15 }}
+        <Body>
+            <GlobalEnterPin
+                title="Masukkan PIN"
+                codeLength={4}
+                subtitle="Masukkan PIN untuk melanjutkan transaksi"
+                visible={pinVisible}
+                visibleToggle={setPinVisible}
+                pinResolve={(pin) => _userAuthentication(pin)} />
+            {/* Modal for check user pin */}
+            {/* Popup components */}
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
+            <AwanPopup.Loading visible={payLoading} />
+            <Modal backdropDismiss={() => setModal(false)} visible={modal}>
+                <View>
+                    <Text size={17} align="center">Nomor Pelanggan</Text>
+                    <SearchInput textInput={{
+                        placeholder: 'Cari nomor'
+                    }} />
+                    <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
+                        {[1, 2, 3, 4, 5, 6]
+                            .map((item, i) => [
+                                <Button color="link">Albert Stanley - 123456789123456789</Button>,
+                                i != 5 && <Divider />
+                            ])
+                        }
+                    </ScrollView>
+                </View>
+            </Modal>
+            {/* Popup components */}
+            {/* <SelectBoxModal style={{ marginTop: 15 }}
             label="Pilih PDAM" closeOnSelect
             data={testJsonData}
             value={testSelected ? testSelected.id_pelanggan : ""}
@@ -187,82 +185,82 @@ const PDAM = ({ navigation }) => {
             renderItem={(item) => (<Text color={testSelected.id_pelanggan == item.id_pelanggan && 'primary'}>{item.id_pelanggan}</Text>)}>
             <Text>Data tidak ditemukan</Text>
         </SelectBoxModal> */}
-        <View style={styles.topComp}>
-            <SelectBoxModal style={{ marginTop: 15 }}
-                label="Pilih PDAM" closeOnSelect
-                data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
-                header={
-                    <View>
-                        <FloatingInput left="10%" label="Cari PDAM">
-                            <Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />
-                            <TextInput _width='90%' value={search} onChangeText={text => setSearch(text)} />
-                        </FloatingInput>
-                        <Divider />
-                    </View>
-                }
-                value={selected ? selected.name : ""}
-                handleChangePicker={(item) => setSelected(item)}
-                renderItem={(item) => (<Text>{item.name}</Text>)}>
-                <Text>Data tidak ditemukan</Text>
-            </SelectBoxModal>
-            <MDInput _width="80%"
-                label="No Pelanggan"
-                value={idPelanggan.toString()}
-                onChangeText={text => setIdPelanggan(text)}
-            />
-        </View>
-        {/* <View style={styles.simpan}>
+            <View style={styles.topComp}>
+                <SelectBoxModal style={{ marginTop: 15 }}
+                    label="Pilih PDAM" closeOnSelect
+                    data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
+                    header={
+                        <View style={{ padding: 10 }}>
+                            <MDInput label="Cari PDAM" renderLeftAccessory={() =>
+                                <Icon style={{ color: ColorsList.primary }} name="search" />}
+                                value={search} onChangeText={text => setSearch(text)} />
+                            <Divider />
+                        </View>
+                    }
+                    value={selected ? selected.name : ""}
+                    handleChangePicker={(item) => setSelected(item)}
+                    renderItem={(item) => (<Text>{item.name}</Text>)}>
+                    <Text>Data tidak ditemukan</Text>
+                </SelectBoxModal>
+                <MDInput _width="80%"
+                    label="No Pelanggan"
+                    value={idPelanggan.toString()}
+                    onChangeText={text => setIdPelanggan(text)}
+                />
+            </View>
+            {/* <View style={styles.simpan}>
             <Text>Simpan VA ini untuk masuk ke favorit</Text>
             <SwitchButton
                 // handleChangeToggle={_handleChangeToggle}
                 toggleValue={true}
             />
         </View> */}
-        {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
-            :
-            tagihanData ?
-                <Body style={{ padding: 0 }}>
-                    <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Nama Pelanggan</Text>
-                            <Text font="Regular">{tagihanData.transaction.nama}</Text>
-                        </Wrapper>
-                        <Divider />
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Id Pelanggan</Text>
-                            <Text font="Regular">{tagihanData.transaction.customerID}</Text>
-                        </Wrapper>
-                        <Divider />
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Jumlah Tagihan</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
-                        </Wrapper>
-                        <Divider />
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Denda</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
-                        </Wrapper>
-                        <Divider />
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Admin</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
-                        </Wrapper>
-                        <Divider />
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Total Tagihan</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
-                        </Wrapper>
-                    </View>
-                </Body>
-                : null}
-        <BottomVertical>
+            {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
+                :
+                tagihanData ?
+                    <Body style={{ padding: 0 }}>
+                        <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Nama Pelanggan</Text>
+                                <Text font="Regular">{tagihanData.transaction.nama}</Text>
+                            </Wrapper>
+                            <Divider />
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Id Pelanggan</Text>
+                                <Text font="Regular">{tagihanData.transaction.customerID}</Text>
+                            </Wrapper>
+                            <Divider />
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Jumlah Tagihan</Text>
+                                <Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
+                            </Wrapper>
+                            <Divider />
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Denda</Text>
+                                <Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
+                            </Wrapper>
+                            <Divider />
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Admin</Text>
+                                <Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
+                            </Wrapper>
+                            <Divider />
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Total Tagihan</Text>
+                                <Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
+                            </Wrapper>
+                        </View>
+                    </Body>
+                    : null}
+        </Body>
+        <Footer>
             <Button onPress={() => _cekTagihan(selected, idPelanggan)} color="white" width="100%">
                 CEK TAGIHAN
             </Button>
             <Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
                 BAYAR
             </Button>
-        </BottomVertical>
+        </Footer>
     </Container >
 }
 export default PDAM
