@@ -62,8 +62,6 @@ const Topup = ({ navigation }) => {
 	}
 
 	const _pressAddTopUpValue = (value) => {
-		console.debug("value", value)
-		console.debug(topupValue)
 		if (!topupValue) {
 			setTopupValue(value)
 		} else {
@@ -83,6 +81,7 @@ const Topup = ({ navigation }) => {
 			amount: topupValue,
 			payment_channel: topupMethod
 		}
+		console.debug(data)
 		const res = await requestTopUp(data)
 		setApiLoading(false)
 		if (res.status == 200) {
