@@ -14,12 +14,13 @@ import BarStatus from '../../../../components/BarStatus';
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
-import {sendNewCustomer } from '../../../../utils/authhelper';
+import { sendNewCustomer } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getCustomer } from '../../../../redux/actions/actionsCustomer';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const height = Dimensions.get('window').height
@@ -39,7 +40,7 @@ const PelangganAdd = ({ navigation }) => {
             const res = await sendNewCustomer({
                 id_store: User.store.id_store,
                 name_customer: name,
-                phone_number_customer : phone_number
+                phone_number_customer: phone_number
             })
             if (res.status == 201) {
                 setModalVisible(true)
@@ -77,18 +78,14 @@ const PelangganAdd = ({ navigation }) => {
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama Pelanggan">
-                        <TextInput value={name}
-                            onChangeText={(text) => setName(text)}
+                    <MDInput label="Nama Pelanggan" value={name}
+                        onChangeText={(text) => setName(text)}
+                    />
+                    <View style={{ marginTop: 10 }}>
+                        <MDInput label="No Telepon" value={phone_number}
+                            keyboardType="number-pad"
+                            onChangeText={(text) => setPhoneNumber(text)}
                         />
-                    </FloatingInput>
-                    <View style={{marginTop : 10}}>
-                        <FloatingInput label="No Telepon">
-                            <TextInput value={phone_number}
-                                keyboardType="number-pad"
-                                onChangeText={(text) => setPhoneNumber(text)}
-                            />
-                        </FloatingInput>
                     </View>
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>

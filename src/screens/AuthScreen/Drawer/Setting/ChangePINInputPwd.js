@@ -17,8 +17,9 @@ import { SizeList } from '../../../../styles/size';
 import { verifyUserPassword } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { } from '../../../../components/Input/InputComp';
 import { Icon } from 'native-base';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const height = Dimensions.get('window').height
@@ -61,13 +62,10 @@ const ChangePINInputPwd = ({ navigation }) => {
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 16 }}>Masukkan password</Text>
                 </View>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Password">
-                        <TextInput value={password}
-                            secureTextEntry={secure}
-                            onChangeText={(text) => setPassword(text)}
-                        />
-                        <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{ color: ColorsList.greySoft }} />
-                    </FloatingInput>
+                    <MDInput label="Password" value={password}
+                        secureTextEntry={secure}
+                        onChangeText={(text) => setPassword(text)}
+                        renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{ color: ColorsList.greySoft }} />} />
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Password dibutuhkan untuk mengubah pin</Text>

@@ -15,13 +15,14 @@ import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import { editDiscount, deleteDiscount } from '../../../../utils/authhelper';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
 import { ToggleButton } from '../../../../components/Picker/SelectBoxModal';
 import { getDiscount } from '../../../../redux/actions/actionsDiscount';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
+import MDInput from 'src/components/Input/MDInput';
 
 const DiskonEdit = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -123,27 +124,23 @@ const DiskonEdit = ({ navigation }) => {
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama diskon">
-                        <TextInput value={name}
-                            onChangeText={(text) => setName(text)}
-                        />
-                    </FloatingInput>
+                    <MDInput label="Nama diskon" value={name}
+                        onChangeText={(text) => setName(text)}
+                    />
                     <View style={{ marginTop: 10 }}>
-                        <FloatingInput label="Diskon">
-                            <TextInput value={value}
-                                keyboardType="number-pad"
-                                onChangeText={_handleChangeDiskon}
-                            />
-                            <View style={{ width: '20%' }}>
-                                <ToggleButton
-                                    toggle={discount_type}
-                                    buttons={["Rp", "%"]}
-                                    changeToggle={(i) => {
-                                        setDiscountType(i)
-                                    }}
-                                />
-                            </View>
-                        </FloatingInput>
+                        <MDInput label="Diskon" value={value}
+                            keyboardType="number-pad"
+                            onChangeText={_handleChangeDiskon}
+                            renderRightAccessory={() =>
+                                <View style={{ width: '20%' }}>
+                                    <ToggleButton
+                                        toggle={discount_type}
+                                        buttons={["Rp", "%"]}
+                                        changeToggle={(i) => {
+                                            setDiscountType(i)
+                                        }}
+                                    />
+                                </View>} />
                     </View>
                 </View>
             </View>

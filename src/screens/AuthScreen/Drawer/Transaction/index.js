@@ -7,7 +7,7 @@ import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
 import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -91,9 +91,6 @@ const TransactionList = ({ navigation }) => {
                     <SearchInput width="85%" clear={() => setSearch('')}>
                       <TextInput placeholder="Cari transaksi" onFocus={() => setSearchIconColor(ColorsList.primary)} onBlur={() => setSearchIconColor(ColorsList.greyFont)} value={search} onChangeText={text => setSearch(text)} />
                     </SearchInput>
-                    {/* <FloatingInput left={30} _style={{ width: "85%" }} label="Cari transaksi">
-                      <Icon style={{ color: searchIconColor }} name="search" />
-                    </FloatingInput> */}
                     <Button _style={{ width: '12%', justifyContent: 'flex-end' }} onPress={() => setFilterPopup(true)}>
                       <Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/filter.png')} />
                     </Button>

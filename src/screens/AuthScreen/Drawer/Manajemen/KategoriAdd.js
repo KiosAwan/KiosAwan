@@ -17,9 +17,10 @@ import { SizeList } from '../../../../styles/size';
 import { verifyUserPassword, sendNewCategory } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const height = Dimensions.get('window').height
@@ -74,12 +75,10 @@ const KategoriAdd = ({ navigation }) => {
                 />
             </Modal>
             <View style={{ alignItems: "center" }}>
-                <View style={{marginTop : 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama Kategori">
-                        <TextInput value={categoryName}
-                            onChangeText={(text) => setCategoryName(text)}
-                        />
-                    </FloatingInput>
+                <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
+                    <MDInput label="Nama Kategori" value={categoryName}
+                        onChangeText={(text) => setCategoryName(text)}
+                    />
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Masukkan nama kategori untuk menambah kategori baru</Text>

@@ -7,7 +7,7 @@ import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Text } from 'src/components/Text/CustomText';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { } from 'src/components/Input/InputComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { editProductImage, editProductIdCategory, editProductName, editRemoveAllNewProduct, editProductBarcode } from 'src/redux/actions/actionsEditProduct';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -18,6 +18,7 @@ import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Modal as ModalCustom } from 'src/components/ModalContent/Popups'
+import MDInput from 'src/components/Input/MDInput';
 
 
 const width = Dimensions.get('window').width
@@ -112,9 +113,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 					<View style={{ marginTop: 10 }}>
-						<FloatingInput label={"Nama Kategori"}>
-							<TextInput value={newCategoryName} onChangeText={(text) => setNewCategoryName(text)} />
-						</FloatingInput>
+						<MDInput label={"Nama Kategori"} value={newCategoryName} onChangeText={(text) => setNewCategoryName(text)} />
 					</View>
 					<View style={styles.viewButtonPopup}>
 						<Button style={styles.buttonSimpan} onPress={_handleSaveNewCategory}>
@@ -130,9 +129,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
-							<FloatingInput label="Nomor Barcode">
-								<TextInput onChangeText={(text) => dispatch(editProductBarcode(text))} value={EditProduct.barcode} />
-							</FloatingInput>
+							<MDInput label="Nomor Barcode" onChangeText={(text) => dispatch(editProductBarcode(text))} value={EditProduct.barcode} />
 						</Col>
 						<Col style={{ justifyContent: 'flex-end' }} size={.2}>
 							<Button onPress={() => navigation.navigate('/drawer/manajemen/produk/edit/barcode')} style={styles.buttonScanBarcode}>
@@ -141,13 +138,11 @@ const ManajemenProdukEdit = ({ navigation }) => {
 						</Col>
 					</Grid>
 					<View style={{ marginTop: 15 }}>
-						<FloatingInput label="Nama Produk">
-							<TextInput
-								editable={false}
-								value={EditProduct.name}
-								onChangeText={text => text.length <= 45 ? dispatch(editProductName(text)) : null}
-							/>
-						</FloatingInput>
+						<MDInput label="Nama Produk"
+							editable={false}
+							value={EditProduct.name}
+							onChangeText={text => text.length <= 45 ? dispatch(editProductName(text)) : null}
+						/>
 					</View>
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Pilih Kategori"

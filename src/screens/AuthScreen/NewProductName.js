@@ -18,6 +18,8 @@ import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
 import { Modal as ModalCustom, AwanPopup } from 'src/components/ModalContent/Popups'
 import { Wrapper } from 'src/components/View/Wrapper';
+import MDInput from 'src/components/Input/MDInput';
+import Divider from 'src/components/Row/Divider';
 
 
 const width = Dimensions.get('window').width
@@ -106,37 +108,34 @@ const NewProductName = ({ navigation }) => {
 			/>
 			{/* <MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={ */}
 			<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} style={{ width: '80%' }}>
-				<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
-				<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
-				<View style={{ marginTop: 10 }}>
-					<FloatingInputLabel
-						label={"Nama Kategori"}
+				<Text style={{ paddingHorizontal: 10, color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
+				<Divider />
+				<View style={{ paddingHorizontal: 10, marginTop: 10 }}>
+					<MDInput
+						label="Nama Kategori"
 						value={newCategoryName}
-						handleChangeText={(text) => setNewCategoryName(text)}
+						onChangeText={(text) => setNewCategoryName(text)}
 					/>
 				</View>
-				<View style={styles.viewButtonPopup}>
-					<Button style={{ marginLeft: 10 }} onPress={_handleSaveNewCategory}>SIMPAN</Button>
+				<Wrapper justify="flex-end" style={{ paddingHorizontal: 10 }}>
 					<Button onPress={() => setAddCategoryVisible(false)} color="white">BATAL</Button>
-				</View>
+					<Button style={{ marginLeft: 10 }} onPress={_handleSaveNewCategory}>SIMPAN</Button>
+				</Wrapper>
 			</ModalCustom>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
 				<View styles={{ paddingHorizontal: 30 }}>
-					<Wrapper style={{ marginBottom: 15 }} justify="space-between">
-						<FloatingInputLabel _width="80%" handleChangeText={(text) => {
-							if (validNumber(text)) {
-								dispatch(addProductBarcode(text))
-							}
-						}} label="Nomor Barcode" value={NewProduct.barcode} />
-						<Button onPress={() => navigation.goBack()}>
-							<Image size={25} source={require('src/assets/icons/barcode.png')} />
-						</Button>
-					</Wrapper>
-					<FloatingInputLabel
+					<MDInput onChangeText={(text) => {
+						if (validNumber(text)) {
+							dispatch(addProductBarcode(text))
+						}
+					}} label="Nomor Barcode" renderRightAccessory={() => <Button onPress={() => navigation.goBack()}>
+						<Image size={25} source={require('src/assets/icons/barcode.png')} />
+					</Button>} value={NewProduct.barcode} />
+					<MDInput
 						disabled={isDisabled}
 						label="Nama Produk"
 						value={NewProduct.name}
-						handleChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
+						onChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
 					/>
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Pilih Kategori"
@@ -151,9 +150,7 @@ const NewProductName = ({ navigation }) => {
 							</TouchableOpacity>
 						}
 						footer={
-							<View style={styles.footerCategory}>
-								<Text style={{ color: ColorsList.greyFont }}>BATAL</Text>
-							</View>
+							<Button onPress={() => setAddCategoryVisible(false)} color="link" align="flex-end">BATAL</Button>
 						}
 						value={selected}
 						handleChangePicker={(item) => {

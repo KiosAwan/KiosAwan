@@ -109,9 +109,6 @@ const Topup = ({ navigation }) => {
 					<Text>{convertRupiah(User.data.saldo)}</Text>
 				</Wrapper>
 				<View style={[styles.group]}>
-					{/* <FloatingInput label="Nominal topup">
-						<InputCurrency value={topupValue.toString()} onChangeText={text => setTopupValue(text)} />
-					</FloatingInput> */}
 					<FloatingInputLabelCurrency style={{ margin: 0 }}
 						value={topupValue.toString()}
 						handleChangeText={text => setTopupValue(text)}

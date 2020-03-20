@@ -14,12 +14,13 @@ import { GlobalHeader } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import AsyncStorage from '@react-native-community/async-storage';
 import { changeEmail } from '../../../../utils/authhelper';
 import { getProfile } from '../../../../redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const height = Dimensions.get('window').height
@@ -51,7 +52,7 @@ const UbahEmailNewEmail = ({ navigation }) => {
 		}
 	}
 
-const [loading, setLoading]=useState(false)
+	const [loading, setLoading] = useState(false)
 	return (
 		<View style={styles.container} >
 			<BarStatus />
@@ -73,21 +74,17 @@ const [loading, setLoading]=useState(false)
 					closeModal={() => setModalVisible(false)}
 				/>
 			</Modal>
-			<AwanPopup.Loading visible={loading}/>
+			<AwanPopup.Loading visible={loading} />
 			<View style={{ alignItems: "center", marginTop: 20 }}>
 				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-					<FloatingInput label="Email lama">
-						<TextInput value={User.data.email}
-							editable={false}
-						/>
-					</FloatingInput>
+					<MDInput label="Email lama" value={User.data.email}
+						editable={false}
+					/>
 				</View>
 				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-					<FloatingInput label="Email baru">
-						<TextInput value={newEmail}
-							onChangeText={(text) => setNewEmail(text)}
-						/>
-					</FloatingInput>
+					<MDInput label="Email baru" value={newEmail}
+						onChangeText={(text) => setNewEmail(text)}
+					/>
 				</View>
 			</View>
 			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
