@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 
 const ListrikPascabayar = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -98,6 +99,7 @@ const ListrikPascabayar = ({ navigation }) => {
 		if (res.status == 200) {
 			const data = { type: "tagihan_listrik", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: "Listrik Pascabayar" }
 			dispatch(AddPPOBToCart(data))
+			dispatch(getProfile(User.data.id))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
 			console.debug("BERHASIL BAYAR PRABAYAR")
 			navigation.navigate("/ppob/status", { params: res.data })
