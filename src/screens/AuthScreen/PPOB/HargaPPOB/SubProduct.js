@@ -33,15 +33,17 @@ const SubProduct = ({ navigation }) => {
 
     const _selectProvider = async provider => {
         setDropdownVisible(false)
-        if (productMargin.length > 0) {
-            alert('silahkan simpan biaya admin anda terlebih dahulu')
-        } else {
-            setProviderSelected(provider)
-            setProductMargin([])
-            const { data, status } = await getSubProducts(params.type, provider.code)
-            if (status == 200) {
-                setProducts([])
-                setTimeout(() => setProducts(data), 50)
+        if (provider.code != providerSelected.code) {
+            if (productMargin.length > 0) {
+                alert('silahkan simpan biaya admin anda terlebih dahulu')
+            } else {
+                setProviderSelected(provider)
+                setProductMargin([])
+                const { data, status } = await getSubProducts(params.type, provider.code)
+                if (status == 200) {
+                    setProducts([])
+                    setTimeout(() => setProducts(data), 50)
+                }
             }
         }
     }
