@@ -19,6 +19,7 @@ import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { checkTagihanBPJS, payTagihanBPJS } from 'src/utils/api/ppob/bpjs_api';
 import { useDispatch, useSelector } from 'react-redux';
 import GlobalEnterPin from '../../GlobalEnterPin';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 
 const BPJS = ({ navigation }) => {
     //Initialize dispatch 
@@ -105,6 +106,7 @@ const BPJS = ({ navigation }) => {
         if (res.status == 200) {
             const data = { type: "bpjs", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: "BPJS" }
             dispatch(AddPPOBToCart(data))
+            dispatch(getProfile(User.data.id))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
             navigation.navigate("/ppob/status", { params: res.data })
         } else if (res.status == 400) {
