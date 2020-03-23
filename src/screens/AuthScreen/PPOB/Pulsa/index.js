@@ -107,8 +107,8 @@ const PpobPulsa = ({ navigation }) => {
 	}
 	return <Container header={{
 		title: "Pulsa",
-		image: require('src/assets/icons/phonebook.png'),
-		onPressIcon: () => setModal(true),
+		// image: require('src/assets/icons/phonebook.png'),
+		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
 		{/* Modal for check user pin */}
