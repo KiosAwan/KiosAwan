@@ -4,8 +4,13 @@ import { ColorsList } from 'src/styles/colors';
 import { GlobalHeaderWithIcon } from '../Header/Header';
 
 const Container = props => {
-	const { style, onlyTitle } = props
-	return <View {...props} style={{ flex: 1, backgroundColor: ColorsList.authBackground, ...style }} >
+	const { style, onlyTitle, justify } = props
+	return <View {...props} style={{
+		flex: 1,
+		backgroundColor: ColorsList.authBackground,
+		...style,
+		...justify && { justifyContent: justify }
+	}} >
 		{props.header && <GlobalHeaderWithIcon onlyTitle={onlyTitle} {...props.header} />}
 		{props.children}
 	</View>

@@ -4,7 +4,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { ColorsList } from 'src/styles/colors';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
@@ -58,14 +58,9 @@ const StatusPesanan = ({ navigation }) => {
 					</View>
 					{
 						transaction && transaction.tagihan == 0 ?
-							<View/> :
-							<Text>{convertRupiah(parseInt(_checkData('tagihan')))}</Text>
+							<View /> :
+							<Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
 					}
-				</Wrapper>
-				<Divider />
-				<Wrapper {...wrapper}>
-					<Text>Kode Transaksi</Text>
-					<Text>{_checkData('transaction_code')}</Text>
 				</Wrapper>
 				<Divider />
 				{_checkData('customer_name', true) && [
@@ -77,12 +72,17 @@ const StatusPesanan = ({ navigation }) => {
 				]}
 				<Wrapper {...wrapper}>
 					<Text>Tanggal Transaksi</Text>
-					<Text>{moment(_checkData('date')).format('MM / YYYY')}</Text>
+					<Text>{moment(_checkData('date')).format('DD MMM YYYY - hh:mm')}</Text>
 				</Wrapper>
 				<Divider />
 				<Wrapper {...wrapper}>
-					<Text>Biaya Admin</Text>
-					<Text>{convertRupiah(parseInt(_checkData('admin')))}</Text>
+					<Text>Total Tagihan</Text>
+					<Text>{convertRupiah(_checkData('tagihan'))}</Text>
+				</Wrapper>
+				<Divider />
+				<Wrapper {...wrapper}>
+					<Text>Biaya Pembayaran</Text>
+					<Text>{convertRupiah(_checkData('admin'))}</Text>
 				</Wrapper>
 				<Divider />
 				{_checkData('denda', true) && [
@@ -93,12 +93,22 @@ const StatusPesanan = ({ navigation }) => {
 					<Divider />
 				]}
 				<Wrapper {...wrapper}>
-					<Text>Total Tagihan</Text>
-					<Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
+					<Text font="ExtraBold">Total Tagihan</Text>
+					<Text font="ExtraBold">{convertRupiah(parseInt(_checkData('total')))}</Text>
 				</Wrapper>
 			</View>
 		</Body>
 		<Footer>
+			<Wrapper justify="space-between">
+				<Button wrapper={{ justify: 'center' }} color="white" _width="49.5%" onPress={() => navigation.navigate('/ppob')}>
+					<Image _style={{ marginRight: 10 }} style={{ height: 25, width: 25 }} source={require('src/assets/icons/plus-primary.png')} />
+					<Text color="primary">TAMBAH PRODUK</Text>
+				</Button>
+				<Button wrapper={{ justify: 'center' }} color="white" _width="49.5%" onPress={() => { }}>
+					<Image _style={{ marginRight: 10 }} style={{ height: 25, width: 25 }} source={require('src/assets/icons/print-primary.png')} />
+					<Text color="primary">CETAK STRUK</Text>
+				</Button>
+			</Wrapper>
 			<Button onPress={() => navigation.navigate('/ppob')}>LANJUT</Button>
 		</Footer>
 	</Container>
