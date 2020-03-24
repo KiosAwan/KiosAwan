@@ -204,7 +204,6 @@ const BPJS = ({ navigation }) => {
                         </Wrapper>
                         <TouchableOpacity onPress={() => setDetail(!detail)} style={{ padding: 10, alignSelf: "flex-end" }}>
                             <Text color="primary" font="Regular">DETAIL</Text>
-                            {/* <Text font="Regular">{convertRupiah(tagihanData.total)}</Text> */}
                         </TouchableOpacity>
                         {detail ? tagihanData.details.map((item, i) => (
                             <View key={i}>
@@ -215,12 +214,6 @@ const BPJS = ({ navigation }) => {
                                 <Divider />
                             </View>
                         )) : null}
-
-                        {/* <Divider />
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Total Tagihan</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.data.total)}</Text>
-                        </Wrapper> */}
                     </View>
                 </Body>
                 : null}

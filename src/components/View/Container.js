@@ -18,7 +18,7 @@ const Container = props => {
 
 const Body = props => {
 	const { style } = props
-	return <ScrollView {...props} showsVerticalScrollIndicator>
+	return <ScrollView {...props} showsVerticalScrollIndicator={false}>
 		<View style={{ padding: 15, ...style }}>{props.children}</View>
 	</ScrollView>
 }

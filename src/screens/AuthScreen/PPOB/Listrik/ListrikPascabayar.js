@@ -6,7 +6,7 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import MDInput from 'src/components/Input/MDInput';
@@ -42,6 +42,8 @@ const ListrikPascabayar = ({ navigation }) => {
 
 	//Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
+	//LDetail visibility state
+	const [detail, setDetail] = useState(false)
 
 	//Function for check tagihan
 	const _cekTagihan = async () => {
@@ -56,6 +58,7 @@ const ListrikPascabayar = ({ navigation }) => {
 			alert(res.data.errors.msg)
 		} else {
 			setTagihanData(res.data)
+			console.debug(res.data)
 		}
 	}
 
@@ -181,6 +184,36 @@ const ListrikPascabayar = ({ navigation }) => {
 							<Text font="Regular">Total Tagihan</Text>
 							<Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
 						</Wrapper>
+					</View>
+					<View style={{ ...$Margin(5, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+						<TouchableOpacity onPress={() => setDetail(!detail)} style={{ padding: 10, alignSelf: "flex-end" }}>
+							<Text color="primary" font="Regular">DETAIL</Text>
+						</TouchableOpacity>
+						{detail ? tagihanData.details.map((item, i) => (
+							<View key={i}>
+								{/* <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}> */}
+								<Wrapper justify="space-between" style={{ padding: 10 }}>
+									<Text font="Regular">Periode</Text>
+									<Text font="Regular">{item.periode}</Text>
+								</Wrapper>
+								<Wrapper justify="space-between" style={{ padding: 10 }}>
+									<Text font="Regular">Denda</Text>
+									<Text font="Regular">{convertRupiah(item.denda)}</Text>
+								</Wrapper>
+								<Wrapper justify="space-between" style={{ padding: 10 }}>
+									<Text font="Regular">Tagihan</Text>
+									<Text font="Regular">{convertRupiah(item.tagihan)}</Text>
+								</Wrapper>
+								<Wrapper justify="space-between" style={{ padding: 10 }}>
+									<Text font="Regular">Admin</Text>
+									<Text font="Regular">{convertRupiah(item.admin)}</Text>
+								</Wrapper>
+								{/* </Wrapper> */}
+								{i < tagihanData.details.length-1 ?
+									<Divider />
+									: null}
+							</View>
+						)) : null}
 					</View>
 				</Body>
 				: null}

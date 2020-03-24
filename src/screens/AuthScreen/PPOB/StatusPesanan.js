@@ -75,16 +75,20 @@ const StatusPesanan = ({ navigation }) => {
 					<Text>{moment(_checkData('date')).format('DD MMM YYYY - hh:mm')}</Text>
 				</Wrapper>
 				<Divider />
-				<Wrapper {...wrapper}>
-					<Text>Total Tagihan</Text>
-					<Text>{convertRupiah(_checkData('tagihan'))}</Text>
-				</Wrapper>
-				<Divider />
-				<Wrapper {...wrapper}>
-					<Text>Biaya Pembayaran</Text>
-					<Text>{convertRupiah(_checkData('admin'))}</Text>
-				</Wrapper>
-				<Divider />
+				{_checkData('tagihan', true) && [
+					<Wrapper {...wrapper}>
+						<Text>Total Tagihan</Text>
+						<Text>{convertRupiah(parseInt(_checkData('tagihan')))}</Text>
+					</Wrapper>,
+					<Divider />
+				]}
+				{_checkData('admin', true) && [
+					<Wrapper {...wrapper}>
+						<Text>Biaya Pembayaran</Text>
+						<Text>{convertRupiah(parseInt(_checkData('admin')))}</Text>
+					</Wrapper>,
+					<Divider />
+				]}
 				{_checkData('denda', true) && [
 					<Wrapper {...wrapper}>
 						<Text>Denda</Text>
@@ -101,11 +105,11 @@ const StatusPesanan = ({ navigation }) => {
 		<Footer>
 			<Wrapper justify="space-between">
 				<Button wrapper={{ justify: 'center' }} color="white" _width="49.5%" onPress={() => navigation.navigate('/ppob')}>
-					<Image _style={{ marginRight: 10 }} style={{ height: 25, width: 25 }} source={require('src/assets/icons/plus-primary.png')} />
+					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} />
 					<Text color="primary">TAMBAH PRODUK</Text>
 				</Button>
 				<Button wrapper={{ justify: 'center' }} color="white" _width="49.5%" onPress={() => { }}>
-					<Image _style={{ marginRight: 10 }} style={{ height: 25, width: 25 }} source={require('src/assets/icons/print-primary.png')} />
+					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/print-primary.png')} />
 					<Text color="primary">CETAK STRUK</Text>
 				</Button>
 			</Wrapper>
