@@ -12,6 +12,7 @@ export const Wrapper = props => {
 					return <View style={[
 						{ width: item.props._width, justifyContent: item.props._justify || 'center' },
 						item.props._style,
+						item.props._flex && { flex: 1 },
 						item.props.style && item.props.style.width ? { width: item.props.style.width } : {},
 						item.props.width ? { width: item.props.width } : {}
 					]} key={i}>

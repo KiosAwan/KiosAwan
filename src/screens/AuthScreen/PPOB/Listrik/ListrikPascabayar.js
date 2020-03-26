@@ -19,6 +19,7 @@ import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getProfile } from 'src/redux/actions/actionsUserData';
+import Alert from 'src/utils/alert';
 
 const ListrikPascabayar = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -46,19 +47,20 @@ const ListrikPascabayar = ({ navigation }) => {
 	const [detail, setDetail] = useState(false)
 
 	//Function for check tagihan
+
 	const _cekTagihan = async () => {
 		setTagihanLoading(true)
-		const data = {
+		const params = {
 			productID: 100301,
 			customerID: custId
 		}
-		const res = await checkTagihanListrik(data)
+		const { status, data } = await checkTagihanListrik(params)
 		setTagihanLoading(false)
-		if (res.status == 400) {
-			alert(res.data.errors.msg)
+		if (status == 400) {
+			Alert("Peringatan", data.errors.msg, [["Tutup"]])
 		} else {
-			setTagihanData(res.data)
-			console.debug(res.data)
+			setTagihanData(data)
+			console.debug(data)
 		}
 	}
 
@@ -143,6 +145,18 @@ const ListrikPascabayar = ({ navigation }) => {
 				onChangeText={text => setCustId(text)}
 			/>
 		</View>
+		<Text align="center">Pilih Biaya Admin</Text>
+		<Wrapper style={{ padding: 15 }} justify="space-between">
+			{
+				[2000, 2500, 3000, 3500].map((item, i) =>
+					<Button
+						color={['whiteColor', 'primary', i == 2 ? 'primary' : 'transparent']}
+						_flex _style={{ margin: 2 }} key={i}>{convertRupiah(item)}</Button>)
+			}
+		</Wrapper>
+		<Button style={{ marginHorizontal: 15 }} color={['infoBg', 'info']} disabled>
+			{`Cashback yang didapat oleh mitra sebesar ${convertRupiah(3000)}`}
+		</Button>
 		{/* <View style={styles.simpan}>
 			<Text>Simpan VA ini untuk masuk ke favorit</Text>
 			<SwitchButton
@@ -209,7 +223,7 @@ const ListrikPascabayar = ({ navigation }) => {
 									<Text font="Regular">{convertRupiah(item.admin)}</Text>
 								</Wrapper>
 								{/* </Wrapper> */}
-								{i < tagihanData.details.length-1 ?
+								{i < tagihanData.details.length - 1 ?
 									<Divider />
 									: null}
 							</View>
