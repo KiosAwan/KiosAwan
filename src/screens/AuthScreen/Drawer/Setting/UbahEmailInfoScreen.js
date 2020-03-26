@@ -56,7 +56,7 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 			<AwanPopup.Loading visible={apiLoading} />
 			<GlobalHeader title="Ubah Email" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 20 }}>
-				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
+				<View style={{ padding: 20, width: SizeList.width - 40, backgroundColor: 'white', borderRadius: 5 }}>
 					<MDInput label="Email Anda" value={User.data.email}
 						editable={false}
 						renderRightAccessory={() =>

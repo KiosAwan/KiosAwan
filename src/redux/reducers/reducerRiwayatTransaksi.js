@@ -13,7 +13,6 @@ const reducerRiwayatTransaksi = (state = initialState, actions) => {
                 isLoading: true
             };
         case "GET_RIWAYAT_TRANSAKSI_FULFILLED":
-            console.debug("REDUX")
             return {
                 ...state,
                 data: actions.payload.data.data,

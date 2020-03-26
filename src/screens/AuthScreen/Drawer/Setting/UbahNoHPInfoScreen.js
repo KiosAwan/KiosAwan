@@ -28,12 +28,12 @@ const UbahNoHPInfoScreen = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
             <AwanPopup.Loading visible={apiLoading} />
             <GlobalHeader title="Ubah No HP" onPressBack={() => navigation.goBack()} />
-            <View style={{ padding: 30 }}>
-                <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <MDInput label="No HP Anda" value={`62-${showPhoneNumber(User.data.phone_number.slice(2, User.data.length))}`}
+            <View style={{ padding: 20 }}>
+                <View style={{ padding: 20, width: SizeList.width - 40, backgroundColor: 'white', borderRadius: 5 }}>
+                    <MDInput label="No.Handphone Anda" value={`62-${showPhoneNumber(User.data.phone_number.slice(2, User.data.length))}`}
                         editable={false}
+                        renderRightAccessory={() => <Image style={{ width: 30, height: 30 }} source={require('../../../../assets/icons/successcheck.png')} />}
                     />
-                        renderRightAccessory={() => <Image style={{ width: 30, height: 30 }} source={require('../../../../assets/icons/successcheck.png')} />}/>
                 </View>
                 <View style={{ backgroundColor: ColorsList.successSoft, marginTop: 30 }}>
                     <Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.success, padding: 5, paddingVertical: 10 }}>No. HP dapat diubah apabila dibutuhkan</Text>
