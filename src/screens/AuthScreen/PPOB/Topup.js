@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, ScrollView, FlatList, StyleSheet } from 'react-native';
+import { View, ScrollView, FlatList, StyleSheet, TouchableOpacity, Clipboard } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { convertRupiah } from 'src/utils/authhelper';
@@ -15,12 +15,12 @@ import { requestTopUp } from 'src/utils/api/ppobapi';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getPaymentChannelList } from 'src/utils/api/topup_api';
 import Divider from 'src/components/Row/Divider';
+import { $BorderRadius, $Padding } from 'src/utils/stylehelper';
 
 const Topup = ({ navigation }) => {
-	const [topupValue, setTopupValue] = useState(0)
-	const [topupMethod, setTopupMethod] = useState()
 	const [listPaymentMethod, setListPaymentMethod] = useState([])
 	const [apiLoading, setApiLoading] = useState(false)
+	const [toggled, setToggled] = useState({})
 	//alert
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState(false)
@@ -45,7 +45,7 @@ const Topup = ({ navigation }) => {
 			/>
 			<AwanPopup.Loading visible={apiLoading} />
 			<GlobalHeader title="Top Up" onPressBack={() => navigation.goBack()} />
-			<View style={{ flex: 1, marginTop : 15 }}>
+			<View style={{ flex: 1, marginTop: 15 }}>
 				<ScrollView style={{ paddingHorizontal: 15 }}>
 					<View style={styles.group} justify="space-between">
 						<Text>Saldo Kios Awan</Text>
@@ -53,27 +53,46 @@ const Topup = ({ navigation }) => {
 						<Divider style={{ marginVertical: 10 }} />
 						<Text>Minimal top up Rp 50.000 , kelipatan Rp 1.000</Text>
 					</View>
-					<Text style={{ marginBottom: 10 }} font="Regular" align="center">Metode Pembayaran</Text>
-					{listPaymentMethod.map((item, i) => (
-						<Accordion key={i} style={[styles.group, { padding: 0 }]} titleColor="primary" button={{ color: 'link' }} title={
-							<Wrapper justify="flex-start">
-								<Image size={25} style={{ marginRight: 10, }} source={require('src/assets/icons/ppob/topup/VirtualAccount.png')} />
-								<Text>{item.type}</Text>
-							</Wrapper>
-						}>
-							<View style={{ paddingVertical: 5, backgroundColor: ColorsList.authBackground }}>
-								{item.data.map((list, ind) => (
-									<Button onPress={() => _selectTopupMethod(list, ind)} style={{ marginVertical: 5 }} noBorder={!(topupMethod == list.id)} color="white">
-										<Image style={{ resizeMode: 'contain', width: 70, height: 50 }} source={{ uri: list.image }} />
-										<View>
-											<Text color="primary">{list.name}</Text>
-											<Text size={12}>{`Total pembayaran + ${convertRupiah(topupValue + parseInt(list.fee))}`}</Text>
+					{/* <Text style={{ marginBottom: 10 }} font="Regular" align="center">Metode Pembayaran</Text> */}
+					{
+						listPaymentMethod.map((item, i) => (
+							<View style={styles.group}>
+								<View style={{ flexDirection: "row", alignItems: "center", borderRadius : 5 }}>
+									<Image size="15%" source={{ uri: item.logo }} />
+									<View style={{ width: "80%", alignSelf: "flex-end" }}>
+										<Text>{item.title}</Text>
+										<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+											<Text font="Bold">{item.noVa}</Text>
+											<Button onPress={() => Clipboard.setString(item.noVa)} color={['transparent', 'greyFont', 'greyFont']} padding={3}>Copy</Button>
 										</View>
-									</Button>
+									</View>
+								</View>
+								{item.tutorials.map((ttr, i) => (
+									<View key={i} style={{ borderWidth: 1, borderRadius: 5 , margin : 10, borderColor : ColorsList.greyAuthHard, backgroundColor: 'white',}}>
+										<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
+											<Wrapper justify="space-between" style={[styles.content, toggled[i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
+												<Text font="Bold">{ttr.title}</Text>
+												<Text color="primary" size={18}>{toggled[i] ? "-" : "+"}</Text>
+											</Wrapper>
+										</TouchableOpacity>
+										{toggled[i] ?
+											<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
+												{ttr.steps.map((step, ia) => (
+													<View key={ia} style={styles.categoryView}>
+														<View style={styles.categoryCircle}>
+															<Text size={10} color="whiteColor">0{(ia + 1)}</Text>
+														</View>
+														<View style={{ width: '80%' }}>
+															<Text>{step}</Text>
+														</View>
+													</View>
+												))}
+											</View>
+											: null}
+									</View>
 								))}
 							</View>
-						</Accordion>
-					))}
+						))}
 				</ScrollView>
 			</View>
 		</View>
@@ -83,5 +102,53 @@ const Topup = ({ navigation }) => {
 export default Topup;
 
 const styles = StyleSheet.create({
-	group: { backgroundColor: ColorsList.whiteColor, padding: 10, borderRadius: 5, marginBottom: 10 }
+	group: { backgroundColor: ColorsList.whiteColor, padding: 10, borderRadius: 5, marginBottom: 10 },
+	container: {
+		flex: 1,
+		backgroundColor: ColorsList.authBackground,
+	},
+	childContainer: {
+		flex: 1,
+		margin: 20,
+		marginBottom: 50
+	},
+	infoPembayaran: {
+		backgroundColor: 'white',
+		borderRadius: 5
+	},
+	detailTagihan: {
+		borderTopColor: ColorsList.greyAuthHard,
+		borderTopWidth: 1,
+	},
+	wrapperDetail: {
+		borderBottomColor: ColorsList.greyAuthHard,
+		borderBottomWidth: 1,
+		paddingHorizontal: 15,
+		paddingVertical: 4
+	},
+	content: {
+		padding : 5,
+		...$BorderRadius(5),
+		backgroundColor: 'white'
+	},
+	contentToggled: {
+		backgroundColor: ColorsList.primary,
+		...$BorderRadius(5, 5, 0, 0)
+	},
+	categoryView: {
+		marginVertical: 5,
+		flexDirection: 'row',
+		alignSelf: "flex-start",
+		justifyContent: "center",
+		alignItems: "flex-start"
+	},
+	categoryCircle: {
+		width: 20,
+		height: 20,
+		borderRadius: 10,
+		backgroundColor: ColorsList.primary,
+		justifyContent: "center",
+		alignItems: "center",
+		marginHorizontal: 5
+	},
 })

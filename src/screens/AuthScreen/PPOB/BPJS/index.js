@@ -118,8 +118,8 @@ const BPJS = ({ navigation }) => {
     }
     return <Container header={{
         title: "BPJS Kesehatan",
-        image: require('src/assets/icons/phonebook.png'),
-        onPressIcon: () => setModal(true),
+        // image: require('src/assets/icons/phonebook.png'),
+        // onPressIcon: () => setModal(true),
         onPressBack: () => navigation.goBack(),
     }}>
         {/* Modal for check user pin */}
@@ -166,13 +166,13 @@ const BPJS = ({ navigation }) => {
                 onChangeText={text => setPhoneNumber(text)}
             />
         </View>
-        <View style={styles.simpan}>
+        {/* <View style={styles.simpan}>
             <Text>Simpan VA ini untuk masuk ke favorit</Text>
             <SwitchButton
                 // handleChangeToggle={_handleChangeToggle}
                 toggleValue={true}
             />
-        </View>
+        </View> */}
         {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
             :
             tagihanData ?

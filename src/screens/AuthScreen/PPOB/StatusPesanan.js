@@ -10,8 +10,12 @@ import { $Border } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { convertRupiah } from 'src/utils/authhelper';
 import moment from 'moment';
+import { getCustomer } from 'src/redux/actions/actionsCustomer';
+import { useDispatch, useSelector } from 'react-redux';
 
 const StatusPesanan = ({ navigation }) => {
+	const dispatch = useDispatch()
+	const User = useSelector(state => state.User)
 
 	const [params, setParams] = useState({
 		details: null,
@@ -113,7 +117,10 @@ const StatusPesanan = ({ navigation }) => {
 					<Text color="primary">CETAK STRUK</Text>
 				</Button>
 			</Wrapper>
-			<Button onPress={() => navigation.navigate('/ppob')}>LANJUT</Button>
+			<Button onPress={() => {
+				navigation.navigate('/cashier/check-out')
+				dispatch(getCustomer(User.store.id_store))
+			}}>LANJUT</Button>
 		</Footer>
 	</Container>
 }

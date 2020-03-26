@@ -110,8 +110,8 @@ const PpobPaketData = ({ navigation }) => {
 	}
 	return <Container header={{
 		title: "Paket Data",
-		image: require('src/assets/icons/phonebook.png'),
-		onPressIcon: () => setModal(true),
+		// image: require('src/assets/icons/phonebook.png'),
+		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
 		{/* Modal for check user pin */}
