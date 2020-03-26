@@ -71,6 +71,7 @@ export const Button = props => {
 		width: props.width,
 		justifyContent: 'center',
 		borderRadius: props.noRadius ? 0 : 5,
+		...props.flex && { flex: 1 },
 		..._color,
 		...padding ? typeof padding != 'number' ? padding : { padding: padding } : $Padding(8, 10),
 		...props.noBorder && { borderColor: ColorsList.transparent },
