@@ -194,9 +194,8 @@ const PDAM = ({ navigation }) => {
                     header={
                         <View style={{ padding: 10 }}>
                             <MDInput label="Cari PDAM" renderLeftAccessory={() =>
-                                <Icon style={{ color: ColorsList.primary }} name="search" />}
+                                <Icon style={{ color: ColorsList.primary, marginRight: 10 }} size={20} name="search" />}
                                 value={search} onChangeText={text => setSearch(text)} />
-                            <Divider />
                         </View>
                     }
                     value={selected ? selected.name : ""}
