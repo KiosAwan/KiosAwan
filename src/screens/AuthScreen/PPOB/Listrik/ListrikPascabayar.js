@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
-import Container, { Body } from 'src/components/View/Container';
+import Container, { Body, Footer } from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { $Padding, $Margin } from 'src/utils/stylehelper';
+import { View, ActivityIndicator } from 'react-native';
+import { $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import MDInput from 'src/components/Input/MDInput';
-import { Bottom, BottomVertical } from 'src/components/View/Bottom';
 import { checkTagihanListrik, payTagihanListrik } from 'src/utils/api/ppob/listrik_api';
 import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
-import SwitchButton from 'src/components/Button/SwitchButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
@@ -28,11 +25,12 @@ const ListrikPascabayar = ({ navigation }) => {
 	//User data
 	const User = useSelector(state => state.User)
 	const [custId, setCustId] = useState(112000026979)
-	const [selected, setSelected] = useState()
+	const [] = useState()
+	const [selectedCashback, setSelectedCashback] = useState(0)
 	//Data tagihan
 	const [tagihanLoading, setTagihanLoading] = useState(false)
 	const [tagihanData, setTagihanData] = useState()
-	const [modal, setModal] = useState(false)
+	const [] = useState(false)
 
 	//alert
 	const [alert, setAlert] = useState(false)
@@ -47,7 +45,6 @@ const ListrikPascabayar = ({ navigation }) => {
 	const [detail, setDetail] = useState(false)
 
 	//Function for check tagihan
-
 	const _cekTagihan = async () => {
 		setTagihanLoading(true)
 		const params = {
@@ -55,12 +52,12 @@ const ListrikPascabayar = ({ navigation }) => {
 			customerID: custId
 		}
 		const { status, data } = await checkTagihanListrik(params)
+		console.debug(data)
 		setTagihanLoading(false)
 		if (status == 400) {
 			Alert("Peringatan", data.errors.msg, [["Tutup"]])
 		} else {
 			setTagihanData(data)
-			console.debug(data)
 		}
 	}
 
@@ -93,12 +90,14 @@ const ListrikPascabayar = ({ navigation }) => {
 
 	const _processPayment = async () => {
 		setPayLoading(true)
-		console.debug(Product.id_multi)
 		const data = {
 			customerID: tagihanData.transaction.customerID,
 			productID: tagihanData.transaction.productID,
-			id_multi: Product.id_multi
+			id_multi: Product.id_multi,
+			selectedCashback
 		}
+		console.debug(Product)
+		console.debug(data)
 		const res = await payTagihanListrik(data)
 		setPayLoading(false)
 		if (res.status == 200) {
@@ -121,124 +120,144 @@ const ListrikPascabayar = ({ navigation }) => {
 		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
-		{/* Modal for check user pin */}
-		<GlobalEnterPin
-			title="Masukkan PIN"
-			codeLength={4}
-			subtitle="Masukkan PIN untuk melanjutkan transaksi"
-			visible={pinVisible}
-			visibleToggle={setPinVisible}
-			pinResolve={(pin) => _userAuthentication(pin)} />
-		{/* Modal for check user pin */}
-		{/* Popup components */}
-		<AwanPopup.Alert
-			message={alertMessage}
-			visible={alert}
-			closeAlert={() => setAlert(false)}
-		/>
-		<AwanPopup.Loading visible={payLoading} />
-		{/* Popup components */}
-		<View style={styles.topComp}>
-			<MDInput _width="80%"
-				label="ID Pelanggan"
-				value={custId}
-				onChangeText={text => setCustId(text)}
+		<View>
+			{/* Modal for check user pin */}
+			<GlobalEnterPin
+				title="Masukkan PIN"
+				codeLength={4}
+				subtitle="Masukkan PIN untuk melanjutkan transaksi"
+				visible={pinVisible}
+				visibleToggle={setPinVisible}
+				pinResolve={(pin) => _userAuthentication(pin)} />
+			{/* Modal for check user pin */}
+			{/* Popup components */}
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
 			/>
-		</View>
-		<Text align="center">Pilih Biaya Admin</Text>
-		<Wrapper style={{ padding: 15 }} justify="space-between">
-			{
-				[2000, 2500, 3000, 3500].map((item, i) =>
-					<Button
-						color={['whiteColor', 'primary', i == 2 ? 'primary' : 'transparent']}
-						_flex _style={{ margin: 2 }} key={i}>{convertRupiah(item)}</Button>)
+			<AwanPopup.Loading visible={payLoading} />
+			{/* Popup components */}
+			<View style={styles.topComp}>
+				<MDInput _width="80%"
+					label="ID Pelanggan"
+					value={custId}
+					onChangeText={text => setCustId(text)}
+				/>
+			</View>
+			{tagihanData &&
+				<View>
+					<Text align="center">Pilih Biaya Admin</Text>
+					<Wrapper style={{ padding: 15 }} justify="space-between">
+						{
+							tagihanData.cash_back.map((item, i) => {
+								const isSelected = item.toString() == selectedCashback.toString()
+								return <Button
+									disabled={isSelected}
+									onPress={() => setSelectedCashback(item)}
+									color={['whiteColor', 'primary', isSelected ? 'primary' : 'transparent']}
+									_flex _style={{ margin: 2 }} key={i}>{convertRupiah(item)}</Button>
+							})
+						}
+					</Wrapper>
+					<Button style={$Margin(0, 15, 15)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
+						{`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
+							(selectedCashback * tagihanData.details.length) -
+							(parseInt(tagihanData.transaction.modal) * tagihanData.details.length)
+						)}`}
+					</Button>
+				</View>
 			}
-		</Wrapper>
-		<Button style={{ marginHorizontal: 15 }} color={['infoBg', 'info']} disabled>
-			{`Cashback yang didapat oleh mitra sebesar ${convertRupiah(3000)}`}
-		</Button>
-		{/* <View style={styles.simpan}>
-			<Text>Simpan VA ini untuk masuk ke favorit</Text>
-			<SwitchButton
-				// handleChangeToggle={_handleChangeToggle}
-				toggleValue={true}
-			/>
-		</View> */}
-		{tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
-			:
-			tagihanData ?
-				<Body style={{ padding: 0, marginBottom: 120 }}>
-					<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
-						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<Text font="Regular">Nama Pelanggan</Text>
-							<Text font="Regular">{tagihanData.transaction.nama}</Text>
-						</Wrapper>
-						<Divider />
-						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<Text font="Regular">Id Pelanggan</Text>
-							<Text font="Regular">{tagihanData.transaction.customerID}</Text>
-						</Wrapper>
-						<Divider />
-						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<Text font="Regular">Jumlah Tagihan</Text>
-							<Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
-						</Wrapper>
-						<Divider />
-						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<Text font="Regular">Denda</Text>
-							<Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
-						</Wrapper>
-						<Divider />
-						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<Text font="Regular">Admin</Text>
-							<Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
-						</Wrapper>
-						<Divider />
-						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<Text font="Regular">Total Tagihan</Text>
-							<Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
-						</Wrapper>
+			{/* <View style={styles.simpan}>
+				<Text>Simpan VA ini untuk masuk ke favorit</Text>
+				<SwitchButton
+					// handleChangeToggle={_handleChangeToggle}
+					toggleValue={true}
+				/>
+			</View> */}
+		</View>
+		<Body style={{ padding: 0 }}>
+			{
+				tagihanLoading ?
+					<ActivityIndicator color={ColorsList.primary} /> :
+					tagihanData && <View>
+						<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+							<Wrapper justify="space-between" style={{ padding: 10 }}>
+								<Text font="Regular">Nama Pelanggan</Text>
+								<Text font="Regular">{tagihanData.transaction.nama}</Text>
+							</Wrapper>
+							<Divider />
+							<Wrapper justify="space-between" style={{ padding: 10 }}>
+								<Text font="Regular">Id Pelanggan</Text>
+								<Text font="Regular">{tagihanData.transaction.customerID}</Text>
+							</Wrapper>
+							<Divider />
+							<Wrapper justify="space-between" style={{ padding: 10 }}>
+								<Text font="Regular">Jumlah Tagihan</Text>
+								<Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
+							</Wrapper>
+							<Divider />
+							<Wrapper justify="space-between" style={{ padding: 10 }}>
+								<Text font="Regular">Denda</Text>
+								<Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
+							</Wrapper>
+							<Divider />
+							<Wrapper justify="space-between" style={{ padding: 10 }}>
+								<Text font="Regular">Admin</Text>
+								<Text font="Regular">{convertRupiah(tagihanData.details.length * selectedCashback)}</Text>
+							</Wrapper>
+							<Divider />
+							<Wrapper justify="space-between" style={{ padding: 10 }}>
+								<Text font="Regular">Total Tagihan</Text>
+								<Text font="Regular">{convertRupiah(
+									parseInt(tagihanData.transaction.tagihan) +
+									(selectedCashback * tagihanData.details.length) -
+									parseInt(tagihanData.transaction.denda)
+								)}</Text>
+							</Wrapper>
+						</View>
+						<View style={{ ...$Margin(5, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+							<Button color={["transparent", "primary"]}
+								align="flex-end"
+								onPress={() => setDetail(!detail)}>DETAIL</Button>
+							{
+								detail && tagihanData.details.map((item, i) =>
+									<View key={i}>
+										{/* <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}> */}
+										<Wrapper justify="space-between" style={{ padding: 10 }}>
+											<Text font="Regular">Periode</Text>
+											<Text font="Regular">{item.periode}</Text>
+										</Wrapper>
+										<Wrapper justify="space-between" style={{ padding: 10 }}>
+											<Text font="Regular">Denda</Text>
+											<Text font="Regular">{convertRupiah(item.denda)}</Text>
+										</Wrapper>
+										<Wrapper justify="space-between" style={{ padding: 10 }}>
+											<Text font="Regular">Tagihan</Text>
+											<Text font="Regular">{convertRupiah(item.tagihan)}</Text>
+										</Wrapper>
+										<Wrapper justify="space-between" style={{ padding: 10 }}>
+											<Text font="Regular">Admin</Text>
+											<Text font="Regular">{convertRupiah(item.admin)}</Text>
+										</Wrapper>
+										{/* </Wrapper> */}
+										{i < tagihanData.details.length - 1 ?
+											<Divider />
+											: null}
+									</View>
+								)}
+						</View>
 					</View>
-					<View style={{ ...$Margin(5, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
-						<TouchableOpacity onPress={() => setDetail(!detail)} style={{ padding: 10, alignSelf: "flex-end" }}>
-							<Text color="primary" font="Regular">DETAIL</Text>
-						</TouchableOpacity>
-						{detail ? tagihanData.details.map((item, i) => (
-							<View key={i}>
-								{/* <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}> */}
-								<Wrapper justify="space-between" style={{ padding: 10 }}>
-									<Text font="Regular">Periode</Text>
-									<Text font="Regular">{item.periode}</Text>
-								</Wrapper>
-								<Wrapper justify="space-between" style={{ padding: 10 }}>
-									<Text font="Regular">Denda</Text>
-									<Text font="Regular">{convertRupiah(item.denda)}</Text>
-								</Wrapper>
-								<Wrapper justify="space-between" style={{ padding: 10 }}>
-									<Text font="Regular">Tagihan</Text>
-									<Text font="Regular">{convertRupiah(item.tagihan)}</Text>
-								</Wrapper>
-								<Wrapper justify="space-between" style={{ padding: 10 }}>
-									<Text font="Regular">Admin</Text>
-									<Text font="Regular">{convertRupiah(item.admin)}</Text>
-								</Wrapper>
-								{/* </Wrapper> */}
-								{i < tagihanData.details.length - 1 ?
-									<Divider />
-									: null}
-							</View>
-						)) : null}
-					</View>
-				</Body>
-				: null}
-		<BottomVertical>
+			}
+		</Body>
+		<Footer>
 			<Button onPress={_cekTagihan} color="white" width="100%">
 				CEK TAGIHAN
             </Button>
 			<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
 				BAYAR
             </Button>
-		</BottomVertical>
+		</Footer>
 	</Container >
 }
 export default ListrikPascabayar
