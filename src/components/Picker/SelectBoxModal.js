@@ -310,7 +310,7 @@ export const SelectBoxModal = (props) => {
 			}}>
 			<View>
 				{props.header}
-				<ScrollView persistentScrollbar style={{ height: '30%' }}>{
+				<ScrollView persistentScrollbar>{
 					props.data.length > 0 ? props.data.map((item) => {
 						return <CardItem style={styles.modalCardItem} button onPress={() => {
 							props.handleChangePicker(item)
