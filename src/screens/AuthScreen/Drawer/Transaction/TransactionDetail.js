@@ -108,12 +108,14 @@ const TransactionDetail = ({ navigation }) => {
 										</View>
 										{
 											data.details_item.map((data, i) => {
-												return <Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
-													<View>
+												return <Wrapper width="100%" style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+													<View _width="76%">
 														<Text color="primary" size={15}>{data.product}</Text>
 														<Text>{convertRupiah(data.price)} x {data.qty}</Text>
 													</View>
-													<Text _justify="flex-end">{convertRupiah(data.total)}</Text>
+													<View  _width="24%" _justify="flex-end">
+														<Text align="right">{convertRupiah(data.total)}</Text>
+													</View>
 												</Wrapper>
 											})
 										}
@@ -136,7 +138,7 @@ const TransactionDetail = ({ navigation }) => {
 															<Text>{convertRupiah(item.transaction.total)}</Text>
 														</View>
 													</Wrapper>
-													{
+													{/* {
 														data === 2 && <View style={{ backgroundColor: ColorsList.greyBg, }}>
 															<Wrapper style={[$Padding(15, 10), $Border(ColorsList.borderBg, 0, 0, 1)]} justify="space-between">
 																<Text>Nama Pelanggan</Text>
@@ -151,7 +153,7 @@ const TransactionDetail = ({ navigation }) => {
 																<Text>{convertRupiah(200)}</Text>
 															</Wrapper>
 														</View>
-													}
+													} */}
 												</View>
 											})
 										}
