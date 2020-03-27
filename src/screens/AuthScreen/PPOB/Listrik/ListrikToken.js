@@ -159,7 +159,7 @@ const ListrikToken = ({ navigation }) => {
 				}}
 				keyboardType="number-pad"
 			/>
-			<Text>32127971177</Text>
+			{/* <Text>32127971177</Text> */}
 		</View>
 		{loading ?
 			<View style={styles.custInfo}>

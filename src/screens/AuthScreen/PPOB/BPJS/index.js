@@ -173,6 +173,11 @@ const BPJS = ({ navigation }) => {
                 toggleValue={true}
             />
         </View> */}
+        {tagihanData ? <Button style={$Margin(0, 15, 15)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
+            {`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
+                (parseInt(tagihanData.transaction.cashback)
+                ))}`}
+        </Button> : null}
         {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
             :
             tagihanData ?

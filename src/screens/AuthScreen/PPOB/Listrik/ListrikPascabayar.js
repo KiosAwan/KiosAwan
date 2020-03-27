@@ -24,7 +24,7 @@ const ListrikPascabayar = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	//User data
 	const User = useSelector(state => state.User)
-	const [custId, setCustId] = useState(112000026979)
+	const [custId, setCustId] = useState()
 	const [] = useState()
 	const [selectedCashback, setSelectedCashback] = useState(0)
 	//Data tagihan
@@ -96,16 +96,19 @@ const ListrikPascabayar = ({ navigation }) => {
 			id_multi: Product.id_multi,
 			selectedCashback
 		}
-		console.debug(Product)
-		console.debug(data)
 		const res = await payTagihanListrik(data)
 		setPayLoading(false)
 		if (res.status == 200) {
-			const data = { type: "tagihan_listrik", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: "Listrik Pascabayar" }
+			const data = { type: "tagihan_listrik", 
+			customerID: res.data.transaction.customerID, 
+			price: parseInt(res.data.transaction.tagihan) +
+			(selectedCashback * res.data.details.length) +
+			parseInt(res.data.transaction.denda)
+			, 
+			productName: "Listrik Pascabayar" }
 			dispatch(AddPPOBToCart(data))
 			dispatch(getProfile(User.data.id))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
-			console.debug("BERHASIL BAYAR PRABAYAR")
 			navigation.navigate("/ppob/status", { params: res.data })
 		} else if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg.trim())
@@ -211,7 +214,7 @@ const ListrikPascabayar = ({ navigation }) => {
 								<Text font="Regular">Total Tagihan</Text>
 								<Text font="Regular">{convertRupiah(
 									parseInt(tagihanData.transaction.tagihan) +
-									(selectedCashback * tagihanData.details.length) -
+									(selectedCashback * tagihanData.details.length) +
 									parseInt(tagihanData.transaction.denda)
 								)}</Text>
 							</Wrapper>
@@ -238,7 +241,7 @@ const ListrikPascabayar = ({ navigation }) => {
 										</Wrapper>
 										<Wrapper justify="space-between" style={{ padding: 10 }}>
 											<Text font="Regular">Admin</Text>
-											<Text font="Regular">{convertRupiah(item.admin)}</Text>
+											<Text font="Regular">{convertRupiah(selectedCashback)}</Text>
 										</Wrapper>
 										{/* </Wrapper> */}
 										{i < tagihanData.details.length - 1 ?

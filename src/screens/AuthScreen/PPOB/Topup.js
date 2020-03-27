@@ -55,8 +55,8 @@ const Topup = ({ navigation }) => {
 					</View>
 					{/* <Text style={{ marginBottom: 10 }} font="Regular" align="center">Metode Pembayaran</Text> */}
 					{
-						listPaymentMethod.map((item, i) => (
-							<View style={styles.group}>
+						listPaymentMethod.map((item, key) => (
+							<View key={key} style={styles.group}>
 								<View style={{ flexDirection: "row", alignItems: "center", borderRadius : 5 }}>
 									<Image size="15%" source={{ uri: item.logo }} />
 									<View style={{ width: "80%", alignSelf: "flex-end" }}>
@@ -69,13 +69,13 @@ const Topup = ({ navigation }) => {
 								</View>
 								{item.tutorials.map((ttr, i) => (
 									<View key={i} style={{ borderWidth: 1, borderRadius: 5 , margin : 10, borderColor : ColorsList.greyAuthHard, backgroundColor: 'white',}}>
-										<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
-											<Wrapper justify="space-between" style={[styles.content, toggled[i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
+										<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${(key+1)*(key+1)+i}`]: !toggled[(key+1)*(key+1)+i] }); console.debug(toggled[i*key+1]); }}>
+											<Wrapper justify="space-between" style={[styles.content, toggled[(key+1)*(key+1)+i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
 												<Text font="Bold">{ttr.title}</Text>
-												<Text color="primary" size={18}>{toggled[i] ? "-" : "+"}</Text>
+												<Text color="primary" size={18}>{toggled[(key+1)*(key+1)+i] ? "-" : "+"}</Text>
 											</Wrapper>
 										</TouchableOpacity>
-										{toggled[i] ?
+										{toggled[(key+1)*(key+1)+i] ?
 											<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
 												{ttr.steps.map((step, ia) => (
 													<View key={ia} style={styles.categoryView}>

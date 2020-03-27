@@ -31,7 +31,7 @@ const PpobPulsa = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [modal, setModal] = useState(false)
 	//Phone number state
-	const [phoneNumber, setPhoneNumber] = useState("085856740755")
+	const [phoneNumber, setPhoneNumber] = useState("")
 	const [selected, setSelected] = useState()
 	//Product state
 	const [data, setData] = useState()
