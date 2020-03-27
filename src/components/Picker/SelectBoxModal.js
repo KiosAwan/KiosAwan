@@ -306,23 +306,22 @@ export const SelectBoxModal = (props) => {
 			backdropDismiss={() => setModalVisible(false)}
 			style={{
 				height: 500,
-				width: '90%'
+				width: '90%',
+				padding: 10
 			}}>
-			<View>
-				{props.header}
-				<ScrollView persistentScrollbar>{
-					props.data.length > 0 ? props.data.map((item) => {
-						return <CardItem style={styles.modalCardItem} button onPress={() => {
-							props.handleChangePicker(item)
-							props.closeOnSelect ? setModalVisible(false) : null
-						}}>
-							{props.renderItem(item)}
-						</CardItem>
-					}) : props.children
-				}
-				</ScrollView>
-				{props.footer}
-			</View>
+			{props.header}
+			<ScrollView persistentScrollbar>{
+				props.data.length > 0 ? props.data.map((item) => {
+					return <CardItem style={styles.modalCardItem} button onPress={() => {
+						props.handleChangePicker(item)
+						props.closeOnSelect ? setModalVisible(false) : null
+					}}>
+						{props.renderItem(item)}
+					</CardItem>
+				}) : props.children
+			}
+			</ScrollView>
+			{props.footer}
 		</AwanModal>
 		<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, props.style, {
 			marginTop: 5

@@ -4,16 +4,24 @@ import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { Icon } from 'native-base'
 import { Image } from '../CustomImage'
-import { Animated } from 'react-native'
+import { Animated, View } from 'react-native'
 import { FontName } from 'src/styles/typography'
 
 const MDInput = props => {
+	const { renderLeftAccessory, renderRightAccessory } = props
+	const _render = (render, isRight) => render && [
+		isRight && <View style={{ padding: 5 }} />,
+		render(),
+		!isRight && <View style={{ padding: 5 }} />
+	]
 	return <TextField
 		{...props}
 		fontSize={13}
 		tintColor={ColorsList.primary}
 		textColor={ColorsList.text}
 		baseColor={ColorsList.secondary}
+		renderRightAccessory={() => _render(renderRightAccessory, true)}
+		renderLeftAccessory={() => _render(renderLeftAccessory, false)}
 		style={{ fontFamily: FontName.Regular, ...props.style }}
 	/>
 }
