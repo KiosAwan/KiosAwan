@@ -17,10 +17,12 @@ export const showPhoneNumber = (phonenumber) => {
 export const sendPhoneNumber = async (data) => {
     try {
         const res = await axios.post(`${HOST_URL}/check_user`, data)
+        console.debug(res.data)
         return res.data
     }
     catch(error){
         const res = error.response.data
+        console.debug(res)
         return res
     }
 }

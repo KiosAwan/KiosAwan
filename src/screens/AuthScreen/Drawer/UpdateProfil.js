@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { sendProfileData } from 'src/utils/authhelper';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import ModalContent from 'src/components/ModalContent/ModalContent';
-import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
+import { SelectBoxModal, SelectBox } from 'src/components/Picker/SelectBoxModal';
 import Wilayah from 'src/utils/wilayah';
 import { Icon } from 'native-base';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -20,6 +20,7 @@ import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import MDInput from 'src/components/Input/MDInput';
+import { stateObject } from 'src/utils/state';
 
 
 const UpdateProfil = ({ navigation }) => {
@@ -30,7 +31,7 @@ const UpdateProfil = ({ navigation }) => {
 	const [email_store, setEmail_Store] = useState('')
 	const [photo_store, setPhotoStore] = useState('')
 	const [address_store, setAddress_Store] = useState()
-	const [provinsi, setProvinsi] = useState({
+	const [provinsi, setProvinsi, resetProvinsi] = stateObject({
 		selected: '',
 		search: '',
 		data: []
@@ -103,10 +104,10 @@ const UpdateProfil = ({ navigation }) => {
 	}
 
 	const _setProvinsi = (item) => {
-		setProvinsi({ ...provinsi, selected: item })
-		Wilayah.Kabupaten(item.id).then((res) => {
-			setKabupaten({ ...kabupaten, data: res.data.kabupatens })
-		})
+		// setProvinsi({ ...provinsi, selected: item })
+		// Wilayah.Kabupaten(item.id).then((res) => {
+		// 	setKabupaten({ ...kabupaten, data: res.data.kabupatens })
+		// })
 	}
 
 	const _setKabupaten = (item) => {
@@ -125,6 +126,16 @@ const UpdateProfil = ({ navigation }) => {
 
 	const _setDesa = (item) => {
 		setDesa({ ...desa, selected: item })
+	}
+
+	const _dataFiltered = (data, search) => {
+		const result = data.filter(item => {
+			return item.nama.toLowerCase()
+				.includes(search.toLowerCase())
+		})
+			.sort((a, b) => a.nama.localeCompare(b.nama))
+		console.debug(result)
+		return result
 	}
 
 	useEffect(() => {
@@ -158,11 +169,12 @@ const UpdateProfil = ({ navigation }) => {
 					}
 
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
+						label="Provinsi" closeOnSelect
+						data={_dataFiltered(provinsi.data, provinsi.search)}
 						header={
 							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
 								<Icon style={{ color: ColorsList.primary }} name="search" />}
-								value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
+								value={provinsi.search} onChangeText={text => setProvinsi({ search: text })} />
 						}
 						value={provinsi.selected ? provinsi.selected.nama : null}
 						handleChangePicker={_setProvinsi}
@@ -171,7 +183,8 @@ const UpdateProfil = ({ navigation }) => {
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
+						label="Kabupaten / Kota" closeOnSelect
+						data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
 								<Icon style={{ color: ColorsList.primary }} name="search" />}
@@ -184,7 +197,8 @@ const UpdateProfil = ({ navigation }) => {
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
+						label="Kecamatan" closeOnSelect
+						data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
 								<Icon style={{ color: ColorsList.primary }} name="search" />}
@@ -197,7 +211,8 @@ const UpdateProfil = ({ navigation }) => {
 					</SelectBoxModal>
 
 					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
+						label="Kelurahan / Desa" closeOnSelect
+						data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
 						header={
 							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
 								<Icon style={{ color: ColorsList.primary }} name="search" />}
