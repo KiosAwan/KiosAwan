@@ -9,7 +9,7 @@ const reducerRiwayatTransaksi = (state = initialState, actions) => {
         case "GET_RIWAYAT_TRANSAKSI":
             return {
                 ...state,
-                data: actions.payload,
+                // data: actions.payload,
                 isLoading: true
             };
         case "GET_RIWAYAT_TRANSAKSI_FULFILLED":

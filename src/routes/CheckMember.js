@@ -19,7 +19,8 @@ const CheckMember = (props) => {
   const { navigation } = props
   const dispatch = useDispatch()
   useEffect(() => {
-    setTimeout(() => _checkFunc(), 1500);
+    _checkFunc()
+    // setTimeout(() => _checkFunc(), 1500);
   }, [])
 
   const _checkFunc = async () => {
