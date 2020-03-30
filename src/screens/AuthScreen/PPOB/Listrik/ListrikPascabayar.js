@@ -24,7 +24,7 @@ const ListrikPascabayar = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	//User data
 	const User = useSelector(state => state.User)
-	const [custId, setCustId] = useState()
+	const [custId, setCustId] = useState(122030204439)
 	const [] = useState()
 	const [selectedCashback, setSelectedCashback] = useState(2500)
 	//Data tagihan
@@ -52,7 +52,6 @@ const ListrikPascabayar = ({ navigation }) => {
 			customerID: custId
 		}
 		const { status, data } = await checkTagihanListrik(params)
-		console.debug(data)
 		setTagihanLoading(false)
 		if (status == 400) {
 			Alert("Peringatan", data.errors.msg, [["Tutup"]])
@@ -100,13 +99,15 @@ const ListrikPascabayar = ({ navigation }) => {
 		setPayLoading(false)
 		if (res.status == 200) {
 			console.debug(res.data)
-			const data = { type: "tagihan_listrik", 
-			customerID: res.data.transaction.customerID, 
-			price: parseInt(res.data.transaction.tagihan) +
-			(selectedCashback * tagihanData.details.length) +
-			parseInt(res.data.transaction.denda)
-			, 
-			productName: "Listrik Pascabayar" }
+			const data = {
+				type: "tagihan_listrik",
+				customerID: res.data.transaction.customerID,
+				price: parseInt(res.data.transaction.tagihan) +
+					(selectedCashback * tagihanData.details.length) +
+					parseInt(res.data.transaction.denda)
+				,
+				productName: "Listrik Pascabayar"
+			}
 			dispatch(AddPPOBToCart(data))
 			dispatch(getProfile(User.data.id))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
@@ -149,29 +150,6 @@ const ListrikPascabayar = ({ navigation }) => {
 					onChangeText={text => setCustId(text)}
 				/>
 			</View>
-			{tagihanData &&
-				<View>
-					<Text align="center">Pilih Biaya Admin</Text>
-					<Wrapper style={{ padding: 15 }} justify="space-between">
-						{
-							tagihanData.cash_back.map((item, i) => {
-								const isSelected = item.toString() == selectedCashback.toString()
-								return <Button
-									disabled={isSelected}
-									onPress={() => setSelectedCashback(item)}
-									color={['whiteColor', 'primary', isSelected ? 'primary' : 'transparent']}
-									_flex _style={{ margin: 2 }} key={i}>{convertRupiah(item)}</Button>
-							})
-						}
-					</Wrapper>
-					<Button style={$Margin(0, 15, 15)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
-						{`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
-							(selectedCashback * tagihanData.details.length) -
-							(parseInt(tagihanData.transaction.modal) * tagihanData.details.length)
-						)}`}
-					</Button>
-				</View>
-			}
 			{/* <View style={styles.simpan}>
 				<Text>Simpan VA ini untuk masuk ke favorit</Text>
 				<SwitchButton
@@ -250,7 +228,31 @@ const ListrikPascabayar = ({ navigation }) => {
 											: null}
 									</View>
 								)}
+
 						</View>
+						{tagihanData &&
+							<View>
+								<Text align="center">Pilih Biaya Admin</Text>
+								<Wrapper style={{ padding: 15 }} justify="space-between">
+									{
+										tagihanData.cash_back.map((item, i) => {
+											const isSelected = item.toString() == selectedCashback.toString()
+											return <Button
+												disabled={isSelected}
+												onPress={() => setSelectedCashback(item)}
+												color={['whiteColor', 'primary', isSelected ? 'primary' : 'transparent']}
+												_flex _style={{ margin: 2 }} key={i}>{convertRupiah(item)}</Button>
+										})
+									}
+								</Wrapper>
+								<Button style={$Margin(0, 15, 15)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
+									{`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
+										(selectedCashback * tagihanData.details.length) -
+										(parseInt(tagihanData.transaction.modal) * tagihanData.details.length)
+									)}`}
+								</Button>
+							</View>
+						}
 					</View>
 			}
 		</Body>

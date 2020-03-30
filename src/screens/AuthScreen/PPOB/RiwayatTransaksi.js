@@ -21,7 +21,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 	const _getRiwayat = async () => {
 		const userToken = await getUserToken()
 		const userId = await getUserId()
-		await dispatch(getRiwayatTransaksi(userToken, userId))
+		dispatch(getRiwayatTransaksi(userToken, userId))
 	}
 	return RiwayatTransaksi.isLoading ? <Text>Loading</Text>
 		:
@@ -37,7 +37,9 @@ const RiwayatTransaksi = ({ navigation }) => {
 							<Text font="ExtraBold">{item.trx_id}</Text>
 							<Text>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
 						</View>
-						<Text align="right" _justify="flex-end" _width="25%">{convertRupiah(item.amount)}</Text>
+						<View _justify="flex-end" _width="25%">
+						<Text align="right">{convertRupiah(item.amount)}</Text>
+						</View>
 					</Wrapper>
 					}
 					keyExtractor={(item, i) => i.toString()}

@@ -120,7 +120,7 @@ const StatusPesanan = ({ navigation }) => {
 			<Button onPress={() => {
 				navigation.navigate('/cashier/check-out')
 				dispatch(getCustomer(User.store.id_store))
-			}}>LANJUT</Button>
+			}}>SELESAI</Button>
 		</Footer>
 	</Container>
 }

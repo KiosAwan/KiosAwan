@@ -31,6 +31,7 @@ const TransactionDetail = ({ navigation }) => {
 		const { transactionId, backState } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
+		console.debug(productData.data)
 		setBack(backState)
 		SetDataLoading(false)
 		_backHandler(backState)
@@ -113,7 +114,7 @@ const TransactionDetail = ({ navigation }) => {
 														<Text color="primary" size={15}>{data.product}</Text>
 														<Text>{convertRupiah(data.price)} x {data.qty}</Text>
 													</View>
-													<View  _width="24%" _justify="flex-end">
+													<View _width="24%" _justify="flex-end">
 														<Text align="right">{convertRupiah(data.total)}</Text>
 													</View>
 												</Wrapper>
@@ -184,6 +185,12 @@ const TransactionDetail = ({ navigation }) => {
 													convertRupiah(data.transaction.total_transaction) :
 													convertRupiah(data.transaction.remaining_return)
 											}
+										</Text>
+									</Wrapper>
+									<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+										<Text font="Bold">Jumlah yang dibayar</Text>
+										<Text font="Bold">
+											{convertRupiah(data.transaction.amount_payment)}
 										</Text>
 									</Wrapper>
 								</View>

@@ -32,8 +32,9 @@ const SubProduct = ({ navigation }) => {
     }
 
     const _selectProvider = async provider => {
+        console.debug(provider)
         setDropdownVisible(false)
-        if (provider.code != providerSelected.code) {
+        if (provider.code != (providerSelected ? providerSelected.code : null)) {
             if (productMargin.length > 0) {
                 alert('silahkan simpan biaya admin anda terlebih dahulu')
             } else {

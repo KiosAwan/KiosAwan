@@ -34,7 +34,11 @@ const Topup = ({ navigation }) => {
 	// Get payment channel List data
 	const _getPaymentData = async () => {
 		const res = await getPaymentChannelList()
-		setListPaymentMethod(res.data)
+		console.debug(res)
+		if (res.status == 200) {
+			setListPaymentMethod(res.data)
+		}
+
 	}
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
@@ -57,7 +61,7 @@ const Topup = ({ navigation }) => {
 					{
 						listPaymentMethod.map((item, key) => (
 							<View key={key} style={styles.group}>
-								<View style={{ flexDirection: "row", alignItems: "center", borderRadius : 5 }}>
+								<View style={{ flexDirection: "row", alignItems: "center", borderRadius: 5 }}>
 									<Image size="15%" source={{ uri: item.logo }} />
 									<View style={{ width: "80%", alignSelf: "flex-end" }}>
 										<Text>{item.title}</Text>
@@ -68,14 +72,14 @@ const Topup = ({ navigation }) => {
 									</View>
 								</View>
 								{item.tutorials.map((ttr, i) => (
-									<View key={i} style={{ borderWidth: 1, borderRadius: 5 , margin : 10, borderColor : ColorsList.greyAuthHard, backgroundColor: 'white',}}>
-										<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${(key+1)*(key+1)+i}`]: !toggled[(key+1)*(key+1)+i] }); console.debug(toggled[i*key+1]); }}>
-											<Wrapper justify="space-between" style={[styles.content, toggled[(key+1)*(key+1)+i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
+									<View key={i} style={{ borderWidth: 1, borderRadius: 5, margin: 10, borderColor: ColorsList.greyAuthHard, backgroundColor: 'white', }}>
+										<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${(key + 1) * (key + 1) + i}`]: !toggled[(key + 1) * (key + 1) + i] }); console.debug(toggled[i * key + 1]); }}>
+											<Wrapper justify="space-between" style={[styles.content, toggled[(key + 1) * (key + 1) + i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
 												<Text font="Bold">{ttr.title}</Text>
-												<Text color="primary" size={18}>{toggled[(key+1)*(key+1)+i] ? "-" : "+"}</Text>
+												<Text color="primary" size={18}>{toggled[(key + 1) * (key + 1) + i] ? "-" : "+"}</Text>
 											</Wrapper>
 										</TouchableOpacity>
-										{toggled[(key+1)*(key+1)+i] ?
+										{toggled[(key + 1) * (key + 1) + i] ?
 											<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
 												{ttr.steps.map((step, ia) => (
 													<View key={ia} style={styles.categoryView}>
@@ -127,7 +131,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 4
 	},
 	content: {
-		padding : 5,
+		padding: 5,
 		...$BorderRadius(5),
 		backgroundColor: 'white'
 	},
