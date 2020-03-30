@@ -130,8 +130,14 @@ const Home = ({ navigation }) => {
 			}
 	}
 	const _addressStore = () => {
+		let address, address_store = User.store.address_store.split('%')
+		if (address_store.length > 2) {
+			address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
+		} else {
+			// let region = JSON.parse(address_store[1])
+			address = address_store[0]
+		}
 		if (User.store && User.store.address_store) {
-			let address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
 			if (address.length > 30) {
 				return address.substr(0, 30) + '...'
 			}

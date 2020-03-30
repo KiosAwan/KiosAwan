@@ -21,6 +21,7 @@ import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import MDInput from 'src/components/Input/MDInput';
 import { stateObject } from 'src/utils/state';
+import Container, { Footer, Body } from 'src/components/View/Container';
 
 
 const UpdateProfil = ({ navigation }) => {
@@ -30,23 +31,23 @@ const UpdateProfil = ({ navigation }) => {
 	const [name_store, setName_Store] = useState('')
 	const [email_store, setEmail_Store] = useState('')
 	const [photo_store, setPhotoStore] = useState('')
-	const [address_store, setAddress_Store] = useState()
+	const [address_store, setAddress_Store] = useState('')
 	const [provinsi, setProvinsi, resetProvinsi] = stateObject({
 		selected: '',
 		search: '',
 		data: []
 	})
-	const [kabupaten, setKabupaten] = useState({
+	const [kabupaten, setKabupaten, resetKabupaten] = stateObject({
 		selected: '',
 		search: '',
 		data: []
 	})
-	const [kecamatan, setKecamatan] = useState({
+	const [kecamatan, setKecamatan, resetKecamatan] = stateObject({
 		selected: '',
 		search: '',
 		data: []
 	})
-	const [desa, setDesa] = useState({
+	const [desa, setDesa, resetDesa] = stateObject({
 		selected: '',
 		search: '',
 		data: []
@@ -71,13 +72,23 @@ const UpdateProfil = ({ navigation }) => {
 	}
 	const [loading, setLoading] = useState(false)
 	const _handleSaveProfile = async () => {
-		if (desa.selected == "" || kecamatan.selected == "" || kabupaten.selected == "" || provinsi.selected == "") {
-			alert("Harap pilih daerah toko")
+		if ([address_store, name_store, email_store, desa.selected, kecamatan.selected, kabupaten.selected, provinsi.selected].includes('')) {
+			alert("Harap isi data toko dengan lengkap")
 		} else {
 			setLoading(true)
 			const id_user = await AsyncStorage.getItem('userId')
 			const formData = new FormData()
 			let final_address = `${address_store}%${desa.selected.nama}%${kecamatan.selected.nama}%${kabupaten.selected.nama}%${provinsi.selected.nama}`
+			
+			// Jangan di hapus yg bawah, buat ntar klo minta bisa update alamat
+			
+			// let _desa = desa.selected
+			// let _kecamatan = kecamatan.selected
+			// let _kabupaten = kabupaten.selected
+			// let _provinsi = provinsi.selected
+			// const addr = { _desa, _kecamatan, _kabupaten, _provinsi }
+			// let final_address = `${address_store ? address_store : ''}%${JSON.stringify(addr)}`
+			
 			formData.append("id_user", id_user)
 			formData.append("name_store", name_store)
 			formData.append("email", email_store)
@@ -104,28 +115,28 @@ const UpdateProfil = ({ navigation }) => {
 	}
 
 	const _setProvinsi = (item) => {
-		// setProvinsi({ ...provinsi, selected: item })
-		// Wilayah.Kabupaten(item.id).then((res) => {
-		// 	setKabupaten({ ...kabupaten, data: res.data.kabupatens })
-		// })
+		setProvinsi({ selected: item })
+		Wilayah.Kabupaten(item.id).then((res) => {
+			setKabupaten({ data: res.data.kabupatens })
+		})
 	}
 
 	const _setKabupaten = (item) => {
-		setKabupaten({ ...kabupaten, selected: item })
+		setKabupaten({ selected: item })
 		Wilayah.Kecamatan(item.id).then((res) => {
-			setKecamatan({ ...kecamatan, data: res.data.kecamatans })
+			setKecamatan({ data: res.data.kecamatans })
 		})
 	}
 
 	const _setKecamatan = (item) => {
-		setKecamatan({ ...kecamatan, selected: item })
+		setKecamatan({ selected: item })
 		Wilayah.Desa(item.id).then((res) => {
-			setDesa({ ...desa, data: res.data.desas })
+			setDesa({ data: res.data.desas })
 		})
 	}
 
 	const _setDesa = (item) => {
-		setDesa({ ...desa, selected: item })
+		setDesa({ selected: item })
 	}
 
 	const _dataFiltered = (data, search) => {
@@ -134,18 +145,18 @@ const UpdateProfil = ({ navigation }) => {
 				.includes(search.toLowerCase())
 		})
 			.sort((a, b) => a.nama.localeCompare(b.nama))
-		console.debug(result)
 		return result
 	}
 
 	useEffect(() => {
 		Wilayah.Provinsi().then((res) => {
-			setProvinsi({ ...provinsi, data: res.data.semuaprovinsi })
+			setProvinsi({ data: res.data.semuaprovinsi })
 		})
 	}, [])
 
-	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+	return <Container>
+		<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
+		<Body>
 			<Modal
 				animationType="fade"
 				transparent={true}
@@ -161,84 +172,78 @@ const UpdateProfil = ({ navigation }) => {
 				/>
 			</Modal>
 			<AwanPopup.Loading visible={loading} />
-			<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
-			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
-				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
-					{
-						inputan.map((input, i) => <MDInput key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} />)
+			<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
+				{
+					inputan.map((input, i) => <MDInput key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} />)
+				}
+				<SelectBoxModal style={{ marginTop: 15 }}
+					label="Provinsi" closeOnSelect
+					data={_dataFiltered(provinsi.data, provinsi.search)}
+					header={
+						<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
+							<Icon style={{ color: ColorsList.primary }} name="search" />}
+							value={provinsi.search} onChangeText={text => setProvinsi({ search: text })} />
 					}
+					value={provinsi.selected ? provinsi.selected.nama : null}
+					handleChangePicker={_setProvinsi}
+					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Provinsi" closeOnSelect
-						data={_dataFiltered(provinsi.data, provinsi.search)}
-						header={
-							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
-								<Icon style={{ color: ColorsList.primary }} name="search" />}
-								value={provinsi.search} onChangeText={text => setProvinsi({ search: text })} />
-						}
-						value={provinsi.selected ? provinsi.selected.nama : null}
-						handleChangePicker={_setProvinsi}
-						renderItem={(item) => (<Text>{item.nama}</Text>)}>
-						<Text>Data tidak ditemukan</Text>
-					</SelectBoxModal>
+				<SelectBoxModal style={{ marginTop: 15 }}
+					label="Kabupaten / Kota" closeOnSelect
+					data={_dataFiltered(kabupaten.data, kabupaten.search)}
+					header={
+						<MDInput label="Cari Kabupaten" renderLeftAccessory={() =>
+							<Icon style={{ color: ColorsList.primary }} name="search" />}
+							value={kabupaten.search} onChangeText={text => setKabupaten({ search: text })} />
+					}
+					value={kabupaten.selected ? kabupaten.selected.nama : null}
+					handleChangePicker={_setKabupaten}
+					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kabupaten / Kota" closeOnSelect
-						data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
-								<Icon style={{ color: ColorsList.primary }} name="search" />}
-								value={kabupaten.search} onChangeText={text => setProvinsi({ ...kabupaten, search: text })} />
-						}
-						value={kabupaten.selected ? kabupaten.selected.nama : null}
-						handleChangePicker={_setKabupaten}
-						renderItem={(item) => (<Text>{item.nama}</Text>)}>
-						<Text>Data tidak ditemukan</Text>
-					</SelectBoxModal>
+				<SelectBoxModal style={{ marginTop: 15 }}
+					label="Kecamatan" closeOnSelect
+					data={_dataFiltered(kecamatan.data, kecamatan.search)}
+					header={
+						<MDInput label="Cari Kecamatan" renderLeftAccessory={() =>
+							<Icon style={{ color: ColorsList.primary }} name="search" />}
+							value={kecamatan.search} onChangeText={text => setKecamatan({ search: text })} />
+					}
+					value={kecamatan.selected ? kecamatan.selected.nama : null}
+					handleChangePicker={_setKecamatan}
+					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
 
-					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kecamatan" closeOnSelect
-						data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
-								<Icon style={{ color: ColorsList.primary }} name="search" />}
-								value={kecamatan.search} onChangeText={text => setProvinsi({ ...kecamatan, search: text })} />
-						}
-						value={kecamatan.selected ? kecamatan.selected.nama : null}
-						handleChangePicker={_setKecamatan}
-						renderItem={(item) => (<Text>{item.nama}</Text>)}>
-						<Text>Data tidak ditemukan</Text>
-					</SelectBoxModal>
-
-					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Kelurahan / Desa" closeOnSelect
-						data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search.toLowerCase())).sort((a, b) => a.nama.localeCompare(b.nama))}
-						header={
-							<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
-								<Icon style={{ color: ColorsList.primary }} name="search" />}
-								value={desa.search} onChangeText={text => setProvinsi({ ...desa, search: text })} />
-						}
-						value={desa.selected ? desa.selected.nama : null}
-						handleChangePicker={_setDesa}
-						renderItem={(item) => (<Text>{item.nama}</Text>)}>
-						<Text>Data tidak ditemukan</Text>
-					</SelectBoxModal>
-				</View>
-				<View style={{ marginBottom: 70 }}>
-					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
-					<View style={styles.imageWrapper}>
-						<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
-							<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />
-						</TouchableOpacity>
-					</View>
-				</View>
-			</ScrollView>
+				<SelectBoxModal style={{ marginTop: 15 }}
+					label="Kelurahan / Desa" closeOnSelect
+					data={_dataFiltered(desa.data, desa.search)}
+					header={
+						<MDInput label="Cari Desa" renderLeftAccessory={() =>
+							<Icon style={{ color: ColorsList.primary }} name="search" />}
+							value={desa.search} onChangeText={text => setDesa({ search: text })} />
+					}
+					value={desa.selected ? desa.selected.nama : null}
+					handleChangePicker={_setDesa}
+					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
+			</View>
+			<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
+			<View style={styles.imageWrapper}>
+				<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
+					<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />
+				</TouchableOpacity>
+			</View>
 			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
-			<Bottom>
-				<Button style={{ width: '100%' }} onPress={_handleSaveProfile}>SIMPAN</Button>
-			</Bottom>
-		</View >
-	)
+		</Body>
+		<Footer>
+			<Button style={{ width: '100%' }} onPress={_handleSaveProfile}>SIMPAN</Button>
+		</Footer>
+	</Container>
 }
 
 export default UpdateProfil
