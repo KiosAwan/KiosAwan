@@ -8,15 +8,14 @@ import { getTransactionDetail, convertRupiah, formatToDays } from 'src/utils/aut
 import { FontList } from 'src/styles/typography';
 import { SizeList } from 'src/styles/size';
 import { RowChild } from 'src/components/Helper/RowChild';
-import { ScrollView } from 'react-native-gesture-handler';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import ViewShot from 'react-native-view-shot';
 import Screenshot, { Config } from 'src/utils/screenshot';
-import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $BorderRadius, $Border, $Padding } from 'src/utils/stylehelper';
 import Container, { Body, Footer } from 'src/components/View/Container';
+import AsyncStorage from 'src/utils/async-storage';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
@@ -33,7 +32,6 @@ const TransactionDetail = ({ navigation }) => {
 	const _getData = async () => {
 		const { transactionId, backState } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
-		console.debug(JSON.stringify(productData.data.details_item))
 		setData(productData.data)
 		setBack(backState)
 		SetDataLoading(false)
@@ -45,11 +43,18 @@ const TransactionDetail = ({ navigation }) => {
 		setEdgeWidth(width)
 	}
 	const _backHandler = route => {
-		BackHandler.addEventListener('hardwareBackPress', () => {
-			if (route) {
-				navigation.navigate(route)
-				BackHandler.removeEventListener('hardwareBackPress')
-				return true
+		BackHandler.addEventListener('hardwareBackPress', async () => {
+			try {
+				if (route) {
+					let _newRoute = await AsyncStorage.get('TransactionDetailRoute')
+					navigation.navigate(_newRoute ? _newRoute : route)
+					BackHandler.removeEventListener('hardwareBackPress')
+					await AsyncStorage.remove('TransactionDetailRoute')
+					return true
+				}
+			} catch (err) {
+				await AsyncStorage.remove('TransactionDetailRoute')
+				navigation.goBack()
 			}
 		})
 	}
