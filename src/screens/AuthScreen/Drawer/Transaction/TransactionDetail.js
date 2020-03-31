@@ -31,7 +31,6 @@ const TransactionDetail = ({ navigation }) => {
 		const { transactionId, backState } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
-		console.debug(productData.data)
 		setBack(backState)
 		SetDataLoading(false)
 		_backHandler(backState)
@@ -226,7 +225,7 @@ const TransactionDetail = ({ navigation }) => {
 											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
 											<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
 										</Button>
-										<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data })} _width="49.5%">
+										<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data, type : true })} _width="49.5%">
 											<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
 											<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
 										</Button>

@@ -112,7 +112,7 @@ const StatusPesanan = ({ navigation }) => {
 					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} />
 					<Text color="primary">TAMBAH PRODUK</Text>
 				</Button>
-				<Button wrapper={{ justify: 'center' }} color="white" _width="49.5%" onPress={() => { }}>
+				<Button wrapper={{ justify: 'center' }} color="white" _width="49.5%" onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { singleData: params, type: false })}>
 					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/print-primary.png')} />
 					<Text color="primary">CETAK STRUK</Text>
 				</Button>
