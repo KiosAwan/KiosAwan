@@ -39,23 +39,25 @@ const PinView = props => {
 				<Text color="whiteColor">PIN</Text>
 			</View>
 		</Wrapper>
-		<View style={{ alignSelf: 'center', flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+		<View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', alignItems : "center" }}>
 			{props.title}
-			{
-				[
-					Array.generateEmpty(pinLength).map((item, i) => {
-						let txt = pin[item]
-						return <View key={i} style={{
-							backgroundColor: txt ? ColorsList.whiteColor : ColorsList.primary,
-							borderRadius: 10,
-							padding: 10,
-							margin: 2,
-							width: 30,
-							height: 30
-						}} />
-					})
-				]
-			}
+			<View style={{ flexDirection: 'row',alignItems: 'center', marginVertical : 30 }}>
+				{
+					[
+						Array.generateEmpty(pinLength).map((item, i) => {
+							let txt = pin[item]
+							return <View key={i} style={{
+								backgroundColor: txt ? ColorsList.whiteColor : ColorsList.primary,
+								borderRadius: 10,
+								padding: 10,
+								margin: 2,
+								width: 30,
+								height: 30
+							}} />
+						})
+					]
+				}
+			</View>
 			{props.children}
 		</View>
 		<View>

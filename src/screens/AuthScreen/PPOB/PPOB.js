@@ -27,15 +27,15 @@ const PPOB = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	const [moreVisible, setMoreVisible] = useState(false)
 	const productData = [
-		{ icon: require('src/assets/icons/ppob/Asuransi.png'), name: "Asuransi", navigate: "/ppob/asuransi" },
+		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa", navigate: "/ppob/pulsa" },
+		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data", navigate: "/ppob/paketdata" },
+		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "Listrik", navigate: '/ppob/listrik' },
 		{ icon: require('src/assets/icons/ppob/BPJS.png'), name: "BPJS", navigate: "/ppob/bpjs" },
+		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM", navigate: "/ppob/pdam" },
+		{ icon: require('src/assets/icons/ppob/Asuransi.png'), name: "Asuransi", navigate: "/ppob/asuransi" },
 		{ icon: require('src/assets/icons/ppob/E-Money.png'), name: "E - Money", navigate: "/ppob/emoney" },
 		{ icon: require('src/assets/icons/ppob/Games.png'), name: "Games", navigate: "/ppob" },
 		{ icon: require('src/assets/icons/ppob/Kredit.png'), name: "Kredit", navigate: "/ppob/kredit" },
-		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data", navigate: "/ppob/paketdata" },
-		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM", navigate: "/ppob/pdam" },
-		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "Listrik", navigate: '/ppob/listrik' },
-		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa", navigate: "/ppob/pulsa" },
 		{ icon: require('src/assets/icons/ppob/Telkom.png'), name: "Telkom", navigate: "/ppob/telkom" },
 		{ icon: require('src/assets/icons/ppob/TV-Kabel.png'), name: "TV Kabel", navigate: "/ppob/tvkabel" },
 		{ icon: require('src/assets/icons/ppob/Zakat.png'), name: "Zakat", navigate: "/ppob" },

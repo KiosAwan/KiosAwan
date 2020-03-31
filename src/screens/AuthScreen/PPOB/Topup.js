@@ -16,6 +16,7 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getPaymentChannelList } from 'src/utils/api/topup_api';
 import Divider from 'src/components/Row/Divider';
 import { $BorderRadius, $Padding } from 'src/utils/stylehelper';
+import { Toast } from 'native-base';
 
 const Topup = ({ navigation }) => {
 	const [listPaymentMethod, setListPaymentMethod] = useState([])
@@ -34,7 +35,6 @@ const Topup = ({ navigation }) => {
 	// Get payment channel List data
 	const _getPaymentData = async () => {
 		const res = await getPaymentChannelList()
-		console.debug(res)
 		if (res.status == 200) {
 			setListPaymentMethod(res.data)
 		}
@@ -67,7 +67,10 @@ const Topup = ({ navigation }) => {
 										<Text>{item.title}</Text>
 										<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
 											<Text font="Bold">{item.noVa}</Text>
-											<Button onPress={() => Clipboard.setString(item.noVa)} color={['transparent', 'greyFont', 'greyFont']} padding={3}>Copy</Button>
+											<Button onPress={() => {
+												Toast.show({ text: "Berhasil disalin", type: "success" })
+												Clipboard.setString(item.noVa)
+											}} color={['transparent', 'greyFont', 'greyFont']} padding={3}>Copy</Button>
 										</View>
 									</View>
 								</View>

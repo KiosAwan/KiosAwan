@@ -200,7 +200,7 @@ const Home = ({ navigation }) => {
 						<Text>Saldo: {convertRupiah(User.data.saldo || 0)}</Text>
 					</Wrapper>
 					<Wrapper justify="flex-end">
-						<Button color="link">
+						<Button color="link" onPress={_handleRefresh}>
 							<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
 						</Button>
 						<Button onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>

@@ -20,18 +20,21 @@ const GlobalEnterPin = props => {
 		setPinCode()
 		visibleToggle(false)
 	}
-	return <Modal visible={visible} style={{
-		maxWidth: '100%', maxHeight: '100%',
-		width: '100%',
-		height: '100%',
-		paddingVertical: 0
-	}}>
+	return <Modal
+		onRequestClose={_closePin}
+		visible={visible} style={{
+			maxWidth: '100%', maxHeight: '100%',
+			width: '100%',
+			height: '100%',
+			paddingVertical: 0
+		}}>
 		<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{
 			flex: 1,
 			justifyContent: "space-between",
 			backgroundColor: ColorsList.primary
 		}}>
 			<PinView
+				title={<Text color="white">Masukkan PIN untuk melanjutkan</Text>}
 				onPressBack={_closePin}
 				pinLength={codeLength || 4}
 				onComplete={(code, clear) => pinResolve(code, () => {
