@@ -48,6 +48,7 @@ const PpobPaketData = ({ navigation }) => {
 
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
+		console.debug(item)
 		setPinVisible(true)
 	}
 

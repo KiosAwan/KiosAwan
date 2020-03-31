@@ -193,6 +193,33 @@ const TransactionDetail = ({ navigation }) => {
 					</View>
 				</ViewShot>
 			}
+			{/* {dataLoading ? null :
+				<Bottom>
+					{
+						data.transaction.status == 3 ?
+							null
+							:
+							data.transaction.status_payment == 2 ?
+								[
+									<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>,
+									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
+								] :
+								<View style={{ width: '100%' }}>
+									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>
+									<Wrapper style={{ marginTop: 5 }} justify="space-between">
+										<Button onPress={_shareBill} _width="49.5%">
+											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
+											<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
+										</Button>
+										<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data, type: true })} _width="49.5%">
+											<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
+											<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
+										</Button>
+									</Wrapper>
+								</View>
+					}
+				</Bottom>
+			} */}
 		</Body>
 		<Footer>
 			{
@@ -210,7 +237,7 @@ const TransactionDetail = ({ navigation }) => {
 								<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
 								<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
 							</Button>
-							<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data })} _width="49.5%">
+							<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data, type: true })} _width="49.5%">
 								<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
 								<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
 							</Button>
