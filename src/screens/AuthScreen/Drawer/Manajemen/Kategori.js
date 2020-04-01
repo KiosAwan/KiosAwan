@@ -42,15 +42,15 @@ const ManajemenKategori = ({ navigation }) => {
 				/>
 				<FlatList
 					data={Category.data.filter(item => item.name_product_category.toLowerCase().includes(search.toLowerCase()))}
-					renderItem={({ item, index }) => (
-						<View>
-							<ManagementCategoryCard
-								onPressEdit={() => navigation.navigate('/drawer/manajemen/kategori/edit', {item})}
-								disabled={index == 0 && item.name_product_category == "Umum" ? true : false}
-								name={item.name_product_category}
-							/>
-						</View>
-					)}
+					renderItem={({ item, index }) => {
+						console.debug(item)
+						return <ManagementCategoryCard
+							onPressEdit={() => navigation.navigate('/drawer/manajemen/kategori/edit', { item })}
+							disabled={index == 0 && item.name_product_category == "Umum"}
+							hidden={index == 0 && item.name_product_category == "Umum"}
+							name={item.name_product_category}
+						/>
+					}}
 					keyExtractor={(item, index) => index.toString()}
 				/>
 			</View>

@@ -21,7 +21,7 @@ const MDInput = props => {
 		textColor={ColorsList.text}
 		baseColor={ColorsList.secondary}
 		renderRightAccessory={() => _render(renderRightAccessory, true)}
-		renderLeftAccessory={() => _render(renderLeftAccessory, false)}
+		renderLeftAccessory={() => _render(renderLeftAccessory)}
 		style={{ fontFamily: FontName.Regular, ...props.style }}
 	/>
 }

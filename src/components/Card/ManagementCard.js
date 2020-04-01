@@ -11,8 +11,8 @@ export const ManagementCategoryCard = (props) => {
                 <Text font="Bold" color="primaryColor">{props.name}</Text>
             </View>
             <TouchableOpacity onPress={props.onPressEdit} disabled={props.disabled || false} style={styles.touchableStyle}>
-                <View >
-                    <Image style={{ width: 40, height: 40 }} source={require('../../assets/icons/edit.png')} />
+                <View>
+                    <Image style={{ ...props.hidden && { opacity: .5 }, width: 40, height: 40 }} source={require('../../assets/icons/edit.png')} />
                 </View>
             </TouchableOpacity>
         </View>
@@ -36,20 +36,20 @@ export const ManagementPelangganCard = (props) => {
 }
 
 const styles = StyleSheet.create({
-    mainwrap : { 
-        width: '100%', 
-        flexDirection: 'row', 
-        alignItems: "center", 
-        backgroundColor: ColorsList.whiteColor, 
-        borderRadius: 5, 
-        marginTop : 10,
-        paddingLeft : 5
+    mainwrap: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: "center",
+        backgroundColor: ColorsList.whiteColor,
+        borderRadius: 5,
+        marginTop: 10,
+        paddingLeft: 5
     },
-    touchableStyle : { 
-        width: '10%', 
-        height: '100%', 
-        backgroundColor: ColorsList.greyBg, 
-        padding: 8, 
-        alignItems: "center" 
+    touchableStyle: {
+        width: '10%',
+        height: '100%',
+        backgroundColor: ColorsList.greyBg,
+        padding: 8,
+        alignItems: "center"
     }
 })

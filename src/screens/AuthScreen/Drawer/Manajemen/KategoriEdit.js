@@ -1,35 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
-//Styling
-import {
-    View,
-    StyleSheet,
-    Dimensions,
-    Text,
-    TextInput,
-    Modal
-} from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
+import { View, Modal, TextInput } from 'react-native';
 import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
 import { editCategory, deleteCategory } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
-import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
-import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import MDInput from 'src/components/Input/MDInput';
+import { stateObject } from 'src/utils/state';
+import Container, { Body, Footer } from 'src/components/View/Container';
+import { Text } from 'src/components/Text/CustomText';
 
 
 const KategoriEdit = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [categoryName, setCategoryName] = useState()
-    const [categoryId, setIdCategory] = useState()
+    const [form, setForm] = stateObject({})
     const [modalVisible, setModalVisible] = useState(false)
     const [alert, setAlert] = useState(false)
     const User = useSelector(state => state.User)
@@ -39,18 +26,18 @@ const KategoriEdit = ({ navigation }) => {
     }, [])
     const _getParams = async () => {
         const { item } = navigation.state.params
-        setCategoryName(item.name_product_category)
-        setIdCategory(item.id_product_category)
+        setForm(item)
     }
 
     const _handleSaveCategory = async () => {
-        if (categoryName == "") {
+        console.debug(form)
+        if (form.name_product_category == "") {
             alert("Nama tidak boleh kosong")
         }
         else {
             const res = await editCategory({
-                name_product_category: categoryName
-            }, categoryId)
+                name_product_category: form.name_product_category
+            }, form.id_product_category)
             if (res.status == 200) {
                 setModalVisible(true)
                 setTimeout(() => {
@@ -66,7 +53,7 @@ const KategoriEdit = ({ navigation }) => {
 
     const _handleDeleteCategory = async () => {
         setAlert(false)
-        await deleteCategory(categoryId)
+        await deleteCategory(form.id_product_category)
         setModalVisible(true)
         setTimeout(() => {
             navigation.goBack()
@@ -74,75 +61,44 @@ const KategoriEdit = ({ navigation }) => {
             setModalVisible(false)
         }, 1000)
     }
-    return (
-        <View style={styles.container} >
-            <BarStatus />
-            <AwanPopup.Title title="Hapus Kategori" visible={alert} message={`Kategori ${categoryName} akan dihapus dari daftar kategorimu.`}>
-                <View></View>
-                <Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-                <Button onPress={_handleDeleteCategory} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
-            </AwanPopup.Title>
-            <GlobalHeaderWithIcon
-                onPressBack={() => navigation.goBack()}
-                title="Edit Kategori"
-                image={require('../../../../assets/icons/trash.png')}
-                handleDeleteCategory={() => setAlert(true)}
+    return <Container header={{
+        onPressBack: () => navigation.goBack(),
+        handleDeleteCategory: () => setAlert(true),
+        title: "Edit Kategori",
+        image: require('src/assets/icons/trash.png'),
+    }}>
+        <AwanPopup.Title title="Hapus Kategori" visible={alert} message={`Kategori ${form.name_product_category} akan dihapus dari daftar kategorimu.`}>
+            <View></View>
+            <Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
+            <Button onPress={_handleDeleteCategory} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+        </AwanPopup.Title>
+        <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+                setModalVisible(!modalVisible);
+            }}>
+            <ModalContent
+                image={require('src/assets/images/managemenkategorisuccess.png')}
+                infoText="Edit Kategori Berhasil!"
+                closeModal={() => setModalVisible(false)}
             />
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            ><ModalContent
-                    image={require('../../../../assets/images/managemenkategorisuccess.png')}
-                    infoText="Edit Kategori Berhasil!"
-                    closeModal={() => setModalVisible(false)}
+        </Modal>
+        <Body>
+            <View style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 15, marginBottom: 15 }}>
+                <MDInput label="Nama Kategori" value={form.name_product_category}
+                    onChangeText={name_product_category => setForm({ name_product_category })}
                 />
-            </Modal>
-            <View style={{ alignItems: "center" }}>
-                <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <MDInput label="Nama Kategori" value={categoryName}
-                        onChangeText={(text) => setCategoryName(text)}
-                    />
-                </View>
-                <View style={{ width: '90%', padding: 10 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Masukkan nama kategori baru</Text>
-                </View>
+                <TextInput value={form.name_product_category} onChangeText={name_product_category => setForm({ name_product_category })} />
             </View>
-            <Bottom>
-                <Button width="100%" onPress={_handleSaveCategory}>SIMPAN</Button>
-            </Bottom>
-        </View>
-    );
+            <Text align="center" font="ExtraBold">Masukkan nama kategori baru</Text>
+        </Body>
+        <Footer>
+            <Button onPress={_handleSaveCategory}>SIMPAN</Button>
+        </Footer>
+    </Container>
 }
 
 export default KategoriEdit
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: ColorsList.authBackground
-    },
-    borderStyleBase: {
-        width: 30,
-        height: 45,
-        borderRadius: 20
-    },
-
-    borderStyleHighLighted: {
-        borderColor: "#03DAC6",
-    },
-
-    underlineStyleBase: {
-        width: 30,
-        height: 45,
-        borderWidth: 0,
-        borderBottomWidth: 1,
-    },
-
-    underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
-    },
-})
