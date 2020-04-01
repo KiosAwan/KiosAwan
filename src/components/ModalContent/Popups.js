@@ -56,20 +56,23 @@ const AwanPopup = {
 	},
 	Menu: props => {
 		return <Modal {...props} animationType="fade" style={[styles.shadow, {
-			padding: 0, minWidth: '70%', position: props.absolute ? 'absolute' : undefined
+			paddingVertical: 0, minWidth: '70%', position: props.absolute ? 'absolute' : undefined
 		}, props.style]}>
-			{!props.noTitle && <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
-				<Text font="Bold" size={props.titleSize || 15} style={{ color: ColorsList.whiteColor, ...$Padding(10, 15) }}>
-					{props.title.toUpperCase()}
-				</Text>
-			</LinearGradient>}
-			<View style={[{ padding: 5 }, props.noTitle ? { borderRadius: 5 } : {}, props.contentStyle]}>
+
+			{
+				!props.noTitle && <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]}>
+					<Text font="Bold" size={props.titleSize || 15} style={{ color: ColorsList.whiteColor, ...$Padding(10, 15) }}>
+						{props.title.toUpperCase()}
+					</Text>
+				</LinearGradient>
+			}
+			<View style={[props.noTitle ? { borderRadius: 5 } : {}, props.contentStyle]}>
 				{
 					props.children.length > 0 ?
 						props.children.map((child, i) => {
 							return [
 								child,
-								!props.noTitle && props.children.length - 1 != i ? <Divider /> : null
+								!props.noTitle && props.children.length - 1 != i && <Divider />
 							]
 						})
 						: props.children

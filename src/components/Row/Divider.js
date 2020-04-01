@@ -14,7 +14,7 @@ const Divider = props => {
 		backgroundColor: props.color || ColorsList.greyAuthHard,
 		padding: isNaN(props.size) ? .5 : props.size / 2,
 		top: -.1,
-		flex: 1,
+		...props.flex && { flex: 1 },
 		...props.style
 	}}
 	/>

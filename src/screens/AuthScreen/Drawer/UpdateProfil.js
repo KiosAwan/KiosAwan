@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import { View, StyleSheet, Image, TextInput, Modal } from 'react-native';
+import { View, StyleSheet, Image, Modal } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'src/components/Text/CustomText';
 import { ColorsList } from 'src/styles/colors';
 import { } from 'src/components/Input/InputComp';
@@ -10,15 +10,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { sendProfileData } from 'src/utils/authhelper';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import ModalContent from 'src/components/ModalContent/ModalContent';
-import { SelectBoxModal, SelectBox } from 'src/components/Picker/SelectBoxModal';
+import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import Wilayah from 'src/utils/wilayah';
 import { Icon } from 'native-base';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import Divider from 'src/components/Row/Divider';
 import { PickerImage } from 'src/components/Picker/PickerImage';
-import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
-import { Wrapper } from 'src/components/View/Wrapper';
 import MDInput from 'src/components/Input/MDInput';
 import { stateObject } from 'src/utils/state';
 import Container, { Footer, Body } from 'src/components/View/Container';
@@ -32,22 +29,22 @@ const UpdateProfil = ({ navigation }) => {
 	const [email_store, setEmail_Store] = useState('')
 	const [photo_store, setPhotoStore] = useState('')
 	const [address_store, setAddress_Store] = useState('')
-	const [provinsi, setProvinsi, resetProvinsi] = stateObject({
+	const [provinsi, setProvinsi] = stateObject({
 		selected: '',
 		search: '',
 		data: []
 	})
-	const [kabupaten, setKabupaten, resetKabupaten] = stateObject({
+	const [kabupaten, setKabupaten] = stateObject({
 		selected: '',
 		search: '',
 		data: []
 	})
-	const [kecamatan, setKecamatan, resetKecamatan] = stateObject({
+	const [kecamatan, setKecamatan] = stateObject({
 		selected: '',
 		search: '',
 		data: []
 	})
-	const [desa, setDesa, resetDesa] = stateObject({
+	const [desa, setDesa] = stateObject({
 		selected: '',
 		search: '',
 		data: []

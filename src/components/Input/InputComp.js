@@ -10,7 +10,6 @@ import {
 } from 'native-base'
 import { Wrapper } from '../View/Wrapper';
 import MDInput from './MDInput';
-import Divider from '../Row/Divider';
 
 const width = Dimensions.get('window').width
 

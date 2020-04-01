@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, TextInput, StyleSheet, Modal } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker'
+import { View, Image, StyleSheet, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { } from '../../../../components/Input/InputComp';
 import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
 import { Text } from '../../../../components/Text/CustomText';
 import { editStoreProfile } from '../../../../utils/authhelper';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
@@ -14,11 +12,9 @@ import { getProfile } from '../../../../redux/actions/actionsUserData';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
 import Wilayah from 'src/utils/wilayah';
-import Divider from 'src/components/Row/Divider';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
-import { Wrapper } from 'src/components/View/Wrapper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import MDInput from 'src/components/Input/MDInput';
 

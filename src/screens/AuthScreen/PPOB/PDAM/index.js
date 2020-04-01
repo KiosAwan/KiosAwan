@@ -192,11 +192,9 @@ const PDAM = ({ navigation }) => {
                     label="Pilih PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
                     header={
-                        <View style={{ padding: 10 }}>
-                            <MDInput label="Cari PDAM" renderLeftAccessory={() =>
-                                <Icon style={{ color: ColorsList.primary, marginRight: 10 }} size={20} name="search" />}
-                                value={search} onChangeText={text => setSearch(text)} />
-                        </View>
+                        <MDInput label="Cari PDAM" renderLeftAccessory={() =>
+                            <Icon style={{ color: ColorsList.primary, marginRight: 10 }} size={20} name="search" />}
+                            value={search} onChangeText={text => setSearch(text)} />
                     }
                     value={selected ? selected.name : ""}
                     handleChangePicker={(item) => setSelected(item)}
