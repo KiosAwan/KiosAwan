@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -59,6 +59,9 @@ const PPOB = ({ navigation }) => {
 			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
 			_setAlert(true)
 		}
+	}
+	const _navigateProduct = route => {
+		navigation.navigate(route)
 	}
 	const _moreMenu = () => setMoreVisible(true)
 	return (
@@ -144,7 +147,7 @@ const PPOB = ({ navigation }) => {
 					renderItem={({ item }) => (
 						<View style={{ flex: 1, alignItems: "center", marginVertical: 10 }}>
 							<CardIcon
-								onPress={() => navigation.navigate(item.navigate)}
+								onPress={() => _navigateProduct(item.navigate)}
 								icon={item.icon}
 								name={item.name}
 							/>

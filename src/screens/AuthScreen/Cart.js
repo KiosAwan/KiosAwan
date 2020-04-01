@@ -19,6 +19,7 @@ import { Bottom } from 'src/components/View/Bottom';
 import Divider from 'src/components/Row/Divider';
 import { RemovePPOBFromCart } from 'src/redux/actions/actionsPPOB';
 import MDInput from 'src/components/Input/MDInput';
+import AsyncStorage from 'src/utils/async-storage';
 
 const Cart = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -262,7 +263,10 @@ const Cart = ({ navigation }) => {
 			</View>
 			{/* <View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, marginBottom: 10 }}> */}
 
-			<Button wrapper={{ justify: "center" }} color="white" style={{ marginBottom: 10 }} _width="100%" justify="center" padding={10} onPress={() => navigation.navigate("/ppob")}>
+			<Button wrapper={{ justify: "center" }} color="white" style={{ marginBottom: 10 }} _width="100%" justify="center" padding={10} onPress={async () => {
+				await AsyncStorage.put("TransactionDetailRoute", "/")
+				navigation.navigate("/ppob")
+			}}>
 				<Image style={{ marginHorizontal: 10 }} size={10} source={require('src/assets/icons/plus-primary.png')} />
 				<Text color="primary">TAGIHAN DAN ISI ULANG</Text>
 			</Button>
