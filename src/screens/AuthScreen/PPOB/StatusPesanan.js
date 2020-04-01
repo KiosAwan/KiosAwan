@@ -100,6 +100,13 @@ const StatusPesanan = ({ navigation }) => {
 					</Wrapper>,
 					<Divider />
 				]}
+				{transaction.transaction_name == "pln_prepaid" && transaction.status == "SUCCESS" && [
+					<Wrapper {...wrapper}>
+						<Text>No Token</Text>
+						<Text>{payment.token}</Text>
+					</Wrapper>,
+					<Divider />
+				]}
 				<Wrapper {...wrapper}>
 					<Text font="ExtraBold">Total Tagihan</Text>
 					<Text font="ExtraBold">{convertRupiah(parseInt(_checkData('total')))}</Text>

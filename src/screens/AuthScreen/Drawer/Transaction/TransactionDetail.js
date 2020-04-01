@@ -137,6 +137,12 @@ const TransactionDetail = ({ navigation }) => {
 													<Text>{item.transaction.customerID}</Text>
 													<Text>{item.transaction.transaction_code}</Text>
 												</View>
+												{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
+													<Wrapper {...wrapper}>
+														<Text>No Token</Text>
+														<Text>{item.payment.token}</Text>
+													</Wrapper>,
+												]}
 												<View style={{ alignItems: 'flex-end' }}>
 													<Text color={item.transaction.status === "SUCCESS" ? 'success' : (data === "PENDING" ? 'info' : 'danger')}>{item.transaction.status}</Text>
 													<Text>{convertRupiah(item.transaction.total)}</Text>
