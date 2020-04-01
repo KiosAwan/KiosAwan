@@ -45,7 +45,6 @@ const Home = ({ navigation }) => {
 	const _getNewsData = async () => {
 		const res = await Axios.get('https://kiosawan.com/wp-json/wp/v2/posts')
 		setNews(res.data)
-		console.debug(res.data)
 		setNewsLoading(false)
 	}
 
@@ -131,7 +130,7 @@ const Home = ({ navigation }) => {
 			}
 	}
 	const _addressStore = () => {
-		let address, address_store = User.store.address_store.split('%')
+		let address, address_store = User.store ? User.store.address_store.split('%') : ""
 		if (address_store.length > 2) {
 			address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
 		} else {
