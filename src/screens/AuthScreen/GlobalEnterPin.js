@@ -34,7 +34,11 @@ const GlobalEnterPin = props => {
 			backgroundColor: ColorsList.primary
 		}}>
 			<PinView
-				title={<Text color="white">Masukkan PIN untuk melanjutkan</Text>}
+				title={
+					<View style={{ width: "60%", alignItems: "center" }}>
+						<Text style={{ marginBottom: 10 }} size={16} color="white">Silahkan masukkan PIN Anda</Text>
+						<Text align="center" size={12} color="white">Proses pemotongan saldo akan dilakukan setelah memasukkan PIN</Text>
+					</View>}
 				onPressBack={_closePin}
 				pinLength={codeLength || 4}
 				onComplete={(code, clear) => pinResolve(code, () => {

@@ -43,20 +43,20 @@ const TransactionDetail = ({ navigation }) => {
 		setEdgeWidth(width)
 	}
 	const _backHandler = route => {
-		BackHandler.addEventListener('hardwareBackPress', async () => {
-			try {
-				if (route) {
-					let _newRoute = await AsyncStorage.get('TransactionDetailRoute')
-					navigation.navigate(_newRoute ? _newRoute : route)
-					BackHandler.removeEventListener('hardwareBackPress')
-					await AsyncStorage.remove('TransactionDetailRoute')
-					return true
-				}
-			} catch (err) {
-				await AsyncStorage.remove('TransactionDetailRoute')
-				navigation.goBack()
-			}
-		})
+		// BackHandler.addEventListener('hardwareBackPress', async () => {
+		// 	try {
+		// 		if (route) {
+		// 			let _newRoute = await AsyncStorage.get('TransactionDetailRoute')
+		// 			navigation.navigate(_newRoute ? _newRoute : route)
+		// 			BackHandler.removeEventListener('hardwareBackPress')
+		// 			await AsyncStorage.remove('TransactionDetailRoute')
+		// 			return true
+		// 		}
+		// 	} catch (err) {
+		// 		await AsyncStorage.remove('TransactionDetailRoute')
+		// 		navigation.goBack()
+		// 	}
+		// })
 	}
 	useEffect(() => {
 		_getData()

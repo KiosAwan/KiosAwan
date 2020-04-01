@@ -45,6 +45,7 @@ const Home = ({ navigation }) => {
 	const _getNewsData = async () => {
 		const res = await Axios.get('https://kiosawan.com/wp-json/wp/v2/posts')
 		setNews(res.data)
+		console.debug(res.data)
 		setNewsLoading(false)
 	}
 
@@ -298,8 +299,8 @@ const Home = ({ navigation }) => {
 		<ScrollView
 			horizontal={true}
 			showsHorizontalScrollIndicator={false}>
-			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
-			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_2.png')} />
+			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/Banner.jpg')} />
+			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
 		</ScrollView>
 		<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
 		{newsLoading ?
@@ -312,7 +313,7 @@ const Home = ({ navigation }) => {
 				renderItem={({ item, index }) => (
 					<CardTextImage
 						style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
-						onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
+						onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url, link : item.link })}
 						image={item.jetpack_featured_media_url}
 						info={item.title.rendered}
 					/>

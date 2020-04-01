@@ -17,7 +17,7 @@ import {
 	AddDiscountRupiah,
 	AddDiscountPersen,
 	changeTransactionDiscount,
-	
+
 } from '../../redux/actions/actionsStoreProduct';
 import {
 	SetIdMultiCart
@@ -29,6 +29,7 @@ import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
 import { Bottom } from 'src/components/View/Bottom';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 class CheckOut extends React.Component {
 	state = {
@@ -114,7 +115,17 @@ class CheckOut extends React.Component {
 			this.props.getProduct(this.props.User.store.id_store)
 			this.props.SetIdMultiCart(0)
 			this.props.getTransactionList(this.props.User.store.id_store)
-			this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
+			this.props.navigation.dispatch(
+				StackActions.reset({
+					index: 1,
+					key: null,
+					actions: [
+						NavigationActions.navigate({ routeName: '/' }),
+						NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/cashier' } })
+					]
+				})
+			)
+			// this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
 		} else {
 			alert(JSON.stringify(res))
 		}
@@ -168,7 +179,16 @@ class CheckOut extends React.Component {
 					this.props.removeAllCart()
 					this.props.getProduct(this.props.User.store.id_store)
 					this.props.getTransactionList(this.props.User.store.id_store)
-					this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
+					// this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
+					this.props.navigation.dispatch(
+						StackActions.reset({
+							index: 1,
+							key: null,
+							actions: [
+								NavigationActions.navigate({ routeName: '/' }),
+								NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/cashier' } })
+							]
+						}))
 				}
 				else {
 					alert(JSON.stringify(res))

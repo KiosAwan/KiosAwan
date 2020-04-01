@@ -6,12 +6,14 @@ import { Text } from 'src/components/Text/CustomText';
 import { FontList } from 'src/styles/typography';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
+import WebView from 'react-native-webview';
 
 const NewsScreen = ({ navigation }) => {
 
     const [title, setTitle] = useState('')
     const [imageData, setImage] = useState('')
     const [data, setData] = useState('')
+    const [url, setUrl] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         _getData()
@@ -19,10 +21,12 @@ const NewsScreen = ({ navigation }) => {
 
 
     const _getData = async () => {
-        const { title, data , newsImage } = await navigation.state.params
+        const { title, data, newsImage, link } = await navigation.state.params
         setTitle(title)
+        console.debug(link)
         setData(data)
         setImage(newsImage)
+        setUrl(link)
         setIsLoading(false)
     }
 
@@ -32,19 +36,19 @@ const NewsScreen = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
             <GlobalHeader title="News" onPressBack={_onPressBack} />
-            <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1,  margin : 10 }}>
+            {/* <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, margin: 10 }}> */}
                 {isLoading &&
                     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                         <ActivityIndicator size={40} />
                     </View>
                 }
-                {/* <WebView
+                <WebView
                     onLoadStart={() => setIsLoading(true)}
                     onLoadEnd={() => setIsLoading(false)}
                     javaScriptEnabled
                     source={{ uri: url }}
-                /> */}
-                <Text style={{ alignSelf: 'center', textAlign : 'center' }}>{title}</Text>
+                />
+                {/* <Text style={{ alignSelf: 'center', textAlign : 'center' }}>{title}</Text>
                 <Image source={{uri : imageData ? imageData : null}} style={{width : SizeList.width, height : 200,marginVertical : 10, resizeMode : 'contain'}}/>
                 <HTML
                     tagsStyles={{
@@ -52,8 +56,8 @@ const NewsScreen = ({ navigation }) => {
                         li: { fontFamily: FontList.primaryFont, color: ColorsList.greySoft },
                     }}
                     html={data}
-                />
-            </ScrollView>
+                /> */}
+            {/* </ScrollView> */}
         </View>
     );
 }

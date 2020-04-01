@@ -100,7 +100,7 @@ const StatusPesanan = ({ navigation }) => {
 					</Wrapper>,
 					<Divider />
 				]}
-				{transaction.transaction_name == "pln_prepaid" && transaction.status == "SUCCESS" && [
+				{transaction && transaction.transaction_name == "pln_prepaid" && transaction.status == "SUCCESS" && [
 					<Wrapper {...wrapper}>
 						<Text>No Token</Text>
 						<Text>{payment.token}</Text>
