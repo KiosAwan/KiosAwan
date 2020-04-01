@@ -114,7 +114,7 @@ const StatusPesanan = ({ navigation }) => {
 			</View>
 		</Body>
 		<Footer>
-			<Wrapper justify="space-between">
+			<Wrapper style={{marginBottom : 10}} justify="space-between">
 				<Button wrapper={{ justify: 'center' }} color="white" _width="49.5%" onPress={() => navigation.navigate('/ppob')}>
 					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} />
 					<Text color="primary">TAMBAH PRODUK</Text>

@@ -33,6 +33,7 @@ const TransactionDetail = ({ navigation }) => {
 		const { transactionId, backState } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
+		console.debug(productData.data.product_digital.payment)
 		setBack(backState)
 		SetDataLoading(false)
 		_backHandler(backState)
@@ -141,13 +142,13 @@ const TransactionDetail = ({ navigation }) => {
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
 													<Text>{item.transaction.customerID}</Text>
 													<Text>{item.transaction.transaction_code}</Text>
+													{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
+														<View>
+															<Text>No Token : </Text>
+															<Text>{item.payment.token}</Text>
+														</View>,
+													]}
 												</View>
-												{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
-													<Wrapper {...wrapper}>
-														<Text>No Token</Text>
-														<Text>{item.payment.token}</Text>
-													</Wrapper>,
-												]}
 												<View style={{ alignItems: 'flex-end' }}>
 													<Text color={item.transaction.status === "SUCCESS" ? 'success' : (data === "PENDING" ? 'info' : 'danger')}>{item.transaction.status}</Text>
 													<Text>{convertRupiah(item.transaction.total)}</Text>
