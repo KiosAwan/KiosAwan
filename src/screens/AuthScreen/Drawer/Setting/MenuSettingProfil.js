@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, StyleSheet, Modal } from 'react-native';
+import { View, Image, StyleSheet, Modal, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { GlobalHeader } from '../../../../components/Header/Header';
+import { GlobalHeader } from 'src/components/Header/Header';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { } from '../../../../components/Input/InputComp';
-import { ColorsList } from '../../../../styles/colors';
-import { Text } from '../../../../components/Text/CustomText';
-import { editStoreProfile } from '../../../../utils/authhelper';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { } from 'src/components/Input/InputComp';
+import { ColorsList } from 'src/styles/colors';
+import { Text } from 'src/components/Text/CustomText';
+import { editStoreProfile } from 'src/utils/authhelper';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
 import Wilayah from 'src/utils/wilayah';
@@ -17,14 +17,23 @@ import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import MDInput from 'src/components/Input/MDInput';
+import { stateObject } from 'src/utils/state';
+import Container, { Body, Footer } from 'src/components/View/Container';
+import { Dot } from 'src/utils/dot-object';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
 	const temp_profilepic = User.store.photo_store
+	const daerahMap = ['desa', 'kecamatan', 'kabupaten', 'provinsi']
 	const [modalVisible, setModalVisible] = useState(false)
 	const [apiLoading, setApiLoading] = useState(false)
-	const [formValue, setFormValue] = useState({
+	const defaultDaerah = {
+		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[4] } : {},
+		search: '',
+		data: []
+	}
+	const [form, setForm] = stateObject({
 		name: User.data.name,
 		email_store: User.store.email_store,
 		no_telp: User.data.phone_number,
@@ -34,68 +43,83 @@ const MenuSettingProfil = ({ navigation }) => {
 		id_user: User.data.id
 	})
 
-	const [provinsi, setProvinsi] = useState({
-		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[4] } : {},
-		search: '',
-		data: []
+	const splitDaerah = daerah => {
+		const address = User.store.address_store ? User.store.address_store.split('%') : []
+		if (address.length > 0) {
+			const [alamat, _desa, _kecamatan, _kabupaten, _provinsi] = address
+			if (address.length > 2) {
+				return { nama: eval(`_${daerah}`) }
+			} else {
+				const dataDaerah = JSON.parse(_desa)
+				return Dot(daerah, dataDaerah)
+			}
+		}
+	}
+
+	const [provinsi, setProvinsi] = stateObject({
+		...defaultDaerah,
+		selected: splitDaerah('provinsi')
 	})
-	const [kabupaten, setKabupaten] = useState({
-		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[3] } : {},
-		search: '',
-		data: []
+	const [kabupaten, setKabupaten] = stateObject({
+		...defaultDaerah,
+		selected: splitDaerah('kabupaten')
 	})
-	const [kecamatan, setKecamatan] = useState({
-		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[2] } : {},
-		search: '',
-		data: []
+	const [kecamatan, setKecamatan] = stateObject({
+		...defaultDaerah,
+		selected: splitDaerah('kecamatan')
 	})
-	const [desa, setDesa] = useState({
-		selected: User.store.address_store ? { nama: User.store.address_store.split('%')[1] } : {},
-		search: '',
-		data: []
+	const [desa, setDesa] = stateObject({
+		...defaultDaerah,
+		selected: splitDaerah('desa')
 	})
 
 	const inputan = [{
 		_label: "Nama",
-		value: formValue.name,
-		onChangeText: (text) => { setFormValue({ ...formValue, name: text }) }
+		value: form.name,
+		onChangeText: name => { setForm({ name }) }
 	}, {
 		_label: "Email",
 		editable: false,
-		value: formValue.email_store,
+		value: form.email_store,
 		keyboardType: 'email-address',
-		onChangeText: (text) => { setFormValue({ ...formValue, email_store: text }) }
+		onChangeText: email_store => { setForm({ email_store }) }
 	}, {
 		_label: "No. telepon",
 		editable: false,
-		value: formValue.no_telp,
+		value: form.no_telp,
 		keyboardType: 'numeric',
-		onChangeText: (text) => { setFormValue({ ...formValue, no_telp: text }) }
+		onChangeText: no_telp => { setForm({ no_telp }) }
 	},
 	{
 		_label: "Nama toko / kios",
 		editable: true,
-		value: formValue.name_store,
-		onChangeText: (text) => { setFormValue({ ...formValue, name_store: text }) }
+		value: form.name_store,
+		onChangeText: name_store => { setForm({ name_store }) }
 	}, {
 		_label: "Alamat toko / kios",
 		editable: true,
-		value: formValue.address_store,
-		onChangeText: (text) => { setFormValue({ ...formValue, address_store: text }) }
+		value: form.address_store,
+		onChangeText: address_store => { setForm({ address_store }) }
 	}]
 	const [rbRef, setRbRef] = useState({})
-	const _handleChoosePhoto = image => {
-		setFormValue({ ...formValue, photo_store: image.path })
+	const _handleChoosePhoto = ({ path: photo_store }) => {
+		setForm({ photo_store })
 	};
 
 	const _handleSaveProfile = async () => {
+		const daerah = daerahMap.map(_daerah => {
+			return { name: _daerah, data: eval(`${_daerah}.selected`) }
+		}).reduce((obj, item) => {
+			obj[item.name] = item.data
+			return obj
+		}, {})
 		setApiLoading(true)
 		const formData = new FormData()
-		let final_address = `${formValue.address_store}%${desa.selected.nama}%${kecamatan.selected.nama}%${kabupaten.selected.nama}%${provinsi.selected.nama}`
-		formData.appendObject(formValue, ['photo_store', 'address_store']) // ('Form data yang di append', 'kecuali')
+		let final_address = `${form.address_store}%${JSON.stringify(daerah)}`
+		formData.appendObject(form, ['photo_store', 'address_store']) // ('Form data yang di append', 'kecuali')
 		formData.append("address_store", final_address)
-		formData.append('photo_store', formValue.photo_store != "" ? formValue.photo_store != temp_profilepic ? {
-			uri: formValue.photo_store,
+		formData.append('photo_store', form.photo_store != "" ? form.photo_store != temp_profilepic ? {
+			uri: form.photo_store,
 			type: "image/jpeg",
 			name: `${Date.now()}.jpeg`
 		} : null : null)
@@ -116,69 +140,88 @@ const MenuSettingProfil = ({ navigation }) => {
 		}
 	}
 
-	const _setProvinsi = (item) => {
-		setProvinsi({ ...provinsi, selected: item })
-		Wilayah.Kabupaten(item.id).then((res) => {
-			setKabupaten({ ...kabupaten, data: res.data.kabupatens })
-		})
+	const _filterData = obj => {
+		return obj.data
+			.filter(item => item.nama.toLowerCase()
+				.includes(obj.search))
+			.sort((a, b) => a.nama
+				.localeCompare(b.nama))
 	}
 
-	const _setKabupaten = (item) => {
-		setKabupaten({ ...kabupaten, selected: item })
-		Wilayah.Kecamatan(item.id).then((res) => {
-			setKecamatan({ ...kecamatan, data: res.data.kecamatans })
-		})
+	const _setProvinsi = async item => {
+		setProvinsi({ selected: item })
+		const { data } = await Wilayah.Kabupaten(item.id)
+		setKabupaten({ data: data.kabupatens })
+		return true
 	}
 
-	const _setKecamatan = (item) => {
-		setKecamatan({ ...kecamatan, selected: item })
-		Wilayah.Desa(item.id).then((res) => {
-			setDesa({ ...desa, data: res.data.desas })
-		})
+	const _setKabupaten = async item => {
+		setKabupaten({ selected: item })
+		const { data } = await Wilayah.Kecamatan(item.id)
+		setKecamatan({ data: data.kecamatans })
+		return true
+	}
+
+	const _setKecamatan = async item => {
+		setKecamatan({ selected: item })
+		const { data } = await Wilayah.Desa(item.id)
+		setDesa({ data: data.desas })
+		return true
 	}
 
 	const _setDesa = (item) => {
-		setDesa({ ...desa, selected: item })
+		setDesa({ selected: item })
+	}
+
+	const _getDataDaerah = async () => {
+		if (kabupaten.selected) {
+			await _setKabupaten(kabupaten.selected)
+		}
+		if (kecamatan.selected) {
+			await _setKecamatan(kecamatan.selected)
+		}
 	}
 
 	useEffect(() => {
-		Wilayah.Provinsi().then((res) => {
-			setProvinsi({ ...provinsi, data: res.data.semuaprovinsi })
+		Wilayah.Provinsi().then(({ data: { semuaprovinsi: data } }) => {
+			if (provinsi.selected) {
+				_setProvinsi(provinsi.selected)
+			}
+			setProvinsi({ data })
+			_getDataDaerah()
 		})
 	}, [])
-	return <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-		<AwanPopup.Loading visible={apiLoading} />
+	return <Container>
 		<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
-		<Modal
-			animationType="fade"
-			transparent={true}
-			visible={modalVisible}
-			onRequestClose={() => {
-				setModalVisible(!modalVisible);
-			}}
-		>
-			<ModalContent
-				image={require('../../../../assets/images/successupdateprofile.png')}
-				infoText="Pembaruan Profil Berhasil!"
-				closeModal={() => setModalVisible(false)}
-			/>
-		</Modal>
-		<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
+		<Body>
+			<AwanPopup.Loading visible={apiLoading} />
+			<Modal
+				animationType="fade"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+			>
+				<ModalContent
+					image={require('src/assets/images/successupdateprofile.png')}
+					infoText="Pembaruan Profil Berhasil!"
+					closeModal={() => setModalVisible(false)}
+				/>
+			</Modal>
 			<View style={{ paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
-				{
-					inputan.map((input, i) => {
-						return <MDInput key={i} style={styles.floatingInput} label={input._label} style={{ width: '90%' }} {...input} />
-					})
-				}
+				<FlatList
+					data={inputan}
+					keyExtractor={(a, i) => i.toString()}
+					renderItem={({ item: input }) => <MDInput style={styles.floatingInput} label={input._label} style={{ width: '90%' }} {...input} />}
+				/>
 
 				<SelectBoxModal
-					label="Provinsi" closeOnSelect data={provinsi.data.filter(item => item.nama.toLowerCase().includes(provinsi.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+					label="Provinsi" closeOnSelect data={_filterData(provinsi)}
 					header={
-						<View>
-							<MDInput left="10%" label="Cari Provinsi"
-								renderLeftAccessory={() => <Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />}
-								_width='90%' value={provinsi.search} onChangeText={text => setProvinsi({ ...provinsi, search: text })} />
-						</View>
+						<MDInput label="Cari Provinsi"
+							renderLeftAccessory={() => <Icon style={{ color: ColorsList.primary }} name="search" />}
+							value={provinsi.search} onChangeText={search => setProvinsi({ search })} />
 					}
 					value={provinsi.selected ? provinsi.selected.nama : null}
 					handleChangePicker={_setProvinsi}
@@ -187,13 +230,11 @@ const MenuSettingProfil = ({ navigation }) => {
 				</SelectBoxModal>
 
 				<SelectBoxModal
-					label="Kabupaten / Kota" closeOnSelect data={kabupaten.data.filter(item => item.nama.toLowerCase().includes(kabupaten.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+					label="Kabupaten / Kota" closeOnSelect data={_filterData(kabupaten)}
 					header={
-						<View>
-							<MDInput left="10%" label="Cari Kabupaten"
-								renderLeftAccessory={() => <Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />}
-								_width='90%' value={kabupaten.search} onChangeText={text => setKabupaten({ ...kabupaten, search: text })} />
-						</View>
+						<MDInput label="Cari Kabupaten"
+							renderLeftAccessory={() => <Icon style={{ color: ColorsList.primary }} name="search" />}
+							value={kabupaten.search} onChangeText={search => setKabupaten({ search })} />
 					}
 					value={kabupaten.selected ? kabupaten.selected.nama : null}
 					handleChangePicker={_setKabupaten}
@@ -202,13 +243,11 @@ const MenuSettingProfil = ({ navigation }) => {
 				</SelectBoxModal>
 
 				<SelectBoxModal
-					label="Kecamatan" closeOnSelect data={kecamatan.data.filter(item => item.nama.toLowerCase().includes(kecamatan.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+					label="Kecamatan" closeOnSelect data={_filterData(kecamatan)}
 					header={
-						<View>
-							<MDInput left="10%" label="Cari Kecamatan"
-								renderLeftAccessory={() => <Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />}
-								_width='90%' value={kecamatan.search} onChangeText={text => setKecamatan({ ...kecamatan, search: text })} />
-						</View>
+						<MDInput label="Cari Kecamatan"
+							renderLeftAccessory={() => <Icon style={{ color: ColorsList.primary }} name="search" />}
+							value={kecamatan.search} onChangeText={search => setKecamatan({ search })} />
 					}
 					value={kecamatan.selected ? kecamatan.selected.nama : null}
 					handleChangePicker={_setKecamatan}
@@ -217,13 +256,11 @@ const MenuSettingProfil = ({ navigation }) => {
 				</SelectBoxModal>
 
 				<SelectBoxModal
-					label="Kelurahan / Desa" closeOnSelect data={desa.data.filter(item => item.nama.toLowerCase().includes(desa.search)).sort((a, b) => a.nama.localeCompare(b.nama))}
+					label="Kelurahan / Desa" closeOnSelect data={_filterData(desa)}
 					header={
-						<View>
-							<MDInput left="10%" label="Cari Desa"
-								renderLeftAccessory={() => <Icon _width='10%' style={{ color: ColorsList.primary }} name="search" />}
-								_width='90%' value={desa.search} onChangeText={text => setDesa({ ...desa, search: text })} />
-						</View>
+						<MDInput label="Cari Desa"
+							renderLeftAccessory={() => <Icon style={{ color: ColorsList.primary }} name="search" />}
+							value={desa.search} onChangeText={search => setDesa({ search })} />
 					}
 					value={desa.selected ? desa.selected.nama : null}
 					handleChangePicker={_setDesa}
@@ -231,22 +268,20 @@ const MenuSettingProfil = ({ navigation }) => {
 					<Text>Data tidak ditemukan</Text>
 				</SelectBoxModal>
 			</View>
-			<View style={{ marginBottom: 70 }}>
+			<View>
 				<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 				<View style={styles.imageWrapper}>
 					<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
-						<Image style={styles.image} source={formValue.photo_store ? { uri: formValue.photo_store } : require('../../../../assets/images/img-product.png')} />
+						<Image style={styles.image} source={form.photo_store ? { uri: form.photo_store } : require('src/assets/images/img-product.png')} />
 					</TouchableOpacity>
 				</View>
 			</View>
-
-		</ScrollView>
-		<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
-		<Bottom>
-			<Button width="100%" onPress={_handleSaveProfile}>SIMPAN</Button>
-		</Bottom>
-	</View >
-
+			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
+		</Body>
+		<Footer>
+			<Button onPress={_handleSaveProfile}>SIMPAN</Button>
+		</Footer>
+	</Container>
 }
 
 export default MenuSettingProfil
