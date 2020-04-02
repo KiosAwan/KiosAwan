@@ -24,38 +24,26 @@ import { getCustomer } from '../../../../redux/actions/actionsCustomer';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import MDInput from 'src/components/Input/MDInput';
+import { stateObject } from 'src/utils/state';
 
 
 const height = Dimensions.get('window').height
 
 const PelangganEdit = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [name, setName] = useState()
-    const [phone_number, setPhoneNumber] = useState()
-    const [customerId, setCustomerId] = useState()
+    const [form, setForm] = stateObject(navigation.state.params.item)
     const [modalVisible, setModalVisible] = useState(false)
     const [alert, setAlert] = useState(false)
     const User = useSelector(state => state.User)
 
-    useEffect(() => {
-        _getParams()
-    }, [])
-    const _getParams = async () => {
-        const { item } = navigation.state.params
-        setName(item.name_customer)
-        setPhoneNumber(item.phone_number_customer)
-        setCustomerId(item.id_customer)
-    }
-
     const _handleFinishEdit = async () => {
-        if (name == "") {
+        if (form.name_customer == "") {
             alert("Nama tidak boleh kosong")
-        }
-        else {
+        } else {
             const res = await editCustomer({
-                name_customer: name,
-                phone_number_customer: phone_number
-            }, customerId)
+                name_customer: form.name_customer,
+                phone_number_customer: form.phone_number_customer
+            }, form.id_customer)
             console.log(res)
             if (res.status == 201) {
                 setModalVisible(true)
@@ -72,7 +60,7 @@ const PelangganEdit = ({ navigation }) => {
 
     const _handleDeleteCustomer = async () => {
         setAlert(false)
-        await deleteCustomer(customerId)
+        await deleteCustomer(form.id_customer)
         setModalVisible(true)
         setTimeout(() => {
             navigation.goBack()
@@ -83,7 +71,7 @@ const PelangganEdit = ({ navigation }) => {
     return (
         <View style={styles.container} >
             <BarStatus />
-            <AwanPopup.Title title="Hapus Pelanggan" visible={alert} message={`${name} akan dihapus dari daftar pelanggan.`}>
+            <AwanPopup.Title title="Hapus Pelanggan" visible={alert} message={`${form.name_customer} akan dihapus dari daftar pelanggan.`}>
                 <View></View>
                 <Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
                 <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
@@ -109,13 +97,13 @@ const PelangganEdit = ({ navigation }) => {
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <MDInput label="Nama Pelanggan" value={name}
-                        onChangeText={(text) => setName(text)}
+                    <MDInput label="Nama Pelanggan" value={form.name_customer}
+                        onChangeText={name_customer => setForm({ name_customer })}
                     />
                     <View style={{ marginTop: 10 }}>
-                        <MDInput label="No Telepon" value={phone_number}
+                        <MDInput label="No Telepon" value={form.phone_number_customer}
                             keyboardType="number-pad"
-                            onChangeText={(text) => setPhoneNumber(text)}
+                            onChangeText={phone_number_customer => setForm({ phone_number_customer })}
                         />
                     </View>
                 </View>

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 import { View, Modal, TextInput } from 'react-native';
-import { ColorsList } from '../../../../styles/colors';
-import { editCategory, deleteCategory } from '../../../../utils/authhelper';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
-import { AwanPopup } from '../../../../components/ModalContent/Popups';
+import { ColorsList } from 'src/styles/colors';
+import { editCategory, deleteCategory } from 'src/utils/authhelper';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getCategory } from 'src/redux/actions/actionsStoreCategory';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Button } from 'src/components/Button/Button';
 import MDInput from 'src/components/Input/MDInput';
 import { stateObject } from 'src/utils/state';
@@ -16,25 +16,16 @@ import { Text } from 'src/components/Text/CustomText';
 
 const KategoriEdit = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [form, setForm] = stateObject({})
+    const [form, setForm] = stateObject(navigation.state.params.item)
     const [modalVisible, setModalVisible] = useState(false)
     const [alert, setAlert] = useState(false)
     const User = useSelector(state => state.User)
-
-    useEffect(() => {
-        _getParams()
-    }, [])
-    const _getParams = async () => {
-        const { item } = navigation.state.params
-        setForm(item)
-    }
 
     const _handleSaveCategory = async () => {
         console.debug(form)
         if (form.name_product_category == "") {
             alert("Nama tidak boleh kosong")
-        }
-        else {
+        } else {
             const res = await editCategory({
                 name_product_category: form.name_product_category
             }, form.id_product_category)
@@ -90,7 +81,6 @@ const KategoriEdit = ({ navigation }) => {
                 <MDInput label="Nama Kategori" value={form.name_product_category}
                     onChangeText={name_product_category => setForm({ name_product_category })}
                 />
-                <TextInput value={form.name_product_category} onChangeText={name_product_category => setForm({ name_product_category })} />
             </View>
             <Text align="center" font="ExtraBold">Masukkan nama kategori baru</Text>
         </Body>
