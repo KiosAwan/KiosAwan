@@ -134,7 +134,7 @@ const Home = ({ navigation }) => {
 		if (address_store.length > 2) {
 			address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
 		} else {
-			// let region = JSON.parse(address_store[1])
+			let region = JSON.parse(address_store[1])
 			address = address_store[0]
 		}
 		if (User.store && User.store.address_store) {
