@@ -8,6 +8,7 @@ import { Image } from 'src/components/CustomImage'
 import { Wrapper } from 'src/components/View/Wrapper'
 import { Text } from 'src/components/Text/CustomText'
 import { getListProducts } from 'src/utils/api/setupharga'
+import { DEV_IMG_URL } from 'src/config'
 
 const SettingHargaPPOB = ({ navigation }) => {
     const [listProducts, setListProducts] = useState()
@@ -33,7 +34,7 @@ const SettingHargaPPOB = ({ navigation }) => {
                     padding={$Padding(5, 10)}
                     wrapper={{ justify: 'flex-start' }}
                     color={['whiteColor', 'greyFont']}>
-                    <Image width="13%" size={30} source={{ uri: item.image }} />
+                    <Image width="13%" size={30} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
                     <Wrapper width="87%" justify="space-between">
                         <Text>{item.product}</Text>
                         <Image size={20} source={require('src/assets/icons/next.png')} />

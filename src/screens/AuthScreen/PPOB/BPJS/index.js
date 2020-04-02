@@ -54,7 +54,8 @@ const BPJS = ({ navigation }) => {
         const res = await checkTagihanBPJS(data)
         setTagihanLoading(false)
         if (res.status == 400) {
-            alert(res.data.errors.msg)
+            setAlertMessage(res.data.errors.msg.trim())
+            setAlert(true)
         } else {
             setTagihanData(res.data)
         }
