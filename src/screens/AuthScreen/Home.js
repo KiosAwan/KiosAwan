@@ -135,7 +135,7 @@ const Home = ({ navigation }) => {
 			address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
 		} else {
 			let region = JSON.parse(address_store[1])
-			address = address_store[0]
+			address = `${address_store[0]}, ${region.provinsi.nama}`
 		}
 		if (User.store && User.store.address_store) {
 			if (address.length > 30) {
@@ -312,7 +312,7 @@ const Home = ({ navigation }) => {
 				renderItem={({ item, index }) => (
 					<CardTextImage
 						style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
-						onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url, link : item.link })}
+						onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url, link: item.link })}
 						image={item.jetpack_featured_media_url}
 						info={item.title.rendered}
 					/>

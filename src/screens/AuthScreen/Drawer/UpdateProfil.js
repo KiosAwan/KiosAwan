@@ -73,19 +73,18 @@ const UpdateProfil = ({ navigation }) => {
 			alert("Harap isi data toko dengan lengkap")
 		} else {
 			setLoading(true)
+			const daerahMap = ['desa', 'kecamatan', 'kabupaten', 'provinsi']
 			const id_user = await AsyncStorage.getItem('userId')
 			const formData = new FormData()
-			let final_address = `${address_store}%${desa.selected.nama}%${kecamatan.selected.nama}%${kabupaten.selected.nama}%${provinsi.selected.nama}`
+			const daerah = daerahMap.map(_daerah => {
+				return { name: _daerah, data: eval(`${_daerah}.selected`) }
+			}).reduce((obj, item) => {
+				obj[item.name] = item.data
+				return obj
+			}, {})
 			
-			// Jangan di hapus yg bawah, buat ntar klo minta bisa update alamat
-			
-			// let _desa = desa.selected
-			// let _kecamatan = kecamatan.selected
-			// let _kabupaten = kabupaten.selected
-			// let _provinsi = provinsi.selected
-			// const addr = { _desa, _kecamatan, _kabupaten, _provinsi }
-			// let final_address = `${address_store ? address_store : ''}%${JSON.stringify(addr)}`
-			
+			let final_address = `${address_store}%${JSON.stringify(daerah)}`
+
 			formData.append("id_user", id_user)
 			formData.append("name_store", name_store)
 			formData.append("email", email_store)

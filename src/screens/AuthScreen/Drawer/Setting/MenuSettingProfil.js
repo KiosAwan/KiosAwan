@@ -141,31 +141,41 @@ const MenuSettingProfil = ({ navigation }) => {
 	}
 
 	const _filterData = obj => {
-		return obj.data
+		return obj && obj.data ? obj.data
 			.filter(item => item.nama.toLowerCase()
 				.includes(obj.search))
 			.sort((a, b) => a.nama
-				.localeCompare(b.nama))
+				.localeCompare(b.nama)) : []
 	}
 
 	const _setProvinsi = async item => {
-		setProvinsi({ selected: item })
-		const { data } = await Wilayah.Kabupaten(item.id)
-		setKabupaten({ data: data.kabupatens })
+		setProvinsi({ selected: item }, () => { })
+		if (item.id) {
+			const { data } = await Wilayah.Kabupaten(item.id)
+			setKabupaten({ data: data.kabupatens })
+		}
+		if (!provinsi.data.length > 0) {
+			const { data: { semuaprovinsi: data } } = await Wilayah.Provinsi()
+			setProvinsi({ data })
+		}
 		return true
 	}
 
 	const _setKabupaten = async item => {
 		setKabupaten({ selected: item })
-		const { data } = await Wilayah.Kecamatan(item.id)
-		setKecamatan({ data: data.kecamatans })
+		if (item.id) {
+			const { data } = await Wilayah.Kecamatan(item.id)
+			setKecamatan({ data: data.kecamatans })
+		}
 		return true
 	}
 
 	const _setKecamatan = async item => {
 		setKecamatan({ selected: item })
-		const { data } = await Wilayah.Desa(item.id)
-		setDesa({ data: data.desas })
+		if (item.id) {
+			const { data } = await Wilayah.Desa(item.id)
+			setDesa({ data: data.desas })
+		}
 		return true
 	}
 
@@ -174,21 +184,21 @@ const MenuSettingProfil = ({ navigation }) => {
 	}
 
 	const _getDataDaerah = async () => {
+		if (kecamatan.selected) {
+			await _setKecamatan(kecamatan.selected)
+		}
 		if (kabupaten.selected) {
 			await _setKabupaten(kabupaten.selected)
 		}
-		if (kecamatan.selected) {
-			await _setKecamatan(kecamatan.selected)
+		if (provinsi.selected) {
+			await _setProvinsi(provinsi.selected)
 		}
 	}
 
 	useEffect(() => {
+		_getDataDaerah()
 		Wilayah.Provinsi().then(({ data: { semuaprovinsi: data } }) => {
-			if (provinsi.selected) {
-				_setProvinsi(provinsi.selected)
-			}
 			setProvinsi({ data })
-			_getDataDaerah()
 		})
 	}, [])
 	return <Container>
@@ -225,7 +235,7 @@ const MenuSettingProfil = ({ navigation }) => {
 					}
 					value={provinsi.selected ? provinsi.selected.nama : null}
 					handleChangePicker={_setProvinsi}
-					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					renderItem={(item) => (<Text color={item.id == provinsi.selected.id ? 'primary' : 'greyFont'}>{item.nama}</Text>)}>
 					<Text>Data tidak ditemukan</Text>
 				</SelectBoxModal>
 
@@ -238,7 +248,7 @@ const MenuSettingProfil = ({ navigation }) => {
 					}
 					value={kabupaten.selected ? kabupaten.selected.nama : null}
 					handleChangePicker={_setKabupaten}
-					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					renderItem={(item) => (<Text color={item.id == kabupaten.selected.id ? 'primary' : 'greyFont'}>{item.nama}</Text>)}>
 					<Text>Data tidak ditemukan</Text>
 				</SelectBoxModal>
 
@@ -251,7 +261,7 @@ const MenuSettingProfil = ({ navigation }) => {
 					}
 					value={kecamatan.selected ? kecamatan.selected.nama : null}
 					handleChangePicker={_setKecamatan}
-					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					renderItem={(item) => (<Text color={item.id == kecamatan.selected.id ? 'primary' : 'greyFont'}>{item.nama}</Text>)}>
 					<Text>Data tidak ditemukan</Text>
 				</SelectBoxModal>
 
@@ -264,7 +274,7 @@ const MenuSettingProfil = ({ navigation }) => {
 					}
 					value={desa.selected ? desa.selected.nama : null}
 					handleChangePicker={_setDesa}
-					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					renderItem={(item) => (<Text color={item.id == desa.selected.id ? 'primary' : 'greyFont'}>{item.nama}</Text>)}>
 					<Text>Data tidak ditemukan</Text>
 				</SelectBoxModal>
 			</View>
