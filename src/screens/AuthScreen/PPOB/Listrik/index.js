@@ -46,7 +46,7 @@ const PpobListrik = ({ navigation }) => {
 				padding={$Padding(5, 10)}
 				wrapper={{ justify: 'flex-start' }}
 				color={['whiteColor']}>
-				<Image width="13%" size={30} source={require('src/assets/icons/phone.png')} />
+				<Image width="13%" size={30} source={require('src/assets/icons/ppob/PLN.png')} />
 				<Wrapper width="87%" justify="space-between">
 					<Text>{item.title}</Text>
 					<Image size={20} source={require('src/assets/icons/next.png')} />

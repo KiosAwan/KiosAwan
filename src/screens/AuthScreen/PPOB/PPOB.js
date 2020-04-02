@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -9,7 +9,7 @@ import BarStatus from 'src/components/BarStatus';
 import { useSelector, useDispatch } from 'react-redux';
 import { convertRupiah } from 'src/utils/authhelper';
 import { ColorsList } from 'src/styles/colors';
-import { CardIcon } from 'src/components/Card/CardIcon';
+import { PPOBCard } from 'src/components/Card/CardIcon';
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import { Button } from 'src/components/Button/Button';
@@ -20,27 +20,24 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { Bottom } from 'src/components/View/Bottom';
+import { getProductPPOBList } from 'src/utils/api/ppobapi';
+import { DEV_IMG_URL } from 'src/config';
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
 	const Product = useSelector(state => state.Product)
 	const [moreVisible, setMoreVisible] = useState(false)
-	const productData = [
-		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa", navigate: "/ppob/pulsa" },
-		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data", navigate: "/ppob/paketdata" },
-		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "Listrik", navigate: '/ppob/listrik' },
-		{ icon: require('src/assets/icons/ppob/BPJS.png'), name: "BPJS", navigate: "/ppob/bpjs" },
-		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM", navigate: "/ppob/pdam" },
-		{ icon: require('src/assets/icons/ppob/Asuransi.png'), name: "Asuransi", navigate: "/ppob/asuransi" },
-		{ icon: require('src/assets/icons/ppob/E-Money.png'), name: "E - Money", navigate: "/ppob/emoney" },
-		{ icon: require('src/assets/icons/ppob/Games.png'), name: "Games", navigate: "/ppob" },
-		{ icon: require('src/assets/icons/ppob/Kredit.png'), name: "Kredit", navigate: "/ppob/kredit" },
-		{ icon: require('src/assets/icons/ppob/Telkom.png'), name: "Telkom", navigate: "/ppob/telkom" },
-		{ icon: require('src/assets/icons/ppob/TV-Kabel.png'), name: "TV Kabel", navigate: "/ppob/tvkabel" },
-		{ icon: require('src/assets/icons/ppob/Zakat.png'), name: "Zakat", navigate: "/ppob" },
-	]
+	const [productData, setProductData] = useState()
 
+	useEffect(() => {
+		_getProductList()
+	}, [])
+
+	const _getProductList = async () => {
+		const res = await getProductPPOBList()
+		setProductData(res.data)
+	}
 	const _onPressTopUp = () => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/topup')
@@ -139,22 +136,27 @@ const PPOB = ({ navigation }) => {
 						</View>
 					</LinearGradient>
 				)}>
-				<FlatList
-					style={{ margin: 10 }}
-					showsVerticalScrollIndicator={false}
-					data={productData}
-					numColumns={3}
-					renderItem={({ item }) => (
-						<View style={{ flex: 1, alignItems: "center", marginVertical: 10 }}>
-							<CardIcon
-								onPress={() => _navigateProduct(item.navigate)}
-								icon={item.icon}
-								name={item.name}
-							/>
-						</View>
-					)}
-					keyExtractor={(item, index) => index.toString()}
-				/>
+				{!productData ?
+					<ActivityIndicator />
+					: <FlatList
+						style={{ margin: 10 }}
+						showsVerticalScrollIndicator={false}
+						// columnWrapperStyle={{backgroundColor : "blue"}}
+						data={productData}
+						numColumns={3}
+						renderItem={({ item }) => (
+							<View style={{ width: "33.3%", alignItems: "center", marginVertical: 10 }}>
+								<PPOBCard
+									status={item.status}
+									info={item.info}
+									onPress={() => _navigateProduct(`/ppob/${item.type}`)}
+									icon={`${DEV_IMG_URL}/${item.icon}`}
+									name={item.name}
+								/>
+							</View>
+						)}
+						keyExtractor={(item, index) => index.toString()}
+					/>}
 				<AwanPopup.Menu noTitle transparent absolute visible={moreVisible}
 					backdropDismiss={() => setMoreVisible(false)}
 					style={{ top: 10, right: 5, minWidth: '50%' }}
