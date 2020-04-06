@@ -27,7 +27,14 @@ const TransactionDetail = ({ navigation }) => {
 		Screenshot.share({ url: imgPath })
 	}
 	const _canBatal = () => {
-		return data && data.details_item.length > 0
+		if (data && data.details_item.length > 0) {
+			if (data.transaction.status_payment == 3) {
+				return false
+			}
+			else {
+				return true
+			}
+		}
 	}
 	const _getData = async () => {
 		const { transactionId, backState } = await navigation.state.params
@@ -189,6 +196,12 @@ const TransactionDetail = ({ navigation }) => {
 								<Text font="Bold">Jumlah yang dibayar</Text>
 								<Text font="Bold">
 									{convertRupiah(data.transaction.amount_payment)}
+								</Text>
+							</Wrapper>
+							<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+								<Text font="Bold">Kembalian</Text>
+								<Text font="Bold">
+									{convertRupiah(data.transaction.change_payment)}
 								</Text>
 							</Wrapper>
 						</View>
