@@ -55,14 +55,14 @@ const Topup = ({ navigation }) => {
 						<Text>Saldo Kios Awan</Text>
 						<Text color="primary" size={20} font="Bold">{convertRupiah(User.data.saldo)}</Text>
 						<Divider style={{ marginVertical: 10 }} />
-						<Text>Minimal top up Rp 50.000 , kelipatan Rp 1.000</Text>
+						<Text>Minimal top up Rp 50.000, kelipatan Rp 1.000</Text>
 					</View>
 					{/* <Text style={{ marginBottom: 10 }} font="Regular" align="center">Metode Pembayaran</Text> */}
 					{
 						listPaymentMethod.map((item, key) => (
 							<View key={key} style={styles.group}>
 								<View style={{ flexDirection: "row", alignItems: "center", borderRadius: 5 }}>
-									<Image size="15%" source={{ uri: item.logo }} />
+									<Image style={{ width: "15%", height: 25, marginHorizontal: 5 }} source={{ uri: item.logo }} />
 									<View style={{ width: "80%", alignSelf: "flex-end" }}>
 										<Text>{item.title}</Text>
 										<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>

@@ -14,10 +14,8 @@ const CashPayment = () => {
     const dispatch = useDispatch()
 
     const _handleChangePayment = (text) => {
-        // let a = validNumber(text)
-        // if (a) {
-        dispatch(AddCashPayment(text))
-        // }
+        let x = text.extractNumber()
+        dispatch(AddCashPayment(parseInt(x)))
     }
     return (
         <View style={styles.container}>

@@ -17,8 +17,8 @@ export const PPOBCard = (props) => (
     <TouchableOpacity disabled={props.status != 1 ? true : false} onPress={props.onPress}>
         <View style={styles.container}>
             {props.status != 1 ?
-                <View style={{ position: "absolute", right: 0, top: 0, backgroundColor: ColorsList.primary, padding: 3 }}>
-                    <Text color="white" size={10}>{props.info.toUpperCase()}</Text>
+                <View style={{ position: "absolute", right: 0, top: 0, padding : 3}}>
+                    <Text color={props.status == 0 ? "primary" : "warning"} size={10}>{props.info.ucwords()}</Text>
                 </View>
                 : null}
             <Image style={{ width: 50, height: 50 }} source={{ uri: props.icon }} />

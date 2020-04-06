@@ -105,6 +105,7 @@ const Home = ({ navigation }) => {
 
 	const _handleRefresh = () => {
 		dispatch(getProfile(User.data.id))
+		// console.debug(User.store.)
 		_checkService()
 		setOnRefresh(false)
 	}
@@ -134,8 +135,10 @@ const Home = ({ navigation }) => {
 		if (address_store.length > 2) {
 			address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
 		} else {
-			let region = JSON.parse(address_store[1])
-			address = `${address_store[0]}, ${region.provinsi.nama}`
+			let region = address_store ? JSON.parse(address_store[1]) : null
+			if (region) {
+				address = `${address_store[0]}, ${region.provinsi.nama}`
+			}
 		}
 		if (User.store && User.store.address_store) {
 			if (address.length > 30) {

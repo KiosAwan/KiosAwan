@@ -41,6 +41,9 @@ const PhoneRegistration = ({ navigation }) => {
 	const [loading, setLoading] = useState(false)
 	const [popup, setPopup] = useState(false)
 	const [viewTerm, setViewTerm] = useState(true)
+	//alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState()
 	useEffect(() => {
 		_getDeviceInfo()
 	}, [])
@@ -62,19 +65,19 @@ const PhoneRegistration = ({ navigation }) => {
 		}
 	}
 
-	const _sendOTP = async () => {
+	const _sendOTP = async (otpsheet) => {
 		setLoading(true)
 		setPopup(false)
 		const data = {
 			phone_number: "62" + FormRegister.phone_number,
 		}
-		OTPRegisterSheet.open()
 		const res = await sendOTP(data)
 		setLoading(false)
 		if (res.status == 200) {
-
+			await otpsheet.open()
 		} else {
-			alert(res.data.errors.msg)
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
 		}
 	}
 	// Function handle press Next button
@@ -93,7 +96,8 @@ const PhoneRegistration = ({ navigation }) => {
 		}
 		else {
 			if (res.status == 400) {
-				alert(res.data.errors.msg)
+				setAlertMessage(res.data.errors.msg)
+				setAlert(true)
 			}
 		}
 	}
@@ -121,16 +125,25 @@ const PhoneRegistration = ({ navigation }) => {
 				<View>
 					<VerifyOTPRegister navigateTo={_navigateRegister} closeSheet={() => OTPRegisterSheet.close()}
 						openSheet={() => OTPRegisterSheet.open()}
+						alert={(data) => {
+							setAlertMessage(data)
+							setAlert(true)
+						}}
 					/>
 				</View>
 			</RBSheet>
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
+			/>
 			<AwanPopup.Loading visible={loading} />
 			<AwanPopup.Title visible={popup} title={<Text aaa align="center" color="primary" size={20}>+62 {FormRegister.phone_number + '\n'}</Text>} message={<Text aaa font="Italic">
 				<Text aaa font="ExtraBold">Nomor ini belum terdaftar, </Text>
 				apakah anda yakin ingin menggunakan nomor ini?
             </Text>}>
 				<Button onPress={() => setPopup(false)} width="40%" color="link">Tidak</Button>
-				<Button onPress={_sendOTP} width="40%">Ya</Button>
+				<Button onPress={() => _sendOTP(OTPRegisterSheet)} width="40%">Ya</Button>
 			</AwanPopup.Title>
 			<View style={{ flex: 1 }}>
 				<View style={{ alignItems: "center", padding: 20 }}>

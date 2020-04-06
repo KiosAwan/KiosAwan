@@ -205,6 +205,7 @@ const PDAM = ({ navigation }) => {
                     label="No Pelanggan"
                     value={idPelanggan.toString()}
                     onChangeText={text => setIdPelanggan(text)}
+                    keyboardType="number-pad"
                 />
             </View>
             {/* <View style={styles.simpan}>
