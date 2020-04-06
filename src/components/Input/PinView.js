@@ -8,6 +8,62 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 
 
 const PinView = props => {
+	let i = 0, defaultPinLength = 6
+	const { pinLength, customBtnText, customBtnCallback, onComplete } = props
+	const [pin, setPin] = useState(Array.generateEmpty(pinLength || defaultPinLength))
+	return <View style={{ flex: 1, justifyContent: 'space-between' }}>
+		<Wrapper justify="flex-start">
+			<Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+				<Icon name="arrow-left" size={20} color="white" />
+			</Button>
+			<View style={{ justifyContent: 'center' }}>
+				<Text color="whiteColor">{props.name || 'PIN'}</Text>
+			</View>
+		</Wrapper>
+		<View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', alignItems: "center" }}>
+			{props.title}
+			<View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 30 }}>
+				{
+					[
+						Array.generateEmpty(pinLength).map((item, i) => {
+							let txt = pin[item]
+							return <View key={i} style={{
+								backgroundColor: txt ? ColorsList.whiteColor : ColorsList.primary,
+								borderRadius: 10,
+								padding: 10,
+								margin: 2,
+								width: 30,
+								height: 30
+							}} />
+						})
+					]
+				}
+			</View>
+			{props.children}
+		</View>
+		<View>
+			<FlatList
+				style={{ padding: 10, }}
+				data={[1, 2, 3, 4, 5, 6, 7, 8, 9, '~', 0, 'del']}
+				numColumns={3}
+				keyExtractor={(item, i) => i.toString()}
+				renderItem={({ item }) => <Button
+					style={{
+						flex: 1,
+						borderRadius: 50
+					}}
+					padding={20}
+					textProps={{ size: 20 }}
+					color={['transparent', 'whiteColor']}
+					onPress={() => pinClick(item)}>
+					{item == '~' ? (customBtnText ? customBtnText : '') : item.toString().toUpperCase()}
+				</Button>}
+			/>
+		</View>
+	</View>
+}
+
+const PinViews = props => {
 	const { pinLength, customBtnText, customBtnCallback, onComplete } = props
 	const [pin, setPin] = useState('')
 	const [_pinLength, setPinLength] = useState(6)

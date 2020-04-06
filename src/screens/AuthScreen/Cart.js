@@ -268,7 +268,7 @@ const Cart = ({ navigation }) => {
 				navigation.navigate("/ppob")
 			}}>
 				<Image style={{ marginHorizontal: 10 }} size={10} source={require('src/assets/icons/plus-primary.png')} />
-				<Text color="primary">TAGIHAN DAN ISI ULANG</Text>
+				<Text color="primary">PULSA DAN TAGIHAN</Text>
 			</Button>
 			{/* </View> */}
 			<Wrapper justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10 }}>

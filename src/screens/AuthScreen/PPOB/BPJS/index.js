@@ -160,11 +160,13 @@ const BPJS = ({ navigation }) => {
                 label="No. Virtual Account"
                 value={virtualNumber}
                 onChangeText={text => setVirtualNumber(text)}
+                keyboardType="number-pad"
             />
             <MDInput _width="80%"
                 label="No. Handphone"
                 value={phoneNumber}
                 onChangeText={text => setPhoneNumber(text)}
+                keyboardType="number-pad"
             />
         </View>
         {/* <View style={styles.simpan}>

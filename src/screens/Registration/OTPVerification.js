@@ -52,7 +52,7 @@ const VerifyOTPRegister = (props) => {
 
     //Sending OTP code to server
     const _handleOTPFulfilled = async (code) => {
-        props.closeSheet()
+        await props.closeSheet()
         await dispatch(addVerifyOTP(code))
         const data = {
             phone_number: "62" + RegisterOTP.phone_number,
@@ -63,7 +63,7 @@ const VerifyOTPRegister = (props) => {
             props.navigateTo()
         } else {
             if (res.status == 400) {
-                alert(res.data.errors.msg)
+                props.alert(res.data.errors.msg)
             }
         }
     }
@@ -93,8 +93,8 @@ const VerifyOTPRegister = (props) => {
     return (
         <View style={styles.container}>
             <BarStatus />
-            <Text style={{ marginTop: 10, ...FontList.titleFont, color : ColorsList.greySoft }}>Masukkan kode OTP </Text>
-            <Text style={{ marginTop: 10, ...FontList.titleFont, color : ColorsList.greySoft }}>OTP telah dikirim melalui SMS ke nomor HP Anda </Text>
+            <Text style={{ marginTop: 10, ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kode OTP </Text>
+            <Text style={{ marginTop: 10, ...FontList.titleFont, color: ColorsList.greySoft }}>OTP telah dikirim melalui SMS ke nomor HP Anda </Text>
             <CodeInput
                 keyboardType="numeric"
                 activeColor='black'
@@ -105,9 +105,9 @@ const VerifyOTPRegister = (props) => {
                 onFulfill={(code) => _handleOTPFulfilled(code)}
             />
             {isResendDisabled ?
-                <Text style={{...FontList.titleFont, color:ColorsList.greySoft, marginTop: 70 }}>RESEND ({countdown} s)</Text> :
+                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft, marginTop: 70 }}>RESEND ({countdown} s)</Text> :
                 <TouchableOpacity onPress={_resendCode} style={{ marginTop: 70 }}>
-                    <Text style={{...FontList.titleFont, color: "blue" }}>Resend</Text>
+                    <Text style={{ ...FontList.titleFont, color: "blue" }}>Resend</Text>
                 </TouchableOpacity>
             }
         </View>

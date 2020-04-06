@@ -57,7 +57,7 @@ const Akun = ({ navigation }) => {
 							{
 								groupMenu.map((menu, o) => {
 									return <Button key={o}
-										onPress={() => menu.name !== "FAQ" || menu.name !== "Hubungi Kami" ? User.store ? User.data.status == 1 ? navigation.navigate(menu.route) : null : null : navigation.navigate(menu.route)}
+										onPress={() => menu.name !== "Hubungi Kami" ? menu.name !== "FAQ" ? User.store ? User.data.status == 1 ? navigation.navigate(menu.route) : null : null : navigation.navigate(menu.route) : navigation.navigate(menu.route)}
 										style={{ marginBottom: 5 }}
 										padding={$Padding(5, 10)}
 										wrapper={{ justify: 'flex-start' }}
@@ -76,7 +76,8 @@ const Akun = ({ navigation }) => {
 			</ScrollView>
 			<Bottom>
 				<View style={{ width: '100%' }}>
-					<Text style={{ alignSelf: 'center', marginBottom: 5 }}>Versi 1.0.0</Text>
+					{/* <Text style={{ alignSelf: 'center', marginBottom: 5 }}>Versi 1.0.0</Text> */}
+					<Text style={{ alignSelf: 'center', marginBottom: 5 }}>Testing Versi 1.4.3.1</Text>
 					<Button width="100%" style={{ marginBottom: 5 }}>UPGRADE KE PREMIUM</Button>
 					<Button color="white" width="100%" onPress={_onPressLogout}>KELUAR</Button>
 				</View>

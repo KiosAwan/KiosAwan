@@ -55,7 +55,8 @@ const ListrikPascabayar = ({ navigation }) => {
 		const { status, data } = await checkTagihanListrik(params)
 		setTagihanLoading(false)
 		if (status == 400) {
-			Alert("Peringatan", data.errors.msg, [["Tutup"]])
+			setAlertMessage(data.errors.msg)
+			setAlert(true)
 		} else {
 			setTagihanData(data)
 		}
@@ -149,6 +150,7 @@ const ListrikPascabayar = ({ navigation }) => {
 					label="ID Pelanggan"
 					value={custId}
 					onChangeText={text => setCustId(text)}
+					keyboardType="number-pad"
 				/>
 			</View>
 			{/* <View style={styles.simpan}>
