@@ -121,11 +121,10 @@ class CheckOut extends React.Component {
 					key: null,
 					actions: [
 						NavigationActions.navigate({ routeName: '/' }),
-						NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/cashier' } })
+						NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/' } })
 					]
 				})
 			)
-			// this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
 		} else {
 			alert(JSON.stringify(res))
 		}
@@ -179,14 +178,13 @@ class CheckOut extends React.Component {
 					this.props.removeAllCart()
 					this.props.getProduct(this.props.User.store.id_store)
 					this.props.getTransactionList(this.props.User.store.id_store)
-					// this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
 					this.props.navigation.dispatch(
 						StackActions.reset({
 							index: 1,
 							key: null,
 							actions: [
 								NavigationActions.navigate({ routeName: '/' }),
-								NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/cashier' } })
+								NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/' } })
 							]
 						}))
 				}

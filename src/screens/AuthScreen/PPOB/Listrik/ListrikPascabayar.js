@@ -24,7 +24,7 @@ const ListrikPascabayar = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	//User data
 	const User = useSelector(state => state.User)
-	const [custId, setCustId] = useState()
+	const [custId, setCustId] = useState(122030204439)
 	// 122030204439
 	const [] = useState()
 	const [selectedCashback, setSelectedCashback] = useState(2500)
@@ -100,13 +100,10 @@ const ListrikPascabayar = ({ navigation }) => {
 		const res = await payTagihanListrik(data)
 		setPayLoading(false)
 		if (res.status == 200) {
-			console.debug(res.data)
 			const data = {
 				type: "tagihan_listrik",
 				customerID: res.data.transaction.customerID,
-				price: parseInt(res.data.transaction.tagihan) +
-					(selectedCashback * tagihanData.details.length) +
-					parseInt(res.data.transaction.denda)
+				price: parseInt(res.data.transaction.total)
 				,
 				productName: "Listrik Pascabayar"
 			}

@@ -22,6 +22,12 @@ export const removeAllCart = () => {
   }
 }
 
+export const removeProductCart = () => {
+  return {
+    type: "REMOVE_PRODUCT_CART"
+  }
+}
+
 export const AddCustomer = (data) => {
   return {
     type: "ADD_CUSTOMER",
