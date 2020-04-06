@@ -67,34 +67,36 @@ export const GlobalHeader = (props) => {
 }
 
 export const GlobalHeaderWithIcon = (props) => {
-    return (
-        <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
-            <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%', justifyContent: 'center' }}>
-                {
-                    props.onlyTitle ?
-                        <Wrapper style={{}}>
-                            <Text color="whiteColor" size={15} font="Bold">{props.title}</Text>
-                        </Wrapper>
-                        :
-                        <Wrapper justify="space-between" style={{ height: '100%' }}>
-                            <Wrapper>
-                                <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
-                                    <Icon name="arrow-left" size={20} color="white" />
-                                </Button>
-                                <View style={{ justifyContent: 'center' }}>
-                                    <Text color="whiteColor">{props.title}</Text>
-                                </View>
-                            </Wrapper>
-                            <View style={{ justifyContent: 'center', paddingRight: 15 }}>
-                                <TouchableOpacity onPress={props.handleDeleteCategory || props.handlePressIcon || props.onPressIcon}>
-                                    <Image style={{ width: 30, height: 30 }} source={props.image} />
-                                </TouchableOpacity>
-                            </View>
-                        </Wrapper>
-                }
-            </LinearGradient>
-        </Header>
-    )
+    const render = () => props.onlyTitle ?
+        <Wrapper>
+            <Text color="whiteColor" size={15} font="Bold">{props.title}</Text>
+        </Wrapper>
+        :
+        <Wrapper justify="space-between" style={{ height: '100%' }}>
+            <Wrapper>
+                <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                    <Icon name="arrow-left" size={20} color="white" />
+                </Button>
+                <View style={{ justifyContent: 'center' }}>
+                    <Text color="whiteColor">{props.title}</Text>
+                </View>
+            </Wrapper>
+            <View style={{ justifyContent: 'center', paddingRight: 15 }}>
+                <TouchableOpacity onPress={props.handleDeleteCategory || props.handlePressIcon || props.onPressIcon}>
+                    <Image style={{ width: 30, height: 30 }} source={props.image} />
+                </TouchableOpacity>
+            </View>
+        </Wrapper>
+    return <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
+        {
+            props.transparent ? <View style={{ width: '100%' }}>
+                {render()}
+            </View> :
+                <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%', justifyContent: 'center' }}>
+                    {render()}
+                </LinearGradient>
+        }
+    </Header>
 }
 
 export const CashierHeader = (props) => {

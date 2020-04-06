@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { useSelector } from 'react-redux'
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
 import CodeInput from 'react-native-confirmation-code-input';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { SizeList } from '../../../../styles/size';
-import { FontList } from '../../../../styles/typography';
-import { verifyUserPIN } from '../../../../utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
+import { FontList } from 'src/styles/typography';
+import { verifyUserPIN } from 'src/utils/authhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Container from 'src/components/View/Container';
+import { Text } from 'src/components/Text/CustomText';
+import PinView from 'src/components/Input/PinView';
 
 const UbahPasswordInputPIN = ({ navigation }) => {
     const User = useSelector(state => state.User)
-    const [pinCode, setPinCode] = useState()
 
     //alert
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState(false)
 
-    const _nextBtn = async () => {
+    const _nextBtn = async pinCode => {
         if (!pinCode) {
             setAlertMessage("PIN tidak boleh kosong")
             setAlert(true)
@@ -39,43 +41,29 @@ const UbahPasswordInputPIN = ({ navigation }) => {
             }
         }
     }
-    return (
-        <View style={{ flex: 1, backgroundColor: ColorsList.authBackground, alignItems: "center" }}>
-            <AwanPopup.Alert
-                message={alertMessage}
-                visible={alert}
-                closeAlert={() => setAlert(false)}
-            />
-            <GlobalHeader title="Ubah Password" onPressBack={() => navigation.goBack()} />
-            <View style={{ width: '70%', padding: 20 }}>
-                <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 16 }}>Masukkan PIN</Text>
-            </View>
-            <View style={{ paddingHorizontal: 15, height: 80, backgroundColor: 'white', marginHorizontal: 30, alignItems: "center" }}>
-                <CodeInput
-                    secureTextEntry
-                    className='border-circle'
-                    keyboardType="numeric"
-                    activeColor='#cd0192'
-                    inactiveColor='#cd0192'
-                    codeLength={4}
-                    size={40}
-                    autoFocus
-                    onCodeChange
-                    onFulfill={(code) => setPinCode(code)}
-                />
-            </View>
-            <View style={{ width: '90%', padding: 10 }}>
-                <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>PIN dibutuhkan untuk mengubah password</Text>
-            </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_nextBtn}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                    buttonTitle="LANJUT"
-                />
-            </View>
-        </View>
-    )
+    return <Container>
+        <AwanPopup.Alert
+            message={alertMessage}
+            visible={alert}
+            closeAlert={() => setAlert(false)}
+        />
+        <PinView
+            title={
+                <View style={{ width: "60%", alignItems: "center" }}>
+                    <Text style={{ marginBottom: 10 }} font="ExtraBold" size={16}>Masukkan PIN</Text>
+                    <Text size={14} align="center">PIN dibutuhkan untuk mengubah password</Text>
+                </View>
+            }
+            notTransparent
+            pinLength={4}
+            name="Ubah PIN"
+            btnColor={['transparent', 'greyFont']}
+            pinColor={ColorsList.authBackground}
+            pinActiveColor={ColorsList.primary}
+            onPressBack={() => navigation.goBack()}
+            onComplete={_nextBtn}
+        />
+    </Container>
 }
 
 export default UbahPasswordInputPIN;

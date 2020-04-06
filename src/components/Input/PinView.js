@@ -7,6 +7,8 @@ import { Wrapper } from '../View/Wrapper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { stateObject } from 'src/utils/state';
 import Divider from '../Row/Divider';
+import { GlobalHeaderWithIcon } from '../Header/Header';
+import { $Border } from 'src/utils/stylehelper';
 
 let i = 0, defaultPinLength = 6
 const PinViews = props => {
@@ -100,9 +102,22 @@ const PinViews = props => {
 }
 
 const PinView = props => {
-	const { pinLength, customBtnText, customBtnCallback, onComplete } = props
+	const {
+		btnColor,
+		pinColor,
+		pinActiveColor,
+		pinLength,
+		customBtnText,
+		customBtnCallback,
+		onComplete
+	} = props
 	const [pin, setPin] = useState('')
 	const [_pinLength, setPinLength] = useState(6)
+	const [Color] = stateObject({
+		btnColor: btnColor ? btnColor : ['transparent', 'whiteColor'],
+		pinColor: pinColor ? pinColor : ColorsList.primary,
+		pinActiveColor: pinActiveColor ? pinActiveColor : ColorsList.whiteColor
+	})
 	const pinClick = btn => {
 		if (!['~', 'del'].includes(btn)) {
 			let pinDone = pin.toString() + btn
@@ -120,12 +135,15 @@ const PinView = props => {
 	const _renderPin = () => Array.generateEmpty(pinLength).map((item, i) => {
 		let txt = pin[item]
 		return <View key={i} style={{
-			backgroundColor: txt ? ColorsList.whiteColor : ColorsList.primary,
+			backgroundColor: txt ? Color.pinActiveColor : Color.pinColor,
 			borderRadius: 50,
 			padding: 10,
 			marginHorizontal: 10,
-			width: 30,
-			height: 30
+			width: 25,
+			height: 25,
+			borderColor: txt ? Color.pinActiveColor :
+				Color.pinColor == ColorsList.primary ? Color.pinColor : ColorsList.greyFont,
+			borderWidth: 1
 		}} />
 	})
 	useEffect(() => {
@@ -134,14 +152,7 @@ const PinView = props => {
 		}
 	}, [])
 	return <View style={{ flex: 1, justifyContent: 'space-between' }}>
-		<Wrapper justify="flex-start">
-			<Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
-				<Icon name="arrow-left" size={20} color="white" />
-			</Button>
-			<View style={{ justifyContent: 'center' }}>
-				<Text color="whiteColor">{props.name || 'PIN'}</Text>
-			</View>
-		</Wrapper>
+		<GlobalHeaderWithIcon transparent={!props.notTransparent} onPressBack={props.onPressBack} title={props.name || 'PIN'} />
 		<View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', alignItems: "center" }}>
 			{props.title}
 			<View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 30 }}>
@@ -151,7 +162,7 @@ const PinView = props => {
 			</View>
 			{props.children}
 		</View>
-		<Divider size={.3} />
+		<Divider />
 		<View>
 			<FlatList
 				style={{ padding: 10, }}
@@ -165,7 +176,7 @@ const PinView = props => {
 					}}
 					padding={20}
 					textProps={{ size: 20 }}
-					color={['transparent', 'whiteColor']}
+					color={Color.btnColor}
 					onPress={() => pinClick(item)}>
 					{item == '~' ? (customBtnText ? customBtnText : '') : item.toString().toUpperCase()}
 				</Button>}

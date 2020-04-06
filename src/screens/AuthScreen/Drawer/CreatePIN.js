@@ -8,15 +8,16 @@ import { useSelector } from 'react-redux';
 import { Text } from 'src/components/Text/CustomText';
 import { createUserPIN } from 'src/utils/authhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from 'src/styles/colors';
 
 const CreatePIN = ({ navigation }) => {
     let pinTyped, pinLength = 4
     const User = useSelector(state => state.User)
     const [params] = useState(navigation.state.params)
     const [modalVisible, setModalVisible] = useState(false)
-    
+
     // alert
-    
+
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState(false)
 
@@ -78,20 +79,22 @@ const CreatePIN = ({ navigation }) => {
                 closeModal={() => setModalVisible(false)}
             />
         </Modal>
-        <LinearGradient>
-            <PinView
-                name={params ? "Ulangi PIN" : "Buat PIN"}
-                title={
-                    <View style={{ width: "60%", alignItems: "center" }}>
-                        <Text style={{ marginBottom: 10 }} size={16} color="white">{params ? "Ulangi PIN" : "Buat PIN"}</Text>
-                        <Text align="center" size={12} color="whiteColor">Untuk menunjang keamanan profil Anda buatlah PIN dengan benar</Text>
-                    </View>
-                }
-                onPressBack={() => navigation.goBack()}
-                pinLength={pinLength}
-                onComplete={(code) => _handlePINFulfilled(code)}
-            />
-        </LinearGradient>
+        <PinView
+            title={
+                <View style={{ width: "60%", alignItems: "center" }}>
+                    <Text style={{ marginBottom: 10 }} size={16}>{params ? "Ulangi PIN" : "Buat PIN"}</Text>
+                    <Text align="center" size={12}>Untuk menunjang keamanan profil Anda buatlah PIN dengan benar</Text>
+                </View>
+            }
+            notTransparent
+            pinLength={pinLength}
+            name={params ? "Ulangi PIN" : "Buat PIN"}
+            btnColor={['transparent', 'greyFont']}
+            pinColor={ColorsList.authBackground}
+            pinActiveColor={ColorsList.primary}
+            onPressBack={() => navigation.goBack()}
+            onComplete={code => _handlePINFulfilled(code)}
+        />
     </Container>
 }
 
