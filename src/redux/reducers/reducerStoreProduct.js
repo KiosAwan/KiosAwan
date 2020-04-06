@@ -182,7 +182,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
         //Empty the product cart
         case "REMOVE_PRODUCT_CART":
             let total_online = 0
-            state.ppob_cart.map((item , i) => total_online + parseInt(item.price))
+            state.ppob_cart.forEach((item) => total_online = total_online + parseInt(item.price))
             return {
                 ...state,
                 total: total_online,

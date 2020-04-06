@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
 import { convertRupiah } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
-import { addDiscountProductPersen, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct } from '../../redux/actions/actionsStoreProduct';
+import { addDiscountProductPersen, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct, removeProductCart } from '../../redux/actions/actionsStoreProduct';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader } from '../../components/Header/Header';
 import { PilihPelanggan, ToggleButton } from '../../components/Picker/SelectBoxModal';
@@ -115,7 +115,7 @@ const Cart = ({ navigation }) => {
 	const [confirm, setConfirm] = useState({})
 	const _emptyCart = (force) => {
 		if (force) {
-			dispatch(removeAllCart())
+			dispatch(removeProductCart())
 			dispatch(getProduct(User.store.id_store))
 			setHapusPesananOpen(false)
 			navigation.goBack()

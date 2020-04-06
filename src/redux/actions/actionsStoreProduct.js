@@ -18,6 +18,12 @@ export const AddCart = (data) => {
 
 export const removeAllCart = () => {
   return {
+    type: "REMOVE_ALL"
+  }
+}
+
+export const removeProductCart = () => {
+  return {
     type: "REMOVE_PRODUCT_CART"
   }
 }

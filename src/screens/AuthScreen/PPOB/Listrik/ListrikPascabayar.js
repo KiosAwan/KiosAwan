@@ -100,13 +100,10 @@ const ListrikPascabayar = ({ navigation }) => {
 		const res = await payTagihanListrik(data)
 		setPayLoading(false)
 		if (res.status == 200) {
-			console.debug(res.data)
 			const data = {
 				type: "tagihan_listrik",
 				customerID: res.data.transaction.customerID,
-				price: parseInt(res.data.transaction.tagihan) +
-					(selectedCashback * tagihanData.details.length) +
-					parseInt(res.data.transaction.denda)
+				price: parseInt(res.data.transaction.total)
 				,
 				productName: "Listrik Pascabayar"
 			}
