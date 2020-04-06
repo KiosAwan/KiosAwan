@@ -125,7 +125,6 @@ class CheckOut extends React.Component {
 					]
 				})
 			)
-			// this.props.navigation.navigate('/drawer/transaction/detail', { transactionId: id_transaction, backState: '/cashier' })
 		} else {
 			alert(JSON.stringify(res))
 		}
