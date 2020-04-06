@@ -18,7 +18,7 @@ export const AddCart = (data) => {
 
 export const removeAllCart = () => {
   return {
-    type: "REMOVE_ALL"
+    type: "REMOVE_PRODUCT_CART"
   }
 }
 

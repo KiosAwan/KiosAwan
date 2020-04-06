@@ -179,6 +179,25 @@ const reducerStoreProduct = (state = initialState, actions) => {
                 id_multi: 0,
                 note: ''
             }
+        //Empty the product cart
+        case "REMOVE_PRODUCT_CART":
+            let total_online = 0
+            state.ppob_cart.map((item , i) => total_online + parseInt(item.price))
+            return {
+                ...state,
+                total: total_online,
+                total_diskon: 0,
+                discount_transaction: 0,
+                belanja: [],
+                jumlahitem: state.ppob_cart.length,
+                cash_payment: 0,
+                due_debt_date: null,
+                customer: null,
+                discount_total_persen: 0,
+                discount_total_rupiah: 0,
+                discount_name: '',
+                discount_on: false,
+            }
         case "ADD_PAYMENT_CASH":
             const payment = actions.payload
             return {
