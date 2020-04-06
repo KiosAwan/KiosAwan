@@ -119,7 +119,7 @@ const TransactionDetail = ({ navigation }) => {
 						}
 						<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
 							<View name="Daftar Produk" style={{ display: data.details_item.length == 0 ? "none" : "flex" }}>
-								<View style={{ padding: 10, ...$Border(ColorsList.primary, 2, 0) }}>
+								<View style={{ padding: 10, ...$Border(ColorsList.primary, 1, 0) }}>
 									<Text align="center" size={16} color="primary">Daftar Produk</Text>
 								</View>
 								{
@@ -137,7 +137,7 @@ const TransactionDetail = ({ navigation }) => {
 								}
 							</View>
 							<View name="Daftar Produk Digital" style={{ display: data.product_digital.length == 0 ? "none" : "flex" }}>
-								<View style={{ padding: 10, ...$Border(ColorsList.primary, 2, 0) }}>
+								<View style={{ padding: 10, ...$Border(ColorsList.primary, 1, 0) }}>
 									<Text align="center" size={16} color="primary">Tagihan dan Isi Ulang</Text>
 								</View>
 								{

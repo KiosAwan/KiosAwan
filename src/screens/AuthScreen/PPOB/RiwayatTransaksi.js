@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, FlatList, Image } from 'react-native';
+import { View, FlatList, Image, ActivityIndicator } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { getRiwayatTransaksi } from 'src/redux/actions/actionsRiwayatTransaksi';
@@ -23,7 +23,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 		const userId = await getUserId()
 		dispatch(getRiwayatTransaksi(userToken, userId))
 	}
-	return RiwayatTransaksi.isLoading ? <Text>Loading</Text>
+	return RiwayatTransaksi.isLoading ? <ActivityIndicator color={ColorsList.primary} />
 		:
 		<Container>
 			<GlobalHeader title="Riwayat" onPressBack={() => navigation.goBack()} />
@@ -32,13 +32,13 @@ const RiwayatTransaksi = ({ navigation }) => {
 					data={RiwayatTransaksi.data}
 					renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
 						<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={require('src/assets/icons/ppob/pulsa.png')} />
-						<View _width="55%">
+						<View _width="48%">
 							<Text font="ExtraBold" color="primary">{item.payment_channel}</Text>
 							<Text font="ExtraBold">{item.trx_id}</Text>
 							<Text>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
 						</View>
-						<View _justify="flex-end" _width="25%">
-						<Text align="right">{convertRupiah(item.amount)}</Text>
+						<View _justify="flex-end" _width="32%">
+							<Text color="success" align="right">+ {convertRupiah(item.amount)}</Text>
 						</View>
 					</Wrapper>
 					}
