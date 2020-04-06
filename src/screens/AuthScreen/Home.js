@@ -134,16 +134,18 @@ const Home = ({ navigation }) => {
 		if (address_store.length > 2) {
 			address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
 		} else {
-			let region = JSON.parse(address_store[1])
-			address = `${address_store[0]}, ${region.provinsi.nama}`
-		}
-		if (User.store && User.store.address_store) {
-			if (address.length > 30) {
-				return address.substr(0, 30) + '...'
+			if (address_store) {
+				let region = JSON.parse(address_store[1])
+				address = `${address_store[0]}, ${region.provinsi.nama}`
 			}
-			return address
-		} else {
-			return 'Lokasi belum di tentukan'
+			if (User.store && User.store.address_store) {
+				if (address.length > 30) {
+					return address.substr(0, 30) + '...'
+				}
+				return address
+			} else {
+				return 'Lokasi belum di tentukan'
+			}
 		}
 	}
 
@@ -181,7 +183,7 @@ const Home = ({ navigation }) => {
 						<Icon color="white" name="map-marker-alt" />
 						<Text color="whiteColor"> {_addressStore()}</Text>
 					</Wrapper>
-				</View>
+				</View >
 			} onPressMenu={_handlePressDrawer} onPressBell={() => { }} />
 		)}
 		renderForeground={() => <HomeHeader center={
@@ -302,25 +304,26 @@ const Home = ({ navigation }) => {
 			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
 		</ScrollView>
 		<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
-		{newsLoading ?
-			<NewsCardPlaceholder />
-			:
-			<FlatList
-				data={news}
-				horizontal={true}
-				showsHorizontalScrollIndicator={false}
-				renderItem={({ item, index }) => (
-					<CardTextImage
-						style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
-						onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url, link: item.link })}
-						image={item.jetpack_featured_media_url}
-						info={item.title.rendered}
-					/>
-				)}
-				keyExtractor={(item, index) => index.toString()}
-			/>
+		{
+			newsLoading ?
+				<NewsCardPlaceholder />
+				:
+				<FlatList
+					data={news}
+					horizontal={true}
+					showsHorizontalScrollIndicator={false}
+					renderItem={({ item, index }) => (
+						<CardTextImage
+							style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
+							onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url, link: item.link })}
+							image={item.jetpack_featured_media_url}
+							info={item.title.rendered}
+						/>
+					)}
+					keyExtractor={(item, index) => index.toString()}
+				/>
 		}
-	</ParallaxScrollView>
+	</ParallaxScrollView >
 }
 
 export default Home

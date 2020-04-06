@@ -9,6 +9,12 @@ const TempNavigator = {
 			header: null
 		}
 	},
+	'/temp/create-pin/re-enter': {
+		screen: CreatePIN,
+		navigationOptions: {
+			header: null
+		}
+	},
 	'/temp/update-profile': {
 		screen: UpdateProfil,
 		navigationOptions: {

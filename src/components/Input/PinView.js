@@ -36,12 +36,12 @@ const PinView = props => {
 				<Icon name="arrow-left" size={20} color="white" />
 			</Button>
 			<View style={{ justifyContent: 'center' }}>
-				<Text color="whiteColor">PIN</Text>
+				<Text color="whiteColor">{props.name || 'PIN'}</Text>
 			</View>
 		</Wrapper>
-		<View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', alignItems : "center" }}>
+		<View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', alignItems: "center" }}>
 			{props.title}
-			<View style={{ flexDirection: 'row',alignItems: 'center', marginVertical : 30 }}>
+			<View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 30 }}>
 				{
 					[
 						Array.generateEmpty(pinLength).map((item, i) => {
