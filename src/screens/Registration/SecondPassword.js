@@ -39,12 +39,14 @@ const SecondPassword = ({ navigation }) => {
             alert("Password harus sama")
         } else {
             setIsLoading(true)
+            const pushToken = await AsyncStorage.getItem("@push_token")
             const data = {
                 name: FormRegister.name,
                 phone_number: "62" + FormRegister.phone_number,
                 role: 'Owner',
                 password: FormRegister.password,
-                id_device : FormRegister.deviceId
+                id_device : FormRegister.deviceId,
+                push_token : pushToken
             }
             const res = await registerUser(data)
             if (res.status == 200) {

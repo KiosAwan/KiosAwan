@@ -40,6 +40,7 @@
     "react-native-material-textfield": "^0.16.1",
     "react-native-materialui-textfield": "^0.13.2",
     "react-native-modal-datetime-picker": "^7.6.0",
+    "react-native-onesignal": "^3.7.1",
     "react-native-parallax-scroll-view": "^0.21.3",
     "react-native-pin-view": "^2.5.0",
     "react-native-raw-bottom-sheet": "^2.0.5",

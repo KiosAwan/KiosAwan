@@ -48,9 +48,6 @@ class CheckOut extends React.Component {
 	FirstRoute = () => <CashPayment />
 	SecondRoute = () => <NonTunai nonTunai={this.state.nonTunai} pressImage={(id) => {
 		this.setState({ nonTunai: id })
-		if (id > 2) {
-			this.props.navigation.navigate("/cashier/check-out/payewallet", { amount: parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon) })
-		}
 	}} />
 	ThirdRoute = () => <Piutang />
 	_handleBayar = () => {

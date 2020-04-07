@@ -2428,10 +2428,10 @@ domutils@^2.0.0:
     domelementtype "^2.0.1"
     domhandler "^3.0.0"
 
-dot-object@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/dot-object/-/dot-object-2.1.2.tgz#571fece46f16368193bbe39265b8ec7804c5b0f4"
-  integrity sha512-Hx7gYDQfb4umAku7VJW0fr3SXXTaghfBhYNbc4eHTjkgPMoY4DAw210j76mSSlV9LiTozVswT462e4xL7w3GZA==
+dot-object@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/dot-object/-/dot-object-2.1.3.tgz#aa261fdefd232f0edb17e77ff4708bbed6f04b2e"
+  integrity sha512-YihsbZiGU2nEXQs1vjwjBNDJ85BMRHO4ahybAsuHERCxUecFoyt4xM3NO4GskNj8hFLRsgrwE4xBDe8XSOAiYg==
   dependencies:
     commander "^4.0.0"
     glob "^7.1.5"
@@ -3440,7 +3440,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-invariant@2.2.4, invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -5998,6 +5998,13 @@ react-native-modal@^11.0.2:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
+
+react-native-onesignal@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.7.1.tgz#a0bb209dcfb4f66796dd7a57f3d2cdcde5d0cea4"
+  integrity sha512-GGQoCMox1M1NkQn4+vPk8oDgUqJ2faryg4sj13NkntX1kG8KXkg6/NRksj2Qeuq025rvUu7mmjY7/gvPmyT2jQ==
+  dependencies:
+    invariant "^2.2.2"
 
 react-native-parallax-scroll-view@^0.21.3:
   version "0.21.3"

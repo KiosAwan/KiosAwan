@@ -36,12 +36,14 @@ const LoginVerification = ({ navigation }) => {
     const [viewForgot, setViewForgot] = useState(true)
     //Sending OTP code to server
     const _handlePasswordLogin = async (psw) => {
+        const pushToken = await AsyncStorage.getItem("@push_token")
         setLoading(true)
         await dispatch(addFirstPassword(psw))
         const data = {
             phone_number: "62" + FormRegister.phone_number,
             password: FormRegister.password,
-            id_device: FormRegister.deviceId
+            id_device: FormRegister.deviceId,
+            push_token : pushToken
         }
         try {
             const res = await loginData(data)

@@ -12,7 +12,7 @@ const NonTunai = (props) => {
 	const [index, setIndex] = useState()
 	const pressCard = (i) => {
 		setIndex(i)
-		// props.pressImage(i)
+		props.pressImage(i)
 	}
 	return (
 		<ScrollView style={styles.container}>

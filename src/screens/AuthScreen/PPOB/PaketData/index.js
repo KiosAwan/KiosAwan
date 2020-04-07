@@ -96,7 +96,6 @@ const PpobPaketData = ({ navigation }) => {
 		const res = await payPulsaHandphone(data)
 		setPayLoading(false)
 		if (res.status == 200) {
-			console.debug(res.data)
 			const data = { type: "Paket Data", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
 			dispatch(AddPPOBToCart(data))
 			dispatch(getProfile(User.data.id))
