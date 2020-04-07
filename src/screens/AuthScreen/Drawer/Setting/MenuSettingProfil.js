@@ -46,7 +46,7 @@ const MenuSettingProfil = ({ navigation }) => {
 		no_telp: User.data.phone_number,
 		name_store: User.store.name_store,
 		photo_store: User.store.photo_store,
-		address_store: User.store.address_store ? User.store.address_store.split('%')[0] : null,
+		address_store: User.store.address_store ? User.store.address_store.split(', ')[0] : null,
 		id_user: User.data.id
 	})
 
@@ -112,7 +112,7 @@ const MenuSettingProfil = ({ navigation }) => {
 	}
 	useEffect(() => {
 		if (User.store && User.store.address_store) {
-			let [alamat, desa, kecamatan, kabupaten, provinsi] = User.store.address_store.split(', ')
+			let [address_store, desa, kecamatan, kabupaten, provinsi] = User.store.address_store.split(', ')
 			if (provinsi) {
 				setDesaSelected({ id: Math.randomInt(0, 9999), desa, kecamatan, kabupaten, provinsi })
 			}
