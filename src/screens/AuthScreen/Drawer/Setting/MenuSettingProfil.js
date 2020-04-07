@@ -1,5 +1,5 @@
 import Wilayah from 'src/utils/wilayah';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import MDInput from 'src/components/Input/MDInput';
 import Container, { Body, Footer } from 'src/components/View/Container';
@@ -110,6 +110,14 @@ const MenuSettingProfil = ({ navigation }) => {
 			alert(JSON.stringify(res))
 		}
 	}
+	useEffect(() => {
+		if (User.store && User.store.address_store) {
+			let [alamat, desa, kecamatan, kabupaten, provinsi] = User.store.address_store.split(', ')
+			if (provinsi) {
+				setDesaSelected({ id: Math.randomInt(0, 9999), desa, kecamatan, kabupaten, provinsi })
+			}
+		}
+	}, [])
 	return <Container>
 		<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
 		<Body>
