@@ -4,8 +4,9 @@ import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { Icon } from 'native-base'
 import { Image } from '../CustomImage'
-import { Animated, View } from 'react-native'
+import { Animated, View, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { FontName } from 'src/styles/typography'
+import Divider from '../Row/Divider'
 
 const MDInput = props => {
 	const { renderLeftAccessory, renderRightAccessory } = props
@@ -26,6 +27,91 @@ const MDInput = props => {
 	/>
 }
 
+const AutoCompleteInput = props => {
+	const { data, renderItem, onChangeText, onSelect } = props
+	const [visible, setVisible] = useState(false)
+	const _onSelect = (item, index) => {
+		setVisible(false)
+		if (onSelect) onSelect(item, index)
+	}
+	const _renderItem = (item, index) => {
+		if (renderItem) {
+			return [
+				<TouchableOpacity activeOpacity={1} onPress={() => _onSelect(item, index)} style={{ padding: 10 }} color="link">
+					{renderItem(item, index)}
+				</TouchableOpacity>,
+				data.length - 1 != index && <Divider />
+			]
+		} else {
+			return <View />
+		}
+	}
+	const _onChange = text => {
+		setVisible(true)
+		if (onChangeText) onChangeText(text)
+	}
+
+	// <AutoCompleteInput
+	// 	data={kelDesData.data}
+	// 	label="Kelurahan / Desa"
+	// 	onChangeText={_onChangeDesa}
+	// 	value={kelDesData.desa}
+	// 	onSelect={_selectDesa}
+	// 	renderItem={item => <Text>
+	// 		{`${item.desa}, ${item.kecamatan}, ${item.kabupaten}, ${item.provinsi}`}
+	// 	</Text>}
+	// />
+	return <View>
+		<MDInput {...props}
+			onFocus={() => setVisible(true)}
+			onChangeText={_onChange}
+		/>
+		<View style={!visible && { display: 'none' }}>
+			<TouchableOpacity onPress={() => setVisible(false)} activeOpacity={1} style={{
+				position: 'absolute',
+				width: '100%',
+				zIndex: 555,
+				height: 9999,
+				top: -999
+			}} />
+			<FlatList style={{
+				top: -7,
+				position: 'absolute',
+				width: '100%',
+				// maxHeight: 150,
+				zIndex: 1000,
+				backgroundColor: ColorsList.whiteColor,
+				elevation: 2
+			}}
+				data={data}
+				keyExtractor={(item, i) => i.toString()}
+				renderItem={({ item, index }) => _renderItem(item, index)}
+			/>
+		</View>
+	</View>
+}
+
+const AutoCompleteInputs = props => {
+	const { renderItem, data } = props
+	const _renderItem = (item, index) => {
+		if (renderItem) {
+			return renderItem(item, index)
+		} else {
+			return <View />
+		}
+	}
+	return <View style={{
+		...props.style
+	}}>
+		<MDInput {...props} style={props.inputStyle} />
+		<FlatList style={{
+		}}
+			data={data}
+			keyExtractor={(item, i) => i.toString()}
+			renderItem={({ item, index }) => _renderItem(item, index)}
+		/>
+	</View>
+}
 
 const MDInputV2 = props => {
 	const [visible, setVisible] = useState({
@@ -97,4 +183,4 @@ const MDInputV2 = props => {
 }
 
 export default MDInput
-export { MDInputV2 }
+export { AutoCompleteInput, MDInputV2 }

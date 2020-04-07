@@ -1,33 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import {
-	View,
-	StyleSheet,
-	Dimensions,
-	ScrollView,
-	TouchableOpacity,
-	RefreshControl,
-	FlatList
-} from 'react-native'
 import TextTicker from 'react-native-text-ticker'
+import React, { useState, useEffect } from 'react'
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Divider from 'src/components/Row/Divider'
 import Axios from 'axios'
-import { ColorsList } from 'src/styles/colors'
-import { FontList } from 'src/styles/typography'
+import { Wrapper } from 'src/components/View/Wrapper'
+import { View, StyleSheet, Dimensions, ScrollView, TouchableOpacity, RefreshControl, FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { CardTextImage } from 'src/components/Card/CardComp'
+import { Text } from 'src/components/Text/CustomText'
+import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
+import { Image } from 'src/components/CustomImage';
 import { HOST_URL } from 'src/config'
 import { HomeHeader } from 'src/components/Header/Header'
-import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { getProfile } from 'src/redux/actions/actionsUserData'
-import { Image } from 'src/components/CustomImage';
-import { Text } from 'src/components/Text/CustomText'
-import { Button } from 'src/components/Button/Button'
-import { Wrapper } from 'src/components/View/Wrapper'
-import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
+import { FontList } from 'src/styles/typography'
 import { convertRupiah } from 'src/utils/authhelper'
+import { ColorsList } from 'src/styles/colors'
+import { CardTextImage } from 'src/components/Card/CardComp'
+import { Button } from 'src/components/Button/Button'
+import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { $Padding } from 'src/utils/stylehelper'
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -131,16 +123,8 @@ const Home = ({ navigation }) => {
 			}
 	}
 	const _addressStore = () => {
-		let address, address_store = User.store ? User.store.address_store.split('%') : ""
-		if (address_store.length > 2) {
-			address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
-		} else {
-			let region = address_store ? JSON.parse(address_store[1]) : null
-			if (region) {
-				address = `${address_store[0]}, ${region.provinsi.nama}`
-			}
-		}
 		if (User.store && User.store.address_store) {
+			let address = User.store.address_store
 			if (address.length > 30) {
 				return address.substr(0, 30) + '...'
 			}

@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux'
+import Wilayah from 'src/utils/wilayah';
+import React, { useState } from 'react';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import MDInput from 'src/components/Input/MDInput';
+import Container, { Footer, Body } from 'src/components/View/Container';
+import AsyncStorage from '@react-native-community/async-storage';
 import { View, StyleSheet, Image, Modal } from 'react-native';
-import { GlobalHeader } from 'src/components/Header/Header';
+import { useDispatch } from 'react-redux'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'src/components/Text/CustomText';
-import { ColorsList } from 'src/styles/colors';
-import { } from 'src/components/Input/InputComp';
-import AsyncStorage from '@react-native-community/async-storage';
 import { sendProfileData } from 'src/utils/authhelper';
-import { getProfile } from 'src/redux/actions/actionsUserData';
-import ModalContent from 'src/components/ModalContent/ModalContent';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
-import Wilayah from 'src/utils/wilayah';
-import { Icon } from 'native-base';
-import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { PickerImage } from 'src/components/Picker/PickerImage';
+import { Icon } from 'native-base';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { getProfile } from 'src/redux/actions/actionsUserData';
+import { ColorsList } from 'src/styles/colors';
 import { Button } from 'src/components/Button/Button';
-import MDInput from 'src/components/Input/MDInput';
-import { stateObject } from 'src/utils/state';
-import Container, { Footer, Body } from 'src/components/View/Container';
-
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const UpdateProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -29,26 +26,21 @@ const UpdateProfil = ({ navigation }) => {
 	const [email_store, setEmail_Store] = useState('')
 	const [photo_store, setPhotoStore] = useState('')
 	const [address_store, setAddress_Store] = useState('')
-	const [provinsi, setProvinsi] = stateObject({
-		selected: '',
-		search: '',
-		data: []
-	})
-	const [kabupaten, setKabupaten] = stateObject({
-		selected: '',
-		search: '',
-		data: []
-	})
-	const [kecamatan, setKecamatan] = stateObject({
-		selected: '',
-		search: '',
-		data: []
-	})
-	const [desa, setDesa] = stateObject({
-		selected: '',
-		search: '',
-		data: []
-	})
+	const [dataDesa, setDataDesa] = useState([])
+	const [desaSelected, setDesaSelected] = useState({})
+	const _searchDesa = async pencarian => {
+		const { data: { status, data } } = await Wilayah.SearchAddress(pencarian)
+		if (status == 200) {
+			setDataDesa(data)
+		}
+	}
+	const _renderViewAlamat = item => {
+		if (item.id) {
+			return `${item.desa}, ${item.kecamatan}, ${item.kabupaten}, ${item.provinsi}`
+		} else {
+			return ''
+		}
+	}
 	const inputan = [{
 		label: "Email",
 		value: email_store,
@@ -69,21 +61,14 @@ const UpdateProfil = ({ navigation }) => {
 	}
 	const [loading, setLoading] = useState(false)
 	const _handleSaveProfile = async () => {
-		if ([address_store, name_store, email_store, desa.selected, kecamatan.selected, kabupaten.selected, provinsi.selected].includes('')) {
+		if ([address_store, name_store, email_store, desaSelected.desa].includes('')) {
 			alert("Harap isi data toko dengan lengkap")
 		} else {
 			setLoading(true)
-			const daerahMap = ['desa', 'kecamatan', 'kabupaten', 'provinsi']
 			const id_user = await AsyncStorage.getItem('userId')
 			const formData = new FormData()
-			const daerah = daerahMap.map(_daerah => {
-				return { name: _daerah, data: eval(`${_daerah}.selected`) }
-			}).reduce((obj, item) => {
-				obj[item.name] = item.data
-				return obj
-			}, {})
-			
-			let final_address = `${address_store}%${JSON.stringify(daerah)}`
+
+			let final_address = `${address_store}, ${_renderViewAlamat(desaSelected)}`
 
 			formData.append("id_user", id_user)
 			formData.append("name_store", name_store)
@@ -110,46 +95,6 @@ const UpdateProfil = ({ navigation }) => {
 		}
 	}
 
-	const _setProvinsi = (item) => {
-		setProvinsi({ selected: item })
-		Wilayah.Kabupaten(item.id).then((res) => {
-			setKabupaten({ data: res.data.kabupatens })
-		})
-	}
-
-	const _setKabupaten = (item) => {
-		setKabupaten({ selected: item })
-		Wilayah.Kecamatan(item.id).then((res) => {
-			setKecamatan({ data: res.data.kecamatans })
-		})
-	}
-
-	const _setKecamatan = (item) => {
-		setKecamatan({ selected: item })
-		Wilayah.Desa(item.id).then((res) => {
-			setDesa({ data: res.data.desas })
-		})
-	}
-
-	const _setDesa = (item) => {
-		setDesa({ selected: item })
-	}
-
-	const _dataFiltered = (data, search) => {
-		const result = data.filter(item => {
-			return item.nama.toLowerCase()
-				.includes(search.toLowerCase())
-		})
-			.sort((a, b) => a.nama.localeCompare(b.nama))
-		return result
-	}
-
-	useEffect(() => {
-		Wilayah.Provinsi().then((res) => {
-			setProvinsi({ data: res.data.semuaprovinsi })
-		})
-	}, [])
-
 	return <Container>
 		<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
 		<Body>
@@ -173,60 +118,21 @@ const UpdateProfil = ({ navigation }) => {
 					inputan.map((input, i) => <MDInput key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} />)
 				}
 				<SelectBoxModal style={{ marginTop: 15 }}
-					label="Provinsi" closeOnSelect
-					data={_dataFiltered(provinsi.data, provinsi.search)}
-					header={
-						<MDInput label="Cari Provinsi" renderLeftAccessory={() =>
-							<Icon style={{ color: ColorsList.primary }} name="search" />}
-							value={provinsi.search} onChangeText={text => setProvinsi({ search: text })} />
-					}
-					value={provinsi.selected ? provinsi.selected.nama : null}
-					handleChangePicker={_setProvinsi}
-					renderItem={(item) => (<Text>{item.nama}</Text>)}>
-					<Text>Data tidak ditemukan</Text>
-				</SelectBoxModal>
-
-				<SelectBoxModal style={{ marginTop: 15 }}
-					label="Kabupaten / Kota" closeOnSelect
-					data={_dataFiltered(kabupaten.data, kabupaten.search)}
-					header={
-						<MDInput label="Cari Kabupaten" renderLeftAccessory={() =>
-							<Icon style={{ color: ColorsList.primary }} name="search" />}
-							value={kabupaten.search} onChangeText={text => setKabupaten({ search: text })} />
-					}
-					value={kabupaten.selected ? kabupaten.selected.nama : null}
-					handleChangePicker={_setKabupaten}
-					renderItem={(item) => (<Text>{item.nama}</Text>)}>
-					<Text>Data tidak ditemukan</Text>
-				</SelectBoxModal>
-
-				<SelectBoxModal style={{ marginTop: 15 }}
-					label="Kecamatan" closeOnSelect
-					data={_dataFiltered(kecamatan.data, kecamatan.search)}
-					header={
-						<MDInput label="Cari Kecamatan" renderLeftAccessory={() =>
-							<Icon style={{ color: ColorsList.primary }} name="search" />}
-							value={kecamatan.search} onChangeText={text => setKecamatan({ search: text })} />
-					}
-					value={kecamatan.selected ? kecamatan.selected.nama : null}
-					handleChangePicker={_setKecamatan}
-					renderItem={(item) => (<Text>{item.nama}</Text>)}>
-					<Text>Data tidak ditemukan</Text>
-				</SelectBoxModal>
-
-				<SelectBoxModal style={{ marginTop: 15 }}
 					label="Kelurahan / Desa" closeOnSelect
-					data={_dataFiltered(desa.data, desa.search)}
+					data={dataDesa}
 					header={
-						<MDInput label="Cari Desa" renderLeftAccessory={() =>
-							<Icon style={{ color: ColorsList.primary }} name="search" />}
-							value={desa.search} onChangeText={text => setDesa({ search: text })} />
+						<MDInput label="Cari Desa"
+							onChangeText={_searchDesa}
+							renderLeftAccessory={() =>
+								<Icon style={{ color: ColorsList.primary }} name="search" />}
+						/>
 					}
-					value={desa.selected ? desa.selected.nama : null}
-					handleChangePicker={_setDesa}
-					renderItem={(item) => (<Text>{item.nama}</Text>)}>
+					value={desaSelected.desa}
+					handleChangePicker={item => setDesaSelected(item)}
+					renderItem={item => (<Text>{_renderViewAlamat(item)}</Text>)}>
 					<Text>Data tidak ditemukan</Text>
 				</SelectBoxModal>
+				{desaSelected.id && <Text style={{ marginTop: 10 }}>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text>}
 			</View>
 			<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 			<View style={styles.imageWrapper}>
@@ -239,7 +145,7 @@ const UpdateProfil = ({ navigation }) => {
 		<Footer>
 			<Button style={{ width: '100%' }} onPress={_handleSaveProfile}>SIMPAN</Button>
 		</Footer>
-	</Container>
+	</Container >
 }
 
 export default UpdateProfil

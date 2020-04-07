@@ -69,7 +69,7 @@ export const Button = props => {
 	return <TouchableOpacity activeOpacity={.5} {...props} style={{
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
 		borderRadius: props.noRadius ? 0 : 5,
 		...props.flex && { flex: 1 },
 		..._color,
