@@ -97,7 +97,6 @@ const Home = ({ navigation }) => {
 
 	const _handleRefresh = () => {
 		dispatch(getProfile(User.data.id))
-		// console.debug(User.store.)
 		_checkService()
 		setOnRefresh(false)
 	}

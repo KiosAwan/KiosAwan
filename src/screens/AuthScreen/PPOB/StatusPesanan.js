@@ -4,7 +4,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { ColorsList } from 'src/styles/colors';
-import { View, Image } from 'react-native';
+import { View, Image, StyleSheet, Clipboard } from 'react-native';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
@@ -14,6 +14,8 @@ import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { useDispatch, useSelector } from 'react-redux';
 import ViewShot from 'react-native-view-shot';
 import Screenshot from 'src/utils/screenshot';
+import { CopyButton } from 'src/components/Button/CopyButton';
+import { Toast } from 'native-base';
 
 const StatusPesanan = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -48,7 +50,7 @@ const StatusPesanan = ({ navigation }) => {
 	}
 	return <Container onlyTitle header={{ title: 'Status Pesanan' }}>
 		<Body>
-			<ViewShot style={{backgroundColor : ColorsList.authBackground}} ref={ref => viewShotRef = ref}>
+			<ViewShot style={{ backgroundColor: ColorsList.authBackground }} ref={ref => viewShotRef = ref}>
 				{
 					_checkData('status') === 'PENDING' ?
 						<Button disabled color="warning" wrapper={{ justify: 'flex-start' }}>
@@ -73,6 +75,15 @@ const StatusPesanan = ({ navigation }) => {
 								<Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
 						}
 					</Wrapper>
+					{transaction && transaction.transaction_name == "pln_prepaid" && transaction.status == "SUCCESS" && [
+						<Wrapper style={styles.token} justify="space-between">
+							<Text>{payment.token}</Text>
+							<CopyButton onPress={() => {
+								Toast.show({ text: "Berhasil disalin", type: "success" })
+								Clipboard.setString(payment.token)
+							}} />
+						</Wrapper>,
+					]}
 					<Divider />
 					{_checkData('customer_name', true) && [
 						<Wrapper {...wrapper}>
@@ -107,13 +118,7 @@ const StatusPesanan = ({ navigation }) => {
 						</Wrapper>,
 						<Divider />
 					]}
-					{transaction && transaction.transaction_name == "pln_prepaid" && transaction.status == "SUCCESS" && [
-						<Wrapper {...wrapper}>
-							<Text>No Token</Text>
-							<Text>{payment.token}</Text>
-						</Wrapper>,
-						<Divider />
-					]}
+
 					<Wrapper {...wrapper}>
 						<Text font="ExtraBold">Total Tagihan</Text>
 						<Text font="ExtraBold">{convertRupiah(parseInt(_checkData('total')))}</Text>
@@ -144,3 +149,14 @@ const StatusPesanan = ({ navigation }) => {
 	</Container>
 }
 export default StatusPesanan
+
+const styles = StyleSheet.create({
+	token: {
+		borderWidth: 1,
+		padding: 5,
+		marginHorizontal: 10,
+		marginBottom: 10,
+		borderColor: ColorsList.primary,
+		borderRadius: 5
+	}
+})

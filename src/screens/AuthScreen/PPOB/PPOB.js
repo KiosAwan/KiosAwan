@@ -110,7 +110,7 @@ const PPOB = ({ navigation }) => {
 									<Text>Saldo: {convertRupiah(User.data.saldo)}</Text>
 								</Wrapper>
 								<Wrapper justify="flex-end">
-									<Button color="link">
+									<Button color="link" onPress={() => dispatch(getProfile(User.data.id))}>
 										<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
 									</Button>
 									<Button onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
@@ -137,7 +137,7 @@ const PPOB = ({ navigation }) => {
 					</LinearGradient>
 				)}>
 				{!productData ?
-					<ActivityIndicator />
+					<ActivityIndicator color={ColorsList.primary} />
 					: <FlatList
 						style={{ margin: 10 }}
 						showsVerticalScrollIndicator={false}
