@@ -345,6 +345,7 @@ class CetakStruk extends Component {
 				this.state.singlePrintData.transaction.denda && this.state.singlePrintData.transaction.denda > 0 && BluetoothEscposPrinter.printColumn(columnWidths,
 				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 				["Denda", convertRupiah(this.state.singlePrintData.transaction.denda)], {})
+				BluetoothEscposPrinter.printText("\n\r\n\r", {});
 		}
 		this.setState({ loading: false })
 		this.props.navigation.goBack()
