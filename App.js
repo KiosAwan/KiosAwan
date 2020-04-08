@@ -11,10 +11,13 @@ import OneSignal from 'react-native-onesignal'
 
 const prefix = 'awanapp://';
 export default class App extends Component {
-  componentDidMount() {
+  constructor(properties) {
+    super(properties);
     OneSignal.init("401b51c9-664d-45cb-8630-4bb301ffd9fa");
     OneSignal.inFocusDisplaying(2);
     OneSignal.addEventListener('ids', this.onIds);
+  }
+  componentDidMount() {
     Linking.getInitialURL().then(Deeplink).catch(err => console.error('An error occurred', err));
     Linking.addEventListener('url', this._handleOpenURL);
   }
