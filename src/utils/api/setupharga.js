@@ -26,7 +26,6 @@ const getSubProducts = async (productType, productId) => {
 		const res = await Axios.get(url, {
 			headers: { "authorization": token }
 		})
-		console.debug(res.data)
 		return res.data
 	}
 	catch (error) {

@@ -22,17 +22,16 @@ const SubProduct = ({ navigation }) => {
     const [providerSelected, setProviderSelected] = useState()
     const [params, setParams] = useState([])
     const [subProduct, setSubProduct] = useState([])
-
     const _getSubData = async product => {
         setParams(navigation.state.params)
         const { data, status } = await getSubProducts(product.type)
+        console.debug(product.type, data)
         if (status == 200) {
             setSubProduct(data)
         }
     }
 
     const _selectProvider = async provider => {
-        console.debug(provider)
         setDropdownVisible(false)
         if (provider.code != (providerSelected ? providerSelected.code : null)) {
             if (productMargin.length > 0) {
@@ -41,6 +40,7 @@ const SubProduct = ({ navigation }) => {
                 setProviderSelected(provider)
                 setProductMargin([])
                 const { data, status } = await getSubProducts(params.type, provider.code)
+                console.debug(data)
                 if (status == 200) {
                     setProducts([])
                     setTimeout(() => setProducts(data), 50)
@@ -64,9 +64,8 @@ const SubProduct = ({ navigation }) => {
         _getSubData(navigation.state.params)
     }, [])
 
-    return (
-        <Container>
-            <GlobalHeader title={`Atur Harga ${params.product}`} onPressBack={() => navigation.goBack()} />
+    const render = () => {
+        return ['pulsa', 'kuota'].includes(params.type) && <View style={{ flex: 1 }}>
             <View style={{ position: 'relative' }}>
                 <Dropdown selected={!providerSelected ? 'Pilih layanan seluler' : providerSelected.operator} visible={dropdownVisible} state={setDropdownVisible} style={[styles.dropdownContentStyle]}>
                     {
@@ -81,8 +80,8 @@ const SubProduct = ({ navigation }) => {
                 </Dropdown>
             </View>
             <Body>
-                {products.map((item, i) => (
-                    <Wrapper key={i} style={styles.wrapper} justify="space-between">
+                {
+                    products.map((item, i) => <Wrapper key={i} style={styles.wrapper} justify="space-between">
                         <View _width="60%" style={styles.leftWrapper}>
                             <Text font="Bold" color="primary" _width="60%">{item.name}</Text>
                             <Text _width="60%">Modal : {convertRupiah(item.price)}</Text>
@@ -90,14 +89,19 @@ const SubProduct = ({ navigation }) => {
                         <MDInput onChangeText={txt => _setMargin(txt, item.productID, item.name)}
                             keyboardType='number-pad'
                             _style={styles.rightWrapper} value={item.margin} label="Biaya Admin" />
-                    </Wrapper>
-                ))}
+                    </Wrapper>)
+                }
             </Body>
             <Footer>
                 <Button width="100%" onPress={_saveMargin}>SIMPAN</Button>
             </Footer>
-        </Container>
-    )
+        </View>
+    }
+
+    return <Container>
+        <GlobalHeader title={`Atur Harga ${params.product}`} onPressBack={() => navigation.goBack()} />
+        {render()}
+    </Container>
 }
 
 export default SubProduct
