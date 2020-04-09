@@ -8,5 +8,28 @@ const stateObject = initValue => {
 	}
 	return [state, setState, () => _setState(initValue || {})]
 }
+const stateArray = initValue => {
+	const [state, _setState] = useState(initValue || [])
+	const setData = (_state, value, i) => {
+		_state[i] = value
+		return _state
+	}
+	const setState = (value, i) => {
+		if (i != undefined && i >= 0) {
+			let data = setData(state, value, i)
+			_setState(data)
+		} else {
+			_setState([...state, value])
+		}
+	}
+	return [state, setState, val => {
+		if (val) {
+			let newVal = Array.isArray(val) ? val : [val]
+			_setState(newVal)
+		} else {
+			_setState(initValue || [])
+		}
+	}]
+}
 
-export { stateObject }
+export { stateObject, stateArray }

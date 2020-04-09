@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 export const Wrapper = props => {
-	const { children, flexStart, flexEnd, center, spaceBetween, spaceAround } = props
+	const { children, radius, flexStart, flexEnd, center, spaceBetween, spaceAround } = props
 	return <View style={[{
 		flexDirection: props.direction || 'row',
 		justifyContent: props.justify || 'space-around',
 	},
+	radius && { borderRadius: 5 },
 	flexStart && { justifyContent: 'flex-start' },
 	flexEnd && { justifyContent: 'flex-end' },
 	center && { justifyContent: 'center' },
@@ -23,6 +24,7 @@ export const Wrapper = props => {
 						{ width: item.props._width, justifyContent: item.props._justify || 'center' },
 						item.props._style,
 						item.props._flex && { flex: 1 },
+						props.flexContent && { flex: 1 },
 						item.props.style && item.props.style.width ? { width: item.props.style.width } : {},
 						item.props.width ? { width: item.props.width } : {}
 					]} key={i}>

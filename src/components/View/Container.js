@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, FlatList } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { GlobalHeaderWithIcon } from '../Header/Header';
 
@@ -23,10 +23,12 @@ const Body = props => {
 	</ScrollView>
 }
 
+const BodyFlatList = props => <FlatList {...props} style={{ padding: 15, ...props.style }} />
+
 const Footer = props => {
 	const { style } = props
 	return <View {...props} style={{ padding: 15, ...style }} />
 }
 
 export default Container
-export { Body, Footer }
+export { Body, BodyFlatList, Footer }

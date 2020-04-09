@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Modal as ModalRN, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Modal as ModalRN, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
 import { Text } from '../Text/CustomText'
 import { ColorsList } from '../../styles/colors';
 import { SizeList } from '../../styles/size';
@@ -69,12 +69,14 @@ const AwanPopup = {
 			<View style={[props.noTitle ? { borderRadius: 5 } : {}, props.contentStyle]}>
 				{
 					props.children.length > 0 ?
-						props.children.map((child, i) => {
-							return [
-								child,
+						<FlatList
+							data={props.children}
+							keyExtractor={(a, i) => i.toString()}
+							renderItem={({ item }) => [
+								item,
 								!props.noTitle && props.children.length - 1 != i && <Divider />
-							]
-						})
+							]}
+						/>
 						: props.children
 				}
 			</View>
