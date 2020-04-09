@@ -125,7 +125,7 @@ const TransactionDetail = ({ navigation }) => {
 							</View>
 							<View name="Daftar Produk Digital" style={{ display: data.product_digital.length == 0 ? "none" : "flex" }}>
 								<View style={{ padding: 10, ...$Border(ColorsList.primary, 1, 0) }}>
-									<Text align="center" size={16} color="primary">Tagihan dan Isi Ulang</Text>
+									<Text align="center" size={16} color="primary">Pulsa dan Tagihan</Text>
 								</View>
 								{
 									data.product_digital.map((item) => {

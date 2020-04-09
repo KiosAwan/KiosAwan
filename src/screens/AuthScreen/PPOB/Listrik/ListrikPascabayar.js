@@ -193,8 +193,7 @@ const ListrikPascabayar = ({ navigation }) => {
 								<Text font="Regular">Total Tagihan</Text>
 								<Text font="Regular">{convertRupiah(
 									parseInt(tagihanData.transaction.tagihan) +
-									(selectedCashback * tagihanData.details.length) +
-									parseInt(tagihanData.transaction.denda)
+									(selectedCashback * tagihanData.details.length)
 								)}</Text>
 							</Wrapper>
 						</View>

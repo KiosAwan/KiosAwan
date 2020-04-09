@@ -22,6 +22,7 @@ import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { Bottom } from 'src/components/View/Bottom';
 import { getProductPPOBList } from 'src/utils/api/ppobapi';
 import { DEV_IMG_URL } from 'src/config';
+import { getProfile } from 'src/redux/actions/actionsUserData'
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
