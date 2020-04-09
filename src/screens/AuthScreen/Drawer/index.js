@@ -77,7 +77,7 @@ const Akun = ({ navigation }) => {
 			<Bottom>
 				<View style={{ width: '100%' }}>
 					{/* <Text style={{ alignSelf: 'center', marginBottom: 5 }}>Versi 1.0.0</Text> */}
-					<Text style={{ alignSelf: 'center', marginBottom: 5 }}>Testing Versi 1.4.3.1</Text>
+					<Text style={{ alignSelf: 'center', marginBottom: 5 }}>Testing Versi 1.4.8.1</Text>
 					<Button width="100%" style={{ marginBottom: 5 }}>UPGRADE KE PREMIUM</Button>
 					<Button color="white" width="100%" onPress={_onPressLogout}>KELUAR</Button>
 				</View>

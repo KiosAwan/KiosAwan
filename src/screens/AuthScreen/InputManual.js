@@ -13,6 +13,7 @@ import { AddCart } from '../../redux/actions/actionsStoreProduct';
 import { Input, Icon, Button, Text } from 'native-base';
 import { TextInputMask } from 'react-native-masked-text'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { Image } from 'src/components/CustomImage';
 
 
 const width = Dimensions.get('window').width
@@ -106,7 +107,7 @@ const InputManual = ({ navigation }) => {
 						</View>
 						<View style={{ ...RowChild, justifyContent: "center", marginVertical: 30 }}>
 							<TouchableOpacity onPress={_handleMinusQuantity}>
-								<Icon name="remove-circle-outline" style={{ color: '#cd0196', fontSize: 40 }} />
+							<Image size={45} source={require('src/assets/icons/minusedit.png')} />
 							</TouchableOpacity>
 							<View style={{ marginHorizontal: 20, alignItems: 'center', width: 100, }}>
 								<Input value={quantity.toString()}
@@ -119,7 +120,7 @@ const InputManual = ({ navigation }) => {
 								/>
 							</View>
 							<TouchableOpacity onPress={_handlePlusQuantity}>
-								<Icon name="add-circle" style={{ color: '#cd0196', fontSize: 40 }} />
+								<Image size={45} source={require('src/assets/icons/plusedit.png')} />
 							</TouchableOpacity>
 						</View>
 					</View>

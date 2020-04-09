@@ -36,7 +36,6 @@ const CheckMember = (props) => {
       });
       if (checkUserData != null) {
         try {
-
           const res = await Axios.get(`${HOST_URL}/auth/check`, {
             headers: { "authorization": userToken }
           })
@@ -46,7 +45,7 @@ const CheckMember = (props) => {
             navigation.navigate('/')
           }
         } catch (err) {
-          // alert(JSON.stringify(err))
+          alert(err.response.data.errors.msg)
         }
       } else {
         if (checkUserIntro == "sudah") {

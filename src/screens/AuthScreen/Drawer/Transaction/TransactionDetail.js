@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, BackHandler } from 'react-native';
+import { View, StyleSheet, Image, Clipboard } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
@@ -15,7 +15,8 @@ import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $BorderRadius, $Border, $Padding } from 'src/utils/stylehelper';
 import Container, { Body, Footer } from 'src/components/View/Container';
-import AsyncStorage from 'src/utils/async-storage';
+import { CopyButton } from 'src/components/Button/CopyButton';
+import { Toast } from 'native-base';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
@@ -50,20 +51,6 @@ const TransactionDetail = ({ navigation }) => {
 		setEdgeWidth(width)
 	}
 	const _backHandler = route => {
-		// BackHandler.addEventListener('hardwareBackPress', async () => {
-		// 	try {
-		// 		if (route) {
-		// 			let _newRoute = await AsyncStorage.get('TransactionDetailRoute')
-		// 			navigation.navigate(_newRoute ? _newRoute : route)
-		// 			BackHandler.removeEventListener('hardwareBackPress')
-		// 			await AsyncStorage.remove('TransactionDetailRoute')
-		// 			return true
-		// 		}
-		// 	} catch (err) {
-		// 		await AsyncStorage.remove('TransactionDetailRoute')
-		// 		navigation.goBack()
-		// 	}
-		// })
 	}
 	useEffect(() => {
 		_getData()
@@ -138,7 +125,7 @@ const TransactionDetail = ({ navigation }) => {
 							</View>
 							<View name="Daftar Produk Digital" style={{ display: data.product_digital.length == 0 ? "none" : "flex" }}>
 								<View style={{ padding: 10, ...$Border(ColorsList.primary, 1, 0) }}>
-									<Text align="center" size={16} color="primary">Tagihan dan Isi Ulang</Text>
+									<Text align="center" size={16} color="primary">Pulsa dan Tagihan</Text>
 								</View>
 								{
 									data.product_digital.map((item) => {
@@ -148,18 +135,21 @@ const TransactionDetail = ({ navigation }) => {
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
 													<Text>{item.transaction.customerID}</Text>
 													<Text>{item.transaction.transaction_code}</Text>
-													{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
-														<View>
-															<Text>No Token : </Text>
-															<Text>{item.payment.token}</Text>
-														</View>,
-													]}
 												</View>
 												<View style={{ alignItems: 'flex-end' }}>
 													<Text color={item.transaction.status === "SUCCESS" ? 'success' : (data === "PENDING" ? 'info' : 'danger')}>{item.transaction.status}</Text>
 													<Text>{convertRupiah(item.transaction.total)}</Text>
 												</View>
 											</Wrapper>
+											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
+												<Wrapper style={styles.token} justify="space-between">
+													<Text>{item.payment.token}</Text>
+													<CopyButton onPress={() => {
+														Toast.show({ text: "Berhasil disalin", type: "success" })
+														Clipboard.setString(item.payment.token)
+													}} />
+												</Wrapper>
+											]}
 										</View>
 									})
 								}
@@ -217,33 +207,6 @@ const TransactionDetail = ({ navigation }) => {
 					</View>
 				</ViewShot>
 			}
-			{/* {dataLoading ? null :
-				<Bottom>
-					{
-						data.transaction.status == 3 ?
-							null
-							:
-							data.transaction.status_payment == 2 ?
-								[
-									<Button width="49%" color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>,
-									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })} width="49%" onpre>LUNASI</Button>
-								] :
-								<View style={{ width: '100%' }}>
-									<Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>
-									<Wrapper style={{ marginTop: 5 }} justify="space-between">
-										<Button onPress={_shareBill} _width="49.5%">
-											<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
-											<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
-										</Button>
-										<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data, type: true })} _width="49.5%">
-											<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
-											<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
-										</Button>
-									</Wrapper>
-								</View>
-					}
-				</Bottom>
-			} */}
 		</Body>
 		<Footer>
 			{
@@ -289,4 +252,12 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: ColorsList.whiteColor,
 	},
+	token: {
+		borderWidth: 1,
+		padding: 5,
+		marginHorizontal: 10,
+		marginBottom: 10,
+		borderColor: ColorsList.primary,
+		borderRadius: 5
+	}
 })

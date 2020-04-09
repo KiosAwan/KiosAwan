@@ -21,9 +21,6 @@ import { getProfile } from '../../redux/actions/actionsUserData';
 import LinearGradient from 'react-native-linear-gradient';
 import { HeaderRegister } from '../../components/Header/Header';
 import { FontList } from '../../styles/typography';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { SizeList } from '../../styles/size';
-import { InputText, InputNumber } from '../../components/Input/InputComp';
 import { InputPIN } from '../../components/Input/InputPIN';
 import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -47,7 +44,6 @@ const LoginVerification = ({ navigation }) => {
         }
         try {
             const res = await loginData(data)
-            console.debug(res.data)
             if (res.data.errors) {
                 alert(res.data.errors.msg)
                 setLoading(false)
