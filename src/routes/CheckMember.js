@@ -45,7 +45,7 @@ const CheckMember = (props) => {
             navigation.navigate('/')
           }
         } catch (err) {
-          alert(err.response.data.errors.msg)
+          navigation.navigate('/unauth')
         }
       } else {
         if (checkUserIntro == "sudah") {

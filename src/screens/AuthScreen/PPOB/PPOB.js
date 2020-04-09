@@ -129,7 +129,7 @@ const PPOB = ({ navigation }) => {
 									<Text>Kupon</Text>
 								</Button>
 								<Divider flex />
-								<Button color="link">
+								<Button color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 									<Text>Favorit</Text>
 								</Button>

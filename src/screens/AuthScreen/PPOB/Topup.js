@@ -18,6 +18,7 @@ import Divider from 'src/components/Row/Divider';
 import { $BorderRadius, $Padding } from 'src/utils/stylehelper';
 import { Toast } from 'native-base';
 import { CopyButton } from 'src/components/Button/CopyButton';
+import Alert from 'src/utils/alert';
 
 const Topup = ({ navigation }) => {
 	const [listPaymentMethod, setListPaymentMethod] = useState([])
@@ -38,6 +39,8 @@ const Topup = ({ navigation }) => {
 		const res = await getPaymentChannelList()
 		if (res.status == 200) {
 			setListPaymentMethod(res.data)
+		}else {
+			Alert(JSON.stringify(res))
 		}
 
 	}

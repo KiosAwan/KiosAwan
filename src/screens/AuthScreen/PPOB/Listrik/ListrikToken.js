@@ -185,9 +185,17 @@ const ListrikToken = ({ navigation }) => {
 				</View>
 				: null
 		}
+		{productToken &&
+			<View style={styles.infoPembelian}>
+				<Text size={16} font="Bold" color="info">{productToken.info.title}</Text>
+				{productToken.info.info.map((item, i) => (
+					<Text key={i} color="info">{`${productToken.info.info.length == 1 ? "" : `${i+1}. `}${item}`}</Text>
+				))}
+			</View>
+		}
 		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
 			showsVerticalScrollIndicator={false}
-			data={productToken ? productToken : []}
+			data={productToken ? productToken.product : []}
 			renderItem={({ item, index }) =>
 				<TouchableOpacity onPress={() => {
 					if (response && response.length !== 0) {
@@ -206,6 +214,7 @@ const ListrikToken = ({ navigation }) => {
 				</TouchableOpacity>
 			}
 		/>
+
 		<Bottom>
 			<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
 				BAYAR

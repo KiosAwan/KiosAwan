@@ -32,7 +32,6 @@ const SubProduct = ({ navigation }) => {
     }
 
     const _selectProvider = async provider => {
-        console.debug(provider)
         setDropdownVisible(false)
         if (provider.code != (providerSelected ? providerSelected.code : null)) {
             if (productMargin.length > 0) {
@@ -68,7 +67,7 @@ const SubProduct = ({ navigation }) => {
         <Container>
             <GlobalHeader title={`Atur Harga ${params.product}`} onPressBack={() => navigation.goBack()} />
             <View style={{ position: 'relative' }}>
-                <Dropdown selected={!providerSelected ? 'Pilih layanan seluler' : providerSelected.operator} visible={dropdownVisible} state={setDropdownVisible} style={[styles.dropdownContentStyle]}>
+                <Dropdown selected={!providerSelected ? 'Pilih layanan' : providerSelected.operator} visible={dropdownVisible} state={setDropdownVisible} style={[styles.dropdownContentStyle]}>
                     {
                         subProduct.map((item, i) => [
                             <Button key={i} width={SizeList.width} onPress={() => _selectProvider(item)} wrapper={{ justify: 'flex-start', }} key={i} color="link">

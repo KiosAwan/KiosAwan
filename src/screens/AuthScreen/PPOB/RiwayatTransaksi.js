@@ -27,24 +27,32 @@ const RiwayatTransaksi = ({ navigation }) => {
 		:
 		<Container>
 			<GlobalHeader title="Riwayat" onPressBack={() => navigation.goBack()} />
-			<Body>
-				<FlatList
-					data={RiwayatTransaksi.data}
-					renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
-						<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={require('src/assets/icons/ppob/pulsa.png')} />
-						<View _width="48%">
-							<Text font="ExtraBold" color="primary">{item.payment_channel}</Text>
-							<Text font="ExtraBold">{item.trx_id}</Text>
-							<Text>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
-						</View>
-						<View _justify="flex-end" _width="32%">
-							<Text color="success" align="right">+ {convertRupiah(item.amount)}</Text>
-						</View>
-					</Wrapper>
-					}
-					keyExtractor={(item, i) => i.toString()}
-				/>
-			</Body>
+			{RiwayatTransaksi.data.length == 0 ?
+				<View style={{ flex: 1, alignItems: "center", justifyContent: "center", width: "70%", alignSelf: "center" }}>
+					<Image style={{ resizeMode: 'contain', width: 250, height: 250 }} source={require("src/assets/images/riwayat.png")} />
+					<Text font="Bold" size={16}>Anda belum memiliki riwayat</Text>
+					<Text style={{ marginTop: 20 }} align="center">Silahkan lakukan topup atau pembelian produk pulsa dan tagihan</Text>
+				</View>
+				:
+				<Body>
+					<FlatList
+						data={RiwayatTransaksi.data}
+						renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
+							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={require('src/assets/icons/ppob/pulsa.png')} />
+							<View _width="48%">
+								<Text font="ExtraBold" color="primary">{item.payment_channel}</Text>
+								<Text font="ExtraBold">{item.trx_id}</Text>
+								<Text>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
+							</View>
+							<View _justify="flex-end" _width="32%">
+								<Text color="success" align="right">+ {convertRupiah(item.amount)}</Text>
+							</View>
+						</Wrapper>
+						}
+						keyExtractor={(item, i) => i.toString()}
+					/>
+				</Body>
+			}
 		</Container>
 }
 

@@ -230,26 +230,11 @@ const ListrikPascabayar = ({ navigation }) => {
 
 						</View>
 						{tagihanData &&
-							<View>
-								<Text align="center">Pilih Biaya Admin</Text>
-								<Wrapper style={{ padding: 15 }} justify="space-between">
-									{
-										tagihanData.cash_back.map((item, i) => {
-											const isSelected = item.toString() == selectedCashback.toString()
-											return <Button
-												disabled={isSelected}
-												onPress={() => setSelectedCashback(item)}
-												color={['whiteColor', 'primary', isSelected ? 'primary' : 'transparent']}
-												_flex _style={{ margin: 2 }} key={i}>{convertRupiah(item)}</Button>
-										})
-									}
-								</Wrapper>
-								<Button style={$Margin(0, 15, 15)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
-									{`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
-										(selectedCashback * tagihanData.details.length) -
-										(parseInt(tagihanData.transaction.modal) * tagihanData.details.length)
-									)}`}
-								</Button>
+							<View style={styles.infoPembelian}>
+								<Text size={16} font="Bold" color="info">{tagihanData.info.title}</Text>
+								{tagihanData.info.info.map((item, i) => (
+									<Text key={i} color="info">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
+								))}
 							</View>
 						}
 					</View>
