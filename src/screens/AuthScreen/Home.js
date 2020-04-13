@@ -61,6 +61,10 @@ const Home = ({ navigation }) => {
 				title = 'FITUR BELANJA STOK'
 				message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
 				break;
+			case 'hutang':
+				title = 'FITUR PENCATATAN HUTANG'
+				message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+				break;
 			default:
 				title = 'FITUR KASIR'
 				message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
@@ -87,6 +91,7 @@ const Home = ({ navigation }) => {
 		}
 	}
 	const _onPressStock = () => _featureDisabled('stock')
+	const _onPressHutang = () => _featureDisabled('hutang')
 
 	const _handlePressDrawer = () => {
 		navigation.navigate('/drawer')
@@ -276,6 +281,15 @@ const Home = ({ navigation }) => {
 						<View _width="75%">
 							<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
 							<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
+						</View>
+					</Wrapper>
+				</Button>
+				<Button onPress={_onPressHutang} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+					<Wrapper justify="space-between">
+						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/hutang.png")} />
+						<View _width="75%">
+							<Text font="ExtraBold" color="primary">PENCATATAN HUTANG</Text>
+							<Text size={12}>Kelola hutang dan piutang usaha kios atau warung</Text>
 						</View>
 					</Wrapper>
 				</Button>

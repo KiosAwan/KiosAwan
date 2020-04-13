@@ -146,7 +146,9 @@ const SubProduct = ({ navigation }) => {
         }
 
         return <View style={{ flex: 1, paddingTop: 10 }}>
-            <Text align="center">Jumlah cashback menyesuaikan biaya admin yang dipilih</Text>
+            <View style={{ width: "80%", alignItems: "center", alignSelf : "center" }}>
+                <Text align="center">Jumlah cashback menyesuaikan biaya admin yang dipilih</Text>
+            </View>
             <BodyFlatList data={products}
                 keyExtractor={(item, i) => i.toString()}
                 renderItem={renderMap}

@@ -26,7 +26,7 @@ export default class App extends Component {
     Linking.removeEventListener('url', this._handleOpenURL);
   }
   async onIds(device) {
-    await AsyncStorage.setItem('@push_token', device.pushToken)
+    await AsyncStorage.setItem('@push_token', device.userId)
   }
   _handleOpenURL(event) {
     Deeplink(event.url)
