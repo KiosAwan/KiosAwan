@@ -15,9 +15,9 @@ import { Bottom } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import SearchInput from 'src/components/Input/SearchInput';
-import { getProductPulsa,payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
+import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
 import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
@@ -52,7 +52,7 @@ const PpobPulsa = ({ navigation }) => {
 	}
 
 	//Function onchange phone number
-	const _onChangePhoneNum = async (text) => {
+	const _onChangePhoneNum = async text => {
 		setPhoneNumber(text)
 		let x = {
 			phone_number: text,
@@ -155,6 +155,18 @@ const PpobPulsa = ({ navigation }) => {
 				/>
 				<Image style={{ borderWidth: 1, borderColor: ColorsList.greyAuthHard }} source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={50} />
 			</Wrapper>
+			{
+				__DEV__ && <View>
+					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
+					<FlatList
+						style={{}}
+						numColumns={3}
+						data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
+						keyExtractor={(a, i) => i.toString()}
+						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
+					/>
+				</View>
+			}
 		</View>
 		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
 			columnWrapperStyle={{ justifyContent: 'space-between', }}

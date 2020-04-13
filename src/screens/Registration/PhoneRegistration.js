@@ -16,11 +16,11 @@ import { InputNumber } from '../../components/Input/InputComp'
 import VerifyOTPRegister from './OTPVerification';
 
 //Redux Actions
-import { addPhoneNumber, addDeviceId } from '../../redux/actions/actionsRegistration'
+import { addPhoneNumber, addDeviceId, addVerifyOTP } from '../../redux/actions/actionsRegistration'
 
 //Functions
 import Strings from '../../utils/Strings'
-import { sendPhoneNumber, phoneValidation, sendOTP } from 'src/utils/unauthhelper';
+import { sendPhoneNumber, phoneValidation, sendOTP, sendVerifyOTP } from 'src/utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { HeaderRegister } from '../../components/Header/Header';
 import { FontList } from 'src/styles/typography';
@@ -46,6 +46,7 @@ const PhoneRegistration = ({ navigation }) => {
 	const [alertMessage, setAlertMessage] = useState()
 	useEffect(() => {
 		_getDeviceInfo()
+		// OTPRegisterSheet.open()
 	}, [])
 
 	const _getDeviceInfo = async () => {
@@ -80,6 +81,23 @@ const PhoneRegistration = ({ navigation }) => {
 			setAlert(true)
 		}
 	}
+
+	const _resendOTP = async () => {
+		setLoading(true)
+		// setPopup(false)
+		const data = {
+			phone_number: "62" + FormRegister.phone_number,
+		}
+		const res = await sendOTP(data)
+		setLoading(false)
+		if (res.status == 200) {
+			// await otpsheet.open()
+			console.debug("Success resend")
+		} else {
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
+		}
+	}
 	// Function handle press Next button
 	const _handleSendPhoneNumber = async () => {
 		setLoading(true)
@@ -101,6 +119,25 @@ const PhoneRegistration = ({ navigation }) => {
 			}
 		}
 	}
+
+	//Sending OTP code to server
+	const _handleOTPFulfilled = async (otpsheet, code) => {
+		await dispatch(addVerifyOTP(code))
+		const data = {
+			phone_number: "62" + FormRegister.phone_number,
+			otp: code
+		}
+		const res = await sendVerifyOTP(data)
+		if (res.status == 200) {
+			otpsheet.close()
+			_navigateRegister()
+		} else {
+			if (res.status == 400) {
+				setAlertMessage(res.data.errors.msg)
+				setAlert(true)
+			}
+		}
+	}
 	const _navigateRegister = () => {
 		navigation.navigate('/unauth/registration')
 	}
@@ -113,6 +150,8 @@ const PhoneRegistration = ({ navigation }) => {
 					OTPRegisterSheet = ref;
 				}}
 				height={height * 2 / 7}
+				closeOnPressMask={false}
+				closeOnDragDown={false}
 				duration={250}
 				animationType="slide"
 				customStyles={{
@@ -125,10 +164,12 @@ const PhoneRegistration = ({ navigation }) => {
 				<View>
 					<VerifyOTPRegister navigateTo={_navigateRegister} closeSheet={() => OTPRegisterSheet.close()}
 						openSheet={() => OTPRegisterSheet.open()}
+						otpFulfilled={(code) => _handleOTPFulfilled(OTPRegisterSheet, code)}
 						alert={(data) => {
 							setAlertMessage(data)
 							setAlert(true)
 						}}
+						sendOTP={_resendOTP}
 					/>
 				</View>
 			</RBSheet>

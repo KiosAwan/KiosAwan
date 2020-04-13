@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, Clipboard } from 'react-native';
+import { View, StyleSheet, Image, Clipboard, FlatList } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
@@ -17,12 +17,14 @@ import { $BorderRadius, $Border, $Padding } from 'src/utils/stylehelper';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { CopyButton } from 'src/components/Button/CopyButton';
 import { Toast } from 'native-base';
+import { stateObject } from 'src/utils/state';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
 	const [data, setData] = useState()
-	const [dataLoading, SetDataLoading] = useState(true)
 	const [back, setBack] = useState()
+	const [dataLoading, SetDataLoading] = useState(true)
+	const [togglePayment, setTogglePayment, resetTogglePayment] = stateObject()
 	const _shareBill = async () => {
 		let imgPath = await Screenshot.take(viewShotRef)
 		Screenshot.share({ url: imgPath })
@@ -51,6 +53,21 @@ const TransactionDetail = ({ navigation }) => {
 		setEdgeWidth(width)
 	}
 	const _backHandler = route => {
+	}
+	const _renderProductDigital = item => {
+		let filterPayment = ["id", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "description", "created_at", "updated_at"]
+		const { payment } = item
+		return <View>
+			{
+				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
+					.map(item => <Wrapper spaceBetween style={{ padding: 10 }}>
+						<Text>{item.split('_').join(' ').ucwords()}</Text>
+						<Text align="right" _width="49%">{typeof payment[item] == 'string' && payment[item].replace(/\s{2,}/g, ' ')}</Text>
+					</Wrapper>
+					)
+			}
+			{/* {details && details.length > 0 && <Text>ljkhdfjdf</Text>} */}
+		</View>
 	}
 	useEffect(() => {
 		_getData()
@@ -128,8 +145,8 @@ const TransactionDetail = ({ navigation }) => {
 									<Text align="center" size={16} color="primary">Pulsa dan Tagihan</Text>
 								</View>
 								{
-									data.product_digital.map((item) => {
-										return <View>
+									data.product_digital.map((item, i) => {
+										return <View key={i.toString()}>
 											<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
 												<View>
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
@@ -139,8 +156,10 @@ const TransactionDetail = ({ navigation }) => {
 												<View style={{ alignItems: 'flex-end' }}>
 													<Text color={item.transaction.status === "SUCCESS" ? 'success' : (data === "PENDING" ? 'info' : 'danger')}>{item.transaction.status}</Text>
 													<Text>{convertRupiah(item.transaction.total)}</Text>
+													{item.payment && <Button padding={0} color={["transparent", "primary"]} onPress={() => setTogglePayment({ [item.transaction.transaction_code]: !togglePayment[item.transaction.transaction_code] })}>Details</Button>}
 												</View>
 											</Wrapper>
+											{togglePayment[item.transaction.transaction_code] && _renderProductDigital(item)}
 											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
 												<Wrapper style={styles.token} justify="space-between">
 													<Text>{item.payment.token}</Text>

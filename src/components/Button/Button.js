@@ -90,7 +90,9 @@ export const Button = props => {
 		borderRadius: props.noRadius ? 0 : 5,
 		...props.flex && { flex: 1 },
 		...active ? _activeColor : _color,
-		...padding ? typeof padding != 'number' ? padding : { padding: padding } : $Padding(8, 10),
+		// ...padding ? typeof padding != 'number' ? padding : { padding: padding } : $Padding(8, 10),
+		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
+		// ...$Padding(8, 10),
 		...props.noBorder && { borderColor: ColorsList.transparent },
 		...props.style
 	}}>
