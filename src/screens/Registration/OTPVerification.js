@@ -50,26 +50,9 @@ const VerifyOTPRegister = (props) => {
         }, 60000)
     }
 
-    //Sending OTP code to server
-    const _handleOTPFulfilled = async (code) => {
-        await props.closeSheet()
-        await dispatch(addVerifyOTP(code))
-        const data = {
-            phone_number: "62" + RegisterOTP.phone_number,
-            otp: code
-        }
-        const res = await sendVerifyOTP(data)
-        if (res.status == 200) {
-            props.navigateTo()
-        } else {
-            if (res.status == 400) {
-                props.alert(res.data.errors.msg)
-            }
-        }
-    }
-
     //Resend Code function
     const _resendCode = async () => {
+        props.sendOTP()
         setIsResendDisabled(true)
         let theTimer = 58
         const a = setInterval(
@@ -84,10 +67,7 @@ const VerifyOTPRegister = (props) => {
         setTimeout(() => {
             setIsResendDisabled(false)
         }, 60000)
-        const data = {
-            phone_number: "62" + RegisterOTP.phone_number,
-        }
-        await sendPhoneNumber(data)
+
     }
 
     return (
@@ -102,7 +82,7 @@ const VerifyOTPRegister = (props) => {
                 codeLength={4}
                 size={40}
                 autoFocus
-                onFulfill={(code) => _handleOTPFulfilled(code)}
+                onFulfill={(code) => props.otpFulfilled(code)}
             />
             {isResendDisabled ?
                 <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft, marginTop: 70 }}>RESEND ({countdown} s)</Text> :
