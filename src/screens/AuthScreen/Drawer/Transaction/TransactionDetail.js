@@ -162,7 +162,7 @@ const TransactionDetail = ({ navigation }) => {
 											{togglePayment[item.transaction.transaction_code] && _renderProductDigital(item)}
 											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
 												<Wrapper style={styles.token} justify="space-between">
-													<Text>{item.payment.token}</Text>
+													<Text style={{paddingLeft : 10}}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
 													<CopyButton onPress={() => {
 														Toast.show({ text: "Berhasil disalin", type: "success" })
 														Clipboard.setString(item.payment.token)

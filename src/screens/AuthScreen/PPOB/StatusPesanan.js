@@ -70,14 +70,15 @@ const StatusPesanan = ({ navigation }) => {
 							<Text>{_checkData('customerID')}</Text>
 						</View>
 						{
+
 							transaction && transaction.tagihan == 0 ?
 								<View /> :
 								<Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
 						}
 					</Wrapper>
-					{transaction && transaction.transaction_name == "pln_prepaid" && transaction.status == "SUCCESS" && [
+					{transaction && transaction.transaction_name == "pln_prepaid" && payment && payment.token && [
 						<Wrapper style={styles.token} justify="space-between">
-							<Text>{payment.token}</Text>
+							<Text style={{paddingLeft : 10}}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
 							<CopyButton onPress={() => {
 								Toast.show({ text: "Berhasil disalin", type: "success" })
 								Clipboard.setString(payment.token)

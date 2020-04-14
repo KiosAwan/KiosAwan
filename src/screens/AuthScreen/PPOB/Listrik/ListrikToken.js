@@ -25,7 +25,7 @@ const ListrikToken = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	// User data
 	const User = useSelector(state => state.User)
-	const [custId, setCustId] = useState()
+	const [custId, setCustId] = useState(56502015896)
 	const [selected, setSelected] = useState()
 
 	// Loading state
