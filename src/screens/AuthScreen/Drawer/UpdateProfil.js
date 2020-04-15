@@ -17,6 +17,7 @@ import { getProfile } from 'src/redux/actions/actionsUserData';
 import { ColorsList } from 'src/styles/colors';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const UpdateProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -56,8 +57,11 @@ const UpdateProfil = ({ navigation }) => {
 		handleChangeText: (text) => { setAddress_Store(text) }
 	}]
 	const [rbRef, setRbRef] = useState({})
-	const _handleChoosePhoto = image => {
-		setPhotoStore(image.path)
+	const _handleChoosePhoto = () => {
+		ImagePicker.openCamera({
+			compressImageQuality: .7
+		}).then(
+			(image) => setPhotoStore(image.path))
 	}
 	const [loading, setLoading] = useState(false)
 	const _handleSaveProfile = async () => {
@@ -136,11 +140,11 @@ const UpdateProfil = ({ navigation }) => {
 			</View>
 			<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 			<View style={styles.imageWrapper}>
-				<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
+				<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
 					<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />
 				</TouchableOpacity>
 			</View>
-			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
+			{/* <PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} /> */}
 		</Body>
 		<Footer>
 			<Button style={{ width: '100%' }} onPress={_handleSaveProfile}>SIMPAN</Button>
