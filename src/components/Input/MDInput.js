@@ -11,7 +11,7 @@ import { convertRupiah } from 'src/utils/authhelper'
 
 const MDInput = props => {
 	let objCurrency = {}
-	const { onChangeText, renderLeftAccessory, renderRightAccessory } = props
+	const { onChangeText, value, renderLeftAccessory, renderRightAccessory } = props
 	const _render = (render, isRight) => render && [
 		isRight && <View style={{ padding: 5 }} />,
 		render(),
@@ -23,6 +23,9 @@ const MDInput = props => {
 				let txt = text.extractNumber().convertRupiah()
 				onChangeText(txt)
 			}
+		}
+		if (typeof value == 'string') {
+			objCurrency.value = value.extractNumber().convertRupiah()
 		}
 	}
 	return <TextField

@@ -5,11 +5,12 @@ import { ColorsList } from '../../../../styles/colors';
 import { RowChild } from '../../../../components/Helper/RowChild';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import {  FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
-import {  formatToDate } from '../../../../utils/authhelper';
+import { FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
+import { formatToDate } from '../../../../utils/authhelper';
 import { AddCashPayment, AddDebtDate } from '../../../../redux/actions/actionsStoreProduct';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { PilihPelanggan } from '../../../../components/Picker/SelectBoxModal';
+import MDInput from 'src/components/Input/MDInput';
 
 const Piutang = () => {
 	const Customer = useSelector(state => state.Customer)
@@ -33,13 +34,11 @@ const Piutang = () => {
 				data={Customer.data}
 				dismiss={() => setModalVisible(false)}
 			/>
-			<View style={{ marginTop: 10, alignItems: "center" }}>
-				<FloatingInputLabelCurrency style={{ margin: 0 }}
-					value={Product.cash_payment}
-					label="Uang diterima diawal"
-					handleChangeText={_handleChangeMoney}
-				/>
-			</View>
+			<FloatingInputLabelCurrency
+				value={Product.cash_payment}
+				label="Uang diterima diawal"
+				handleChangeText={_handleChangeMoney}
+			/>
 			<View style={{ marginTop: 20 }}>
 				<TouchableOpacity onPress={() => setModalVisible(true)}>
 					<View style={[styles.wrapNamaPelanggan, { ...RowChild, justifyContent: 'space-between' }]}>
@@ -51,7 +50,7 @@ const Piutang = () => {
 				</TouchableOpacity>
 			</View>
 			<DateTimePicker
-			minimumDate={new Date()}
+				minimumDate={new Date()}
 				isVisible={datePickerVisible}
 				onConfirm={_handleDatePicked}
 				onCancel={() => setDatePickerVisible(!datePickerVisible)}
