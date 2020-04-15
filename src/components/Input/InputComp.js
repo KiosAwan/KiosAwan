@@ -121,7 +121,7 @@ export const FloatingInput = props => {
     {...leftRight}
     {..._input.props}
     {...exceptChildren}
-    // style={{ ...style }}
+  // style={{ ...style }}
   />
 }
 
@@ -234,66 +234,12 @@ export const FloatingInputs = props => {
 }
 
 export const FloatingInputLabelCurrency = props => {
-  let _sejajar = 15
-  let _up = -15
-  let _interval = 5
-  const [activeColor, setActiveColor] = useState('grey')
-  const [textUp, setTextUp] = useState(_sejajar)
-  const changeUpDown = _ => {
-    let ukuran
-    if (props.value) {
-      setTextUp(_up)
-      return
-    }
-    if (_) {
-      ukuran = _sejajar
-      let interval = setInterval(() => {
-        setTextUp(ukuran)
-        if (ukuran <= _up)
-          clearInterval(interval)
-        ukuran -= _interval
-      }, 1)
-    } else {
-      ukuran = _up
-      let interval = setInterval(() => {
-        setTextUp(ukuran)
-        if (ukuran >= _sejajar)
-          clearInterval(interval)
-        ukuran += _interval
-      }, 1)
-    }
-  }
-  useEffect(() => {
-    if (props.value || props.value == 0) {
-      setTextUp(_up)
-    }
-  }, [])
-  return (
-    <View style={{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }}>
-      <Text style={{ color: activeColor, position: 'absolute', top: textUp }}>{props.label}</Text>
-      <TextInputMask
-        type={'money'}
-        options={{
-          precision: 0,
-          separator: '',
-          delimiter: '.',
-          unit: 'Rp. ',
-          suffixUnit: ''
-        }}
-        onFocus={() => {
-          setActiveColor('#cd0192')
-          changeUpDown(true)
-        }}
-        onBlur={() => {
-          setActiveColor('grey')
-          changeUpDown(false)
-        }}
-        disabled={props.disabled || false}
-        value={props.value}
-        onChangeText={props.handleChangeText}
-      />
-    </View>
-  );
+  const { handleChangeText } = props
+  return <MDInput
+    {...props}
+    currency
+    onChangeText={handleChangeText}
+  />
 }
 
 export const FloatingInputLabel = (props) => {

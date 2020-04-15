@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../components/Input/InputComp';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from '../../redux/actions/actionsNewProduct';
+import { FloatingInputLabel, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from 'src/redux/actions/actionsNewProduct';
 import Axios from 'axios';
-import { HOST_URL } from '../../config';
-import { validNumber, convertNumber } from '../../utils/authhelper';
-import SwitchButton from '../../components/Button/SwitchButton';
-import { getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
-import { GlobalHeader } from '../../components/Header/Header';
-import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
-import { ColorsList } from '../../styles/colors';
-import { FontList } from '../../styles/typography';
-import { RowChild } from '../../components/Helper/RowChild';
+import { HOST_URL } from 'src/config';
+import { validNumber, convertNumber } from 'src/utils/authhelper';
+import SwitchButton from 'src/components/Button/SwitchButton';
+import { getProduct, removeAllCart } from 'src/redux/actions/actionsStoreProduct';
+import { GlobalHeader } from 'src/components/Header/Header';
+import ProgressIndicator from 'src/components/StepIndicator/ProgressIndicator';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import { RowChild } from 'src/components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
-import ModalContent from '../../components/ModalContent/ModalContent';
+import ModalContent from 'src/components/ModalContent/ModalContent';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import MDInput from 'src/components/Input/MDInput';
+import { Text } from 'src/components/Text/CustomText';
 
 const width = Dimensions.get('window').width
 
@@ -119,6 +121,7 @@ const NewProductLast = ({ navigation }) => {
 			dispatch(addMinQtyStock(value))
 		}
 	}
+	const [ggg, setGgg] = useState('')
 	return (
 		<View style={{ flex: 1 }}>
 			<AwanPopup.Loading visible={apiLoading} />
@@ -136,7 +139,7 @@ const NewProductLast = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-					image={require('../../assets/images/addproductsuccess.png')}
+					image={require('src/assets/images/addproductsuccess.png')}
 					infoText="Anda Berhasil Menambah Produk!"
 				/>
 			</Modal>

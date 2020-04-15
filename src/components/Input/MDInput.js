@@ -7,14 +7,24 @@ import { Image } from '../CustomImage'
 import { Animated, View, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { FontName } from 'src/styles/typography'
 import Divider from '../Row/Divider'
+import { convertRupiah } from 'src/utils/authhelper'
 
 const MDInput = props => {
-	const { renderLeftAccessory, renderRightAccessory } = props
+	let objCurrency = {}
+	const { onChangeText, renderLeftAccessory, renderRightAccessory } = props
 	const _render = (render, isRight) => render && [
 		isRight && <View style={{ padding: 5 }} />,
 		render(),
 		!isRight && <View style={{ padding: 5 }} />
 	]
+	if (props.currency) {
+		if (typeof onChangeText == 'function') {
+			objCurrency.onChangeText = text => {
+				let txt = text.extractNumber().convertRupiah()
+				onChangeText(txt)
+			}
+		}
+	}
 	return <TextField
 		{...props}
 		fontSize={13}
@@ -24,6 +34,7 @@ const MDInput = props => {
 		renderRightAccessory={() => _render(renderRightAccessory, true)}
 		renderLeftAccessory={() => _render(renderLeftAccessory)}
 		style={{ fontFamily: FontName.Regular, ...props.style }}
+		{...objCurrency}
 	/>
 }
 

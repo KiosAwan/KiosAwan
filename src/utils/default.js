@@ -62,16 +62,40 @@ String.prototype.isBool = function () {
 String.prototype.Contains = Array.prototype.Contains = function (element) {
   return this.indexOf(element) > -1;
 }
+String.prototype.convertRupiah = Number.prototype.convertRupiah = function () {
+  try {
+    var nominal = this.toString() || 0
+    const reverse = nominal
+      .toString()
+      .split("")
+      .reverse()
+      .join("");
+    const ribuan = reverse.match(/\d{1,3}/g);
+    const hasil = ribuan
+      .join(".")
+      .split("")
+      .reverse()
+      .join("");
+    let final = "Rp. " + hasil
+    return final;
+  } catch (e) {
+    return "RP. 0"
+  }
+}
+String.prototype.extractNumber = function () {
+  try {
+    var matches = this.match(/\d+/g);
+    if (matches.length > 0)
+      return matches.join('').toInt()
+  } catch (e) {
+    return 0
+  }
+  return 0
+}
 String.prototype.getRawUrl = function () {
   var str = decodeURI(this)
   var url = str.split("?")[0]
   return url;
-}
-String.prototype.extractNumber = function () {
-  var matches = this.match(/\d+/g);
-  if (matches.length > 0)
-    return matches.join('').toInt()
-  return 0
 }
 String.prototype.toInt = function () {
   return Number(this)
