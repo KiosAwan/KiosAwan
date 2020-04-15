@@ -11,6 +11,7 @@ import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import MDInput from 'src/components/Input/MDInput';
+import { Toast } from 'native-base';
 const UbahEmailInfoScreen = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [apiLoading, setApiLoading] = useState(false)
@@ -44,6 +45,11 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 		if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
+		} else if (res.status == 200) {
+			Toast.show({
+				type: "success",
+				text: "Email berhasil dikirim"
+			})
 		}
 	}
 	return (

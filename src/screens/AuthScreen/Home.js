@@ -142,7 +142,7 @@ const Home = ({ navigation }) => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/topup')
 		} else {
-			_setAlertTitle("FITUR INI")
+			_setAlertTitle("FITUR TOPUP")
 			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
 			_setAlert(true)
 		}
@@ -152,7 +152,7 @@ const Home = ({ navigation }) => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/riwayat')
 		} else {
-			_setAlertTitle("FITUR INI")
+			_setAlertTitle("FITUR RIWAYAT")
 			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
 			_setAlert(true)
 		}
