@@ -162,7 +162,7 @@ const PpobPaketData = ({ navigation }) => {
 			data={data ? data.products : []}
 			renderItem={({ item, index }) =>
 				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
-					<Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text>
+					{/* <Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text> */}
 					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
 					{item.description && <Text size={12} style={styles.pulsaComp}>{item.description}</Text>}
 					<View style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
