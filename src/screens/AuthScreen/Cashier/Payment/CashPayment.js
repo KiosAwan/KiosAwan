@@ -21,7 +21,7 @@ const CashPayment = () => {
         <View style={styles.container}>
             <View style={{ marginTop: 10 }}>
                 <FloatingInputLabelCurrency style={{ margin: 0 }}
-                    value={Product.cash_payment}
+                    value={Product.cash_payment.toString()}
                     handleChangeText={_handleChangePayment}
                     label="Uang yang diterima"
                 />
