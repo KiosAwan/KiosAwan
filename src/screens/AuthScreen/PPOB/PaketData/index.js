@@ -157,14 +157,14 @@ const PpobPaketData = ({ navigation }) => {
 				<Image style={{ borderWidth: 1, borderColor: ColorsList.greyAuthHard }} source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={50} />
 			</Wrapper>
 		</View>
-		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
-			columnWrapperStyle={{ justifyContent: 'space-between', }}
+		<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 			showsVerticalScrollIndicator={false}
 			data={data ? data.products : []}
 			renderItem={({ item, index }) =>
 				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
 					<Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text>
 					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
+					{item.description && <Text size={12} style={styles.pulsaComp}>{item.description}</Text>}
 					<View style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
 						<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
 					</View>

@@ -39,8 +39,6 @@ const Report = ({ navigation }) => {
 		const res1 = await getTransactionData(User.store.id_store, param)
 		const res2 = await getReportCategory(User.store.id_store, param)
 		const res3 = await getReportNonTunai(User.store.id_store)
-
-		console.debug(res2.data[0])
 		setTransaction(res1.data)
 		setReportCategory(res2.data)
 		setDataNonTunai(res3.data)
