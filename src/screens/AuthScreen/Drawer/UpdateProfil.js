@@ -1,5 +1,5 @@
 import Wilayah from 'src/utils/wilayah';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import MDInput from 'src/components/Input/MDInput';
 import Container, { Footer, Body } from 'src/components/View/Container';
@@ -18,10 +18,11 @@ import { ColorsList } from 'src/styles/colors';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import ImagePicker from 'react-native-image-crop-picker';
+import { getStoreCategoryAPI } from 'src/utils/api/global_api';
 
 const UpdateProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
-
+	const [searchKategori, setSearchKategori] = useState('')
 	const [modalVisible, setModalVisible] = useState(false)
 	const [name_store, setName_Store] = useState('')
 	const [email_store, setEmail_Store] = useState('')
@@ -29,6 +30,8 @@ const UpdateProfil = ({ navigation }) => {
 	const [address_store, setAddress_Store] = useState('')
 	const [dataDesa, setDataDesa] = useState([])
 	const [desaSelected, setDesaSelected] = useState({})
+	const [dataKategori, setDataKategori] = useState([])
+	const [kategoriSelected, setKategoriSelected] = useState({})
 	const _searchDesa = async pencarian => {
 		const { data: { status, data } } = await Wilayah.SearchAddress(pencarian)
 		if (status == 200) {
@@ -42,6 +45,18 @@ const UpdateProfil = ({ navigation }) => {
 			return ''
 		}
 	}
+
+	useEffect(() => {
+		_getCategory()
+	}, [])
+
+	const _getCategory = async () => {
+		const res = await getStoreCategoryAPI()
+		if(res.status == 200){
+			setDataKategori(res.data)
+		}
+	}
+
 	const inputan = [{
 		label: "Email",
 		value: email_store,
@@ -78,6 +93,7 @@ const UpdateProfil = ({ navigation }) => {
 			formData.append("name_store", name_store)
 			formData.append("email", email_store)
 			formData.append("address_store", final_address)
+			formData.append("category_store", kategoriSelected.id)
 			formData.append('photo_store', photo_store != "" ? {
 				uri: photo_store,
 				type: "image/jpeg",
@@ -137,6 +153,21 @@ const UpdateProfil = ({ navigation }) => {
 					<Text>Data tidak ditemukan</Text>
 				</SelectBoxModal>
 				{desaSelected.id && <Text style={{ marginTop: 10 }}>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text>}
+				<SelectBoxModal style={{ marginTop: 15 }}
+					label="Kategori Toko" closeOnSelect
+					data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
+					header={
+						<MDInput label="Cari Kategori"
+							onChangeText={(text) => setSearchKategori(text)}
+							renderLeftAccessory={() =>
+								<Icon style={{ color: ColorsList.primary }} name="search" />}
+						/>
+					}
+					value={kategoriSelected.category}
+					handleChangePicker={item => setKategoriSelected(item)}
+					renderItem={item => (<Text>{item.category}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
 			</View>
 			<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 			<View style={styles.imageWrapper}>

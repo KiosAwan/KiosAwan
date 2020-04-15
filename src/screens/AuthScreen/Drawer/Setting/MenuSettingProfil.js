@@ -17,13 +17,17 @@ import { editStoreProfile } from 'src/utils/authhelper';
 import { ColorsList } from 'src/styles/colors';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { getStoreCategoryAPI } from 'src/utils/api/global_api';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
 	const temp_profilepic = User.store.photo_store
+	const [searchKategori, setSearchKategori] = useState('')
 	const [dataDesa, setDataDesa] = useState([])
 	const [desaSelected, setDesaSelected] = useState({})
+	const [dataKategori, setDataKategori] = useState([])
+	const [kategoriSelected, setKategoriSelected] = useState(User.store.category_store)
 	const _searchDesa = async pencarian => {
 		const { data: { status, data } } = await Wilayah.SearchAddress(pencarian)
 		if (status == 200) {
@@ -90,6 +94,7 @@ const MenuSettingProfil = ({ navigation }) => {
 
 		formData.appendObject(form, ['photo_store', 'address_store']) // ('Form data yang di append', 'kecuali')
 		formData.append("address_store", final_address)
+		formData.append("category_store", kategoriSelected.id)
 		formData.append('photo_store', form.photo_store != "" ? form.photo_store != temp_profilepic ? {
 			uri: form.photo_store,
 			type: "image/jpeg",
@@ -117,7 +122,15 @@ const MenuSettingProfil = ({ navigation }) => {
 				setDesaSelected({ id: Math.randomInt(0, 9999), desa, kecamatan, kabupaten, provinsi })
 			}
 		}
+		_getCategory()
 	}, [])
+
+	const _getCategory = async () => {
+		const res = await getStoreCategoryAPI()
+		if(res.status == 200){
+			setDataKategori(res.data)
+		}
+	}
 	return <Container>
 		<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
 		<Body>
@@ -158,6 +171,21 @@ const MenuSettingProfil = ({ navigation }) => {
 					<Text>Data tidak ditemukan</Text>
 				</SelectBoxModal>
 				{desaSelected.id && <Text style={{ marginTop: 10 }}>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text>}
+				<SelectBoxModal style={{ marginTop: 15 }}
+					label="Kategori Toko" closeOnSelect
+					data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
+					header={
+						<MDInput label="Cari Kategori"
+							onChangeText={(text) => setSearchKategori(text)}
+							renderLeftAccessory={() =>
+								<Icon style={{ color: ColorsList.primary }} name="search" />}
+						/>
+					}
+					value={kategoriSelected.category}
+					handleChangePicker={item => setKategoriSelected(item)}
+					renderItem={item => (<Text>{item.category}</Text>)}>
+					<Text>Data tidak ditemukan</Text>
+				</SelectBoxModal>
 			</View>
 			<View>
 				<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
