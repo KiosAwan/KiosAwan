@@ -6,7 +6,7 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { View, FlatList, TouchableOpacity, ScrollView, Modal as RNModal } from 'react-native';
 import { $Padding } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
@@ -14,10 +14,11 @@ import MDInput from 'src/components/Input/MDInput';
 import { Bottom } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
+import ContactsModal from 'src/components/ModalContent/ContacsModal';
 import SearchInput from 'src/components/Input/SearchInput';
-import { getProductPulsa,payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
+import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
 import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
@@ -42,6 +43,9 @@ const PpobPaketData = ({ navigation }) => {
 
 	// PIN Modal state 
 	const [pinVisible, setPinVisible] = useState(false)
+
+	// PIN Modal state 
+	const [contactVisible, setContactVisible] = useState(false)
 
 	// Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
@@ -146,15 +150,28 @@ const PpobPaketData = ({ navigation }) => {
 				</ScrollView>
 			</View>
 		</Modal>
+		<RNModal visible={contactVisible} animationType="slide" onRequestClose={() => setContactVisible(false)}>
+			<ContactsModal closeModal={() => setContactVisible(false)}
+				chooseContact={
+					(num) => {
+						_onChangePhoneNum(num)
+					}
+				}
+			/>
+		</RNModal>
 		<View style={styles.topComp}>
 			<Wrapper justify="space-between" style={$Padding(5, 15)}>
-				<MDInput _width="80%"
+				<MDInput _width="85%"
 					label="No. Handphone"
 					value={phoneNumber}
 					onChangeText={_onChangePhoneNum}
 					keyboardType="phone-pad"
+					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
 				/>
-				<Image style={{ borderWidth: 1, borderColor: ColorsList.greyAuthHard }} source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={50} />
+				<Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />
+				<TouchableOpacity onPress={() => setContactVisible(true)}>
+					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
+				</TouchableOpacity>
 			</Wrapper>
 		</View>
 		<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
@@ -165,9 +182,10 @@ const PpobPaketData = ({ navigation }) => {
 					{/* <Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text> */}
 					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
 					{item.description && <Text size={12} style={styles.pulsaComp}>{item.description}</Text>}
-					<View style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
-						<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
-					</View>
+					<Wrapper justify="space-between" style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
+						<Text size={12} style={styles.pulsaComp}>Masa aktif : 3 hari</Text>
+						<Text size={12} color="primary" style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
+					</Wrapper>
 				</TouchableOpacity>
 			}
 		/>
