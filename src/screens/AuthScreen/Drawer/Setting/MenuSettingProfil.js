@@ -18,6 +18,7 @@ import { ColorsList } from 'src/styles/colors';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getStoreCategoryAPI } from 'src/utils/api/global_api';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -83,9 +84,12 @@ const MenuSettingProfil = ({ navigation }) => {
 		onChangeText: address_store => { setForm({ address_store }) }
 	}]
 	const [rbRef, setRbRef] = useState({})
-	const _handleChoosePhoto = ({ path: photo_store }) => {
-		setForm({ photo_store })
-	};
+	const _handleChoosePhoto = () => {
+		ImagePicker.openCamera({
+			compressImageQuality: .7
+		}).then(
+			({ path: photo_store }) => setPhotoStore(photo_store))
+	}
 
 	const _handleSaveProfile = async () => {
 		setApiLoading(true)
@@ -127,7 +131,7 @@ const MenuSettingProfil = ({ navigation }) => {
 
 	const _getCategory = async () => {
 		const res = await getStoreCategoryAPI()
-		if(res.status == 200){
+		if (res.status == 200) {
 			setDataKategori(res.data)
 		}
 	}
@@ -190,12 +194,12 @@ const MenuSettingProfil = ({ navigation }) => {
 			<View>
 				<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 				<View style={styles.imageWrapper}>
-					<TouchableOpacity onPress={() => rbRef.open()} style={{ backgroundColor: 'white' }}>
+					<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
 						<Image style={styles.image} source={form.photo_store ? { uri: form.photo_store } : require('src/assets/images/img-product.png')} />
 					</TouchableOpacity>
 				</View>
 			</View>
-			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
+			{/* <PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} /> */}
 		</Body>
 		<Footer>
 			<Button onPress={_handleSaveProfile}>SIMPAN</Button>

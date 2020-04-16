@@ -234,7 +234,7 @@ const reducerStoreProduct = (state = initialState, actions) => {
             return {
                 ...state,
                 discount_transaction: parseInt(persenDisc == "" ? 0 : persenDisc / 100 * state.total),
-                total_diskon: state.total_diskon + (persenDisc == "" ? 0 : persenDisc / 100 * state.total) - parseInt(temp_tex_persen_disc),
+                total_diskon: state.total_diskon + parseInt(persenDisc == "" ? 0 : persenDisc / 100 * state.total) - parseInt(temp_tex_persen_disc),
                 discount_total_persen: persenDisc == "" ? 0 : persenDisc,
                 discount_total_rupiah: 0
             }

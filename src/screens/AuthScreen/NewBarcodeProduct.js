@@ -35,7 +35,7 @@ const NewBarcodeProduct = ({ navigation }) => {
         [
           {
             text: 'Lanjut', onPress: () => {
-              setScanWork(true)
+              // setScanWork(true)
               dispatch(addProductName(response.data.nama_product))
               dispatch(addProductIdCategory(null))
               navigation.navigate('/cashier/new-product-name')
@@ -52,7 +52,7 @@ const NewBarcodeProduct = ({ navigation }) => {
         [
           {
             text: 'Lanjut', onPress: () => {
-              setScanWork(true)
+              // setScanWork(true)
               dispatch(addProductName(''))
               dispatch(addProductIdCategory(null))
               navigation.navigate('/cashier/new-product-name')
@@ -72,6 +72,7 @@ const NewBarcodeProduct = ({ navigation }) => {
       }
       return false
     })
+    setScanWork(true)
   })
   const _handleNoBarcode = () => {
     dispatch(addProductName(''))
