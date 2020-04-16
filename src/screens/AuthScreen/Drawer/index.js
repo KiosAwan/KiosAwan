@@ -57,7 +57,7 @@ const Akun = ({ navigation }) => {
 							{
 								groupMenu.map((menu, o) => {
 									return <Button key={o}
-										onPress={() => menu.name !== "Hubungi Kami" ? menu.name !== "FAQ" ? User.store ? User.data.status == 1 ? navigation.navigate(menu.route) : null : null : navigation.navigate(menu.route) : navigation.navigate(menu.route)}
+										onPress={() => ["Hubungi Kami", "FAQ"].includes(menu.name) ? navigation.navigate(menu.route) : User.store && User.data.status == 1 ? navigation.navigate(menu.route) : null}
 										style={{ marginBottom: 5 }}
 										padding={$Padding(5, 10)}
 										wrapper={{ justify: 'flex-start' }}

@@ -3,10 +3,10 @@ import { Text } from '../Text/CustomText';
 import { TouchableOpacity } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Wrapper } from '../View/Wrapper';
-import { $Padding } from 'src/utils/stylehelper';
+import { $Padding, $Border } from 'src/utils/stylehelper';
 
 export const Button = props => {
-	const { padding, color, activeColor, active, children } = props
+	const { borderBottom, padding, color, activeColor, active, children } = props
 	let Colors = {
 		white: {
 			borderColor: ColorsList.primary,
@@ -14,7 +14,7 @@ export const Button = props => {
 			text: ColorsList.primary
 		},
 		primary: {
-			borderColor: ColorsList.transparent,
+			borderColor: ColorsList.primary,
 			backgroundColor: ColorsList.primary,
 			text: ColorsList.whiteColor
 		},
@@ -76,6 +76,14 @@ export const Button = props => {
 				borderColor: color.length === 3 ? ColorsList[color[2]] : ColorsList[color[0]]
 			}
 		}
+		if (borderBottom) {
+			const { backgroundColor } = _color
+			_color = {
+				borderRadius: 0,
+				text: backgroundColor,
+				...$Border(backgroundColor, 0, 0, 2, 0)
+			}
+		}
 		return _color
 	}
 	let _color = Colors.white
@@ -89,11 +97,9 @@ export const Button = props => {
 		justifyContent: 'flex-start',
 		borderRadius: props.noRadius ? 0 : 5,
 		...props.flex && { flex: 1 },
-		...active ? _activeColor : _color,
-		// ...padding ? typeof padding != 'number' ? padding : { padding: padding } : $Padding(8, 10),
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
-		// ...$Padding(8, 10),
 		...props.noBorder && { borderColor: ColorsList.transparent },
+		...active ? _activeColor : _color,
 		...props.style
 	}}>
 		{

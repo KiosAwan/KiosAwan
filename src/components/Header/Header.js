@@ -67,29 +67,38 @@ export const GlobalHeader = (props) => {
 }
 
 export const GlobalHeaderWithIcon = (props) => {
+    const {
+        title,
+        onPressBack,
+        handleDeleteCategory,
+        handlePressIcon,
+        onPressIcon,
+        image,
+        transparent
+    } = props
     const render = () => props.onlyTitle ?
         <Wrapper>
-            <Text color="whiteColor" size={15} font="Bold">{props.title}</Text>
+            <Text color="whiteColor" size={15} font="Bold">{title}</Text>
         </Wrapper>
         :
         <Wrapper justify="space-between" style={{ height: '100%' }}>
             <Wrapper>
-                <Button padding={7} onPress={props.onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
+                <Button padding={7} onPress={onPressBack} color="link" style={{ paddingHorizontal: 15, marginRight: 10 }}>
                     <Icon name="arrow-left" size={20} color="white" />
                 </Button>
                 <View style={{ justifyContent: 'center' }}>
-                    <Text color="whiteColor">{props.title}</Text>
+                    <Text color="whiteColor">{title}</Text>
                 </View>
             </Wrapper>
             <View style={{ justifyContent: 'center', paddingRight: 15 }}>
-                <TouchableOpacity onPress={props.handleDeleteCategory || props.handlePressIcon || props.onPressIcon}>
-                    <Image style={{ width: 30, height: 30 }} source={props.image} />
+                <TouchableOpacity onPress={handleDeleteCategory || handlePressIcon || onPressIcon}>
+                    <Image style={{ width: 30, height: 30 }} source={image} />
                 </TouchableOpacity>
             </View>
         </Wrapper>
     return <Header androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
         {
-            props.transparent ? <View style={{ width: '100%' }}>
+            transparent ? <View style={{ width: '100%' }}>
                 {render()}
             </View> :
                 <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ width: '100%', justifyContent: 'center' }}>

@@ -311,8 +311,8 @@ export const SelectBoxModal = (props) => {
 			}}>
 			{props.header}
 			<ScrollView persistentScrollbar>{
-				props.data.length > 0 ? props.data.map((item) => {
-					return <CardItem style={styles.modalCardItem} button onPress={() => {
+				props.data.length > 0 ? props.data.map((item,i) => {
+					return <CardItem key={i.toString()} style={styles.modalCardItem} button onPress={() => {
 						props.handleChangePicker(item)
 						props.closeOnSelect ? setModalVisible(false) : null
 					}}>
