@@ -14,7 +14,7 @@ import { HOST_URL } from 'src/config'
 import { HomeHeader } from 'src/components/Header/Header'
 import { getProfile } from 'src/redux/actions/actionsUserData'
 import { FontList } from 'src/styles/typography'
-import { convertRupiah } from 'src/utils/authhelper'
+import { convertRupiah, getUserToken } from 'src/utils/authhelper'
 import { ColorsList } from 'src/styles/colors'
 import { CardTextImage } from 'src/components/Card/CardComp'
 import { Button } from 'src/components/Button/Button'
@@ -41,7 +41,11 @@ const Home = ({ navigation }) => {
 	}
 
 	const _checkService = async () => {
-		const res = await Axios.get(`${HOST_URL}/check_service`)
+		const userToken = await getUserToken()
+		const res = await Axios.get(`${HOST_URL}/check_service`, {
+			headers: { "authorization": userToken }
+		})
+		res.data.data.status == 2 && _featureDisabled();
 		if (res.data.data.service == 1) {
 			setMaintanance(true)
 			setMessage(res.data.data.message)
@@ -50,25 +54,42 @@ const Home = ({ navigation }) => {
 		}
 	}
 
-	const _featureDisabled = action => {
+	const _featureDisabled = (action, num) => {
 		let title, message
-		switch (action) {
-			case 'ppob':
-				title = 'FITUR PAYMENT POINT'
-				message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
-				break;
-			case 'stock':
-				title = 'FITUR BELANJA STOK'
-				message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
-				break;
-			case 'hutang':
-				title = 'FITUR PENCATATAN HUTANG'
-				message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
-				break;
-			default:
-				title = 'FITUR KASIR'
-				message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
-				break;
+		if (User.data.status == 2) {
+			title = 'AKUN ANDA TERBLOKIR'
+			message = `Anda tidak dapat menggunakan layanan apapun, silahkan hubungi customer service dengan kode ${User.data.banned_log.code}`
+		} else {
+			switch (action) {
+				case 'ppob':
+					title = 'FITUR PAYMENT POINT'
+					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				case 'stock':
+					title = 'FITUR BELANJA STOK'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+					break;
+				case 'hutang':
+					title = 'FITUR PENCATATAN HUTANG'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+					break;
+				case 'blokir':
+					title = 'AKUN ANDA TERBLOKIR'
+					message = `Anda tidak dapat menggunakan layanan apapun, silahkan hubungi customer service dengan kode ${num}`
+					break;
+				case 'topup':
+					title = 'FITUR TOPUP'
+					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				case 'riwayat':
+					title = 'FITUR RIWAYAT'
+					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				default:
+					title = 'FITUR KASIR'
+					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+			}
 		}
 		_setAlertTitle(title)
 		_setAlertMessage(message)
@@ -142,9 +163,7 @@ const Home = ({ navigation }) => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/topup')
 		} else {
-			_setAlertTitle("FITUR TOPUP")
-			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
-			_setAlert(true)
+			_featureDisabled("topup")
 		}
 	}
 
@@ -152,9 +171,7 @@ const Home = ({ navigation }) => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/riwayat')
 		} else {
-			_setAlertTitle("FITUR RIWAYAT")
-			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
-			_setAlert(true)
+			_featureDisabled("riwayat")
 		}
 	}
 	return <ParallaxScrollView

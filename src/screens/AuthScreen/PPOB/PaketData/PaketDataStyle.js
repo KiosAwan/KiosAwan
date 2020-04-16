@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
 	pulsaWrapper: {
 		justifyContent : "space-between",
 		borderRadius: 5,
+		padding: 5,
 		flex : 1,
 		borderWidth: 1,
 		borderColor: ColorsList.whiteColor,
