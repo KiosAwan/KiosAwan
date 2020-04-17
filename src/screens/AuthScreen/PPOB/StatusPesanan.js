@@ -18,6 +18,7 @@ import { CopyButton } from 'src/components/Button/CopyButton';
 import { Toast } from 'native-base';
 
 const StatusPesanan = ({ navigation }) => {
+	let viewShotRef;
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
 
@@ -47,6 +48,60 @@ const StatusPesanan = ({ navigation }) => {
 	const _shareBill = async () => {
 		let imgPath = await Screenshot.take(viewShotRef)
 		Screenshot.share({ url: imgPath })
+	}
+
+	const _renderProductDigital = item => {
+		let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "description", "created_at", "updated_at", "info"]
+		return <View>
+			{
+				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
+					.map(item => <View>
+						<Wrapper spaceBetween style={{ padding: 10 }}>
+							<Text>{item.split('_').join(' ').ucwords()}</Text>
+							<Text align="right" _width="49%">{![
+								'total', 
+								'admin', 
+								'tarif', 
+								'ppj', 
+								'ppn', 
+								'angsuran', 
+								'tagihan', 
+								'adminBank',
+								'denda'
+								].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
+						</Wrapper>
+						<Divider />
+					</View>
+					)
+			}
+		</View>
+	}
+	const _renderPendingProductDigital = () => {
+		let filterPayment = ["status","margin","cash_back","productID","customerID","customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
+		return <View>
+			{
+				(transaction ? Object.keys(transaction).filter(a => !filterPayment.includes(a)) : [])
+					.map(item => <View>
+						<Wrapper spaceBetween style={{ padding: 10 }}>
+							<Text>{item.split('_').join(' ').ucwords()}</Text>
+							<Text align="right" _width="49%">{
+								!['total',
+									'admin',
+									'tarif',
+									'ppj',
+									'ppn',
+									'angsuran',
+									'tagihan',
+									'adminBank',
+									"denda"
+								].includes(item) ? transaction[item].trim() :
+									parseInt(transaction[item]).convertRupiah()}</Text>
+						</Wrapper>
+						<Divider />
+					</View>
+					)
+			}
+		</View>
 	}
 	return <Container onlyTitle header={{ title: 'Status Pesanan' }}>
 		<Body>
@@ -78,7 +133,7 @@ const StatusPesanan = ({ navigation }) => {
 					</Wrapper>
 					{transaction && transaction.transaction_name == "pln_prepaid" && payment && payment.token && [
 						<Wrapper style={styles.token} justify="space-between">
-							<Text style={{paddingLeft : 10}}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
+							<Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
 							<CopyButton onPress={() => {
 								Toast.show({ text: "Berhasil disalin", type: "success" })
 								Clipboard.setString(payment.token)
@@ -86,44 +141,7 @@ const StatusPesanan = ({ navigation }) => {
 						</Wrapper>,
 					]}
 					<Divider />
-					{_checkData('customer_name', true) && [
-						<Wrapper {...wrapper}>
-							<Text>Nama Pelanggan</Text>
-							<Text>{_checkData('customer_name').trim()}</Text>
-						</Wrapper>,
-						<Divider />
-					]}
-					<Wrapper {...wrapper}>
-						<Text>Tanggal Transaksi</Text>
-						<Text>{moment(_checkData('date')).format('DD MMM YYYY - hh:mm')}</Text>
-					</Wrapper>
-					<Divider />
-					{_checkData('tagihan', true) && [
-						<Wrapper {...wrapper}>
-							<Text>Total Tagihan</Text>
-							<Text>{convertRupiah(parseInt(_checkData('tagihan')))}</Text>
-						</Wrapper>,
-						<Divider />
-					]}
-					{_checkData('admin', true) && [
-						<Wrapper {...wrapper}>
-							<Text>Biaya Pembayaran</Text>
-							<Text>{convertRupiah(parseInt(_checkData('admin')))}</Text>
-						</Wrapper>,
-						<Divider />
-					]}
-					{_checkData('denda', true) && [
-						<Wrapper {...wrapper}>
-							<Text>Denda</Text>
-							<Text>{convertRupiah(parseInt(_checkData('denda')))}</Text>
-						</Wrapper>,
-						<Divider />
-					]}
-
-					<Wrapper {...wrapper}>
-						<Text font="ExtraBold">Total Tagihan</Text>
-						<Text font="ExtraBold">{convertRupiah(parseInt(_checkData('total')))}</Text>
-					</Wrapper>
+					{payment ? _renderProductDigital() : _renderPendingProductDigital()}
 				</View>
 			</ViewShot>
 		</Body>

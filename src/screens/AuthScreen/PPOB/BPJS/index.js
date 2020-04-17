@@ -158,13 +158,13 @@ const BPJS = ({ navigation }) => {
         <View style={styles.topComp}>
             <MDInput _width="80%"
                 label="No. Virtual Account"
-                value={virtualNumber}
+                value={virtualNumber.toString()}
                 onChangeText={text => setVirtualNumber(text)}
                 keyboardType="number-pad"
             />
             <MDInput _width="80%"
                 label="No. Handphone"
-                value={phoneNumber}
+                value={phoneNumber.toString()}
                 onChangeText={text => setPhoneNumber(text)}
                 keyboardType="number-pad"
             />
