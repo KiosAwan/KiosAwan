@@ -38,7 +38,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 					<FlatList
 						data={RiwayatTransaksi.data}
 						renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
-							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={require('src/assets/icons/ppob/pulsa.png')} />
+							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={{uri : item.image || ""}} />
 							<View _width="80%">
 								<Wrapper justify="space-between">
 									<Text font="SemiBold" color="primary">{item.transaction_name.split('_').join(' ').toUpperCase()}</Text>

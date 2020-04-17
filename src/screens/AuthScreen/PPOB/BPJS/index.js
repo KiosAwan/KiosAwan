@@ -33,7 +33,7 @@ const BPJS = ({ navigation }) => {
     const [tagihanData, setTagihanData] = useState()
     const [detail, setDetail] = useState(false)
     const [phoneNumber, setPhoneNumber] = useState("")
-    const [virtualNumber, setVirtualNumber] = useState()
+    const [virtualNumber, setVirtualNumber] = useState("")
     const [modal, setModal] = useState(false)
 
     // alert
