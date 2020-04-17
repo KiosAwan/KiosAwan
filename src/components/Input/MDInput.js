@@ -11,12 +11,13 @@ import { convertRupiah } from 'src/utils/authhelper'
 import { Text } from '../Text/CustomText'
 import { Wrapper } from '../View/Wrapper'
 import { $Border } from 'src/utils/stylehelper'
+import { stateObject } from 'src/utils/state'
 
 const MDInput = props => {
 	let objCurrency = {}
 	const { onChangeText, value, renderLeftAccessory, renderRightAccessory } = props
 	const _render = (render, isRight) => render && [
-		isRight && <View style={{ padding: 5 }} />,
+		isRight && <View style={{ padding: 5, marginBottom: -12 }} />,
 		render(),
 		!isRight && <View style={{ padding: 5 }} />
 	]
@@ -31,19 +32,25 @@ const MDInput = props => {
 			objCurrency.value = value.extractNumber().convertRupiah()
 		}
 	}
+	let tintColor = ColorsList.primary, baseColor = ColorsList.secondary
+	const [left, setLeft] = stateObject({
+		color: baseColor,
+		size: .5
+	})
 	return <View style={{ flexDirection: 'row' }}>
-		<View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+		<View style={{ marginBottom: 8, flexDirection: 'row', alignSelf: 'flex-end', ...$Border(left.color, 0, 0, left.size, 0) }}>
 			{renderLeftAccessory && _render(renderLeftAccessory)}
 		</View>
 		<View style={{ flex: 1 }}>
 			<TextField
 				{...props}
 				fontSize={13}
-				tintColor={ColorsList.primary}
+				onFocus={() => setLeft({ color: tintColor, size: 2 })}
+				onBlur={() => setLeft({ color: baseColor, size: .5 })}
+				tintColor={tintColor}
 				textColor={ColorsList.text}
-				baseColor={ColorsList.secondary}
+				baseColor={baseColor}
 				renderAccessory={() => _render(renderRightAccessory, true)}
-				// renderLeftAccessory={() => _render(renderLeftAccessory)}
 				style={{ fontFamily: FontName.Regular, ...props.style }}
 				{...objCurrency}
 			/>
