@@ -71,7 +71,10 @@ const Report = ({ navigation }) => {
 			{ key: 'third', title: 'Penjualan PPOB' }
 		],
 		initialLayout: { width: 300, height: 300 },
-		setIndex: index => setMainTab({ index })
+		setIndex: index => {
+			setMainTab({ index })
+			console.debug(index)
+		}
 	})
 	const [SecondaryTab, setSecondaryTab] = stateObject({
 		index: 0,
