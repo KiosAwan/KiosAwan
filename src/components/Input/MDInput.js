@@ -31,16 +31,11 @@ const MDInput = props => {
 			objCurrency.value = value.extractNumber().convertRupiah()
 		}
 	}
-	// return [
-	// 	renderLeftAccessory && _render(renderLeftAccessory),
-
-	// ]
 	return <View style={{ flexDirection: 'row' }}>
-		<View style={{ backgroundColor: 'green',alignSelf:'flex-end', height: '100%' }}>
+		<View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
 			{renderLeftAccessory && _render(renderLeftAccessory)}
-			<View style={{ ...$Border('yellow', 0, 0, 1, 0), width: '100%', backgroundColor: 'yellow' }} />
 		</View>
-		<View style={{ flex: 1, backgroundColor: 'blue' }}>
+		<View style={{ flex: 1 }}>
 			<TextField
 				{...props}
 				fontSize={13}
