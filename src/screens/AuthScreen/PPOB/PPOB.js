@@ -160,7 +160,7 @@ const PPOB = ({ navigation }) => {
 					maintanance &&
 					<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", margin: 10, marginBottom: 0, flexDirection: 'row' }}>
 						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
-						<View style={{width : "90%"}}>
+						<View style={{ width: "90%" }}>
 							<TextTicker
 								style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
 								duration={20000}
