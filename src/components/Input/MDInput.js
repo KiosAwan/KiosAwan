@@ -8,6 +8,9 @@ import { Animated, View, FlatList, TouchableOpacity, KeyboardAvoidingView } from
 import { FontName } from 'src/styles/typography'
 import Divider from '../Row/Divider'
 import { convertRupiah } from 'src/utils/authhelper'
+import { Text } from '../Text/CustomText'
+import { Wrapper } from '../View/Wrapper'
+import { $Border } from 'src/utils/stylehelper'
 
 const MDInput = props => {
 	let objCurrency = {}
@@ -28,17 +31,30 @@ const MDInput = props => {
 			objCurrency.value = value.extractNumber().convertRupiah()
 		}
 	}
-	return <TextField
-		{...props}
-		fontSize={13}
-		tintColor={ColorsList.primary}
-		textColor={ColorsList.text}
-		baseColor={ColorsList.secondary}
-		renderRightAccessory={() => _render(renderRightAccessory, true)}
-		renderLeftAccessory={() => _render(renderLeftAccessory)}
-		style={{ fontFamily: FontName.Regular, ...props.style }}
-		{...objCurrency}
-	/>
+	// return [
+	// 	renderLeftAccessory && _render(renderLeftAccessory),
+
+	// ]
+	return <View style={{ flexDirection: 'row' }}>
+		<View style={{ backgroundColor: 'green',alignSelf:'flex-end', height: '100%' }}>
+			{renderLeftAccessory && _render(renderLeftAccessory)}
+			<View style={{ ...$Border('yellow', 0, 0, 1, 0), width: '100%', backgroundColor: 'yellow' }} />
+		</View>
+		<View style={{ flex: 1, backgroundColor: 'blue' }}>
+			<TextField
+				{...props}
+				fontSize={13}
+				tintColor={ColorsList.primary}
+				textColor={ColorsList.text}
+				baseColor={ColorsList.secondary}
+				renderAccessory={() => _render(renderRightAccessory, true)}
+				// renderLeftAccessory={() => _render(renderLeftAccessory)}
+				style={{ fontFamily: FontName.Regular, ...props.style }}
+				{...objCurrency}
+			/>
+		</View>
+	</View>
+
 }
 
 const AutoCompleteInput = props => {
