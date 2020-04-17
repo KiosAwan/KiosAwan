@@ -51,18 +51,32 @@ const Report = ({ navigation }) => {
 		onPressBack: () => navigation.goBack(),
 		onPressIcon: () => setCtrl({ visible: true })
 	}
+	let _dateSelected
 	const [dateSelected, setDateSelected] = useState()
 	const [NT, setNT] = stateObject()
+	const _filterData = ({ filter, index }) => {
+		if (!filter) {
+			filter = _dateSelected
+		}
+		if (!index) {
+			index = _MainTabIndex
+		}
+		let date = moment(filter)
+		const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
+		let tipe_product = index == 1 ? 'product' : index == 2 ? 'ppob' : ''
+		console.debug({ from, to, tipe_product })
+		GetData({ from, to, tipe_product })
+	}
 	const [ctrl, setCtrl] = stateObject({
 		setVisible: visible => setCtrl({ visible }),
 		setFilter: filter => {
+			_dateSelected = filter
 			setDateSelected(filter)
-			let date = moment(filter)
-			const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
-			GetData({ from, to })
+			_filterData({ filter })
 		},
 		visible: false
 	})
+	let _MainTabIndex
 	const [MainTab, setMainTab] = stateObject({
 		index: 0,
 		routes: [
@@ -72,8 +86,9 @@ const Report = ({ navigation }) => {
 		],
 		initialLayout: { width: 300, height: 300 },
 		setIndex: index => {
+			_MainTabIndex = index
 			setMainTab({ index })
-			console.debug(index)
+			_filterData({ index })
 		}
 	})
 	const [SecondaryTab, setSecondaryTab] = stateObject({
