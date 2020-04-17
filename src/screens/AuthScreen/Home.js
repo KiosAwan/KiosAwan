@@ -245,15 +245,17 @@ const Home = ({ navigation }) => {
 					maintanance &&
 					<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
 						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
-						<TextTicker
-							style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
-							duration={20000}
-							loop
-							bounce
-							marqueeDelay={500}
-						>
-							{message}
-						</TextTicker>
+						<View style={{ width: "90%" }}>
+							<TextTicker
+								style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+								duration={20000}
+								loop
+								bounce
+								marqueeDelay={500}
+							>
+								{message}
+							</TextTicker>
+						</View>
 					</View>
 				}
 				{

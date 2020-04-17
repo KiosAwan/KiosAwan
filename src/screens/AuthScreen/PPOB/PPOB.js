@@ -7,7 +7,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons'
 import LinearGradient from 'react-native-linear-gradient';
 import BarStatus from 'src/components/BarStatus';
 import { useSelector, useDispatch } from 'react-redux';
-import { convertRupiah } from 'src/utils/authhelper';
+import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { ColorsList } from 'src/styles/colors';
 import { PPOBCard } from 'src/components/Card/CardIcon';
 
@@ -21,8 +21,11 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { Bottom } from 'src/components/View/Bottom';
 import { getProductPPOBList } from 'src/utils/api/ppobapi';
-import { DEV_IMG_URL } from 'src/config';
+import { DEV_IMG_URL, HOST_URL } from 'src/config';
 import { getProfile } from 'src/redux/actions/actionsUserData'
+import TextTicker from 'react-native-text-ticker';
+import Axios from 'axios';
+import { FontList } from 'src/styles/typography';
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -30,10 +33,26 @@ const PPOB = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	const [moreVisible, setMoreVisible] = useState(false)
 	const [productData, setProductData] = useState()
+	const [maintanance, setMaintanance] = useState(false)
+	const [message, setMessage] = useState(false)
 
 	useEffect(() => {
+		_checkService()
 		_getProductList()
 	}, [])
+
+	const _checkService = async () => {
+		const userToken = await getUserToken()
+		const res = await Axios.get(`${HOST_URL}/check_service`, {
+			headers: { "authorization": userToken }
+		})
+		if (res.data.data.service == 1) {
+			setMaintanance(true)
+			setMessage(res.data.data.message)
+		} else {
+			setMaintanance(false)
+		}
+	}
 
 	const _getProductList = async () => {
 		const res = await getProductPPOBList()
@@ -137,6 +156,23 @@ const PPOB = ({ navigation }) => {
 						</View>
 					</LinearGradient>
 				)}>
+				{
+					maintanance &&
+					<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", margin: 10, marginBottom: 0, flexDirection: 'row' }}>
+						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
+						<View style={{width : "90%"}}>
+							<TextTicker
+								style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+								duration={20000}
+								loop
+								bounce
+								marqueeDelay={500}
+							>
+								{message}
+							</TextTicker>
+						</View>
+					</View>
+				}
 				{!productData ?
 					<ActivityIndicator color={ColorsList.primary} />
 					: <FlatList
