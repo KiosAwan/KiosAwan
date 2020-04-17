@@ -182,10 +182,7 @@ const PpobPaketData = ({ navigation }) => {
 					{/* <Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text> */}
 					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
 					{item.description && <Text size={12} style={styles.pulsaComp}>{item.description}</Text>}
-					<Wrapper justify="space-between" style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
-						<Text size={12} style={styles.pulsaComp}>Masa aktif : 3 hari</Text>
-						<Text size={12} color="primary" style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
-					</Wrapper>
+					<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
 				</TouchableOpacity>
 			}
 		/>

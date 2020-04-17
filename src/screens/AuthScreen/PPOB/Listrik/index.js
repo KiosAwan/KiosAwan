@@ -38,7 +38,7 @@ const PpobListrik = ({ navigation }) => {
 			{[
 				{ screen: "token", title: "Prabayar" },
 				{ screen: "prabayar", title: "Pascabayar" },
-				{ screen: "ntl", title: "Non Tagihan Listrik" }
+				// { screen: "ntl", title: "Non Tagihan Listrik" }
 			].map((item, i) => <Button
 				key={i}
 				onPress={() => navigation.navigate(`/ppob/listrik/${item.screen}`)}

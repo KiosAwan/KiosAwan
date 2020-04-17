@@ -18,6 +18,7 @@ import Container, { Body, Footer } from 'src/components/View/Container';
 import { CopyButton } from 'src/components/Button/CopyButton';
 import { Toast } from 'native-base';
 import { stateObject } from 'src/utils/state';
+import Divider from 'src/components/Row/Divider';
 
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
@@ -55,18 +56,20 @@ const TransactionDetail = ({ navigation }) => {
 	const _backHandler = route => {
 	}
 	const _renderProductDigital = item => {
-		let filterPayment = ["id", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "description", "created_at", "updated_at"]
+		let filterPayment = ["id", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "description", "created_at", "updated_at","info"]
 		const { payment } = item
 		return <View>
 			{
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
-					.map(item => <Wrapper spaceBetween style={{ padding: 10 }}>
-						<Text>{item.split('_').join(' ').ucwords()}</Text>
-						<Text align="right" _width="49%">{typeof payment[item] == 'string' && payment[item].replace(/\s{2,}/g, ' ')}</Text>
-					</Wrapper>
+					.map(item => <View>
+						<Wrapper spaceBetween style={{ padding: 10 }}>
+							<Text>{item.split('_').join(' ').ucwords()}</Text>
+							<Text align="right" _width="49%">{!['total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : payment[item].convertRupiah()}</Text>
+						</Wrapper>
+						<Divider />
+					</View>
 					)
 			}
-			{/* {details && details.length > 0 && <Text>ljkhdfjdf</Text>} */}
 		</View>
 	}
 	useEffect(() => {
@@ -156,19 +159,19 @@ const TransactionDetail = ({ navigation }) => {
 												<View style={{ alignItems: 'flex-end' }}>
 													<Text color={item.transaction.status === "SUCCESS" ? 'success' : (data === "PENDING" ? 'info' : 'danger')}>{item.transaction.status}</Text>
 													<Text>{convertRupiah(item.transaction.total)}</Text>
-													{item.payment && <Button padding={0} color={["transparent", "primary"]} onPress={() => setTogglePayment({ [item.transaction.transaction_code]: !togglePayment[item.transaction.transaction_code] })}>Details</Button>}
+													{/* {item.payment && <Button padding={0} color={["transparent", "primary"]} onPress={() => setTogglePayment({ [item.transaction.transaction_code]: !togglePayment[item.transaction.transaction_code] })}>Details</Button>} */}
 												</View>
 											</Wrapper>
-											{togglePayment[item.transaction.transaction_code] && _renderProductDigital(item)}
 											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
 												<Wrapper style={styles.token} justify="space-between">
-													<Text style={{paddingLeft : 10}}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
+													<Text style={{ paddingLeft: 10 }}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
 													<CopyButton onPress={() => {
 														Toast.show({ text: "Berhasil disalin", type: "success" })
 														Clipboard.setString(item.payment.token)
 													}} />
 												</Wrapper>
 											]}
+											{_renderProductDigital(item)}
 										</View>
 									})
 								}

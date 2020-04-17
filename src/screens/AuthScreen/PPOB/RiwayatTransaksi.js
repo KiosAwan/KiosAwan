@@ -39,13 +39,16 @@ const RiwayatTransaksi = ({ navigation }) => {
 						data={RiwayatTransaksi.data}
 						renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
 							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={require('src/assets/icons/ppob/pulsa.png')} />
-							<View _width="48%">
-								<Text font="ExtraBold" color="primary">{item.payment_channel}</Text>
-								<Text font="ExtraBold">{item.trx_id}</Text>
-								<Text>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
-							</View>
-							<View _justify="flex-end" _width="32%">
-								<Text color="success" align="right">+ {convertRupiah(item.amount)}</Text>
+							<View _width="80%">
+								<Wrapper justify="space-between">
+									<Text font="SemiBold" color="primary">{item.transaction_name.split('_').join(' ').toUpperCase()}</Text>
+									<Text size={12} color={item.type == 0 ? "success" : "danger"}>{`${item.type == 0 ? "+" : "-"} ${convertRupiah(item.amount)}`}</Text>
+								</Wrapper>
+								<Text color="primary" color="#3e3d3d">{item.customer_id}</Text>
+								<Wrapper justify="space-between" style={{marginTop : 10}}>
+									<Text size={12}>{item.transaction_code}</Text>
+									<Text size={12}>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
+								</Wrapper>
 							</View>
 						</Wrapper>
 						}

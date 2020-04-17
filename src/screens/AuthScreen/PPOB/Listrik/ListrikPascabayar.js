@@ -145,7 +145,7 @@ const ListrikPascabayar = ({ navigation }) => {
 			<View style={styles.topComp}>
 				<MDInput _width="80%"
 					label="ID Pelanggan"
-					value={custId}
+					value={custId.toString()}
 					onChangeText={text => setCustId(text)}
 					keyboardType="number-pad"
 				/>
