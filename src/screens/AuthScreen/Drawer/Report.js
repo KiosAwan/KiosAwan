@@ -21,6 +21,7 @@ import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 
 const Report = ({ navigation }) => {
+	const [firstOpen, setFirstOpen] = useState(true)
 	const [data, setData] = stateObject({
 		dataTransaction: {},
 		dataReportCategory: [],
@@ -30,12 +31,13 @@ const Report = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const GetData = async param => {
 		const { data: dataReportCategory } = await getReportCategory(User.store.id_store, param)
-		console.debug(dataReportCategory)
 		const { data: dataTransaction } = await getTransactionData(User.store.id_store, param)
-		console.debug(dataTransaction)
-		// const { data: dataReportNonTunai } = await getReportNonTunai(User.store.id_store)
-		// console.debug(JSON.stringify(dataReportCategory))
+		const { data: dataReportNonTunai } = await getReportNonTunai(User.store.id_store, param)
 		setData({ dataTransaction, dataReportCategory, dataReportNonTunai })
+		setNT({ selected: dataReportNonTunai[0] })
+		if (firstOpen) {
+			setFirstOpen(false)
+		}
 	}
 
 	useEffect(() => {
@@ -47,32 +49,26 @@ const Report = ({ navigation }) => {
 		title: "Laporan",
 		image: require('src/assets/icons/filter.png'),
 		onPressBack: () => navigation.goBack(),
-		onPressIcon: () => setController({ visible: true })
+		onPressIcon: () => setCtrl({ visible: true })
 	}
-	const _filterData = (date, get) => {
-		date = moment(date)
-		const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
-		if (get) {
-			GetData({ from, to })
-		}
-		return [from, to]
-	}
+	const [dateSelected, setDateSelected] = useState()
 	const [NT, setNT] = stateObject()
-	const [controller, setController] = stateObject({
-		setVisible: visible => setController({ visible }),
-		setFilter: date => {
-			let filter = _filterData(date, true)
-			setController({ filter })
+	const [ctrl, setCtrl] = stateObject({
+		setVisible: visible => setCtrl({ visible }),
+		setFilter: filter => {
+			setDateSelected(filter)
+			let date = moment(filter)
+			const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
+			GetData({ from, to })
 		},
-		visible: false,
-		filter: _filterData()
+		visible: false
 	})
 	const [MainTab, setMainTab] = stateObject({
 		index: 0,
 		routes: [
 			{ key: 'first', title: 'Semua' },
-			// { key: 'second', title: 'Penjualan Produk' },
-			// { key: 'third', title: 'Penjualan PPOB' }
+			{ key: 'second', title: 'Penjualan Produk' },
+			{ key: 'third', title: 'Penjualan PPOB' }
 		],
 		initialLayout: { width: 300, height: 300 },
 		setIndex: index => setMainTab({ index })
@@ -98,15 +94,17 @@ const Report = ({ navigation }) => {
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
 									<Text>Total Pendapatan</Text>
-									<Text size={17} color="primary">{'1500000'.convertRupiah()}</Text>
+									<Text size={17} color="primary">{dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
 								</View>
-								<Button onPress={() => setController({ dataTransaction: !controller.dataTransaction })} color="link">DETAIL</Button>
+								<Button onPress={() => setCtrl({ dataTransaction: !ctrl.dataTransaction })} color="link">DETAIL</Button>
 							</Wrapper>
 							{
-								controller.dataTransaction && Object.keys(dataTransaction).map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
-									<Text>{key}</Text>
-									<Text>{dataTransaction[key]}</Text>
-								</Wrapper>)
+								dataTransaction && ctrl.dataTransaction &&
+								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
+									.map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
+										<Text>{key.split('_').join(' ').ucwords()}</Text>
+										<Text>{dataTransaction[key].convertRupiah()}</Text>
+									</Wrapper>)
 							}
 						</View>
 						<View style={{ backgroundColor: ColorsList.white, marginBottom: 10, borderRadius: 5 }}>
@@ -115,10 +113,18 @@ const Report = ({ navigation }) => {
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
 									<Text>Total Pendapatan</Text>
-									<Text size={17} color="primary">{'800000'.convertRupiah()}</Text>
+									<Text size={17} color="primary">{dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
 								</View>
-								<Button color="link">DETAIL</Button>
+								<Button onPress={() => setCtrl({ labaRugiKotor: !ctrl.labaRugiKotor })} color="link">DETAIL</Button>
 							</Wrapper>
+							{
+								dataTransaction && ctrl.labaRugiKotor &&
+								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
+									.map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
+										<Text>{key.split('_').join(' ').ucwords()}</Text>
+										<Text>{dataTransaction[key].convertRupiah()}</Text>
+									</Wrapper>)
+							}
 						</View>
 						<View style={{ backgroundColor: ColorsList.white, marginBottom: 10, borderRadius: 5 }}>
 							<Text style={{ padding: 10 }}>Ringkasan Laporan Non Tunai</Text>
@@ -135,10 +141,16 @@ const Report = ({ navigation }) => {
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
 									<Text>Total Pendapatan</Text>
-									<Text size={17} color="primary">{'1500000'.convertRupiah()}</Text>
+									<Text size={17} color="primary">{NT.selected && NT.selected.penjualan_bersih && NT.selected.penjualan_bersih.convertRupiah()}</Text>
 								</View>
-								<Button color="link">DETAIL</Button>
+								<Button onPress={() => setCtrl({ dataReportNonTunai: !ctrl.dataReportNonTunai })} color="link">DETAIL</Button>
 							</Wrapper>
+							{
+								ctrl.dataReportNonTunai && Object.keys(NT.selected).map((key, i) => key != 'method' && <Wrapper style={{ padding: 10 }} spaceBetween>
+									<Text>{key.split('_').join(' ').ucwords()}</Text>
+									<Text>{NT.selected[key].convertRupiah()}</Text>
+								</Wrapper>)
+							}
 						</View>
 					</View> :
 					<View style={{ backgroundColor: ColorsList.white }}>
@@ -167,27 +179,28 @@ const Report = ({ navigation }) => {
 			<View style={{ borderRadius: 5, backgroundColor: ColorsList.white }}>
 				<Wrapper>
 					<View style={{ padding: 10 }}>
-						<Text color="primary" size={17} align="center">{'1500000'.convertRupiah()}</Text>
+						<Text color="primary" size={17} align="center">{dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
 						<Text align="center">Total Penjualan</Text>
 					</View>
 					<Divider flex />
 					<View style={{ padding: 10 }}>
-						<Text color="primary" size={17} align="center">{'300000'.convertRupiah()}</Text>
+						<Text color="primary" size={17} align="center">{dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
 						<Text align="center">Total Keuntungan</Text>
 					</View>
 				</Wrapper>
 				<Divider />
 				<Wrapper spaceBetween style={{ padding: 10 }}>
 					<Text>Transaksi</Text>
-					<Text color="primary">74</Text>
+					<Text color="primary">{dataTransaction.jumlah_transaksi}</Text>
 				</Wrapper>
 				<Divider />
 				<Wrapper spaceBetween style={{ padding: 10 }}>
 					<Text>Produk Terjual</Text>
-					<Text color="primary">68</Text>
+					<Text color="primary">{dataTransaction.produk_terjual}</Text>
 				</Wrapper>
 			</View>
 			<TabView
+				style={firstOpen && { display: 'none' }}
 				renderTabBar={({ navigationState }) => {
 					const { index, routes, setIndex } = navigationState
 					return <Wrapper style={{ padding: 15 }} flexContent>
@@ -213,7 +226,7 @@ const Report = ({ navigation }) => {
 	}
 
 	return <Container header={header}>
-		<ModalMonth {...controller} />
+		<ModalMonth {...ctrl} />
 		<TabView
 			renderTabBar={({ navigationState }) => {
 				const { index, routes, setIndex } = navigationState
@@ -237,7 +250,7 @@ const Report = ({ navigation }) => {
 							})
 						}
 					</Wrapper>
-					<Text style={{ paddingHorizontal: 15, paddingBottom: 10 }}>Desember 2019</Text>
+					<Text style={{ paddingHorizontal: 15, paddingBottom: 10 }}>{moment(dateSelected).format('MMMM YYYY')}</Text>
 				</View>
 			}}
 			navigationState={MainTab}

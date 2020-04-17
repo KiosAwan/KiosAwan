@@ -4,13 +4,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 //get User token
 export const getUserToken = async () => {
-  const userToken = await AsyncStorage.getItem('@user_token') 
+  const userToken = await AsyncStorage.getItem('@user_token')
   return userToken
 }
 
 //get User ID
 export const getUserId = async () => {
-  const userId = await AsyncStorage.getItem('userId') 
+  const userId = await AsyncStorage.getItem('userId')
   return userId
 }
 
@@ -118,24 +118,23 @@ export const checkProductInData = async (data) => {
 
 export const getTransactionData = async (id_store, params) => {
   // let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-  console.debug(params)
-  const res = await axios.get(`${HOST_URL}/transaction_data/${id_store}`, {params})
+  const res = await axios.get(`${HOST_URL}/transaction_data/${id_store}`, { params })
   return res.data
 }
 
 export const getReportCategory = async (id_store, params) => {
   // let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-  const res = await axios.get(`${HOST_URL}/report_category/${id_store}`, {params})
+  const res = await axios.get(`${HOST_URL}/report_category/${id_store}`, { params })
+  return res.data
+}
+
+export const getReportNonTunai = async (id_store, params) => {
+  const res = await axios.get(`${HOST_URL}/report_nontunai/${id_store}`, { params })
   return res.data
 }
 
 export const getReportHutang = async id_store => {
   const res = await axios.get(`${HOST_URL}/report_hutang/${id_store}`)
-  return res.data
-}
-
-export const getReportNonTunai = async id_store => {
-  const res = await axios.get(`${HOST_URL}/report_nontunai/${id_store}`)
   return res.data
 }
 
@@ -263,11 +262,11 @@ export const verifyUserPIN = async (data) => {
 
 //Send OTP
 export const sendOTPAuth = async (data) => {
-  try{
-  const res = await axios.post(`${HOST_URL}/send_otp`, data)
-  return res.data
+  try {
+    const res = await axios.post(`${HOST_URL}/send_otp`, data)
+    return res.data
   }
-  catch (err){
+  catch (err) {
     return err.response.data
   }
 }
