@@ -2,17 +2,14 @@ import React, { useState } from 'react';
 import Container from 'src/components/View/Container';
 import styles from './PulsaStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { View, FlatList, TouchableOpacity, ScrollView, Modal as RNModal } from 'react-native';
 import { $Padding } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
-import { Bottom } from 'src/components/View/Bottom';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import SearchInput from 'src/components/Input/SearchInput';
 import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
@@ -21,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
+import ContactsModal from 'src/components/ModalContent/ContacsModal';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -45,6 +43,9 @@ const PpobPulsa = ({ navigation }) => {
 
 	// Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
+
+	// PIN Modal state 
+	const [contactVisible, setContactVisible] = useState(false)
 
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
@@ -129,6 +130,15 @@ const PpobPulsa = ({ navigation }) => {
 			closeAlert={() => setAlert(false)}
 		/>
 		<AwanPopup.Loading visible={payLoading} />
+		<RNModal visible={contactVisible} animationType="slide" onRequestClose={() => setContactVisible(false)}>
+			<ContactsModal closeModal={() => setContactVisible(false)}
+				chooseContact={
+					(num) => {
+						_onChangePhoneNum(num)
+					}
+				}
+			/>
+		</RNModal>
 		<Modal backdropDismiss={() => setModal(false)} visible={modal}>
 			<View>
 				<Text size={17} align="center">Nomor Pelanggan</Text>
@@ -153,7 +163,10 @@ const PpobPulsa = ({ navigation }) => {
 					onChangeText={_onChangePhoneNum}
 					keyboardType="phone-pad"
 				/>
-				<Image style={{ borderWidth: 1, borderColor: ColorsList.greyAuthHard }} source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={50} />
+				{data ? <Image source={{ uri: data.provider.image }} size={20} /> : null}
+				<TouchableOpacity onPress={() => setContactVisible(true)}>
+					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
+				</TouchableOpacity>
 			</Wrapper>
 			{
 				__DEV__ && <View>
