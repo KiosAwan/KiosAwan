@@ -72,7 +72,7 @@ const AwanPopup = {
 						<FlatList
 							data={props.children}
 							keyExtractor={(a, i) => i.toString()}
-							renderItem={({ item }) => [
+							renderItem={({ item, index: i }) => [
 								item,
 								!props.noTitle && props.children.length - 1 != i && <Divider />
 							]}
