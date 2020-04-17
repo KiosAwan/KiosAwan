@@ -29,11 +29,13 @@ const Report = ({ navigation }) => {
 	const { dataTransaction, dataReportCategory, dataReportNonTunai } = data
 	const User = useSelector(state => state.User)
 	const GetData = async param => {
-		const { data: dataTransaction } = await getTransactionData(User.store.id_store, param)
 		const { data: dataReportCategory } = await getReportCategory(User.store.id_store, param)
-		const { data: dataReportNonTunai } = await getReportNonTunai(User.store.id_store)
+		console.debug(dataReportCategory)
+		const { data: dataTransaction } = await getTransactionData(User.store.id_store, param)
+		console.debug(dataTransaction)
+		// const { data: dataReportNonTunai } = await getReportNonTunai(User.store.id_store)
+		// console.debug(JSON.stringify(dataReportCategory))
 		setData({ dataTransaction, dataReportCategory, dataReportNonTunai })
-		console.debug(JSON.stringify(dataReportNonTunai))
 	}
 
 	useEffect(() => {
@@ -45,25 +47,25 @@ const Report = ({ navigation }) => {
 		title: "Laporan",
 		image: require('src/assets/icons/filter.png'),
 		onPressBack: () => navigation.goBack(),
-		onPressIcon: () => {
-			setController({ visible: true })
-			// const { from, to } = _filterData('2022-04')
-			// setController({ filter: { date: [from, to] } })
-		}
+		onPressIcon: () => setController({ visible: true })
 	}
-	const _filterData = date => {
+	const _filterData = (date, get) => {
 		date = moment(date)
 		const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
-		return { from, to }
+		if (get) {
+			GetData({ from, to })
+		}
+		return [from, to]
 	}
 	const [NT, setNT] = stateObject()
 	const [controller, setController] = stateObject({
 		setVisible: visible => setController({ visible }),
-		setFilter: date => console.debug(date),
+		setFilter: date => {
+			let filter = _filterData(date, true)
+			setController({ filter })
+		},
 		visible: false,
-		filter: {
-			date: [moment().startOf('month').format(format), moment().endOf('month').format(format)],
-		}
+		filter: _filterData()
 	})
 	const [MainTab, setMainTab] = stateObject({
 		index: 0,
@@ -125,7 +127,7 @@ const Report = ({ navigation }) => {
 								closeOnSelect
 								label="Filter Data"
 								data={dataReportNonTunai}
-								value={NT.selected.method}
+								value={NT.selected ? NT.selected.method : ''}
 								handleChangePicker={selected => setNT({ selected })}
 								renderItem={item => <Text color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFont'}>{item.method}</Text>}
 								style={{ paddingHorizontal: 10 }}
@@ -273,10 +275,7 @@ const ModalMonth = props => {
 			renderItem={({ item, index: i }) => <Button onPress={() => _filterMonth(i)} style={{ margin: 5 }} active={i == filter.month} color={['transparent', 'greyFont', 'greyFont']} activeColor="primary" flex>{item}</Button>}
 		/>
 		<Button onPress={() => {
-			setFilter({
-				date: `${filter.year}-${filter.month.toString().length == 1 ? '0' : ''}${filter.month + 1}`,
-				text: bulan[month] + year
-			})
+			setFilter(`${filter.year}-${filter.month.toString().length == 1 ? '0' : ''}${filter.month + 1}`)
 			setVisible(false)
 		}} color="white">TERAPKAN</Button>
 	</Modal >
