@@ -152,7 +152,7 @@ const ListrikToken = ({ navigation }) => {
 		<View style={styles.topComp}>
 			<MDInput _width="80%"
 				label="ID Pelanggan"
-				value={custId ? custId.toString() : null}
+				value={custId.toString()}
 				onChangeText={text => {
 					setCustId(text)
 					_cekTagihan(text)

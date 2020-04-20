@@ -162,8 +162,9 @@ const PpobPulsa = ({ navigation }) => {
 					value={phoneNumber}
 					onChangeText={_onChangePhoneNum}
 					keyboardType="phone-pad"
+					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
 				/>
-				{data ? <Image source={{ uri: data.provider.image }} size={20} /> : null}
+				{/* {data ? <Image source={{ uri: data.provider.image }} size={20} /> : null} */}
 				<TouchableOpacity onPress={() => setContactVisible(true)}>
 					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
 				</TouchableOpacity>

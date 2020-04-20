@@ -55,7 +55,7 @@ export default class ContactsModal extends Component {
                     <SearchInput clear={() => this.setSearch({ search: text })}>
                         <TextInput disabled={false}
                             value={this.state.search}
-                            placeholder="Cari nama atau no hp"
+                            placeholder="Cari nama kontak"
                             keyboardType={"default"}
                             onChangeText={text => this.setState({ search: text })} />
                     </SearchInput>

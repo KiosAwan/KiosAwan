@@ -24,7 +24,7 @@ const ListrikPascabayar = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	//User data
 	const User = useSelector(state => state.User)
-	const [custId, setCustId] = useState()
+	const [custId, setCustId] = useState('')
 	// 520060002607
 	const [] = useState()
 	const [selectedCashback, setSelectedCashback] = useState(2500)

@@ -271,13 +271,15 @@ const Cart = ({ navigation }) => {
 				<Text color="primary">PULSA DAN TAGIHAN</Text>
 			</Button>
 			{/* </View> */}
-			<Wrapper justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
-				<Wrapper justify="flex-start">
-					<Icon style={{ marginRight: 10, color: ColorsList.primaryColor }} name="contact" />
-					<Text color="primary">{Product.customer ? Product.customer.name_customer : "Pilih pelanggan"}</Text>
+			<TouchableOpacity onPress={() => setPilihPelangganOpen(true)}>
+				<Wrapper justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
+					<Wrapper justify="flex-start">
+						<Icon style={{ marginRight: 10, color: ColorsList.primaryColor }} name="contact" />
+						<Text color="primary">{Product.customer ? Product.customer.name_customer : "Pilih pelanggan"}</Text>
+					</Wrapper>
+					<Icon style={{ color: ColorsList.primaryColor }} name="add" />
 				</Wrapper>
-				<Icon onPress={() => setPilihPelangganOpen(true)} style={{ color: ColorsList.primaryColor }} name="add" />
-			</Wrapper>
+			</TouchableOpacity>
 			<View style={{ backgroundColor: ColorsList.whiteColor, marginVertical: 10, borderRadius: 5 }}>
 				<Wrapper justify="space-between" style={{ padding: 10 }}>
 					<Text font="Bold">Diskon</Text>
