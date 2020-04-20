@@ -150,6 +150,10 @@ const ListrikToken = ({ navigation }) => {
 		<AwanPopup.Loading visible={payLoading} />
 		{/* Popup components */}
 		<View style={styles.topComp}>
+			{__DEV__ && <Button onPress={() => {
+				setCustId('32127971177')
+				_cekTagihan('32127971177')
+			}}>32127971177</Button>}
 			<MDInput _width="80%"
 				label="ID Pelanggan"
 				value={custId.toString()}
@@ -189,7 +193,7 @@ const ListrikToken = ({ navigation }) => {
 			<View style={styles.infoPembelian}>
 				<Text size={16} font="Bold" color="info">{productToken.info.title}</Text>
 				{productToken.info.info.map((item, i) => (
-					<Text key={i} color="info">{`${productToken.info.info.length == 1 ? "" : `${i+1}. `}${item}`}</Text>
+					<Text key={i} color="info">{`${productToken.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 				))}
 			</View>
 		}

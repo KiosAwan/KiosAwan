@@ -96,6 +96,7 @@ export const Button = props => {
 		width: props.width,
 		justifyContent: 'flex-start',
 		borderRadius: props.noRadius ? 0 : 5,
+		...children == '' && { display: "none" },
 		...props.flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
 		...props.noBorder && { borderColor: ColorsList.transparent },

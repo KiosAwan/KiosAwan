@@ -51,33 +51,34 @@ const StatusPesanan = ({ navigation }) => {
 	}
 
 	const _renderProductDigital = item => {
-		let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "description", "created_at", "updated_at", "info"]
+		let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info"]
 		return <View>
 			{
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
-					.map(item => <View>
-						<Wrapper spaceBetween style={{ padding: 10 }}>
-							<Text>{item.split('_').join(' ').ucwords()}</Text>
-							<Text align="right" _width="49%">{![
-								'total', 
-								'admin', 
-								'tarif', 
-								'ppj', 
-								'ppn', 
-								'angsuran', 
-								'tagihan', 
-								'adminBank',
-								'denda'
+					.map(
+						item => item != 'description' ? <View>
+							<Wrapper spaceBetween style={{ padding: 10 }}>
+								<Text>{item.split('_').join(' ').ucwords()}</Text>
+								<Text align="right" _width="49%">{![
+									'total',
+									'admin',
+									'tarif',
+									'ppj',
+									'ppn',
+									'angsuran',
+									'tagihan',
+									'adminBank',
+									'denda'
 								].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
-						</Wrapper>
-						<Divider />
-					</View>
+							</Wrapper>
+							<Divider />
+						</View> : <Button color="info" disabled>{payment[item].split(';')[0]}</Button>
 					)
 			}
 		</View>
 	}
 	const _renderPendingProductDigital = () => {
-		let filterPayment = ["status","margin","cash_back","productID","customerID","customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
+		let filterPayment = ["status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
 		return <View>
 			{
 				(transaction ? Object.keys(transaction).filter(a => !filterPayment.includes(a)) : [])
