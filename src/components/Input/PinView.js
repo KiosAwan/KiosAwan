@@ -168,11 +168,12 @@ const PinView = props => {
 				style={{ padding: 10, }}
 				data={[1, 2, 3, 4, 5, 6, 7, 8, 9, '~', 0, 'del']}
 				numColumns={3}
+				columnWrapperStyle={{justifyContent : "flex-end"}}
 				keyExtractor={(item, i) => i.toString()}
 				renderItem={({ item }) => <Button
 					style={{
-						flex: 1,
-						borderRadius: 50
+						width : "33.4%",
+						borderRadius: 50,
 					}}
 					padding={20}
 					textProps={{ size: 20 }}

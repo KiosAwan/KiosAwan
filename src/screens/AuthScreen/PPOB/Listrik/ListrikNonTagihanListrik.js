@@ -9,7 +9,7 @@ import { View, ActivityIndicator } from 'react-native';
 import { $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import MDInput from 'src/components/Input/MDInput';
-import { checkTagihanListrik, payTagihanListrik } from 'src/utils/api/ppob/listrik_api';
+import { checkTagihanListrik, payTagihanListrik, payTagihanNonTagList, checkTagihanNonTagList } from 'src/utils/api/ppob/listrik_api';
 import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
@@ -23,7 +23,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	//User data
 	const User = useSelector(state => state.User)
-	const [custId, setCustId] = useState('')
+	const [custId, setCustId] = useState('5200217035723')
 	// 520060002607
 	const [] = useState()
 	const [selectedCashback, setSelectedCashback] = useState(2500)
@@ -48,10 +48,10 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	const _cekTagihan = async () => {
 		setTagihanLoading(true)
 		const params = {
-			productID: 100301,
+			productID: 100311,
 			customerID: custId
 		}
-		const { status, data } = await checkTagihanListrik(params)
+		const { status, data } = await checkTagihanNonTagList(params)
 		setTagihanLoading(false)
 		if (status == 400) {
 			setAlertMessage(data.errors.msg)
@@ -94,9 +94,8 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 			customerID: tagihanData.transaction.customerID,
 			productID: tagihanData.transaction.productID,
 			id_multi: Product.id_multi,
-			selectedCashback
 		}
-		const res = await payTagihanListrik(data)
+		const res = await payTagihanNonTagList(data)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const data = {
@@ -104,7 +103,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 				customerID: res.data.transaction.customerID,
 				price: parseInt(res.data.transaction.total)
 				,
-				productName: "Listrik Pascabayar"
+				productName: "Non Tagihan Listrik"
 			}
 			dispatch(AddPPOBToCart(data))
 			dispatch(getProfile(User.data.id))
@@ -162,8 +161,13 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 							</Wrapper>
 							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
-								<Text font="Regular">Id Pelanggan</Text>
-								<Text font="Regular">{tagihanData.transaction.customerID}</Text>
+								<Text font="Regular">Jenis transaksi</Text>
+								<Text font="Regular">{tagihanData.transaction.jenis_transaksi}</Text>
+							</Wrapper>
+							<Divider />
+							<Wrapper justify="space-between" style={{ padding: 10 }}>
+								<Text font="Regular">No Registrasi</Text>
+								<Text font="Regular">{tagihanData.transaction.no_registrasi}</Text>
 							</Wrapper>
 							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
@@ -178,57 +182,24 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Admin</Text>
-								<Text font="Regular">{convertRupiah(tagihanData.details.length * selectedCashback)}</Text>
+								<Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
 							</Wrapper>
 							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Total Tagihan</Text>
 								<Text font="Regular">{convertRupiah(
-									parseInt(tagihanData.transaction.tagihan) +
-									(selectedCashback * tagihanData.details.length)
+									parseInt(tagihanData.transaction.total)
 								)}</Text>
 							</Wrapper>
 						</View>
-						<View style={{ ...$Margin(5, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
-							<Button color={["transparent", "primary"]}
-								align="flex-end"
-								onPress={() => setDetail(!detail)}>DETAIL</Button>
-							{
-								detail && tagihanData.details.map((item, i) =>
-									<View key={i}>
-										{/* <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}> */}
-										<Wrapper justify="space-between" style={{ padding: 10 }}>
-											<Text font="Regular">Periode</Text>
-											<Text font="Regular">{item.periode}</Text>
-										</Wrapper>
-										<Wrapper justify="space-between" style={{ padding: 10 }}>
-											<Text font="Regular">Denda</Text>
-											<Text font="Regular">{convertRupiah(item.denda)}</Text>
-										</Wrapper>
-										<Wrapper justify="space-between" style={{ padding: 10 }}>
-											<Text font="Regular">Tagihan</Text>
-											<Text font="Regular">{convertRupiah(item.tagihan)}</Text>
-										</Wrapper>
-										<Wrapper justify="space-between" style={{ padding: 10 }}>
-											<Text font="Regular">Admin</Text>
-											<Text font="Regular">{convertRupiah(selectedCashback)}</Text>
-										</Wrapper>
-										{/* </Wrapper> */}
-										{i < tagihanData.details.length - 1 ?
-											<Divider />
-											: null}
-									</View>
-								)}
-
-						</View>
-						{tagihanData &&
+						{/* {tagihanData &&
 							<View style={styles.infoPembelian}>
 								<Text size={16} font="Bold" color="info">{tagihanData.info.title}</Text>
 								{tagihanData.info.info.map((item, i) => (
 									<Text key={i} color="info">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 								))}
 							</View>
-						}
+						} */}
 					</View>
 			}
 		</Body>
