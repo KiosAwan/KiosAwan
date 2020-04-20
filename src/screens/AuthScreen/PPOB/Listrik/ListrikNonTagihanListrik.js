@@ -23,7 +23,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	//User data
 	const User = useSelector(state => state.User)
-	const [custId, setCustId] = useState('5200217035723')
+	const [custId, setCustId] = useState('')
 	// 520060002607
 	const [] = useState()
 	const [selectedCashback, setSelectedCashback] = useState(2500)
@@ -99,10 +99,9 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 		setPayLoading(false)
 		if (res.status == 200) {
 			const data = {
-				type: "tagihan_listrik",
+				type: "nontaglist",
 				customerID: res.data.transaction.customerID,
-				price: parseInt(res.data.transaction.total)
-				,
+				price: parseInt(res.data.transaction.total),
 				productName: "Non Tagihan Listrik"
 			}
 			dispatch(AddPPOBToCart(data))
