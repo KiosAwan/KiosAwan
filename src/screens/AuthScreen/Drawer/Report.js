@@ -59,7 +59,7 @@ const Report = ({ navigation }) => {
 		let date = moment(filter)
 		const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
 		let tipe_product = index == 1 ? 'product' : index == 2 ? 'ppob' : ''
-		console.debug({ from, to, tipe_product })
+		// console.debug({ from, to, tipe_product })
 		GetData({ from, to, tipe_product })
 	}
 	const [ctrl, setCtrl] = stateObject({
