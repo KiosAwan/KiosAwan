@@ -125,19 +125,19 @@ export const getTransactionData = async (id_store, params) => {
 export const getReportCategory = async (id_store, params) => {
   // let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
   const res = await axios.get(`${HOST_URL}/report_category/${id_store}`, { params })
-  console.debug(res.data)
+  // console.debug(res.data)
   return res.data
 }
 
 export const getReportNonTunai = async (id_store, params) => {
   const res = await axios.get(`${HOST_URL}/report_nontunai/${id_store}`, { params })
-  console.debug(res.data)
+  // console.debug(res.data)
   return res.data
 }
 
 export const getReportHutang = async id_store => {
   const res = await axios.get(`${HOST_URL}/report_hutang/${id_store}`)
-  console.debug(res.data)
+  // console.debug(res.data)
   return res.data
 }
 
