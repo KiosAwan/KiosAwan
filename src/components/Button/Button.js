@@ -90,13 +90,23 @@ export const Button = props => {
 	let _activeColor = Colors.white
 	_color = generateColor(color)
 	_activeColor = generateColor(activeColor)
+	const ifWhitespaces = () => {
+		if (
+			['number', 'string'].includes(typeof children) &&
+			children.toString().replace(/\s/g, '').length == 0 &&
+			props.hideIfEmpty
+		) {
+			return true
+		}
+		return false
+	}
 	// return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? 1 : 1 }]}>
 	return <TouchableOpacity activeOpacity={.5} {...props} style={{
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
 		justifyContent: 'flex-start',
 		borderRadius: props.noRadius ? 0 : 5,
-		...children == '' && { display: "none" },
+		...ifWhitespaces() && { display: "none" },
 		...props.flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
 		...props.noBorder && { borderColor: ColorsList.transparent },
@@ -110,7 +120,7 @@ export const Button = props => {
 					{children}
 				</Text>
 				:
-				<Wrapper {...props.wrapper} flexContent={props.flexContent}>{children}</Wrapper>
+				<Wrapper {...props.wrapper} noWrapper={props.noWrapper} flexContent={props.flexContent}>{children}</Wrapper>
 		}
 	</TouchableOpacity>
 	{/* </Animated.View> */ }

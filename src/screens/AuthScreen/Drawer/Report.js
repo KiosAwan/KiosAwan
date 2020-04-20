@@ -244,11 +244,11 @@ const Report = ({ navigation }) => {
 			renderTabBar={({ navigationState }) => {
 				const { index, routes, setIndex } = navigationState
 				return <View>
-					<Wrapper style={{ padding: 15 }} flexContent>
+					<Wrapper style={{ padding: 15 }} flexContent noWrapper>
 						{
 							routes.map((route, i) => {
 								return <Button
-									textStyle={{ fontSize: 12 }}
+									textStyle={{ fontSize: 15 }}
 									disabled={index == i}
 									onPress={() => setIndex(i)}
 									active={index == i}
@@ -256,6 +256,8 @@ const Report = ({ navigation }) => {
 									activeColor="primary"
 									noRadius
 									style={{
+										flex: 1,
+										justifyContent: 'center',
 										...i == 0 && $BorderRadius(5, 0, 0, 5),
 										...i == routes.length - 1 && $BorderRadius(0, 5, 5, 0)
 									}}

@@ -63,15 +63,15 @@ const TransactionDetail = ({ navigation }) => {
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
 					.map(item => <View>
 						{
-							[
-								item != 'description' && <Wrapper spaceBetween style={{ padding: 10 }}>
+							item != 'description' && [
+								<Wrapper spaceBetween style={{ padding: 10 }}>
 									<Text>{item.split('_').join(' ').ucwords()}</Text>
 									<Text align="right" _width="49%">{!['total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : payment[item].convertRupiah()}</Text>
 								</Wrapper>,
 								<Divider />
 							]
 						}
-						{item == 'description' && <Button color="info" disabled noRadius>{typeof payment[item] == 'string' && payment[item].split(';')[0]}</Button>}
+						{item == 'description' && <Button color="info" hideIfEmpty disabled noRadius>{typeof payment[item] == 'string' && payment[item].split(';')[0]}</Button>}
 					</View>
 					)
 			}

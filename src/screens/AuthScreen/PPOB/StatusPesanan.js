@@ -72,7 +72,7 @@ const StatusPesanan = ({ navigation }) => {
 								].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
 							</Wrapper>
 							<Divider />
-						</View> : <Button color="info" disabled>{payment[item].split(';')[0]}</Button>
+						</View> : <Button color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
 					)
 			}
 		</View>
