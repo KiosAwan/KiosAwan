@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
-import { convertRupiah } from 'src/utils/authhelper';
 import { AwanPopup, Dropdown, Modal } from 'src/components/ModalContent/Popups';
 import { useSelector } from 'react-redux';
 import { getTransactionData, getReportCategory, getReportNonTunai } from 'src/utils/authhelper'
 import moment from 'moment';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
-import { RowChild } from 'src/components/Helper/RowChild';
-import Icon from 'react-native-vector-icons/FontAwesome5'
 import Container, { Body } from 'src/components/View/Container';
 import { TabView } from 'react-native-tab-view';
 import { stateObject } from 'src/utils/state';
 import { $BorderRadius } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
-import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 
 const Report = ({ navigation }) => {
@@ -176,7 +171,7 @@ const Report = ({ navigation }) => {
 							dataReportCategory.map(({ harga, data, nama_category }) => <View>
 								<Text style={{ backgroundColor: ColorsList.greyAuthHard, padding: 10 }} font={nama_category ? 'Regular' : 'Italic'} align="center">{nama_category ? nama_category : '~ Pesanan Manual ~'}</Text>
 								{
-									data.map(({ Product, harga_jual, total, jumlah }, i) => [
+									data && data.map(({ Product, harga_jual, total, jumlah }, i) => [
 										<Wrapper style={{ padding: 10 }} spaceBetween>
 											<View>
 												<Text>{Product}</Text>

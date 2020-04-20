@@ -9,6 +9,7 @@ import { ColorsList } from 'src/styles/colors';
 import moment from 'moment';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Container, { Body } from 'src/components/View/Container';
+import { DEV_IMG_URL } from 'src/config';
 
 const RiwayatTransaksi = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -38,14 +39,14 @@ const RiwayatTransaksi = ({ navigation }) => {
 					<FlatList
 						data={RiwayatTransaksi.data}
 						renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
-							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={{uri : item.image || ""}} />
+							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
 							<View _width="80%">
 								<Wrapper justify="space-between">
-									<Text font="SemiBold" color="primary">{item.transaction_name.split('_').join(' ').toUpperCase()}</Text>
-									<Text size={12} color={item.type == 0 ? "success" : "danger"}>{`${item.type == 0 ? "+" : "-"} ${convertRupiah(item.amount)}`}</Text>
+									<Text _width="70%" font="SemiBold" color="primary">{item.transaction_name.split('_').join(' ').toUpperCase()}</Text>
+									<Text _width="30%" align="right" size={12} color={item.type == 0 ? "success" : "danger"}>{`${item.type == 0 ? "+" : "-"} ${convertRupiah(item.amount)}`}</Text>
 								</Wrapper>
 								<Text color="primary" color="#3e3d3d">{item.customer_id}</Text>
-								<Wrapper justify="space-between" style={{marginTop : 10}}>
+								<Wrapper justify="space-between" style={{ marginTop: 10 }}>
 									<Text size={12}>{item.transaction_code}</Text>
 									<Text size={12}>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
 								</Wrapper>

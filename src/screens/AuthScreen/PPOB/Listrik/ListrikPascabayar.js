@@ -16,7 +16,6 @@ import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getProfile } from 'src/redux/actions/actionsUserData';
-import Alert from 'src/utils/alert';
 
 const ListrikPascabayar = ({ navigation }) => {
 	const dispatch = useDispatch()
