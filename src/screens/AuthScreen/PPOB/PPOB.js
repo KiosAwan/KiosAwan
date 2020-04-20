@@ -35,7 +35,6 @@ const PPOB = ({ navigation }) => {
 	const [productData, setProductData] = useState()
 	const [maintanance, setMaintanance] = useState(false)
 	const [message, setMessage] = useState(false)
-
 	useEffect(() => {
 		_checkService()
 		_getProductList()
@@ -100,7 +99,7 @@ const PPOB = ({ navigation }) => {
 							</View>
 							<Text color="whiteColor">PAYMENT POINT</Text>
 							<View style={{ justifyContent: 'center' }}>
-								<TouchableOpacity onPress={_moreMenu}>
+								<TouchableOpacity onPress={_moreMenu} style={{ paddingLeft: 20 }}>
 									<Icon color="white" size={20} name="ellipsis-v" />
 								</TouchableOpacity>
 							</View>
@@ -118,7 +117,7 @@ const PPOB = ({ navigation }) => {
 							</View>
 							<Text color="whiteColor">PAYMENT POINT</Text>
 							<View style={{ justifyContent: 'center' }}>
-								<TouchableOpacity onPress={_moreMenu}>
+								<TouchableOpacity onPress={_moreMenu} style={{ paddingLeft: 20 }}>
 									<Icon color="white" size={20} name="ellipsis-v" />
 								</TouchableOpacity>
 							</View>

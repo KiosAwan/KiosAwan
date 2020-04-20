@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Modal as ModalRN, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
 import { Text } from '../Text/CustomText'
 import { ColorsList } from '../../styles/colors';
@@ -38,7 +38,11 @@ const Modal = (props) => {
 
 const AwanPopup = {
 	Title: props => {
-		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
+		const [render, setRender] = useState(false)
+		useEffect(() => {
+			setRender(true)
+		}, [])
+		return render && <Modal animationType="fade" style={{ padding: 0 }} {...props}>
 			<View style={[styles.body, props.style]}>
 				{typeof props.title === 'string' ? <Text color={props.textColor} font="Bold" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
 				<Text color={props.textColor} size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
