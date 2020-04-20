@@ -248,7 +248,7 @@ const Report = ({ navigation }) => {
 						{
 							routes.map((route, i) => {
 								return <Button
-									textStyle={{ fontSize: 15 }}
+									textStyle={{ fontSize: 12 }}
 									disabled={index == i}
 									onPress={() => setIndex(i)}
 									active={index == i}
