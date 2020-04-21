@@ -42,6 +42,7 @@ export default class ContactsModal extends Component {
             if (err === "denied") {
                 console.warn("Permission to access contacts was denied");
             } else {
+                // console.debug(contacts)
                 this.setState({ contacts });
             }
         });
@@ -64,11 +65,11 @@ export default class ContactsModal extends Component {
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => {
                                 this.props.closeModal()
-                                this.props.chooseContact(item.phoneNumbers[0].number)
+                                this.props.chooseContact(item.phoneNumbers[0] ? item.phoneNumbers[0].number.replace(/\D/g,'') : '')
                             }}>
                                 <View style={{ padding: 5, }}>
                                     <Text size={16}>{item.givenName}</Text>
-                                    <Text size={12} color="primary">{item.phoneNumbers[0].number}</Text>
+                                    <Text size={12} color="primary">{item.phoneNumbers[0] ? item.phoneNumbers[0].number : null}</Text>
                                 </View>
                                 <Divider />
                             </TouchableOpacity>

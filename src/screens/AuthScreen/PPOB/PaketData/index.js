@@ -2,17 +2,13 @@ import React, { useState } from 'react';
 import Container from 'src/components/View/Container';
 import styles from './PaketDataStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
 import { View, FlatList, TouchableOpacity, ScrollView, Modal as RNModal } from 'react-native';
 import { $Padding } from 'src/utils/stylehelper';
-import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
-import { Bottom } from 'src/components/View/Bottom';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import ContactsModal from 'src/components/ModalContent/ContacsModal';
 import SearchInput from 'src/components/Input/SearchInput';
@@ -182,6 +178,7 @@ const PpobPaketData = ({ navigation }) => {
 					{/* <Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text> */}
 					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
 					{item.description && <Text size={12} style={styles.pulsaComp}>{item.description}</Text>}
+					<Divider />
 					<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
 				</TouchableOpacity>
 			}
