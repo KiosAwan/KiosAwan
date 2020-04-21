@@ -120,7 +120,7 @@ export const Button = props => {
 					{children}
 				</Text>
 				:
-				<Wrapper {...props.wrapper} noWrapper={props.noWrapper} flexContent={props.flexContent}>{children}</Wrapper>
+				children && <Wrapper {...props.wrapper} noWrapper={props.noWrapper} flexContent={props.flexContent}>{children}</Wrapper>
 		}
 	</TouchableOpacity>
 	{/* </Animated.View> */ }

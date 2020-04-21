@@ -26,6 +26,7 @@ import { getProfile } from 'src/redux/actions/actionsUserData'
 import TextTicker from 'react-native-text-ticker';
 import Axios from 'axios';
 import { FontList } from 'src/styles/typography';
+import Menu from 'src/components/ModalContent/Menu';
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -82,6 +83,17 @@ const PPOB = ({ navigation }) => {
 	const _moreMenu = () => setMoreVisible(true)
 	return (
 		<View style={{ flex: 1 }}>
+			<Menu
+				menuColor="link"
+				bgColor="transparent"
+				position="topRight"
+				style={{ backgroundColor: ColorsList.white }}
+				data={[{ name: 'Atur Harga PPOB', route: '/ppob/settings' }]}
+				state={setMoreVisible}
+				visible={moreVisible}
+				onSelect={({ item: { route } }) => navigation.navigate(route)}
+				renderItem={({ name }) => <Text>{name}</Text>}
+			/>
 			<ParallaxScrollView
 				showsVerticalScrollIndicator={false}
 				backgroundColor={ColorsList.primary}
@@ -193,7 +205,7 @@ const PPOB = ({ navigation }) => {
 						)}
 						keyExtractor={(item, index) => index.toString()}
 					/>}
-				<AwanPopup.Menu noTitle transparent absolute visible={moreVisible}
+				{/* <AwanPopup.Menu noTitle transparent absolute visible={moreVisible}
 					backdropDismiss={() => setMoreVisible(false)}
 					style={{ top: 10, right: 5, minWidth: '50%' }}
 					contentStyle={{ elevation: 5, backgroundColor: ColorsList.whiteColor }}
@@ -201,8 +213,8 @@ const PPOB = ({ navigation }) => {
 					<Button onPress={() => {
 						setMoreVisible(false)
 						navigation.navigate('/ppob/settings')
-					}} color="link" textProps={{ size: 13 }}>Atur Harga Produk</Button>
-				</AwanPopup.Menu>
+					}} color={["white", "greyFont"]} textProps={{ size: 15 }}>Atur Harga Produk</Button>
+				</AwanPopup.Menu> */}
 			</ParallaxScrollView>
 
 			{
