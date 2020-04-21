@@ -301,6 +301,24 @@ export const MyModal = (props) => {
 export const SelectBoxModal = (props) => {
 	const [activeColor, setActiveColor] = useState('grey');
 	const [modalVisible, setModalVisible] = useState(false);
+	const {
+		value,
+		style,
+		renderItem,
+		label,
+		header,
+		handleChangePicker,
+		footer,
+		data,
+		closeOnSelect,
+		children,
+		onOpen
+	} = props
+	useEffect(() => {
+		if (typeof onOpen == 'function') {
+			onOpen()
+		}
+	}, [])
 	return <View>
 		<AwanModal visible={modalVisible}
 			backdropDismiss={() => setModalVisible(false)}
@@ -309,26 +327,26 @@ export const SelectBoxModal = (props) => {
 				width: '90%',
 				padding: 10
 			}}>
-			{props.header}
+			{header}
 			<ScrollView persistentScrollbar>{
-				props.data.length > 0 ? props.data.map((item,i) => {
+				data && data.length > 0 ? data.map((item, i) => {
 					return <CardItem key={i.toString()} style={styles.modalCardItem} button onPress={() => {
-						props.handleChangePicker(item)
-						props.closeOnSelect ? setModalVisible(false) : null
+						handleChangePicker(item)
+						closeOnSelect ? setModalVisible(false) : null
 					}}>
-						{props.renderItem(item)}
+						{renderItem(item)}
 					</CardItem>
-				}) : props.children
+				}) : children
 			}
 			</ScrollView>
-			{props.footer}
+			{footer}
 		</AwanModal>
-		<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, props.style, {
+		<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, style, {
 			marginTop: 5
 		}]}>
-			<Text font="Regular" style={{ color: props.value ? ColorsList.greyFont : ColorsList.transparent }}>{props.label}</Text>
+			<Text font="Regular" style={{ color: value ? ColorsList.greyFont : ColorsList.transparent }}>{label}</Text>
 			<Wrapper justify="space-between" style={$Border(ColorsList.secondary, 0, 0, .5)}>
-				<Text font="Regular" size={13}>{props.value ? props.value : props.label}</Text>
+				<Text font="Regular" size={13}>{value ? value : label}</Text>
 				<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
 			</Wrapper>
 		</TouchableOpacity>

@@ -16,11 +16,19 @@ import { stateObject } from 'src/utils/state'
 const MDInput = props => {
 	let objCurrency = {}
 	const { onChangeText, value, renderLeftAccessory, renderRightAccessory } = props
-	const _render = (render, isRight) => render && [
-		isRight && <View style={{ padding: 5, marginBottom: -12 }} />,
-		render(),
-		!isRight && <View style={{ padding: 5 }} />
-	]
+	const _renders = (render, isRight) => render && <View>
+		{isRight && <View style={{ padding: 5 }} />}
+		{render()}
+		{!isRight && <View style={{ padding: 5 }} />}
+	</View>
+	const _render = (render, isRight) => {
+		return typeof render == 'function' && <View style={{ marginBottom: 8 }}>
+			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
+				{render()}
+			</View>
+			<Divider style={{ marginTop: 5 }} color={On.color} size={On.size} />
+		</View>
+	}
 	if (props.currency) {
 		if (typeof onChangeText == 'function') {
 			objCurrency.onChangeText = text => {
@@ -33,30 +41,50 @@ const MDInput = props => {
 		}
 	}
 	let tintColor = ColorsList.primary, baseColor = ColorsList.secondary
-	const [left, setLeft] = stateObject({
+	const [On, setOn] = stateObject({
 		color: baseColor,
 		size: .5
 	})
-	return <View style={{ flexDirection: 'row' }}>
-		<View style={{ marginBottom: 8, flexDirection: 'row', alignSelf: 'flex-end', ...$Border(left.color, 0, 0, left.size, 0) }}>
-			{renderLeftAccessory && _render(renderLeftAccessory)}
-		</View>
+	return <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+		{_render(renderLeftAccessory)}
 		<View style={{ flex: 1 }}>
 			<TextField
 				{...props}
 				fontSize={13}
-				onFocus={() => setLeft({ color: tintColor, size: 2 })}
-				onBlur={() => setLeft({ color: baseColor, size: .5 })}
+				onFocus={() => setOn({ color: tintColor, size: 2 })}
+				onBlur={() => setOn({ color: baseColor, size: .5 })}
 				tintColor={tintColor}
 				textColor={ColorsList.text}
 				baseColor={baseColor}
-				renderAccessory={() => _render(renderRightAccessory, true)}
+				// renderAccessory={() => _render(renderRightAccessory, true)}
 				style={{ fontFamily: FontName.Regular, ...props.style }}
 				{...objCurrency}
 			/>
 		</View>
+		{_render(renderRightAccessory, true)}
 	</View>
-
+	// return <View style={{ flexDirection: 'row' }}>
+	// 	<View style={{ marginBottom: 8, paddingBottom: 2, flexDirection: 'row', alignSelf: 'flex-end', ...$Border(left.color, 0, 0, left.size, 0) }}>
+	// 		{renderLeftAccessory && _render(renderLeftAccessory)}
+	// 	</View>
+	// 	<View style={{ flex: 1 }}>
+	// 		<TextField
+	// 			{...props}
+	// 			fontSize={13}
+	// 			onFocus={() => setLeft({ color: tintColor, size: 2 })}
+	// 			onBlur={() => setLeft({ color: baseColor, size: .5 })}
+	// 			tintColor={tintColor}
+	// 			textColor={ColorsList.text}
+	// 			baseColor={baseColor}
+	// 			// renderAccessory={() => _render(renderRightAccessory, true)}
+	// 			style={{ fontFamily: FontName.Regular, ...props.style }}
+	// 			{...objCurrency}
+	// 		/>
+	// 	</View>
+	// 	<View style={{ marginBottom: 8, paddingBottom: 2, flexDirection: 'row', alignSelf: 'flex-end', ...$Border(left.color, 0, 0, left.size, 0) }}>
+	// 		{renderRightAccessory && _render(renderRightAccessory, true)}
+	// 	</View>
+	// </View>
 }
 
 const AutoCompleteInput = props => {

@@ -20,6 +20,7 @@ import { Modal as ModalCustom, AwanPopup } from 'src/components/ModalContent/Pop
 import { Wrapper } from 'src/components/View/Wrapper';
 import MDInput from 'src/components/Input/MDInput';
 import Divider from 'src/components/Row/Divider';
+import SearchInput from 'src/components/Input/SearchInput';
 
 
 const width = Dimensions.get('window').width
@@ -37,6 +38,7 @@ const NewProductName = ({ navigation }) => {
 	const [errorAlert, setErrorAlert] = useState(false)
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
 	const [idEditCategory, setIdEditCategory] = useState()
+	const [searchCategory, setSearchCategory] = useState('')
 	const [isDisabled, setDisabled] = useState(true)
 	useEffect(() => {
 		_checkName()
@@ -139,18 +141,19 @@ const NewProductName = ({ navigation }) => {
 					/>
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Pilih Kategori"
+						onOpen={() => setSearchCategory('')}
 						header={
-							<TouchableOpacity style={styles.headerCategory} onPress={() => {
-								setNewCategoryName("")
-								setEditNewCategory('add')
-								setAddCategoryVisible(true)
-							}}>
-								<Text style={{ color: ColorsList.primaryColor }}>Tambah Kategori +</Text>
-								<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
-							</TouchableOpacity>
-						}
-						footer={
-							<Button onPress={() => setAddCategoryVisible(false)} color="link" align="flex-end">BATAL</Button>
+							<MDInput
+								label="Cari Kategori"
+								value={searchCategory}
+								onChangeText={text => setSearchCategory(text)}
+								renderLeftAccessory={() => <Icon size={15} style={{ color: ColorsList.primary }} name="search" />}
+								renderRightAccessory={() => <Button onPress={() => {
+									setNewCategoryName("")
+									setEditNewCategory('add')
+									setAddCategoryVisible(true)
+								}}>Tambah</Button>}
+							/>
 						}
 						value={selected}
 						handleChangePicker={(item) => {
@@ -158,7 +161,7 @@ const NewProductName = ({ navigation }) => {
 							dispatch(addProductIdCategory(item.id_product_category))
 						}}
 						closeOnSelect
-						data={Category.data}
+						data={Category.data.filter(v => v.name_product_category.toLowerCase().includes(searchCategory.toLowerCase()))}
 						renderItem={(item) => [<Text style={{
 							color: item.id_product_category == NewProduct.id_category ?
 								ColorsList.primaryColor : ColorsList.greyFont
