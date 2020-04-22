@@ -46,18 +46,23 @@ const BPJS = ({ navigation }) => {
     // Loading pay state
     const [payLoading, setPayLoading] = useState(false)
     const _cekTagihan = async () => {
-        setTagihanLoading(true)
-        const data = {
-            productID: 900001,
-            customerID: virtualNumber
-        }
-        const res = await checkTagihanBPJS(data)
-        setTagihanLoading(false)
-        if (res.status == 400) {
-            setAlertMessage(res.data.errors.msg.trim())
-            setAlert(true)
+        if (typeof phoneNumber == 'string' && phoneNumber.length > 10) {
+            setTagihanLoading(true)
+            const data = {
+                productID: 900001,
+                customerID: virtualNumber
+            }
+            const res = await checkTagihanBPJS(data)
+            setTagihanLoading(false)
+            if (res.status == 400) {
+                setAlertMessage(res.data.errors.msg.trim())
+                setAlert(true)
+            } else {
+                setTagihanData(res.data)
+            }
         } else {
-            setTagihanData(res.data)
+            setAlertMessage("Harap masukkan nomor handpone yang benar")
+            setAlert(true)
         }
     }
 

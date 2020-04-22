@@ -95,21 +95,32 @@ const AwanPopup = {
 			</View>
 		</Modal>
 	},
-	Alert: props =>
-		<Modal animationType="fade" style={{ padding: 0, width: SizeList.width * 2 / 3 }} {...props}>
-			<View style={[styles.body, props.style]}>
-				<Image source={require('../../assets/icons/circlereject.png')}
+	Alert: props => {
+		const { style, title, message, closeAlert } = props
+		const icon = () => {
+			if (props.success) {
+			} else if (props.warning) {
+			} else if (props.info) {
+			} else if (props.question) {
+			} else {
+				return require('src/assets/icons/circlereject.png')
+			}
+		}
+		return <Modal animationType="fade" style={{ padding: 0, width: SizeList.width * 2 / 3 }} {...props}>
+			<View style={[styles.body, style]}>
+				<Image source={icon()}
 					style={[styles.image, { width: 50, height: 50 }]}
 					resizeMode="stretch" />
-				<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>Oops...</Text>
+				<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{title || 'Oops...'}</Text>
 				<View style={{ width: '80%', alignItems: "center" }}>
-					<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{props.message}</Text>
+					<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{message}</Text>
 				</View>
 				<ButtonWrapper style={{ justifyContent: "center" }}>
-					<Button color="white" width='50%' onPress={props.closeAlert}>OK</Button>
+					<Button color="white" width='50%' onPress={closeAlert}>OK</Button>
 				</ButtonWrapper>
 			</View>
 		</Modal>
+	}
 }
 
 const ButtonWrapper = props => {
