@@ -87,6 +87,7 @@ const InputManual = ({ navigation }) => {
 								label="Nama Produk"
 								value={name_product}
 								handleChangeText={(text) => setName(text)}
+								keyboardType="number-pad"
 							/>
 						</View>
 						<View style={styles.wrapInputHarga}>
@@ -95,6 +96,7 @@ const InputManual = ({ navigation }) => {
 									label="Harga modal"
 									value={price_in_product}
 									handleChangeText={_handleChangePriceIn}
+									keyboardType="number-pad"
 								/>
 							</View>
 							<View style={styles.inputTwoCol}>

@@ -174,6 +174,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 								label="Harga modal"
 								value={EditProduct.price_in}
 								handleChangeText={_handleChangePriceIn}
+								keyboardType="number-pad"
 							/>
 						</View>
 						<View style={styles.inputTwoCol}>
@@ -181,6 +182,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 								label="Harga jual"
 								value={EditProduct.price_out}
 								handleChangeText={_handleChangePriceOut}
+								keyboardType="number-pad"
 							/>
 						</View>
 					</View>

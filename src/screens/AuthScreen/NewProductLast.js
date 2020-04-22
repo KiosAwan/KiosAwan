@@ -167,6 +167,7 @@ const NewProductLast = ({ navigation }) => {
 									label="Harga modal"
 									value={NewProduct.price_in}
 									handleChangeText={_handleChangePriceIn}
+									keyboardType="number-pad"
 								/>
 							</View>
 							<View style={styles.inputTwoCol}>
@@ -174,6 +175,7 @@ const NewProductLast = ({ navigation }) => {
 									label="Harga jual"
 									value={NewProduct.price_out}
 									handleChangeText={_handleChangePriceOut}
+									keyboardType="number-pad"
 								/>
 							</View>
 						</View>
@@ -193,7 +195,7 @@ const NewProductLast = ({ navigation }) => {
 									<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
 										<FloatingInputLabel
 											label="Jumlah stok"
-											keyboardType="numeric"
+											keyboardType="number-pad"
 											value={NewProduct.qty_stock}
 											handleChangeText={_handleChangeStock}
 										/>
@@ -201,7 +203,7 @@ const NewProductLast = ({ navigation }) => {
 									<View style={styles.inputTwoCol}>
 										<FloatingInputLabel
 											label="Minimum Stok"
-											keyboardType="numeric"
+											keyboardType="number-pad"
 											value={NewProduct.qty_min_stock}
 											handleChangeText={_handleChangeMinStock}
 										/>
