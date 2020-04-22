@@ -7,7 +7,7 @@ import { BottomButton } from 'src/components/Button/ButtonComp';
 import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from 'src/redux/actions/actionsNewProduct';
 import Axios from 'axios';
 import { HOST_URL } from 'src/config';
-import { validNumber, convertNumber } from 'src/utils/authhelper';
+import { validNumber, convertNumber, getUserToken } from 'src/utils/authhelper';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { getProduct, removeAllCart } from 'src/redux/actions/actionsStoreProduct';
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -78,11 +78,12 @@ const NewProductLast = ({ navigation }) => {
 					const response = await Axios.post(`${HOST_URL}/product`, formData)
 					setApiLoading(false)
 					setModalVisible(true)
+					const userToken = await getUserToken()
 					setTimeout(() => {
 						setModalVisible(false)
 						dispatch(clearAllNewProduct())
 						dispatch(removeAllCart())
-						dispatch(getProduct(User.store.id_store))
+						dispatch(getProduct(User.store.id_store, userToken))
 						if (NewProduct.fromManajemen) {
 							navigation.navigate(NewProduct.fromManajemen.back)
 						} else {

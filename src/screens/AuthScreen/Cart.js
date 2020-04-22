@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import { convertRupiah } from '../../utils/authhelper';
+import { convertRupiah, getUserToken } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { addDiscountProductPersen, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct, removeProductCart } from '../../redux/actions/actionsStoreProduct';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
@@ -113,10 +113,11 @@ const Cart = ({ navigation }) => {
 		}
 	}
 	const [confirm, setConfirm] = useState({})
-	const _emptyCart = (force) => {
+	const _emptyCart = async (force) => {
 		if (force) {
+			const userToken = await getUserToken()
 			dispatch(removeProductCart())
-			dispatch(getProduct(User.store.id_store))
+			dispatch(getProduct(User.store.id_store, userToken))
 			setHapusPesananOpen(false)
 			navigation.goBack()
 		} else {
@@ -252,9 +253,10 @@ const Cart = ({ navigation }) => {
 					<Text style={{ padding: 10 }} font="Bold">{convertRupiah(Product.total - Product.total_diskon)}</Text>
 				</Wrapper>
 				<Wrapper justify="space-between" style={{ marginVertical: 20, marginHorizontal: 10 }}>
-					<Text size={12} color="primary" onPress={() => {
+					<Text size={12} color="primary" onPress={async () => {
 						if (Product.data.length == 0) {
-							dispatch(getProduct(User.store.id_store))
+							const userToken = await getUserToken()
+							dispatch(getProduct(User.store.id_store, userToken))
 						}
 						navigation.navigate('/cashier')
 					}}>TAMBAH PRODUK</Text>
@@ -305,10 +307,11 @@ const Cart = ({ navigation }) => {
 			<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5, padding: 10, paddingHorizontal: 15 }}>
 				<MDInput value={Product.note} onChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
 			</View>
-			<Button onPress={() => {
+			<Button onPress={async () => {
 				if (Product.jumlahitem > 0) {
 					navigation.navigate('/cashier/check-out')
-					dispatch(getCustomer(User.store.id_store))
+					const userToken = await getUserToken()
+					dispatch(getCustomer(User.store.id_store, userToken))
 				} else {
 					alert("Keranjang anda kosong")
 				}

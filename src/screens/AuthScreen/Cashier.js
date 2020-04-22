@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler';
-import { convertRupiah } from '../../utils/authhelper';
+import { convertRupiah, getUserToken } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { ProductCard } from '../../components/Card/CardComp';
 import { MinusQuantity, AddQuantity, getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
@@ -30,9 +30,10 @@ const Cashier = ({ navigation }) => {
         _loadProduct()
     }, [])
 
-    const _loadProduct = () => {
+    const _loadProduct = async () => {
         if (Product.data.length == 0) {
-            dispatch(getProduct(User.store.id_store))
+            const userToken = await getUserToken()
+            dispatch(getProduct(User.store.id_store, userToken))
             // dispatch(removeAllCart())
         }
     }
@@ -103,9 +104,10 @@ const Cashier = ({ navigation }) => {
             {
                 Product.jumlahitem > 0 ?
                     <Bottom>
-                        <Button onPress={() => {
+                        <Button onPress={async () => {
                             navigation.navigate('/cashier/cart')
-                            dispatch(getCustomer(User.store.id_store))
+                            const userToken = await getUserToken()
+                            dispatch(getCustomer(User.store.id_store, userToken))
                         }} width="100%">
                             <Wrapper>
                                 <Icon style={{ color: ColorsList.whiteColor, marginRight: 10 }} name="ios-cart" />

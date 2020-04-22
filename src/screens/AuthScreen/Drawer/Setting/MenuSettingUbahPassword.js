@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { } from '../../../../components/Input/InputComp';
 import { ColorsList } from '../../../../styles/colors';
 import { Icon } from 'native-base';
-import { changePassword } from '../../../../utils/authhelper'
+import { changePassword, getUserToken } from '../../../../utils/authhelper'
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getProfile } from '../../../../redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -73,10 +73,11 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 				setAlertMessage(res.data.errors.msg)
 				setAlert(true)
 			} else {
+				const userToken = await getUserToken()
 				setModalVisible(true)
 				setTimeout(() => {
 					setModalVisible(false)
-					dispatch(getProfile(User.data.id))
+					dispatch(getProfile(User.data.id, userToken))
 					navigation.navigate('/drawer/settings')
 				}, 1000)
 			}

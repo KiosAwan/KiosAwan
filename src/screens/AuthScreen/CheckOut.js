@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
 import { SizeList } from '../../styles/size';
-import { convertRupiah, sendNewTransaction, formatToDate, convertNumber } from '../../utils/authhelper';
+import { convertRupiah, sendNewTransaction, formatToDate, convertNumber, getUserToken } from '../../utils/authhelper';
 import { FontList } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
 import { BottomButton } from '../../components/Button/ButtonComp';
@@ -13,11 +13,14 @@ import CashPayment from './Cashier/Payment/CashPayment';
 import NonTunai from './Cashier/Payment/NonTunai';
 import Piutang from './Cashier/Payment/Piutang';
 import {
-	removeAllCart, getProduct, AddCashPayment, AddCustomer, AddDiscountName,
+	removeAllCart,
+	getProduct,
+	AddCashPayment,
+	AddCustomer,
+	AddDiscountName,
 	AddDiscountRupiah,
 	AddDiscountPersen,
 	changeTransactionDiscount,
-
 } from '../../redux/actions/actionsStoreProduct';
 import {
 	SetIdMultiCart
@@ -61,6 +64,7 @@ class CheckOut extends React.Component {
 		}
 	}
 	_handlePayCash = async () => {
+		const userToken = await getUserToken()
 		const userId = await AsyncStorage.getItem('userId')
 		const Product = this.props.Product
 		let cart = []
@@ -109,9 +113,9 @@ class CheckOut extends React.Component {
 			this.props.AddDiscountName('')
 			this.props.AddDiscountPersen('')
 			this.props.AddDiscountRupiah('')
-			this.props.getProduct(this.props.User.store.id_store)
+			this.props.getProduct(this.props.User.store.id_store, userToken)
 			this.props.SetIdMultiCart(0)
-			this.props.getTransactionList(this.props.User.store.id_store)
+			this.props.getTransactionList(this.props.User.store.id_store, userToken)
 			this.props.navigation.dispatch(
 				StackActions.reset({
 					index: 1,
@@ -128,6 +132,7 @@ class CheckOut extends React.Component {
 	}
 
 	_handlePayCredit = async () => {
+		const userToken = await getUserToken()
 		const userId = await AsyncStorage.getItem('userId')
 		const Product = this.props.Product
 		if (Product.customer) {
@@ -173,8 +178,14 @@ class CheckOut extends React.Component {
 					this.setState({ _alert: true })
 				} else if (res.status == 200) {
 					this.props.removeAllCart()
-					this.props.getProduct(this.props.User.store.id_store)
-					this.props.getTransactionList(this.props.User.store.id_store)
+					this.props.SetIdMultiCart(0)
+					this.props.AddCashPayment(0)
+					this.props.AddCustomer(null)
+					this.props.AddDiscountName('')
+					this.props.AddDiscountPersen('')
+					this.props.AddDiscountRupiah('')
+					this.props.getProduct(this.props.User.store.id_store, userToken)
+					this.props.getTransactionList(this.props.User.store.id_store, userToken)
 					this.props.navigation.dispatch(
 						StackActions.reset({
 							index: 1,

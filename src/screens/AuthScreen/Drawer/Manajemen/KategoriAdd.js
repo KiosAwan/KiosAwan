@@ -14,7 +14,7 @@ import BarStatus from '../../../../components/BarStatus';
 import { GlobalHeader } from '../../../../components/Header/Header';
 import { ColorsList } from '../../../../styles/colors';
 import { SizeList } from '../../../../styles/size';
-import { verifyUserPassword, sendNewCategory } from '../../../../utils/authhelper';
+import { verifyUserPassword, sendNewCategory, getUserToken } from '../../../../utils/authhelper';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { FontList } from '../../../../styles/typography';
 import { } from '../../../../components/Input/InputComp';
@@ -36,6 +36,7 @@ const KategoriAdd = ({ navigation }) => {
             alert("Nama tidak boleh kosong")
         }
         else {
+            const userToken = await getUserToken()
             const res = await sendNewCategory({
                 id_store: User.store.id_store,
                 name_product_category: categoryName
@@ -44,7 +45,7 @@ const KategoriAdd = ({ navigation }) => {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCategory(User.store.id_store))
+                    dispatch(getCategory(User.store.id_store, userToken))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {

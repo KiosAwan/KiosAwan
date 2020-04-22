@@ -121,8 +121,9 @@ const Home = ({ navigation }) => {
 	const [_alertTitle, _setAlertTitle] = useState('')
 	const [_alertMessage, _setAlertMessage] = useState('')
 
-	const _handleRefresh = () => {
-		dispatch(getProfile(User.data.id))
+	const _handleRefresh = async () => {
+		const userToken = await getUserToken()
+		dispatch(getProfile(User.data.id, userToken))
 		_checkService()
 		setOnRefresh(false)
 	}

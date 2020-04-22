@@ -11,6 +11,7 @@ import SearchInput from '../../../../components/Input/SearchInput';
 import { ManagementCategoryCard } from '../../../../components/Card/ManagementCard';
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
+import { getUserToken } from 'src/utils/authhelper';
 
 const ManajemenKategori = ({ navigation }) => {
 
@@ -21,8 +22,13 @@ const ManajemenKategori = ({ navigation }) => {
 
 	const [search, setSearch] = useState('')
 	useEffect(() => {
-		dispatch(getCategory(User.store.id_store))
+		_effect()
 	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getCategory(User.store.id_store, userToken))
+	}
 
 	const _handleAddNewCategory = () => {
 		navigation.navigate('/drawer/manajemen/kategori/add')

@@ -94,8 +94,11 @@ export const validNumber = number => {
 
 //post data
 export const sendProfileData = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/store`, data)
+    const res = await axios.post(`${HOST_URL}/store`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -106,68 +109,102 @@ export const sendProfileData = async (data) => {
 
 //check new product barcode
 export const checkBarcode = async (data) => {
-  const res = await axios.post(`${HOST_URL}/check_barcode_product`, data)
+  const userToken = await getUserToken()
+  const res = await axios.post(`${HOST_URL}/check_barcode_product`, data, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 //check new product barcode
 export const checkProductInData = async (data) => {
-  const res = await axios.post(`${HOST_URL}/product_scan`, data)
+  const userToken = await getUserToken()
+  const res = await axios.post(`${HOST_URL}/product_scan`, data, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 export const getTransactionData = async (id_store, params) => {
+  const userToken = await getUserToken()
   // let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-  const res = await axios.get(`${HOST_URL}/transaction_data/${id_store}`, { params })
+  const res = await axios.get(`${HOST_URL}/transaction_data/${id_store}`, {
+    ...params,
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 export const getReportCategory = async (id_store, params) => {
+  const userToken = await getUserToken()
   // let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-  const res = await axios.get(`${HOST_URL}/report_category/${id_store}`, { params })
+  const res = await axios.get(`${HOST_URL}/report_category/${id_store}`, {
+    ...params,
+    headers: { "authorization": userToken }
+  })
   // console.debug(res.data)
   return res.data
 }
 
 export const getReportNonTunai = async (id_store, params) => {
-  const res = await axios.get(`${HOST_URL}/report_nontunai/${id_store}`, { params })
+  const userToken = await getUserToken()
+  const res = await axios.get(`${HOST_URL}/report_nontunai/${id_store}`, {
+    ...params,
+    headers: { "authorization": userToken }
+  })
   // console.debug(res.data)
   return res.data
 }
 
 export const getReportHutang = async id_store => {
-  const res = await axios.get(`${HOST_URL}/report_hutang/${id_store}`)
+  const userToken = await getUserToken()
+  const res = await axios.get(`${HOST_URL}/report_hutang/${id_store}`, {
+    headers: { "authorization": userToken }
+  })
   // console.debug(res.data)
   return res.data
 }
 
 //post new category to database
 export const sendNewCategory = async (data) => {
-  const res = await axios.post(`${HOST_URL}/category`, data)
+  const userToken = await getUserToken()
+  const res = await axios.post(`${HOST_URL}/category`, data, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 export const editCategory = async (data, id_category) => {
-  console.debug(data, id_category)
-
-  const res = await axios.post(`${HOST_URL}/category_update/${id_category}`, data)
+  const userToken = await getUserToken()
+  const res = await axios.post(`${HOST_URL}/category_update/${id_category}`, data, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 //delete category 
 export const deleteCategory = async (categoryId) => {
-  const res = await axios.delete(`${HOST_URL}/category/${categoryId}`)
+  const userToken = await getUserToken()
+  const res = await axios.delete(`${HOST_URL}/category/${categoryId}`, {
+    headers: { "authorization": userToken }
+  })
 }
 
 //delete product
 export const deleteProduct = async (productId) => {
-  const res = await axios.delete(`${HOST_URL}/product/${productId}`)
+  const userToken = await getUserToken()
+  const res = await axios.delete(`${HOST_URL}/product/${productId}`, {
+    headers: { "authorization": userToken }
+  })
 }
 
 //post new transaction to database
 export const sendNewTransaction = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/transaction`, data)
+    const res = await axios.post(`${HOST_URL}/transaction`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -177,14 +214,20 @@ export const sendNewTransaction = async (data) => {
 
 //post new customer to database
 export const sendNewCustomer = async (data) => {
-  const res = await axios.post(`${HOST_URL}/customer`, data)
+  const userToken = await getUserToken()
+  const res = await axios.post(`${HOST_URL}/customer`, data, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 //edit customer data
 export const editCustomer = async (data, id_cust) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/customer_update/${id_cust}`, data)
+    const res = await axios.post(`${HOST_URL}/customer_update/${id_cust}`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   } catch (err) {
     return (err.response.data)
@@ -193,20 +236,29 @@ export const editCustomer = async (data, id_cust) => {
 
 //delete customer data
 export const deleteCustomer = async (id_cust) => {
-  const res = await axios.delete(`${HOST_URL}/customer/${id_cust}`)
+  const userToken = await getUserToken()
+  const res = await axios.delete(`${HOST_URL}/customer/${id_cust}`, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 //get detail transaction 
 export const getTransactionDetail = async (transactionId) => {
-  const res = await axios.get(`${HOST_URL}/transaction/${transactionId}`)
+  const userToken = await getUserToken()
+  const res = await axios.get(`${HOST_URL}/transaction/${transactionId}`, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 //Cancel transaction 
 export const cancelTransaction = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/return/`, data)
+    const res = await axios.post(`${HOST_URL}/return/`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (err) {
@@ -216,20 +268,29 @@ export const cancelTransaction = async (data) => {
 
 //Pay Credit
 export const payCredit = async (data, transactionId) => {
-  const res = await axios.post(`${HOST_URL}/pay_debt/${transactionId}`, data)
+  const userToken = await getUserToken()
+  const res = await axios.post(`${HOST_URL}/pay_debt/${transactionId}`, data, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 //Create PIN
 export const createUserPIN = async (data) => {
-  const res = await axios.post(`${HOST_URL}/create_pin`, data)
+  const userToken = await getUserToken()
+  const res = await axios.post(`${HOST_URL}/create_pin`, data, {
+    headers: { "authorization": userToken }
+  })
   return res.data
 }
 
 //Change PIN
 export const changeUserPIN = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/change_pin`, data)
+    const res = await axios.post(`${HOST_URL}/change_pin`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -240,8 +301,11 @@ export const changeUserPIN = async (data) => {
 
 //Verify password
 export const verifyUserPassword = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/valid_password`, data)
+    const res = await axios.post(`${HOST_URL}/valid_password`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -252,8 +316,11 @@ export const verifyUserPassword = async (data) => {
 
 // Verify PIN
 export const verifyUserPIN = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/enter_pin`, data)
+    const res = await axios.post(`${HOST_URL}/enter_pin`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -265,8 +332,11 @@ export const verifyUserPIN = async (data) => {
 
 //Send OTP
 export const sendOTPAuth = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/send_otp`, data)
+    const res = await axios.post(`${HOST_URL}/send_otp`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (err) {
@@ -277,8 +347,11 @@ export const sendOTPAuth = async (data) => {
 
 // Verify OTP
 export const verifyOTPAuth = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/valid_otp`, data)
+    const res = await axios.post(`${HOST_URL}/valid_otp`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -289,8 +362,11 @@ export const verifyOTPAuth = async (data) => {
 
 // Changing Email
 export const changeEmail = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/change_email`, data)
+    const res = await axios.post(`${HOST_URL}/change_email`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -301,8 +377,11 @@ export const changeEmail = async (data) => {
 
 // Send Code to Email
 export const sendCodeToEmail = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/send_email`, data)
+    const res = await axios.post(`${HOST_URL}/send_email`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -313,8 +392,11 @@ export const sendCodeToEmail = async (data) => {
 
 // Valid email
 export const verifyEmailCode = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/valid_email`, data)
+    const res = await axios.post(`${HOST_URL}/valid_email`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -325,8 +407,11 @@ export const verifyEmailCode = async (data) => {
 
 // Change New Phone Number
 export const changeNewPhoneNumber = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/change_phone_number`, data)
+    const res = await axios.post(`${HOST_URL}/change_phone_number`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -337,8 +422,11 @@ export const changeNewPhoneNumber = async (data) => {
 
 // Edit store profile
 export const editStoreProfile = async (data, storeId) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/store_update/${storeId}`, data)
+    const res = await axios.post(`${HOST_URL}/store_update/${storeId}`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -350,8 +438,11 @@ export const editStoreProfile = async (data, storeId) => {
 
 // Changing Password
 export const changePassword = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/change_password`, data)
+    const res = await axios.post(`${HOST_URL}/change_password`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -361,8 +452,11 @@ export const changePassword = async (data) => {
 }
 //Resend email verify 
 export const resendVerifyEmail = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/resend_verify_email`, data)
+    const res = await axios.post(`${HOST_URL}/resend_verify_email`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -373,8 +467,11 @@ export const resendVerifyEmail = async (data) => {
 
 //Resend email verify 
 export const addNewDiscount = async (data) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/discount`, data)
+    const res = await axios.post(`${HOST_URL}/discount`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -386,8 +483,11 @@ export const addNewDiscount = async (data) => {
 
 //Edit Discount
 export const editDiscount = async (data, id) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.post(`${HOST_URL}/discount_update/${id}`, data)
+    const res = await axios.post(`${HOST_URL}/discount_update/${id}`, data, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {
@@ -399,8 +499,11 @@ export const editDiscount = async (data, id) => {
 
 //Delete Discount
 export const deleteDiscount = async (id) => {
+  const userToken = await getUserToken()
   try {
-    const res = await axios.delete(`${HOST_URL}/discount/${id}`)
+    const res = await axios.delete(`${HOST_URL}/discount/${id}`, {
+      headers: { "authorization": userToken }
+    })
     return res.data
   }
   catch (error) {

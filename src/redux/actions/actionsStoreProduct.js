@@ -1,10 +1,12 @@
 import axios from 'axios'
 import { HOST_URL } from '../../config';
 
-export const getProduct = (storeid) => {
+export const getProduct = (storeid, userToken) => {
   return {
     type: "GET_PRODUCT",
-    payload: axios.get(`${HOST_URL}/products/${storeid}`)
+    payload: axios.get(`${HOST_URL}/products/${storeid}`, {
+      headers: { "authorization": userToken }
+    })
   };
 }
 
@@ -143,7 +145,7 @@ export const changeTransactionDiscount = () => {
 export const addTransactionNote = (text) => {
   return {
     type: "ADD_NOTE",
-    payload : text
+    payload: text
   }
 }
 

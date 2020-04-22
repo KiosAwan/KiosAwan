@@ -40,7 +40,7 @@ const LoginVerification = ({ navigation }) => {
             phone_number: "62" + FormRegister.phone_number,
             password: FormRegister.password,
             id_device: FormRegister.deviceId,
-            push_token : pushToken
+            push_token: pushToken
         }
         try {
             const res = await loginData(data)
@@ -52,7 +52,7 @@ const LoginVerification = ({ navigation }) => {
                 await dispatch(clearAllRegistration())
                 await AsyncStorage.setItem('userId', res.data.id)
                 await AsyncStorage.setItem('@user_token', res.data.token)
-                await dispatch(getProfile(res.data.id))
+                await dispatch(getProfile(res.data.id, res.data.token))
                 setLoading(false)
                 navigation.navigate('/')
             }
@@ -76,7 +76,7 @@ const LoginVerification = ({ navigation }) => {
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
             <BarStatus />
             <AwanPopup.Loading visible={loading} />
-            <View style={{ paddingTop : 10 }}>
+            <View style={{ paddingTop: 10 }}>
                 <HeaderRegister />
             </View>
             <Text style={[styles.subtitleEnterPhone, {}]}>Nomor ini telah terdaftar</Text>

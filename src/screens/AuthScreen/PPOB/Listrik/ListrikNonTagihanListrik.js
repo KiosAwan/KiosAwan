@@ -10,7 +10,7 @@ import { $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import MDInput from 'src/components/Input/MDInput';
 import { checkTagihanListrik, payTagihanListrik, payTagihanNonTagList, checkTagihanNonTagList } from 'src/utils/api/ppob/listrik_api';
-import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
+import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
@@ -98,6 +98,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 		const res = await payTagihanNonTagList(data)
 		setPayLoading(false)
 		if (res.status == 200) {
+			const userToken = await getUserToken()
 			const data = {
 				type: "nontaglist",
 				customerID: res.data.transaction.customerID,
@@ -105,7 +106,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 				productName: "Non Tagihan Listrik"
 			}
 			dispatch(AddPPOBToCart(data))
-			dispatch(getProfile(User.data.id))
+			dispatch(getProfile(User.data.id, userToken))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
 			navigation.navigate("/ppob/status", { params: res.data })
 		} else if (res.status == 400) {

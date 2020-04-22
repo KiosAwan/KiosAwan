@@ -11,7 +11,7 @@ import { } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
 import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { convertRupiah, getReportHutang } from 'src/utils/authhelper';
+import { convertRupiah, getReportHutang, getUserToken } from 'src/utils/authhelper';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
@@ -57,9 +57,14 @@ const TransactionList = ({ navigation }) => {
       .filter(item => JSON.stringify(item).toLowerCase().includes(search))
   }
   useEffect(() => {
-    dispatch(getTransactionList(User.store.id_store))
-    _reportHutang()
+    _effect()
   }, [])
+
+  const _effect = async () => {
+    const userToken = await getUserToken()
+    dispatch(getTransactionList(User.store.id_store, userToken))
+    _reportHutang()
+  }
 
   const [filterPopup, setFilterPopup] = useState(false)
   const selectFilter = (val) => {

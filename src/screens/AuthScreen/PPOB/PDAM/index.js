@@ -18,7 +18,7 @@ import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { } from 'src/components/Input/InputComp';
 import { getPDAMProductList, checkTagihanPDAM, payTagihanPDAM } from 'src/utils/api/ppob/pdam_api';
-import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
+import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import SearchInput from 'src/components/Input/SearchInput';
@@ -123,9 +123,10 @@ const PDAM = ({ navigation }) => {
         const res = await payTagihanPDAM(data)
         setPayLoading(false)
         if (res.status == 200) {
+            const userToken = await getUserToken()
             const data = { type: "pdam", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
             dispatch(AddPPOBToCart(data))
-            dispatch(getProfile(User.data.id))
+            dispatch(getProfile(User.data.id, userToken))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
             navigation.navigate("/ppob/status", { params: res.data })
         } else if (res.status == 400) {

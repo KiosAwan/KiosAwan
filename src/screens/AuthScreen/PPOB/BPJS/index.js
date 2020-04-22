@@ -14,7 +14,7 @@ import { BottomVertical } from 'src/components/View/Bottom';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
-import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
+import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { checkTagihanBPJS, payTagihanBPJS } from 'src/utils/api/ppob/bpjs_api';
 import { useDispatch, useSelector } from 'react-redux';
@@ -105,9 +105,10 @@ const BPJS = ({ navigation }) => {
         const res = await payTagihanBPJS(data)
         setPayLoading(false)
         if (res.status == 200) {
+            const userToken = await getUserToken()
             const data = { type: "bpjs", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: "BPJS" }
             dispatch(AddPPOBToCart(data))
-            dispatch(getProfile(User.data.id))
+            dispatch(getProfile(User.data.id, userToken))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
             navigation.navigate("/ppob/status", { params: res.data })
         } else if (res.status == 400) {

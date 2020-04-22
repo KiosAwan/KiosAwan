@@ -17,7 +17,7 @@ import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import AsyncStorage from '@react-native-community/async-storage';
-import { changeEmail } from '../../../../utils/authhelper';
+import { changeEmail, getUserToken } from '../../../../utils/authhelper';
 import { getProfile } from '../../../../redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import MDInput from 'src/components/Input/MDInput';
@@ -41,10 +41,11 @@ const UbahEmailNewEmail = ({ navigation }) => {
 		const res = await changeEmail(data)
 		setLoading(false)
 		if (res.status == 200) {
+			const userToken = await getUserToken()
 			setModalVisible(true)
 			setTimeout(() => {
 				setModalVisible(false)
-				dispatch(getProfile(User.data.id))
+				dispatch(getProfile(User.data.id, userToken))
 				navigation.navigate('/drawer/settings')
 			}, 1000)
 		} else if (res.status == 400) {

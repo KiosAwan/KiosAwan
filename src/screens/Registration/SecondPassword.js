@@ -45,14 +45,14 @@ const SecondPassword = ({ navigation }) => {
                 phone_number: "62" + FormRegister.phone_number,
                 role: 'Owner',
                 password: FormRegister.password,
-                id_device : FormRegister.deviceId,
-                push_token : pushToken
+                id_device: FormRegister.deviceId,
+                push_token: pushToken
             }
             const res = await registerUser(data)
             if (res.status == 200) {
                 await AsyncStorage.setItem('userId', res.data.id.toString())
                 await AsyncStorage.setItem('@user_token', res.data.token)
-                await dispatch(getProfile(res.data.id.toString()))
+                await dispatch(getProfile(res.data.id.toString(), res.data.token))
                 setIsLoading(false)
                 await dispatch(clearAllRegistration())
                 navigation.navigate('/')

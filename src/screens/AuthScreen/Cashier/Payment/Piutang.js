@@ -35,7 +35,7 @@ const Piutang = () => {
 				dismiss={() => setModalVisible(false)}
 			/>
 			<FloatingInputLabelCurrency
-				value={Product.cash_payment}
+				value={Product.cash_payment.toString()}
 				label="Uang diterima diawal"
 				handleChangeText={_handleChangeMoney}
 			/>
