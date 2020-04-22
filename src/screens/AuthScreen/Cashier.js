@@ -20,6 +20,7 @@ import { Image } from 'src/components/CustomImage';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Bottom } from 'src/components/View/Bottom';
+import { HOST_IMG_URL } from 'src/config';
 
 const Cashier = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -84,7 +85,7 @@ const Cashier = ({ navigation }) => {
                             data={Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase()))}
                             renderItem={({ item }) => (
                                 <ProductCard
-                                    productImage={item.photo_product !== "" ? item.photo_product : null}
+                                    productImage={item.photo_product !== "" ? `${HOST_IMG_URL}/${item.photo_product}` : null}
                                     name={item.name_product.toUpperCase()}
                                     price={convertRupiah(item.price_out_product)}
                                     onPressMinus={() => dispatch(MinusQuantity(item))}

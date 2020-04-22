@@ -19,6 +19,7 @@ import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Modal as ModalCustom } from 'src/components/ModalContent/Popups'
 import MDInput from 'src/components/Input/MDInput';
+import { HOST_IMG_URL } from 'src/config';
 
 
 const width = Dimensions.get('window').width
@@ -196,7 +197,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={() => rbRef.open()}>
 							<Image style={styles.image}
-								source={EditProduct.image !== "" ? { uri: EditProduct.image } : require('src/assets/images/img-product.png')}
+								source={EditProduct.image !== "" ? { uri: `${HOST_IMG_URL}/${EditProduct.image}` } : require('src/assets/images/img-product.png')}
 							/>
 						</TouchableOpacity>
 					</View>

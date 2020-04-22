@@ -13,6 +13,7 @@ import { editProductName, editProductBarcode, editProductAddId, editProductImage
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { ProductPlaceholder } from 'src/components/LoadingPlaceholder';
+import { HOST_IMG_URL } from 'src/config';
 
 const ManajemenProduk = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -59,7 +60,7 @@ const ManajemenProduk = ({ navigation }) => {
 							:
 							Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase())).map((data, i) => {
 								return <ProductCard key={i}
-									productImage={data.photo_product !== "" ? data.photo_product : null}
+									productImage={data.photo_product !== "" ? `${HOST_IMG_URL}/${data.photo_product}` : null}
 									name={data.name_product.toUpperCase()}
 									price={convertRupiah(data.price_out_product)}
 									stock={data.manage_stock == 1 ? data.stock : null}

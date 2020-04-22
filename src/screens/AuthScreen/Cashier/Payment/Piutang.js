@@ -38,6 +38,7 @@ const Piutang = () => {
 				value={Product.cash_payment.toString()}
 				label="Uang diterima diawal"
 				handleChangeText={_handleChangeMoney}
+				keyboardType="number-pad"
 			/>
 			<View style={{ marginTop: 20 }}>
 				<TouchableOpacity onPress={() => setModalVisible(true)}>

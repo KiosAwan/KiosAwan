@@ -19,6 +19,7 @@ import { $BorderRadius, $Padding } from 'src/utils/stylehelper';
 import { Toast } from 'native-base';
 import { CopyButton } from 'src/components/Button/CopyButton';
 import Alert from 'src/utils/alert';
+import { DEV_IMG_URL } from 'src/config';
 
 const Topup = ({ navigation }) => {
 	const [listPaymentMethod, setListPaymentMethod] = useState([])
@@ -39,7 +40,7 @@ const Topup = ({ navigation }) => {
 		const res = await getPaymentChannelList()
 		if (res.status == 200) {
 			setListPaymentMethod(res.data)
-		}else {
+		} else {
 			Alert(JSON.stringify(res))
 		}
 
@@ -66,7 +67,7 @@ const Topup = ({ navigation }) => {
 						listPaymentMethod.map((item, key) => (
 							<View key={key} style={styles.group}>
 								<View style={{ flexDirection: "row", alignItems: "center", borderRadius: 5 }}>
-									<Image style={{ width: "15%", height: 25, marginHorizontal: 5 }} source={{ uri: item.logo }} />
+									<Image style={{ width: "15%", height: 25, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
 									<View style={{ width: "80%", alignSelf: "flex-end" }}>
 										<Text>{item.title}</Text>
 										<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>

@@ -24,6 +24,7 @@ const CashPayment = () => {
                     value={Product.cash_payment.toString()}
                     handleChangeText={_handleChangePayment}
                     label="Uang yang diterima"
+                    keyboardType="number-pad"
                 />
                 {Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)) >= 0 ?
                     <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)))}</Text>
