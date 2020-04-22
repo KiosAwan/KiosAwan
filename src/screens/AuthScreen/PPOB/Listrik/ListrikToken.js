@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import GlobalEnterPin from '../../GlobalEnterPin';
-import { verifyUserPIN, convertRupiah } from 'src/utils/authhelper';
+import { verifyUserPIN, convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { Toast } from 'native-base';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 
@@ -116,9 +116,10 @@ const ListrikToken = ({ navigation }) => {
 		const res = await payTokenListrik(data)
 		setPayLoading(false)
 		if (res.status == 200) {
+			const userToken = await getUserToken()
 			const data = { type: "token", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.product }
 			dispatch(AddPPOBToCart(data))
-			dispatch(getProfile(User.data.id))
+			dispatch(getProfile(User.data.id, userToken))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
 			navigation.navigate("/ppob/status", { params: res.data })
 		} else if (res.status == 400) {

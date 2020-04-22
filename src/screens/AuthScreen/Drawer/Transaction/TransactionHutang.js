@@ -10,7 +10,7 @@ import { } from 'src/components/Input/InputComp';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
-import { convertRupiah } from 'src/utils/authhelper';
+import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import MDInput from 'src/components/Input/MDInput';
@@ -26,10 +26,14 @@ const TransactionDetailHutang = ({ navigation }) => {
 			.filter(item => item.status_payment.includes('2'))
 			.filter(item => `${item.name_customer.toLowerCase()}${item.payment_code.toLowerCase()}`.includes(search))
 	}
-	console.debug(JSON.stringify(DataTransaksi))
 	useEffect(() => {
-		dispatch(getTransactionList(User.store.id_store))
+		_effect()
 	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getTransactionList(User.store.id_store, userToken))
+	}
 
 
 	const menuProps = {

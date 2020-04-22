@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { View, Modal, TextInput } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
-import { editCategory, deleteCategory } from 'src/utils/authhelper';
+import { editCategory, deleteCategory, getUserToken } from 'src/utils/authhelper';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -22,10 +22,10 @@ const KategoriEdit = ({ navigation }) => {
     const User = useSelector(state => state.User)
 
     const _handleSaveCategory = async () => {
-        console.debug(form)
         if (form.name_product_category == "") {
             alert("Nama tidak boleh kosong")
         } else {
+            const userToken = await getUserToken()
             const res = await editCategory({
                 name_product_category: form.name_product_category
             }, form.id_product_category)
@@ -33,7 +33,7 @@ const KategoriEdit = ({ navigation }) => {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCategory(User.store.id_store))
+                    dispatch(getCategory(User.store.id_store, userToken))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
@@ -45,10 +45,11 @@ const KategoriEdit = ({ navigation }) => {
     const _handleDeleteCategory = async () => {
         setAlert(false)
         await deleteCategory(form.id_product_category)
+        const userToken = await getUserToken()
         setModalVisible(true)
         setTimeout(() => {
             navigation.goBack()
-            dispatch(getCategory(User.store.id_store))
+            dispatch(getCategory(User.store.id_store, userToken))
             setModalVisible(false)
         }, 1000)
     }

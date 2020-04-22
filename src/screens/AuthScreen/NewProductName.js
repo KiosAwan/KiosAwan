@@ -11,7 +11,7 @@ import { GlobalHeader } from '../../components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ColorsList } from '../../styles/colors';
 import { Grid, Col, Icon } from 'native-base';
-import { sendNewCategory, editCategory, validNumber } from '../../utils/authhelper';
+import { sendNewCategory, editCategory, validNumber, getUserToken } from '../../utils/authhelper';
 import { Image } from 'src/components/CustomImage';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Button } from 'src/components/Button/Button';
@@ -41,10 +41,14 @@ const NewProductName = ({ navigation }) => {
 	const [searchCategory, setSearchCategory] = useState('')
 	const [isDisabled, setDisabled] = useState(true)
 	useEffect(() => {
-		_checkName()
-		dispatch(getCategory(User.store.id_store))
-
+		_effect()
 	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		_checkName()
+		dispatch(getCategory(User.store.id_store, userToken))
+	}
 	const _checkName = () => {
 		if (NewProduct.name == '') {
 			setDisabled(false)
@@ -70,6 +74,7 @@ const NewProductName = ({ navigation }) => {
 	}
 
 	const _handleSaveNewCategory = async () => {
+		const userToken = await getUserToken()
 		if (newCategoryName == "") {
 			setErrorMessage("Nama tidak boleh kosong")
 			setErrorAlert(true)
@@ -85,9 +90,9 @@ const NewProductName = ({ navigation }) => {
 				await editCategory({
 					name_product_category: newCategoryName,
 				}, idEditCategory)
-				dispatch(getCategory(User.store.id_store))
+				dispatch(getCategory(User.store.id_store, userToken))
 			}
-			dispatch(getCategory(User.store.id_store))
+			dispatch(getCategory(User.store.id_store, userToken))
 			setAddCategoryVisible(false)
 		}
 	}

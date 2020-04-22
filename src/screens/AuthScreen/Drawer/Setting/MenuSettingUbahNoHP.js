@@ -7,7 +7,7 @@ import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
 import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { changeNewPhoneNumber } from '../../../../utils/authhelper'
+import { changeNewPhoneNumber, getUserToken } from '../../../../utils/authhelper'
 import { phoneValidation } from '../../../../utils/unauthhelper';
 import { getProfile } from '../../../../redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -41,8 +41,9 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 				setAlertMessage(res.data.errors.msg)
 				setAlert(true)
 			} else if (res.status == 200) {
+				const userToken = await getUserToken()
 				setModalVisible(true)
-				dispatch(getProfile(User.data.id))
+				dispatch(getProfile(User.data.id, userToken))
 				setTimeout(() => {
 					setModalVisible(false)
 					navigation.navigate('/drawer/settings')

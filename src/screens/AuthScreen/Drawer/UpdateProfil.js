@@ -8,7 +8,7 @@ import { View, StyleSheet, Image, Modal } from 'react-native';
 import { useDispatch } from 'react-redux'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'src/components/Text/CustomText';
-import { sendProfileData } from 'src/utils/authhelper';
+import { sendProfileData, getUserToken } from 'src/utils/authhelper';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Icon } from 'native-base';
@@ -52,7 +52,7 @@ const UpdateProfil = ({ navigation }) => {
 
 	const _getCategory = async () => {
 		const res = await getStoreCategoryAPI()
-		if(res.status == 200){
+		if (res.status == 200) {
 			setDataKategori(res.data)
 		}
 	}
@@ -104,11 +104,12 @@ const UpdateProfil = ({ navigation }) => {
 				setLoading(false)
 				alert(res.data.errors.msg)
 			} else {
+				const userToken = await getUserToken()
 				setLoading(false)
 				setModalVisible(true)
 				setTimeout(() => {
 					setModalVisible(false)
-					dispatch(getProfile(id_user))
+					dispatch(getProfile(id_user, userToken))
 					navigation.navigate('/')
 				}, 1000)
 			}

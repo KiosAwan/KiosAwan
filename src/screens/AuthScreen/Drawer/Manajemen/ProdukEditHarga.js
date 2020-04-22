@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler';
-import { convertNumber, deleteProduct, validNumber } from 'src/utils/authhelper';
+import { convertNumber, deleteProduct, validNumber, getUserToken } from 'src/utils/authhelper';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import ModalContent from 'src/components/ModalContent/ModalContent';
@@ -75,11 +75,12 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 					const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
 					setApiLoading(false)
 					if (res.data.status == 200) {
+						const userToken = await getUserToken()
 						setModalVisible(true)
 						setTimeout(() => {
 							setModalVisible(false)
 							dispatch(editRemoveAllNewProduct())
-							dispatch(getProduct(User.store.id_store))
+							dispatch(getProduct(User.store.id_store, userToken))
 							navigation.navigate('/drawer/manajemen/produk')
 						}, 1000)
 					}
@@ -120,12 +121,13 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 		}
 	}
 	const _handleDeleteProduct = async () => {
+		const userToken = await getUserToken()
 		await deleteProduct(EditProduct.id_product)
 		setModalVisible(true)
 		setTimeout(() => {
 			setModalVisible(false)
 			dispatch(editRemoveAllNewProduct())
-			dispatch(getProduct(User.store.id_store))
+			dispatch(getProduct(User.store.id_store, userToken))
 			navigation.navigate('/drawer/manajemen/produk')
 		}, 1000)
 	}

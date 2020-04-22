@@ -13,7 +13,7 @@ import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Icon } from 'native-base';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getProfile } from 'src/redux/actions/actionsUserData';
-import { editStoreProfile } from 'src/utils/authhelper';
+import { editStoreProfile, getUserToken } from 'src/utils/authhelper';
 import { ColorsList } from 'src/styles/colors';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -109,10 +109,11 @@ const MenuSettingProfil = ({ navigation }) => {
 		if (res.status == 400) {
 			alert(data.errors.msg)
 		} else if (res.status == 200) {
+			const userToken = await getUserToken()
 			setModalVisible(true)
 			setTimeout(() => {
 				setModalVisible(false)
-				dispatch(getProfile(User.data.id))
+				dispatch(getProfile(User.data.id, userToken))
 				navigation.navigate('/drawer/settings')
 			}, 1000)
 		} else {

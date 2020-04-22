@@ -11,7 +11,7 @@ import { } from 'src/components/Input/InputComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { editProductImage, editProductIdCategory, editProductName, editRemoveAllNewProduct, editProductBarcode } from 'src/redux/actions/actionsEditProduct';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { sendNewCategory, editCategory, deleteProduct } from 'src/utils/authhelper';
+import { sendNewCategory, editCategory, deleteProduct, getUserToken } from 'src/utils/authhelper';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { PickerImage } from 'src/components/Picker/PickerImage';
@@ -34,8 +34,13 @@ const ManajemenProdukEdit = ({ navigation }) => {
 	const [idEditCategory, setIdEditCategory] = useState()
 	const [modalVisible, setModalVisible] = useState(false)
 	useEffect(() => {
-		dispatch(getCategory(User.store.id_store))
+		_effect()
 	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getCategory(User.store.id_store, userToken))
+	}
 
 
 	const _handlePressNext = async () => {
@@ -54,6 +59,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 		if (newCategoryName == "") {
 			alert("Nama tidak boleh kosong")
 		} else {
+			const userToken = await getUserToken()
 			if (editNewCategory == 'add') {
 				await sendNewCategory({
 					id_store: User.store.id_store,
@@ -64,21 +70,22 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				await editCategory({
 					name_product_category: newCategoryName,
 				}, idEditCategory)
-				dispatch(getCategory(User.store.id_store))
+				dispatch(getCategory(User.store.id_store, userToken))
 			}
-			dispatch(getCategory(User.store.id_store))
+			dispatch(getCategory(User.store.id_store, userToken))
 			setAddCategoryVisible(false)
 		}
 	}
 
 	const __handleDeleteProduct = async () => {
+		const userToken = await getUserToken()
 		await deleteProduct(EditProduct.id_product)
 		setAlert(false)
 		setModalVisible(true)
 		setTimeout(() => {
 			setModalVisible(false)
 			dispatch(editRemoveAllNewProduct())
-			dispatch(getProduct(User.store.id_store))
+			dispatch(getProduct(User.store.id_store, userToken))
 			navigation.navigate('/drawer/manajemen/produk')
 		}, 1000)
 	}

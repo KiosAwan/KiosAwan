@@ -13,7 +13,7 @@ import MDInput from 'src/components/Input/MDInput';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import SearchInput from 'src/components/Input/SearchInput';
 import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
-import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
+import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
@@ -96,9 +96,10 @@ const PpobPulsa = ({ navigation }) => {
 		const res = await payPulsaHandphone(data)
 		setPayLoading(false)
 		if (res.status == 200) {
+			const userToken = await getUserToken()
 			const data = { type: "Pulsa", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
 			dispatch(AddPPOBToCart(data))
-			dispatch(getProfile(User.data.id))
+			dispatch(getProfile(User.data.id, userToken))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
 			navigation.navigate("/ppob/status", { params: res.data })
 		} else if (res.status == 400) {

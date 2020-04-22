@@ -5,7 +5,7 @@ import { GlobalHeader } from '../../../../components/Header/Header';
 import { AwanPopup } from '../../../../components/ModalContent/Popups';
 import { ColorsList } from '../../../../styles/colors';
 import { ProductCard } from '../../../../components/Card/CardComp';
-import { convertRupiah } from '../../../../utils/authhelper';
+import { convertRupiah, getUserToken } from '../../../../utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFromManajemenProduct } from '../../../../redux/actions/actionsNewProduct';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
@@ -28,8 +28,13 @@ const ManajemenProduk = ({ navigation }) => {
 	}, 2000)
 
 	useEffect(() => {
-		dispatch(getProduct(User.store.id_store))
+		_effect()
 	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getProduct(User.store.id_store, userToken))
+	}
 
 	return (
 		<View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>

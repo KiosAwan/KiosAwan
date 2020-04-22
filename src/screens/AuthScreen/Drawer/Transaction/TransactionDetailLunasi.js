@@ -5,7 +5,7 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
-import { convertRupiah, getNearestFifty, payCredit, convertNumber } from 'src/utils/authhelper';
+import { convertRupiah, getNearestFifty, payCredit, convertNumber, getUserToken } from 'src/utils/authhelper';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { FloatingInput, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
@@ -42,7 +42,8 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		}
 		try {
 			const res = await payCredit(data, dataUtang.transaction.id_transaction)
-			dispatch(getTransactionList(User.store.id_store))
+			const userToken = await getUserToken()
+			dispatch(getTransactionList(User.store.id_store, userToken))
 			navigation.navigate('/drawer/transaction')
 		}
 		catch (err) {
