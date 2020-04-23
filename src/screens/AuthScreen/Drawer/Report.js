@@ -107,7 +107,7 @@ const Report = ({ navigation }) => {
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
 									<Text>Total Pendapatan</Text>
-									<Text size={17} color="primary">{dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
+									<Text size={17} color="primary">{dataTransaction && dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
 								</View>
 								<Button onPress={() => setCtrl({ dataTransaction: !ctrl.dataTransaction })} color="link">DETAIL</Button>
 							</Wrapper>
@@ -126,7 +126,7 @@ const Report = ({ navigation }) => {
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
 									<Text>Total Pendapatan</Text>
-									<Text size={17} color="primary">{dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
+									<Text size={17} color="primary">{dataTransaction && dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
 								</View>
 								<Button onPress={() => setCtrl({ labaRugiKotor: !ctrl.labaRugiKotor })} color="link">DETAIL</Button>
 							</Wrapper>
@@ -168,7 +168,7 @@ const Report = ({ navigation }) => {
 					</View> :
 					<View style={{ backgroundColor: ColorsList.white }}>
 						{
-							dataReportCategory.map(({ harga, data, nama_category }) => <View>
+							dataReportCategory && dataReportCategory.map(({ harga, data, nama_category }) => <View>
 								<Text style={{ backgroundColor: ColorsList.greyAuthHard, padding: 10 }} font={nama_category ? 'Regular' : 'Italic'} align="center">{nama_category ? nama_category : '~ Pesanan Manual ~'}</Text>
 								{
 									data && data.map(({ Product, harga_jual, total, jumlah }, i) => [
@@ -192,24 +192,24 @@ const Report = ({ navigation }) => {
 			<View style={{ borderRadius: 5, backgroundColor: ColorsList.white }}>
 				<Wrapper>
 					<View style={{ padding: 10 }}>
-						<Text color="primary" size={17} align="center">{dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
+						<Text color="primary" size={17} align="center">{dataTransaction && dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
 						<Text align="center">Total Penjualan</Text>
 					</View>
 					<Divider flex />
 					<View style={{ padding: 10 }}>
-						<Text color="primary" size={17} align="center">{dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
+						<Text color="primary" size={17} align="center">{dataTransaction && dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
 						<Text align="center">Total Keuntungan</Text>
 					</View>
 				</Wrapper>
 				<Divider />
 				<Wrapper spaceBetween style={{ padding: 10 }}>
 					<Text>Transaksi</Text>
-					<Text color="primary">{dataTransaction.jumlah_transaksi}</Text>
+					<Text color="primary">{dataTransaction && dataTransaction.jumlah_transaksi}</Text>
 				</Wrapper>
 				<Divider />
 				<Wrapper spaceBetween style={{ padding: 10 }}>
 					<Text>Produk Terjual</Text>
-					<Text color="primary">{dataTransaction.produk_terjual}</Text>
+					<Text color="primary">{dataTransaction && dataTransaction.produk_terjual}</Text>
 				</Wrapper>
 			</View>
 			<TabView
