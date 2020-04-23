@@ -151,8 +151,8 @@ const PPOB = ({ navigation }) => {
 								</Wrapper>
 							</Wrapper>
 							<Divider />
-							<Wrapper justify="space-around">
-								<Button color="link" onPress={_onPressRiwayat}>
+							<Wrapper justify="space-evenly">
+								<Button style={{alignItems : "center"}} _width="49%" color="link" onPress={_onPressRiwayat}>
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 									<Text>Riwayat</Text>
 								</Button>
@@ -162,7 +162,7 @@ const PPOB = ({ navigation }) => {
 									<Text>Kupon</Text>
 								</Button> */}
 								<Divider flex />
-								<Button color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
+								<Button style={{alignItems : "center"}} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 									<Text>Favorit</Text>
 								</Button>
