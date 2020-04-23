@@ -43,9 +43,11 @@ const ChangePINNewPIN = ({ navigation }) => {
 	const _handleSavePIN = async code => {
 		const { old_pin, pin, confirmPin } = { ...params, confirmPin: code }
 		if (!pin || !confirmPin) {
-			alert("Pin harus 4 digit")
+			setAlertMessage("Pin harus 4 digit")
+			setAlert(true)
 		} else if (pin != confirmPin) {
-			alert("Pin harus sama")
+			setAlertMessage("Pin harus sama")
+			setAlert(true)
 		} else {
 			setLoading(true)
 			const id = await AsyncStorage.getItem('userId')

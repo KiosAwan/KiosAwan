@@ -20,14 +20,16 @@ import { addFirstPIN, addFirstPassword } from '../../redux/actions/actionsRegist
 import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 import { FontList } from '../../styles/typography';
 import { ColorsList } from 'src/styles/colors';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 //Functions
-
-const height = Dimensions.get('window').height
 
 const FirstPassword = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     // //Sending OTP code to server
     const _handleChangePassword = async (pass) => {
         await dispatch(addFirstPassword(pass))
@@ -35,7 +37,8 @@ const FirstPassword = ({ navigation }) => {
     //Next button function
     const _handleNextButton = async () => {
         if (FormRegister.password.length < 8) {
-            alert("Password minimal 8 karakter")
+            setAlertMessage("Password minimal 8 karakter")
+            setAlert(true)
         } else {
             navigation.navigate('/unauth/registration/second-password')
         }
@@ -43,23 +46,28 @@ const FirstPassword = ({ navigation }) => {
 
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <HeaderRegister
                 onPressBack={() => navigation.goBack()}
                 onPressNext={_handleNextButton}
             />
             <View style={{ width: '70%', paddingVertical: 20 }}>
-                <Text style={{ textAlign: "center", color: 'white'}}>Masukkan password</Text>
+                <Text style={{ textAlign: "center", color: 'white' }}>Masukkan password</Text>
             </View>
             <InputPIN
-            placeholderTextColor={ColorsList.primaryColor}
+                placeholderTextColor={ColorsList.primaryColor}
                 inputWidth={200}
                 value={FormRegister.password}
                 handleChangeText={(pass) => _handleChangePassword(pass)}
             />
-            <View style={{position : 'absolute', bottom : 10}}>
+            <View style={{ position: 'absolute', bottom: 10 }}>
                 <UnauthBottomButton
-                onPressBackBtn={() => navigation.goBack()}
-                onPressNextBtn={_handleNextButton}
+                    onPressBackBtn={() => navigation.goBack()}
+                    onPressNextBtn={_handleNextButton}
                 />
             </View>
         </LinearGradient>

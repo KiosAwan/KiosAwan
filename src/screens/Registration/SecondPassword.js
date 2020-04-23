@@ -21,6 +21,7 @@ import { clearAllRegistration, addSecondPassword } from '../../redux/actions/act
 import { registerUser } from '../../utils/unauthhelper';
 import { getProfile } from '../../redux/actions/actionsUserData';
 import { UnauthBottomButton } from '../../components/Button/UnauthButton';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 //Functions
 
@@ -29,6 +30,9 @@ const SecondPassword = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     const [isLoading, setIsLoading] = useState(false)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     // //Sending OTP code to server
     const _handleChangePIN = async (psw) => {
         await dispatch(addSecondPassword(psw))
@@ -36,7 +40,8 @@ const SecondPassword = ({ navigation }) => {
     //Next button function
     const _handleNextButton = async () => {
         if (FormRegister.password != FormRegister.secondpassword) {
-            alert("Password harus sama")
+            setAlertMessage("Password harus sama")
+            setAlert(true)
         } else {
             setIsLoading(true)
             const pushToken = await AsyncStorage.getItem("@push_token")
@@ -58,7 +63,8 @@ const SecondPassword = ({ navigation }) => {
                 navigation.navigate('/')
             } else {
                 if (res.status == 400) {
-                    alert(res.data.errors.msg)
+                    setAlertMessage(res.data.errors.msg)
+                    setAlert(true)
                 }
             }
         }
@@ -67,6 +73,11 @@ const SecondPassword = ({ navigation }) => {
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
             <BarStatus />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <HeaderRegister
                 onPressBack={() => navigation.goBack()}
                 onPressNext={_handleNextButton}
