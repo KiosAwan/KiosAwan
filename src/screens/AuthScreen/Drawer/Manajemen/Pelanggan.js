@@ -12,6 +12,7 @@ import { ManagementPelangganCard } from '../../../../components/Card/ManagementC
 import { BottomButton } from '../../../../components/Button/ButtonComp';
 import { SizeList } from '../../../../styles/size';
 import { getCustomer } from '../../../../redux/actions/actionsCustomer';
+import { getUserToken } from 'src/utils/authhelper';
 
 const ManajemenPelanggan = ({ navigation }) => {
 
@@ -22,9 +23,13 @@ const ManajemenPelanggan = ({ navigation }) => {
 
 	const [search, setSearch] = useState('')
 	useEffect(() => {
-		dispatch(getCustomer(User.store.id_store))
+		_effect()
 	}, [])
 
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getCustomer(User.store.id_store, userToken))
+	}
 	const _handleAddNewCategory = () => {
 		navigation.navigate('/drawer/manajemen/pelanggan/add')
 	}

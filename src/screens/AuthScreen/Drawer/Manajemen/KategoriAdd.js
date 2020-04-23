@@ -21,6 +21,7 @@ import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
 import MDInput from 'src/components/Input/MDInput';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 
 const height = Dimensions.get('window').height
@@ -30,10 +31,14 @@ const KategoriAdd = ({ navigation }) => {
     const [categoryName, setCategoryName] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const User = useSelector(state => state.User)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
 
     const _handleSaveCategory = async () => {
         if (categoryName == "") {
-            alert("Nama tidak boleh kosong")
+            setAlertMessage("Nama tidak boleh kosong")
+            setAlert(true)
         }
         else {
             const userToken = await getUserToken()
@@ -49,7 +54,8 @@ const KategoriAdd = ({ navigation }) => {
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
 
         }
@@ -57,6 +63,11 @@ const KategoriAdd = ({ navigation }) => {
     }
     return (
         <View style={styles.container} >
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <BarStatus />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}

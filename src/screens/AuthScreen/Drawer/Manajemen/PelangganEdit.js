@@ -33,18 +33,23 @@ const PelangganEdit = ({ navigation }) => {
     const dispatch = useDispatch()
     const [form, setForm] = stateObject(navigation.state.params.item)
     const [modalVisible, setModalVisible] = useState(false)
-    const [alert, setAlert] = useState(false)
+    const [alertDel, setAlertDel] = useState(false)
     const User = useSelector(state => state.User)
+
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
+
 
     const _handleFinishEdit = async () => {
         if (form.name_customer == "") {
-            alert("Nama tidak boleh kosong")
+            setAlertMessage("Nama tidak boleh kosong")
+            setAlert(true)
         } else {
             const res = await editCustomer({
                 name_customer: form.name_customer,
                 phone_number_customer: form.phone_number_customer
             }, form.id_customer)
-            console.log(res)
             if (res.status == 201) {
                 setModalVisible(true)
                 setTimeout(() => {
@@ -53,13 +58,14 @@ const PelangganEdit = ({ navigation }) => {
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
         }
     }
 
     const _handleDeleteCustomer = async () => {
-        setAlert(false)
+        setAlertDel(false)
         await deleteCustomer(form.id_customer)
         setModalVisible(true)
         setTimeout(() => {
@@ -70,10 +76,15 @@ const PelangganEdit = ({ navigation }) => {
     }
     return (
         <View style={styles.container} >
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <BarStatus />
-            <AwanPopup.Title title="Hapus Pelanggan" visible={alert} message={`${form.name_customer} akan dihapus dari daftar pelanggan.`}>
+            <AwanPopup.Title title="Hapus Pelanggan" visible={alertDel} message={`${form.name_customer} akan dihapus dari daftar pelanggan.`}>
                 <View></View>
-                <Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
+                <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
                 <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
             </AwanPopup.Title>
             <GlobalHeaderWithIcon

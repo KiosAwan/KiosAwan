@@ -18,11 +18,14 @@ import { addName } from '../../redux/actions/actionsRegistration'
 import { HeaderRegister } from '../../components/Header/Header';
 import BarStatus from '../../components/BarStatus';
 import { UnauthBottomButton } from '../../components/Button/UnauthButton';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const NameRegistration = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
     const dispatch = useDispatch()
-
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     //Function handle change input and add to reducer
     const _handleChangeName = (name) => {
         dispatch(addName(name))
@@ -31,7 +34,8 @@ const NameRegistration = ({ navigation }) => {
     // Function handle press Next button
     const _handleNextButton = async () => {
         if (FormRegister.name == "") {
-            alert("Nama tidak boleh kosong")
+            setAlertMessage("Nama tidak boleh kosong")
+            setAlert(true)
         } else {
             navigation.navigate('/unauth/registration/first-password')
         }
@@ -43,6 +47,11 @@ const NameRegistration = ({ navigation }) => {
             <BarStatus />
             <HeaderRegister
             />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <View style={{ width: '70%', paddingTop: 30 }}>
                 <Text style={{ textAlign: "center", color: 'white' }}>Masukkan nama agar kami mudah mengenali Anda</Text>
             </View>
@@ -53,10 +62,10 @@ const NameRegistration = ({ navigation }) => {
                     handleChangeText={(name) => _handleChangeName(name)}
                 />
             </View>
-            <View style={{position : 'absolute', bottom : 10}}>
+            <View style={{ position: 'absolute', bottom: 10 }}>
                 <UnauthBottomButton
-                onPressBackBtn={() => navigation.goBack()}
-                onPressNextBtn={_handleNextButton}
+                    onPressBackBtn={() => navigation.goBack()}
+                    onPressNextBtn={_handleNextButton}
                 />
             </View>
         </LinearGradient>

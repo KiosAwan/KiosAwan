@@ -22,6 +22,10 @@ import { getStoreCategoryAPI } from 'src/utils/api/global_api';
 
 const UpdateProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
+
+	//alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState(false)
 	const [searchKategori, setSearchKategori] = useState('')
 	const [modalVisible, setModalVisible] = useState(false)
 	const [name_store, setName_Store] = useState('')
@@ -81,7 +85,8 @@ const UpdateProfil = ({ navigation }) => {
 	const [loading, setLoading] = useState(false)
 	const _handleSaveProfile = async () => {
 		if ([address_store, name_store, email_store, desaSelected.desa].includes('')) {
-			alert("Harap isi data toko dengan lengkap")
+			setAlertMessage("Harap isi data toko dengan lengkap")
+			setAlert(true)
 		} else {
 			setLoading(true)
 			const id_user = await AsyncStorage.getItem('userId')
@@ -102,7 +107,8 @@ const UpdateProfil = ({ navigation }) => {
 			const res = await sendProfileData(formData)
 			if (res.status == 400) {
 				setLoading(false)
-				alert(res.data.errors.msg)
+				setAlertMessage(res.data.errors.msg)
+				setAlert(true)
 			} else {
 				const userToken = await getUserToken()
 				setLoading(false)
@@ -117,6 +123,11 @@ const UpdateProfil = ({ navigation }) => {
 	}
 
 	return <Container>
+		<AwanPopup.Alert
+			message={alertMessage}
+			visible={alert}
+			closeAlert={() => setAlert(false)}
+		/>
 		<GlobalHeader title="Update Profil" onPressBack={() => navigation.goBack()} />
 		<Body>
 			<Modal

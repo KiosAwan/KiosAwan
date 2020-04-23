@@ -31,6 +31,9 @@ const LoginVerification = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
     const [loading, setLoading] = useState(false)
     const [viewForgot, setViewForgot] = useState(true)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     //Sending OTP code to server
     const _handlePasswordLogin = async (psw) => {
         const pushToken = await AsyncStorage.getItem("@push_token")
@@ -45,8 +48,9 @@ const LoginVerification = ({ navigation }) => {
         try {
             const res = await loginData(data)
             if (res.data.errors) {
-                alert(res.data.errors.msg)
                 setLoading(false)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
             else {
                 await dispatch(clearAllRegistration())
@@ -75,6 +79,11 @@ const LoginVerification = ({ navigation }) => {
     return (
         <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
             <BarStatus />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <AwanPopup.Loading visible={loading} />
             <View style={{ paddingTop: 10 }}>
                 <HeaderRegister />

@@ -15,6 +15,8 @@ const ForgotPINNewPIN = ({ navigation }) => {
     const [params] = stateObject(navigation.state.params)
     const [modalVisible, setModalVisible] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     const _handlePINFulfilled = code => {
         if (params.pin) {
             _handleSavePIN(code)
@@ -25,9 +27,11 @@ const ForgotPINNewPIN = ({ navigation }) => {
     const _handleSavePIN = async confirmPin => {
         const { pin } = params
         if (!pin || !confirmPin) {
-            alert("Pin harus 4 digit")
+            setAlertMessage("Pin harus 4 digit")
+            setAlert(true)
         } else if (pin != confirmPin) {
-            alert("Pin harus sama")
+            setAlertMessage("Pin harus sama")
+            setAlert(true)
         } else {
             setLoading(true)
             const id = await AsyncStorage.getItem('userId')
@@ -45,6 +49,11 @@ const ForgotPINNewPIN = ({ navigation }) => {
         }
     }
     return <Container>
+        <AwanPopup.Alert
+            message={alertMessage}
+            visible={alert}
+            closeAlert={() => setAlert(false)}
+        />
         <Modal
             animationType="fade"
             transparent={true}

@@ -21,9 +21,7 @@ import { } from '../../../../components/Input/InputComp';
 import ModalContent from '../../../../components/ModalContent/ModalContent';
 import { getCustomer } from '../../../../redux/actions/actionsCustomer';
 import MDInput from 'src/components/Input/MDInput';
-
-
-const height = Dimensions.get('window').height
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const PelangganAdd = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -31,10 +29,14 @@ const PelangganAdd = ({ navigation }) => {
     const [phone_number, setPhoneNumber] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const User = useSelector(state => state.User)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
 
     const _handleSaveNewCustomer = async () => {
         if (name == "") {
-            alert("Nama tidak boleh kosong")
+            setAlertMessage("Nama tidak boleh kosong")
+            setAlert(true)
         }
         else {
             const res = await sendNewCustomer({
@@ -50,7 +52,8 @@ const PelangganAdd = ({ navigation }) => {
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
 
         }
@@ -59,6 +62,11 @@ const PelangganAdd = ({ navigation }) => {
     return (
         <View style={styles.container} >
             <BarStatus />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
                 title="Tambah Pelanggan"

@@ -75,10 +75,13 @@ const NewProductLast = ({ navigation }) => {
 					name: `${Date.now()}.jpeg`
 				} : null)
 				try {
-					const response = await Axios.post(`${HOST_URL}/product`, formData)
+					const userToken = await getUserToken()
+					const response = await Axios.post(`${HOST_URL}/product`, formData,
+						{
+							headers: { "authorization": userToken }
+						})
 					setApiLoading(false)
 					setModalVisible(true)
-					const userToken = await getUserToken()
 					setTimeout(() => {
 						setModalVisible(false)
 						dispatch(clearAllNewProduct())

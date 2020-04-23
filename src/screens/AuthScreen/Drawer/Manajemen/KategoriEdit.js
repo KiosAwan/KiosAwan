@@ -18,12 +18,17 @@ const KategoriEdit = ({ navigation }) => {
     const dispatch = useDispatch()
     const [form, setForm] = stateObject(navigation.state.params.item)
     const [modalVisible, setModalVisible] = useState(false)
-    const [alert, setAlert] = useState(false)
+    const [alertDel, setAlertDel] = useState(false)
     const User = useSelector(state => state.User)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
+
 
     const _handleSaveCategory = async () => {
         if (form.name_product_category == "") {
-            alert("Nama tidak boleh kosong")
+            setAlertMessage("Nama tidak boleh kosong")
+            setAlert(true)
         } else {
             const userToken = await getUserToken()
             const res = await editCategory({
@@ -37,13 +42,14 @@ const KategoriEdit = ({ navigation }) => {
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
         }
     }
 
     const _handleDeleteCategory = async () => {
-        setAlert(false)
+        setAlertDel(false)
         await deleteCategory(form.id_product_category)
         const userToken = await getUserToken()
         setModalVisible(true)
@@ -55,13 +61,18 @@ const KategoriEdit = ({ navigation }) => {
     }
     return <Container header={{
         onPressBack: () => navigation.goBack(),
-        handleDeleteCategory: () => setAlert(true),
+        handleDeleteCategory: () => setAlertDel(true),
         title: "Edit Kategori",
         image: require('src/assets/icons/trash.png'),
     }}>
-        <AwanPopup.Title title="Hapus Kategori" visible={alert} message={`Kategori ${form.name_product_category} akan dihapus dari daftar kategorimu.`}>
+        <AwanPopup.Alert
+            message={alertMessage}
+            visible={alert}
+            closeAlert={() => setAlert(false)}
+        />
+        <AwanPopup.Title title="Hapus Kategori" visible={alertDel} message={`Kategori ${form.name_product_category} akan dihapus dari daftar kategorimu.`}>
             <View></View>
-            <Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
+            <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
             <Button onPress={_handleDeleteCategory} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
         </AwanPopup.Title>
         <Modal

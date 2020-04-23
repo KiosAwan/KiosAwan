@@ -19,7 +19,6 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 	const [modalVisible, setModalVisible] = useState(false)
 	const [loading, setLoading] = useState(false)
 
-
 	//alert
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState(false)
@@ -28,7 +27,8 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 		setLoading(true)
 		const a = phoneValidation(newPhoneNum[0] == 0 ? newPhoneNum.replace("0", "62") : newPhoneNum)
 		if (!a) {
-			alert("Mohon masukkan nomer telfon dengan format yang benar")
+			setAlertMessage("Mohon masukkan nomer telfon dengan format yang benar")
+			setAlert(true)
 		}
 		else {
 			const data = {

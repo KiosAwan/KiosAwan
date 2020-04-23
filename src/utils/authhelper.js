@@ -430,7 +430,6 @@ export const editStoreProfile = async (data, storeId) => {
     return res.data
   }
   catch (error) {
-    console.debug(error)
     const res = error.response.data
     return res
   }
