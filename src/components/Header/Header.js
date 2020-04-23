@@ -63,7 +63,8 @@ export const GlobalHeader = props => {
         onlyTitle,
         children,
         leftProps,
-        rightProps
+        rightProps,
+        style
     } = props
     const renderMid = () => {
         if (children) {
@@ -98,7 +99,7 @@ export const GlobalHeader = props => {
     return <Header androidStatusBarColor={ColorsList.primary} style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
         {
             transparent ? render() :
-                <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ width: '100%', justifyContent: 'center' }}>
+                <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ width: '100%', justifyContent: 'center', ...style }}>
                     {render()}
                 </LinearGradient>
         }

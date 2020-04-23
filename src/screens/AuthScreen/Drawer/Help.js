@@ -12,13 +12,13 @@ import { HOST_URL } from 'src/config';
 import { convertPhoneNumber } from 'src/utils/authhelper';
 const Help = ({ navigation }) => {
 	const User = useSelector(state => state.User)
-	const [callCenter , setCallCenter] = useState()
-	const [whatsapp , setWhatsapp] = useState()
-	const [mail , setMail] = useState('info@kiosawan.com')
+	const [callCenter, setCallCenter] = useState()
+	const [whatsapp, setWhatsapp] = useState()
+	const [mail, setMail] = useState('info@kiosawan.com')
 	useEffect(() => {
 		_getData()
 	}, [])
-	const _getData = async() => {
+	const _getData = async () => {
 		const res = await Axios.get(`${HOST_URL}/pusatbantuan`)
 		setCallCenter(res.data.data[0].no_telpon)
 		setWhatsapp(res.data.data[0].no_whatsapp)
@@ -27,7 +27,7 @@ const Help = ({ navigation }) => {
 	const _openUrl = url => Linking.openURL(url)
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader style={{ height: 190 }} title="Hubungi Kami" onPressBack={() => navigation.goBack()} />
+			<GlobalHeader style={{ height: 190, justifyContent: 'flex-start' }} title="Hubungi Kami" onPressBack={() => navigation.goBack()} />
 			<View style={{ ...$Padding(0, 15), alignItems: 'center' }}>
 				<View style={{ ...$Margin(0, 0, 15) }}>
 					<Text color="whiteColor" align="center" size={25}>Halo {User.data.name}!</Text>
