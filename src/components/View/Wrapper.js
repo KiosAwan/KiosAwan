@@ -3,7 +3,7 @@ import { View } from 'react-native';
 export const Wrapper = props => {
 	const { noWrapper, children, radius, flexStart, flexEnd, center, spaceBetween, spaceAround } = props
 	if (props.noWrapper) {
-		console.debug(987654)
+		// console.debug(987654)
 	}
 	return <View style={[{
 		flexDirection: props.direction || 'row',

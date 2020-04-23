@@ -9,7 +9,7 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { useSelector } from 'react-redux';
 import Axios from 'axios';
 import { HOST_URL } from 'src/config';
-import { convertPhoneNumber } from 'src/utils/authhelper';
+import { convertPhoneNumber, getUserToken } from 'src/utils/authhelper';
 const Help = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [callCenter, setCallCenter] = useState()
@@ -19,7 +19,10 @@ const Help = ({ navigation }) => {
 		_getData()
 	}, [])
 	const _getData = async () => {
-		const res = await Axios.get(`${HOST_URL}/pusatbantuan`)
+		const userToken = await getUserToken()
+		const res = await Axios.get(`${HOST_URL}/pusatbantuan`, {
+			headers: { "authorization": userToken }
+		})
 		setCallCenter(res.data.data[0].no_telpon)
 		setWhatsapp(res.data.data[0].no_whatsapp)
 		setMail(res.data.data[0].email)
