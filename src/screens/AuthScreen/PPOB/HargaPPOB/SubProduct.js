@@ -105,11 +105,18 @@ const SubProduct = ({ navigation }) => {
 
         const renderMap = ({ item }) => {
             let key = item.productID + item.name
+            const renderCashback = () => {
+                let [modal, harga] = [
+                    item.awan + parseInt(item.price),
+                    parseInt(item.price) + (productMargin[key] ? productMargin[key].margin ? productMargin[key].margin : 0 : parseInt(item.margin))
+                ]
+                return harga - modal > 0 ? harga - modal : 0
+            }
             return <View>
                 <Wrapper radius spaceBetween style={{ marginVertical: 5, backgroundColor: ColorsList.white }}>
                     <View _width="60%" style={{ padding: 10 }}>
                         <Text color="primary">{item.name}</Text>
-                        <Text>Admin: {convertRupiah(item.margin)}</Text>
+                        <Text>Admin: {convertRupiah(productMargin[key] && productMargin[key].margin || item.margin)}</Text>
                     </View>
                     {show(item) ?
                         <View _width="35%" style={{ ...$Border(ColorsList.greyAuthHard, 0, 0, 0, 1), backgroundColor: ColorsList.authBackground, padding: 10, justifyContent: 'flex-start' }}>
@@ -129,7 +136,7 @@ const SubProduct = ({ navigation }) => {
                             {
                                 [2000, 2500, 3000, 3500].map((btn, i) => {
                                     return <Button
-                                        active={productMargin[key] && productMargin[key].margin == btn}
+                                        active={productMargin[key] && productMargin[key].margin == btn || !productMargin[key].margin && btn == item.margin}
                                         style={{ margin: 5 }}
                                         onPress={() => _pilihCashback(item, btn)}
                                         color={['white', 'primary']}
@@ -139,14 +146,14 @@ const SubProduct = ({ navigation }) => {
                                 })
                             }
                         </Wrapper>
-                        <Button style={{ marginBottom: 10 }} disabled color="info">{`Cashback yang di dapat oleh mitra sebesar ${convertRupiah(2000)}`}</Button>
+                        <Button style={{ marginBottom: 10 }} disabled color="info">{`Cashback yang di dapat oleh mitra sebesar ${convertRupiah(renderCashback())}`}</Button>
                     </View>
                 }
             </View>
         }
 
         return <View style={{ flex: 1, paddingTop: 10 }}>
-            <View style={{ width: "80%", alignItems: "center", alignSelf : "center" }}>
+            <View style={{ width: "80%", alignItems: "center", alignSelf: "center" }}>
                 <Text align="center">Jumlah cashback menyesuaikan biaya admin yang dipilih</Text>
             </View>
             <BodyFlatList data={products}
