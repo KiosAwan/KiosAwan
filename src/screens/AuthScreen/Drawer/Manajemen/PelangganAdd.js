@@ -10,16 +10,16 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { sendNewCustomer } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
-import { } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getCustomer } from '../../../../redux/actions/actionsCustomer';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { sendNewCustomer } from 'src/utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { FontList } from 'src/styles/typography';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import MDInput from 'src/components/Input/MDInput';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
@@ -79,7 +79,7 @@ const PelangganAdd = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemenpelanggansuccess.png')}
+                    image={require('src/assets/images/managemenpelanggansuccess.png')}
                     infoText="Tambah Pelanggan Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />

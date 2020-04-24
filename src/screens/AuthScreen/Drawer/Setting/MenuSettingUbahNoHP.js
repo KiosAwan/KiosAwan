@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Modal, StyleSheet } from 'react-native';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
 import { useSelector, useDispatch } from 'react-redux'
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { SizeList } from '../../../../styles/size';
-import { } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { changeNewPhoneNumber, getUserToken } from '../../../../utils/authhelper'
-import { phoneValidation } from '../../../../utils/unauthhelper';
-import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { changeNewPhoneNumber, getUserToken } from 'src/utils/authhelper'
+import { phoneValidation } from 'src/utils/unauthhelper';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import MDInput from 'src/components/Input/MDInput';
 const MenuSettingUbahNoHP = ({ navigation }) => {
@@ -70,7 +70,7 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-					image={require('../../../../assets/images/successchangephone.png')}
+					image={require('src/assets/images/successchangephone.png')}
 					infoText="Anda Berhasil Mengubah No HP!"
 					closeModal={() => setModalVisible(false)}
 				/>

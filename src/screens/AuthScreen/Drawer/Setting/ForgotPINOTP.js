@@ -6,10 +6,10 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux'
 import CodeInput from 'react-native-confirmation-code-input';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { showPhoneNumber } from '../../../../utils/unauthhelper';
-import { ColorsList } from '../../../../styles/colors';
-import { sendOTPAuth, verifyOTPAuth } from '../../../../utils/authhelper';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { showPhoneNumber } from 'src/utils/unauthhelper';
+import { ColorsList } from 'src/styles/colors';
+import { sendOTPAuth, verifyOTPAuth } from 'src/utils/authhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const ForgotPINOTP = ({ navigation }) => {

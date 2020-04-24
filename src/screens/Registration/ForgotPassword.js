@@ -10,6 +10,7 @@ import CodeInput from 'react-native-confirmation-code-input';
 import { GlobalHeader } from '../../components/Header/Header';
 import { sendVerifyOTP, showPhoneNumber, sendOTP } from '../../utils/unauthhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from 'src/styles/colors';
 
 const ForgotPassword = ({ navigation }) => {
     const phoneNumber = useSelector(state => state.Registration.phone_number)

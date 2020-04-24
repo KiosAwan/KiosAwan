@@ -111,7 +111,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<Button onPress={__handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
 			</AwanPopup.Title>
 			<GlobalHeaderWithIcon
-				image={require('../../../../assets/icons/trash.png')}
+				image={require('src/assets/icons/trash.png')}
 				title="Edit Produk"
 				handleDeleteCategory={() => setAlert(true)}
 				onPressBack={() => navigation.goBack()} />

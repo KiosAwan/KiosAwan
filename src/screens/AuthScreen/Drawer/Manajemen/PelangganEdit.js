@@ -10,17 +10,17 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { editCustomer, deleteCustomer } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
-import { } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { AwanPopup } from '../../../../components/ModalContent/Popups';
-import { getCustomer } from '../../../../redux/actions/actionsCustomer';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { editCustomer, deleteCustomer } from 'src/utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { FontList } from 'src/styles/typography';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import MDInput from 'src/components/Input/MDInput';
@@ -90,7 +90,7 @@ const PelangganEdit = ({ navigation }) => {
             <GlobalHeaderWithIcon
                 onPressBack={() => navigation.goBack()}
                 title="Edit Pelanggan"
-                image={require('../../../../assets/icons/trash.png')}
+                image={require('src/assets/icons/trash.png')}
                 handleDeleteCategory={() => setAlert(true)}
             />
             <Modal
@@ -101,7 +101,7 @@ const PelangganEdit = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemenpelanggansuccess.png')}
+                    image={require('src/assets/images/managemenpelanggansuccess.png')}
                     infoText="Edit Pelanggan Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />

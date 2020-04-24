@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { GlobalHeader } from '../../../../components/Header/Header';
+import { GlobalHeader } from 'src/components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
-import { } from '../../../../components/Input/InputComp';
-import { ColorsList } from '../../../../styles/colors';
+import { } from 'src/components/Input/InputComp';
+import { ColorsList } from 'src/styles/colors';
 import { Icon } from 'native-base';
-import { changePassword, getUserToken } from '../../../../utils/authhelper'
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { changePassword, getUserToken } from 'src/utils/authhelper'
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
@@ -98,7 +98,7 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 					setModalVisible(!modalVisible);
 				}}
 			><ModalContent
-					image={require('../../../../assets/images/successchangepassword.png')}
+					image={require('src/assets/images/successchangepassword.png')}
 					infoText="Password Berhasil Diganti!"
 					closeModal={() => setModalVisible(false)}
 				/>

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import { Text } from '../../../../components/Text/CustomText';
-import { GlobalHeader } from '../../../../components/Header/Header';
+import { Text } from 'src/components/Text/CustomText';
+import { GlobalHeader } from 'src/components/Header/Header';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
-import { ColorsList } from '../../../../styles/colors';
-import { FontList } from '../../../../styles/typography';
-import SearchInput from '../../../../components/Input/SearchInput';
-import { ManagementCategoryCard } from '../../../../components/Card/ManagementCard';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { SizeList } from '../../../../styles/size';
+import { getCategory } from 'src/redux/actions/actionsStoreCategory';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import SearchInput from 'src/components/Input/SearchInput';
+import { ManagementCategoryCard } from 'src/components/Card/ManagementCard';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
 import { getUserToken } from 'src/utils/authhelper';
 
 const ManajemenKategori = ({ navigation }) => {

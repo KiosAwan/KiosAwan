@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { ColorsList } from '../../../../styles/colors';
-import { RowChild } from '../../../../components/Helper/RowChild';
+import { ColorsList } from 'src/styles/colors';
+import { RowChild } from 'src/components/Helper/RowChild';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import { FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
-import { formatToDate } from '../../../../utils/authhelper';
-import { AddCashPayment, AddDebtDate } from '../../../../redux/actions/actionsStoreProduct';
+import { FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { formatToDate } from 'src/utils/authhelper';
+import { AddCashPayment, AddDebtDate } from 'src/redux/actions/actionsStoreProduct';
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { PilihPelanggan } from '../../../../components/Picker/SelectBoxModal';
+import { PilihPelanggan } from 'src/components/Picker/SelectBoxModal';
 import MDInput from 'src/components/Input/MDInput';
 
 const Piutang = () => {

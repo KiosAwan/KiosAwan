@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { ColorsList } from '../../../../styles/colors';
-import { FontList } from '../../../../styles/typography';
-import { RowChild } from '../../../../components/Helper/RowChild';
-import { TouchableImage } from '../../../../components/Button/ButtonComp';
-import { SizeList } from '../../../../styles/size';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import { RowChild } from 'src/components/Helper/RowChild';
+import { TouchableImage } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { ImageAuto } from 'src/components/CustomImage';
 

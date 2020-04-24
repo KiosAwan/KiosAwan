@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
-import { ToggleButtonMoney } from '../../../../components/Picker/SelectBoxModal';
-import { ColorsList } from '../../../../styles/colors';
-import { FontList } from '../../../../styles/typography';
-import { convertRupiah, getNearestFifty, validNumber } from '../../../../utils/authhelper';
-import { RowChild } from '../../../../components/Helper/RowChild';
-import { AddCashPayment } from '../../../../redux/actions/actionsStoreProduct';
+import { FloatingInputLabel, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import { convertRupiah, getNearestFifty, validNumber } from 'src/utils/authhelper';
+import { RowChild } from 'src/components/Helper/RowChild';
+import { AddCashPayment } from 'src/redux/actions/actionsStoreProduct';
 
 const CashPayment = () => {
     const Product = useSelector(state => state.Product)

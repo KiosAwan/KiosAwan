@@ -10,16 +10,16 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { verifyUserPassword, sendNewCategory, getUserToken } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
-import { } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { verifyUserPassword, sendNewCategory, getUserToken } from 'src/utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { FontList } from 'src/styles/typography';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import MDInput from 'src/components/Input/MDInput';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
@@ -81,7 +81,7 @@ const KategoriAdd = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemenkategorisuccess.png')}
+                    image={require('src/assets/images/managemenkategorisuccess.png')}
                     infoText="Tambah Kategori Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />

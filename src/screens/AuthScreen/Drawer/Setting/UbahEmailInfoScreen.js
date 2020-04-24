@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, Image } from 'react-native';
-import { } from '../../../../components/Input/InputComp';
-import { SizeList } from '../../../../styles/size';
+import { } from 'src/components/Input/InputComp';
+import { SizeList } from 'src/styles/size';
 import { useSelector } from 'react-redux'
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { FontList } from '../../../../styles/typography';
-import { sendOTPAuth, resendVerifyEmail } from '../../../../utils/authhelper';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import { sendOTPAuth, resendVerifyEmail } from 'src/utils/authhelper';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -66,7 +66,7 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 					<MDInput label="Email Anda" value={User.data.email}
 						editable={false}
 						renderRightAccessory={() =>
-							<Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('../../../../assets/icons/rejectcheck.png') : require('../../../../assets/icons/successcheck.png')} />} />
+							<Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
 				</View>
 				{User.data.status == 0 ?
 					<View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: 30 }}>

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, Image } from 'react-native';
-import { SizeList } from '../../../../styles/size';
+import { SizeList } from 'src/styles/size';
 import { useSelector } from 'react-redux'
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { BottomButton } from 'src/components/Button/ButtonComp';
 import { sendOTPAuth } from 'src/utils/authhelper';
 import { FontList } from 'src/styles/typography';
 import { showPhoneNumber } from 'src/utils/unauthhelper';

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text } from 'react-native';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { } from '../../../../components/Input/InputComp';
-import { WrapperItem } from '../../../../components/Picker/SelectBoxModal';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { } from 'src/components/Input/InputComp';
+import { WrapperItem } from 'src/components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';

@@ -160,7 +160,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 			title="Edit Produk"
 			onPressBack={() => navigation.goBack()}
 			handleDeleteCategory={() => setAlert(true)}
-			image={require('../../../../assets/icons/trash.png')}
+			image={require('src/assets/icons/trash.png')}
 		/>
 		<View style={styles.childContainer}>
 			<ScrollView showsVerticalScrollIndicator={false}>

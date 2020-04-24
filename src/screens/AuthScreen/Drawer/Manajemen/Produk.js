@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Image, ScrollView } from 'react-native'
-import SearchInput from '../../../../components/Input/SearchInput';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { AwanPopup } from '../../../../components/ModalContent/Popups';
-import { ColorsList } from '../../../../styles/colors';
-import { ProductCard } from '../../../../components/Card/CardComp';
-import { convertRupiah, getUserToken } from '../../../../utils/authhelper';
+import SearchInput from 'src/components/Input/SearchInput';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from 'src/styles/colors';
+import { ProductCard } from 'src/components/Card/CardComp';
+import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFromManajemenProduct } from '../../../../redux/actions/actionsNewProduct';
+import { setFromManajemenProduct } from 'src/redux/actions/actionsNewProduct';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { editProductName, editProductBarcode, editProductAddId, editProductImage, editProductPriceIn, editProductPriceOut, editProductIdCategory, editProductManageStock, editProductSendNotif, editQuantityStock, editMinQtyStock, editTempImage } from 'src/redux/actions/actionsEditProduct';
 import { Bottom } from 'src/components/View/Bottom';
@@ -88,7 +88,7 @@ const ManajemenProduk = ({ navigation }) => {
 											justifyContent: 'center',
 											alignItems: "center"
 										}}>
-											<Image style={{ width: 40, height: 40 }} source={require('../../../../assets/icons/edit.png')} />
+											<Image style={{ width: 40, height: 40 }} source={require('src/assets/icons/edit.png')} />
 										</TouchableOpacity>
 									}
 								/>

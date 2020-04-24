@@ -9,16 +9,16 @@ import {
 	TextInput,
 	Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
 import AsyncStorage from '@react-native-community/async-storage';
-import { changeEmail, getUserToken } from '../../../../utils/authhelper';
-import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { changeEmail, getUserToken } from 'src/utils/authhelper';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import MDInput from 'src/components/Input/MDInput';
 
@@ -70,7 +70,7 @@ const UbahEmailNewEmail = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-					image={require('../../../../assets/images/successchangeemail.png')}
+					image={require('src/assets/images/successchangeemail.png')}
 					infoText="Anda Berhasil Mengubah Email!"
 					closeModal={() => setModalVisible(false)}
 				/>

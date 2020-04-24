@@ -6,11 +6,11 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux'
 import CodeInput from 'react-native-confirmation-code-input';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { SizeList } from '../../../../styles/size';
-import { sendCodeToEmail, verifyEmailCode } from '../../../../utils/authhelper';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
+import { sendCodeToEmail, verifyEmailCode } from 'src/utils/authhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
