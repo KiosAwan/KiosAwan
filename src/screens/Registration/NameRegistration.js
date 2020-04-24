@@ -19,6 +19,7 @@ import { HeaderRegister } from '../../components/Header/Header';
 import BarStatus from '../../components/BarStatus';
 import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from '../../styles/colors';
 
 const NameRegistration = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
@@ -43,7 +44,7 @@ const NameRegistration = ({ navigation }) => {
 
 
     return (
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
             <BarStatus />
             <HeaderRegister
             />

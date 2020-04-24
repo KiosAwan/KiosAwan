@@ -45,7 +45,7 @@ const FirstPassword = ({ navigation }) => {
     }
 
     return (
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
             <AwanPopup.Alert
                 message={alertMessage}
                 visible={alert}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        backgroundColor: '#cd0192'
+        backgroundColor: ColorsList.primary
     },
     borderStyleBase: {
         width: 30,

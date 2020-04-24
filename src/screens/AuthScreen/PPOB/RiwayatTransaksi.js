@@ -56,7 +56,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 									<Text _width="65%" font="SemiBold" color="primary">{item.transaction_name && item.transaction_name.split('_').join(' ').toUpperCase()}</Text>
 									<Text _width="35%" align="right" size={12} color={item.type == 0 ? "success" : "danger"}>{`${item.type == 0 ? "+" : "-"} ${convertRupiah(item.amount)}`}</Text>
 								</Wrapper>
-								<Text color="primary" color="#3e3d3d">{item.customer_id}</Text>
+								<Text>{item.customer_id}</Text>
 								<Wrapper justify="space-between" style={{ marginTop: 10 }}>
 									<Text size={12}>{item.transaction_code}</Text>
 									<Text size={12}>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>

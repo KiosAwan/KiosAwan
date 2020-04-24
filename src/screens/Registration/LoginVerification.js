@@ -24,6 +24,7 @@ import { FontList } from '../../styles/typography';
 import { InputPIN } from '../../components/Input/InputPIN';
 import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from '../../styles/colors';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -77,7 +78,7 @@ const LoginVerification = ({ navigation }) => {
     }
 
     return (
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
+        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container}>
             <BarStatus />
             <AwanPopup.Alert
                 message={alertMessage}

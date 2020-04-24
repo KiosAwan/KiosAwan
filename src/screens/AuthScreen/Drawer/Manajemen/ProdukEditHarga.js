@@ -198,7 +198,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 					{
 						EditProduct.manageStock == 1 ?
 							<View>
-								<View style={{ height: 1, backgroundColor: "#e0dada" }} />
+								<View style={{ height: 1, backgroundColor: ColorsList.light }} />
 								<View style={styles.wrapInputHarga}>
 									<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
 										<FloatingInputLabel
@@ -220,7 +220,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 								<View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
 									<CheckBox
 										checked={EditProduct.sendNotif == 0 ? false : true}
-										color={EditProduct.sendNotif == 1 ? "#cd0192" : "grey"}
+										color={EditProduct.sendNotif == 1 ? ColorsList.primary : ColorsList.greyFont}
 										onPress={() => {
 											if (EditProduct.sendNotif == 0) {
 												dispatch(editProductSendNotif(1))
@@ -229,7 +229,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 											}
 										}}
 									/>
-									<Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif == 1 ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
+									<Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif == 1 ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
 								</View>
 							</View>
 							: null
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginTop: 30,
 		borderWidth: 2,
-		borderColor: "#e0dada"
+		borderColor: ColorsList.light
 	}
 })
 

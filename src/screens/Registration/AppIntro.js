@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import Strings from '../../utils/Strings'
 import BarStatus from '../../components/BarStatus';
+import { ColorsList } from 'src/styles/colors';
 
 
 const slides = [
@@ -37,7 +38,7 @@ export default class AppIntro extends React.Component {
         return (
             <LinearGradient
                 style={styles.mainContent}
-                colors={['#cd0192', '#6d1d6d']}
+                colors={[ColorsList.primary, ColorsList.gradientPrimary]}
                 start={{ x: 0, y: 0.1 }}
                 end={{ x: 0.1, y: 1 }}
             >
@@ -83,7 +84,7 @@ export default class AppIntro extends React.Component {
     render() {
         return (
             <AppIntroSlider
-                dotStyle={{ backgroundColor: '#cd0192' }}
+                dotStyle={{ backgroundColor: ColorsList.primary }}
                 renderItem={this._renderItem}
                 slides={slides}
                 onDone={this._onDone}

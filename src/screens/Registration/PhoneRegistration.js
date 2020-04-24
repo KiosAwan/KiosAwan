@@ -142,7 +142,7 @@ const PhoneRegistration = ({ navigation }) => {
 		navigation.navigate('/unauth/registration')
 	}
 	return (
-		<LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+		<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
 			<BarStatus />
 			{/* {Bottom sheet for verify OTP new user} */}
 			<RBSheet
@@ -213,7 +213,7 @@ const PhoneRegistration = ({ navigation }) => {
 					/>
 					{viewTerm ?
 						<View style={styles.termAndCond}>
-							<Text style={{ color: "#e831ae", fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM1}
+							<Text style={{ color: ColorsList.pink, fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM1}
 								<Text onPress={() => navigation.navigate('/unauth/registration/term-condition')} style={{ color: "white", fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM2}</Text>
 							</Text>
 						</View> : null

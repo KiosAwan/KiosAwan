@@ -72,7 +72,7 @@ const SecondPassword = ({ navigation }) => {
     }
 
     return (
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
             <BarStatus />
             <AwanPopup.Alert
                 message={alertMessage}
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        backgroundColor: '#cd0192'
+        backgroundColor: ColorsList.primary
     },
     borderStyleBase: {
         width: 30,
