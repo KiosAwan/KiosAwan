@@ -14,10 +14,10 @@ const reducerRiwayatTransaksi = (state = initialState, actions) => {
                 isLoading: true
             };
         case "GET_RIWAYAT_TRANSAKSI_FULFILLED":
-            if (state.nextPage == 1) {
+            if (actions.payload.data.data.current_page == 1) {
                 return {
                     ...state,
-                    data: [...actions.payload.data.data.history],
+                    data: actions.payload.data.data.history,
                     nextPage: parseInt(actions.payload.data.data.current_page) + 1,
                     total: parseInt(actions.payload.data.data.total_pages),
                     isLoading: false

@@ -53,6 +53,7 @@ const ListrikToken = ({ navigation }) => {
 
 	const _getProduct = async () => {
 		const res = await getProductToken()
+		// console.debug(res)
 		setProduct(res.data)
 	}
 	const _cekTagihan = async (idPel) => {
