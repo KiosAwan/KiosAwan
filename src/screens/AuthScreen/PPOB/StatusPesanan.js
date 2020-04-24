@@ -68,7 +68,10 @@ const StatusPesanan = ({ navigation }) => {
 									'angsuran',
 									'tagihan',
 									'adminBank',
-									'denda'
+									'denda',
+									'stroom_token',
+									'pembelian_token',
+									'materai'
 								].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
 							</Wrapper>
 							<Divider />

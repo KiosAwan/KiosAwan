@@ -32,11 +32,11 @@ const RiwayatTransaksi = ({ navigation }) => {
 		}
 	}
 
-	return RiwayatTransaksi.isLoading ? <ActivityIndicator color={ColorsList.primary} />
-		:
-		<Container>
-			<GlobalHeader title="Riwayat" onPressBack={() => navigation.goBack()} />
-			{RiwayatTransaksi.data.length == 0 ?
+	return <Container>
+		<GlobalHeader title="Riwayat" onPressBack={() => navigation.goBack()} />
+		{RiwayatTransaksi.isLoading ? <ActivityIndicator color={ColorsList.primary} />
+			:
+			RiwayatTransaksi.data.length == 0 ?
 				<View style={{ flex: 1, alignItems: "center", justifyContent: "center", width: "70%", alignSelf: "center" }}>
 					<Image style={{ resizeMode: 'contain', width: 250, height: 250 }} source={require("src/assets/images/riwayat.png")} />
 					<Text font="Bold" size={16}>Anda belum memiliki riwayat</Text>
@@ -67,8 +67,8 @@ const RiwayatTransaksi = ({ navigation }) => {
 						keyExtractor={(item, i) => i.toString()}
 					/>
 				</Body>
-			}
-		</Container>
+		}
+	</Container>
 }
 
 export default RiwayatTransaksi;
