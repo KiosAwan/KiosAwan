@@ -290,7 +290,7 @@ const Home = ({ navigation }) => {
 					<Wrapper justify="space-between">
 						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
 						<View _width="75%">
-							<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
+							<Text font="ExtraBold" color="primary">PEMBAYARAN</Text>
 							<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
 						</View>
 					</Wrapper>
