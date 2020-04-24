@@ -97,6 +97,7 @@ const ListrikPascabayar = ({ navigation }) => {
 			selectedCashback
 		}
 		const res = await payTagihanListrik(data)
+		console.debug(res)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
@@ -143,6 +144,7 @@ const ListrikPascabayar = ({ navigation }) => {
 			<AwanPopup.Loading visible={payLoading} />
 			{/* Popup components */}
 			<View style={styles.topComp}>
+				{__DEV__ && <Button onPress={() => setCustId('520060002607')}>520060002607</Button>}
 				<MDInput _width="80%"
 					label="ID Pelanggan"
 					value={custId.toString()}

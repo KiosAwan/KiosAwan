@@ -85,14 +85,14 @@ export const GlobalHeader = props => {
             return <Image style={{ width: 30, height: 30 }} source={image} />
         }
     }
-    const render = () => <Wrapper style={{ width: '100%' }} spaceBetween>
-        <Button color={["transparent"]} onPress={onPressBack} {...leftProps}>
+    const render = () => <Wrapper style={{ width: '100%' }} spaceBetween={!onlyTitle}>
+        {!onlyTitle && <Button color={["transparent"]} onPress={onPressBack} {...leftProps}>
             <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || "white"} />
-        </Button>
+        </Button>}
         <View _flex={!onlyTitle}>
             {renderMid()}
         </View>
-        {image && <Button color={["transparent"]} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
+        {!onlyTitle && image && <Button color={["transparent"]} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
             {renderImage()}
         </Button>}
     </Wrapper>
