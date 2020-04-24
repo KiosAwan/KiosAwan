@@ -28,11 +28,11 @@ export const Wrapper = props => {
 						item.props._center && { justifyContent: 'center' },
 						item.props._spaceAround && { justifyContent: 'space-around' },
 						item.props._spaceBetween && { justifyContent: 'space-between' },
-						item.props._style,
-						!item.props._unFlex && item.props._flex && { flex: 1 },
 						!item.props._unFlex && props.flexContent && { flex: 1 },
+						!item.props._unFlex && item.props._flex && { flex: 1 },
 						item.props.style && item.props.style.width ? { width: item.props.style.width } : {},
-						item.props.width ? { width: item.props.width } : {}
+						item.props.width ? { width: item.props.width } : {},
+						item.props._style,
 					]} key={i}>
 						{itemCLoned}
 					</View>

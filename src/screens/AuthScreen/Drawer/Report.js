@@ -116,7 +116,7 @@ const Report = ({ navigation }) => {
 								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
 									.map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
 										<Text>{key.split('_').join(' ').ucwords()}</Text>
-										<Text>{dataTransaction[key].convertRupiah()}</Text>
+										<Text>{dataTransaction[key] && dataTransaction[key].convertRupiah()}</Text>
 									</Wrapper>)
 							}
 						</View>
@@ -135,7 +135,7 @@ const Report = ({ navigation }) => {
 								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
 									.map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
 										<Text>{key.split('_').join(' ').ucwords()}</Text>
-										<Text>{dataTransaction[key].convertRupiah()}</Text>
+										<Text>{dataTransaction[key] && dataTransaction[key].convertRupiah()}</Text>
 									</Wrapper>)
 							}
 						</View>
@@ -173,11 +173,11 @@ const Report = ({ navigation }) => {
 								{
 									data && data.map(({ Product, harga_jual, total, jumlah }, i) => [
 										<Wrapper style={{ padding: 10 }} spaceBetween>
-											<View>
+											<View _style={{ flex: .7 }}>
 												<Text>{Product}</Text>
 												<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
 											</View>
-											<Text>{total.convertRupiah()}</Text>
+											<Text _style={{ flex: .3, alignItems: 'flex-end' }}>{total.convertRupiah()}</Text>
 										</Wrapper>,
 										i < data.length && <Divider />
 									])
