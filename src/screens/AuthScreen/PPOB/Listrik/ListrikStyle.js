@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
 		marginHorizontal: 15,
 		padding: 10,
 		backgroundColor: ColorsList.infoBg,
-		borderRadius: 5
+		borderRadius: 5,
+		marginVertical : 5
 	},
 	listPulsa: {
 		padding: 10,
