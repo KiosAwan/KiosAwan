@@ -152,7 +152,7 @@ const PPOB = ({ navigation }) => {
 							</Wrapper>
 							<Divider />
 							<Wrapper justify="space-evenly">
-								<Button style={{alignItems : "center"}} _width="49%" color="link" onPress={_onPressRiwayat}>
+								<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={_onPressRiwayat}>
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 									<Text>Riwayat</Text>
 								</Button>
@@ -162,7 +162,7 @@ const PPOB = ({ navigation }) => {
 									<Text>Kupon</Text>
 								</Button> */}
 								<Divider flex />
-								<Button style={{alignItems : "center"}} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
+								<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 									<Text>Favorit</Text>
 								</Button>
@@ -172,20 +172,17 @@ const PPOB = ({ navigation }) => {
 				)}>
 				{
 					maintanance &&
-					<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", margin: 10, marginBottom: 0, flexDirection: 'row' }}>
+					<Button style={{ margin: 10 }} disabled color="info" wrapper={{ flexStart: true }}>
 						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
-						<View style={{ width: "90%" }}>
-							<TextTicker
-								style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
-								duration={20000}
-								loop
-								bounce
-								marqueeDelay={500}
-							>
-								{message}
-							</TextTicker>
-						</View>
-					</View>
+						<TextTicker
+							width="90%"
+							style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+							duration={20000}
+							loop
+							bounce
+							marqueeDelay={500}
+						>{message}</TextTicker>
+					</Button>
 				}
 				{!productData ?
 					<ActivityIndicator color={ColorsList.primary} />

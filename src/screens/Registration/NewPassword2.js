@@ -92,7 +92,7 @@ const NewPassword2 = ({ navigation }) => {
                     handleChangeText={(pin) => _handleChangePIN(pin)}
                 />
             </View>
-            {isLoading ? <Spinner color="#cd0192" /> : null}
+            {isLoading ? <Spinner color={ColorsList.primary} /> : null}
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
                     onPressBtn={_handleSendNewPIN}

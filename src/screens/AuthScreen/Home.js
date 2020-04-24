@@ -248,6 +248,7 @@ const Home = ({ navigation }) => {
 						maintanance && <Button disabled color="info" wrapper={{ flexStart }}>
 							<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 							<TextTicker
+								width="90%"
 								style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
 								duration={20000}
 								loop

@@ -404,19 +404,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, { addPrinter })(CetakStruk)
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
-	},
-
-	title: {
-		width: width,
-		backgroundColor: "#eee",
-		color: "#232323",
-		paddingLeft: 8,
-		paddingVertical: 4,
-		textAlign: "left"
-	},
 	wtf: {
 		flex: 1,
 		flexDirection: "row",

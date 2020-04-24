@@ -77,7 +77,7 @@ const LoginVerification = ({ navigation }) => {
     }
 
     return (
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
+        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container}>
             <BarStatus />
             <AwanPopup.Alert
                 message={alertMessage}

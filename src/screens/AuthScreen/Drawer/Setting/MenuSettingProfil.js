@@ -211,6 +211,6 @@ const MenuSettingProfil = ({ navigation }) => {
 export default MenuSettingProfil
 
 const styles = StyleSheet.create({
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: '#000', borderWidth: 1, height: 250 },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.black, borderWidth: 1, height: 250 },
 	image: { width: '100%', height: '100%' },
 })
