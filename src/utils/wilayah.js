@@ -1,5 +1,6 @@
 import axios from "axios";
 import { HOST_URL } from "src/config";
+import { getUserToken } from "./authhelper";
 
 const Wilayah = {
 	Provinsi: async () => {
@@ -14,7 +15,13 @@ const Wilayah = {
 	Desa: async (idKec) => {
 		return await axios.get(`http://dev.farizdotid.com/api/daerahindonesia/provinsi/kabupaten/kecamatan/${idKec}/desa`);
 	},
-	SearchAddress: async pencarian => await axios.get(`${HOST_URL}/address?req=${pencarian}`)
+	SearchAddress: async pencarian => {
+		const userToken = await getUserToken()
+		return await axios.get(`${HOST_URL}/address?req=${pencarian}`, {
+			headers: { "authorization": userToken }
+		}
+		)
+	}
 }
 
 export default Wilayah

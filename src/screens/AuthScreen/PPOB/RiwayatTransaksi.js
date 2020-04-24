@@ -19,11 +19,19 @@ const RiwayatTransaksi = ({ navigation }) => {
 		_getRiwayat()
 	}, [])
 
-	const _getRiwayat = async () => {
+	const _getRiwayat = async (pageNum) => {
 		const userToken = await getUserToken()
 		const userId = await getUserId()
-		dispatch(getRiwayatTransaksi(userToken, userId))
+		const page = pageNum || 1
+		dispatch(getRiwayatTransaksi(userToken, userId, page))
 	}
+
+	const _addMoreData = async () => {
+		if (parseInt(RiwayatTransaksi.nextPage) < parseInt(RiwayatTransaksi.total)) {
+			_getRiwayat(RiwayatTransaksi.nextPage)
+		}
+	}
+
 	return RiwayatTransaksi.isLoading ? <ActivityIndicator color={ColorsList.primary} />
 		:
 		<Container>
@@ -37,13 +45,16 @@ const RiwayatTransaksi = ({ navigation }) => {
 				:
 				<Body>
 					<FlatList
+						onEndReachedThreshold={.8}
+						initialNumToRender={10}
+						onEndReached={_addMoreData}
 						data={RiwayatTransaksi.data}
 						renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
 							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
 							<View _width="80%">
 								<Wrapper justify="space-between">
-									<Text _width="70%" font="SemiBold" color="primary">{item.transaction_name.split('_').join(' ').toUpperCase()}</Text>
-									<Text _width="30%" align="right" size={12} color={item.type == 0 ? "success" : "danger"}>{`${item.type == 0 ? "+" : "-"} ${convertRupiah(item.amount)}`}</Text>
+									<Text _width="65%" font="SemiBold" color="primary">{item.transaction_name && item.transaction_name.split('_').join(' ').toUpperCase()}</Text>
+									<Text _width="35%" align="right" size={12} color={item.type == 0 ? "success" : "danger"}>{`${item.type == 0 ? "+" : "-"} ${convertRupiah(item.amount)}`}</Text>
 								</Wrapper>
 								<Text color="primary" color="#3e3d3d">{item.customer_id}</Text>
 								<Wrapper justify="space-between" style={{ marginTop: 10 }}>
