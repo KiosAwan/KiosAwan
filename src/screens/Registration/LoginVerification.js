@@ -24,6 +24,7 @@ import { FontList } from '../../styles/typography';
 import { InputPIN } from '../../components/Input/InputPIN';
 import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from '../../styles/colors';
 
 
 const LoginVerification = ({ navigation }) => {

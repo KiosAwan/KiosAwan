@@ -19,6 +19,7 @@ import { HeaderRegister } from '../../components/Header/Header';
 import BarStatus from '../../components/BarStatus';
 import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from '../../styles/colors';
 
 const NameRegistration = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
