@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 	},
 
 	borderStyleHighLighted: {
-		borderColor: "#03DAC6",
+		borderColor: ColorsList.successHighlight,
 	},
 
 	underlineStyleBase: {
@@ -124,6 +124,6 @@ const styles = StyleSheet.create({
 	},
 
 	underlineStyleHighLighted: {
-		borderColor: "#03DAC6",
+		borderColor: ColorsList.successHighlight,
 	},
 })

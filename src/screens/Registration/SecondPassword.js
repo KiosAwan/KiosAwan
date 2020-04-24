@@ -22,6 +22,7 @@ import { registerUser } from '../../utils/unauthhelper';
 import { getProfile } from '../../redux/actions/actionsUserData';
 import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from 'src/styles/colors';
 
 //Functions
 
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -127,6 +128,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

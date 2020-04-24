@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         height: 45
     },
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
     underlineStyleBase: {
         width: 30,
@@ -148,6 +148,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

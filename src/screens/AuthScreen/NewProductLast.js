@@ -193,7 +193,7 @@ const NewProductLast = ({ navigation }) => {
 						</View>
 						{manageStock ?
 							<View>
-								<View style={{ height: 1, backgroundColor: "#e0dada" }} />
+								<View style={{ height: 1, backgroundColor: ColorsList.light }} />
 								<View style={styles.wrapInputHarga}>
 									<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
 										<FloatingInputLabel
@@ -215,10 +215,10 @@ const NewProductLast = ({ navigation }) => {
 								<View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
 									<CheckBox
 										checked={sendNotif}
-										color={sendNotif ? "#cd0192" : "grey"}
+										color={sendNotif ? ColorsList.primary : ColorsList.greyFont}
 										onPress={() => setSendNotif(!sendNotif)}
 									/>
-									<Text style={[{ color: manageStock ? sendNotif ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
+									<Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
 								</View>
 							</View>
 							: null}
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginTop: 30,
 		borderWidth: 2,
-		borderColor: "#e0dada"
+		borderColor: ColorsList.light
 	}
 })
 

@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginTop: 30,
 		borderWidth: 2,
-		borderColor: "#e0dada"
+		borderColor: ColorsList.light
 	}
 })
 

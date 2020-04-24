@@ -16,11 +16,6 @@ import { stateObject } from 'src/utils/state'
 const MDInput = props => {
 	let objCurrency = {}
 	const { onChangeText, value, renderLeftAccessory, renderRightAccessory } = props
-	const _renders = (render, isRight) => render && <View>
-		{isRight && <View style={{ padding: 5 }} />}
-		{render()}
-		{!isRight && <View style={{ padding: 5 }} />}
-	</View>
 	const _render = (render, isRight) => {
 		return typeof render == 'function' && <View style={{ marginBottom: 8 }}>
 			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
@@ -29,6 +24,11 @@ const MDInput = props => {
 			<Divider style={{ marginTop: 5 }} color={On.color} size={On.size} />
 		</View>
 	}
+	const [tintColor, baseColor] = [ColorsList.primary, ColorsList.secondary]
+	const [On, setOn] = stateObject({
+		color: baseColor,
+		size: .5
+	})
 	if (props.currency) {
 		if (typeof onChangeText == 'function') {
 			objCurrency.onChangeText = text => {
@@ -40,11 +40,6 @@ const MDInput = props => {
 			objCurrency.value = value.extractNumber().convertRupiah()
 		}
 	}
-	let tintColor = ColorsList.primary, baseColor = ColorsList.secondary
-	const [On, setOn] = stateObject({
-		color: baseColor,
-		size: .5
-	})
 	return <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
 		{_render(renderLeftAccessory)}
 		<View style={{ flex: 1 }}>
@@ -53,10 +48,9 @@ const MDInput = props => {
 				fontSize={13}
 				onFocus={() => setOn({ color: tintColor, size: 2 })}
 				onBlur={() => setOn({ color: baseColor, size: .5 })}
-				tintColor={tintColor}
 				textColor={ColorsList.text}
+				tintColor={tintColor}
 				baseColor={baseColor}
-				// renderAccessory={() => _render(renderRightAccessory, true)}
 				style={{ fontFamily: FontName.Regular, ...props.style }}
 				{...objCurrency}
 			/>

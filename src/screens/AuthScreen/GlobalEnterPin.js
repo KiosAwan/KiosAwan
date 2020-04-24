@@ -47,30 +47,6 @@ const GlobalEnterPin = props => {
 				})}
 			/>
 		</LinearGradient>
-		{/* <Text style={{ padding: 20 }}>{title ? title : 'Masukkan PIN'}</Text>
-			<View style={{ paddingHorizontal: 15, height: 80, backgroundColor: 'white', marginHorizontal: 30, alignItems: "center" }}>
-				<CodeInput
-					secureTextEntry
-					className='border-circle'
-					keyboardType="numeric"
-					activeColor='#cd0192'
-					inactiveColor='#cd0192'
-					codeLength={codeLength || 6}
-					size={40}
-					autoFocus
-					onCodeChange
-					onFulfill={(code) => setPinCode(code)}
-				/>
-				<PinView
-					pinLength={codeLength || 4}
-					onComplete={(code, clear) => setPinCode(code)}
-				/>
-			</View>
-			<Text style={{ padding: 10 }} align="center">{subtitle ? subtitle : 'PIN dibutuhkan untuk mengubah password'}</Text>
-			<Bottom>
-				<Button width="100%" onPress={_nextBtn}>LANJUT</Button>
-			</Bottom>
-		</Container> */}
 	</Modal>
 }
 

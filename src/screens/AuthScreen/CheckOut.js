@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
 	},
 	tabBar: {
 		flexDirection: 'row',
-		borderColor: '#cd0196',
+		borderColor: ColorsList.primary,
 		alignItems: 'center',
 		height: 30,
 		borderWidth: 1,

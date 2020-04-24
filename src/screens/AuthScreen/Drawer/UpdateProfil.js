@@ -199,6 +199,6 @@ export default UpdateProfil
 
 const styles = StyleSheet.create({
 	floatingInput: { marginBottom: 15 },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: '#000', borderWidth: 1, height: 250 },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.black, borderWidth: 1, height: 250 },
 	image: { width: '100%', height: '100%' },
 })

@@ -38,6 +38,11 @@ export const Button = props => {
 			backgroundColor: ColorsList.warning,
 			text: ColorsList.whiteColor
 		},
+		purple: {
+			borderColor: ColorsList.transparent,
+			backgroundColor: ColorsList.purpleSoft,
+			text: ColorsList.purple
+		},
 		link: {
 			borderColor: ColorsList.transparent,
 			backgroundColor: ColorsList.transparent,

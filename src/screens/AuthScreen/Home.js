@@ -23,6 +23,7 @@ import { $Padding } from 'src/utils/stylehelper'
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
+	const [flexStart] = [true]
 	const User = useSelector(state => state.User)
 	const dispatch = useDispatch()
 	const [maintanance, setMaintanance] = useState(false)
@@ -217,7 +218,7 @@ const Home = ({ navigation }) => {
 				</Wrapper>
 				<Divider />
 				<Wrapper justify="space-evenly">
-					<Button style={{alignItems : "center"}} _width="49%" color="link" onPress={_onPressRiwayat}>
+					<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={_onPressRiwayat}>
 						<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 						<Text>Riwayat</Text>
 					</Button>
@@ -227,7 +228,7 @@ const Home = ({ navigation }) => {
 						<Text>Kupon</Text>
 					</Button>
 					<Divider flex /> */}
-					<Button style={{alignItems : "center"}} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
+					<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
 						<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 						<Text>Favorit</Text>
 					</Button>
@@ -242,41 +243,34 @@ const Home = ({ navigation }) => {
 				<Button width='30%' onPress={_completeProfile}>OK</Button>
 			</AwanPopup.Title>
 			<View style={{ paddingVertical: 10 }}>
-				{
-					maintanance &&
-					<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
-						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
-						<View style={{ width: "90%" }}>
+				<View style={{ marginBottom: 10 }}>
+					{
+						maintanance && <Button disabled color="info" wrapper={{ flexStart }}>
+							<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 							<TextTicker
 								style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
 								duration={20000}
 								loop
 								bounce
 								marqueeDelay={500}
-							>
-								{message}
-							</TextTicker>
-						</View>
-					</View>
-				}
-				{
-					User.store ?
-						User.data.status == 0 &&
-						<TouchableOpacity onPress={() => navigation.navigate('/drawer/settings/change-email')} style={{ paddingBottom: 10 }}>
-							<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#ebcbfd', alignItems: "center", flexDirection: 'row' }}>
-								<Icon color="#904bb7" name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-								<Text style={{ color: '#904bb7', fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Verifikasi Email Anda Sekarang!</Text>
-							</View>
-						</TouchableOpacity>
-						:
-						<TouchableOpacity onPress={() => navigation.navigate('/temp/create-pin')} style={{ paddingBottom: 10 }}>
-							<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.warning, alignItems: "center", flexDirection: 'row' }}>
-								<Icon color={ColorsList.whiteColor} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-								<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, paddingHorizontal: 10 }}>Lengkapi Profil Anda Sekarang!</Text>
-								<Text style={{ color: ColorsList.whiteColor, fontFamily: FontList.regularFont, textDecorationLine: 'underline' }}>Klik disini</Text>
-							</View>
-						</TouchableOpacity>
-				}
+							>{message}</TextTicker>
+						</Button>
+					}
+					{
+						User.store ?
+							User.data.status == 0 &&
+							<Button disabled color="purple" wrapper={{ flexStart }}>
+								<Icon color={ColorsList.purple} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+								<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
+							</Button>
+							:
+							<Button onPress={() => navigation.navigate('/temp/create-pin')} color="warning" wrapper={{ flexStart }}>
+								<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+								<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
+								<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>
+							</Button>
+					}
+				</View>
 				<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 					<Wrapper justify="space-between">
 						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
