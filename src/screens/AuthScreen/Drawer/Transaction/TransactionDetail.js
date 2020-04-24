@@ -56,6 +56,7 @@ const TransactionDetail = ({ navigation }) => {
 	const _backHandler = route => {
 	}
 	const _renderProductDigital = item => {
+
 		let filterPayment = ["id", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info"]
 		const { payment } = item
 		return <View>
@@ -66,7 +67,7 @@ const TransactionDetail = ({ navigation }) => {
 							item != 'description' && [
 								<Wrapper spaceBetween style={{ padding: 10 }}>
 									<Text>{item.split('_').join(' ').ucwords()}</Text>
-									<Text align="right" _width="49%">{!['total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : payment[item].convertRupiah()}</Text>
+									<Text align="right" _width="49%">{!['denda', 'total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
 								</Wrapper>,
 								<Divider />
 							]

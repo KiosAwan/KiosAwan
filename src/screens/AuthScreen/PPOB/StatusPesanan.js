@@ -104,7 +104,7 @@ const StatusPesanan = ({ navigation }) => {
 			}
 		</View>
 	}
-	return <Container onlyTitle header={{ title: 'Status Pesanan' }}>
+	return <Container header={{ title: 'Status Pesanan' }}>
 		<Body>
 			<ViewShot style={{ backgroundColor: ColorsList.authBackground }} ref={ref => viewShotRef = ref}>
 				{
