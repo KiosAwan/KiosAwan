@@ -8,7 +8,7 @@ import { View, Image, StyleSheet, Clipboard } from 'react-native';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
-import { convertRupiah } from 'src/utils/authhelper';
+import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import moment from 'moment';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ const StatusPesanan = ({ navigation }) => {
 	let viewShotRef;
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
+	const Customer = useSelector(state => state.Customer)
 
 	const [params, setParams] = useState({
 		details: null,
@@ -164,9 +165,10 @@ const StatusPesanan = ({ navigation }) => {
 					{/* <Text color="primary">CETAK STRUK</Text> */}
 				</Button>
 			</Wrapper>
-			<Button onPress={() => {
+			<Button onPress={async () => {
+				const userToken = await getUserToken()
+				dispatch(getCustomer(User.store.id_store, userToken))
 				navigation.navigate('/cashier/check-out')
-				dispatch(getCustomer(User.store.id_store))
 			}}>SELESAI</Button>
 		</Footer>
 	</Container>
