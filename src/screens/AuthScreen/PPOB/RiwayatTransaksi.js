@@ -34,7 +34,9 @@ const RiwayatTransaksi = ({ navigation }) => {
 
 	return <Container>
 		<GlobalHeader title="Riwayat" onPressBack={() => navigation.goBack()} />
-		{RiwayatTransaksi.isLoading ? <ActivityIndicator color={ColorsList.primary} />
+		{RiwayatTransaksi.isLoading ? <View style={{ flex: 1, justifyContent: 'center' }} >
+			<ActivityIndicator color={ColorsList.primary} />
+		</View>
 			:
 			RiwayatTransaksi.data.length == 0 ?
 				<View style={{ flex: 1, alignItems: "center", justifyContent: "center", width: "70%", alignSelf: "center" }}>
