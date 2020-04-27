@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
@@ -33,6 +33,15 @@ const Cart = ({ navigation }) => {
 	const [pesanan, setPesanan] = useState({})
 	const [toggle, setToggle] = useState(0)
 	const [discount_type, setDiscountType] = useState(0)
+
+	useEffect(() => {
+		_effect()
+	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getCustomer(User.store.id_store, userToken))
+	}
 
 	const _editPesanan = (index, item) => {
 		setEditPesananOpen(true);

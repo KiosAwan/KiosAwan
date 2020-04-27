@@ -107,8 +107,6 @@ const Cashier = ({ navigation }) => {
                     <Bottom>
                         <Button onPress={async () => {
                             navigation.navigate('/cashier/cart')
-                            const userToken = await getUserToken()
-                            dispatch(getCustomer(User.store.id_store, userToken))
                         }} width="100%">
                             <Wrapper>
                                 <Icon style={{ color: ColorsList.whiteColor, marginRight: 10 }} name="ios-cart" />
