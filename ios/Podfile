@@ -45,6 +45,8 @@ target 'AwanApp' do
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'AwanAppTests' do
     inherit! :search_paths
     # Pods for testing

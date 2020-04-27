@@ -51,6 +51,7 @@
     "react-native-screens": "1.0.0-alpha.23",
     "react-native-share": "^2.0.0",
     "react-native-snap-carousel": "^3.8.4",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^9.13.3",
     "react-native-tab-view": "^2.11.0",
     "react-native-text-ticker": "^1.0.0",

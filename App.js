@@ -1,3 +1,4 @@
+import SplashScreen from 'react-native-splash-screen'
 import './src/utils/default'
 import AppNavigator from './src/routes/AppNavigator'
 import React, { Component, useEffect } from 'react';
@@ -18,6 +19,7 @@ export default class App extends Component {
     OneSignal.addEventListener('ids', this.onIds);
   }
   componentDidMount() {
+    SplashScreen.hide();
     Linking.getInitialURL().then(Deeplink).catch(err => console.error('An error occurred', err));
     Linking.addEventListener('url', this._handleOpenURL);
   }

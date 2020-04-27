@@ -73,7 +73,7 @@ const TransactionList = ({ navigation }) => {
   }
   const DaftarTransaksi = ({ route }) => {
     return (
-      <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+      <View style={{ flex: 1, backgroundColor: DataTransaksi.isLoading ? ColorsList.white : ColorsList.authBackground }}>
 
         {
           DataTransaksi.isLoading ?
