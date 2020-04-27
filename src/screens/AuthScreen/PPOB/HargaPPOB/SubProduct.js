@@ -15,6 +15,7 @@ import { convertRupiah } from 'src/utils/authhelper'
 import { ColorsList } from 'src/styles/colors'
 import { Button } from 'src/components/Button/Button'
 import { $Border } from 'src/utils/stylehelper'
+import Alert from 'src/utils/alert'
 
 const SubProduct = ({ navigation }) => {
     const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -49,10 +50,16 @@ const SubProduct = ({ navigation }) => {
         }
     }
     const _saveMargin = async () => {
+        let { type } = product
         let finalMargins = Object.keys(productMargin).map(i => {
-            let data = productMargin[i]
-            delete data.openCashback
-            return data
+            let { margin, price, productID, product } = productMargin[i] || {}
+            if (product.product_type == 3) {
+                margin = margin - price
+            }
+            if (!productID) {
+                return {}
+            }
+            return { productID, product, margin, type }
         })
         const { status } = await setMarginProduct(finalMargins)
         if (status == 200) {
@@ -91,13 +98,12 @@ const SubProduct = ({ navigation }) => {
         }
 
         const _pilihCashback = (item, margin) => {
-            let key = item.productID + item.name
+            let { name, productID } = item
+            let key = productID + name
             let data = productMargin[key]
             data = {
                 ...data,
-                margin,
-                productID: item.productID,
-                name: item.name,
+                margin, productID, product: name,
                 openCashback: false
             }
             setProductMargin({ [key]: data })
@@ -163,20 +169,35 @@ const SubProduct = ({ navigation }) => {
     const renderProductType2 = () => {
         return null
     }
-
-    const renderProductType3 = () => products.map((item, i) =>
-        <Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
+    const renderProductType3 = () => products.map((item, i) => {
+        let { price, productID, name, margin } = item
+        let _key = `${productID}${name}`
+        let value = () => {
+            return productMargin[_key] &&
+                productMargin[_key].margin ||
+                (parseInt(margin) + parseInt(price)).toString()
+        }
+        return <Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
             <View _width="60%" style={styles.leftWrapper}>
-                <Text font="Bold" color="primary" _width="60%">{item.name}</Text>
-                <Text _width="60%">Modal : {convertRupiah(item.price)}</Text>
+                <Text font="Bold" color="primary" _width="60%">{name}</Text>
+                <Text _width="60%">Modal : {convertRupiah(price)}</Text>
             </View>
-            <MDInput onChangeText={margin => setProductMargin({
-                [item.productID]: { margin, productID: item.productID, name: item.name }
-            })}
+            <MDInput
+                onChangeText={margin => setProductMargin({
+                    [_key]: { margin, productID, product: name, price }
+                })}
+                onBlur={() => {
+                    if (!(productMargin[_key] && parseInt(productMargin[_key].margin) > parseInt(price))) {
+                        Alert('Perhatian', 'Harga Jual Harus Lebih Besar Dari Harga Modal')
+                        setProductMargin({
+                            [_key]: null
+                        })
+                    }
+                }}
                 keyboardType='number-pad'
-                _style={styles.rightWrapper} value={item.margin} label="Biaya Admin" />
+                _style={styles.rightWrapper} value={value()} label="Harga Jual" />
         </Wrapper>
-    )
+    })
 
     const render = () => <View style={{ flex: 1 }}>
         {
