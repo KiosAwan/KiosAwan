@@ -88,7 +88,7 @@ const MenuSettingProfil = ({ navigation }) => {
 		ImagePicker.openCamera({
 			compressImageQuality: .7
 		}).then(
-			({ path: photo_store }) => setPhotoStore(photo_store))
+			({ path: photo_store }) => setForm({photo_store}))
 	}
 
 	const _handleSaveProfile = async () => {
