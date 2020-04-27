@@ -222,7 +222,6 @@ const PPOB = ({ navigation }) => {
 					<Bottom>
 						<Button onPress={() => {
 							navigation.navigate('/cashier/cart')
-							dispatch(getCustomer(User.store.id_store))
 						}} width="100%">
 							<Wrapper>
 								<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize: 30 }} name="ios-cart" />

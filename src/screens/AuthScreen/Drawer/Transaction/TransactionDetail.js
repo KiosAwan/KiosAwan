@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, Clipboard, FlatList } from 'react-native';
+import { View, StyleSheet, Image, Clipboard, FlatList, TouchableOpacity } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
@@ -155,11 +155,12 @@ const TransactionDetail = ({ navigation }) => {
 								</View>
 								{
 									data.product_digital.map((item, i) => {
-										return <View key={i.toString()}>
+										return <TouchableOpacity onPress={() => navigation.navigate("/drawer/transaction/detail/digital", { params: item })} key={i.toString()}>
 											<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
 												<View>
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
 													<Text>{item.transaction.customerID}</Text>
+													{item.payment && item.payment.nama && <Text>{item.payment.nama}</Text>}
 													<Text>{item.transaction.transaction_code}</Text>
 												</View>
 												<View style={{ alignItems: 'flex-end' }}>
@@ -177,8 +178,8 @@ const TransactionDetail = ({ navigation }) => {
 													}} />
 												</Wrapper>
 											]}
-											{_renderProductDigital(item)}
-										</View>
+											{/* {_renderProductDigital(item)} */}
+										</TouchableOpacity>
 									})
 								}
 							</View>
