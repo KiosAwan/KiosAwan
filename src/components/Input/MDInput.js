@@ -30,6 +30,7 @@ const MDInput = props => {
 		size: .5
 	})
 	if (props.currency) {
+		objCurrency.keyboardType = 'number-pad'
 		if (typeof onChangeText == 'function') {
 			objCurrency.onChangeText = text => {
 				let txt = text.extractNumber().convertRupiah()
