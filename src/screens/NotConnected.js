@@ -1,12 +1,12 @@
-import React, { Component, useEffect, useState } from 'react';
-import BarStatus from 'src/components/BarStatus';
+import React, { useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import { ColorsList } from 'src/styles/colors';
 import NetInfo from '@react-native-community/netinfo';
-import { Bottom } from 'src/components/View/Bottom';
-import { ImageAuto, Image } from 'src/components/CustomImage';
+import { Image } from 'src/components/CustomImage';
+import Container, { Footer } from 'src/components/View/Container';
+import { Wrapper } from 'src/components/View/Wrapper';
 
 const NotConnected = ({ navigation }) => {
 	const [loading, setLoading] = useState(false)
@@ -30,19 +30,18 @@ const NotConnected = ({ navigation }) => {
 			navigate('/splashscreen')
 		}
 	}
-	return <View style={{ flex: 1, alignItems: 'center', backgroundColor: ColorsList.authBackground, justifyContent: 'center' }}>
-		<BarStatus />
-		<View style={{ padding: 15 }}>
+	return <Container padding>
+		<Wrapper direction="column" center style={{ flex: 1 }}>
 			<Image align="center" size={200} source={require('src/assets/images/not-connected.png')} />
 			<Text align="center" size={20} font="ExtraBold">Internet tidak tersedia</Text>
 			<Text align="center" style={{ marginBottom: 15 }}>Mohon hubungkan ke jaringan internet untuk memulai kembali</Text>
-		</View>
-		<Bottom>
+		</Wrapper>
+		<Footer noPadding>
 			<Button width="100%" disabled={loading} wrapper={{ justify: 'center' }} onPress={goBack} >
 				<Text color="whiteColor">Coba Lagi</Text>
 				{loading ? <ActivityIndicator style={{ marginLeft: 5 }} color={ColorsList.whiteColor} /> : <View></View>}
 			</Button>
-		</Bottom>
-	</View>
+		</Footer>
+	</Container>
 }
 export default NotConnected

@@ -20,6 +20,7 @@ import Divider from 'src/components/Row/Divider';
 import { RemovePPOBFromCart } from 'src/redux/actions/actionsPPOB';
 import MDInput from 'src/components/Input/MDInput';
 import AsyncStorage from 'src/utils/async-storage';
+import Container, { Body } from 'src/components/View/Container';
 
 const Cart = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -128,7 +129,7 @@ const Cart = ({ navigation }) => {
 			setHapusPesananOpen(true)
 		}
 	}
-	return <View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
+	return <Container>
 		<GlobalHeader
 			title="Detail Pesanan"
 			onPressBack={() => navigation.goBack()} />
@@ -180,7 +181,7 @@ const Cart = ({ navigation }) => {
 				</Button>
 			</Wrapper>
 		</Modal>
-		<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15, flex: 1 }}>
+		<Body showsVerticalScrollIndicator={false}>
 			<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, borderRadius: 5 }}>
 				{Product.belanja.length > 0 ?
 					<View style={{ backgroundColor: ColorsList.greyAuthHard, padding: 5, alignItems: "center" }}>
@@ -315,9 +316,9 @@ const Cart = ({ navigation }) => {
 				} else {
 					alert("Keranjang anda kosong")
 				}
-			}} width="100%" style={{ marginBottom: 30 }}>LANJUTKAN</Button>
-		</ScrollView>
-	</View>
+			}}>LANJUTKAN</Button>
+		</Body>
+	</Container>
 }
 
 export default Cart
