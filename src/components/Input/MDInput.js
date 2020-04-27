@@ -15,7 +15,7 @@ import { stateObject } from 'src/utils/state'
 
 const MDInput = props => {
 	let objCurrency = {}
-	const { onChangeText, value, renderLeftAccessory, renderRightAccessory } = props
+	const { onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur } = props
 	const _render = (render, isRight) => {
 		return typeof render == 'function' && <View style={{ marginBottom: 8 }}>
 			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
@@ -47,8 +47,14 @@ const MDInput = props => {
 			<TextField
 				{...props}
 				fontSize={13}
-				onFocus={() => setOn({ color: tintColor, size: 2 })}
-				onBlur={() => setOn({ color: baseColor, size: .5 })}
+				onFocus={() => {
+					setOn({ color: tintColor, size: 2 })
+					if (typeof onFocus == 'function') onFocus()
+				}}
+				onBlur={() => {
+					setOn({ color: baseColor, size: .5 })
+					if (typeof onBlur == 'function') onBlur()
+				}}
 				textColor={ColorsList.text}
 				tintColor={tintColor}
 				baseColor={baseColor}

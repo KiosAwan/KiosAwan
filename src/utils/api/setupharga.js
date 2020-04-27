@@ -39,7 +39,6 @@ const setMarginProduct = async product => {
 		const token = await getUserToken()
 		const userId = await getUserId()
 		const url = `${DEV_URL}/user/${userId}/service/ppob/product/custom`
-		console.debug(product)
 		const res = await Axios.post(url, { product }, {
 			headers: { "authorization": token }
 		})
