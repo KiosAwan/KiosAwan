@@ -2,7 +2,7 @@ import styles from './SubProductStyle'
 import React, { useState, useEffect } from 'react'
 import MDInput from 'src/components/Input/MDInput'
 import Divider from 'src/components/Row/Divider'
-import Container, { BodyFlatList, Footer } from 'src/components/View/Container'
+import Container, { BodyFlatList, Footer, Body } from 'src/components/View/Container'
 import { Wrapper } from 'src/components/View/Wrapper'
 import { View, Image } from 'react-native'
 import { Text } from 'src/components/Text/CustomText'
@@ -103,7 +103,7 @@ const SubProduct = ({ navigation }) => {
             setProductMargin({ [key]: data })
         }
 
-        const renderMap = ({ item }) => {
+        const renderMap = (item, i) => {
             let key = item.productID + item.name
             const renderCashback = () => {
                 let [modal, harga] = [
@@ -113,7 +113,7 @@ const SubProduct = ({ navigation }) => {
                 return harga - modal > 0 ? harga - modal : 0
             }
             return <View>
-                <Wrapper radius spaceBetween style={{ marginVertical: 5, backgroundColor: ColorsList.white }}>
+                <Wrapper key={i.toString()} radius spaceBetween style={{ marginVertical: 5, backgroundColor: ColorsList.white }}>
                     <View _width="60%" style={{ padding: 10 }}>
                         <Text color="primary">{item.name}</Text>
                         <Text>Admin: {convertRupiah(productMargin[key] && productMargin[key].margin || item.margin)}</Text>
@@ -156,10 +156,7 @@ const SubProduct = ({ navigation }) => {
             <View style={{ width: "80%", alignItems: "center", alignSelf: "center" }}>
                 <Text align="center">Jumlah cashback menyesuaikan biaya admin yang dipilih</Text>
             </View>
-            <BodyFlatList data={products}
-                keyExtractor={(item, i) => i.toString()}
-                renderItem={renderMap}
-            />
+            {products.map(renderMap)}
         </View>
     }
 
@@ -167,9 +164,8 @@ const SubProduct = ({ navigation }) => {
         return null
     }
 
-    const renderProductType3 = () => <BodyFlatList data={products}
-        keyExtractor={(item, i) => i.toString()}
-        renderItem={({ item }) => <Wrapper style={styles.wrapper} justify="space-between">
+    const renderProductType3 = () => products.map((item, i) =>
+        <Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
             <View _width="60%" style={styles.leftWrapper}>
                 <Text font="Bold" color="primary" _width="60%">{item.name}</Text>
                 <Text _width="60%">Modal : {convertRupiah(item.price)}</Text>
@@ -179,8 +175,8 @@ const SubProduct = ({ navigation }) => {
             })}
                 keyboardType='number-pad'
                 _style={styles.rightWrapper} value={item.margin} label="Biaya Admin" />
-        </Wrapper>}
-    />
+        </Wrapper>
+    )
 
     const render = () => <View style={{ flex: 1 }}>
         {
@@ -198,7 +194,9 @@ const SubProduct = ({ navigation }) => {
                 </Dropdown>
             </View>
         }
-        {renderList()}
+        <Body>
+            {renderList()}
+        </Body>
         <Footer>
             <Button width="100%" onPress={_saveMargin}>SIMPAN</Button>
         </Footer>
