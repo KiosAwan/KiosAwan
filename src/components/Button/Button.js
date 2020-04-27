@@ -7,6 +7,7 @@ import { $Padding, $Border } from 'src/utils/stylehelper';
 
 export const Button = props => {
 	const { borderBottom, padding, color, activeColor, active, children } = props
+	const { flexStart, flexEnd, center, spaceAround, spaceBetween } = props
 	let Colors = {
 		white: {
 			borderColor: ColorsList.primary,
@@ -125,7 +126,7 @@ export const Button = props => {
 					{children}
 				</Text>
 				:
-				children && <Wrapper {...props.wrapper} noWrapper={props.noWrapper} flexContent={props.flexContent}>{children}</Wrapper>
+				children && <Wrapper {...props.wrapper} {...{ flexStart, flexEnd, center, spaceAround, spaceBetween }} noWrapper={props.noWrapper} flexContent={props.flexContent}>{children}</Wrapper>
 		}
 	</TouchableOpacity>
 	{/* </Animated.View> */ }
