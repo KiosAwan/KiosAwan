@@ -61,11 +61,13 @@ const SubProduct = ({ navigation }) => {
             }
             return { productID, product, margin, type }
         })
-        const { status } = await setMarginProduct(finalMargins)
+        const { status,data } = await setMarginProduct(finalMargins)
         if (status == 200) {
             alert("Sukses")
             resetProductMargin()
             _selectProvider(providerSelected, true)
+        }else {
+            alert(data.error.msg)
         }
     }
 
