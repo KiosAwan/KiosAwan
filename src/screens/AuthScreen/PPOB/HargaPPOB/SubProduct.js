@@ -114,7 +114,14 @@ const SubProduct = ({ navigation }) => {
             const renderCashback = () => {
                 let [modal, harga] = [
                     item.awan + parseInt(item.price),
-                    parseInt(item.price) + (productMargin[key] ? productMargin[key].margin ? productMargin[key].margin : 0 : parseInt(item.margin))
+                    // 23000
+                    parseInt(item.price) + (
+                        productMargin[key] ?
+                            productMargin[key].margin ?
+                                productMargin[key].margin :
+                                parseInt(item.margin) :
+                            parseInt(item.margin)
+                    )
                 ]
                 return harga - modal > 0 ? harga - modal : 0
             }
@@ -127,7 +134,7 @@ const SubProduct = ({ navigation }) => {
                     {show(item) ?
                         <View _width="35%" style={{ ...$Border(ColorsList.greyAuthHard, 0, 0, 0, 1), backgroundColor: ColorsList.authBackground, padding: 10, justifyContent: 'flex-start' }}>
                             <Text color="primary" >Cashback</Text>
-                            <Text>{convertRupiah(productMargin[key] ? productMargin[key].margin : 0)}</Text>
+                            <Text>{convertRupiah(renderCashback())}</Text>
                             <Divider color={ColorsList.primary} />
                         </View> :
                         <View _justify="flex-end">
