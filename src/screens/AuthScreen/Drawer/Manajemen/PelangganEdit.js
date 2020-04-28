@@ -14,7 +14,7 @@ import BarStatus from 'src/components/BarStatus';
 import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
-import { editCustomer, deleteCustomer } from 'src/utils/authhelper';
+import { editCustomer, deleteCustomer, getUserToken } from 'src/utils/authhelper';
 import { BottomButton } from 'src/components/Button/ButtonComp';
 import { FontList } from 'src/styles/typography';
 import { } from 'src/components/Input/InputComp';
@@ -46,6 +46,7 @@ const PelangganEdit = ({ navigation }) => {
             setAlertMessage("Nama tidak boleh kosong")
             setAlert(true)
         } else {
+            const userToken = await getUserToken()
             const res = await editCustomer({
                 name_customer: form.name_customer,
                 phone_number_customer: form.phone_number_customer
@@ -54,7 +55,7 @@ const PelangganEdit = ({ navigation }) => {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCustomer(User.store.id_store))
+                    dispatch(getCustomer(User.store.id_store, userToken))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {

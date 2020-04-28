@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, FlatList, TextInput } from 'react-native-gesture-handler';
 import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
-import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer } from '../../utils/authhelper';
+import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer, getUserToken } from '../../utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux'
 import { AddCashPayment, AddCustomer } from '../../redux/actions/actionsStoreProduct';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
@@ -182,9 +182,10 @@ export const PilihPelanggan = (props) => {
 					...pelanggan,
 					id_store: User.store.id_store
 				}
+				const userToken = await getUserToken()
 				await sendNewCustomer(data)
 				setPelangganVisible(false)
-				dispatch(getCustomer(User.store.id_store))
+				dispatch(getCustomer(User.store.id_store, userToken))
 			}
 		}
 

@@ -17,8 +17,6 @@ import { Image } from 'src/components/CustomImage';
 import { $Padding } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { Bottom } from 'src/components/View/Bottom';
 import { getProductPPOBList } from 'src/utils/api/ppobapi';
 import { DEV_IMG_URL, HOST_URL } from 'src/config';

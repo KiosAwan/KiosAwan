@@ -14,7 +14,7 @@ import BarStatus from 'src/components/BarStatus';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
-import { sendNewCustomer } from 'src/utils/authhelper';
+import { sendNewCustomer, getUserToken } from 'src/utils/authhelper';
 import { BottomButton } from 'src/components/Button/ButtonComp';
 import { FontList } from 'src/styles/typography';
 import { } from 'src/components/Input/InputComp';
@@ -39,6 +39,7 @@ const PelangganAdd = ({ navigation }) => {
             setAlert(true)
         }
         else {
+            const userToken = await getUserToken()
             const res = await sendNewCustomer({
                 id_store: User.store.id_store,
                 name_customer: name,
@@ -48,7 +49,7 @@ const PelangganAdd = ({ navigation }) => {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCustomer(User.store.id_store))
+                    dispatch(getCustomer(User.store.id_store, userToken))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
