@@ -86,11 +86,11 @@ const PPOB = ({ navigation }) => {
 				bgColor="transparent"
 				position="topRight"
 				style={{ backgroundColor: ColorsList.white }}
-				data={[{ name: 'Atur Harga PPOB', route: '/ppob/settings' }]}
+				data={[{ name: 'Atur Harga PPOB', route: '/ppob/settings' },{ name: 'List Transaksi', route: '/ppob/list-transaksi' }]}
 				state={setMoreVisible}
 				visible={moreVisible}
 				onSelect={({ item: { route } }) => navigation.navigate(route)}
-				renderItem={({ name }) => <Text>{name}</Text>}
+				renderItem={({ name }) => <Text align="left">{name}</Text>}
 			/>
 			<ParallaxScrollView
 				showsVerticalScrollIndicator={false}

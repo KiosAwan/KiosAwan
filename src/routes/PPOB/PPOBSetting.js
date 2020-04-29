@@ -1,5 +1,6 @@
 import SettingHargaPPOB from "src/screens/AuthScreen/PPOB/HargaPPOB"
 import SubProduct from "src/screens/AuthScreen/PPOB/HargaPPOB/SubProduct"
+import ListTransaksiPPOB from "src/screens/AuthScreen/PPOB/ListTransaksi.js"
 
 const PPOBSetting = {
 	'/ppob/settings': {
@@ -10,6 +11,9 @@ const PPOBSetting = {
 	},
 	'/ppob/settings/sub-product': {
 		screen: SubProduct
+	},
+	'/ppob/list-transaksi': {
+		screen: ListTransaksiPPOB,
 	},
 }
 
