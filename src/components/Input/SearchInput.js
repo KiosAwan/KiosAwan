@@ -45,7 +45,7 @@ const SearchInput = (props) => {
 						onFocus={() => setIsFocused(true)}
 						onChangeText={props.handleChangeInput}
 						value={props.search}
-						style={styles.textInput}
+						style={[styles.textInput, props.textInput && props.textInput.style]}
 						placeholder={props.placeholder}
 						{...props.textInput} />
 				}
