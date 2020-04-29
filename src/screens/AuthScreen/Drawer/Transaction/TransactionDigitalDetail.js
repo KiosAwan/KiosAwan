@@ -4,7 +4,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { ColorsList } from 'src/styles/colors';
-import { View, Image, StyleSheet, Clipboard } from 'react-native';
+import { View, Image, StyleSheet, Clipboard, ActivityIndicator } from 'react-native';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
@@ -16,24 +16,34 @@ import Screenshot from 'src/utils/screenshot';
 import { CopyButton } from 'src/components/Button/CopyButton';
 import { Toast } from 'native-base';
 import { GlobalHeader } from 'src/components/Header/Header';
+import { getDetailPPOBTransaction } from 'src/utils/api/setupharga';
 
 const TransactionDigitalDetail = ({ navigation }) => {
     let viewShotRef;
     const dispatch = useDispatch()
-    const User = useSelector(state => state.User)
 
     const [params, setParams] = useState({
         details: null,
         payment: null,
         transaction: null
     })
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        if (navigation.state.params.params) {
-            setParams(navigation.state.params.params)
+        if (navigation.state.params.param) {
+            _effect(navigation.state.params.param)
         }
     }, [])
 
+    const _effect = async (id) => {
+
+        const res = await getDetailPPOBTransaction(id)
+        console.debug(res)
+        if (res.status == 200) {
+            setParams(res.data)
+        }
+        setLoading(false)
+    }
     const wrapper = {
         justify: 'space-between',
         style: { padding: 10 }
@@ -109,48 +119,49 @@ const TransactionDigitalDetail = ({ navigation }) => {
     }
     return <Container>
         <GlobalHeader title="Struk Pulsa dan Tagihan" onPressBack={() => navigation.goBack()} />
-        <Body>
-            <ViewShot style={{ backgroundColor: ColorsList.authBackground }} ref={ref => viewShotRef = ref}>
-                {
-                    _checkData('status') === 'PENDING' ?
-                        <Button disabled color="warning" wrapper={{ justify: 'flex-start' }}>
-                            <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
-                            <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
-                        </Button>
-                        :
-                        <Button disabled color="success" wrapper={{ justify: 'flex-start' }}>
-                            <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
-                            <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
-                        </Button>
-                }
-                <View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: 5, marginTop: 15 }}>
-                    <Wrapper {...wrapper}>
-                        <View>
-                            <Text color="primary" size={16}>{_checkData('transaction_name').split('_').join(' ').toUpperCase()}</Text>
-                            <Text>{_checkData('customerID')}</Text>
-                        </View>
-                        {
-
-                            transaction && transaction.tagihan == 0 ?
-                                <View /> :
-                                <Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
-                        }
-                    </Wrapper>
-                    {transaction && transaction.transaction_name == "pln_prepaid" && payment && payment.token && [
-                        <Wrapper style={styles.token} justify="space-between">
-                            <Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
-                            <CopyButton onPress={() => {
-                                Toast.show({ text: "Berhasil disalin", type: "success" })
-                                Clipboard.setString(payment.token)
-                            }} />
-                        </Wrapper>,
-                    ]}
-                    <Divider />
-                    {payment ? _renderProductDigital() : _renderPendingProductDigital()}
-                </View>
-            </ViewShot>
-        </Body>
-        <Footer>
+        {loading ? <ActivityIndicator /> :
+            <Body>
+                <ViewShot style={{ backgroundColor: ColorsList.authBackground }} ref={ref => viewShotRef = ref}>
+                    {
+                        _checkData('status') === 'PENDING' ?
+                            <Button disabled color="warning" wrapper={{ justify: 'flex-start' }}>
+                                <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
+                                <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
+                            </Button>
+                            :
+                            <Button disabled color="success" wrapper={{ justify: 'flex-start' }}>
+                                <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
+                                <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
+                            </Button>
+                    }
+                    <View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: 5, marginTop: 15 }}>
+                        <Wrapper {...wrapper}>
+                            <View>
+                                <Text color="primary" size={16}>{_checkData('transaction_name').split('_').join(' ').toUpperCase()}</Text>
+                                <Text>{_checkData('customerID')}</Text>
+                            </View>
+                            {
+                                transaction && transaction.tagihan == 0 ?
+                                    <View /> :
+                                    <Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
+                            }
+                        </Wrapper>
+                        {transaction && transaction.transaction_name == "pln_prepaid" && payment && payment.token && [
+                            <Wrapper style={styles.token} justify="space-between">
+                                <Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
+                                <CopyButton onPress={() => {
+                                    Toast.show({ text: "Berhasil disalin", type: "success" })
+                                    Clipboard.setString(payment.token)
+                                }} />
+                            </Wrapper>,
+                        ]}
+                        <Divider />
+                        {payment ? _renderProductDigital() : _renderPendingProductDigital()}
+                    </View>
+                </ViewShot>
+            </Body>
+        }
+        {!loading && <Footer>
             <Wrapper justify="space-between">
                 <Button color="white" _width="49%" onPress={_shareBill}>
                     <Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/share-primary.png')} />
@@ -162,11 +173,11 @@ const TransactionDigitalDetail = ({ navigation }) => {
                 </Button>
             </Wrapper>
             {/* <Button onPress={() => navigation.goBack()}> */}
-                {/* <Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} /> */}
-                {/* <Text color="white">KEMBALI</Text>
+            {/* <Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} /> */}
+            {/* <Text color="white">KEMBALI</Text>
             </Button> */}
-        </Footer>
-    </Container>
+        </Footer>}
+    </Container >
 }
 export default TransactionDigitalDetail
 
