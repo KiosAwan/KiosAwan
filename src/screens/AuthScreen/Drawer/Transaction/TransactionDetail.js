@@ -155,7 +155,7 @@ const TransactionDetail = ({ navigation }) => {
 								</View>
 								{
 									data.product_digital.map((item, i) => {
-										return <TouchableOpacity key={i.toString()}>
+										return <View key={i.toString()}>
 											<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
 												<View>
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
@@ -179,7 +179,7 @@ const TransactionDetail = ({ navigation }) => {
 												</Wrapper>
 											]}
 											{/* {_renderProductDigital(item)} */}
-										</TouchableOpacity>
+										</View>
 									})
 								}
 							</View>
