@@ -57,7 +57,7 @@ const Menu = props => {
 			...style
 		}}>
 			{
-				data.map((item, i) => <Button color={props.menuColor} onPress={() => {
+				data.map((item, i) => <Button color="link" wrapper={{ justify: 'flex-start' }} onPress={() => {
 					state(false)
 					onSelect({ item, index: i })
 				}}
