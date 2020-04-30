@@ -97,7 +97,6 @@ const ListrikPascabayar = ({ navigation }) => {
 			selectedCashback
 		}
 		const res = await payTagihanListrik(data)
-		console.debug(res)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
@@ -188,14 +187,13 @@ const ListrikPascabayar = ({ navigation }) => {
 							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Admin</Text>
-								<Text font="Regular">{convertRupiah(tagihanData.details.length * selectedCashback)}</Text>
+								<Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
 							</Wrapper>
 							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Total Tagihan</Text>
 								<Text font="Regular">{convertRupiah(
-									parseInt(tagihanData.transaction.tagihan) +
-									(selectedCashback * tagihanData.details.length)
+									parseInt(tagihanData.transaction.total)
 								)}</Text>
 							</Wrapper>
 						</View>
