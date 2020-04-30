@@ -47,7 +47,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 				:
 				<Body>
 					<FlatList
-						onEndReachedThreshold={.8}
+						onEndReachedThreshold={.1}
 						initialNumToRender={10}
 						onEndReached={_addMoreData}
 						data={RiwayatTransaksi.data}

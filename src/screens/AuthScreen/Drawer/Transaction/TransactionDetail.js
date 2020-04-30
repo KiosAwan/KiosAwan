@@ -46,7 +46,6 @@ const TransactionDetail = ({ navigation }) => {
 		const { transactionId, backState } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
-		console.debug(productData.data)
 		setBack(backState)
 		SetDataLoading(false)
 		_backHandler(backState)
