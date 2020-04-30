@@ -51,6 +51,7 @@ const TransactionDetail = ({ navigation }) => {
 		_backHandler(backState)
 	}
 	const _backHandler = route => {
+
 	}
 	const _renderProductDigital = item => {
 
@@ -251,28 +252,25 @@ const TransactionDetail = ({ navigation }) => {
 				!dataLoading && data.transaction.status != 3 &&
 					data.transaction.status_payment == 2 ?
 					<View>
-						{/* <Wrapper style={{ marginTop: 5 }} justify="space-between">
-							<Button onPress={_shareBill} _width="49.5%">
-								<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
-								<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
-							</Button>
-							<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data, type: true })} _width="49.5%">
-								<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
-								<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
-							</Button>
-						</Wrapper> */}
-						<Wrapper>
-							{_canBatal() &&
-								<Button
-									style={{ marginRight: 5 }}
-									_flex
-									color="white"
-									onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
-								>
-									BATALKAN
+						<Wrapper style={{ marginBottom: 10 }} justify="space-between">
+							{_canBatal() && <Button wrapper={{ justify: 'center' }} color="white" _width="54.5%"
+								onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
+							>
+								{/* <Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} /> */}
+								<Text color="primary">BATALKAN</Text>
 							</Button>}
-							<Button _flex onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })}>LUNASI</Button>
+							<Button wrapper={{ justify: 'center' }} color="white" _width={_canBatal() ? "22%" : "49%"} onPress={_shareBill}>
+								<Image _style={{ marginRight: 10 }} style={{ height: 20, width: 20 }} source={require('src/assets/icons/share-primary.png')} />
+								{!_canBatal() && <Text color="primary">KIRIM STRUK</Text>}
+							</Button>
+							<Button wrapper={{ justify: 'center' }} color="white" _width={_canBatal() ? "22%" : "49%"} onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { singleData: params, type: false })}>
+								<Image _style={{ marginRight: 10 }} style={{ height: 20, width: 20 }} source={require('src/assets/icons/print-primary.png')} />
+								{!_canBatal() && <Text color="primary">CETAK STRUK</Text>}
+							</Button>
 						</Wrapper>
+						<Button onPress={async () => {
+							navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })
+						}}>LUNASI</Button>
 					</View>
 					:
 					<View>
