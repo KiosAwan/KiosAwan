@@ -173,13 +173,16 @@ const TransactionDetail = ({ navigation }) => {
 												</View>
 											</Wrapper>
 											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
-												<Wrapper style={styles.token} justify="space-between">
-													<Text style={{ paddingLeft: 10 }}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
-													<CopyButton onPress={() => {
-														Toast.show({ text: "Berhasil disalin", type: "success" })
-														Clipboard.setString(item.payment.token)
-													}} />
-												</Wrapper>
+												<View>
+													<Text style={{paddingLeft : 10}} color="primary">Token Listrik</Text>
+													<Wrapper style={styles.token} justify="space-between">
+														<Text size={15} style={{ paddingLeft: 10 }}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
+														<CopyButton onPress={() => {
+															Toast.show({ text: "Berhasil disalin", type: "success" })
+															Clipboard.setString(item.payment.token)
+														}} />
+													</Wrapper>
+												</View>
 											]}
 											{/* {_renderProductDigital(item)} */}
 										</View>

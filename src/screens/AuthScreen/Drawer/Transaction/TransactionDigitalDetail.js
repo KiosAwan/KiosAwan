@@ -147,13 +147,16 @@ const TransactionDigitalDetail = ({ navigation }) => {
                             }
                         </Wrapper>
                         {transaction && transaction.transaction_name == "pln_prepaid" && payment && payment.token && [
-                            <Wrapper style={styles.token} justify="space-between">
-                                <Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
-                                <CopyButton onPress={() => {
-                                    Toast.show({ text: "Berhasil disalin", type: "success" })
-                                    Clipboard.setString(payment.token)
-                                }} />
-                            </Wrapper>,
+                            <View>
+                                <Text style={{ paddingLeft: 10 }} color="primary">Token Listrik</Text>
+                                <Wrapper style={styles.token} justify="space-between">
+                                    <Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
+                                    <CopyButton onPress={() => {
+                                        Toast.show({ text: "Berhasil disalin", type: "success" })
+                                        Clipboard.setString(payment.token)
+                                    }} />
+                                </Wrapper>
+                            </View>,
                         ]}
                         <Divider />
                         {payment ? _renderProductDigital() : _renderPendingProductDigital()}
