@@ -42,7 +42,7 @@ const ListTransaksiPPOB = ({ navigation }) => {
 		setFilter({})
 	}, [])
 	return <Container>
-		<GlobalHeader onPressIcon={() => setFilter({ dateOpen: true })} onPressBack={() => navigation.goBack()} image={require('src/assets/icons/filter.png')}>
+		<GlobalHeader onlyTitle={filter.searchOpen} onPressIcon={() => setFilter({ dateOpen: true })} onPressBack={() => navigation.goBack()} image={require('src/assets/icons/filter.png')}>
 			{
 				filter.searchOpen ?
 					<SearchInput

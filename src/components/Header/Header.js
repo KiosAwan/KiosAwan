@@ -85,17 +85,19 @@ export const GlobalHeader = props => {
             return <Image style={{ width: 30, height: 30 }} source={image} />
         }
     }
-    const render = () => <Wrapper style={{ width: '100%' }} spaceBetween={!onlyTitle}>
+    const render = () => <Wrapper spaceBetween={!onlyTitle}>
         {!onlyTitle && <Button color={["transparent"]} onPress={onPressBack} {...leftProps}>
             <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || "white"} />
         </Button>}
-        <View _flex={!onlyTitle}>
+        <View _flex style={onlyTitle && { paddingHorizontal: 10 }}>
             {renderMid()}
         </View>
-        {!onlyTitle && image && <Button color={["transparent"]} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
-            {renderImage()}
-        </Button>}
-    </Wrapper>
+        {
+            !onlyTitle && image && <Button color={["transparent"]} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
+                {renderImage()}
+            </Button>
+        }
+    </Wrapper >
     return <Header androidStatusBarColor={ColorsList.primary} style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
         {
             transparent ? render() :
@@ -108,8 +110,8 @@ export const GlobalHeader = props => {
 
 export const CashierHeader = props => {
     const [focus, setFocus] = useState(false)
-    return <GlobalHeader {...props} image={<Icon name="ellipsis-v" size={20} color="white" />}>
-        <SearchInput _width={!focus ? "90%" : "100%"} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor} blurColor="transparent">
+    return <GlobalHeader {...props} onlyTitle={focus} image={<Icon name="ellipsis-v" size={20} color="white" />}>
+        <SearchInput onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor} blurColor="transparent">
             <TextInput style={{ color: ColorsList.whiteColor }} placeholderTextColor={ColorsList.authBackground} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk..." />
         </SearchInput>
     </GlobalHeader>
