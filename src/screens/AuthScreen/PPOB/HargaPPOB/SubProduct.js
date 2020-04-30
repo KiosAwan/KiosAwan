@@ -10,12 +10,11 @@ import { stateArray, stateObject } from 'src/utils/state'
 import { SizeList } from 'src/styles/size'
 import { GlobalHeader } from 'src/components/Header/Header'
 import { getSubProducts, setMarginProduct } from 'src/utils/api/setupharga'
-import { Dropdown } from 'src/components/ModalContent/Popups'
+import { Dropdown, AwanPopup } from 'src/components/ModalContent/Popups'
 import { convertRupiah } from 'src/utils/authhelper'
 import { ColorsList } from 'src/styles/colors'
 import { Button } from 'src/components/Button/Button'
 import { $Border } from 'src/utils/stylehelper'
-import Alert from 'src/utils/alert'
 
 const SubProduct = ({ navigation }) => {
     const [dropdownVisible, setDropdownVisible] = useState(false)
@@ -24,6 +23,11 @@ const SubProduct = ({ navigation }) => {
     const [subProduct, setSubProduct] = useState([])
     const [product] = useState(navigation.state.params)
     const [productMargin, setProductMargin, resetProductMargin] = stateObject()
+    const [alertProps, setAlertProps] = stateObject({
+        title: 'Perhatian',
+        visible: false,
+        closeAlert: () => setAlertProps({ visible: false })
+    })
     const _getSubData = async () => {
         const { data, status } = await getSubProducts(product.type)
         if (status == 200) {
@@ -37,7 +41,10 @@ const SubProduct = ({ navigation }) => {
         setDropdownVisible(false)
         if (force || (provider.code != (providerSelected ? providerSelected.code : null))) {
             if (!force && Object.keys(productMargin).length > 0) {
-                alert('silahkan simpan biaya admin anda terlebih dahulu')
+                setAlertProps({
+                    visible: true,
+                    message: 'Silahkan simpan biaya admin anda terlebih dahulu'
+                })
             } else {
                 setProviderSelected(provider)
                 resetProductMargin()
@@ -52,22 +59,24 @@ const SubProduct = ({ navigation }) => {
     const _saveMargin = async () => {
         let { type } = product
         let finalMargins = Object.keys(productMargin).map(i => {
-            let { margin, price, productID, product } = productMargin[i] || {}
+            let { margin, price, productID, product: name } = productMargin[i] || {}
             if (product.product_type == 3) {
                 margin = margin - price
             }
             if (!productID) {
                 return {}
             }
-            return { productID, product, margin, type }
+            return { productID, product: name, margin, type }
         })
-        const { status,data } = await setMarginProduct(finalMargins)
+        const { status, data } = await setMarginProduct(finalMargins)
         if (status == 200) {
-            alert("Sukses")
             resetProductMargin()
             _selectProvider(providerSelected, true)
-        }else {
-            alert(data.error.msg)
+        } else {
+            setAlertProps({
+                visible: true,
+                message: data.error.msg
+            })
         }
     }
 
@@ -179,12 +188,11 @@ const SubProduct = ({ navigation }) => {
         return null
     }
     const renderProductType3 = () => products.map((item, i) => {
-        let { price, productID, name, margin } = item
+        let { price, productID, name, margin, price_sale } = item
         let _key = `${productID}${name}`
         let value = () => {
             return productMargin[_key] &&
-                productMargin[_key].margin ||
-                (parseInt(margin) + parseInt(price)).toString()
+                productMargin[_key].margin || price_sale.toString()
         }
         return <Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
             <View _width="60%" style={styles.leftWrapper}>
@@ -197,9 +205,10 @@ const SubProduct = ({ navigation }) => {
                 })}
                 onBlur={() => {
                     if (!(productMargin[_key] && parseInt(productMargin[_key].margin) > parseInt(price))) {
-                        Alert('Perhatian', 'Harga Jual Harus Lebih Besar Dari Harga Modal')
-                        setProductMargin({
-                            [_key]: null
+                        setProductMargin({ [_key]: null })
+                        setAlertProps({
+                            visible: true,
+                            message: 'Harga Jual Harus Lebih Besar Dari Harga Modal'
                         })
                     }
                 }}
@@ -238,6 +247,7 @@ const SubProduct = ({ navigation }) => {
 
     return <Container>
         <GlobalHeader title={`Atur Harga ${product.product}`} onPressBack={() => navigation.goBack()} />
+        <AwanPopup.Alert {...alertProps} />
         {render()}
     </Container>
 }
