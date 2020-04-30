@@ -137,11 +137,11 @@ export const ProductCard = (props) => {
                         props.right ? props.right :
                             <View style={{ width: '10%', backgroundColor: '#f9faf7', height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
                                 <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
-                                    <Image style={{ width: 18, height: 18 }} source={require("src/assets/icons/plus.png")} />
+                                    <Image style={{ width: 15, height: 15 }} source={require("src/assets/icons/plus.png")} />
                                 </TouchableOpacity>
                                 <Text style={{ marginHorizontal: 8 }}>{props.quantity ? props.quantity : 0}</Text>
                                 <TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
-                                    <Image style={{ width: 18, height: 18 }} source={require("src/assets/icons/minus.png")} />
+                                    <Image style={{ width: 15, height: 15 }} source={require("src/assets/icons/minus.png")} />
                                 </TouchableOpacity>
                             </View>
                     }
