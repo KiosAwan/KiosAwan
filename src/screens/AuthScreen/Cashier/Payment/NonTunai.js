@@ -8,116 +8,86 @@ import { SizeList } from 'src/styles/size';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { ImageAuto, Image } from 'src/components/CustomImage';
 import { Text } from 'src/components/Text/CustomText';
+import Divider from 'src/components/Row/Divider';
+import { Button } from 'src/components/Button/Button';
+import { stateObject } from 'src/utils/state';
 
-const NonTunai = (props) => {
-	const [index, setIndex] = useState()
-	const pressCard = (i) => {
-		setIndex(i)
-		props.pressImage(i)
-	}
+const NonTunai = ({ pressImage }) => {
+	const [_index, setIndex] = stateObject()
 
-	const nonTunaiList = [
-		{
-			title: "BCA",
-			image: require('src/assets/payment/bca.png'),
-			id: 1
-		},
-		{
-			title: "Mandiri",
-			image: require('src/assets/payment/mandiri.png'),
-			id: 1
-		},
-		{
-			title: "BRI",
-			image: require('src/assets/payment/bri.png'),
-			id: 1
-		},
-		{
-			title: "BNI",
-			image: require('src/assets/payment/bri.png'),
-			id: 1
-		},
-		{
-			title: "Gopay",
-			image: require('src/assets/payment/gopay.png'),
-			id: 1
-		},
-		{
-			title: "DANA",
-			image: require('src/assets/payment/dana.png'),
-			id: 1
-		},
-		{
-			title: "OVO",
-			image: require('src/assets/payment/ovo.png'),
-			id: 1
-		},
-		{
-			title: "Link Aja",
-			image: require('src/assets/payment/bca.png'),
-			id: 1
-		}
-	]
-	return (
-		<ScrollView style={styles.container}>
-			<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, paddingTop: 0 }}>
-				{nonTunaiList.map((item, i) => (
-					<TouchableOpacity style={[styles.card, index == i + 1 ? styles.selectedNonTunai : null]} onPress={() => pressCard(i + 1)}>
-						<View style={{ width: 85, height: 30 }}>
-							<ImageAuto source={item.image} />
-						</View>
-						{/* <Text>{item.title}</Text> */}
-					{/* <Image source={}/> */}
-					</TouchableOpacity>
-				))}
-			</View>
-		</ScrollView>
-	)
+	const nonTunaiList = [{
+		name: 'DEBIT',
+		data: [
+			{
+				title: "Bank BCA",
+				image: require('src/assets/payment/bca.png'),
+				id: 0
+			},
+			{
+				title: "Bank Mandiri",
+				image: require('src/assets/payment/mandiri.png'),
+				id: 1
+			},
+			{
+				title: "Bank BRI",
+				image: require('src/assets/payment/bri.png'),
+				id: 2
+			},
+			{
+				title: "Bank BNI",
+				image: require('src/assets/payment/bri.png'),
+				id: 3
+			}]
+	}, {
+		name: 'E-WALLET',
+		data: [
+			{
+				title: "Gopay",
+				image: require('src/assets/payment/gopay.png'),
+				id: 4
+			},
+			{
+				title: "DANA",
+				image: require('src/assets/payment/dana.png'),
+				id: 5
+			},
+			{
+				title: "OVO",
+				image: require('src/assets/payment/ovo.png'),
+				id: 6
+			},
+			{
+				title: "Link Aja",
+				image: require('src/assets/payment/bca.png'),
+				id: 7
+			}
+		]
+	}]
+	return nonTunaiList.map(({ name, data }, index) => {
+		return <View style={{ marginTop: SizeList.padding }} key={index.toString()}>
+			<Text align="center" font="Bold">{name}</Text>
+			<Divider />
+			{
+				data.map(({ title, image, id }, i) => {
+					return <Button
+						key={i.toString()}
+						active={index == _index.group && i == _index.data}
+						onPress={() => {
+							setIndex({ group: index, data: i })
+							pressImage(id)
+						}}
+						style={{ marginTop: SizeList.padding }}
+						padding={10}
+						color={['transparent', 'greyFont', 'greyFont']}
+						activeColor={['transparent', 'greyFont', 'primary']}
+						flexStart>
+						<Image style={{ width: 50, height: 20 }} source={image} />
+						<Text style={{ marginLeft: 10 }}>{title}</Text>
+					</Button>
+				})
+			}
+		</View>
+	})
 }
 
 export default NonTunai;
-
-const styles = StyleSheet.create({
-	container: {
-		marginTop: 10,
-		flex: 1
-	},
-	categoryStyle: {
-		...FontList.categoryFontBold,
-		color: ColorsList.greyFont
-	},
-	wrapList: {
-		flexDirection: 'row',
-		justifyContent: "space-around",
-		height: SizeList.height / 6,
-		width: SizeList.width - 50,
-		padding: 10
-	},
-	card: {
-		padding: 5,
-		borderRadius: 5,
-		borderWidth: 1,
-		borderColor: ColorsList.greyAuthHard,
-		flexDirection: "row",
-		alignItems: "center",
-		marginVertical: 10
-	},
-	imagePayment: {
-		height: 35,
-		width: 80,
-		resizeMode: 'contain'
-	},
-	text: {
-		color: ColorsList.greyFont,
-		fontSize: 17,
-		fontFamily: FontList.boldFont,
-		marginVertical: 15,
-		borderBottomColor: ColorsList.greySoft,
-		borderBottomWidth: 1,
-		textAlign: 'center',
-	},
-	selectedNonTunai: {
-		borderWidth: 1,
-		borderColor: ColorsList.primary
-	}
-});
