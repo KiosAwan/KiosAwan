@@ -6099,6 +6099,13 @@ react-native-tab-view@^2.11.0:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.11.0.tgz#2e57d1f617ccc88c7f452708804f3409f880b700"
   integrity sha512-vqetlxGO7A8bnqvXcB50MWpRZAImXFrDGz1WCQKdCqe03Ey3ZzENe7yLuWrtBJYlepGfOLAsmCXv+wW82Yfm1w==
 
+react-native-tear-lines@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-tear-lines/-/react-native-tear-lines-1.0.5.tgz#2af18e1fab148441804de4d138ae646d013ecfcb"
+  integrity sha512-lXLfeLM4q0LCYsAgR+V+YC1WwSuL4DWxAigK3EYHFW7AyHexIxD3beCBvo8skuL4EzIHJn35M1hB0WvtSY74xQ==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-text-ticker@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-text-ticker/-/react-native-text-ticker-1.0.0.tgz#5f13d5ce2a6875f98c20d084f98a8d66e845b4b7"

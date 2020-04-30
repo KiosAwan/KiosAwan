@@ -78,7 +78,7 @@ const ListrikToken = ({ navigation }) => {
 	const _onPressBayar = () => {
 		if (response) {
 			if (!selected) {
-				setAlertMessage("Harap pilih product")
+				setAlertMessage("Harap pilih produk")
 				setAlert(true)
 			} else {
 				setPinVisible(true)

@@ -260,12 +260,12 @@ const Home = ({ navigation }) => {
 					{
 						User.store ?
 							User.data.status == 0 &&
-							<Button disabled color="purple" wrapper={{ flexStart }}>
+							<Button onPress={() => navigation.navigate('/drawer/settings/change-email')}  disabled color="purple" flexStart wrapper={{ flexStart }}>
 								<Icon color={ColorsList.purple} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 								<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
 							</Button>
 							:
-							<Button onPress={() => navigation.navigate('/temp/create-pin')} color="warning" wrapper={{ flexStart }}>
+							<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }}>
 								<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 								<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
 								<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>

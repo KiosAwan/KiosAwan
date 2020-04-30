@@ -168,7 +168,8 @@ class CheckOut extends React.Component {
 					id_store: this.props.User.store.id_store,
 					due_debt_date: formatToDate(Product.due_debt_date),
 					discount_name: '',
-					discount_transaction: Product.discount_transaction
+					discount_transaction: Product.discount_transaction,
+					id_multi: Product.id_multi
 				}
 				const res = await sendNewTransaction(data)
 				const { id_transaction } = res.data

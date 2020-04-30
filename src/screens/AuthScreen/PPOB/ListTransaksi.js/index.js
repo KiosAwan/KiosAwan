@@ -89,7 +89,7 @@ const ListTransaksiPPOB = ({ navigation }) => {
 								{
 									filteredData().map((item, i) => {
 										const { transaction_name, customerID, customer_name, image } = item
-										return <Button onPress={() => navigation.navigate(`/drawer/transaction/detail/digital`, { param: data.id })} style={{ marginHorizontal: SizeList.padding, marginBottom: 5 }} color={["white"]} key={i.toString()} spaceBetween>
+										return <Button onPress={() => navigation.navigate(`/drawer/transaction/detail/digital`, { param: item.id })} style={{ marginHorizontal: SizeList.padding, marginBottom: 5 }} color={["white"]} key={i.toString()} spaceBetween>
 											<Image _width="10%" size={30} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
 											<View _width="70%">
 												<Text color="primary">{transaction_name.toString().toUpperCase().split('_').join(' ')}</Text>
