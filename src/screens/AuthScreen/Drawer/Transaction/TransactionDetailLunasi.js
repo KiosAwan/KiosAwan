@@ -26,7 +26,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [dataUtang, setDataUtang] = useState()
 	const [loading, setLoading] = useState(true)
-	const [amount_payment, setAmountPayment] = useState('')
+	const [amount_payment, setAmountPayment] = useState(0)
 	const [nonTunai, setNonTunai] = useState()
 	useEffect(() => {
 		const { paramData } = navigation.state.params
@@ -34,20 +34,66 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		setLoading(false)
 	}, [])
 
+	const pressCard = (id) => {
+		setNonTunai(id)
+	}
+
+	const nonTunaiList = [
+		{
+			title: "BCA",
+			image: require('src/assets/payment/bca.png'),
+			id: 1
+		},
+		{
+			title: "Mandiri",
+			image: require('src/assets/payment/mandiri.png'),
+			id: 2
+		},
+		{
+			title: "BRI",
+			image: require('src/assets/payment/bri.png'),
+			id: 3
+		},
+		{
+			title: "BNI",
+			image: require('src/assets/payment/bni.png'),
+			id: 4
+		},
+		{
+			title: "Gopay",
+			image: require('src/assets/payment/gopay.png'),
+			id: 5
+		},
+		{
+			title: "DANA",
+			image: require('src/assets/payment/dana.png'),
+			id: 6
+		},
+		{
+			title: "OVO",
+			image: require('src/assets/payment/ovo.png'),
+			id: 7
+		},
+		{
+			title: "Link Aja",
+			image: require('src/assets/payment/linkaja.png'),
+			id: 8
+		}
+	]
+
 	const _handlePayCredit = async () => {
 		const userId = await AsyncStorage.getItem('userId')
 		const data = {
 			amount_payment: convertNumber(amount_payment),
 			cashier: userId
 		}
-		try {
-			const res = await payCredit(data, dataUtang.transaction.id_transaction)
-			const userToken = await getUserToken()
+		const res = await payCredit(data, dataUtang.transaction.id_transaction)
+		const userToken = await getUserToken()
+		if (res.status == 200) {
 			dispatch(getTransactionList(User.store.id_store, userToken))
 			navigation.navigate('/drawer/transaction')
-		}
-		catch (err) {
-			alert(err.response.data.data.errors.msg)
+		}else if(res.status == 400){
+			alert(res.data.errors.msg)
 		}
 	}
 	const _renderKembalian = () => {
@@ -85,38 +131,20 @@ const TransactionDetailLunasi = ({ navigation }) => {
 			</View>
 		)
 	}
-
-
-	const propsTitleText = { size: 17, font: 'ExtraBold', style: { marginVertical: 15, borderBottomColor: ColorsList.greyAuthHard, borderBottomWidth: 1, textAlign: 'center' } }
-
 	const NonTunai = props => {
 		return (
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<View style={{ backgroundColor: ColorsList.whiteColor, padding: 20, paddingTop: 0 }}>
-					<Text {...propsTitleText}>DEBIT</Text>
-					<Wrapper>
-						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 1 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(1)}>
-							<ImageAuto source={require('src/assets/payment/bca.png')} name="BCA" />
+				<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, paddingTop: 0 }}>
+					{nonTunaiList.map((item, i) => (
+						<TouchableOpacity style={[styles.card, nonTunai == i + 1 ? styles.selectedNonTunai : null]}
+						 onPress={() => pressCard(i + 1)}
+						>
+							<View style={{ width: 60, height: 30, marginHorizontal: 20 }}>
+								<ImageAuto style={{ resizeMode: "contain" }} source={item.image} />
+							</View>
+							<Text>{item.title}</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 2 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(2)}>
-							<ImageAuto source={require('src/assets/payment/mandiri.png')} name="Mandiri" />
-						</TouchableOpacity>
-						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 3 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(3)}>
-							<ImageAuto source={require('src/assets/payment/bri.png')} name="BRI" />
-						</TouchableOpacity>
-					</Wrapper>
-					<Text {...propsTitleText}>E-WALLET</Text>
-					<Wrapper>
-						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 4 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(4)}>
-							<ImageAuto source={require('src/assets/payment/gopay.png')} name="Gopay" />
-						</TouchableOpacity>
-						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 5 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(5)}>
-							<ImageAuto source={require('src/assets/payment/dana.png')} name="Dana" />
-						</TouchableOpacity>
-						<TouchableOpacity style={[styles.wrapperImage, nonTunai == 6 ? styles.selectedNonTunai : null]} onPress={() => setNonTunai(6)}>
-							<ImageAuto source={require('src/assets/payment/ovo.png')} name="OVO" />
-						</TouchableOpacity>
-					</Wrapper>
+					))}
 				</View>
 			</ScrollView>
 		)
@@ -160,11 +188,6 @@ const TransactionDetailLunasi = ({ navigation }) => {
 														<Text font="Bold">Total Tagihan</Text>
 														<Text color="primary" font="ExtraBold" size={30}>{convertRupiah(dataUtang.debt.remaining_debt)}</Text>
 													</Wrapper>
-													{/* <View style={{ justifyContent: 'flex-end' }}>
-											<TouchableOpacity onPress={() => setViewDetail(!viewDetail)}>
-												<Text font="Bold" size={18}>DETAIL</Text>
-											</TouchableOpacity>
-										</View> */}
 												</Wrapper>
 												{
 													viewDetail ?
@@ -220,5 +243,19 @@ const styles = StyleSheet.create({
 	selectedNonTunai: {
 		borderWidth: 1,
 		borderColor: ColorsList.primary
-	}
+	},
+	card: {
+		padding: 5,
+		borderRadius: 5,
+		borderWidth: 1,
+		borderColor: ColorsList.greyAuthHard,
+		flexDirection: "row",
+		alignItems: "center",
+		marginVertical: 5
+	},
+	imagePayment: {
+		height: 35,
+		width: 80,
+		resizeMode: 'contain'
+	},
 })

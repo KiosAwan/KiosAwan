@@ -269,10 +269,14 @@ export const cancelTransaction = async (data) => {
 //Pay Credit
 export const payCredit = async (data, transactionId) => {
   const userToken = await getUserToken()
-  const res = await axios.post(`${HOST_URL}/pay_debt/${transactionId}`, data, {
-    headers: { "authorization": userToken }
-  })
-  return res.data
+  try {
+    const res = await axios.post(`${HOST_URL}/pay_debt/${transactionId}`, data, {
+      headers: { "authorization": userToken }
+    })
+    return res.data
+  } catch (err) {
+    return err.response.data
+  }
 }
 
 //Create PIN
