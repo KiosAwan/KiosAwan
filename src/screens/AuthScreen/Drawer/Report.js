@@ -59,7 +59,6 @@ const Report = ({ navigation }) => {
 		let date = moment(filter)
 		const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
 		let tipe_product = index == 1 ? 'product' : index == 2 ? 'ppob' : ''
-		// console.debug({ from, to, tipe_product })
 		GetData({ from, to, tipe_product })
 	}
 	const [ctrl, setCtrl] = stateObject({
@@ -95,7 +94,10 @@ const Report = ({ navigation }) => {
 		initialLayout: { width: 300, height: 300 },
 		setIndex: index => setSecondaryTab({ index })
 	})
-
+	const _convertRupiah = (data, key) => {
+		let value = !data ? '' : data[key] || ''
+		return value.toString().convertRupiah()
+	}
 	const _renderMainTab = ({ route }) => {
 		const _renderSecondaryTab = ({ route }) => {
 			return <View>
@@ -107,7 +109,7 @@ const Report = ({ navigation }) => {
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
 									<Text>Total Keuntungan</Text>
-									<Text size={17} color="primary">{dataTransaction && dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
+									<Text size={17} color="primary">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
 								</View>
 								<Button onPress={() => setCtrl({ dataTransaction: !ctrl.dataTransaction })} color="link">DETAIL</Button>
 							</Wrapper>
@@ -116,7 +118,7 @@ const Report = ({ navigation }) => {
 								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
 									.map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
 										<Text>{key.split('_').join(' ').ucwords()}</Text>
-										<Text>{dataTransaction[key] && dataTransaction[key].convertRupiah()}</Text>
+										<Text>{_convertRupiah(dataTransaction, key)}</Text>
 									</Wrapper>)
 							}
 						</View>
@@ -126,7 +128,7 @@ const Report = ({ navigation }) => {
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
 									<Text>Total Penjualan</Text>
-									<Text size={17} color="primary">{dataTransaction && dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
+									<Text size={17} color="primary">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
 								</View>
 								<Button onPress={() => setCtrl({ labaRugiKotor: !ctrl.labaRugiKotor })} color="link">DETAIL</Button>
 							</Wrapper>
@@ -135,7 +137,7 @@ const Report = ({ navigation }) => {
 								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
 									.map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
 										<Text>{key.split('_').join(' ').ucwords()}</Text>
-										<Text>{dataTransaction[key] && dataTransaction[key].convertRupiah()}</Text>
+										<Text>{_convertRupiah(dataTransaction, key)}</Text>
 									</Wrapper>)
 							}
 						</View>
@@ -154,14 +156,14 @@ const Report = ({ navigation }) => {
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
 									<Text>Total Pendapatan</Text>
-									<Text size={17} color="primary">{NT.selected && NT.selected.penjualan_bersih && NT.selected.penjualan_bersih.convertRupiah()}</Text>
+									<Text size={17} color="primary">{_convertRupiah(NT.selected, 'penjualan_bersih')}</Text>
 								</View>
 								<Button onPress={() => setCtrl({ dataReportNonTunai: !ctrl.dataReportNonTunai })} color="link">DETAIL</Button>
 							</Wrapper>
 							{
 								ctrl.dataReportNonTunai && Object.keys(NT.selected).map((key, i) => key != 'method' && <Wrapper style={{ padding: 10 }} spaceBetween>
 									<Text>{key.split('_').join(' ').ucwords()}</Text>
-									<Text>{NT.selected[key].convertRupiah()}</Text>
+									<Text>{_convertRupiah(NT.selected, key)}</Text>
 								</Wrapper>)
 							}
 						</View>
@@ -169,7 +171,9 @@ const Report = ({ navigation }) => {
 					<View style={{ backgroundColor: ColorsList.white }}>
 						{
 							dataReportCategory && dataReportCategory.map(({ harga, data, nama_category }) => <View>
-								<Text style={{ backgroundColor: ColorsList.greyAuthHard, padding: 10 }} font={nama_category ? 'Regular' : 'Italic'} align="center">{nama_category ? nama_category : '~ Pesanan Manual ~'}</Text>
+								{
+									data && data.length > 0 && <Text style={{ backgroundColor: ColorsList.greyAuthHard, padding: 10 }} font={nama_category ? 'Regular' : 'Italic'} align="center">{nama_category ? nama_category : '~ Pesanan Manual ~'}</Text>
+								}
 								{
 									data && data.map(({ Product, harga_jual, total, jumlah }, i) => [
 										<Wrapper style={{ padding: 10 }} spaceBetween>
@@ -192,12 +196,12 @@ const Report = ({ navigation }) => {
 			<View style={{ borderRadius: 5, backgroundColor: ColorsList.white }}>
 				<Wrapper>
 					<View style={{ padding: 10 }}>
-						<Text color="primary" size={17} align="center">{dataTransaction && dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
+						<Text color="primary" size={17} align="center">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
 						<Text align="center">Total Penjualan</Text>
 					</View>
 					<Divider flex />
 					<View style={{ padding: 10 }}>
-						<Text color="primary" size={17} align="center">{dataTransaction && dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
+						<Text color="primary" size={17} align="center">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
 						<Text align="center">Total Keuntungan</Text>
 					</View>
 				</Wrapper>

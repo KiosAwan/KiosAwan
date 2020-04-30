@@ -194,7 +194,7 @@ const PhoneRegistration = ({ navigation }) => {
 					<Text style={styles.subtitleEnterPhone}>
 						{
 							__DEV__ ?
-								<Text color="whiteColor" onPress={() => _handleChangePhone('81213141519')}>{Strings.REGISTERPHONESUBTITLE}</Text>
+								<Text color="whiteColor" onPress={() => _handleChangePhone('85717570370')}>{Strings.REGISTERPHONESUBTITLE}</Text>
 								:
 								Strings.REGISTERPHONESUBTITLE
 						}
@@ -213,8 +213,14 @@ const PhoneRegistration = ({ navigation }) => {
 					/>
 					{viewTerm ?
 						<View style={styles.termAndCond}>
-							<Text style={{ color: ColorsList.pink, fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM1}
-								<Text onPress={() => navigation.navigate('/unauth/registration/term-condition')} style={{ color: "white", fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM2}</Text>
+							<Text align="center" style={{ color: ColorsList.pink }}>
+								{
+									__DEV__ ?
+										<Text size={13} color="pink" onPress={() => _handleChangePhone('82134156961')}>{Strings.REGISTERTERM1}</Text>
+										:
+										Strings.REGISTERTERM1
+								}
+								<Text color="white" size={13} onPress={() => navigation.navigate('/unauth/registration/term-condition')}>{Strings.REGISTERTERM2}</Text>
 							</Text>
 						</View> : null
 					}
