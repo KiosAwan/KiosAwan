@@ -3,12 +3,12 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux'
 import { TabView, SceneMap } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
-import { SizeList } from '../../styles/size';
-import { convertRupiah, sendNewTransaction, formatToDate, convertNumber, getUserToken } from '../../utils/authhelper';
-import { FontList } from '../../styles/typography';
-import { ColorsList } from '../../styles/colors';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { GlobalHeader } from '../../components/Header/Header';
+import { SizeList } from 'src/styles/size';
+import { convertRupiah, sendNewTransaction, formatToDate, convertNumber, getUserToken } from 'src/utils/authhelper';
+import { FontList } from 'src/styles/typography';
+import { ColorsList } from 'src/styles/colors';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { GlobalHeader } from 'src/components/Header/Header';
 import CashPayment from './Cashier/Payment/CashPayment';
 import NonTunai from './Cashier/Payment/NonTunai';
 import Piutang from './Cashier/Payment/Piutang';
@@ -21,11 +21,11 @@ import {
 	AddDiscountRupiah,
 	AddDiscountPersen,
 	changeTransactionDiscount,
-} from '../../redux/actions/actionsStoreProduct';
+} from 'src/redux/actions/actionsStoreProduct';
 import {
 	SetIdMultiCart
-} from '../../redux/actions/actionsPPOB';
-import { getTransactionList } from '../../redux/actions/actionsTransactionList';
+} from 'src/redux/actions/actionsPPOB';
+import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import AsyncStorage from '@react-native-community/async-storage'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Button } from 'src/components/Button/Button';
@@ -33,6 +33,7 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
 import { Bottom } from 'src/components/View/Bottom';
 import { StackActions, NavigationActions } from 'react-navigation';
+import Container, { Footer, Body } from 'src/components/View/Container';
 
 class CheckOut extends React.Component {
 	state = {
@@ -231,41 +232,43 @@ class CheckOut extends React.Component {
 		third: this.ThirdRoute
 	});
 	render() {
-		return (
-			<View style={{ flex: 1 }}>
-				<GlobalHeader title="Pembayaran" onPressBack={() => this.props.navigation.goBack()} />
-				<AwanPopup.Loading visible={this.state.loadingVisible} />
-				<AwanPopup.Alert
-					message={this.state.alertMessage}
-					visible={this.state._alert}
-					closeAlert={() => this.setState({ _alert: false })}
-				/>
-				<View style={styles.childContainer}>
-					<View style={styles.infoTotalContainer}>
-						<View style={{ margin: 20 }}>
-							<Text>Total tagihan</Text>
-							<Text size={25} color="primary" font="ExtraBold">{convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}</Text>
-						</View>
-					</View>
-					<View style={styles.tabContainer}>
-						<View style={{ flex: 1, margin: 10 }}>
-							<TabView
-								navigationState={this.state}
-								renderScene={this._renderScene}
-								renderTabBar={this._renderTabBar}
-								onIndexChange={this._handleIndexChange}
-							/>
-						</View>
-					</View>
+		return <Container>
+			<GlobalHeader title="Pembayaran" onPressBack={() => this.props.navigation.goBack()} />
+			<AwanPopup.Loading visible={this.state.loadingVisible} />
+			<AwanPopup.Alert
+				message={this.state.alertMessage}
+				visible={this.state._alert}
+				closeAlert={() => this.setState({ _alert: false })}
+			/>
+			<Body>
+				<View style={{
+					backgroundColor: ColorsList.white,
+					padding: SizeList.padding,
+					borderRadius: SizeList.borderRadius
+				}}>
+					<Text>Total tagihan</Text>
+					<Text size={25} color="primary" font="ExtraBold">{convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}</Text>
 				</View>
-				<Bottom>
-					<Button width="100%" onPress={this._handleBayar} >BAYAR</Button>
-				</Bottom>
-			</View>
-		);
+				<TabView
+					style={{
+						padding: SizeList.padding,
+						backgroundColor: ColorsList.white,
+						marginTop: SizeList.padding,
+						borderRadius: SizeList.borderRadius
+					}}
+					navigationState={this.state}
+					renderScene={this._renderScene}
+					renderTabBar={this._renderTabBar}
+					onIndexChange={this._handleIndexChange}
+				/>
+			</Body>
+			<Footer>
+				<Button width="100%" onPress={this._handleBayar} >BAYAR</Button>
+			</Footer>
+		</Container>
 	}
 }
-function mapStateToProps(state) {
+const mapStateToProps = state => {
 	return {
 		Product: state.Product,
 		User: state.User
@@ -286,49 +289,3 @@ export default connect(
 		SetIdMultiCart
 	}
 )(CheckOut)
-
-const styles = StyleSheet.create({
-	container: {
-		marginTop: 20
-	},
-	tabBar: {
-		flexDirection: 'row',
-		borderColor: ColorsList.primary,
-		alignItems: 'center',
-		height: 30,
-		borderWidth: 1,
-		borderRadius: 4
-	},
-	tabItem: {
-		flex: 1,
-		alignItems: 'center',
-		padding: 16,
-		height: '100%',
-		justifyContent: "center"
-	},
-	tabContainer: {
-		marginHorizontal: 20,
-		backgroundColor: 'white',
-		height: SizeList.height / 2,
-		borderRadius: SizeList.border_radius
-	},
-	firstRouteKembalian: {
-		...FontList.subtitleFont,
-		color: ColorsList.primaryColor,
-		marginVertical: 15
-	},
-	childContainer: {
-		backgroundColor: ColorsList.authBackground,
-		flex: 1
-	},
-	infoTotal: {
-		fontSize: 24,
-		color: ColorsList.primaryColor,
-		fontFamily: 'Nunito-Bold'
-	},
-	infoTotalContainer: {
-		margin: 20,
-		backgroundColor: 'white',
-		borderRadius: SizeList.border_radius
-	}
-});
