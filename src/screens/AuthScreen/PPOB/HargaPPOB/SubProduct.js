@@ -192,7 +192,7 @@ const SubProduct = ({ navigation }) => {
         let _key = `${productID}${name}`
         let value = () => {
             return productMargin[_key] &&
-                productMargin[_key].margin || price_sale.toString()
+                productMargin[_key].margin.toString() || price_sale.toString()
         }
         return <Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
             <View _width="60%" style={styles.leftWrapper}>
