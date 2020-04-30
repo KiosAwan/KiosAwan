@@ -19,9 +19,11 @@ import { CopyButton } from 'src/components/Button/CopyButton';
 import { Toast } from 'native-base';
 import { stateObject } from 'src/utils/state';
 import Divider from 'src/components/Row/Divider';
-
+import TearLines from "react-native-tear-lines";
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
+	let bottomLayout
+	let topLayout
 	const [data, setData] = useState()
 	const [back, setBack] = useState()
 	const [dataLoading, SetDataLoading] = useState(true)
@@ -44,14 +46,10 @@ const TransactionDetail = ({ navigation }) => {
 		const { transactionId, backState } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
+		console.debug(productData.data)
 		setBack(backState)
 		SetDataLoading(false)
 		_backHandler(backState)
-	}
-	const [edgeWidth, setEdgeWidth] = useState(0)
-	const _renderEdge = ({ nativeEvent: { layout } }) => {
-		let width = Math.round(layout.width / 20)
-		setEdgeWidth(width)
 	}
 	const _backHandler = route => {
 	}
@@ -87,12 +85,17 @@ const TransactionDetail = ({ navigation }) => {
 			<AwanPopup.Loading visible={dataLoading} />
 			{
 				!dataLoading && <ViewShot ref={ref => viewShotRef = ref} options={Config.viewShotOpt()} style={{ backgroundColor: ColorsList.authBackground }}>
-					<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-						{
-							edgeWidth > 0 ? Array.generateEmpty(edgeWidth).map((i) => <Image key={i} style={{ height: 20, width: 20, resizeMode: 'stretch', marginBottom: -1 }} source={require('src/assets/icons/bill-edge.png')} />) : null
-						}
-					</View>
-					<View onLayout={_renderEdge} style={{ backgroundColor: ColorsList.whiteColor }}>
+					<TearLines
+						ref={ref => topLayout = ref}
+						color="#FFFFFF"
+						backgroundColor={ColorsList.authBackground}
+					/>
+					<View
+						onLayout={e => {
+							topLayout.onLayout(e);
+							bottomLayout.onLayout(e);
+						}}
+						style={{ backgroundColor: ColorsList.whiteColor }}>
 						<Text align="center">{data ? data.transaction.name_store : null}</Text>
 						<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
 							<Wrapper spaceBetween>
@@ -223,17 +226,24 @@ const TransactionDetail = ({ navigation }) => {
 									{convertRupiah(data.transaction.change_payment)}
 								</Text>
 							</Wrapper>
+							{data.transaction.note !== "" &&
+								<View style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]}>
+									<Text align="left" font="Bold">Note</Text>
+									<Text align="left">{data.transaction.note}</Text>
+								</View>
+							}
 						</View>
 						<View style={{ alignItems: 'center' }}>
 							<Text align="center">Powered by</Text>
 							<Image style={{ width: 150, height: 70 }} source={require('src/assets/images/logostruk.png')} />
 						</View>
 					</View>
-					<View style={{ flexDirection: 'row', justifyContent: 'center', transform: [{ rotate: '180deg' }] }}>
-						{
-							edgeWidth > 0 ? Array.generateEmpty(edgeWidth).map((i) => <Image key={i} style={{ height: 20, width: 20, resizeMode: 'stretch', marginBottom: -1 }} source={require('src/assets/icons/bill-edge.png')} />) : null
-						}
-					</View>
+					<TearLines
+						isUnder
+						ref={ref => bottomLayout = ref}
+						color="#FFFFFF"
+						backgroundColor={ColorsList.authBackground}
+					/>
 				</ViewShot>
 			}
 		</Body>
@@ -241,10 +251,30 @@ const TransactionDetail = ({ navigation }) => {
 			{
 				!dataLoading && data.transaction.status != 3 &&
 					data.transaction.status_payment == 2 ?
-					<Wrapper>
-						{_canBatal() && <Button _flex color="white" onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}>BATALKAN</Button>}
-						<Button _flex onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })}>LUNASI</Button>
-					</Wrapper>
+					<View>
+						{/* <Wrapper style={{ marginTop: 5 }} justify="space-between">
+							<Button onPress={_shareBill} _width="49.5%">
+								<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
+								<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
+							</Button>
+							<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data, type: true })} _width="49.5%">
+								<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
+								<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
+							</Button>
+						</Wrapper> */}
+						<Wrapper>
+							{_canBatal() &&
+								<Button
+									style={{ marginRight: 5 }}
+									_flex
+									color="white"
+									onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
+								>
+									BATALKAN
+							</Button>}
+							<Button _flex onPress={() => navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })}>LUNASI</Button>
+						</Wrapper>
+					</View>
 					:
 					<View>
 						{_canBatal() && <Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>}

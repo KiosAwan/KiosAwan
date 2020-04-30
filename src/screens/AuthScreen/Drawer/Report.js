@@ -106,7 +106,7 @@ const Report = ({ navigation }) => {
 							<Divider />
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
-									<Text>Total Pendapatan</Text>
+									<Text>Total Keuntungan</Text>
 									<Text size={17} color="primary">{dataTransaction && dataTransaction.total_profit && dataTransaction.total_profit.convertRupiah()}</Text>
 								</View>
 								<Button onPress={() => setCtrl({ dataTransaction: !ctrl.dataTransaction })} color="link">DETAIL</Button>
@@ -125,7 +125,7 @@ const Report = ({ navigation }) => {
 							<Divider />
 							<Wrapper style={{ padding: 10 }} spaceBetween>
 								<View>
-									<Text>Total Pendapatan</Text>
+									<Text>Total Penjualan</Text>
 									<Text size={17} color="primary">{dataTransaction && dataTransaction.total_penjualan && dataTransaction.total_penjualan.convertRupiah()}</Text>
 								</View>
 								<Button onPress={() => setCtrl({ labaRugiKotor: !ctrl.labaRugiKotor })} color="link">DETAIL</Button>

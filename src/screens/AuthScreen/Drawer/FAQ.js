@@ -8,6 +8,7 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import Axios from 'axios';
 import { HOST_URL } from 'src/config';
 import SearchInput from 'src/components/Input/SearchInput';
+import { Body } from 'src/components/View/Container';
 const FAQ = ({ navigation }) => {
 	const [search, setSearch] = useState('')
 	const [toggled, setToggled] = useState({})
@@ -27,24 +28,26 @@ const FAQ = ({ navigation }) => {
 			<View style={{ ...$Padding(5, 15, 15, 15), backgroundColor: ColorsList.whiteColor }}>
 				<SearchInput handleDeleteSearch={() => setSearch('')} search={search} placeholder="Cari jawaban" handleChangeInput={text => setSearch(text)} />
 			</View>
-			<View style={{ padding: 15 }}>
-				{
-					Faqs.filter(faq => faq.answer.toLowerCase().includes(search)).map((faq, i) => {
-						return [<TouchableOpacity key={i} style={{ marginTop: i == 0 ? 0 : 10 }} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
-							<Wrapper justify="space-between" style={[styles.content, toggled[i] ? styles.contentToggled : styles.contentNotToggled]}>
-								<Text color={toggled[i] ? 'whiteColor' : 'greyFont'}>{faq.question}</Text>
-								<Text color={toggled[i] ? 'whiteColor' : 'primary'} size={20}>{toggled[i] ? '-' : '+'}</Text>
-							</Wrapper>
-						</TouchableOpacity>,
-						toggled[i] ?
-							<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
-								<Text>{faq.answer}</Text>
-							</View>
-							: null
-						]
-					})
-				}
-			</View>
+			<Body>
+				{/* <View style={{ padding: 15 }}> */}
+					{
+						Faqs.filter(faq => faq.answer.toLowerCase().includes(search)).map((faq, i) => {
+							return [<TouchableOpacity key={i} style={{ marginTop: i == 0 ? 0 : 10 }} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
+								<Wrapper justify="space-between" style={[styles.content, toggled[i] ? styles.contentToggled : styles.contentNotToggled]}>
+									<Text color={toggled[i] ? 'whiteColor' : 'greyFont'}>{faq.question}</Text>
+									<Text color={toggled[i] ? 'whiteColor' : 'primary'} size={20}>{toggled[i] ? '-' : '+'}</Text>
+								</Wrapper>
+							</TouchableOpacity>,
+							toggled[i] ?
+								<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
+									<Text>{faq.answer}</Text>
+								</View>
+								: null
+							]
+						})
+					}
+				{/* </View> */}
+			</Body>
 		</View>
 	)
 }
