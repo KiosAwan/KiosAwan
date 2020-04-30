@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { TouchableImage } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { ImageAuto } from 'src/components/CustomImage';
+import { ImageAuto, Image } from 'src/components/CustomImage';
+import { Text } from 'src/components/Text/CustomText';
 
 const NonTunai = (props) => {
 	const [index, setIndex] = useState()
@@ -14,33 +15,61 @@ const NonTunai = (props) => {
 		setIndex(i)
 		props.pressImage(i)
 	}
+
+	const nonTunaiList = [
+		{
+			title: "BCA",
+			image: require('src/assets/payment/bca.png'),
+			id: 1
+		},
+		{
+			title: "Mandiri",
+			image: require('src/assets/payment/mandiri.png'),
+			id: 1
+		},
+		{
+			title: "BRI",
+			image: require('src/assets/payment/bri.png'),
+			id: 1
+		},
+		{
+			title: "BNI",
+			image: require('src/assets/payment/bri.png'),
+			id: 1
+		},
+		{
+			title: "Gopay",
+			image: require('src/assets/payment/gopay.png'),
+			id: 1
+		},
+		{
+			title: "DANA",
+			image: require('src/assets/payment/dana.png'),
+			id: 1
+		},
+		{
+			title: "OVO",
+			image: require('src/assets/payment/ovo.png'),
+			id: 1
+		},
+		{
+			title: "Link Aja",
+			image: require('src/assets/payment/bca.png'),
+			id: 1
+		}
+	]
 	return (
 		<ScrollView style={styles.container}>
-			<View style={{ backgroundColor: ColorsList.whiteColor, padding: 20, paddingTop: 0 }}>
-				<Text style={styles.text}>DEBIT</Text>
-				<Wrapper>
-					<TouchableOpacity style={[styles.wrapperImage, index == 1 ? styles.selectedNonTunai : null]} onPress={() => pressCard(1)}>
-						<ImageAuto source={require('src/assets/payment/bca.png')} name="BCA" />
+			<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, paddingTop: 0 }}>
+				{nonTunaiList.map((item, i) => (
+					<TouchableOpacity style={[styles.card, index == i + 1 ? styles.selectedNonTunai : null]} onPress={() => pressCard(i + 1)}>
+						<View style={{ width: 85, height: 30 }}>
+							<ImageAuto source={item.image} />
+						</View>
+						{/* <Text>{item.title}</Text> */}
+					{/* <Image source={}/> */}
 					</TouchableOpacity>
-					<TouchableOpacity style={[styles.wrapperImage, index == 2 ? styles.selectedNonTunai : null]} onPress={() => pressCard(2)}>
-						<ImageAuto source={require('src/assets/payment/mandiri.png')} name="Mandiri" />
-					</TouchableOpacity>
-					<TouchableOpacity style={[styles.wrapperImage, index == 3 ? styles.selectedNonTunai : null]} onPress={() => pressCard(3)}>
-						<ImageAuto source={require('src/assets/payment/bri.png')} name="BRI" />
-					</TouchableOpacity>
-				</Wrapper>
-				<Text style={styles.text}>E-WALLET</Text>
-				<Wrapper>
-					<TouchableOpacity style={[styles.wrapperImage, index == 4 ? styles.selectedNonTunai : null]} onPress={() => pressCard(4)}>
-						<ImageAuto source={require('src/assets/payment/gopay.png')} name="Gopay" />
-					</TouchableOpacity>
-					<TouchableOpacity style={[styles.wrapperImage, index == 5 ? styles.selectedNonTunai : null]} onPress={() => pressCard(5)}>
-						<ImageAuto source={require('src/assets/payment/dana.png')} name="Dana" />
-					</TouchableOpacity>
-					<TouchableOpacity style={[styles.wrapperImage, index == 6 ? styles.selectedNonTunai : null]} onPress={() => pressCard(6)}>
-						<ImageAuto source={require('src/assets/payment/ovo.png')} name="OVO" />
-					</TouchableOpacity>
-				</Wrapper>
+				))}
 			</View>
 		</ScrollView>
 	)
@@ -64,13 +93,14 @@ const styles = StyleSheet.create({
 		width: SizeList.width - 50,
 		padding: 10
 	},
-	wrapperImage: {
-		height: 35,
-		width: 80,
+	card: {
 		padding: 5,
 		borderRadius: 5,
 		borderWidth: 1,
-		borderColor: ColorsList.greyAuthHard
+		borderColor: ColorsList.greyAuthHard,
+		flexDirection: "row",
+		alignItems: "center",
+		marginVertical: 10
 	},
 	imagePayment: {
 		height: 35,
@@ -84,7 +114,7 @@ const styles = StyleSheet.create({
 		marginVertical: 15,
 		borderBottomColor: ColorsList.greySoft,
 		borderBottomWidth: 1,
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	selectedNonTunai: {
 		borderWidth: 1,
