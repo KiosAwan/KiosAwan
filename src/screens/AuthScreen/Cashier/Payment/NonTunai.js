@@ -21,22 +21,22 @@ const NonTunai = ({ pressImage }) => {
 			{
 				title: "Bank BCA",
 				image: require('src/assets/payment/bca.png'),
-				id: 0
+				id: 1
 			},
 			{
 				title: "Bank Mandiri",
 				image: require('src/assets/payment/mandiri.png'),
-				id: 1
+				id: 2
 			},
 			{
 				title: "Bank BRI",
 				image: require('src/assets/payment/bri.png'),
-				id: 2
+				id: 3
 			},
 			{
 				title: "Bank BNI",
-				image: require('src/assets/payment/bri.png'),
-				id: 3
+				image: require('src/assets/payment/bni.png'),
+				id: 4
 			}]
 	}, {
 		name: 'E-WALLET',
@@ -44,22 +44,22 @@ const NonTunai = ({ pressImage }) => {
 			{
 				title: "Gopay",
 				image: require('src/assets/payment/gopay.png'),
-				id: 4
+				id: 5
 			},
 			{
 				title: "DANA",
 				image: require('src/assets/payment/dana.png'),
-				id: 5
+				id: 6
 			},
 			{
 				title: "OVO",
 				image: require('src/assets/payment/ovo.png'),
-				id: 6
+				id: 7
 			},
 			{
 				title: "Link Aja",
-				image: require('src/assets/payment/bca.png'),
-				id: 7
+				image: require('src/assets/payment/linkaja.png'),
+				id: 8
 			}
 		]
 	}]
