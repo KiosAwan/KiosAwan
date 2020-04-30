@@ -137,7 +137,6 @@ class CheckOut extends React.Component {
 		const userId = await AsyncStorage.getItem('userId')
 		const Product = this.props.Product
 		if (Product.customer) {
-			console.debug(Product.customer.id_customer)
 			if (Product.due_debt_date) {
 				let cart = []
 				Product.belanja.map(item => {
@@ -215,16 +214,13 @@ class CheckOut extends React.Component {
 
 	_handleIndexChange = index => this.setState({ index });
 	_renderTabBar = props => {
-		const width = 100 / props.navigationState.routes.length
-		return (
-			<Wrapper>
-				{
-					props.navigationState.routes.map((route, i) => {
-						return <Button textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
-					})
-				}
-			</Wrapper>
-		)
+		return <Wrapper flexContent>
+			{
+				props.navigationState.routes.map((route, i) => {
+					return <Button textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'} style={{ borderRadius: 0 }}>{route.title}</Button>
+				})
+			}
+		</Wrapper>
 	}
 	_renderScene = SceneMap({
 		first: this.FirstRoute,
@@ -249,21 +245,22 @@ class CheckOut extends React.Component {
 					<Text>Total tagihan</Text>
 					<Text size={25} color="primary" font="ExtraBold">{convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}</Text>
 				</View>
-				<TabView
-					style={{
-						padding: SizeList.padding,
-						backgroundColor: ColorsList.white,
-						marginTop: SizeList.padding,
-						borderRadius: SizeList.borderRadius
-					}}
-					navigationState={this.state}
-					renderScene={this._renderScene}
-					renderTabBar={this._renderTabBar}
-					onIndexChange={this._handleIndexChange}
-				/>
+				<View style={{
+					padding: SizeList.padding,
+					backgroundColor: ColorsList.white,
+					marginTop: SizeList.padding,
+					borderRadius: SizeList.borderRadius
+				}}>
+					<TabView
+						navigationState={this.state}
+						renderScene={this._renderScene}
+						renderTabBar={this._renderTabBar}
+						onIndexChange={this._handleIndexChange}
+					/>
+				</View>
 			</Body>
 			<Footer>
-				<Button width="100%" onPress={this._handleBayar} >BAYAR</Button>
+				<Button width="100%" onPress={this._handleBayar}>BAYAR</Button>
 			</Footer>
 		</Container>
 	}
@@ -272,7 +269,7 @@ const mapStateToProps = state => {
 	return {
 		Product: state.Product,
 		User: state.User
-	};
+	}
 }
 export default connect(
 	mapStateToProps,
