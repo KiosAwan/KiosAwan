@@ -1,5 +1,11 @@
 import { useState } from "react"
 
+let typingTimer
+const typingWaitCallback = callback => {
+	clearTimeout(typingTimer)
+	typingTimer = setTimeout(callback, 1000)
+}
+
 const stateObject = initValue => {
 	const [state, _setState] = useState(initValue || {})
 	const setState = (value, callback) => {
@@ -32,4 +38,4 @@ const stateArray = initValue => {
 	}]
 }
 
-export { stateObject, stateArray }
+export { stateObject, stateArray, typingWaitCallback }

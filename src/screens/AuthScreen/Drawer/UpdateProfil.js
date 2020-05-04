@@ -4,7 +4,7 @@ import ModalContent from 'src/components/ModalContent/ModalContent';
 import MDInput from 'src/components/Input/MDInput';
 import Container, { Footer, Body } from 'src/components/View/Container';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View, StyleSheet, Image, Modal } from 'react-native';
+import { View, StyleSheet, Image, Modal, ActivityIndicator } from 'react-native';
 import { useDispatch } from 'react-redux'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'src/components/Text/CustomText';
@@ -19,6 +19,7 @@ import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import ImagePicker from 'react-native-image-crop-picker';
 import { getStoreCategoryAPI } from 'src/utils/api/global_api';
+import { typingWaitCallback } from 'src/utils/state';
 
 const UpdateProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -29,6 +30,7 @@ const UpdateProfil = ({ navigation }) => {
 	const [searchKategori, setSearchKategori] = useState('')
 	const [modalVisible, setModalVisible] = useState(false)
 	const [name_store, setName_Store] = useState('')
+	const [isTypingDesa, setIsTypingDesa] = useState(false)
 	const [email_store, setEmail_Store] = useState('')
 	const [photo_store, setPhotoStore] = useState('')
 	const [address_store, setAddress_Store] = useState('')
@@ -36,11 +38,15 @@ const UpdateProfil = ({ navigation }) => {
 	const [desaSelected, setDesaSelected] = useState({})
 	const [dataKategori, setDataKategori] = useState([])
 	const [kategoriSelected, setKategoriSelected] = useState({})
-	const _searchDesa = async pencarian => {
-		const { data: { status, data } } = await Wilayah.SearchAddress(pencarian)
-		if (status == 200) {
-			setDataDesa(data)
-		}
+	const _searchDesa = pencarian => {
+		setIsTypingDesa(true)
+		typingWaitCallback(async () => {
+			const { data: { status, data } } = await Wilayah.SearchAddress(pencarian)
+			setIsTypingDesa(false)
+			if (status == 200) {
+				setDataDesa(data)
+			}
+		})
 	}
 	const _renderViewAlamat = item => {
 		if (item.id) {
@@ -159,6 +165,8 @@ const UpdateProfil = ({ navigation }) => {
 								<Icon style={{ color: ColorsList.primary }} name="search" />}
 						/>
 					}
+					hideRender={isTypingDesa}
+					hideRenderItem={<ActivityIndicator color={ColorsList.primary} />}
 					value={desaSelected.desa}
 					handleChangePicker={item => setDesaSelected(item)}
 					renderItem={item => (<Text>{_renderViewAlamat(item)}</Text>)}>

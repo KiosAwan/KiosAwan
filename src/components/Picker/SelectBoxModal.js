@@ -313,7 +313,9 @@ export const SelectBoxModal = (props) => {
 		data,
 		closeOnSelect,
 		children,
-		onOpen
+		onOpen,
+		hideRender,
+		hideRenderItem,
 	} = props
 	useEffect(() => {
 		if (typeof onOpen == 'function') {
@@ -330,14 +332,14 @@ export const SelectBoxModal = (props) => {
 			}}>
 			{header}
 			<ScrollView persistentScrollbar>{
-				data && data.length > 0 ? data.map((item, i) => {
+				!hideRender ? data && data.length > 0 ? data.map((item, i) => {
 					return <CardItem key={i.toString()} style={styles.modalCardItem} button onPress={() => {
 						handleChangePicker(item)
 						closeOnSelect ? setModalVisible(false) : null
 					}}>
 						{renderItem(item)}
 					</CardItem>
-				}) : children
+				}) : children : hideRenderItem
 			}
 			</ScrollView>
 			{footer}
