@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { View, FlatList, Image, ActivityIndicator } from 'react-native';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,7 +14,6 @@ import { DEV_IMG_URL } from 'src/config';
 const RiwayatTransaksi = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const RiwayatTransaksi = useSelector(state => state.RiwayatTransaksi)
-
 	useEffect(() => {
 		_getRiwayat()
 	}, [])
@@ -45,11 +44,13 @@ const RiwayatTransaksi = ({ navigation }) => {
 					<Text style={{ marginTop: 20 }} align="center">Silahkan lakukan topup atau pembelian produk pulsa dan tagihan</Text>
 				</View>
 				:
-				<Body>
+				// Don't use body Component here, it make the lazy load didn't work
+				<View style={{ padding: 10, flex: 1 }}>
 					<FlatList
-						onEndReachedThreshold={.1}
-						initialNumToRender={10}
+						// onMomentumScrollEnd={_addMoreData}
 						onEndReached={_addMoreData}
+						onEndReachedThreshold={0.25}
+						showsVerticalScrollIndicator={false}
 						data={RiwayatTransaksi.data}
 						renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
 							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
@@ -68,7 +69,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 						}
 						keyExtractor={(item, i) => i.toString()}
 					/>
-				</Body>
+				</View>
 		}
 	</Container>
 }

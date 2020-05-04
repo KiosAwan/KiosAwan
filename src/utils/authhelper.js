@@ -142,7 +142,6 @@ export const getReportCategory = async (id_store, params) => {
     params: params,
     headers: { "authorization": userToken }
   })
-  // console.debug(res.data)
   return res.data
 }
 
