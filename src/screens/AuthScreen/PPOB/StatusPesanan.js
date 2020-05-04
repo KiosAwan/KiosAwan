@@ -82,7 +82,7 @@ const StatusPesanan = ({ navigation }) => {
 		</View>
 	}
 	const _renderPendingProductDigital = () => {
-		let filterPayment = ["status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
+		let filterPayment = ["id","status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
 		return <View>
 			{
 				(transaction ? Object.keys(transaction).filter(a => !filterPayment.includes(a)) : [])
