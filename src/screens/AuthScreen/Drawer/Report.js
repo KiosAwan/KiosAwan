@@ -51,7 +51,7 @@ const Report = ({ navigation }) => {
 	const [NT, setNT] = stateObject()
 	const _filterData = ({ filter, index }) => {
 		if (!filter) {
-			// filter = _dateSelected
+			filter = _dateSelected
 		}
 		if (!index) {
 			index = _MainTabIndex

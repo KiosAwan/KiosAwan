@@ -127,12 +127,10 @@ export const checkProductInData = async (data) => {
 
 export const getTransactionData = async (id_store, params) => {
   const userToken = await getUserToken()
-  console.debug(params)
   const res = await axios.get(`${HOST_URL}/transaction_data/${id_store}`, {
     params: params,
     headers: { "authorization": userToken }
   })
-  console.debug(res.data)
   return res.data
 }
 
