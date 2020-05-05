@@ -38,7 +38,6 @@ const TransactionDigitalDetail = ({ navigation }) => {
     const _effect = async (id) => {
 
         const res = await getDetailPPOBTransaction(id)
-        console.debug(res)
         if (res.status == 200) {
             setParams(res.data)
         }
@@ -91,7 +90,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
         </View>
     }
     const _renderPendingProductDigital = () => {
-        let filterPayment = ["created_at", "updated_at", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
+        let filterPayment = ["id","created_at", "updated_at", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
         return <View>
             {
                 (transaction ? Object.keys(transaction).filter(a => !filterPayment.includes(a)) : [])
@@ -103,7 +102,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                     'admin',
                                     'tarif',
                                     'ppj',
-                                    'ppn',
+                                    'ppn',         
                                     'angsuran',
                                     'tagihan',
                                     'adminBank',

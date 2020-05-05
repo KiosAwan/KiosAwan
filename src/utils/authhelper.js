@@ -127,7 +127,6 @@ export const checkProductInData = async (data) => {
 
 export const getTransactionData = async (id_store, params) => {
   const userToken = await getUserToken()
-  // let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
   const res = await axios.get(`${HOST_URL}/transaction_data/${id_store}`, {
     params: params,
     headers: { "authorization": userToken }
@@ -137,7 +136,6 @@ export const getTransactionData = async (id_store, params) => {
 
 export const getReportCategory = async (id_store, params) => {
   const userToken = await getUserToken()
-  // let param = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
   const res = await axios.get(`${HOST_URL}/report_category/${id_store}`, {
     params: params,
     headers: { "authorization": userToken }
