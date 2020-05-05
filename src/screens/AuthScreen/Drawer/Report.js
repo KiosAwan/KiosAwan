@@ -51,7 +51,7 @@ const Report = ({ navigation }) => {
 	const [NT, setNT] = stateObject()
 	const _filterData = ({ filter, index }) => {
 		if (!filter) {
-			filter = _dateSelected
+			// filter = _dateSelected
 		}
 		if (!index) {
 			index = _MainTabIndex
@@ -148,7 +148,7 @@ const Report = ({ navigation }) => {
 								closeOnSelect
 								label="Filter Data"
 								data={dataReportNonTunai}
-								value={NT.selected ? NT.selected.method : ''}
+								value={NT && NT.selected ? NT.selected.method : ''}
 								handleChangePicker={selected => setNT({ selected })}
 								renderItem={item => <Text color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFont'}>{item.method}</Text>}
 								style={{ paddingHorizontal: 10 }}
