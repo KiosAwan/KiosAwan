@@ -20,7 +20,7 @@ import { Toast } from 'native-base';
 import { CopyButton } from 'src/components/Button/CopyButton';
 import Alert from 'src/utils/alert';
 import { DEV_IMG_URL } from 'src/config';
-
+import Icon from 'react-native-vector-icons/FontAwesome5'
 const Topup = ({ navigation }) => {
 	const [listPaymentMethod, setListPaymentMethod] = useState([])
 	const [apiLoading, setApiLoading] = useState(false)
@@ -70,6 +70,7 @@ const Topup = ({ navigation }) => {
 									<Image style={{ width: "15%", height: 25, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
 									<View style={{ width: "80%", alignSelf: "flex-end" }}>
 										<Text>{item.title}</Text>
+										<Text size={12}>{`Admin : ${convertRupiah(item.adminFee)}`}</Text>
 										<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
 											<Text font="Bold">{item.noVa}</Text>
 											<CopyButton onPress={() => {
