@@ -100,7 +100,10 @@ export const GlobalHeader = props => {
     </Wrapper >
     return <Header androidStatusBarColor={ColorsList.primary} style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
         {
-            transparent ? render() :
+            transparent ?
+                <View style={{ width: '100%', justifyContent: 'center', ...style }}>
+                    {render()}
+                </View> :
                 <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ width: '100%', justifyContent: 'center', ...style }}>
                     {render()}
                 </LinearGradient>

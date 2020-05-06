@@ -60,3 +60,4 @@ buck-out/
 .vscode
 outputs
 /package-lock.json
+*.project
