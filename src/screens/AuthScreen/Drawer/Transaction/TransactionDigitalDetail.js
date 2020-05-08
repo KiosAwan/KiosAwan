@@ -67,7 +67,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
                     .map(
                         item => item != 'description' ? <View>
                             <Wrapper spaceBetween style={{ padding: 10 }}>
-                                <Text>{item.split('_').join(' ').ucwords()}</Text>
+                                <Text>{item == "ppn" || item == "ppj" ? item : item.split('_').join(' ').ucwords()}</Text>
                                 <Text align="right" _width="49%">{![
                                     'total',
                                     'admin',
@@ -96,7 +96,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
                 (transaction ? Object.keys(transaction).filter(a => !filterPayment.includes(a)) : [])
                     .map(item => <View>
                         <Wrapper spaceBetween style={{ padding: 10 }}>
-                            <Text>{item.split('_').join(' ').ucwords()}</Text>
+                            <Text>{item == "ppn" || item == "ppj" ? item :item.split('_').join(' ').ucwords()}</Text>
                             <Text align="right" _width="49%">{
                                 !['total',
                                     'admin',
