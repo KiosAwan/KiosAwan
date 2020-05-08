@@ -53,42 +53,34 @@ const StatusPesanan = ({ navigation }) => {
 
 	const _renderProductDigital = item => {
 		let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info"]
+		let keyDontConvert = ['total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank', 'denda', 'stroom_token', 'pembelian_token', 'materai']
+		let viewKey = key => {
+			let keys = { ppn: "PPN", ppj: "PPJ" }
+			return keys[key] || key.split('_').join(' ').ucwords()
+		}
 		return <View>
 			{
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
-					.map(
-						item => item != 'description' ? <View>
+					.map(key => {
+						return key != 'description' ? <View>
 							<Wrapper spaceBetween style={{ padding: 10 }}>
-								<Text>{item == "ppn" || item == "ppj" ? item :item.split('_').join(' ').ucwords()}</Text>
-								<Text align="right" _width="49%">{![
-									'total',
-									'admin',
-									'tarif',
-									'ppj',
-									'ppn',
-									'angsuran',
-									'tagihan',
-									'adminBank',
-									'denda',
-									'stroom_token',
-									'pembelian_token',
-									'materai'
-								].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
+								<Text>{viewKey(key)}</Text>
+								<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
 							</Wrapper>
 							<Divider />
-						</View> : <Button color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
-					)
+						</View> : <Button color="info" hideIfEmpty disabled>{payment[key].split(';')[0]}</Button>
+					})
 			}
 		</View>
 	}
 	const _renderPendingProductDigital = () => {
-		let filterPayment = ["id","status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
+		let filterPayment = ["id", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
 		return <View>
 			{
 				(transaction ? Object.keys(transaction).filter(a => !filterPayment.includes(a)) : [])
 					.map(item => <View>
 						<Wrapper spaceBetween style={{ padding: 10 }}>
-							<Text>{item == "ppn" || item == "ppj" ? item :item.split('_').join(' ').ucwords()}</Text>
+							<Text>{item == "ppn" || item == "ppj" ? item : item.split('_').join(' ').ucwords()}</Text>
 							<Text align="right" _width="49%">{
 								!['total',
 									'admin',

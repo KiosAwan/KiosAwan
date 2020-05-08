@@ -54,25 +54,30 @@ const TransactionDetail = ({ navigation }) => {
 
 	}
 	const _renderProductDigital = item => {
-
 		let filterPayment = ["id", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info"]
+		let keyDontConvert = ['denda', 'total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank', 'stroom_token', 'materai', 'pembelian_token']
+		let viewKey = key => {
+			let keys = { ppn: "PPN", ppj: "PPJ" }
+			return keys[key] || key.split('_').join(' ').ucwords()
+		}
 		const { payment } = item
 		return <View>
 			{
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
-					.map(item => <View>
-						{
-							item != 'description' && [
-								<Wrapper spaceBetween style={{ padding: 10 }}>
-									<Text>{item.split('_').join(' ').ucwords()}</Text>
-									<Text align="right" _width="49%">{!['denda', 'total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank', 'stroom_token', 'materai', 'pembelian_token'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
-								</Wrapper>,
-								<Divider />
-							]
-						}
-						{item == 'description' && <Button color="info" hideIfEmpty disabled noRadius>{typeof payment[item] == 'string' && payment[item].split(';')[0]}</Button>}
-					</View>
-					)
+					.map(key => {
+						return <View>
+							{
+								key != 'description' && [
+									<Wrapper spaceBetween style={{ padding: 10 }}>
+										<Text>{viewKey(key)}</Text>
+										<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
+									</Wrapper>,
+									<Divider />
+								]
+							}
+							{key == 'description' && <Button color="info" hideIfEmpty disabled noRadius>{typeof payment[key] == 'string' && payment[key].split(';')[0]}</Button>}
+						</View>
+					})
 			}
 		</View>
 	}
@@ -174,7 +179,7 @@ const TransactionDetail = ({ navigation }) => {
 											</Wrapper>
 											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
 												<View>
-													<Text style={{paddingLeft : 10}} color="primary">Token Listrik</Text>
+													<Text style={{ paddingLeft: 10 }} color="primary">Token Listrik</Text>
 													<Wrapper style={styles.token} justify="space-between">
 														<Text size={15} style={{ paddingLeft: 10 }}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
 														<CopyButton onPress={() => {
@@ -184,7 +189,7 @@ const TransactionDetail = ({ navigation }) => {
 													</Wrapper>
 												</View>
 											]}
-											{/* {_renderProductDigital(item)} */}
+											{_renderProductDigital(item)}
 										</View>
 									})
 								}
