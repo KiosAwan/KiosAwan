@@ -8,7 +8,7 @@ import { View, Image, StyleSheet, Clipboard } from 'react-native';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
-import { convertRupiah, getUserToken } from 'src/utils/authhelper';
+import { convertRupiah, getUserToken, getUserId, sendNewTransaction } from 'src/utils/authhelper';
 import moment from 'moment';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,18 +16,24 @@ import ViewShot from 'react-native-view-shot';
 import Screenshot from 'src/utils/screenshot';
 import { CopyButton } from 'src/components/Button/CopyButton';
 import { Toast } from 'native-base';
+import { AddCashPayment, AddCustomer, AddDiscountName, AddDiscountPersen, AddDiscountRupiah, removeAllCart } from 'src/redux/actions/actionsStoreProduct';
+import { SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const StatusPesanan = ({ navigation }) => {
 	let viewShotRef;
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
-	const Customer = useSelector(state => state.Customer)
+	const Product = useSelector(state => state.Product)
 
 	const [params, setParams] = useState({
 		details: null,
 		payment: null,
 		transaction: null
 	})
+	const [loading, setLoading] = useState(false)
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState(false)
 
 	useEffect(() => {
 		if (navigation.state.params.params) {
@@ -100,7 +106,60 @@ const StatusPesanan = ({ navigation }) => {
 			}
 		</View>
 	}
+
+	const _onPressSelesai = async () => {
+		if (Product.jumlahitem == 1) {
+			_handlePayCash()
+		} else {
+			const userToken = await getUserToken()
+			dispatch(getCustomer(User.store.id_store, userToken))
+			navigation.navigate('/cashier/check-out')
+		}
+	}
+
+	const _handlePayCash = async () => {
+		setLoading(true)
+		const userToken = await getUserToken()
+		const userId = await getUserId()
+		let cart = []
+		const data = {
+			cashier: userId,
+			amount_payment: Product.total - Product.total_diskon,
+			id_payment_type: 1,
+			payment_method: "",
+			product_cart: cart,
+			customer: null,
+			id_store: User.store.id_store,
+			discount_name: '',
+			discount_transaction: Product.discount_transaction,
+			note: Product.note,
+			id_multi: Product.id_multi
+		}
+		const res = await sendNewTransaction(data)
+		setLoading(false)
+		if (res.status == 400) {
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
+		} else if (res.status == 200) {
+			dispatch(removeAllCart())
+			dispatch(AddCashPayment(0))
+			dispatch(AddCustomer(null))
+			dispatch(AddDiscountName(''))
+			dispatch(AddDiscountPersen(''))
+			dispatch(AddDiscountRupiah(''))
+			dispatch(SetIdMultiCart(0))
+			navigation.navigate('/ppob')
+		} else {
+			alert(JSON.stringify(res))
+		}
+	}
 	return <Container header={{ title: 'Status Pesanan' }}>
+		<AwanPopup.Loading visible={loading} />
+		<AwanPopup.Alert
+			message={alertMessage}
+			visible={alert}
+			closeAlert={() => setAlert(false)}
+		/>
 		<Body>
 			<ViewShot style={{ backgroundColor: ColorsList.authBackground }} ref={ref => viewShotRef = ref}>
 				{
@@ -160,11 +219,7 @@ const StatusPesanan = ({ navigation }) => {
 					{/* <Text color="primary">CETAK STRUK</Text> */}
 				</Button>
 			</Wrapper>
-			<Button onPress={async () => {
-				const userToken = await getUserToken()
-				dispatch(getCustomer(User.store.id_store, userToken))
-				navigation.navigate('/cashier/check-out')
-			}}>SELESAI</Button>
+			<Button onPress={_onPressSelesai}>SELESAI</Button>
 		</Footer>
 	</Container>
 }
