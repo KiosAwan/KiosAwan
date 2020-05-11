@@ -125,7 +125,6 @@ const SubProduct = ({ navigation }) => {
             const renderCashback = () => {
                 let [modal, harga] = [
                     item.awan + parseInt(item.price),
-                    // 23000
                     parseInt(item.price) + (
                         productMargin[key] ?
                             productMargin[key].margin ?
@@ -204,7 +203,7 @@ const SubProduct = ({ navigation }) => {
                     [_key]: { margin, productID, product: name, price }
                 })}
                 onBlur={() => {
-                    if (!(productMargin[_key] && parseInt(productMargin[_key].margin) > parseInt(price))) {
+                    if (!(productMargin[_key] && productMargin[_key].margin.extractNumber() > parseInt(price))) {
                         setProductMargin({ [_key]: null })
                         setAlertProps({
                             visible: true,
@@ -212,7 +211,7 @@ const SubProduct = ({ navigation }) => {
                         })
                     }
                 }}
-                keyboardType='number-pad'
+                currency
                 _style={styles.rightWrapper} value={value()} label="Harga Jual" />
         </Wrapper>
     })
