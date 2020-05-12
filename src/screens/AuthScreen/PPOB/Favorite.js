@@ -57,7 +57,7 @@ const Favorite = ({ navigation }) => {
                 <Wrapper _flex flexStart>
                     <NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
                     <View>
-                        <Text color="primary">{type}</Text>
+                        <Text color="primary">{type.split("_").join(" ").toUpperCase()}</Text>
                         <Text>{customerID}</Text>
                     </View>
                 </Wrapper>
@@ -73,7 +73,7 @@ const Favorite = ({ navigation }) => {
             favorites.length > 0 ? <FlatList
                 style={{ flex: 1 }}
                 onEndReached={_addMoreData}
-                onEndReachedThreshold={0}
+                onEndReachedThreshold={0.1}
                 showsVerticalScrollIndicator={false}
                 data={favorites}
                 renderItem={_renderItem}
