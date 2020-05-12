@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -47,11 +47,11 @@ const ListrikPascabayar = ({ navigation }) => {
 	const [detail, setDetail] = useState(false)
 
 	//Function for check tagihan
-	const _cekTagihan = async () => {
+	const _cekTagihan = async (x) => {
 		setTagihanLoading(true)
 		const params = {
 			productID: 100301,
-			customerID: custId
+			customerID: x || custId
 		}
 		const { status, data } = await checkTagihanListrik(params)
 		setTagihanLoading(false)
@@ -62,7 +62,14 @@ const ListrikPascabayar = ({ navigation }) => {
 			setTagihanData(data)
 		}
 	}
-
+	//Effect
+	useEffect(() => {
+		if (navigation.state.params) {
+			let { customerID } = navigation.state.params
+			setCustId(customerID)
+			_cekTagihan(customerID)
+		}
+	}, [])
 	//Set pin modal visible when user clicked pay button
 	const _onPressBayar = () => {
 		if (tagihanData) {
@@ -148,7 +155,7 @@ const ListrikPascabayar = ({ navigation }) => {
 			<AwanPopup.Loading visible={payLoading} />
 			{/* Popup components */}
 			<View style={styles.topComp}>
-				{__DEV__ && <Button onPress={() => setCustId('520060002607')}>520060002607</Button>}
+				{__DEV__ && <Button onPress={() => setCustId('142600857205')}>520060002607</Button>}
 				<MDInput _width="80%"
 					label="ID Pelanggan"
 					value={custId.toString()}

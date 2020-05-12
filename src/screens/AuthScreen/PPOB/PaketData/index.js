@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'src/components/View/Container';
 import styles from './PaketDataStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -51,10 +51,14 @@ const PpobPaketData = ({ navigation }) => {
 
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
-		console.debug(item)
 		setPinVisible(true)
 	}
-
+	useEffect(() => {
+		if (navigation.state.params) {
+			let { customerID } = navigation.state.params
+			_onChangePhoneNum(customerID)
+		}
+	}, [])
 	//Function onchange phone number
 	const _onChangePhoneNum = async (text) => {
 		setPhoneNumber(text)
@@ -173,7 +177,6 @@ const PpobPaketData = ({ navigation }) => {
 					keyboardType="phone-pad"
 					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
 				/>
-				{/* {data ? <Image source={{ uri: data.provider.image }} size={20} /> : null} */}
 				<TouchableOpacity onPress={() => setContactVisible(true)}>
 					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
 				</TouchableOpacity>

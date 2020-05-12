@@ -118,7 +118,7 @@ const PpobPulsa = ({ navigation }) => {
 		setFavorit(!favorit)
 	}
 	useEffect(() => {
-		if (Object.keys(navigation.state.params).length > 0) {
+		if (navigation.state.params) {
 			let { customerID } = navigation.state.params
 			_onChangePhoneNum(customerID)
 		}

@@ -9,6 +9,7 @@ import { getFavorites, deleteFavorite } from 'src/utils/authhelper';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import Alert from 'src/utils/alert';
+import { DEV_IMG_URL } from 'src/config';
 
 const Favorite = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true)
@@ -35,11 +36,11 @@ const Favorite = ({ navigation }) => {
     const _renderItem = ({ item }) => {
         let { id_favorite, customerID, type } = item
         return <View>
-            <Button color={["white"]} onPress={() => navigation.navigate(`/ppob/${type}`, item)} noRadius style={{ margin: 10 }} spaceBetween>
+            <Button color={["white"]} onPress={() => navigation.navigate(`/ppob/${type}`, item)} noRadius style={{ margin: 5 }} spaceBetween>
                 <Wrapper _flex flexStart>
-                    <NativeImage style={[styles.image]} source={require("src/assets/images/card_1.png")} />
+                    <NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
                     <View>
-                        <Text>{type.ucwords()}</Text>
+                        <Text color="primary">{type.split("_").join(" ").toUpperCase()}</Text>
                         <Text>{customerID}</Text>
                     </View>
                 </Wrapper>

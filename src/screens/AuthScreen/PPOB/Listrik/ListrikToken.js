@@ -51,9 +51,15 @@ const ListrikToken = ({ navigation }) => {
 
 	useEffect(() => {
 		_getProduct()
-		// _cekTagihan(custId)
+		if (navigation.state.params) {
+			let { customerID } = navigation.state.params
+			setCustId(customerID)
+			_cekTagihan(customerID)
+		}
 	}, [])
+	useEffect(() => {
 
+	}, [])
 	const _getProduct = async () => {
 		const res = await getProductToken()
 		// console.debug(res)

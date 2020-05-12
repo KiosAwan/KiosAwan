@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -27,7 +27,6 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	const [custId, setCustId] = useState('')
 	// 520060002607
 	const [] = useState()
-	const [selectedCashback, setSelectedCashback] = useState(2500)
 	//Data tagihan
 	const [tagihanLoading, setTagihanLoading] = useState(false)
 	const [tagihanData, setTagihanData] = useState()
@@ -43,15 +42,13 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 
 	//Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
-	//LDetail visibility state
-	const [detail, setDetail] = useState(false)
 
 	//Function for check tagihan
-	const _cekTagihan = async () => {
+	const _cekTagihan = async (x) => {
 		setTagihanLoading(true)
 		const params = {
 			productID: 100311,
-			customerID: custId
+			customerID: x || custId
 		}
 		const { status, data } = await checkTagihanNonTagList(params)
 		setTagihanLoading(false)
@@ -62,7 +59,13 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 			setTagihanData(data)
 		}
 	}
-
+	useEffect(() => {
+		if (navigation.state.params) {
+			let { customerID } = navigation.state.params
+			setCustId(customerID)
+			_cekTagihan(customerID)
+		}
+	}, [])
 	//Set pin modal visible when user clicked pay button
 	const _onPressBayar = () => {
 		if (tagihanData) {
@@ -102,7 +105,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
-			const data = {            
+			const data = {
 				type: "nontaglist",
 				customerID: res.data.transaction.customerID,
 				price: parseInt(res.data.transaction.total),

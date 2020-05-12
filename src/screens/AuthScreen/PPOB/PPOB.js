@@ -203,16 +203,6 @@ const PPOB = ({ navigation }) => {
 						)}
 						keyExtractor={(item, index) => index.toString()}
 					/>}
-				{/* <AwanPopup.Menu noTitle transparent absolute visible={moreVisible}
-					backdropDismiss={() => setMoreVisible(false)}
-					style={{ top: 10, right: 5, minWidth: '50%' }}
-					contentStyle={{ elevation: 5, backgroundColor: ColorsList.whiteColor }}
-				>
-					<Button onPress={() => {
-						setMoreVisible(false)
-						navigation.navigate('/ppob/settings')
-					}} color={["white", "greyFont"]} textProps={{ size: 15 }}>Atur Harga Produk</Button>
-				</AwanPopup.Menu> */}
 			</ParallaxScrollView>
 
 			{

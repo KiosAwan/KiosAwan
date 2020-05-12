@@ -36,12 +36,12 @@ const PpobListrik = ({ navigation }) => {
 		</Modal>
 		<Body>
 			{[
-				{ screen: "token", title: "Token Listrik" },
-				{ screen: "prabayar", title: "Tagihan Listrik" },
+				{ screen: "pln_prepaid", title: "Token Listrik" },
+				{ screen: "pln_postpaid", title: "Tagihan Listrik" },
 				{ screen: "ntl", title: "Non Tagihan Listrik" }
 			].map((item, i) => <Button
 				key={i}
-				onPress={() => navigation.navigate(`/ppob/listrik/${item.screen}`)}
+				onPress={() => navigation.navigate(`/ppob/${item.screen}`)}
 				style={{ marginBottom: 5 }}
 				padding={$Padding(5, 10)}
 				wrapper={{ justify: 'flex-start' }}
