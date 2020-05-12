@@ -1,62 +1,65 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet, TouchableOpacity, Image as NativeImage, ActivityIndicator } from 'react-native';
-import Container, { Body } from 'src/components/View/Container';
+import Container from 'src/components/View/Container';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
+import { getFavorites, deleteFavorite } from 'src/utils/authhelper';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Button } from 'src/components/Button/Button';
+import Alert from 'src/utils/alert';
 
 const Favorite = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true)
-
+    const [favorites, setFavorites] = useState([])
     useEffect(() => {
-        _effect()
+        GetData()
     }, [])
-
-    const _effect = async () => {
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 1000);
+    const removeFavorite = async (id_favorite, force) => {
+        if (force) {
+            await deleteFavorite(id_favorite)
+            GetData()
+        } else {
+            Alert("Peringatan", "Anda akan menghapus ini dari daftar Favorit?", [
+                ["Ya", () => removeFavorite(id_favorite, true)],
+                ["Tidak", null],
+            ])
+        }
     }
-    return (
-        <Container>
-            <GlobalHeader title="Favorit" onPressBack={() => navigation.goBack()} />
-            {isLoading ? <ActivityIndicator color={ColorsList.primary} /> :
-                <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={[
-                        { title: "Pulsa", data: [1, 2, 3] },
-                        { title: "Listrik", data: [1, 2, 3] },
-                        { title: "BPJS", data: [1, 2, 3] }
-                    ]}
-                    renderItem={({ item }) => (
-                        <View>
-                            <View style={styles.categoryWrap}>
-                                <Text>{item.title}</Text>
-                            </View>
-                            <View style={{ margin: 5, flex: 1 }}>
-                                {item.data.map((isi, ind) => (
-                                    <View key={ind} style={styles.wrapper}>
-                                        <View style={styles.card1} >
-                                            <NativeImage style={styles.image} source={require("src/assets/images/card_1.png")} />
-                                            <View>
-                                                <Text>Token listrik</Text>
-                                                <Text>129388122381293</Text>
-                                            </View>
-                                        </View>
-                                        <TouchableOpacity style={styles.touchableTrash}>
-                                            <Image size={25} source={require("src/assets/icons/trash-primary.png")} />
-                                        </TouchableOpacity>
-                                    </View>
-                                ))}
-                            </View>
-                        </View>
-                    )}
-                    keyExtractor={(item, i) => i.toString()}
-                />
-            }
-        </Container>
-    )
+    const GetData = async () => {
+        const { data } = await getFavorites()
+        setIsLoading(false)
+        setFavorites(data)
+    }
+    const _renderItem = ({ item }) => {
+        let { id_favorite, customerID, type } = item
+        return <View>
+            <Wrapper style={{ backgroundColor: ColorsList.white, margin: 10 }} spaceBetween>
+                <Wrapper _flex flexStart>
+                    <NativeImage style={[styles.image]} source={require("src/assets/images/card_1.png")} />
+                    <View>
+                        <Text>{type.ucwords()}</Text>
+                        <Text>{customerID}</Text>
+                    </View>
+                </Wrapper>
+                <Button noRadius color={['greyBg']} onPress={() => removeFavorite(id_favorite)}>
+                    <Image size={25} source={require("src/assets/icons/trash-primary.png")} />
+                </Button>
+            </Wrapper>
+        </View>
+    }
+    return <Container>
+        <GlobalHeader title="Favorit" onPressBack={() => navigation.goBack()} />
+        {isLoading ? <ActivityIndicator color={ColorsList.primary} /> :
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                data={favorites}
+                renderItem={_renderItem}
+                keyExtractor={(item, i) => i.toString()}
+            />
+        }
+    </Container>
 }
 
 export default Favorite

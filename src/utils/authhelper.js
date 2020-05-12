@@ -143,6 +143,23 @@ export const getReportCategory = async (id_store, params) => {
   return res.data
 }
 
+export const getFavorites = async () => {
+  const authorization = await getUserToken()
+  const userId = await getUserId()
+  const { data } = await axios.get(`${HOST_URL}/favorites/${userId}`, {
+    headers: { authorization }
+  })
+  return data
+}
+
+export const deleteFavorite = async idFavorite => {
+  const authorization = await getUserToken()
+  const { data } = await axios.delete(`${HOST_URL}/favorites/${idFavorite}`, {
+    headers: { authorization }
+  })
+  return data
+}
+
 export const getReportNonTunai = async (id_store, params) => {
   const userToken = await getUserToken()
   const res = await axios.get(`${HOST_URL}/report_nontunai/${id_store}`, {

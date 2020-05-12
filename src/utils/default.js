@@ -1,4 +1,11 @@
 console.warn = console.log = console.group = () => { }
+function iif(cond, then, elses) {
+  if (cond) {
+    return then
+  } else {
+    return elses
+  }
+}
 FormData.prototype.appendObject = function (obj, except) {
   except = except || []
   for (var key in obj) {

@@ -61,3 +61,4 @@ buck-out/
 outputs
 /package-lock.json
 *.project
+react-native-image-tutorial
