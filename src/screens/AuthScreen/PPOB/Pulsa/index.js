@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'src/components/View/Container';
 import styles from './PulsaStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -95,7 +95,7 @@ const PpobPulsa = ({ navigation }) => {
 			phone_number: phoneNumber,
 			productID: selected.code,
 			id_multi: Product.id_multi,
-			favorite : favorit ? 1 : 0
+			favorite: favorit ? 1 : 0
 		}
 		const res = await payPulsaHandphone(data)
 		setPayLoading(false)
@@ -117,6 +117,12 @@ const PpobPulsa = ({ navigation }) => {
 	const _handleChangeToggle = async () => {
 		setFavorit(!favorit)
 	}
+	useEffect(() => {
+		if (Object.keys(navigation.state.params).length > 0) {
+			let { customerID } = navigation.state.params
+			_onChangePhoneNum(customerID)
+		}
+	}, [])
 	return <Container header={{
 		title: "Pulsa",
 		// image: require('src/assets/icons/phonebook.png'),

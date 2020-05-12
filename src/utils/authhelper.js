@@ -154,10 +154,10 @@ export const getFavorites = async () => {
 
 export const deleteFavorite = async idFavorite => {
   const authorization = await getUserToken()
-  const { data } = await axios.delete(`${HOST_URL}/favorites/${idFavorite}`, {
+  const res = await axios.delete(`${HOST_URL}/favorite/${idFavorite}`, {
     headers: { authorization }
   })
-  return data
+  return res.data
 }
 
 export const getReportNonTunai = async (id_store, params) => {

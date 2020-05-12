@@ -35,7 +35,7 @@ const Favorite = ({ navigation }) => {
     const _renderItem = ({ item }) => {
         let { id_favorite, customerID, type } = item
         return <View>
-            <Wrapper style={{ backgroundColor: ColorsList.white, margin: 10 }} spaceBetween>
+            <Button color={["white"]} onPress={() => navigation.navigate(`/ppob/${type}`, item)} noRadius style={{ margin: 10 }} spaceBetween>
                 <Wrapper _flex flexStart>
                     <NativeImage style={[styles.image]} source={require("src/assets/images/card_1.png")} />
                     <View>
@@ -46,18 +46,18 @@ const Favorite = ({ navigation }) => {
                 <Button noRadius color={['greyBg']} onPress={() => removeFavorite(id_favorite)}>
                     <Image size={25} source={require("src/assets/icons/trash-primary.png")} />
                 </Button>
-            </Wrapper>
+            </Button>
         </View>
     }
     return <Container>
         <GlobalHeader title="Favorit" onPressBack={() => navigation.goBack()} />
         {isLoading ? <ActivityIndicator color={ColorsList.primary} /> :
-            <FlatList
+            favorites.length > 0 ? <FlatList
                 showsVerticalScrollIndicator={false}
                 data={favorites}
                 renderItem={_renderItem}
                 keyExtractor={(item, i) => i.toString()}
-            />
+            /> : <Button style={{ margin: 10 }} disabled color="info">Anda Belum Mempunyai Daftar Favorit</Button>
         }
     </Container>
 }

@@ -95,7 +95,7 @@ const PpobPaketData = ({ navigation }) => {
 			phone_number: phoneNumber,
 			productID: selected.code,
 			id_multi: Product.id_multi,
-			favorite : favorit ? 1 : 0
+			favorite: favorit ? 1 : 0
 		}
 		const res = await payPulsaHandphone(data)
 		setPayLoading(false)
@@ -186,6 +186,18 @@ const PpobPaketData = ({ navigation }) => {
 				toggleValue={favorit}
 			/>
 		</View>
+		{
+			__DEV__ && <View>
+				<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
+				<FlatList
+					style={{}}
+					numColumns={3}
+					data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
+					keyExtractor={(a, i) => i.toString()}
+					renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
+				/>
+			</View>
+		}
 		<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 			showsVerticalScrollIndicator={false}
 			data={data ? data.products : []}
