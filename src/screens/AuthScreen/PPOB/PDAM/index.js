@@ -25,6 +25,7 @@ import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
+import json from 'src/assets/json/ppob_pdam.json'
 
 const PDAM = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -36,7 +37,7 @@ const PDAM = ({ navigation }) => {
     const [modal, setModal] = useState(false)
     const [idPelanggan, setIdPelanggan] = useState('')
     const [search, setSearch] = useState('')
-    const [selected, setSelected] = useState()
+    const [selected, setSelected] = useState({})
     //Favorite transaction
     const [favorit, setFavorit] = useState()
     //PDAM Product data list state
@@ -120,7 +121,7 @@ const PDAM = ({ navigation }) => {
             customerID: tagihanData.transaction.customerID,
             productID: tagihanData.transaction.productID,
             id_multi: Product.id_multi,
-            favorite : favorit ? 1 : 0
+            favorite: favorit ? 1 : 0
         }
         const res = await payTagihanPDAM(data)
         setPayLoading(false)
@@ -191,6 +192,27 @@ const PDAM = ({ navigation }) => {
             <Text>Data tidak ditemukan</Text>
         </SelectBoxModal> */}
             <View style={styles.topComp}>
+                {__DEV__ &&
+                    <View style={{ backgroundColor: ColorsList.greyBg, padding: 15 }}>
+                        <Text align="center">Dev Purpose Only</Text>
+                        <SelectBoxModal style={{ marginTop: 15 }}
+                            label="Pilih PDAM" closeOnSelect
+                            data={json}
+                            value={selected ? selected.name : ""}
+                            handleChangePicker={(item) => {
+                                let {
+                                    customerID,
+                                    productID: code,
+                                    PDAM: name
+                                } = item
+                                setSelected({ code, name })
+                                setIdPelanggan(customerID)
+                            }}
+                            renderItem={(item) => <Text color={idPelanggan == item.customerID && 'primary'}>{item.customerID} - {item.PDAM}</Text>}>
+                            <Text>Data tidak ditemukan</Text>
+                        </SelectBoxModal>
+                    </View>
+                }
                 <SelectBoxModal style={{ marginTop: 15 }}
                     label="Pilih PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
@@ -201,7 +223,7 @@ const PDAM = ({ navigation }) => {
                     }
                     value={selected ? selected.name : ""}
                     handleChangePicker={(item) => setSelected(item)}
-                    renderItem={(item) => (<Text>{item.name}</Text>)}>
+                    renderItem={(item) => (<Text color={selected.code == item.code && 'primary'}>{item.name}</Text>)}>
                     <Text>Data tidak ditemukan</Text>
                 </SelectBoxModal>
                 <MDInput _width="80%"
