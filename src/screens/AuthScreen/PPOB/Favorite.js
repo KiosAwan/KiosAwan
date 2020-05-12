@@ -14,13 +14,15 @@ import { DEV_IMG_URL } from 'src/config';
 const Favorite = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true)
     const [favorites, setFavorites] = useState([])
+    const [nextPage, setNextPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
     useEffect(() => {
-        GetData()
+        getData(1)
     }, [])
     const removeFavorite = async (id_favorite, force) => {
         if (force) {
             await deleteFavorite(id_favorite)
-            GetData()
+            getData(1)
         } else {
             Alert("Peringatan", "Anda akan menghapus ini dari daftar Favorit?", [
                 ["Ya", () => removeFavorite(id_favorite, true)],
@@ -28,10 +30,25 @@ const Favorite = ({ navigation }) => {
             ])
         }
     }
-    const GetData = async () => {
-        const { data } = await getFavorites()
+    const getData = async (page) => {
+        const { data } = await getFavorites(page)
+        let result = []
+        if (page == 1) {
+            result = data.favorites
+        } else {
+            result = [...favorites, ...data.favorites]
+        }
+        let countPage = page + 1
         setIsLoading(false)
-        setFavorites(data)
+        setNextPage(countPage)
+        setTotalPage(data.total_pages)
+        setFavorites(result)
+    }
+
+    const _addMoreData = async () => {
+        if (parseInt(nextPage) <= parseInt(totalPage)) {
+            getData(nextPage)
+        }
     }
     const _renderItem = ({ item }) => {
         let { id_favorite, customerID, type } = item
@@ -40,7 +57,7 @@ const Favorite = ({ navigation }) => {
                 <Wrapper _flex flexStart>
                     <NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
                     <View>
-                        <Text color="primary">{type.split("_").join(" ").toUpperCase()}</Text>
+                        <Text color="primary">{type}</Text>
                         <Text>{customerID}</Text>
                     </View>
                 </Wrapper>
@@ -54,6 +71,9 @@ const Favorite = ({ navigation }) => {
         <GlobalHeader title="Favorit" onPressBack={() => navigation.goBack()} />
         {isLoading ? <ActivityIndicator color={ColorsList.primary} /> :
             favorites.length > 0 ? <FlatList
+                style={{ flex: 1 }}
+                onEndReached={_addMoreData}
+                onEndReachedThreshold={0}
                 showsVerticalScrollIndicator={false}
                 data={favorites}
                 renderItem={_renderItem}

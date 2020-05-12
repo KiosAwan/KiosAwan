@@ -47,7 +47,6 @@ const RiwayatTransaksi = ({ navigation }) => {
 				// Don't use body Component here, it make the lazy load didn't work
 				<View style={{ padding: 10, flex: 1 }}>
 					<FlatList
-						// onMomentumScrollEnd={_addMoreData}
 						onEndReached={_addMoreData}
 						onEndReachedThreshold={0.25}
 						showsVerticalScrollIndicator={false}

@@ -48,7 +48,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 		setTagihanLoading(true)
 		const params = {
 			productID: 100311,
-			customerID: x || custId
+			customerID: x
 		}
 		const { status, data } = await checkTagihanNonTagList(params)
 		setTagihanLoading(false)
@@ -220,7 +220,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 			}
 		</Body>
 		<Footer>
-			<Button onPress={_cekTagihan} color="white" width="100%">
+			<Button onPress={() => _cekTagihan(custId)} color="white" width="100%">
 				CEK TAGIHAN
             </Button>
 			<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">

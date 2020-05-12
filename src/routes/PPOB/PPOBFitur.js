@@ -26,7 +26,7 @@ const PPOBFitur = {
 	'/ppob/pln_prepaid': {
 		screen: ListrikToken
 	},
-	'/ppob/pln_nonpaid': {
+	'/ppob/pln_non_tagihan_listrik': {
 		screen: ListrikNonTagihanListrik
 	},
 	'/ppob/pln_postpaid': {

@@ -143,10 +143,10 @@ export const getReportCategory = async (id_store, params) => {
   return res.data
 }
 
-export const getFavorites = async () => {
+export const getFavorites = async (page) => {
   const authorization = await getUserToken()
   const userId = await getUserId()
-  const { data } = await axios.get(`${HOST_URL}/favorites/${userId}`, {
+  const { data } = await axios.get(`${HOST_URL}/favorites/${userId}?page=${page}`, {
     headers: { authorization }
   })
   return data
