@@ -18,6 +18,7 @@ import GlobalEnterPin from '../../GlobalEnterPin';
 import { verifyUserPIN, convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { Toast } from 'native-base';
 import { getProfile } from 'src/redux/actions/actionsUserData';
+import SwitchButton from 'src/components/Button/SwitchButton';
 
 const ListrikToken = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -33,6 +34,8 @@ const ListrikToken = ({ navigation }) => {
 	// Response after checking tagihan
 	const [response, setResponse] = useState()
 	const [productToken, setProduct] = useState()
+	//Favorite transaction
+	const [favorit, setFavorit] = useState()
 	// alert
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState()
@@ -112,7 +115,8 @@ const ListrikToken = ({ navigation }) => {
 			customerID: response.transaction.customerID,
 			productID: response.transaction.productID,
 			amount: selected.price,
-			id_multi: Product.id_multi
+			id_multi: Product.id_multi,
+			favorite: favorit ? 1 : 0
 		}
 		const res = await payTokenListrik(data)
 		setPayLoading(false)
@@ -129,6 +133,10 @@ const ListrikToken = ({ navigation }) => {
 		} else {
 			console.debug(res)
 		}
+	}
+
+	const _handleChangeToggle = async () => {
+		setFavorit(!favorit)
 	}
 	return <Container header={{
 		onPressBack: () => navigation.goBack(),
@@ -166,6 +174,13 @@ const ListrikToken = ({ navigation }) => {
 				keyboardType="number-pad"
 			/>
 			{/* <Text>32127971177</Text> */}
+		</View>
+		<View style={styles.simpan}>
+			<Text>Simpan ke favorit</Text>
+			<SwitchButton
+				handleChangeToggle={_handleChangeToggle}
+				toggleValue={favorit}
+			/>
 		</View>
 		{loading ?
 			<View style={styles.custInfo}>

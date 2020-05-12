@@ -27,6 +27,13 @@ const styles = StyleSheet.create({
 	},
 	pulsaComp: {
 		...$Margin(3, 10)
+	},
+	simpan: {
+		alignSelf: "flex-end",
+		flexDirection: "row",
+		alignItems: "center",
+		marginRight: 10,
+		marginBottom: 10
 	}
 })
 export default styles

@@ -37,7 +37,8 @@ const PDAM = ({ navigation }) => {
     const [idPelanggan, setIdPelanggan] = useState('')
     const [search, setSearch] = useState('')
     const [selected, setSelected] = useState()
-
+    //Favorite transaction
+    const [favorit, setFavorit] = useState()
     //PDAM Product data list state
     const [productData, setProductData] = useState([])
 
@@ -118,7 +119,8 @@ const PDAM = ({ navigation }) => {
         const data = {
             customerID: tagihanData.transaction.customerID,
             productID: tagihanData.transaction.productID,
-            id_multi: Product.id_multi
+            id_multi: Product.id_multi,
+            favorite : favorit ? 1 : 0
         }
         const res = await payTagihanPDAM(data)
         setPayLoading(false)
@@ -136,9 +138,9 @@ const PDAM = ({ navigation }) => {
             console.debug(res)
         }
     }
-
-    const testJsonData = require('src/assets/json/test-pdam.json')
-    const [testSelected, setTestSelected] = useState({})
+    const _handleChangeToggle = async () => {
+        setFavorit(!favorit)
+    }
     return <Container header={{
         title: "PDAM",
         onPressBack: () => navigation.goBack()
@@ -209,13 +211,13 @@ const PDAM = ({ navigation }) => {
                     keyboardType="number-pad"
                 />
             </View>
-            {/* <View style={styles.simpan}>
-            <Text>Simpan VA ini untuk masuk ke favorit</Text>
-            <SwitchButton
-                // handleChangeToggle={_handleChangeToggle}
-                toggleValue={true}
-            />
-        </View> */}
+            <View style={styles.simpan}>
+                <Text>Simpan  ke favorit</Text>
+                <SwitchButton
+                    handleChangeToggle={_handleChangeToggle}
+                    toggleValue={favorit}
+                />
+            </View>
             {tagihanData ? <Button style={$Margin(0, 15, 15)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
                 {`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
                     (parseInt(tagihanData.transaction.cashback)

@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
+import SwitchButton from 'src/components/Button/SwitchButton';
 
 const PpobPaketData = ({ navigation }) => {
 	//Initialize dispatch
@@ -30,6 +31,8 @@ const PpobPaketData = ({ navigation }) => {
 	//Phone number state
 	const [phoneNumber, setPhoneNumber] = useState("")
 	const [selected, setSelected] = useState()
+	//Favorite transaction
+	const [favorit, setFavorit] = useState()
 	//Product state
 	const [data, setData] = useState()
 
@@ -91,7 +94,8 @@ const PpobPaketData = ({ navigation }) => {
 		const data = {
 			phone_number: phoneNumber,
 			productID: selected.code,
-			id_multi: Product.id_multi
+			id_multi: Product.id_multi,
+			favorite : favorit ? 1 : 0
 		}
 		const res = await payPulsaHandphone(data)
 		setPayLoading(false)
@@ -108,6 +112,10 @@ const PpobPaketData = ({ navigation }) => {
 		} else {
 			console.debug(res)
 		}
+	}
+
+	const _handleChangeToggle = async () => {
+		setFavorit(!favorit)
 	}
 	return <Container header={{
 		title: "Paket Data",
@@ -170,6 +178,13 @@ const PpobPaketData = ({ navigation }) => {
 					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
 				</TouchableOpacity>
 			</Wrapper>
+		</View>
+		<View style={styles.simpan}>
+			<Text>Simpan ke favorit</Text>
+			<SwitchButton
+				handleChangeToggle={_handleChangeToggle}
+				toggleValue={favorit}
+			/>
 		</View>
 		<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 			showsVerticalScrollIndicator={false}

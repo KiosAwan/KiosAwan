@@ -19,6 +19,7 @@ import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import ContactsModal from 'src/components/ModalContent/ContacsModal';
+import SwitchButton from 'src/components/Button/SwitchButton';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -31,6 +32,8 @@ const PpobPulsa = ({ navigation }) => {
 	//Phone number state
 	const [phoneNumber, setPhoneNumber] = useState("")
 	const [selected, setSelected] = useState()
+	//Favorite transaction
+	const [favorit, setFavorit] = useState()
 	//Product state
 	const [data, setData] = useState()
 
@@ -91,7 +94,8 @@ const PpobPulsa = ({ navigation }) => {
 		const data = {
 			phone_number: phoneNumber,
 			productID: selected.code,
-			id_multi: Product.id_multi
+			id_multi: Product.id_multi,
+			favorite : favorit ? 1 : 0
 		}
 		const res = await payPulsaHandphone(data)
 		setPayLoading(false)
@@ -108,6 +112,10 @@ const PpobPulsa = ({ navigation }) => {
 		} else {
 			console.debug(res)
 		}
+	}
+
+	const _handleChangeToggle = async () => {
+		setFavorit(!favorit)
 	}
 	return <Container header={{
 		title: "Pulsa",
@@ -182,6 +190,13 @@ const PpobPulsa = ({ navigation }) => {
 					/>
 				</View>
 			}
+		</View>
+		<View style={styles.simpan}>
+			<Text>Simpan ke favorit</Text>
+			<SwitchButton
+				handleChangeToggle={_handleChangeToggle}
+				toggleValue={favorit}
+			/>
 		</View>
 		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
 			columnWrapperStyle={{ justifyContent: 'space-between', }}

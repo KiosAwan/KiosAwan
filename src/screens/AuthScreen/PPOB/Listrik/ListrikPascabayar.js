@@ -16,6 +16,7 @@ import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getProfile } from 'src/redux/actions/actionsUserData';
+import SwitchButton from 'src/components/Button/SwitchButton';
 
 const ListrikPascabayar = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -31,7 +32,8 @@ const ListrikPascabayar = ({ navigation }) => {
 	const [tagihanLoading, setTagihanLoading] = useState(false)
 	const [tagihanData, setTagihanData] = useState()
 	const [] = useState(false)
-
+	//Favorite transaction
+	const [favorit, setFavorit] = useState()
 	//alert
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState()
@@ -94,7 +96,7 @@ const ListrikPascabayar = ({ navigation }) => {
 			customerID: tagihanData.transaction.customerID,
 			productID: tagihanData.transaction.productID,
 			id_multi: Product.id_multi,
-			selectedCashback
+			favorite: favorit ? 1 : 0
 		}
 		const res = await payTagihanListrik(data)
 		setPayLoading(false)
@@ -117,6 +119,9 @@ const ListrikPascabayar = ({ navigation }) => {
 		} else {
 			console.debug(res)
 		}
+	}
+	const _handleChangeToggle = async () => {
+		setFavorit(!favorit)
 	}
 	return <Container header={{
 		title: "Listrik Pascabayar",
@@ -151,13 +156,13 @@ const ListrikPascabayar = ({ navigation }) => {
 					keyboardType="number-pad"
 				/>
 			</View>
-			{/* <View style={styles.simpan}>
-				<Text>Simpan VA ini untuk masuk ke favorit</Text>
+			<View style={styles.simpan}>
+				<Text>Simpan ke favorit</Text>
 				<SwitchButton
-					// handleChangeToggle={_handleChangeToggle}
-					toggleValue={true}
+					handleChangeToggle={_handleChangeToggle}
+					toggleValue={favorit}
 				/>
-			</View> */}
+			</View>
 		</View>
 		<Body style={{ padding: 0 }}>
 			{
