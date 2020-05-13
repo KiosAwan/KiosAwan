@@ -57,9 +57,17 @@ const PDAM = ({ navigation }) => {
     //Loading pay state
     const [payLoading, setPayLoading] = useState(false)
     useEffect(() => {
+        _setFavoritData()
         _getProductList()
-    }, [[]])
+    }, [])
 
+    const _setFavoritData = async () => {
+        if (navigation.state.params) {
+            const { customerID, name, code } = navigation.state.params
+            setIdPelanggan(customerID)
+            setSelected({name, code})
+        }
+    }
     //Function for getting pdam product list
     const _getProductList = async () => {
         const res = await getPDAMProductList()
@@ -192,7 +200,7 @@ const PDAM = ({ navigation }) => {
             <Text>Data tidak ditemukan</Text>
         </SelectBoxModal> */}
             <View style={styles.topComp}>
-                {__DEV__ &&
+                {/* {__DEV__ &&
                     <View style={{ backgroundColor: ColorsList.greyBg, padding: 15 }}>
                         <Text align="center">Dev Purpose Only</Text>
                         <SelectBoxModal style={{ marginTop: 15 }}
@@ -212,7 +220,7 @@ const PDAM = ({ navigation }) => {
                             <Text>Data tidak ditemukan</Text>
                         </SelectBoxModal>
                     </View>
-                }
+                } */}
                 <SelectBoxModal style={{ marginTop: 15 }}
                     label="Pilih PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
@@ -234,7 +242,7 @@ const PDAM = ({ navigation }) => {
                 />
             </View>
             <View style={styles.simpan}>
-                <Text>Simpan  ke favorit</Text>
+                <Text>Simpan ke favorit</Text>
                 <SwitchButton
                     handleChangeToggle={_handleChangeToggle}
                     toggleValue={favorit}
