@@ -10,9 +10,11 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import Alert from 'src/utils/alert';
 import { DEV_IMG_URL } from 'src/config';
+import { FavoriteLoader } from 'src/components/LoadingPlaceholder';
 
 const Favorite = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true)
+    const [isLoadingMore, setIsLoadingMore] = useState(false)
     const [favorites, setFavorites] = useState([])
     const [nextPage, setNextPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
@@ -40,6 +42,7 @@ const Favorite = ({ navigation }) => {
         }
         let countPage = page + 1
         setIsLoading(false)
+        setIsLoadingMore(false)
         setNextPage(countPage)
         setTotalPage(data.total_pages)
         setFavorites(result)
@@ -47,6 +50,7 @@ const Favorite = ({ navigation }) => {
 
     const _addMoreData = async () => {
         if (parseInt(nextPage) <= parseInt(totalPage)) {
+            setIsLoadingMore(true)
             getData(nextPage)
         }
     }
@@ -69,7 +73,16 @@ const Favorite = ({ navigation }) => {
     }
     return <Container>
         <GlobalHeader title="Favorit" onPressBack={() => navigation.goBack()} />
-        {isLoading ? <ActivityIndicator color={ColorsList.primary} /> :
+        {isLoading ? <View>
+            <FavoriteLoader />
+            <FavoriteLoader />
+            <FavoriteLoader />
+            <FavoriteLoader />
+            <FavoriteLoader />
+            <FavoriteLoader />
+            <FavoriteLoader />
+            <FavoriteLoader />
+        </View> :
             favorites.length > 0 ? <FlatList
                 style={{ flex: 1 }}
                 onEndReached={_addMoreData}
@@ -80,6 +93,7 @@ const Favorite = ({ navigation }) => {
                 keyExtractor={(item, i) => i.toString()}
             /> : <Button style={{ margin: 10 }} disabled color="info">Anda Belum Mempunyai Daftar Favorit</Button>
         }
+        {isLoadingMore && <ActivityIndicator style={{ margin: 10 }} color={ColorsList.primary} />}
     </Container>
 }
 
