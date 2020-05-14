@@ -189,7 +189,7 @@ const TransactionDetail = ({ navigation }) => {
 													</Wrapper>
 												</View>
 											]}
-											{_renderProductDigital(item)}
+											{/* {_renderProductDigital(item)} */}
 										</View>
 									})
 								}

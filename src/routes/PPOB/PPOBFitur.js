@@ -35,7 +35,7 @@ const PPOBFitur = {
 	'/ppob/bpjs': {
 		screen: BPJS
 	},
-	'/ppob/telkom': {
+	'/ppob/telco': {
 		screen: Telkom
 	},
 	'/ppob/tvkabel': {

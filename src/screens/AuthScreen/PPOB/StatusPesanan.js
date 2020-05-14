@@ -58,10 +58,11 @@ const StatusPesanan = ({ navigation }) => {
 	}
 
 	const _renderProductDigital = item => {
-		let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info"]
+		console.debug(payment)
+		let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "updated_at", "info"]
 		let keyDontConvert = ['total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank', 'denda', 'stroom_token', 'pembelian_token', 'materai']
 		let viewKey = key => {
-			let keys = { ppn: "PPN", ppj: "PPJ" }
+			let keys = { ppn: "PPN", ppj: "PPJ", created_at : "Tanggal transaksi", Jmltagihan : "Jumlah Tagihan" }
 			return keys[key] || key.split('_').join(' ').ucwords()
 		}
 		return <View>
@@ -80,13 +81,17 @@ const StatusPesanan = ({ navigation }) => {
 		</View>
 	}
 	const _renderPendingProductDigital = () => {
-		let filterPayment = ["id", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
+		let filterPayment = ["id", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user",  "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info"]
+		let viewKey = key => {
+			let keys = { ppn: "PPN", ppj: "PPJ", created_at : "Tanggal transaksi" }
+			return keys[key] || key.split('_').join(' ').ucwords()
+		}
 		return <View>
 			{
 				(transaction ? Object.keys(transaction).filter(a => !filterPayment.includes(a)) : [])
 					.map(item => <View>
 						<Wrapper spaceBetween style={{ padding: 10 }}>
-							<Text>{item == "ppn" || item == "ppj" ? item : item.split('_').join(' ').ucwords()}</Text>
+							<Text>{viewKey(item)}</Text>
 							<Text align="right" _width="49%">{
 								!['total',
 									'admin',
