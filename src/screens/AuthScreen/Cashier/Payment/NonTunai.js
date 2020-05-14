@@ -63,12 +63,12 @@ const NonTunai = ({ pressImage }) => {
 			}
 		]
 	}]
-	return nonTunaiList.map(({ name, data }, index) => {
+	return nonTunaiList.rMap(({ name, data }, index) => {
 		return <View style={{ marginTop: SizeList.padding }} key={index.toString()}>
 			<Text align="center" font="Bold">{name}</Text>
 			<Divider />
 			{
-				data.map(({ title, image, id }, i) => {
+				data.rMap(({ title, image, id }, i) => {
 					return <Button
 						key={i.toString()}
 						active={index == _index.group && i == _index.data}

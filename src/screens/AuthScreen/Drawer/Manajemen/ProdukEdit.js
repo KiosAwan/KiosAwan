@@ -169,7 +169,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 								<Text style={{ color: ColorsList.greyFont }}>BATAL</Text>
 							</View>
 						}
-						value={Category.data.map(cat => {
+						value={Category.data.rMap(cat => {
 							if (cat.id_product_category == EditProduct.id_category) return cat.name_product_category
 						}).join('')}
 						handleChangePicker={(item) => {

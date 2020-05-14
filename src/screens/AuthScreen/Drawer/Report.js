@@ -116,7 +116,7 @@ const Report = ({ navigation }) => {
 							{
 								dataTransaction && ctrl.dataTransaction &&
 								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
-									.map((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+									.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 										<Text>{key.split('_').join(' ').ucwords()}</Text>
 										<Text>{_convertRupiah(dataTransaction, key)}</Text>
 									</Wrapper>)
@@ -135,7 +135,7 @@ const Report = ({ navigation }) => {
 							{
 								dataTransaction && ctrl.labaRugiKotor &&
 								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
-									.map((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+									.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 										<Text>{key.split('_').join(' ').ucwords()}</Text>
 										<Text>{_convertRupiah(dataTransaction, key)}</Text>
 									</Wrapper>)
@@ -161,7 +161,7 @@ const Report = ({ navigation }) => {
 								<Button onPress={() => setCtrl({ dataReportNonTunai: !ctrl.dataReportNonTunai })} color="link">DETAIL</Button>
 							</Wrapper>
 							{
-								ctrl.dataReportNonTunai && Object.keys(NT.selected).map((key, i) => key != 'method' && <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+								ctrl.dataReportNonTunai && Object.keys(NT.selected).rMap((key, i) => key != 'method' && <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 									<Text>{key.split('_').join(' ').ucwords()}</Text>
 									<Text>{_convertRupiah(NT.selected, key)}</Text>
 								</Wrapper>)
@@ -170,12 +170,12 @@ const Report = ({ navigation }) => {
 					</View> :
 					<View style={{ backgroundColor: ColorsList.white }}>
 						{
-							dataReportCategory && dataReportCategory.map(({ harga, data, nama_category }) => <View>
+							dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }) => <View>
 								{
 									data && data.length > 0 && <Text style={{ backgroundColor: ColorsList.greyAuthHard, padding: 10 }} font={nama_category ? 'Regular' : 'Italic'} align="center">{nama_category ? nama_category : '~ Pesanan Manual ~'}</Text>
 								}
 								{
-									data && data.map(({ Product, harga_jual, total, jumlah }, i) => [
+									data && data.rMap(({ Product, harga_jual, total, jumlah }, i) => [
 										<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 											<View _style={{ flex: .7 }}>
 												<Text>{Product}</Text>
@@ -222,7 +222,7 @@ const Report = ({ navigation }) => {
 					const { index, routes, setIndex } = navigationState
 					return <Wrapper style={{ padding: 15 }} flexContent>
 						{
-							routes.map((route, i) => {
+							routes.rMap((route, i) => {
 								return <Button
 									key={i.toString()}
 									borderBottom
@@ -251,7 +251,7 @@ const Report = ({ navigation }) => {
 				return <View>
 					<Wrapper style={{ padding: 15 }} flexContent noWrapper>
 						{
-							routes.map((route, i) => {
+							routes.rMap((route, i) => {
 								return <Button
 									textStyle={{ fontSize: 12 }}
 									disabled={index == i}

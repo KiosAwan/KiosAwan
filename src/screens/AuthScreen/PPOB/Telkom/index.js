@@ -182,7 +182,7 @@ const Telkom = ({ navigation }) => {
                     }} />
                     <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
                         {[1, 2, 3, 4, 5, 6]
-                            .map((item, i) => [
+                            .rMap((item, i) => [
                                 <Button color="link">Albert Stanley - 123456789123456789</Button>,
                                 i != 5 && <Divider />
                             ])
@@ -242,7 +242,7 @@ const Telkom = ({ navigation }) => {
             {tagihanData && tagihanData.info &&
                 <View style={styles.infoPembelian}>
                     <Text size={16} font="Bold" color="info">{tagihanData.info.title}</Text>
-                    {tagihanData.info.info.map((item, i) => (
+                    {tagihanData.info.info.rMap((item, i) => (
                         <Text key={i} color="info">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
                     ))}
                 </View>

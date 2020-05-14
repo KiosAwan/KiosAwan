@@ -37,7 +37,7 @@ const DropdownSelect = props => {
 			contentStyle={[styles.dropdownContentStyle]}
 		>
 			{
-				data.map((item, i) => [
+				data.rMap((item, i) => [
 					<Button onPress={() => {
 						setDropdownVisible(false)
 						onSelect({ item, index: i })

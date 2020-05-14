@@ -102,7 +102,7 @@ const TransactionList = ({ navigation }) => {
                   </Wrapper>
                 </View>
                 {
-                  eval(DataTransaksi.data.map(item => filterResult(item.data).length).join('+')) > 0 ?
+                  eval(DataTransaksi.data.rMap(item => filterResult(item.data).length).join('+')) > 0 ?
                     <FlatList
                       style={{ marginBottom: 70 }}
                       data={DataTransaksi.data}
@@ -116,7 +116,7 @@ const TransactionList = ({ navigation }) => {
                           </View> : null,
                         <View style={{ padding: 15 }}>
                           {
-                            filterResult(item.data).map((trx, i) => {
+                            filterResult(item.data).rMap((trx, i) => {
                               return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
                                 <Wrapper style={[i > 0 ? { marginTop: 10 } : null, { backgroundColor: ColorsList.whiteColor }]} justify="space-between">
                                   <View style={{ padding: 15 }}>
@@ -216,7 +216,7 @@ const TransactionList = ({ navigation }) => {
           return (
             <Wrapper style={{ padding: 15 }}>
               {
-                props.navigationState.routes.map((route, i) => {
+                props.navigationState.routes.rMap((route, i) => {
                   return <Button textStyle={{ fontSize: 12 }} disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
                 })
               }

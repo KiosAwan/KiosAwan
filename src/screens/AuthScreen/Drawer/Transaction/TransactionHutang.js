@@ -56,13 +56,13 @@ const TransactionDetailHutang = ({ navigation }) => {
 			</View>
 			<View style={{ flex: 1, padding: 15 }}>
 				{
-					eval(DataTransaksi.data.map(item => filterResult(item.data).length).join('+')) > 0 ?
+					eval(DataTransaksi.data.rMap(item => filterResult(item.data).length).join('+')) > 0 ?
 						<FlatList
 							data={DataTransaksi.data}
 							showsVerticalScrollIndicator={false}
 							keyExtractor={(item, index) => index.toString()}
 							renderItem={({ item }) => {
-								return filterResult(item.data).map(trx => {
+								return filterResult(item.data).rMap(trx => {
 									return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
 										<Wrapper style={styles.wrapper} justify="space-between">
 											<Wrapper>

@@ -64,7 +64,7 @@ const TransactionDetail = ({ navigation }) => {
 		return <View>
 			{
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
-					.map(key => {
+					.rMap(key => {
 						return <View>
 							{
 								key != 'description' && [
@@ -144,7 +144,7 @@ const TransactionDetail = ({ navigation }) => {
 									<Text align="center" size={16} color="primary">Daftar Produk</Text>
 								</View>
 								{
-									data.details_item.map((data) => {
+									data.details_item.rMap((data) => {
 										return <Wrapper width="100%" style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
 											<View _width="76%">
 												<Text color="primary" size={15}>{data.product}</Text>
@@ -162,7 +162,7 @@ const TransactionDetail = ({ navigation }) => {
 									<Text align="center" size={16} color="primary">Pulsa dan Tagihan</Text>
 								</View>
 								{
-									data.product_digital.map((item, i) => {
+									data.product_digital.rMap((item, i) => {
 										return <View key={i.toString()}>
 											<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
 												<View>

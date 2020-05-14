@@ -108,7 +108,7 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
 					{
-						inputan.map((input, i) => {
+						inputan.rMap((input, i) => {
 							return <MDInput key={i} style={styles.floatingInput} label={input._label} style={{ width: '90%' }} {...input}
 								renderRightAccessory={() => <Icon name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />} />
 						})

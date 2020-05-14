@@ -58,7 +58,7 @@ const ManajemenProduk = ({ navigation }) => {
 								<ProductPlaceholder />
 							</View>
 							:
-							Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase())).map((data, i) => {
+							Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase())).rMap((data, i) => {
 								return <ProductCard key={i}
 									productImage={data.photo_product !== "" ? `${HOST_IMG_URL}/${data.photo_product}` : null}
 									name={data.name_product.toUpperCase()}

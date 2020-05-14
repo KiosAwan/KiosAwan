@@ -18,7 +18,7 @@ export const Wrapper = props => {
 	props.style]}>
 		{
 			children.length > 0 ?
-				children.map((item, i) => {
+				children.rMap((item, i) => {
 					if (!item) return null
 					const itemCLoned = React.cloneElement(item, {})
 					return noWrapper ? itemCLoned : <View style={[

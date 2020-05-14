@@ -52,10 +52,10 @@ const Akun = ({ navigation }) => {
 					</Wrapper>
 				</Wrapper>
 				{
-					ListMenu.map((groupMenu, i) => {
+					ListMenu.rMap((groupMenu, i) => {
 						return <View style={{ padding: 15 }} key={i}>
 							{
-								groupMenu.map((menu, o) => {
+								groupMenu.rMap((menu, o) => {
 									return <Button key={o}
 										onPress={() => ["Hubungi Kami", "FAQ"].includes(menu.name) ? navigation.navigate(menu.route) : User.store && User.data.status == 1 ? navigation.navigate(menu.route) : null}
 										style={{ marginBottom: 5 }}

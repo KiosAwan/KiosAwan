@@ -13,7 +13,7 @@ const Manajemen = ({ navigation }) => {
 			<GlobalHeader title="Manajemen" onPressBack={() => navigation.navigate('/drawer')} />
 			<View style={{ padding: 15 }}>
 				{
-					ListManajemen.map((menu, i) => {
+					ListManajemen.rMap((menu, i) => {
 						return <TouchableOpacity key={i} onPress={() => navigation.navigate(menu.route)} style={{
 							backgroundColor: 'white',
 							marginBottom: 5,

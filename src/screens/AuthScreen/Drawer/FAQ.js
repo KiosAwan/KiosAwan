@@ -31,7 +31,7 @@ const FAQ = ({ navigation }) => {
 			<Body>
 				{/* <View style={{ padding: 15 }}> */}
 					{
-						Faqs.filter(faq => faq.question.toLowerCase().includes(search.toLowerCase())).map((faq, i) => {
+						Faqs.filter(faq => faq.question.toLowerCase().includes(search.toLowerCase())).rMap((faq, i) => {
 							return [<TouchableOpacity key={i} style={{ marginTop: i == 0 ? 0 : 10 }} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
 								<Wrapper justify="space-between" style={[styles.content, toggled[i] ? styles.contentToggled : styles.contentNotToggled]}>
 									<Text color={toggled[i] ? 'whiteColor' : 'greyFont'}>{faq.question}</Text>

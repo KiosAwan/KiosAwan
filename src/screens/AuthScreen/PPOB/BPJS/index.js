@@ -153,7 +153,7 @@ const BPJS = ({ navigation }) => {
                 }} />
                 <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
                     {[1, 2, 3, 4, 5, 6]
-                        .map((item, i) => [
+                        .rMap((item, i) => [
                             <Button color="link">Albert Stanley - 123456789123456789</Button>,
                             i != 5 && <Divider />
                         ])
@@ -219,7 +219,7 @@ const BPJS = ({ navigation }) => {
                         <TouchableOpacity onPress={() => setDetail(!detail)} style={{ padding: 10, alignSelf: "flex-end" }}>
                             <Text color="primary" font="Regular">DETAIL</Text>
                         </TouchableOpacity>
-                        {detail ? tagihanData.details.map((item, i) => (
+                        {detail ? tagihanData.details.rMap((item, i) => (
                             <View key={i}>
                                 <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
                                     <Text font="Regular">{item.nama.trim()}</Text>

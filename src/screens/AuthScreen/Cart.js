@@ -198,7 +198,7 @@ const Cart = ({ navigation }) => {
 					</View>
 					: null}
 				{
-					Product.belanja.map((data, i) => {
+					Product.belanja.rMap((data, i) => {
 						return <View>
 							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
 								<View _width="70%">
@@ -229,7 +229,7 @@ const Cart = ({ navigation }) => {
 					</View>
 					: null}
 				{
-					Product.ppob_cart.map((data, i) => {
+					Product.ppob_cart.rMap((data, i) => {
 						return <View>
 							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
 								<View _width="60%">

@@ -58,7 +58,7 @@ const SubProduct = ({ navigation }) => {
     }
     const _saveMargin = async () => {
         let { type } = product
-        let finalMargins = Object.keys(productMargin).map(i => {
+        let finalMargins = Object.keys(productMargin).rMap(i => {
             let { margin, price, productID, product: name } = productMargin[i] || {}
             if (product.product_type == 3) {
                 margin = margin.extractNumber() - price
@@ -156,7 +156,7 @@ const SubProduct = ({ navigation }) => {
                         <Text align="center">Pilih Biaya Admin</Text>
                         <Wrapper flexContent style={{ marginVertical: 10 }}>
                             {
-                                [2000, 2500, 3000, 3500].map((btn, i) => {
+                                [2000, 2500, 3000, 3500].rMap((btn, i) => {
                                     return <Button
                                         key={i.toString()}
                                         active={productMargin[key] && productMargin[key].margin == btn || !productMargin[key].margin && btn == item.margin}
@@ -179,14 +179,14 @@ const SubProduct = ({ navigation }) => {
             <View style={{ width: "80%", alignItems: "center", alignSelf: "center" }}>
                 <Text align="center">Jumlah cashback menyesuaikan biaya admin yang dipilih</Text>
             </View>
-            {products.map(renderMap)}
+            {products.rMap(renderMap)}
         </View>
     }
 
     const renderProductType2 = () => {
         return null
     }
-    const renderProductType3 = () => products.map((item, i) => {
+    const renderProductType3 = () => products.rMap((item, i) => {
         let { price, productID, name, price_sale } = item
         let _key = `${productID}${name}`
         let value = () => {
@@ -221,7 +221,7 @@ const SubProduct = ({ navigation }) => {
             ['pulsa', 'kuota'].includes(product.type) && <View style={{ position: 'relative' }}>
                 <Dropdown selected={!providerSelected ? 'Pilih layanan seluler' : providerSelected.operator} visible={dropdownVisible} state={setDropdownVisible} style={[styles.dropdownContentStyle]}>
                     {
-                        subProduct.map((item, i) => [
+                        subProduct.rMap((item, i) => [
                             <Button key={i} width={SizeList.width} onPress={() => _selectProvider(item)} wrapper={{ justify: 'flex-start', }} key={i} color="link">
                                 <Image style={{ width: 20, height: 20 }} _style={{ marginRight: 10 }} source={{ uri: item.image }} />
                                 <Text>{item.operator}</Text>

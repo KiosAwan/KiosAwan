@@ -69,7 +69,7 @@ class CheckOut extends React.Component {
 		const userId = await AsyncStorage.getItem('userId')
 		const Product = this.props.Product
 		let cart = []
-		Product.belanja.map(item => {
+		Product.belanja.rMap(item => {
 			if (item.id_product > 0) {
 				let a = {
 					id: item.id_product,
@@ -139,7 +139,7 @@ class CheckOut extends React.Component {
 		if (Product.customer) {
 			if (Product.due_debt_date) {
 				let cart = []
-				Product.belanja.map(item => {
+				Product.belanja.rMap(item => {
 					if (item.id_product > 0) {
 						let a = {
 							id: item.id_product,
@@ -216,7 +216,7 @@ class CheckOut extends React.Component {
 	_renderTabBar = props => {
 		return <Wrapper flexContent>
 			{
-				props.navigationState.routes.map((route, i) => {
+				props.navigationState.routes.rMap((route, i) => {
 					return <Button textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'} style={{ borderRadius: 0 }}>{route.title}</Button>
 				})
 			}

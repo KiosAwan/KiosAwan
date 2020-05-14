@@ -13,7 +13,7 @@ const MenuSetting = ({ navigation }) => {
 			<GlobalHeader title="Pengaturan" onPressBack={() =>	navigation.navigate('/drawer')} />
 			<View style={{ padding: 15 }}>
 				{
-					ListMenuSetting.map((menu, i) => {
+					ListMenuSetting.rMap((menu, i) => {
 						return <TouchableOpacity key={i} onPress={() => navigation.navigate(menu.route)} style={{
 							backgroundColor: 'white',
 							marginBottom: 5,

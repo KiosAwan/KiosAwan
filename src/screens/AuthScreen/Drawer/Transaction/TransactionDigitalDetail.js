@@ -69,7 +69,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
         return <View>
             {
                 (payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
-                    .map(
+                    .rMap(
                         item => item != 'description' ? <View>
                             <Wrapper spaceBetween style={{ padding: 10 }}>
                                 <Text>{viewKey(item)}</Text>
@@ -103,7 +103,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
         return <View>
             {
                 (transaction ? Object.keys(transaction).filter(a => !filterPayment.includes(a)) : [])
-                    .map(item => <View>
+                    .rMap(item => <View>
                         <Wrapper spaceBetween style={{ padding: 10 }}>
                             <Text>{viewKey(item)}</Text>
                             <Text align="right" _width="49%">{

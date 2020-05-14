@@ -32,7 +32,7 @@ const Screenshot = {
 	},
 	rename: async (src, dest) => {
 		let paths = dest.split('/')
-		let folder = paths.map((str, i) => i < paths.length - 1 ? str : null).join('/')
+		let folder = paths.rMap((str, i) => i < paths.length - 1 ? str : null).join('/')
 		let filename = paths[paths.length - 1]
 		filename = filename.replace(filename.extractNumber(), Date.now())
 		if (!await RNFS.exists(folder))

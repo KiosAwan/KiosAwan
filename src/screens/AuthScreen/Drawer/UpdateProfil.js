@@ -153,7 +153,7 @@ const UpdateProfil = ({ navigation }) => {
 			<AwanPopup.Loading visible={loading} />
 			<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
 				{
-					inputan.map((input, i) => <MDInput key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} />)
+					inputan.rMap((input, i) => <MDInput key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} />)
 				}
 				<SelectBoxModal style={{ marginTop: 15 }}
 					label="Kelurahan / Desa" closeOnSelect

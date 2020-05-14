@@ -26,7 +26,7 @@ const PpobListrik = ({ navigation }) => {
 				}} />
 				<ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
 					{[1, 2, 3, 4, 5, 6]
-						.map((item, i) => [
+						.rMap((item, i) => [
 							<Button color="link">Albert Stanley - 123456789123456789</Button>,
 							i != 5 && <Divider />
 						])
@@ -39,7 +39,7 @@ const PpobListrik = ({ navigation }) => {
 				{ screen: "pln_prepaid", title: "Token Listrik" },
 				{ screen: "pln_postpaid", title: "Tagihan Listrik" },
 				{ screen: "pln_non_tagihan_listrik", title: "Non Tagihan Listrik" }
-			].map((item, i) => <Button
+			].rMap((item, i) => <Button
 				key={i}
 				onPress={() => navigation.navigate(`/ppob/${item.screen}`)}
 				style={{ marginBottom: 5 }}

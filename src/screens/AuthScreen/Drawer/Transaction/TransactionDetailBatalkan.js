@@ -75,7 +75,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 		const userToken = await getUserToken()
 		const userId = await AsyncStorage.getItem('userId')
 		let product_cart = []
-		newData.map(item => {
+		newData.rMap(item => {
 			product_cart.push({ qty_in: item.qty - item.newQty })
 		})
 		const data = {
@@ -111,7 +111,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 							]} right={
 								<Text onPress={() => setDetailItem(!detailItem)} size={16}>DETAIL</Text>
 							} />
-							{detailItem ? dataTransaksi.details_item.map((data, i) => {
+							{detailItem ? dataTransaksi.details_item.rMap((data, i) => {
 								return (
 									<WrapperItem key={i} style={{ paddingBottom: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
 										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.product}</Text>,

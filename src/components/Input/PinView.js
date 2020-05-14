@@ -51,7 +51,7 @@ const PinViews = props => {
 			{props.title}
 			<View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 30 }}>
 				{
-					Object.keys(pin).map((item, i) => {
+					Object.keys(pin).rMap((item, i) => {
 						let txt = pin[item]
 						return <View key={i} style={{
 							backgroundColor: txt ? ColorsList.whiteColor : ColorsList.primary,
@@ -63,7 +63,7 @@ const PinViews = props => {
 						}} />
 					})
 					// [
-					// 	Array.generateEmpty(pinLength).map((item, i) => {
+					// 	Array.generateEmpty(pinLength).rMap((item, i) => {
 					// 		let txt = pin[item]
 					// 		return <View key={i} style={{
 					// 			backgroundColor: txt ? ColorsList.whiteColor : ColorsList.primary,
@@ -138,7 +138,7 @@ const PinView = props => {
 		}
 		setPin(pin)
 	}
-	const _renderPin = () => Array.generateEmpty(_pinLength).map((item, i) => {
+	const _renderPin = () => Array.generateEmpty(_pinLength).rMap((item, i) => {
 		let txt = _pin[item]
 		return <View key={i} style={{
 			backgroundColor: txt ? Color.pinActiveColor : Color.pinColor,

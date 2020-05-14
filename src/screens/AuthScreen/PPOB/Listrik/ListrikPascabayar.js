@@ -214,7 +214,7 @@ const ListrikPascabayar = ({ navigation }) => {
 								align="flex-end"
 								onPress={() => setDetail(!detail)}>DETAIL</Button>
 							{
-								detail && tagihanData.details.map((item, i) =>
+								detail && tagihanData.details.rMap((item, i) =>
 									<View key={i}>
 										{/* <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}> */}
 										<Wrapper justify="space-between" style={{ padding: 10 }}>
@@ -244,7 +244,7 @@ const ListrikPascabayar = ({ navigation }) => {
 						{tagihanData &&
 							<View style={styles.infoPembelian}>
 								<Text size={16} font="Bold" color="info">{tagihanData.info.title}</Text>
-								{tagihanData.info.info.map((item, i) => (
+								{tagihanData.info.info.rMap((item, i) => (
 									<Text key={i} color="info">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 								))}
 							</View>

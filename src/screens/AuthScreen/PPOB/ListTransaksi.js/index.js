@@ -76,18 +76,18 @@ const ListTransaksiPPOB = ({ navigation }) => {
 						<ActivityIndicator color={ColorsList.primary} />
 					</View> :
 					Object.keys(listTransaction).length > 0 ?
-						Object.keys(listTransaction).map((key, dateIndex) => {
+						Object.keys(listTransaction).rMap((key, dateIndex) => {
 							const { tanggal, data } = listTransaction[key]
 							const filteredData = () => !filter.search ? data : data
 								.filter(({ transaction_name, customerID, customer_name }) => {
 									let dataFilter = [transaction_name, customerID, customer_name]
-										.map(val => val && val.toString().toLowerCase().includes(filter.search))
+										.rMap(val => val && val.toString().toLowerCase().includes(filter.search))
 									return dataFilter.includes(true)
 								})
 							return <View key={dateIndex.toString()}>
 								<Text style={{ backgroundColor: ColorsList.white, padding: SizeList.bodyPadding, marginBottom: 5 }}>{tanggal}</Text>
 								{
-									filteredData().map((item, i) => {
+									filteredData().rMap((item, i) => {
 										const { transaction_name, customerID, customer_name, image } = item
 										return <Button onPress={() => navigation.navigate(`/drawer/transaction/detail/digital`, { param: item.id })} style={{ marginHorizontal: SizeList.padding, marginBottom: 5 }} color={["white"]} key={i.toString()} spaceBetween>
 											<Image _width="10%" size={30} source={{ uri: `${DEV_IMG_URL}/${image}` }} />

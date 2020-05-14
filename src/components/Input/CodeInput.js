@@ -19,7 +19,7 @@ export const CodeInput = props => {
 	return <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
 		<Wrapper>
 			{props.codeLength ?
-				length.map((_, i) => {
+				length.rMap((_, i) => {
 					return <TextInput secureTextEntry ref={ref => refs.push(ref)} value="8" maxLength={1} style={styles.input} />
 				})
 				:

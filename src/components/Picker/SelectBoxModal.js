@@ -43,14 +43,14 @@ export const ToggleButton = (props) => {
 	return props.vertical ?
 		<View {...props}>
 			{
-				props.buttons.map((btn, i) => {
+				props.buttons.rMap((btn, i) => {
 					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius {...props.buttonProps}>{btn}</Button>
 				})
 			}
 		</View> :
 		<Wrapper {...props}>
 			{
-				props.buttons.map((btn, i) => {
+				props.buttons.rMap((btn, i) => {
 					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius {...props.buttonProps}>{btn}</Button>
 				})
 			}
@@ -63,7 +63,7 @@ export const ToggleButtonMoney = (props) => {
 	return (
 		<Wrapper>
 			{
-				props.buttons.map((btn, i) => {
+				props.buttons.rMap((btn, i) => {
 					return <Button
 						onPress={() => {
 							props.onPress ?

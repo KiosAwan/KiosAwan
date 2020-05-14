@@ -80,7 +80,7 @@ const ReportOld = ({ navigation }) => {
 			{detailPendapatan ?
 				<View>
 					{
-						Object.keys(_report).map(key => {
+						Object.keys(_report).rMap(key => {
 							let toHide = indexTab == 0 ? _laba : _keuangan
 							return toHide.includes(key) ? null : <Wrapper justify="space-between" style={styles.report}>
 								<Text>{_report[key] ? _report[key] : key.split('_').join(' ').ucwords()}</Text>
@@ -145,14 +145,14 @@ const ReportOld = ({ navigation }) => {
 			<View onLayout={({ nativeEvent: { layout } }) => layout.height == 0 && categories.length > 0 ? setCategory([]) : null}>
 				{
 					detailPenjualan ?
-						reportCategory.sort((a, b) => b.id_category - a.id_category).map((category, i) => {
+						reportCategory.sort((a, b) => b.id_category - a.id_category).rMap((category, i) => {
 							let _id = category.id_category ? category.id_category : '~pesan_manual~'
 							let _hasId = categories.includes(_id)
 							if (!_hasId) categories.push(_id)
 							return [_hasId ? null : <Wrapper key={i} style={{ ...Bg.grey, padding: 10 }}>
 								<Text font={category.id_category ? null : 'BoldItalic'}>{category.id_category ? category.nama_category : 'Pesanan Manual'}</Text>
 							</Wrapper>,
-							category.data.map((item, index) => <Wrapper key={index} justify="space-between" style={styles.report}>
+							category.data.rMap((item, index) => <Wrapper key={index} justify="space-between" style={styles.report}>
 								<View width="70%">
 									<Text>{item.Product}</Text>
 									<Text>{`${convertRupiah(item.harga_Satuan)} x ${item.jumlah}`}</Text>
@@ -177,7 +177,7 @@ const ReportOld = ({ navigation }) => {
 			</AwanPopup.Menu>
 			{dataNonTunai ?
 				<AwanPopup.Menu backdropDismiss={() => setModalFilterNonTunai(false)} visible={modalFilterNonTunai} title="Pilih metode">
-					{dataNonTunai.map((item, i) => (
+					{dataNonTunai.rMap((item, i) => (
 						<Button key={i} onPress={() => _handleFilterNonTunai(i)} color="link" style={{ padding: 10 }} textProps={{ font: 'Regular' }} align="flex-start">{item.method}</Button>
 					))}
 				</AwanPopup.Menu> :
@@ -214,7 +214,7 @@ const ReportOld = ({ navigation }) => {
 						<View style={{ padding: 15, paddingTop: 0 }}>
 							<Wrapper style={styles.tabButtonWrapper}>
 								{
-									['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].map((btn, i) => {
+									['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].rMap((btn, i) => {
 										return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ align: 'center', size: 11 }} style={{ borderRadius: 0 }} _width="50%">{btn}</Button>
 									})
 								}

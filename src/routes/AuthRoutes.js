@@ -44,7 +44,7 @@ const Navs = {
   ...PPOBNavigator,
   ...TempNavigator
 }
-// console.debug(Object.keys(Navs).map(key => [key, Navs[key].screen]))
+// console.debug(Object.keys(Navs).rMap(key => [key, Navs[key].screen]))
 
 // https://github.com/plmok61/react-navigation-transitions
 const AuthNavigator = createStackNavigator(Navs, {

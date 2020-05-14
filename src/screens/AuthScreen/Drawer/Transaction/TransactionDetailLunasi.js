@@ -135,7 +135,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		return (
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, paddingTop: 0 }}>
-					{nonTunaiList.map((item, i) => (
+					{nonTunaiList.rMap((item, i) => (
 						<TouchableOpacity style={[styles.card, nonTunai == i + 1 ? styles.selectedNonTunai : null]}
 						 onPress={() => pressCard(i + 1)}
 						>
@@ -176,7 +176,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 											<View style={{ backgroundColor: ColorsList.whiteColor }}>
 												<Wrapper style={{ padding: 15 }}>
 													{
-														props.navigationState.routes.map((route, i) => {
+														props.navigationState.routes.rMap((route, i) => {
 															return <Button disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
 														})
 													}

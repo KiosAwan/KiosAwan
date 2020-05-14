@@ -200,7 +200,7 @@ class CetakStruk extends Component {
 								</TouchableOpacity>
 								: null}
 						{
-							this.props.Printer.data.map((a, i) =>
+							this.props.Printer.data.rMap((a, i) =>
 								a.boundAddress != (this.state.printEnable ? this.state.printEnable.boundAddress : 0) ?
 									<TouchableOpacity onPress={this.state.bleOpend ? () => this._connectedBluetoothPrint(a) : () => alert("Mohon hidupkan bluetooth terlebih dahulu")}>
 										<Wrapper justify="space-between" style={{ marginBottom: 10, padding: 10, backgroundColor: ColorsList.whiteColor, borderRadius: 5 }}>
@@ -245,7 +245,7 @@ class CetakStruk extends Component {
 			BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
 			BluetoothEscposPrinter.printText(`${this.state.printData.transaction.name_store.toUpperCase()}\n\r`, {});
 			BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-			data.map(async item => {
+			data.rMap(async item => {
 				BluetoothEscposPrinter.printColumn(transaksiWidth,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					[item.label, item.value], {});
@@ -276,7 +276,7 @@ class CetakStruk extends Component {
 						[BluetoothEscposPrinter.ALIGN.LEFT],
 						[list.transaction.transaction_name.split('_').join(' ').toUpperCase()], { widthtimes: 0.2 })
 					Object.keys(payment).filter(a => !filterPayment.includes(a))
-						.map(item => {
+						.rMap(item => {
 							BluetoothEscposPrinter.printColumn(columnWidths,
 								[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 								[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
@@ -347,7 +347,7 @@ class CetakStruk extends Component {
 					[BluetoothEscposPrinter.ALIGN.LEFT],
 					[this.state.singlePrintData.transaction.transaction_name.split('_').join(' ').toUpperCase()], { widthtimes: 0.2 })
 				Object.keys(payment).filter(a => !filterPayment.includes(a))
-					.map(item => {
+					.rMap(item => {
 						item != "description" && BluetoothEscposPrinter.printColumn(columnWidths,
 							[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 							[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
