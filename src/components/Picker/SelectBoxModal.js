@@ -300,7 +300,6 @@ export const MyModal = (props) => {
 }
 
 export const SelectBoxModal = (props) => {
-	const [activeColor, setActiveColor] = useState('grey');
 	const [modalVisible, setModalVisible] = useState(false);
 	const {
 		value,
@@ -331,17 +330,24 @@ export const SelectBoxModal = (props) => {
 				padding: 10
 			}}>
 			{header}
-			<ScrollView persistentScrollbar>{
-				!hideRender ? data && data.length > 0 ? data.map((item, i) => {
-					return <CardItem key={i.toString()} style={styles.modalCardItem} button onPress={() => {
-						handleChangePicker(item)
-						closeOnSelect ? setModalVisible(false) : null
-					}}>
-						{renderItem(item)}
-					</CardItem>
-				}) : children : hideRenderItem
+			{
+				!hideRender ?
+					data &&
+						data.length > 0 ? <FlatList
+							persistentScrollbar
+							keyExtractor={(a, i) => i.toString()}
+							data={data}
+							renderItem={({ item }) => {
+								return <Button color="link" onPress={() => {
+									handleChangePicker(item)
+									closeOnSelect ? setModalVisible(false) : null
+								}} flexStart>
+									{renderItem(item)}
+								</Button>
+							}}
+						/> : children :
+					hideRenderItem
 			}
-			</ScrollView>
 			{footer}
 		</AwanModal>
 		<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, style, {

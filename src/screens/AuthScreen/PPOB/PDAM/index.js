@@ -200,7 +200,7 @@ const PDAM = ({ navigation }) => {
             <Text>Data tidak ditemukan</Text>
         </SelectBoxModal> */}
             <View style={styles.topComp}>
-                {/* {__DEV__ &&
+                {__DEV__ &&
                     <View style={{ backgroundColor: ColorsList.greyBg, padding: 15 }}>
                         <Text align="center">Dev Purpose Only</Text>
                         <SelectBoxModal style={{ marginTop: 15 }}
@@ -220,7 +220,7 @@ const PDAM = ({ navigation }) => {
                             <Text>Data tidak ditemukan</Text>
                         </SelectBoxModal>
                     </View>
-                } */}
+                }
                 <SelectBoxModal style={{ marginTop: 15 }}
                     label="Pilih PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}

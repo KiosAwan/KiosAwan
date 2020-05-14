@@ -116,7 +116,7 @@ const Report = ({ navigation }) => {
 							{
 								dataTransaction && ctrl.dataTransaction &&
 								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
-									.map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
+									.map((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 										<Text>{key.split('_').join(' ').ucwords()}</Text>
 										<Text>{_convertRupiah(dataTransaction, key)}</Text>
 									</Wrapper>)
@@ -135,7 +135,7 @@ const Report = ({ navigation }) => {
 							{
 								dataTransaction && ctrl.labaRugiKotor &&
 								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
-									.map((key, i) => <Wrapper style={{ padding: 10 }} spaceBetween>
+									.map((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 										<Text>{key.split('_').join(' ').ucwords()}</Text>
 										<Text>{_convertRupiah(dataTransaction, key)}</Text>
 									</Wrapper>)
@@ -161,7 +161,7 @@ const Report = ({ navigation }) => {
 								<Button onPress={() => setCtrl({ dataReportNonTunai: !ctrl.dataReportNonTunai })} color="link">DETAIL</Button>
 							</Wrapper>
 							{
-								ctrl.dataReportNonTunai && Object.keys(NT.selected).map((key, i) => key != 'method' && <Wrapper style={{ padding: 10 }} spaceBetween>
+								ctrl.dataReportNonTunai && Object.keys(NT.selected).map((key, i) => key != 'method' && <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 									<Text>{key.split('_').join(' ').ucwords()}</Text>
 									<Text>{_convertRupiah(NT.selected, key)}</Text>
 								</Wrapper>)
@@ -176,7 +176,7 @@ const Report = ({ navigation }) => {
 								}
 								{
 									data && data.map(({ Product, harga_jual, total, jumlah }, i) => [
-										<Wrapper style={{ padding: 10 }} spaceBetween>
+										<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 											<View _style={{ flex: .7 }}>
 												<Text>{Product}</Text>
 												<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
@@ -224,6 +224,7 @@ const Report = ({ navigation }) => {
 						{
 							routes.map((route, i) => {
 								return <Button
+									key={i.toString()}
 									borderBottom
 									active={index == i}
 									disabled={index == i}

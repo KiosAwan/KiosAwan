@@ -101,7 +101,11 @@ const PinViews = props => {
 	</View>
 }
 
+let pin
 const PinView = props => {
+	useEffect(() => {
+		pin = ''
+	}, [])
 	const {
 		btnColor,
 		pinColor,
@@ -111,29 +115,31 @@ const PinView = props => {
 		customBtnCallback,
 		onComplete
 	} = props
-	const [pin, setPin] = useState('')
-	const [_pinLength, setPinLength] = useState(6)
+	const [_pin, setPin] = useState('')
+	const [_pinLength] = useState(pinLength || 6)
 	const [Color] = stateObject({
 		btnColor: btnColor ? btnColor : ['transparent', 'whiteColor'],
 		pinColor: pinColor ? pinColor : ColorsList.primary,
 		pinActiveColor: pinActiveColor ? pinActiveColor : ColorsList.whiteColor
 	})
 	const pinClick = btn => {
+		btn = btn.toString()
 		if (!['~', 'del'].includes(btn)) {
-			let pinDone = pin.toString() + btn
-			if (pin.length < _pinLength) setPin(pinDone)
-			if (pinLength - 1 == pin.length) {
-				onComplete(pinDone, () => setPin(''))
+			if (pin.length < _pinLength) {
+				pin += btn
+				if (pin.length == _pinLength) {
+					onComplete(pin, () => setPin(''))
+				}
 			}
 		} else if (btn == 'del') {
-			let deleted = pin.substr(0, pin.length - 1)
-			setPin(deleted)
+			pin = pin.slice(0, -1)
 		} else {
 			customBtnCallback && customBtnCallback()
 		}
+		setPin(pin)
 	}
-	const _renderPin = () => Array.generateEmpty(pinLength).map((item, i) => {
-		let txt = pin[item]
+	const _renderPin = () => Array.generateEmpty(_pinLength).map((item, i) => {
+		let txt = _pin[item]
 		return <View key={i} style={{
 			backgroundColor: txt ? Color.pinActiveColor : Color.pinColor,
 			borderRadius: 50,
@@ -146,19 +152,12 @@ const PinView = props => {
 			borderWidth: 1
 		}} />
 	})
-	useEffect(() => {
-		if (pinLength) {
-			setPinLength(pinLength)
-		}
-	}, [])
 	return <View style={{ flex: 1, justifyContent: 'space-between' }}>
 		<GlobalHeaderWithIcon transparent={!props.notTransparent} onPressBack={props.onPressBack} title={props.name || 'PIN'} />
 		<View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', alignItems: "center" }}>
 			{props.title}
 			<View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 30 }}>
-				{
-					_renderPin()
-				}
+				{_renderPin()}
 			</View>
 			{props.children}
 		</View>
@@ -168,11 +167,11 @@ const PinView = props => {
 				style={{ padding: 10, }}
 				data={[1, 2, 3, 4, 5, 6, 7, 8, 9, '~', 0, 'del']}
 				numColumns={3}
-				columnWrapperStyle={{justifyContent : "flex-end"}}
+				columnWrapperStyle={{ justifyContent: "flex-end" }}
 				keyExtractor={(item, i) => i.toString()}
 				renderItem={({ item }) => <Button
 					style={{
-						width : "33.4%",
+						width: "33.4%",
 						borderRadius: 50,
 					}}
 					padding={20}

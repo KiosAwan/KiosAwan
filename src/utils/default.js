@@ -1,3 +1,4 @@
+import { isValidElement, cloneElement } from 'react';
 console.warn = console.log = console.group = () => { }
 FormData.prototype.appendObject = function (obj, except) {
   except = except || []
@@ -8,6 +9,15 @@ FormData.prototype.appendObject = function (obj, except) {
 }
 Array.generateEmpty = function (length, empty) {
   return Array.from(new Array(length), function (a, i) { return empty ? '' : i })
+}
+Array.prototype.rMap = function (callback) {
+  return this.map(function (data, key) {
+    let cb = callback(data, key)
+    if (isValidElement(cb)) {
+      cb = cloneElement(cb, { key })
+    }
+    return cb
+  })
 }
 Array.prototype.loopCallback = function (callback, reverse, index) {
   var arr = this;
