@@ -2,11 +2,11 @@ import styles from './SubProductStyle'
 import React, { useState, useEffect } from 'react'
 import MDInput from 'src/components/Input/MDInput'
 import Divider from 'src/components/Row/Divider'
-import Container, { BodyFlatList, Footer, Body } from 'src/components/View/Container'
+import Container, { Footer, Body } from 'src/components/View/Container'
 import { Wrapper } from 'src/components/View/Wrapper'
 import { View, Image } from 'react-native'
 import { Text } from 'src/components/Text/CustomText'
-import { stateArray, stateObject } from 'src/utils/state'
+import { stateObject } from 'src/utils/state'
 import { SizeList } from 'src/styles/size'
 import { GlobalHeader } from 'src/components/Header/Header'
 import { getSubProducts, setMarginProduct } from 'src/utils/api/setupharga'
@@ -134,8 +134,8 @@ const SubProduct = ({ navigation }) => {
                 ]
                 return harga - modal > 0 ? harga - modal : 0
             }
-            return <View>
-                <Wrapper key={i.toString()} radius spaceBetween style={{ marginVertical: 5, backgroundColor: ColorsList.white }}>
+            return <View key={i.toString()}>
+                <Wrapper radius spaceBetween style={{ marginVertical: 5, backgroundColor: ColorsList.white }}>
                     <View _width="60%" style={{ padding: 10 }}>
                         <Text color="primary">{item.name}</Text>
                         <Text>Admin: {convertRupiah(productMargin[key] && productMargin[key].margin || item.margin)}</Text>
@@ -158,6 +158,7 @@ const SubProduct = ({ navigation }) => {
                             {
                                 [2000, 2500, 3000, 3500].map((btn, i) => {
                                     return <Button
+                                        key={i.toString()}
                                         active={productMargin[key] && productMargin[key].margin == btn || !productMargin[key].margin && btn == item.margin}
                                         style={{ margin: 5 }}
                                         onPress={() => _pilihCashback(item, btn)}
