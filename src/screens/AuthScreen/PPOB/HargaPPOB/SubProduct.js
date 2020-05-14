@@ -47,8 +47,8 @@ const SubProduct = ({ navigation }) => {
                 })
             } else {
                 setProviderSelected(provider)
-                resetProductMargin()
                 const { data, status } = await getSubProducts(product.type, provider.code)
+                resetProductMargin()
                 if (status == 200) {
                     setProducts([])
                     setTimeout(() => setProducts(data), 50)
@@ -61,7 +61,7 @@ const SubProduct = ({ navigation }) => {
         let finalMargins = Object.keys(productMargin).map(i => {
             let { margin, price, productID, product: name } = productMargin[i] || {}
             if (product.product_type == 3) {
-                margin = margin - price
+                margin = margin.extractNumber() - price
             }
             if (!productID) {
                 return {}
@@ -70,7 +70,6 @@ const SubProduct = ({ navigation }) => {
         })
         const { status, data } = await setMarginProduct(finalMargins)
         if (status == 200) {
-            resetProductMargin()
             _selectProvider(providerSelected, true)
         } else {
             setAlertProps({
@@ -187,7 +186,7 @@ const SubProduct = ({ navigation }) => {
         return null
     }
     const renderProductType3 = () => products.map((item, i) => {
-        let { price, productID, name, margin, price_sale } = item
+        let { price, productID, name, price_sale } = item
         let _key = `${productID}${name}`
         let value = () => {
             return productMargin[_key] &&
