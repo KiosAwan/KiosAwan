@@ -35,7 +35,7 @@ const Telkom = ({ navigation }) => {
     const User = useSelector(state => state.User)
 
     const [modal, setModal] = useState(false)
-    const [idPelanggan, setIdPelanggan] = useState('08112526272')
+    const [idPelanggan, setIdPelanggan] = useState('')
     // 0361701079
     const [search, setSearch] = useState('')
     const [selected, setSelected] = useState({})
