@@ -315,6 +315,7 @@ export const SelectBoxModal = (props) => {
 		onOpen,
 		hideRender,
 		hideRenderItem,
+		renderWrapper
 	} = props
 	useEffect(() => {
 		if (typeof onOpen == 'function') {
@@ -341,7 +342,7 @@ export const SelectBoxModal = (props) => {
 								return <Button color="link" onPress={() => {
 									handleChangePicker(item)
 									closeOnSelect ? setModalVisible(false) : null
-								}} flexStart>
+								}} spaceBetween {...renderWrapper}>
 									{renderItem(item)}
 								</Button>
 							}}
