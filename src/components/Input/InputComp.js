@@ -10,27 +10,24 @@ import {
 } from 'native-base'
 import { Wrapper } from '../View/Wrapper';
 import MDInput from './MDInput';
+import { ColorsList } from 'src/styles/colors';
 
 const width = Dimensions.get('window').width
 
 // Reusable Input Text
 export const InputText = (props) => {
-  return (
-    <View style={{ alignItems: "center" }}>
-      <Item stackedLabel style={{ width: 250 }}>
-        <Label style={{ color: 'white' }}>{props.label}</Label>
-        <Input
-          placeholder="Nama lengkap"
-          placeholderTextColor="#ff85ed"
-          style={{ color: 'white' }}
-          autoFocus={true}
-          value={props.value}
-          keyboardType="default"
-          onChangeText={props.handleChangeText}
-        />
-      </Item>
-    </View>
-  );
+  return <View style={{ width: 250, alignItems: "center" }}>
+    <MDInput {...props}
+      placeholder="Nama lengkap"
+      onChangeText={props.handleChangeText}
+      placeholderTextColor="#ff85ed"
+      fontSize={17}
+      autoFocus
+      textColor={ColorsList.white}
+      tintColor={ColorsList.white}
+      baseColor={ColorsList.white}
+    />
+  </View>
 }
 
 // Reusable Input Number

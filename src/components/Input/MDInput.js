@@ -4,13 +4,9 @@ import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { Icon } from 'native-base'
 import { Image } from '../CustomImage'
-import { Animated, View, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { Animated, View, FlatList, TouchableOpacity } from 'react-native'
 import { FontName } from 'src/styles/typography'
 import Divider from '../Row/Divider'
-import { convertRupiah } from 'src/utils/authhelper'
-import { Text } from '../Text/CustomText'
-import { Wrapper } from '../View/Wrapper'
-import { $Border } from 'src/utils/stylehelper'
 import { stateObject } from 'src/utils/state'
 
 const MDInput = props => {
@@ -41,12 +37,20 @@ const MDInput = props => {
 			objCurrency.value = value.extractNumber().convertRupiah()
 		}
 	}
+	const refControl = () => {
+		// if (refs) {
+		// }
+	}
 	return <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
 		{_render(renderLeftAccessory)}
 		<View style={{ flex: 1 }}>
 			<TextField
-				{...props}
+				ref={refControl}
 				fontSize={13}
+				textColor={ColorsList.text}
+				tintColor={tintColor}
+				baseColor={baseColor}
+				{...props}
 				onFocus={() => {
 					setOn({ color: tintColor, size: 2 })
 					if (typeof onFocus == 'function') onFocus()
@@ -55,37 +59,12 @@ const MDInput = props => {
 					setOn({ color: baseColor, size: .5 })
 					if (typeof onBlur == 'function') onBlur()
 				}}
-				textColor={ColorsList.text}
-				tintColor={tintColor}
-				baseColor={baseColor}
 				style={{ fontFamily: FontName.Regular, ...props.style }}
 				{...objCurrency}
 			/>
 		</View>
 		{_render(renderRightAccessory, true)}
 	</View>
-	// return <View style={{ flexDirection: 'row' }}>
-	// 	<View style={{ marginBottom: 8, paddingBottom: 2, flexDirection: 'row', alignSelf: 'flex-end', ...$Border(left.color, 0, 0, left.size, 0) }}>
-	// 		{renderLeftAccessory && _render(renderLeftAccessory)}
-	// 	</View>
-	// 	<View style={{ flex: 1 }}>
-	// 		<TextField
-	// 			{...props}
-	// 			fontSize={13}
-	// 			onFocus={() => setLeft({ color: tintColor, size: 2 })}
-	// 			onBlur={() => setLeft({ color: baseColor, size: .5 })}
-	// 			tintColor={tintColor}
-	// 			textColor={ColorsList.text}
-	// 			baseColor={baseColor}
-	// 			// renderAccessory={() => _render(renderRightAccessory, true)}
-	// 			style={{ fontFamily: FontName.Regular, ...props.style }}
-	// 			{...objCurrency}
-	// 		/>
-	// 	</View>
-	// 	<View style={{ marginBottom: 8, paddingBottom: 2, flexDirection: 'row', alignSelf: 'flex-end', ...$Border(left.color, 0, 0, left.size, 0) }}>
-	// 		{renderRightAccessory && _render(renderRightAccessory, true)}
-	// 	</View>
-	// </View>
 }
 
 const AutoCompleteInput = props => {
@@ -112,16 +91,6 @@ const AutoCompleteInput = props => {
 		if (onChangeText) onChangeText(text)
 	}
 
-	// <AutoCompleteInput
-	// 	data={kelDesData.data}
-	// 	label="Kelurahan / Desa"
-	// 	onChangeText={_onChangeDesa}
-	// 	value={kelDesData.desa}
-	// 	onSelect={_selectDesa}
-	// 	renderItem={item => <Text>
-	// 		{`${item.desa}, ${item.kecamatan}, ${item.kabupaten}, ${item.provinsi}`}
-	// 	</Text>}
-	// />
 	return <View>
 		<MDInput {...props}
 			onFocus={() => setVisible(true)}
@@ -152,27 +121,6 @@ const AutoCompleteInput = props => {
 	</View>
 }
 
-const AutoCompleteInputs = props => {
-	const { renderItem, data } = props
-	const _renderItem = (item, index) => {
-		if (renderItem) {
-			return renderItem(item, index)
-		} else {
-			return <View />
-		}
-	}
-	return <View style={{
-		...props.style
-	}}>
-		<MDInput {...props} style={props.inputStyle} />
-		<FlatList style={{
-		}}
-			data={data}
-			keyExtractor={(item, i) => i.toString()}
-			renderItem={({ item, index }) => _renderItem(item, index)}
-		/>
-	</View>
-}
 
 const MDInputV2 = props => {
 	const [visible, setVisible] = useState({
@@ -180,19 +128,6 @@ const MDInputV2 = props => {
 		right: true
 	})
 	const { onPressLeft, onPressRight, focusLeft, focusRight } = props
-	const left = () => {
-		const btn = <Button color="link" onPress={onPressLeft} disabled={!onPressLeft}>
-			<Icon _width="10%" size={15} style={{ color: ColorsList.primary }} name="search" />
-		</Button>
-		if (focusLeft) {
-			if (visible.left) {
-				return btn
-			} else {
-				return null
-			}
-		}
-		return btn
-	}
 	const right = () => {
 		const btn = <Button color="link" onPress={onPressRight} disabled={!onPressRight}>
 			<Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/circlereject.png')} />
