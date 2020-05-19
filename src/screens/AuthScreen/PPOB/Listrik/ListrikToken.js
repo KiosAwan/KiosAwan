@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Container from 'src/components/View/Container';
+import Container, { Body, Footer } from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -148,105 +148,108 @@ const ListrikToken = ({ navigation }) => {
 		onPressBack: () => navigation.goBack(),
 		title: "Listrik Prabayar"
 	}}>
-		{/* Modal for check user pin */}
-		<GlobalEnterPin
-			title="Masukkan PIN"
-			codeLength={4}
-			subtitle="Masukkan PIN untuk melanjutkan transaksi"
-			visible={pinVisible}
-			visibleToggle={setPinVisible}
-			pinResolve={(pin) => _userAuthentication(pin)} />
-		{/* Modal for check user pin */}
-		{/* Popup components */}
-		<AwanPopup.Alert
-			message={alertMessage}
-			visible={alert}
-			closeAlert={() => setAlert(false)}
-		/>
-		<AwanPopup.Loading visible={payLoading} />
-		{/* Popup components */}
-		<View style={styles.topComp}>
-			{__DEV__ && <Button onPress={() => {
-				setCustId('32127971177')
-				_cekTagihan('32127971177')
-			}}>32127971177</Button>}
-			<MDInput _width="80%"
-				label="ID Pelanggan"
-				value={custId.toString()}
-				onChangeText={text => {
-					setCustId(text)
-					_cekTagihan(text)
-				}}
-				keyboardType="number-pad"
+		<Body style={{padding: 0,}}>
+			{/* Modal for check user pin */}
+			<GlobalEnterPin
+				title="Masukkan PIN"
+				codeLength={4}
+				subtitle="Masukkan PIN untuk melanjutkan transaksi"
+				visible={pinVisible}
+				visibleToggle={setPinVisible}
+				pinResolve={(pin) => _userAuthentication(pin)} />
+			{/* Modal for check user pin */}
+			{/* Popup components */}
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
 			/>
-			{/* <Text>32127971177</Text> */}
-		</View>
-		<View style={styles.simpan}>
-			<Text>Simpan ke favorit</Text>
-			<SwitchButton
-				handleChangeToggle={_handleChangeToggle}
-				toggleValue={favorit}
-			/>
-		</View>
-		{loading ?
-			<View style={styles.custInfo}>
-				<ActivityIndicator color={ColorsList.primary} />
+			<AwanPopup.Loading visible={payLoading} />
+			{/* Popup components */}
+			<View style={styles.topComp}>
+				{__DEV__ && <Button onPress={() => {
+					setCustId('32127971177')
+					_cekTagihan('32127971177')
+				}}>32127971177</Button>}
+				<MDInput _width="80%"
+					label="ID Pelanggan"
+					value={custId.toString()}
+					onChangeText={text => {
+						setCustId(text)
+					}}
+					keyboardType="number-pad"
+				/>
+				{/* <Text>32127971177</Text> */}
 			</View>
-			:
-			response ?
+			<View style={styles.simpan}>
+				<Text>Simpan ke favorit</Text>
+				<SwitchButton
+					handleChangeToggle={_handleChangeToggle}
+					toggleValue={favorit}
+				/>
+			</View>
+			{loading ?
 				<View style={styles.custInfo}>
-					{response.length == 0 ?
-						<Text color="danger">DATA PELANGGAN TIDAK DITEMUKAN</Text>
-						:
-						<View>
-							<Wrapper justify="space-between">
-								<Text font="Regular">Nama Pelanggan</Text>
-								<Text font="Regular">{response.transaction.nama}</Text>
-							</Wrapper>
-							<Wrapper justify="space-between">
-								<Text font="Regular">Daya Listrik</Text>
-								<Text font="Regular">{parseInt(response.transaction.daya)} VA</Text>
-							</Wrapper>
-						</View>
-					}
+					<ActivityIndicator color={ColorsList.primary} />
 				</View>
-				: null
-		}
-		{productToken &&
-			<View style={styles.infoPembelian}>
-				<Text size={16} font="Bold" color="info">{productToken.info.title}</Text>
-				{productToken.info.info.rMap((item, i) => (
-					<Text key={i} color="info">{`${productToken.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
-				))}
-			</View>
-		}
-		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
-			showsVerticalScrollIndicator={false}
-			data={productToken ? productToken.product : []}
-			renderItem={({ item, index }) =>
-				<TouchableOpacity onPress={() => {
-					if (response && response.length !== 0) {
-						_selectPulsa({ item, index })
-					} else {
-						Toast.show({
-							text: "Harap isi nomer pelanggan dengan benar",
-							type: "danger"
-						})
-					}
-				}} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
-					<Text style={styles.pulsaComp}>{item.product.slice(0, 9)}</Text>
-					<Text color="primary" size={20} style={styles.pulsaComp}>Rp. {item.product.slice(10, item.length)}</Text>
-					<Divider />
-					<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.total)}</Text>
-				</TouchableOpacity>
+				:
+				response ?
+					<View style={styles.custInfo}>
+						{response.length == 0 ?
+							<Text color="danger">DATA PELANGGAN TIDAK DITEMUKAN</Text>
+							:
+							<View>
+								<Wrapper justify="space-between">
+									<Text font="Regular">Nama Pelanggan</Text>
+									<Text font="Regular">{response.transaction.nama}</Text>
+								</Wrapper>
+								<Wrapper justify="space-between">
+									<Text font="Regular">Daya Listrik</Text>
+									<Text font="Regular">{parseInt(response.transaction.daya)} VA</Text>
+								</Wrapper>
+							</View>
+						}
+					</View>
+					: null
 			}
-		/>
-
-		<Bottom>
+			{productToken &&
+				<View style={styles.infoPembelian}>
+					<Text size={16} font="Bold" color="info">{productToken.info.title}</Text>
+					{productToken.info.info.rMap((item, i) => (
+						<Text key={i} color="info">{`${productToken.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
+					))}
+				</View>
+			}
+			<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
+				showsVerticalScrollIndicator={false}
+				data={productToken ? productToken.product : []}
+				renderItem={({ item, index }) =>
+					<TouchableOpacity onPress={() => {
+						if (response && response.length !== 0) {
+							_selectPulsa({ item, index })
+						} else {
+							Toast.show({
+								text: "Harap isi nomer pelanggan dengan benar",
+								type: "danger"
+							})
+						}
+					}} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
+						<Text style={styles.pulsaComp}>{item.product.slice(0, 9)}</Text>
+						<Text color="primary" size={20} style={styles.pulsaComp}>Rp. {item.product.slice(10, item.length)}</Text>
+						<Divider />
+						<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.total)}</Text>
+					</TouchableOpacity>
+				}
+			/>
+		</Body>
+		<Footer>
+			<Button onPress={() => _cekTagihan(custId)} color="white" width="100%">
+				CEK TAGIHAN
+            </Button>
 			<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
 				BAYAR
             </Button>
-		</Bottom>
+		</Footer>
 	</Container>
 }
 export default ListrikToken
