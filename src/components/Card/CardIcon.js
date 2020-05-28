@@ -16,13 +16,13 @@ export const CardIcon = (props) => (
 export const PPOBCard = (props) => (
     <TouchableOpacity disabled={props.status != 1 ? true : false} onPress={props.onPress}>
         <View style={styles.container}>
-            {props.status != 1 ?
-                <View style={{ position: "absolute", right: 0, top: 0, padding : 3}}>
-                    <Text color={props.status == 0 ? "primary" : "warning"} size={10}>{props.info.ucwords()}</Text>
-                </View>
-                : null}
             <Image style={{ width: 50, height: 50 }} source={{ uri: props.icon }} />
             <Text align="center" size={12}>{props.name}</Text>
+            {props.status != 1 ?
+                // <View style={{ position: "absolute", right: 0, top: 0, padding : 3}}>
+                <Text color={props.status == 0 ? "primary" : "warning"} size={10}>{props.info.ucwords()}</Text>
+                // </View>
+                : null}
         </View>
     </TouchableOpacity>
 )

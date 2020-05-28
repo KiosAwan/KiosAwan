@@ -50,7 +50,7 @@ const Akun = ({ navigation }) => {
 	return (
 		<Container>
 			<Text style={{ marginTop : 15 }} font="Bold" align="center">AKUN</Text>
-			<Body style={{ paddingHorizontal: 10 }}>
+			<Body>
 				<Wrapper style={{ marginBottom: 10 }} justify="space-between">
 					<View>
 						<Text font="Bold" >{User.data.name}</Text>

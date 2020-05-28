@@ -25,6 +25,7 @@ import TextTicker from 'react-native-text-ticker';
 import Axios from 'axios';
 import { FontList } from 'src/styles/typography';
 import Menu from 'src/components/ModalContent/Menu';
+import Container, { Body } from 'src/components/View/Container';
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -80,94 +81,44 @@ const PPOB = ({ navigation }) => {
 	}
 	const _moreMenu = () => setMoreVisible(true)
 	return (
-		<View style={{ flex: 1 }}>
+		<Container header={{
+			onPressBack: () => navigation.goBack(),
+			handleDeleteCategory: () => _moreMenu(),
+			title: "PEMBAYARAN",
+			image: require('src/assets/icons/clock.png'),
+		}}>
+			{/* <Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
+				<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
+				<Text>Favorit</Text>
+			</Button> */}
 			<Menu
 				menuColor="link"
 				bgColor="transparent"
 				position="topRight"
 				style={{ backgroundColor: ColorsList.white }}
-				data={[{ name: 'Atur Harga PPOB', route: '/ppob/settings' },{ name: 'List Transaksi', route: '/ppob/list-transaksi' }]}
+				data={[{ name: 'Atur Harga PPOB', route: '/ppob/settings' }, { name: 'List Transaksi', route: '/ppob/list-transaksi' }]}
 				state={setMoreVisible}
 				visible={moreVisible}
 				onSelect={({ item: { route } }) => navigation.navigate(route)}
 				renderItem={({ name }) => <Text align="left">{name}</Text>}
 			/>
-			<ParallaxScrollView
-				showsVerticalScrollIndicator={false}
-				backgroundColor={ColorsList.primary}
-				contentBackgroundColor={ColorsList.authBackground}
-				parallaxHeaderHeight={170}
-				stickyHeaderHeight={50}
-				renderStickyHeader={() => (
-					<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ height: 50, justifyContent: "center" }}>
-						<BarStatus />
-						<Wrapper justify="space-between" style={{ padding: 15, paddingTop: 5 }}>
-							<View style={{ justifyContent: 'center' }}>
-								<TouchableOpacity onPress={() => navigation.goBack()}>
-									<Icon color="white" size={20} name="arrow-left" />
-								</TouchableOpacity>
-							</View>
-							<Text color="whiteColor">PAYMENT POINT</Text>
-							<View style={{ justifyContent: 'center' }}>
-								<TouchableOpacity onPress={_moreMenu} style={{ paddingLeft: 20 }}>
-									<Icon color="white" size={20} name="ellipsis-v" />
-								</TouchableOpacity>
-							</View>
+			<Body style={{ padding: 0 }}>
+
+				<Wrapper justify="space-between" style={$Padding(10, 15)}>
+					<View>
+						<Text>Saldo Anda sebesar: </Text>
+						<Wrapper>
+							<Text color="primary" font="Bold">{convertRupiah(User.data.saldo || 0)}</Text>
+							<TouchableOpacity onPress={async () => {
+								const userToken = await getUserToken()
+								dispatch(getProfile(User.data.id, userToken))
+							}}>
+								<Image source={require('src/assets/icons/home/refresh.png')} size={15} style={{ marginLeft: 10 }} />
+							</TouchableOpacity>
 						</Wrapper>
-					</LinearGradient>
-				)}
-				renderForeground={() => (
-					<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ height: 170, justifyContent: "center" }}>
-						<BarStatus />
-						<Wrapper justify="space-between" style={{ padding: 15, paddingTop: 10, alignItems: "center" }}>
-							<View style={{ justifyContent: 'center' }}>
-								<TouchableOpacity onPress={() => navigation.goBack()}>
-									<Icon color="white" size={20} name="arrow-left" />
-								</TouchableOpacity>
-							</View>
-							<Text color="whiteColor">PAYMENT POINT</Text>
-							<View style={{ justifyContent: 'center' }}>
-								<TouchableOpacity onPress={_moreMenu} style={{ paddingLeft: 20 }}>
-									<Icon color="white" size={20} name="ellipsis-v" />
-								</TouchableOpacity>
-							</View>
-						</Wrapper>
-						<View style={{ borderRadius: 5, justifyContent: "flex-end", margin: 10, marginTop: 20, backgroundColor: ColorsList.whiteColor }}>
-							<Wrapper justify="space-between" style={$Padding(10, 15)}>
-								<Wrapper justify="flex-start">
-									<Image source={require('src/assets/icons/home/wallet.png')} size={15} style={{ marginRight: 10 }} />
-									<Text>Saldo: {convertRupiah(User.data.saldo)}</Text>
-								</Wrapper>
-								<Wrapper justify="flex-end">
-									<Button color="link" onPress={async () => {
-										const userToken = await getUserToken()
-										dispatch(getProfile(User.data.id, userToken))
-									}}>
-										<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
-									</Button>
-									<Button onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
-								</Wrapper>
-							</Wrapper>
-							<Divider />
-							<Wrapper justify="space-evenly">
-								<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={_onPressRiwayat}>
-									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
-									<Text>Riwayat</Text>
-								</Button>
-								{/* <Divider flex />
-								<Button color="link">
-									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
-									<Text>Kupon</Text>
-								</Button> */}
-								<Divider flex />
-								<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
-									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
-									<Text>Favorit</Text>
-								</Button>
-							</Wrapper>
-						</View>
-					</LinearGradient>
-				)}>
+					</View>
+					<Button width={80} onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
+				</Wrapper>
 				{
 					maintanance &&
 					<Button style={{ margin: 10 }} disabled color="info" wrapper={{ flexStart: true }}>
@@ -185,9 +136,8 @@ const PPOB = ({ navigation }) => {
 				{!productData ?
 					<ActivityIndicator color={ColorsList.primary} />
 					: <FlatList
-						style={{ margin: 10 }}
+						style={{ marginHorizontal: 10, marginVertical: 5 }}
 						showsVerticalScrollIndicator={false}
-						// columnWrapperStyle={{backgroundColor : "blue"}}
 						data={productData}
 						numColumns={3}
 						renderItem={({ item }) => (
@@ -203,28 +153,28 @@ const PPOB = ({ navigation }) => {
 						)}
 						keyExtractor={(item, index) => index.toString()}
 					/>}
-			</ParallaxScrollView>
 
-			{
-				Product.jumlahitem > 0 ?
-					<Bottom>
-						<Button onPress={() => {
-							navigation.navigate('/cashier/cart')
-						}} width="100%">
-							<Wrapper>
-								<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize: 30 }} name="ios-cart" />
-								<Text color="white">BELANJA {Product.jumlahitem} PRODUK</Text>
-							</Wrapper>
-							<View style={{ backgroundColor: ColorsList.primarySoft, height: '100%', width: 2 }} />
-							<View style={{ justifyContent: 'center' }}>
-								<Text color="white">{convertRupiah(Product.total)}</Text>
-							</View>
-						</Button>
-					</Bottom>
-					:
-					null
-			}
-		</View>
+				{
+					Product.jumlahitem > 0 ?
+						<Bottom>
+							<Button onPress={() => {
+								navigation.navigate('/cashier/cart')
+							}} width="100%">
+								<Wrapper>
+									<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize: 30 }} name="ios-cart" />
+									<Text color="white">BELANJA {Product.jumlahitem} PRODUK</Text>
+								</Wrapper>
+								<View style={{ backgroundColor: ColorsList.primarySoft, height: '100%', width: 2 }} />
+								<View style={{ justifyContent: 'center' }}>
+									<Text color="white">{convertRupiah(Product.total)}</Text>
+								</View>
+							</Button>
+						</Bottom>
+						:
+						null
+				}
+			</Body>
+		</Container>
 	)
 }
 export default PPOB
