@@ -38,9 +38,9 @@ const Akun = ({ navigation }) => {
 	]
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground, }}>
-			<GlobalHeader title="Setting" onPressBack={() => navigation.navigate('/')} />
+			{/* <GlobalHeader title="Setting" onPressBack={() => navigation.navigate('/')} /> */}
 			<ScrollView>
-				<Wrapper justify="flex-start" style={{ backgroundColor: 'white', padding: 10 }}>
+				<Wrapper justify="flex-start" style={{ backgroundColor: 'white', padding: 10, marginTop : 10 }}>
 					<Image width="18%" size={50} source={require('src/assets/icons/profile.png')} />
 					<Wrapper width="82%" justify="space-between">
 						<View>

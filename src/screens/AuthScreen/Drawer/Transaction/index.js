@@ -208,7 +208,7 @@ const TransactionList = ({ navigation }) => {
   ]);
 
   return (<View style={{ flex: 1 }}>
-    <GlobalHeader onPressBack={() => navigation.navigate('/drawer')} title="Transaksi" />
+    {/* <GlobalHeader onPressBack={() => navigation.navigate('/drawer')} title="Transaksi" /> */}
     <View style={{ flex: 1 }}>
       <TabView
         renderTabBar={props => {

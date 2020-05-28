@@ -10,6 +10,7 @@ import TempNavigator from './TempNavigator';
 import DrawerNavigation from './DrawerNavigator';
 import EnterPIN from 'src/screens/AuthScreen/EnterPIN';
 import PPOBNavigator from './PPOB';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const handleCustomTransition = ({ scenes }) => {
   global.prevScene = scenes[scenes.length - 2];
@@ -22,7 +23,7 @@ const handleCustomTransition = ({ scenes }) => {
 
 const Navs = {
   '/': {
-    screen: Home,
+    screen: BottomTabNavigator,
     navigationOptions: {
       header: null
     }

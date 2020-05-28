@@ -2,12 +2,11 @@ import React from 'react';
 import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import AsyncStorage from '@react-native-community/async-storage'
-import LinearGradient from 'react-native-linear-gradient'
-
 import Strings from '../../utils/Strings'
 import BarStatus from '../../components/BarStatus';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
+import Container from 'src/components/View/Container';
 
 
 const slides = [
@@ -37,9 +36,7 @@ const width = Dimensions.get('window').width
 export default class AppIntro extends React.Component {
     _renderItem = (item) => {
         return (
-            <View
-                style={styles.mainContent}
-            >
+            <Container style={styles.mainContent}>
                 <BarStatus />
                 <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
                     <Image style={styles.logo} source={require('../../assets/images/logo.png')} />
@@ -51,7 +48,7 @@ export default class AppIntro extends React.Component {
                         <Text style={{marginTop : 10}} align="center" font="semiBold">{item.item.text}</Text>
                     </View>
                 </View>
-            </View>
+            </Container>
         );
     }
 
