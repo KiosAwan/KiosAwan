@@ -14,7 +14,7 @@ import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Padding } from 'src/utils/stylehelper';
-import Alert from 'src/utils/alert';
+import Container, { Body } from 'src/components/View/Container';
 
 const Akun = ({ navigation }) => {
 	const ListMenu = require('src/assets/json/drawer.json')
@@ -25,65 +25,89 @@ const Akun = ({ navigation }) => {
 			navigation.navigate('/unauth')
 		}
 		catch (e) {
-			Alert("", e)
+			alert(e)
 		};
 
 	}
-	const images = [
-		require('src/assets/icons/setting1.png'),
-		require('src/assets/icons/setting2.png'),
-		require('src/assets/icons/setting3.png'),
-		require('src/assets/icons/setting4.png'),
-		require('src/assets/icons/setting5.png'),
-		require('src/assets/icons/setting6.png')
-	]
-	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground, }}>
-			<GlobalHeader title="Setting" onPressBack={() => navigation.navigate('/')} />
-			<ScrollView>
-				<Wrapper justify="flex-start" style={{ backgroundColor: 'white', padding: 10 }}>
-					<Image width="18%" size={50} source={require('src/assets/icons/profile.png')} />
-					<Wrapper width="82%" justify="space-between">
-						<View>
-							<Text color="primary">{User.data.name}</Text>
-							<Text>{User.store ? User.store.name_store : '~ Belum Ada Toko ~'}</Text>
-							<Text>{User.data.reff_code}</Text>
-						</View>
-						<Button disabled color={['transparent', 'greyFont', 'greyFont']} padding={5}>Free User</Button>
-					</Wrapper>
-				</Wrapper>
-				{
-					ListMenu.rMap((groupMenu, i) => {
-						return <View style={{ padding: 15 }} key={i}>
-							{
-								groupMenu.rMap((menu, o) => {
-									return <Button key={o}
-										onPress={() => ["Hubungi Kami", "FAQ"].includes(menu.name) ? navigation.navigate(menu.route) : User.store && User.data.status == 1 ? navigation.navigate(menu.route) : null}
-										style={{ marginBottom: 5 }}
-										padding={$Padding(5, 10)}
-										wrapper={{ justify: 'flex-start' }}
-										color={['whiteColor', 'greyFont']}>
-										<Image width="13%" size={30} source={images[o]} />
-										<Wrapper width="87%" justify="space-between">
-											<Text>{menu.name}</Text>
-											<Image size={20} source={require('src/assets/icons/next.png')} />
-										</Wrapper>
-									</Button>
-								})
-							}
-						</View>
-					})
+	const AkunButton = (props) => {
+		return <Button
+			onPress={() => {
+				if (props.name == "Keluar") {
+					_onPressLogout()
+				} else {
+					["Helpdesk", "FAQ"].includes(props.name) ? navigation.navigate(props.route) : User.store && User.data.status == 1 ? navigation.navigate(props.route) : null
 				}
-			</ScrollView>
-			<Bottom>
-				<View style={{ width: '100%' }}>
-					{/* <Text style={{ alignSelf: 'center', marginBottom: 5 }}>Versi 1.0.0</Text> */}
-					<Text style={{ alignSelf: 'center', marginBottom: 5 }}>Testing Versi 1.4.24.5</Text>
-					<Button width="100%" style={{ marginBottom: 5 }}>UPGRADE KE PREMIUM</Button>
-					<Button color="white" width="100%" onPress={_onPressLogout}>KELUAR</Button>
-				</View>
-			</Bottom>
-		</View>
+			}}
+			style={{ borderRadius: 5, marginBottom: !props.noBottom ? 3 : 15 }}
+			padding={$Padding(5, 10)}
+			wrapper={{ justify: 'flex-start' }}
+			color={['whiteColor', 'greyFont']}>
+			<Wrapper width="100%" justify="space-between">
+				<Text>{props.name}</Text>
+			</Wrapper>
+		</Button>
+	}
+	return (
+		<Container>
+			<Text style={{ marginTop : 15 }} font="Bold" align="center">AKUN</Text>
+			<Body style={{ paddingHorizontal: 10 }}>
+				<Wrapper style={{ marginBottom: 10 }} justify="space-between">
+					<View>
+						<Text font="Bold" >{User.data.name}</Text>
+						<Text size={12}>{User.data.reff_code}</Text>
+					</View>
+					<Button disabled width={110} padding={5}>FREE USER</Button>
+				</Wrapper>
+				<AkunButton
+					name="Data pribadi"
+					route="/drawer/settings/profile"
+					noBottom
+				/>
+				<AkunButton
+					name="Ubah email"
+					route="/drawer/settings/change-email"
+				/>
+				<AkunButton
+					name="Ubah No. Hp"
+					route="/drawer/settings/change-phone-number"
+				/>
+				<AkunButton
+					name="Ubah password"
+					route="/drawer/settings/change-password"
+				/>
+				<AkunButton
+					name="Ubah PIN"
+					route="/drawer/settings/change-pin"
+				/>
+				<AkunButton
+					name="Lupa PIN"
+					route="/drawer/settings/lupa-pin"
+					noBottom
+				/>
+				<AkunButton
+					name="Pengaturan perangkat"
+					route=""
+					noBottom
+				/>
+				<AkunButton
+					name="FAQs"
+					route="/drawer/faq"
+				/>
+				<AkunButton
+					name="Helpdesk"
+					route="/drawer/help"
+				/>
+				<AkunButton
+					name="Rate Awan"
+					route=""
+					noBottom
+				/>
+				<AkunButton
+					name="Keluar"
+					route=""
+				/>
+			</Body>
+		</Container>
 	)
 }
 

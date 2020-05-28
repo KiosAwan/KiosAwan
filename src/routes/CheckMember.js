@@ -14,7 +14,7 @@ import Axios from 'axios';
 import { HOST_URL } from 'src/config';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
-import Alert from 'src/utils/alert';
+import Container from 'src/components/View/Container';
 
 const CheckMember = (props) => {
   const { navigation } = props
@@ -56,20 +56,20 @@ const CheckMember = (props) => {
         }
       }
     } catch (e) {
-      Alert("", e)
+      alert(e)
     }
   }
   return (
-    <View style={styles.container}>
+    <Container style={styles.container}>
       <BarStatus />
       <Image
-        style={{ width: 170, height: 100 }}
+        style={styles.logo}
         source={require('../assets/images/logo.png')}
       />
       <View style={{ width: '60%', alignItems: "center" }}>
         <Text align="center">{Strings.SPLASHSCREENTEXT}</Text>
       </View>
-    </View>
+    </Container>
   );
 }
 
@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ColorsList.white
   },
   infoText: {
     fontFamily: 'Nunito-Light',
@@ -87,7 +86,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 100,
-    width: 170,
+    width: 200,
+    resizeMode : "contain"
   }
 })
 

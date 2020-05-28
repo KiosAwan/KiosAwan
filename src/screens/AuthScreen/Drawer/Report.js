@@ -243,7 +243,7 @@ const Report = ({ navigation }) => {
 		</Body>
 	}
 
-	return <Container header={header}>
+	return <Container>
 		<ModalMonth {...ctrl} />
 		<TabView
 			renderTabBar={({ navigationState }) => {
