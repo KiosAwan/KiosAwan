@@ -85,7 +85,7 @@ const LoginVerification = ({ navigation }) => {
         <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
             <Text align="center">Masukkan password Anda.</Text>
-            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
+            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, paddingHorizontal: 10, backgroundColor: ColorsList.authBackground }}>
                 <TextInput
                     _flex
                     autoFocus
@@ -105,41 +105,6 @@ const LoginVerification = ({ navigation }) => {
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handlePasswordLogin}>LANJUT</Button>
     </Container>
-    return (
-        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container}>
-            <BarStatus />
-            <AwanPopup.Alert
-                message={alertMessage}
-                visible={alert}
-                closeAlert={() => setAlert(false)}
-            />
-            <AwanPopup.Loading visible={loading} />
-            <View style={{ paddingTop: 10 }}>
-                <HeaderRegister />
-            </View>
-            <Text style={[styles.subtitleEnterPhone, {}]}>Nomor ini telah terdaftar</Text>
-            <Text style={[styles.subtitleEnterPhone, { paddingBottom: 10 }]}>Masukkan password Anda</Text>
-            <View style={styles.inputView}>
-                <InputPIN
-                    inputWidth={250}
-                    value={FormRegister.secondPIN}
-                    handleChangeText={(psw) => dispatch(addFirstPassword(psw))}
-                    inputProps={{
-                        onBlur: () => setViewForgot(true),
-                        onFocus: () => setViewForgot(false)
-                    }}
-                />
-            </View>
-            <Text style={styles.textForgot} onPress={_forgotPIN}>Lupa password ?</Text>
-            <View style={{ position: 'absolute', bottom: 10 }}>
-                <UnauthBottomButton
-                    onPressBackBtn={() => navigation.goBack()}
-                    onPressNextBtn={_handlePasswordLogin}
-                    login
-                />
-            </View>
-        </LinearGradient>
-    );
 }
 
 export default LoginVerification

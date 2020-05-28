@@ -4,19 +4,16 @@ import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import IonIcon from 'react-native-vector-icons/Ionicons'
-import LinearGradient from 'react-native-linear-gradient';
 import BarStatus from 'src/components/BarStatus';
 import { useSelector, useDispatch } from 'react-redux';
 import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { ColorsList } from 'src/styles/colors';
 import { PPOBCard } from 'src/components/Card/CardIcon';
 
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import { Button } from 'src/components/Button/Button';
 import { Image } from 'src/components/CustomImage';
 import { $Padding } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Bottom } from 'src/components/View/Bottom';
 import { getProductPPOBList } from 'src/utils/api/ppobapi';
 import { DEV_IMG_URL, HOST_URL } from 'src/config';

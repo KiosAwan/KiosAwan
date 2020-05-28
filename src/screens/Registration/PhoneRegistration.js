@@ -205,7 +205,7 @@ const PhoneRegistration = ({ navigation }) => {
 					keyboardType="number-pad"
 					value={FormRegister.phone_number}
 					onChangeText={phone => _handleChangePhone(phone)}
-					style={{ color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}
+					style={{ color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding :  5, backgroundColor: ColorsList.authBackground }}
 				/>
 			</Wrapper>
 			<Text align="center" style={{ color: ColorsList.pink }}>
