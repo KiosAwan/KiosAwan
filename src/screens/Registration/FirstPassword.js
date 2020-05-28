@@ -27,6 +27,7 @@ import { Button } from 'src/components/Button/Button';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Icon } from 'native-base';
+import UnauthHeader from 'src/components/View/UnauthHeader';
 
 //Functions
 
@@ -54,11 +55,8 @@ const FirstPassword = ({ navigation }) => {
         }
     }
     return <Container style={{ justifyContent: 'center', padding: 15 }}>
-        <View style={{ marginBottom: 10, flex:1 }}>
-            <Image
-                style={{ width: 170, height: 100, alignSelf: "center" }}
-                source={require('src/assets/images/logo.png')}
-            />
+        <View style={{ marginBottom: 10, flex: 1 }}>
+            <UnauthHeader />
             <Text align="center">Buat password untuk kemananan dalam mengakses aplikasi ini.</Text>
             <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
                 <TextInput

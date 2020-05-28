@@ -35,6 +35,7 @@ import Container from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border, $Padding } from 'src/utils/stylehelper';
 import PinView from 'src/components/Input/PinView';
+import UnauthHeader from 'src/components/View/UnauthHeader';
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -195,10 +196,7 @@ const PhoneRegistration = ({ navigation }) => {
 			</Wrapper>
 		</Modal>
 		<View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
-			<Image
-				style={{ width: 170, height: 100, alignSelf: "center" }}
-				source={require('src/assets/images/logo.png')}
-			/>
+			<UnauthHeader />
 			<Text align="center">{Strings.REGISTERPHONESUBTITLE}</Text>
 			<Wrapper flexStart style={{ marginVertical: 10, alignSelf: 'center', width: '80%' }}>
 				<Text style={{ elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>+62</Text>

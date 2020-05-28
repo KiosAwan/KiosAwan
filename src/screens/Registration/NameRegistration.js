@@ -25,6 +25,7 @@ import Container from 'src/components/View/Container';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
+import UnauthHeader from 'src/components/View/UnauthHeader';
 
 const NameRegistration = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
@@ -51,11 +52,8 @@ const NameRegistration = ({ navigation }) => {
     }
 
     return <Container style={{ justifyContent: 'center', padding: 15 }}>
-        <View style={{ marginBottom: 10, flex:1 }}>
-            <Image
-                style={{ width: 170, height: 100, alignSelf: "center" }}
-                source={require('src/assets/images/logo.png')}
-            />
+        <View style={{ marginBottom: 10, flex: 1 }}>
+            <UnauthHeader />
             <Text align="center">Masukkan nama lengkap agar kami mudah mengenali Anda.</Text>
             <TextInput
                 autoFocus

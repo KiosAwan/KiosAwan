@@ -28,6 +28,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Icon } from 'native-base';
 import { Button } from 'src/components/Button/Button';
+import UnauthHeader from 'src/components/View/UnauthHeader';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -82,10 +83,7 @@ const LoginVerification = ({ navigation }) => {
     }
     return <Container style={{ padding: 15 }}>
         <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
-            <Image
-                style={{ width: 170, height: 100, alignSelf: "center" }}
-                source={require('src/assets/images/logo.png')}
-            />
+            <UnauthHeader />
             <Text align="center">Masukkan password Anda.</Text>
             <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
                 <TextInput
