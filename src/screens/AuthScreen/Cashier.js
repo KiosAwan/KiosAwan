@@ -35,7 +35,6 @@ const Cashier = ({ navigation }) => {
         if (Product.data.length == 0) {
             const userToken = await getUserToken()
             dispatch(getProduct(User.store.id_store, userToken))
-            // dispatch(removeAllCart())
         }
     }
     return (

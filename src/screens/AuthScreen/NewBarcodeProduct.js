@@ -20,8 +20,10 @@ const NewBarcodeProduct = ({ navigation }) => {
   const dispatch = useDispatch()
   const NewProduct = useSelector(state => state.NewProduct)
   const [scanWork, setScanWork] = useState(true)
+
   const _onBarCodeRead = async (scanResult) => {
-    setScanWork(false)
+    console.debug("Scanned")
+    await setScanWork(false)
     const data = {
       barcode: scanResult.data
     }
@@ -35,7 +37,6 @@ const NewBarcodeProduct = ({ navigation }) => {
         [
           {
             text: 'Lanjut', onPress: () => {
-              // setScanWork(true)
               dispatch(addProductName(response.data.nama_product))
               dispatch(addProductIdCategory(null))
               navigation.navigate('/cashier/new-product-name')
@@ -52,7 +53,6 @@ const NewBarcodeProduct = ({ navigation }) => {
         [
           {
             text: 'Lanjut', onPress: () => {
-              // setScanWork(true)
               dispatch(addProductName(''))
               dispatch(addProductIdCategory(null))
               navigation.navigate('/cashier/new-product-name')
@@ -72,7 +72,7 @@ const NewBarcodeProduct = ({ navigation }) => {
       }
       return false
     })
-    setScanWork(true)
+    // setScanWork(true)
   })
   const _handleNoBarcode = () => {
     dispatch(addProductName(''))
