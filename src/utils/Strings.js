@@ -11,7 +11,7 @@ const Strings = {
     INTRO2SUBTITLE : "Dapatkan berbagai macam produk dan barang untuk kebutuhan toko kelontong secara lengkap, harga yang murah, serta pengiriman langsung ke warung. ",
     INTRO3TITLE : "TAMBAHAN PENDAPATAN DARI PENJUALAN PRODUK DIGITAL",
     INTRO3SUBTITLE : "Dapatkan komisi langsung dari setiap transaksi produk digital token listrik, pulsa, pembayaran PDAM, BPJS, dll.",
-    SPLASHSCREENTEXT : 'Ekosistem Digital Untuk Warung Serba Bisa'
+    SPLASHSCREENTEXT : 'Aplikasi Wirausaha Nusantara'
 }
 
 export default Strings

@@ -5,7 +5,7 @@ import { ColorsList } from '../styles/colors';
 
 const BarStatus = () => {
     return (
-        <StatusBar backgroundColor={ColorsList.primaryColor}/>
+        <StatusBar backgroundColor={ColorsList.greyAuthHard}/>
     )
 }
 
