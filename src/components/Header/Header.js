@@ -25,23 +25,18 @@ export const HeaderRegister = () => {
 }
 
 export const HomeHeader = props => {
-    return <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ height: props.height || 170, justifyContent: "center" }}>
+    return <View style={{justifyContent: "center" }}>
         <BarStatus />
-        <Wrapper justify="space-between" style={{ padding: 15, paddingTop: 0 }}>
-            <View style={{ justifyContent: 'center' }}>
-                <TouchableOpacity onPress={props.onPressMenu}>
-                    <Icon color="white" size={20} name="bars" />
-                </TouchableOpacity>
-            </View>
-            {props.center ? props.center : <Image style={{ width: 150, height: 80 }} source={require('src/assets/images/logo.png')} />}
+        <Wrapper justify="space-between" style={{ padding: 15 }}>
+            {props.center}
             <View style={{ justifyContent: 'center' }}>
                 <TouchableOpacity>
-                    <Icon color="white" size={20} name="bell" />
+                    <Icon color="black" size={20} name="bell" />
                 </TouchableOpacity>
             </View>
         </Wrapper>
         {props.children}
-    </LinearGradient>
+    </View>
 }
 
 export const GlobalHeaderWithIcon = props => {

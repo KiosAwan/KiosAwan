@@ -111,7 +111,7 @@ export const Button = props => {
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
 		justifyContent: 'flex-start',
-		borderRadius: props.noRadius ? 0 : 5,
+		borderRadius: props.noRadius ? 0 : 15,
 		...ifWhitespaces() && { display: "none" },
 		...props.flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
