@@ -10,7 +10,7 @@ const Manajemen = ({ navigation }) => {
 	return (
 		<Container>
 			<Text style={{ marginTop: 15 }} font="Bold" align="center">MANAJEMEN</Text>
-			<Body style={{ paddingHorizontal: 10 }}>
+			<Body>
 				<Text style={{ marginBottom: 10 }}>Pilih modul yang akan dikelola :</Text>
 				{
 					ListManajemen.rMap((menu, i) => {

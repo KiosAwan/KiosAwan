@@ -183,7 +183,7 @@ const Home = ({ navigation }) => {
 			<Body style={{ padding: 5 }} refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
 				<View style={{ justifyContent: "center" }}>
 					<BarStatus />
-					<Wrapper justify="space-between" style={{ padding: 15, paddingBottom: 0 }}>
+					<Wrapper justify="space-between" style={{ padding: 10, paddingBottom: 0 }}>
 						<View>
 							<Text align="left">Welcome,</Text>
 							<Text align="left" font="Bold" size={16}>{User.data.name}</Text>
@@ -195,7 +195,7 @@ const Home = ({ navigation }) => {
 						</View>
 					</Wrapper>
 				</View>
-				<Wrapper justify="space-between" style={$Padding(10, 15)}>
+				<Wrapper justify="space-between" style={$Padding(10, 10)}>
 					<View>
 						<Text>Saldo Anda sebesar: </Text>
 						<Wrapper>
