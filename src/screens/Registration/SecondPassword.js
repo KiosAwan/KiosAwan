@@ -84,7 +84,7 @@ const SecondPassword = ({ navigation }) => {
         <View style={{ marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
             <Text align="center">Ulangi masukkan password Anda.</Text>
-            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
+            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground }}>
                 <TextInput
                     _flex
                     autoFocus
@@ -99,36 +99,6 @@ const SecondPassword = ({ navigation }) => {
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextButton}>LANJUT</Button>
     </Container>
-    return (
-        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
-            <BarStatus />
-            <AwanPopup.Alert
-                message={alertMessage}
-                visible={alert}
-                closeAlert={() => setAlert(false)}
-            />
-            <HeaderRegister
-                onPressBack={() => navigation.goBack()}
-                onPressNext={_handleNextButton}
-            />
-            <View style={{ width: '70%', paddingVertical: 20 }}>
-                <Text style={{ textAlign: "center", color: 'white' }}>Masukkan kembali password</Text>
-            </View>
-            <InputPIN
-                inputWidth={250}
-                value={FormRegister.secondPIN}
-                handleChangeText={(pin) => _handleChangePIN(pin)}
-            />
-            <View style={{ position: 'absolute', bottom: 10 }}>
-                <UnauthBottomButton
-                    onPressBackBtn={() => navigation.goBack()}
-                    onPressNextBtn={_handleNextButton}
-                />
-            </View>
-
-            {isLoading ? <Spinner color="white" /> : null}
-        </LinearGradient>
-    );
 }
 
 export default SecondPassword
