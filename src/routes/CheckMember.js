@@ -42,7 +42,7 @@ const CheckMember = (props) => {
           if (res.status == 200) {
             await AsyncStorage.setItem('@user_token', res.data.data.token)
             await dispatch(getProfile(checkUserData, res.data.data.token))
-            navigation.navigate('/')
+            navigation.navigate('/intro')
           }
         } catch (err) {
           // navigation.navigate('/unauth')

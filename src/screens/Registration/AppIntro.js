@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Image, View, Dimensions } from 'react-native';
+import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import AsyncStorage from '@react-native-community/async-storage'
 import LinearGradient from 'react-native-linear-gradient'
@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import Strings from '../../utils/Strings'
 import BarStatus from '../../components/BarStatus';
 import { ColorsList } from 'src/styles/colors';
+import { Text } from 'src/components/Text/CustomText';
 
 
 const slides = [
@@ -36,11 +37,8 @@ const width = Dimensions.get('window').width
 export default class AppIntro extends React.Component {
     _renderItem = (item) => {
         return (
-            <LinearGradient
+            <View
                 style={styles.mainContent}
-                colors={[ColorsList.primary, ColorsList.gradientPrimary]}
-                start={{ x: 0, y: 0.1 }}
-                end={{ x: 0.1, y: 1 }}
             >
                 <BarStatus />
                 <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
@@ -49,18 +47,18 @@ export default class AppIntro extends React.Component {
                 <View style={{ alignItems: "center", flex: 9 }}>
                     <Image source={item.item.image} style={styles.image} />
                     <View style={{ width: '80%', alignItems: "center", marginBottom: 20 }}>
-                        <Text style={styles.title}>{item.item.title}</Text>
-                        <Text style={styles.text}>{item.item.text}</Text>
+                        <Text size={16} align="center" font="Bold" color="primary">{item.item.title}</Text>
+                        <Text style={{marginTop : 10}} align="center" font="semiBold">{item.item.text}</Text>
                     </View>
                 </View>
-            </LinearGradient>
+            </View>
         );
     }
 
     _renderSkipButton = () => {
         return (
             <View style={{ alignSelf: 'center', padding: 12 }}>
-                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Lewati</Text>
+                <Text>Lewati</Text>
             </View>
         )
     }
@@ -68,7 +66,7 @@ export default class AppIntro extends React.Component {
     _renderDoneButton = () => {
         return (
             <View style={{ alignSelf: 'center', padding: 12 }}>
-                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Mulai</Text>
+                <Text>Mulai</Text>
             </View>
         )
     }
@@ -84,7 +82,8 @@ export default class AppIntro extends React.Component {
     render() {
         return (
             <AppIntroSlider
-                dotStyle={{ backgroundColor: ColorsList.primary }}
+                dotStyle={{ backgroundColor: ColorsList.greySoft }}
+                activeDotStyle={{backgroundColor: ColorsList.primary}}
                 renderItem={this._renderItem}
                 slides={slides}
                 onDone={this._onDone}
@@ -103,27 +102,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-around',
+        backgroundColor : "white"
     },
     image: {
         marginTop: 10,
         width: 350,
         height: height * 4 / 9,
-    },
-    text: {
-        color: 'white',
-        fontSize: 13,
-        backgroundColor: 'transparent',
-        textAlign: 'center',
-        paddingHorizontal: 16,
-        fontFamily: 'Nunito-black'
-    },
-    title: {
-        fontSize: 18,
-        color: 'white',
-        backgroundColor: 'transparent',
-        textAlign: 'center',
-        marginBottom: 16,
-        fontFamily: 'Nunito-ExtraBold'
     },
     logo: {
         height: 90,

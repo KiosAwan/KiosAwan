@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import cn.jystudio.bluetooth.RNBluetoothEscposPrinterPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.BV.LinearGradient.LinearGradientPackage;

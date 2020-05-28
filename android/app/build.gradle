@@ -209,7 +209,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-splash-screen')
     implementation project(':react-native-bluetooth-escpos-printer')
     implementation project(':react-native-branch')
     implementation 'io.branch.sdk.android:library:4.+'
