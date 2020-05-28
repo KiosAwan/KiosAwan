@@ -38,7 +38,7 @@ const Akun = ({ navigation }) => {
 					["Helpdesk", "FAQ"].includes(props.name) ? navigation.navigate(props.route) : User.store && User.data.status == 1 ? navigation.navigate(props.route) : null
 				}
 			}}
-			style={{ borderRadius: 5, marginBottom: !props.noBottom ? 2 : 15 }}
+			style={{ borderRadius: 5, marginBottom: !props.noBottom ? 3 : 15 }}
 			padding={$Padding(5, 10)}
 			wrapper={{ justify: 'flex-start' }}
 			color={['whiteColor', 'greyFont']}>
@@ -49,11 +49,9 @@ const Akun = ({ navigation }) => {
 	}
 	return (
 		<Container>
-			{/* <GlobalHeader title="Setting" onPressBack={() => navigation.navigate('/')} /> */}
-			<Body style={{ padding: 5 }}>
-				<Text style={{ paddingVertical: 5 }} font="Bold" align="center">AKUN</Text>
-
-				<Wrapper style={{ padding: 10 }} justify="space-between">
+			<Text style={{ marginTop : 15 }} font="Bold" align="center">AKUN</Text>
+			<Body style={{ paddingHorizontal: 10 }}>
+				<Wrapper style={{ marginBottom: 10 }} justify="space-between">
 					<View>
 						<Text font="Bold" >{User.data.name}</Text>
 						<Text size={12}>{User.data.reff_code}</Text>

@@ -1,39 +1,35 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { GlobalHeader } from 'src/components/Header/Header';
-import { ColorsList } from 'src/styles/colors';
-import { Grid, Col, Icon } from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'src/components/Text/CustomText';
+import Container, { Body } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
+import { $Padding } from 'src/utils/stylehelper';
+import { Wrapper } from 'src/components/View/Wrapper';
 
 const Manajemen = ({ navigation }) => {
 	const ListManajemen = require('src/assets/json/manajemen.json')
 	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			{/* <GlobalHeader title="Manajemen" onPressBack={() => navigation.navigate('/drawer')} /> */}
-			<View style={{ padding: 15 }}>
+		<Container>
+			<Text style={{ marginTop: 15 }} font="Bold" align="center">MANAJEMEN</Text>
+			<Body style={{ paddingHorizontal: 10 }}>
+				<Text style={{ marginBottom: 10 }}>Pilih modul yang akan dikelola :</Text>
 				{
 					ListManajemen.rMap((menu, i) => {
-						return <TouchableOpacity key={i} onPress={() => navigation.navigate(menu.route)} style={{
-							backgroundColor: 'white',
-							marginBottom: 5,
-							borderRadius: 5,
-							padding: 10,
-							height: 45
-						}}>
-							<Grid>
-								<Col style={{ justifyContent: 'center', marginLeft: 10 }} size={9}>
-									<Text style={{ color: ColorsList.greyFont }}>{menu.name}</Text>
-								</Col>
-								<Col style={{ justifyContent: 'center', alignItems: 'flex-end' }} size={1}>
-									<Icon name="arrow-dropright" style={{ color: ColorsList.greySoft }} />
-								</Col>
-							</Grid>
-						</TouchableOpacity>
+						return <Button
+							onPress={() => {
+								navigation.navigate(menu.route)
+							}}
+							style={{ borderRadius: 5, marginBottom: 10 }}
+							padding={$Padding(5, 10)}
+							wrapper={{ justify: 'flex-start' }}
+							color={['whiteColor', 'greyFont']}>
+							<Wrapper width="100%" justify="space-between">
+								<Text>{menu.name}</Text>
+							</Wrapper>
+						</Button>
 					})
 				}
-			</View>
-		</View>
+			</Body>
+		</Container>
 	)
 }
 
