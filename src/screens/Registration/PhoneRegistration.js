@@ -8,6 +8,8 @@ import {
 	View,
 	StyleSheet,
 	Dimensions,
+	Image,
+	TextInput
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -24,11 +26,15 @@ import { sendPhoneNumber, phoneValidation, sendOTP, sendVerifyOTP } from 'src/ut
 import BarStatus from '../../components/BarStatus';
 import { HeaderRegister } from '../../components/Header/Header';
 import { FontList } from 'src/styles/typography';
-import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { Button } from 'src/components/Button/Button';
 import { Text } from 'src/components/Text/CustomText';
 import { Bottom } from 'src/components/View/Bottom';
 import { ColorsList } from 'src/styles/colors';
+import Container from 'src/components/View/Container';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { $Border, $Padding } from 'src/utils/stylehelper';
+import PinView from 'src/components/Input/PinView';
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -67,15 +73,19 @@ const PhoneRegistration = ({ navigation }) => {
 	}
 
 	const _sendOTP = async (otpsheet) => {
-		setLoading(true)
 		setPopup(false)
+		setLoading(true)
 		const data = {
 			phone_number: "62" + FormRegister.phone_number,
 		}
 		const res = await sendOTP(data)
 		setLoading(false)
 		if (res.status == 200) {
-			await otpsheet.open()
+			navigation.navigate('/unauth/registration/otp', {
+				FormRegister, _resendOTP, _navigateRegister,
+				otpFulfilled: code => _handleOTPFulfilled(OTPRegisterSheet, code)
+			})
+			// await otpsheet.open()
 		} else {
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
@@ -111,8 +121,7 @@ const PhoneRegistration = ({ navigation }) => {
 			navigation.navigate('/unauth/login')
 		} else if (res.type == "register") {
 			setPopup(true)
-		}
-		else {
+		} else {
 			if (res.status == 400) {
 				setAlertMessage(res.data.errors.msg)
 				setAlert(true)
@@ -128,8 +137,8 @@ const PhoneRegistration = ({ navigation }) => {
 			otp: code
 		}
 		const res = await sendVerifyOTP(data)
+		console.debug(res)
 		if (res.status == 200) {
-			otpsheet.close()
 			_navigateRegister()
 		} else {
 			if (res.status == 400) {
@@ -141,6 +150,78 @@ const PhoneRegistration = ({ navigation }) => {
 	const _navigateRegister = () => {
 		navigation.navigate('/unauth/registration')
 	}
+	return <Container style={{ padding: 15, flex: 1 }}>
+		<RBSheet
+			ref={ref => {
+				OTPRegisterSheet = ref;
+			}}
+			height={height * 2 / 6}
+			closeOnPressMask={false}
+			closeOnDragDown={false}
+			duration={250}
+			animationType="slide"
+			customStyles={{
+				container: {
+					borderTopLeftRadius: 10,
+					borderTopRightRadius: 10
+				},
+			}}
+		>
+			<View>
+				<VerifyOTPRegister navigateTo={_navigateRegister} closeSheet={() => OTPRegisterSheet.close()}
+					openSheet={() => OTPRegisterSheet.open()}
+					otpFulfilled={(code) => _handleOTPFulfilled(OTPRegisterSheet, code)}
+					alert={(data) => {
+						setAlertMessage(data)
+						setAlert(true)
+					}}
+					sendOTP={_resendOTP}
+				/>
+			</View>
+		</RBSheet>
+		<AwanPopup.Alert
+			message={alertMessage}
+			visible={alert}
+			closeAlert={() => setAlert(false)}
+		/>
+		<AwanPopup.Loading visible={loading} />
+		<Modal visible={popup} style={{ borderRadius: 5, width: '80%', ...$Padding(20, 15) }}>
+			<Text style={{ marginBottom: 10, padding: 10, backgroundColor: ColorsList.white, elevation: 2 }} size={20} align="center">0 {FormRegister.phone_number.split('').join(' ')}</Text>
+			<Text color="pink">Nomor ini tidak ditemukan.</Text>
+			<Text>Apakah Anda yakin akan mendaftar aplikasi menggunakan nomor ini?</Text>
+			<Wrapper style={{ marginTop: 15 }} flexContent>
+				<Button onPress={() => setPopup(false)} color="link">Batal</Button>
+				<Button radius={50} onPress={() => _sendOTP(OTPRegisterSheet)}>LANJUT</Button>
+			</Wrapper>
+		</Modal>
+		<View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
+			<Image
+				style={{ width: 170, height: 100, alignSelf: "center" }}
+				source={require('src/assets/images/logo.png')}
+			/>
+			<Text align="center">{Strings.REGISTERPHONESUBTITLE}</Text>
+			<Wrapper flexStart style={{ marginVertical: 10, alignSelf: 'center', width: '80%' }}>
+				<Text style={{ elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>+62</Text>
+				<TextInput
+					_flex
+					keyboardType="number-pad"
+					value={FormRegister.phone_number}
+					onChangeText={phone => _handleChangePhone(phone)}
+					style={{ color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}
+				/>
+			</Wrapper>
+			<Text align="center" style={{ color: ColorsList.pink }}>
+				{
+					__DEV__ ?
+						<Text size={13} onPress={() => _handleChangePhone('82134156961')}>{Strings.REGISTERTERM1}</Text>
+						:
+						Strings.REGISTERTERM1
+				}
+				<Text color="pink" size={13} onPress={() => navigation.navigate('/unauth/registration/term-condition')}>{Strings.REGISTERTERM2}</Text>
+			</Text>
+		</View>
+		<Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleSendPhoneNumber}>LANJUT</Button>
+	</Container>
 	return (
 		<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
 			<BarStatus />

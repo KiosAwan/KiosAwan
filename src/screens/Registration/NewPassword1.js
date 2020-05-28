@@ -6,7 +6,7 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text,
+    TextInput
 } from 'react-native';
 
 //Own Custom Component
@@ -21,6 +21,12 @@ import { SizeList } from '../../styles/size';
 import { ColorsList } from '../../styles/colors';
 import { FontList } from 'src/styles/typography';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Container from 'src/components/View/Container';
+import UnauthHeader from 'src/components/View/UnauthHeader';
+import { Text } from 'src/components/Text/CustomText';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Icon } from 'native-base';
+import { Button } from 'src/components/Button/Button';
 
 //Functions
 
@@ -34,6 +40,8 @@ const NewPassword1 = ({ navigation }) => {
     const [alertMessage, setAlertMessage] = useState(false)
     // //Sending OTP code to server
     const _handleChangePIN = async (psw) => {
+        if (psw.length < 8) setBtnDisabled(true)
+        else setBtnDisabled(false)
         await dispatch(addFirstPassword(psw))
     }
     const _handleNextBtn = () => {
@@ -45,6 +53,32 @@ const NewPassword1 = ({ navigation }) => {
             navigation.navigate('/unauth/login/forgot-password/new-password-2')
         }
     }
+    const [secure, setSecure] = useState(true)
+    const [btnDisabled, setBtnDisabled] = useState(true)
+    return <Container style={{ padding: 15 }}>
+        <AwanPopup.Alert
+            message={alertMessage}
+            visible={alert}
+            closeAlert={() => setAlert(false)}
+        />
+        <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
+            <UnauthHeader />
+            <Text align="center">Masukkan password baru Anda.</Text>
+            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
+                <TextInput
+                    _flex
+                    autoFocus
+                    secureTextEntry={secure}
+                    placeholder="Masukkan Password"
+                    style={{ color: ColorsList.greyFont }}
+                    value={FormRegister.firstPIN}
+                    onChangeText={(pin) => _handleChangePIN(pin)}
+                />
+                <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />
+            </Wrapper>
+        </View>
+        <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextBtn}>LANJUT</Button>
+    </Container>
     return (
         <View style={styles.container} >
             <BarStatus />
@@ -59,7 +93,7 @@ const NewPassword1 = ({ navigation }) => {
             />
             <View style={{ alignItems: "center" }}>
                 <View style={{ width: '70%', paddingTop: 30 }}>
-                    <Text style={{...FontList.title, textAlign: "center", color: ColorsList.greySoft }}>Buat password baru</Text>
+                    <Text style={{ ...FontList.title, textAlign: "center", color: ColorsList.greySoft }}>Buat password baru</Text>
                 </View>
                 <InputPIN
                     textColor="black"
@@ -71,7 +105,7 @@ const NewPassword1 = ({ navigation }) => {
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
                     onPressBtn={_handleNextBtn}
-                    style={{backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
+                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
                     buttonTitle="LANJUT"
                 />
             </View>

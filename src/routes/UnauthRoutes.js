@@ -12,6 +12,7 @@ import NewPassword2 from '../screens/Registration/NewPassword2'
 import LoginVerification from '../screens/Registration/LoginVerification'
 import TermCondition from 'src/screens/Registration/TermCondition'
 import { fromLeft, fromRight } from 'react-navigation-transitions';
+import OTPInput from 'src/screens/Registration/OTPInput'
 
 const handleCustomTransition = ({ scenes }) => {
   global.prevScene = scenes[scenes.length - 2];
@@ -54,6 +55,12 @@ const Navs = {
   },
   '/unauth/registration': {
     screen: NameRegistration,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/unauth/registration/otp': {
+    screen: OTPInput,
     navigationOptions: {
       header: null
     }

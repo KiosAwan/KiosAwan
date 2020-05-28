@@ -34,6 +34,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Bottom } from 'src/components/View/Bottom';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Container, { Footer, Body } from 'src/components/View/Container';
+import Alert from 'src/utils/alert';
 
 class CheckOut extends React.Component {
 	state = {
@@ -128,7 +129,7 @@ class CheckOut extends React.Component {
 				})
 			)
 		} else {
-			alert(JSON.stringify(res))
+			Alert("", JSON.stringify(res))
 		}
 	}
 
@@ -198,7 +199,7 @@ class CheckOut extends React.Component {
 						}))
 				}
 				else {
-					alert(JSON.stringify(res))
+					Alert(JSON.stringify(res))
 				}
 			} else {
 				this.setState({ loadingVisible: false })

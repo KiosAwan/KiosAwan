@@ -14,6 +14,7 @@ import Axios from 'axios';
 import { HOST_URL } from 'src/config';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
+import Alert from 'src/utils/alert';
 
 const CheckMember = (props) => {
   const { navigation } = props
@@ -55,7 +56,7 @@ const CheckMember = (props) => {
         }
       }
     } catch (e) {
-      alert(e)
+      Alert("", e)
     }
   }
   return (
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor : ColorsList.white
+    backgroundColor: ColorsList.white
   },
   infoText: {
     fontFamily: 'Nunito-Light',

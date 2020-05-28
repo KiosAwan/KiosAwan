@@ -1,8 +1,8 @@
 const Strings = {
     // register strings
-    REGISTERPHONESUBTITLE : 'Masukkan nomor Anda untuk dapat masuk atau membuat akun baru ',
-    REGISTERTERM1 : 'Dengan mendaftar ke aplikasi ini, Anda telah menyetujui ',
-    REGISTERTERM2 : 'syarat dan ketentuan yang berlaku',
+    REGISTERPHONESUBTITLE : 'Masukkan nomor handphone Anda untuk login atau membuat akun baru ',
+    REGISTERTERM1 : 'Dengan mendaftar di aplikasi ini, Anda telah setuju dengan ',
+    REGISTERTERM2 : 'syarat dan ketentuan yang berlaku.',
     REGISTERNAMELABEL : 'Input your name',
     REGISTERPHONELABEL : 'Input your phone number',
     INTRO1TITLE : "MANAJEMEN APLIKASI KASIR UNTUK BISNIS MASA KINI",

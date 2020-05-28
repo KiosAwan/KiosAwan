@@ -15,6 +15,7 @@ import SearchInput from '../Input/SearchInput';
 import MDInput from '../Input/MDInput';
 import { Modal as AwanModal } from '../ModalContent/Popups';
 import { $Padding, $Border } from 'src/utils/stylehelper';
+import Alert from 'src/utils/alert';
 
 const height = Dimensions.get('window').height
 
@@ -175,7 +176,7 @@ export const PilihPelanggan = (props) => {
 	const _handleAddNewCustomer = async () => {
 		if (pelanggan) {
 			if (pelanggan.name_customer == "" || pelanggan.phone_number_customer == "") {
-				alert("Isi semua field")
+				Alert("", "Isi semua field")
 			}
 			else {
 				const data = {
@@ -193,7 +194,7 @@ export const PilihPelanggan = (props) => {
 
 	const _handleEditCustomer = async () => {
 		if (pelanggan.name_customer == "" || pelanggan.phone_number_customer == "") {
-			alert("Isi semua field")
+			Alert("Isi semua field")
 		}
 		else {
 			const data = {

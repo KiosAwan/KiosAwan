@@ -243,7 +243,7 @@ const Home = ({ navigation }) => {
 				<Button width='30%' onPress={_completeProfile}>OK</Button>
 			</AwanPopup.Title>
 			<View style={{ paddingVertical: 10 }}>
-				<View style={{ marginBottom: 10 }}>
+				<View style={{ marginBottom: 10, flex:1 }}>
 					{
 						maintanance && <Button disabled color="info" wrapper={{ flexStart }}>
 							<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />

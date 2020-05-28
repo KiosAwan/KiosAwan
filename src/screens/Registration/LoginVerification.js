@@ -6,11 +6,9 @@ import AsyncStorage from '@react-native-community/async-storage'
 import {
     View,
     StyleSheet,
+    Image,
+    TextInput
 } from 'react-native';
-import {
-    Text,
-    Spinner
-} from 'native-base';
 //Redux Actions
 import { clearAllRegistration, addFirstPassword } from '../../redux/actions/actionsRegistration'
 
@@ -25,6 +23,11 @@ import { InputPIN } from '../../components/Input/InputPIN';
 import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from '../../styles/colors';
+import Container from 'src/components/View/Container';
+import { Text } from 'src/components/Text/CustomText';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Icon } from 'native-base';
+import { Button } from 'src/components/Button/Button';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -35,6 +38,8 @@ const LoginVerification = ({ navigation }) => {
     //alert
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState(false)
+    const [secure, setSecure] = useState(true)
+    const [btnDisabled, setBtnDisabled] = useState(true)
     //Sending OTP code to server
     const _handlePasswordLogin = async (psw) => {
         const pushToken = await AsyncStorage.getItem("@push_token")
@@ -72,11 +77,36 @@ const LoginVerification = ({ navigation }) => {
         const data = {
             phone_number: "62" + FormRegister.phone_number
         }
-        await sendOTP(data)
         navigation.navigate('/unauth/login/forgot-password')
-
+        await sendOTP(data)
     }
-
+    return <Container style={{ padding: 15 }}>
+        <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
+            <Image
+                style={{ width: 170, height: 100, alignSelf: "center" }}
+                source={require('src/assets/images/logo.png')}
+            />
+            <Text align="center">Masukkan password Anda.</Text>
+            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
+                <TextInput
+                    _flex
+                    autoFocus
+                    secureTextEntry={secure}
+                    placeholder="Masukkan Konfirmasi Password"
+                    style={{ color: ColorsList.greyFont }}
+                    value={FormRegister.secondPIN}
+                    onChangeText={(psw) => {
+                        if (psw.length > 7) setBtnDisabled(false)
+                        else setBtnDisabled(true)
+                        dispatch(addFirstPassword(psw))
+                    }}
+                />
+                <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />
+            </Wrapper>
+            <Button color="link" align="center" onPress={_forgotPIN}>Lupa password?</Button>
+        </View>
+        <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handlePasswordLogin}>LANJUT</Button>
+    </Container>
     return (
         <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container}>
             <BarStatus />

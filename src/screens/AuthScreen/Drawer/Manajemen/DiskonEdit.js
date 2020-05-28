@@ -23,6 +23,7 @@ import { getDiscount } from 'src/redux/actions/actionsDiscount';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
 import MDInput from 'src/components/Input/MDInput';
+import Alert from 'src/utils/alert';
 
 const DiskonEdit = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -47,7 +48,7 @@ const DiskonEdit = ({ navigation }) => {
 
     const _handleFinishEdit = async () => {
         if (name == "" || value == "" || value == 0) {
-            alert("Isi semua kolom dengan benar")
+            Alert("", "Isi semua kolom dengan benar")
         }
         else {
             const res = await editDiscount({
@@ -63,7 +64,7 @@ const DiskonEdit = ({ navigation }) => {
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                Alert("", res.data.errors.msg)
             }
         }
     }

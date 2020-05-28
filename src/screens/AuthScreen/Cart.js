@@ -21,6 +21,7 @@ import { RemovePPOBFromCart } from 'src/redux/actions/actionsPPOB';
 import MDInput from 'src/components/Input/MDInput';
 import AsyncStorage from 'src/utils/async-storage';
 import Container, { Body } from 'src/components/View/Container';
+import Alert from 'src/utils/alert';
 
 const Cart = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -323,7 +324,7 @@ const Cart = ({ navigation }) => {
 					const userToken = await getUserToken()
 					dispatch(getCustomer(User.store.id_store, userToken))
 				} else {
-					alert("Keranjang anda kosong")
+					Alert("", "Keranjang anda kosong")
 				}
 			}}>LANJUTKAN</Button>
 		</Body>

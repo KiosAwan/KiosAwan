@@ -14,6 +14,7 @@ import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Padding } from 'src/utils/stylehelper';
+import Alert from 'src/utils/alert';
 
 const Akun = ({ navigation }) => {
 	const ListMenu = require('src/assets/json/drawer.json')
@@ -24,7 +25,7 @@ const Akun = ({ navigation }) => {
 			navigation.navigate('/unauth')
 		}
 		catch (e) {
-			alert(e)
+			Alert("", e)
 		};
 
 	}

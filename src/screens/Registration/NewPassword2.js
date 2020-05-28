@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
     View,
     StyleSheet,
-    Text,
+    TextInput
 } from 'react-native';
 
 //Own Custom Component
@@ -20,10 +20,16 @@ import { BottomButton } from '../../components/Button/ButtonComp';
 import { ColorsList } from '../../styles/colors';
 import { SizeList } from '../../styles/size';
 import { sendNewPassword } from '../../utils/unauthhelper';
-import { Spinner } from 'native-base';
+import { Spinner, Icon } from 'native-base';
 import { FontList } from 'src/styles/typography';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Container from 'src/components/View/Container';
+import UnauthHeader from 'src/components/View/UnauthHeader';
+import { Text } from 'src/components/Text/CustomText';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Button } from 'src/components/Button/Button';
+import Alert from 'src/utils/alert';
 
 //Functions
 
@@ -37,6 +43,8 @@ const NewPassword2 = ({ navigation }) => {
     const [alertMessage, setAlertMessage] = useState(false)
     // //Sending OTP code to server
     const _handleChangePIN = (psw) => {
+        if (psw.length < 8) setBtnDisabled(true)
+        else setBtnDisabled(false)
         dispatch(addSecondPassword(psw))
     }
 
@@ -63,12 +71,39 @@ const NewPassword2 = ({ navigation }) => {
                     setAlert(true)
                     setIsLoading(false)
                 } else {
-                    alert(JSON.stringify(res))
+                    Alert("", JSON.stringify(res))
+                    // alert(JSON.stringify(res))
                 }
             }
         }
     }
 
+    const [secure, setSecure] = useState(true)
+    const [btnDisabled, setBtnDisabled] = useState(true)
+    return <Container style={{ padding: 15 }}>
+        <AwanPopup.Alert
+            message={alertMessage}
+            visible={alert}
+            closeAlert={() => setAlert(false)}
+        />
+        <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
+            <UnauthHeader />
+            <Text align="center">Masukkan konfirmasi password.</Text>
+            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
+                <TextInput
+                    _flex
+                    autoFocus
+                    secureTextEntry={secure}
+                    placeholder="Masukkan Password"
+                    style={{ color: ColorsList.greyFont }}
+                    value={FormRegister.secondPIN}
+                    onChangeText={(pin) => _handleChangePIN(pin)}
+                />
+                <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />
+            </Wrapper>
+        </View>
+        <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleSendNewPIN}>LANJUT</Button>
+    </Container>
     return (
         <View style={styles.container} >
             <BarStatus />
