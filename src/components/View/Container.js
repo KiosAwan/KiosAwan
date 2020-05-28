@@ -1,11 +1,20 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, FlatList } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { GlobalHeaderWithIcon } from '../Header/Header';
+import BarStatus from '../BarStatus';
+import { SizeList } from 'src/styles/size';
 
 const Container = props => {
-	const { style, onlyTitle } = props
-	return <View {...props} style={{ flex: 1, backgroundColor: ColorsList.authBackground, ...style }} >
+	const { padding, style, onlyTitle, justify } = props
+	return <View {...props} style={{
+		flex: 1,
+		backgroundColor: ColorsList.authBackground,
+		...padding && { padding: SizeList.bodyPadding },
+		...style,
+		...justify && { justifyContent: justify }
+	}}>
+		<BarStatus />
 		{props.header && <GlobalHeaderWithIcon onlyTitle={onlyTitle} {...props.header} />}
 		{props.children}
 	</View>
@@ -13,15 +22,20 @@ const Container = props => {
 
 const Body = props => {
 	const { style } = props
-	return <ScrollView {...props} showsVerticalScrollIndicator>
-		<View style={{ padding: 15, ...style }}>{props.children}</View>
+	return <ScrollView {...props} showsVerticalScrollIndicator={false}>
+		<View style={{ padding: SizeList.bodyPadding, ...style }}>{props.children}</View>
 	</ScrollView>
 }
 
+const BodyFlatList = props => <FlatList {...props} style={{ padding: SizeList.bodyPadding, ...props.style }} />
+
 const Footer = props => {
-	const { style } = props
-	return <View {...props} style={{ padding: 15, ...style }} />
+	const { style, noPadding } = props
+	return <View {...props} style={{
+		...!noPadding && { padding: SizeList.bodyPadding },
+		...style
+	}} />
 }
 
 export default Container
-export { Body, Footer }
+export { Body, BodyFlatList, Footer }

@@ -21,12 +21,10 @@ import { getProfile } from '../../redux/actions/actionsUserData';
 import LinearGradient from 'react-native-linear-gradient';
 import { HeaderRegister } from '../../components/Header/Header';
 import { FontList } from '../../styles/typography';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { SizeList } from '../../styles/size';
-import { InputText, InputNumber } from '../../components/Input/InputComp';
 import { InputPIN } from '../../components/Input/InputPIN';
 import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from '../../styles/colors';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -34,27 +32,32 @@ const LoginVerification = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
     const [loading, setLoading] = useState(false)
     const [viewForgot, setViewForgot] = useState(true)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     //Sending OTP code to server
     const _handlePasswordLogin = async (psw) => {
+        const pushToken = await AsyncStorage.getItem("@push_token")
         setLoading(true)
         await dispatch(addFirstPassword(psw))
         const data = {
             phone_number: "62" + FormRegister.phone_number,
             password: FormRegister.password,
-            id_device: FormRegister.deviceId
+            id_device: FormRegister.deviceId,
+            push_token: pushToken
         }
         try {
             const res = await loginData(data)
-            console.debug(res.data)
             if (res.data.errors) {
-                alert(res.data.errors.msg)
                 setLoading(false)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
             else {
                 await dispatch(clearAllRegistration())
                 await AsyncStorage.setItem('userId', res.data.id)
                 await AsyncStorage.setItem('@user_token', res.data.token)
-                await dispatch(getProfile(res.data.id))
+                await dispatch(getProfile(res.data.id, res.data.token))
                 setLoading(false)
                 navigation.navigate('/')
             }
@@ -75,10 +78,15 @@ const LoginVerification = ({ navigation }) => {
     }
 
     return (
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container}>
+        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container}>
             <BarStatus />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <AwanPopup.Loading visible={loading} />
-            <View style={{ paddingTop : 10 }}>
+            <View style={{ paddingTop: 10 }}>
                 <HeaderRegister />
             </View>
             <Text style={[styles.subtitleEnterPhone, {}]}>Nomor ini telah terdaftar</Text>

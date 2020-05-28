@@ -7,17 +7,19 @@ import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Text } from 'src/components/Text/CustomText';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { } from 'src/components/Input/InputComp';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { editProductImage, editProductIdCategory, editProductName, editRemoveAllNewProduct, editProductBarcode } from 'src/redux/actions/actionsEditProduct';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { sendNewCategory, editCategory, deleteProduct } from 'src/utils/authhelper';
+import { sendNewCategory, editCategory, deleteProduct, getUserToken } from 'src/utils/authhelper';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Modal as ModalCustom } from 'src/components/ModalContent/Popups'
+import MDInput from 'src/components/Input/MDInput';
+import { HOST_IMG_URL } from 'src/config';
 
 
 const width = Dimensions.get('window').width
@@ -33,8 +35,13 @@ const ManajemenProdukEdit = ({ navigation }) => {
 	const [idEditCategory, setIdEditCategory] = useState()
 	const [modalVisible, setModalVisible] = useState(false)
 	useEffect(() => {
-		dispatch(getCategory(User.store.id_store))
+		_effect()
 	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getCategory(User.store.id_store, userToken))
+	}
 
 
 	const _handlePressNext = async () => {
@@ -53,6 +60,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 		if (newCategoryName == "") {
 			alert("Nama tidak boleh kosong")
 		} else {
+			const userToken = await getUserToken()
 			if (editNewCategory == 'add') {
 				await sendNewCategory({
 					id_store: User.store.id_store,
@@ -63,21 +71,22 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				await editCategory({
 					name_product_category: newCategoryName,
 				}, idEditCategory)
-				dispatch(getCategory(User.store.id_store))
+				dispatch(getCategory(User.store.id_store, userToken))
 			}
-			dispatch(getCategory(User.store.id_store))
+			dispatch(getCategory(User.store.id_store, userToken))
 			setAddCategoryVisible(false)
 		}
 	}
 
 	const __handleDeleteProduct = async () => {
+		const userToken = await getUserToken()
 		await deleteProduct(EditProduct.id_product)
 		setAlert(false)
 		setModalVisible(true)
 		setTimeout(() => {
 			setModalVisible(false)
 			dispatch(editRemoveAllNewProduct())
-			dispatch(getProduct(User.store.id_store))
+			dispatch(getProduct(User.store.id_store, userToken))
 			navigation.navigate('/drawer/manajemen/produk')
 		}, 1000)
 	}
@@ -102,7 +111,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<Button onPress={__handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
 			</AwanPopup.Title>
 			<GlobalHeaderWithIcon
-				image={require('../../../../assets/icons/trash.png')}
+				image={require('src/assets/icons/trash.png')}
 				title="Edit Produk"
 				handleDeleteCategory={() => setAlert(true)}
 				onPressBack={() => navigation.goBack()} />
@@ -112,9 +121,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 					<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
 					<View style={{ marginTop: 10 }}>
-						<FloatingInput label={"Nama Kategori"}>
-							<TextInput value={newCategoryName} onChangeText={(text) => setNewCategoryName(text)} />
-						</FloatingInput>
+						<MDInput label={"Nama Kategori"} value={newCategoryName} onChangeText={(text) => setNewCategoryName(text)} />
 					</View>
 					<View style={styles.viewButtonPopup}>
 						<Button style={styles.buttonSimpan} onPress={_handleSaveNewCategory}>
@@ -130,9 +137,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<View styles={{ paddingHorizontal: 30 }}>
 					<Grid>
 						<Col style={{ paddingRight: 10 }}>
-							<FloatingInput label="Nomor Barcode">
-								<TextInput onChangeText={(text) => dispatch(editProductBarcode(text))} value={EditProduct.barcode} />
-							</FloatingInput>
+							<MDInput label="Nomor Barcode" onChangeText={(text) => dispatch(editProductBarcode(text))} value={EditProduct.barcode} />
 						</Col>
 						<Col style={{ justifyContent: 'flex-end' }} size={.2}>
 							<Button onPress={() => navigation.navigate('/drawer/manajemen/produk/edit/barcode')} style={styles.buttonScanBarcode}>
@@ -141,13 +146,11 @@ const ManajemenProdukEdit = ({ navigation }) => {
 						</Col>
 					</Grid>
 					<View style={{ marginTop: 15 }}>
-						<FloatingInput label="Nama Produk">
-							<TextInput
-								editable={false}
-								value={EditProduct.name}
-								onChangeText={text => text.length <= 45 ? dispatch(editProductName(text)) : null}
-							/>
-						</FloatingInput>
+						<MDInput label="Nama Produk"
+							editable={false}
+							value={EditProduct.name}
+							onChangeText={text => text.length <= 45 ? dispatch(editProductName(text)) : null}
+						/>
 					</View>
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Pilih Kategori"
@@ -166,7 +169,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 								<Text style={{ color: ColorsList.greyFont }}>BATAL</Text>
 							</View>
 						}
-						value={Category.data.map(cat => {
+						value={Category.data.rMap(cat => {
 							if (cat.id_product_category == EditProduct.id_category) return cat.name_product_category
 						}).join('')}
 						handleChangePicker={(item) => {
@@ -194,7 +197,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={() => rbRef.open()}>
 							<Image style={styles.image}
-								source={EditProduct.image !== "" ? { uri: EditProduct.image } : require('src/assets/images/img-product.png')}
+								source={EditProduct.image !== "" ? { uri: `${HOST_IMG_URL}/${EditProduct.image}` } : require('src/assets/images/img-product.png')}
 							/>
 						</TouchableOpacity>
 					</View>
@@ -219,7 +222,7 @@ const styles = StyleSheet.create({
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: '#000', borderWidth: 1, height: 250 },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.black, borderWidth: 1, height: 250 },
 	image: { width: '100%', height: '100%' },
 
 })

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -7,9 +7,9 @@ import IonIcon from 'react-native-vector-icons/Ionicons'
 import LinearGradient from 'react-native-linear-gradient';
 import BarStatus from 'src/components/BarStatus';
 import { useSelector, useDispatch } from 'react-redux';
-import { convertRupiah } from 'src/utils/authhelper';
+import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { ColorsList } from 'src/styles/colors';
-import { CardIcon } from 'src/components/Card/CardIcon';
+import { PPOBCard } from 'src/components/Card/CardIcon';
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import { Button } from 'src/components/Button/Button';
@@ -17,30 +17,45 @@ import { Image } from 'src/components/CustomImage';
 import { $Padding } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { Bottom } from 'src/components/View/Bottom';
+import { getProductPPOBList } from 'src/utils/api/ppobapi';
+import { DEV_IMG_URL, HOST_URL } from 'src/config';
+import { getProfile } from 'src/redux/actions/actionsUserData'
+import TextTicker from 'react-native-text-ticker';
+import Axios from 'axios';
+import { FontList } from 'src/styles/typography';
+import Menu from 'src/components/ModalContent/Menu';
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
 	const Product = useSelector(state => state.Product)
 	const [moreVisible, setMoreVisible] = useState(false)
-	const productData = [
-		{ icon: require('src/assets/icons/ppob/Asuransi.png'), name: "Asuransi", navigate: "/ppob/asuransi" },
-		{ icon: require('src/assets/icons/ppob/BPJS.png'), name: "BPJS", navigate: "/ppob/bpjs" },
-		{ icon: require('src/assets/icons/ppob/E-Money.png'), name: "E - Money", navigate: "/ppob/emoney" },
-		{ icon: require('src/assets/icons/ppob/Games.png'), name: "Games", navigate: "/ppob" },
-		{ icon: require('src/assets/icons/ppob/Kredit.png'), name: "Kredit", navigate: "/ppob/kredit" },
-		{ icon: require('src/assets/icons/ppob/Paket-data.png'), name: "Paket data", navigate: "/ppob/paketdata" },
-		{ icon: require('src/assets/icons/ppob/PDAM.png'), name: "PDAM", navigate: "/ppob/pdam" },
-		{ icon: require('src/assets/icons/ppob/PLN.png'), name: "Listrik", navigate: '/ppob/listrik' },
-		{ icon: require('src/assets/icons/ppob/pulsa.png'), name: "Pulsa", navigate: "/ppob/pulsa" },
-		{ icon: require('src/assets/icons/ppob/Telkom.png'), name: "Telkom", navigate: "/ppob/telkom" },
-		{ icon: require('src/assets/icons/ppob/TV-Kabel.png'), name: "TV Kabel", navigate: "/ppob/tvkabel" },
-		{ icon: require('src/assets/icons/ppob/Zakat.png'), name: "Zakat", navigate: "/ppob" },
-	]
+	const [productData, setProductData] = useState()
+	const [maintanance, setMaintanance] = useState(false)
+	const [message, setMessage] = useState(false)
+	useEffect(() => {
+		_checkService()
+		_getProductList()
+	}, [])
 
+	const _checkService = async () => {
+		const userToken = await getUserToken()
+		const res = await Axios.get(`${HOST_URL}/check_service`, {
+			headers: { "authorization": userToken }
+		})
+		if (res.data.data.service == 1) {
+			setMaintanance(true)
+			setMessage(res.data.data.message)
+		} else {
+			setMaintanance(false)
+		}
+	}
+
+	const _getProductList = async () => {
+		const res = await getProductPPOBList()
+		setProductData(res.data)
+	}
 	const _onPressTopUp = () => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/topup')
@@ -60,9 +75,23 @@ const PPOB = ({ navigation }) => {
 			_setAlert(true)
 		}
 	}
+	const _navigateProduct = route => {
+		navigation.navigate(route)
+	}
 	const _moreMenu = () => setMoreVisible(true)
 	return (
 		<View style={{ flex: 1 }}>
+			<Menu
+				menuColor="link"
+				bgColor="transparent"
+				position="topRight"
+				style={{ backgroundColor: ColorsList.white }}
+				data={[{ name: 'Atur Harga PPOB', route: '/ppob/settings' },{ name: 'List Transaksi', route: '/ppob/list-transaksi' }]}
+				state={setMoreVisible}
+				visible={moreVisible}
+				onSelect={({ item: { route } }) => navigation.navigate(route)}
+				renderItem={({ name }) => <Text align="left">{name}</Text>}
+			/>
 			<ParallaxScrollView
 				showsVerticalScrollIndicator={false}
 				backgroundColor={ColorsList.primary}
@@ -80,7 +109,7 @@ const PPOB = ({ navigation }) => {
 							</View>
 							<Text color="whiteColor">PAYMENT POINT</Text>
 							<View style={{ justifyContent: 'center' }}>
-								<TouchableOpacity onPress={_moreMenu}>
+								<TouchableOpacity onPress={_moreMenu} style={{ paddingLeft: 20 }}>
 									<Icon color="white" size={20} name="ellipsis-v" />
 								</TouchableOpacity>
 							</View>
@@ -98,7 +127,7 @@ const PPOB = ({ navigation }) => {
 							</View>
 							<Text color="whiteColor">PAYMENT POINT</Text>
 							<View style={{ justifyContent: 'center' }}>
-								<TouchableOpacity onPress={_moreMenu}>
+								<TouchableOpacity onPress={_moreMenu} style={{ paddingLeft: 20 }}>
 									<Icon color="white" size={20} name="ellipsis-v" />
 								</TouchableOpacity>
 							</View>
@@ -110,25 +139,28 @@ const PPOB = ({ navigation }) => {
 									<Text>Saldo: {convertRupiah(User.data.saldo)}</Text>
 								</Wrapper>
 								<Wrapper justify="flex-end">
-									<Button color="link">
+									<Button color="link" onPress={async () => {
+										const userToken = await getUserToken()
+										dispatch(getProfile(User.data.id, userToken))
+									}}>
 										<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
 									</Button>
 									<Button onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
 								</Wrapper>
 							</Wrapper>
 							<Divider />
-							<Wrapper justify="space-around">
-								<Button color="link" onPress={_onPressRiwayat}>
+							<Wrapper justify="space-evenly">
+								<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={_onPressRiwayat}>
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 									<Text>Riwayat</Text>
 								</Button>
-								<Divider />
+								{/* <Divider flex />
 								<Button color="link">
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
 									<Text>Kupon</Text>
-								</Button>
-								<Divider />
-								<Button color="link">
+								</Button> */}
+								<Divider flex />
+								<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
 									<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 									<Text>Favorit</Text>
 								</Button>
@@ -136,32 +168,41 @@ const PPOB = ({ navigation }) => {
 						</View>
 					</LinearGradient>
 				)}>
-				<FlatList
-					style={{ margin: 10 }}
-					showsVerticalScrollIndicator={false}
-					data={productData}
-					numColumns={3}
-					renderItem={({ item }) => (
-						<View style={{ flex: 1, alignItems: "center", marginVertical: 10 }}>
-							<CardIcon
-								onPress={() => navigation.navigate(item.navigate)}
-								icon={item.icon}
-								name={item.name}
-							/>
-						</View>
-					)}
-					keyExtractor={(item, index) => index.toString()}
-				/>
-				<AwanPopup.Menu noTitle transparent absolute visible={moreVisible}
-					backdropDismiss={() => setMoreVisible(false)}
-					style={{ top: 10, right: 5, minWidth: '50%' }}
-					contentStyle={{ elevation: 5, backgroundColor: ColorsList.whiteColor }}
-				>
-					<Button onPress={() => {
-						setMoreVisible(false)
-						navigation.navigate('/ppob/settings')
-					}} color="link" textProps={{ size: 13 }}>Atur Harga Produk</Button>
-				</AwanPopup.Menu>
+				{
+					maintanance &&
+					<Button style={{ margin: 10 }} disabled color="info" wrapper={{ flexStart: true }}>
+						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
+						<TextTicker
+							width="90%"
+							style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+							duration={20000}
+							loop
+							bounce
+							marqueeDelay={500}
+						>{message}</TextTicker>
+					</Button>
+				}
+				{!productData ?
+					<ActivityIndicator color={ColorsList.primary} />
+					: <FlatList
+						style={{ margin: 10 }}
+						showsVerticalScrollIndicator={false}
+						// columnWrapperStyle={{backgroundColor : "blue"}}
+						data={productData}
+						numColumns={3}
+						renderItem={({ item }) => (
+							<View style={{ width: "33.3%", alignItems: "center", marginVertical: 10 }}>
+								<PPOBCard
+									status={item.status}
+									info={item.info}
+									onPress={() => _navigateProduct(`/ppob/${item.type}`)}
+									icon={`${DEV_IMG_URL}/${item.icon}`}
+									name={item.name}
+								/>
+							</View>
+						)}
+						keyExtractor={(item, index) => index.toString()}
+					/>}
 			</ParallaxScrollView>
 
 			{
@@ -169,7 +210,6 @@ const PPOB = ({ navigation }) => {
 					<Bottom>
 						<Button onPress={() => {
 							navigation.navigate('/cashier/cart')
-							dispatch(getCustomer(User.store.id_store))
 						}} width="100%">
 							<Wrapper>
 								<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize: 30 }} name="ios-cart" />

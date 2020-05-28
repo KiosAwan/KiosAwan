@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import MDInput from 'src/components/Input/MDInput';
+import Divider from 'src/components/Row/Divider';
+import Container, { Body, Footer } from 'src/components/View/Container';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { View } from 'react-native';
+import { validNumber, getRandomNegativeNum, convertNumber } from 'src/utils/authhelper';
 import { useDispatch } from 'react-redux'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../components/Input/InputComp';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { validNumber, getRandomNegativeNum, convertNumber } from '../../utils/authhelper';
-import { GlobalHeader } from '../../components/Header/Header';
-import { ColorsList } from '../../styles/colors';
-import { FontList } from '../../styles/typography';
-import { RowChild } from '../../components/Helper/RowChild';
-import { ScrollView, TouchableOpacity, TextInput } from 'react-native-gesture-handler';
-import { AddCart } from '../../redux/actions/actionsStoreProduct';
-import { Input, Icon, Button, Text } from 'native-base';
-import { TextInputMask } from 'react-native-masked-text'
+import { SizeList } from 'src/styles/size';
+import { Input } from 'native-base';
+import { Image } from 'src/components/CustomImage';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { AddCart } from 'src/redux/actions/actionsStoreProduct';
 
-
-const width = Dimensions.get('window').width
 
 const InputManual = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -64,133 +63,60 @@ const InputManual = ({ navigation }) => {
 		let a = parseInt(quantity == "" ? 0 : quantity) + 1
 		setQuantity(a)
 	}
-	const _handleChangePriceIn = (value) => {
-		setPriceIn(value)
-	}
-	const _handleChangePriceOut = (value) => {
-		setPriceOut(value)
-	}
-	return (
-		<View style={{ flex: 1 }}>
-			<AwanPopup.Alert
-				message={errorMessage}
-				visible={errorAlert}
-				closeAlert={() => setErrorAlert(false)}
-			/>
-			<GlobalHeader title="Pesanan Manual" onPressBack={() => navigation.goBack()} />
-			<View style={styles.childContainer}>
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<View style={styles.groupingStyle}>
-						<View style={[styles.inputTwoCol, { margin: 10, justifyContent: "center" }]}>
-							<FloatingInputLabel
-								label="Nama Produk"
-								value={name_product}
-								handleChangeText={(text) => setName(text)}
-							/>
-						</View>
-						<View style={styles.wrapInputHarga}>
-							<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
-								<FloatingInputLabelCurrency style={{ margin: 0 }}
-									label="Harga modal"
-									value={price_in_product}
-									handleChangeText={_handleChangePriceIn}
-								/>
-							</View>
-							<View style={styles.inputTwoCol}>
-								<FloatingInputLabelCurrency style={{ margin: 0 }}
-									label="Harga jual"
-									value={price_out_product}
-									handleChangeText={_handleChangePriceOut}
-								/>
-							</View>
-						</View>
-						<View style={{ ...RowChild, justifyContent: "center", marginVertical: 30 }}>
-							<TouchableOpacity onPress={_handleMinusQuantity}>
-								<Icon name="remove-circle-outline" style={{ color: '#cd0196', fontSize: 40 }} />
-							</TouchableOpacity>
-							<View style={{ marginHorizontal: 20, alignItems: 'center', width: 100, }}>
-								<Input value={quantity.toString()}
-									onChangeText={(text) => {
-										if (validNumber(text)) {
-											setQuantity(text)
-										}
-									}}
-									style={{ fontSize: 25, color: ColorsList.greyFont, borderBottomWidth: 1, borderBottomColor: ColorsList.greyFont }}
-								/>
-							</View>
-							<TouchableOpacity onPress={_handlePlusQuantity}>
-								<Icon name="add-circle" style={{ color: '#cd0196', fontSize: 40 }} />
-							</TouchableOpacity>
-						</View>
-					</View>
-				</ScrollView>
-				<View style={styles.absoluteButton}>
-					<BottomButton
-						onPressBtn={_handlePressBtn}
-						buttonTitle="SIMPAN"
-						style={{ backgroundColor: ColorsList.primaryColor, width: width - 40 }}
+	return <Container>
+		<GlobalHeader title="Pesanan Manual" onPressBack={() => navigation.goBack()} />
+		<AwanPopup.Alert
+			message={errorMessage}
+			visible={errorAlert}
+			closeAlert={() => setErrorAlert(false)}
+		/>
+		<Body>
+			<View style={{ elevation: 2, padding: SizeList.padding, backgroundColor: ColorsList.white, borderRadius: SizeList.borderRadius }}>
+				<MDInput
+					label="Nama Produk"
+					value={name_product}
+					onChangeText={setName}
+				/>
+				<Wrapper>
+					<MDInput _flex
+						currency label="Harga modal"
+						value={price_in_product}
+						onChangeText={setPriceIn} />
+					<Divider size={20} color={ColorsList.transparent} />
+					<MDInput _flex
+						currency label="Harga jual"
+						value={price_out_product}
+						onChangeText={setPriceOut} />
+				</Wrapper>
+				<Wrapper>
+					<Button color="link" onPress={_handleMinusQuantity}>
+						<Image size={45} source={require('src/assets/icons/minusedit.png')} />
+					</Button>
+					<Input value={quantity.toString()}
+						onChangeText={(text) => {
+							if (validNumber(text)) {
+								setQuantity(text)
+							}
+						}}
+						keyboardType="number-pad"
+						style={{
+							fontSize: 25,
+							color: ColorsList.greyFont,
+							borderBottomWidth: 1,
+							borderBottomColor: ColorsList.greyFont,
+							textAlign: 'center'
+						}}
 					/>
-				</View>
+					<Button color="link" onPress={_handlePlusQuantity}>
+						<Image size={45} source={require('src/assets/icons/plusedit.png')} />
+					</Button>
+				</Wrapper>
 			</View>
-		</View>
-	);
+		</Body>
+		<Footer>
+			<Button onPress={_handlePressBtn}>SIMPAN</Button>
+		</Footer>
+	</Container>
 }
 
 export default InputManual
-
-const Wow = props => {
-	const [value, setValue] = useState('')
-	const [valueInt, setValueInt] = useState()
-	const _onChange = text => {
-		setValue(text)
-	}
-	return <Input
-		value={value}
-		keyboardType={"numeric"}
-		onChangeText={_onChange}
-	/>
-}
-
-const styles = StyleSheet.create({
-	childContainer: {
-		paddingHorizontal: 20,
-		backgroundColor: ColorsList.authBackground,
-		flex: 1,
-		justifyContent: "space-between"
-	},
-	infoText: {
-		...FontList.titleFont,
-		color: ColorsList.greyFont,
-		fontSize: 16
-	},
-	wrapInputHarga: {
-		paddingVertical: 15,
-		flexDirection: 'row',
-		paddingHorizontal: 10,
-		marginBottom: 10
-	},
-	inputTwoCol: {
-		flex: 1
-	},
-	wrapSwitchAndText: {
-		...RowChild,
-		justifyContent: 'space-between',
-		padding: 10
-	},
-	absoluteButton: {
-		bottom: 5,
-		alignSelf: "center"
-	},
-	notifInfo: {
-		...FontList.subtitleFont,
-		marginLeft: 15
-	},
-	groupingStyle: {
-		backgroundColor: 'white',
-		borderRadius: 10,
-		marginTop: 30,
-		borderWidth: 2,
-		borderColor: "#e0dada"
-	}
-})
-

@@ -10,28 +10,24 @@ import {
 } from 'native-base'
 import { Wrapper } from '../View/Wrapper';
 import MDInput from './MDInput';
-import Divider from '../Row/Divider';
+import { ColorsList } from 'src/styles/colors';
 
 const width = Dimensions.get('window').width
 
 // Reusable Input Text
 export const InputText = (props) => {
-  return (
-    <View style={{ alignItems: "center" }}>
-      <Item stackedLabel style={{ width: 250 }}>
-        <Label style={{ color: 'white' }}>{props.label}</Label>
-        <Input
-          placeholder="Nama lengkap"
-          placeholderTextColor="#ff85ed"
-          style={{ color: 'white' }}
-          autoFocus={true}
-          value={props.value}
-          keyboardType="default"
-          onChangeText={props.handleChangeText}
-        />
-      </Item>
-    </View>
-  );
+  return <View style={{ width: 250, alignItems: "center" }}>
+    <MDInput {...props}
+      placeholder="Nama lengkap"
+      onChangeText={props.handleChangeText}
+      placeholderTextColor="#ff85ed"
+      fontSize={17}
+      autoFocus
+      textColor={ColorsList.white}
+      tintColor={ColorsList.white}
+      baseColor={ColorsList.white}
+    />
+  </View>
 }
 
 // Reusable Input Number
@@ -122,7 +118,7 @@ export const FloatingInput = props => {
     {...leftRight}
     {..._input.props}
     {...exceptChildren}
-    // style={{ ...style }}
+  // style={{ ...style }}
   />
 }
 
@@ -235,66 +231,12 @@ export const FloatingInputs = props => {
 }
 
 export const FloatingInputLabelCurrency = props => {
-  let _sejajar = 15
-  let _up = -15
-  let _interval = 5
-  const [activeColor, setActiveColor] = useState('grey')
-  const [textUp, setTextUp] = useState(_sejajar)
-  const changeUpDown = _ => {
-    let ukuran
-    if (props.value) {
-      setTextUp(_up)
-      return
-    }
-    if (_) {
-      ukuran = _sejajar
-      let interval = setInterval(() => {
-        setTextUp(ukuran)
-        if (ukuran <= _up)
-          clearInterval(interval)
-        ukuran -= _interval
-      }, 1)
-    } else {
-      ukuran = _up
-      let interval = setInterval(() => {
-        setTextUp(ukuran)
-        if (ukuran >= _sejajar)
-          clearInterval(interval)
-        ukuran += _interval
-      }, 1)
-    }
-  }
-  useEffect(() => {
-    if (props.value || props.value == 0) {
-      setTextUp(_up)
-    }
-  }, [])
-  return (
-    <View style={{ position: 'relative', borderBottomWidth: 1, width: '100%', borderBottomColor: activeColor, marginTop: 5 }}>
-      <Text style={{ color: activeColor, position: 'absolute', top: textUp }}>{props.label}</Text>
-      <TextInputMask
-        type={'money'}
-        options={{
-          precision: 0,
-          separator: '',
-          delimiter: '.',
-          unit: 'Rp. ',
-          suffixUnit: ''
-        }}
-        onFocus={() => {
-          setActiveColor('#cd0192')
-          changeUpDown(true)
-        }}
-        onBlur={() => {
-          setActiveColor('grey')
-          changeUpDown(false)
-        }}
-        disabled={props.disabled || false}
-        value={props.value}
-        onChangeText={props.handleChangeText}
-      />
-    </View>
-  );
+  const { handleChangeText } = props
+  return <MDInput
+    {...props}
+    currency
+    onChangeText={handleChangeText}
+  />
 }
 
 export const FloatingInputLabel = (props) => {

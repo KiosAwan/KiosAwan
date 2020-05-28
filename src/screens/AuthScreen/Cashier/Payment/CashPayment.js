@@ -1,31 +1,30 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
-import { ToggleButtonMoney } from '../../../../components/Picker/SelectBoxModal';
-import { ColorsList } from '../../../../styles/colors';
-import { FontList } from '../../../../styles/typography';
-import { convertRupiah, getNearestFifty, validNumber } from '../../../../utils/authhelper';
-import { RowChild } from '../../../../components/Helper/RowChild';
-import { AddCashPayment } from '../../../../redux/actions/actionsStoreProduct';
+import { FloatingInputLabel, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import { convertRupiah, getNearestFifty, validNumber } from 'src/utils/authhelper';
+import { RowChild } from 'src/components/Helper/RowChild';
+import { AddCashPayment } from 'src/redux/actions/actionsStoreProduct';
 
 const CashPayment = () => {
     const Product = useSelector(state => state.Product)
     const dispatch = useDispatch()
 
     const _handleChangePayment = (text) => {
-        // let a = validNumber(text)
-        // if (a) {
-        dispatch(AddCashPayment(text))
-        // }
+        let x = text.extractNumber()
+        dispatch(AddCashPayment(parseInt(x)))
     }
     return (
         <View style={styles.container}>
             <View style={{ marginTop: 10 }}>
                 <FloatingInputLabelCurrency style={{ margin: 0 }}
-                    value={Product.cash_payment}
+                    value={Product.cash_payment.toString()}
                     handleChangeText={_handleChangePayment}
                     label="Uang yang diterima"
+                    keyboardType="number-pad"
                 />
                 {Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)) >= 0 ?
                     <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)))}</Text>
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
     },
     tabBar: {
         flexDirection: 'row',
-        borderColor: '#cd0196',
+        borderColor: ColorsList.primary,
         alignItems: 'center',
         height: 30,
         borderWidth: 1,

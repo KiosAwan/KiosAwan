@@ -16,11 +16,11 @@ import { InputNumber } from '../../components/Input/InputComp'
 import VerifyOTPRegister from './OTPVerification';
 
 //Redux Actions
-import { addPhoneNumber, addDeviceId } from '../../redux/actions/actionsRegistration'
+import { addPhoneNumber, addDeviceId, addVerifyOTP } from '../../redux/actions/actionsRegistration'
 
 //Functions
 import Strings from '../../utils/Strings'
-import { sendPhoneNumber, phoneValidation, sendOTP } from 'src/utils/unauthhelper';
+import { sendPhoneNumber, phoneValidation, sendOTP, sendVerifyOTP } from 'src/utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { HeaderRegister } from '../../components/Header/Header';
 import { FontList } from 'src/styles/typography';
@@ -41,8 +41,12 @@ const PhoneRegistration = ({ navigation }) => {
 	const [loading, setLoading] = useState(false)
 	const [popup, setPopup] = useState(false)
 	const [viewTerm, setViewTerm] = useState(true)
+	//alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState()
 	useEffect(() => {
 		_getDeviceInfo()
+		// OTPRegisterSheet.open()
 	}, [])
 
 	const _getDeviceInfo = async () => {
@@ -62,19 +66,36 @@ const PhoneRegistration = ({ navigation }) => {
 		}
 	}
 
-	const _sendOTP = async () => {
+	const _sendOTP = async (otpsheet) => {
 		setLoading(true)
 		setPopup(false)
 		const data = {
 			phone_number: "62" + FormRegister.phone_number,
 		}
-		OTPRegisterSheet.open()
 		const res = await sendOTP(data)
 		setLoading(false)
 		if (res.status == 200) {
-
+			await otpsheet.open()
 		} else {
-			alert(res.data.errors.msg)
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
+		}
+	}
+
+	const _resendOTP = async () => {
+		setLoading(true)
+		// setPopup(false)
+		const data = {
+			phone_number: "62" + FormRegister.phone_number,
+		}
+		const res = await sendOTP(data)
+		setLoading(false)
+		if (res.status == 200) {
+			// await otpsheet.open()
+			console.debug("Success resend")
+		} else {
+			setAlertMessage(res.data.errors.msg)
+			setAlert(true)
 		}
 	}
 	// Function handle press Next button
@@ -93,7 +114,27 @@ const PhoneRegistration = ({ navigation }) => {
 		}
 		else {
 			if (res.status == 400) {
-				alert(res.data.errors.msg)
+				setAlertMessage(res.data.errors.msg)
+				setAlert(true)
+			}
+		}
+	}
+
+	//Sending OTP code to server
+	const _handleOTPFulfilled = async (otpsheet, code) => {
+		await dispatch(addVerifyOTP(code))
+		const data = {
+			phone_number: "62" + FormRegister.phone_number,
+			otp: code
+		}
+		const res = await sendVerifyOTP(data)
+		if (res.status == 200) {
+			otpsheet.close()
+			_navigateRegister()
+		} else {
+			if (res.status == 400) {
+				setAlertMessage(res.data.errors.msg)
+				setAlert(true)
 			}
 		}
 	}
@@ -101,7 +142,7 @@ const PhoneRegistration = ({ navigation }) => {
 		navigation.navigate('/unauth/registration')
 	}
 	return (
-		<LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+		<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
 			<BarStatus />
 			{/* {Bottom sheet for verify OTP new user} */}
 			<RBSheet
@@ -109,6 +150,8 @@ const PhoneRegistration = ({ navigation }) => {
 					OTPRegisterSheet = ref;
 				}}
 				height={height * 2 / 7}
+				closeOnPressMask={false}
+				closeOnDragDown={false}
 				duration={250}
 				animationType="slide"
 				customStyles={{
@@ -121,16 +164,27 @@ const PhoneRegistration = ({ navigation }) => {
 				<View>
 					<VerifyOTPRegister navigateTo={_navigateRegister} closeSheet={() => OTPRegisterSheet.close()}
 						openSheet={() => OTPRegisterSheet.open()}
+						otpFulfilled={(code) => _handleOTPFulfilled(OTPRegisterSheet, code)}
+						alert={(data) => {
+							setAlertMessage(data)
+							setAlert(true)
+						}}
+						sendOTP={_resendOTP}
 					/>
 				</View>
 			</RBSheet>
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
+			/>
 			<AwanPopup.Loading visible={loading} />
 			<AwanPopup.Title visible={popup} title={<Text aaa align="center" color="primary" size={20}>+62 {FormRegister.phone_number + '\n'}</Text>} message={<Text aaa font="Italic">
 				<Text aaa font="ExtraBold">Nomor ini belum terdaftar, </Text>
 				apakah anda yakin ingin menggunakan nomor ini?
             </Text>}>
 				<Button onPress={() => setPopup(false)} width="40%" color="link">Tidak</Button>
-				<Button onPress={_sendOTP} width="40%">Ya</Button>
+				<Button onPress={() => _sendOTP(OTPRegisterSheet)} width="40%">Ya</Button>
 			</AwanPopup.Title>
 			<View style={{ flex: 1 }}>
 				<View style={{ alignItems: "center", padding: 20 }}>
@@ -140,7 +194,7 @@ const PhoneRegistration = ({ navigation }) => {
 					<Text style={styles.subtitleEnterPhone}>
 						{
 							__DEV__ ?
-								<Text color="whiteColor" onPress={() => _handleChangePhone('85767834888')}>{Strings.REGISTERPHONESUBTITLE}</Text>
+								<Text color="whiteColor" onPress={() => _handleChangePhone('85717570370')}>{Strings.REGISTERPHONESUBTITLE}</Text>
 								:
 								Strings.REGISTERPHONESUBTITLE
 						}
@@ -159,8 +213,14 @@ const PhoneRegistration = ({ navigation }) => {
 					/>
 					{viewTerm ?
 						<View style={styles.termAndCond}>
-							<Text style={{ color: "#e831ae", fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM1}
-								<Text onPress={() => navigation.navigate('/unauth/registration/term-condition')} style={{ color: "white", fontSize: 13, textAlign: "center" }}>{Strings.REGISTERTERM2}</Text>
+							<Text align="center" style={{ color: ColorsList.pink }}>
+								{
+									__DEV__ ?
+										<Text size={13} color="pink" onPress={() => _handleChangePhone('82134156961')}>{Strings.REGISTERTERM1}</Text>
+										:
+										Strings.REGISTERTERM1
+								}
+								<Text color="white" size={13} onPress={() => navigation.navigate('/unauth/registration/term-condition')}>{Strings.REGISTERTERM2}</Text>
 							</Text>
 						</View> : null
 					}

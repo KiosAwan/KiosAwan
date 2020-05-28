@@ -1,35 +1,37 @@
 import React, { useState } from 'react'
-import { View, Text, Modal } from 'react-native';
-import CodeInput from 'react-native-confirmation-code-input';
-
-// import { createUserPIN } from '../../../utils/authhelper';
+import ModalContent from 'src/components/ModalContent/ModalContent';
 import AsyncStorage from '@react-native-community/async-storage';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { FontList } from '../../../../styles/typography';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { createUserPIN } from '../../../../utils/authhelper';
+import { View, Modal } from 'react-native';
+import { Text } from 'src/components/Text/CustomText';
+import { stateObject } from 'src/utils/state';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { createUserPIN } from 'src/utils/authhelper';
+import { ColorsList } from 'src/styles/colors';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Container from 'src/components/View/Container';
+import PinView from 'src/components/Input/PinView';
 
 const ForgotPINNewPIN = ({ navigation }) => {
-    const [pin, setPin] = useState()
-    const [confirmPin, setConfirmPin] = useState()
+    const [params] = stateObject(navigation.state.params)
     const [modalVisible, setModalVisible] = useState(false)
     const [loading, setLoading] = useState(false)
-    const _handlePINFulfilled = (code) => {
-        setPin(code)
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
+    const _handlePINFulfilled = code => {
+        if (params.pin) {
+            _handleSavePIN(code)
+        } else {
+            navigation.push('/temp/create-pin', { pin: code })
+        }
     }
-    const _handleConfirmPINFulfilled = (code) => {
-        setConfirmPin(code)
-    }
-
-    const _handleSavePIN = async () => {
+    const _handleSavePIN = async confirmPin => {
+        const { pin } = params
         if (!pin || !confirmPin) {
-            alert("Pin harus 4 digit")
+            setAlertMessage("Pin harus 4 digit")
+            setAlert(true)
         } else if (pin != confirmPin) {
-            alert("Pin harus sama")
+            setAlertMessage("Pin harus sama")
+            setAlert(true)
         } else {
             setLoading(true)
             const id = await AsyncStorage.getItem('userId')
@@ -46,61 +48,43 @@ const ForgotPINNewPIN = ({ navigation }) => {
             }, 1000)
         }
     }
-    return (
-        <View style={{ flex: 1, alignItems: "center", backgroundColor: ColorsList.authBackground }}>
-            <GlobalHeader title="Lupa PIN" onPressBack={() => navigation.goBack()} />
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <ModalContent
-                    image={require('../../../../assets/images/createpinsuccess.png')}
-                    infoText="Anda Berhasil Membuat PIN Baru!"
-                    closeModal={() => setModalVisible(false)}
-                />
-            </Modal>
-            <AwanPopup.Loading visible={loading} />
-            <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
-                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan 6 Digit PIN Baru</Text>
-                <CodeInput
-                    secureTextEntry
-                    className='border-circle'
-                    keyboardType="numeric"
-                    activeColor='#cd0192'
-                    inactiveColor='#cd0192'
-                    codeLength={4}
-                    size={30}
-                    autoFocus
-                    onFulfill={(code) => _handlePINFulfilled(code)}
-                />
-            </View>
-            <View style={{ margin: 20, height: 100, alignItems: "center", backgroundColor: 'white', padding: 15, paddingHorizontal: 25, borderRadius: 5 }}>
-                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kembali PIN anda</Text>
-                <CodeInput
-                    secureTextEntry
-                    className='border-circle'
-                    keyboardType="numeric"
-                    activeColor='#cd0192'
-                    inactiveColor='#cd0192'
-                    codeLength={4}
-                    size={30}
-                    autoFocus={false}
-                    onFulfill={(code) => _handleConfirmPINFulfilled(code)}
-                />
-            </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_handleSavePIN}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                    buttonTitle="SIMPAN"
-                />
-            </View>
-        </View>
-    )
+    return <Container>
+        <AwanPopup.Alert
+            message={alertMessage}
+            visible={alert}
+            closeAlert={() => setAlert(false)}
+        />
+        <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+                setModalVisible(!modalVisible);
+            }}
+        >
+            <ModalContent
+                image={require('src/assets/images/createpinsuccess.png')}
+                infoText="Anda Berhasil Membuat PIN Baru!"
+                closeModal={() => setModalVisible(false)}
+            />
+        </Modal>
+        <AwanPopup.Loading visible={loading} />
+        <PinView
+            title={
+                <View style={{ width: "60%", alignItems: "center" }}>
+                    <Text style={{ marginBottom: 10 }} size={16}>{params.pin ? "Ulangi PIN" : "Buat PIN Baru"}</Text>
+                </View>
+            }
+            notTransparent
+            pinLength={4}
+            name="Lupa PIN"
+            btnColor={['transparent', 'greyFont']}
+            pinColor={ColorsList.authBackground}
+            pinActiveColor={ColorsList.primary}
+            onPressBack={() => navigation.goBack()}
+            onComplete={_handlePINFulfilled}
+        />
+    </Container>
 }
 
 export default ForgotPINNewPIN;

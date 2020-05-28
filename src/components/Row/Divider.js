@@ -3,19 +3,13 @@ import { View } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 
 const Divider = props => {
-	// const { width, height } = props
-	// return <View style={{
-	// 	backgroundColor: props.color || ColorsList.greyAuthHard,
-	// 	padding: isNaN(props.size) ? .5 : props.size / 2,
-	// 	flexDirection:'column'
-	// 	// width, height, ...props.style
-	// }} />
+	const { color, size, flex, style } = props
 	return <View style={{
-		backgroundColor: props.color || ColorsList.greyAuthHard,
-		padding: isNaN(props.size) ? .5 : props.size / 2,
+		backgroundColor: ColorsList[color] || color || ColorsList.greyAuthHard,
+		padding: isNaN(size) ? .5 : size / 2,
 		top: -.1,
-		flex: 1,
-		...props.style
+		...flex && { flex: 1 },
+		...style
 	}}
 	/>
 }

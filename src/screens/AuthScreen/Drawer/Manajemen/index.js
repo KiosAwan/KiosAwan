@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
 import { Grid, Col, Icon } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Text } from '../../../../components/Text/CustomText';
+import { Text } from 'src/components/Text/CustomText';
 
 const Manajemen = ({ navigation }) => {
-	const ListManajemen = require('../../../../assets/json/manajemen.json')
+	const ListManajemen = require('src/assets/json/manajemen.json')
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader title="Manajemen" onPressBack={() => navigation.navigate('/drawer')} />
 			<View style={{ padding: 15 }}>
 				{
-					ListManajemen.map((menu, i) => {
+					ListManajemen.rMap((menu, i) => {
 						return <TouchableOpacity key={i} onPress={() => navigation.navigate(menu.route)} style={{
 							backgroundColor: 'white',
 							marginBottom: 5,

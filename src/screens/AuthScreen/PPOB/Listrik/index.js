@@ -26,7 +26,7 @@ const PpobListrik = ({ navigation }) => {
 				}} />
 				<ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
 					{[1, 2, 3, 4, 5, 6]
-						.map((item, i) => [
+						.rMap((item, i) => [
 							<Button color="link">Albert Stanley - 123456789123456789</Button>,
 							i != 5 && <Divider />
 						])
@@ -36,17 +36,17 @@ const PpobListrik = ({ navigation }) => {
 		</Modal>
 		<Body>
 			{[
-				{ screen: "token", title: "Prabayar" },
-				{ screen: "prabayar", title: "Pascabayar" },
-				{ screen: "ntl", title: "Non Tagihan Listrik" }
-			].map((item, i) => <Button
+				{ screen: "pln_prepaid", title: "Token Listrik" },
+				{ screen: "pln_postpaid", title: "Tagihan Listrik" },
+				{ screen: "pln_non_tagihan_listrik", title: "Non Tagihan Listrik" }
+			].rMap((item, i) => <Button
 				key={i}
-				onPress={() => navigation.navigate(`/ppob/listrik/${item.screen}`)}
+				onPress={() => navigation.navigate(`/ppob/${item.screen}`)}
 				style={{ marginBottom: 5 }}
 				padding={$Padding(5, 10)}
 				wrapper={{ justify: 'flex-start' }}
 				color={['whiteColor']}>
-				<Image width="13%" size={30} source={require('src/assets/icons/phone.png')} />
+				<Image width="13%" size={30} source={require('src/assets/icons/ppob/PLN.png')} />
 				<Wrapper width="87%" justify="space-between">
 					<Text>{item.title}</Text>
 					<Image size={20} source={require('src/assets/icons/next.png')} />

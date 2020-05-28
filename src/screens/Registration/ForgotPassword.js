@@ -8,13 +8,19 @@ import { useSelector } from 'react-redux'
 import CodeInput from 'react-native-confirmation-code-input';
 
 import { GlobalHeader } from '../../components/Header/Header';
-import {  sendVerifyOTP, showPhoneNumber, sendOTP } from '../../utils/unauthhelper';
+import { sendVerifyOTP, showPhoneNumber, sendOTP } from '../../utils/unauthhelper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from 'src/styles/colors';
 
 const ForgotPassword = ({ navigation }) => {
     const phoneNumber = useSelector(state => state.Registration.phone_number)
     const [showedNumber, setShowedNumber] = useState('')
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     let [countdown, setCountdown] = useState(59)
+
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     useEffect(() => {
         _formatPhoneNum()
         _firstRender()
@@ -73,7 +79,8 @@ const ForgotPassword = ({ navigation }) => {
         }
         const res = await sendVerifyOTP(data)
         if (res.status == 400) {
-            alert(res.data.errors.msg)
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
         }
         else if (res.status == 200) {
             navigation.navigate('/unauth/login/forgot-password/new-password-1')
@@ -84,6 +91,11 @@ const ForgotPassword = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader
                 onPressBack={_handleBack}
                 title="Forgot Password"
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
         height: 45
     },
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
     underlineStyleBase: {
         width: 30,
@@ -129,6 +141,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

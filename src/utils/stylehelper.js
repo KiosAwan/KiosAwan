@@ -19,9 +19,9 @@ const getShortHand = (style, ...values) => {
 
 const border = (color, style, ...sizes) => {
 	const _genCss = (...sizes) => {
-		let styles = {
+		let styles = color ? {
 			borderColor: color
-		}, direction = color ? ['Top', 'Right', 'Bottom', 'Left'] : ['TopLeft', 'TopRight', 'BottomRight', 'BottomLeft']
+		} : {}, direction = color ? ['Top', 'Right', 'Bottom', 'Left'] : ['TopLeft', 'TopRight', 'BottomRight', 'BottomLeft']
 		direction.forEach((dir, i) => {
 			styles[`border${dir}${style}`] = sizes[i]
 		})

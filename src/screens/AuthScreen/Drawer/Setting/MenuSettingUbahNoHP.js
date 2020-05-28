@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Modal, StyleSheet } from 'react-native';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
 import { useSelector, useDispatch } from 'react-redux'
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { SizeList } from '../../../../styles/size';
-import { FloatingInput } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { changeNewPhoneNumber } from '../../../../utils/authhelper'
-import { phoneValidation } from '../../../../utils/unauthhelper';
-import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { changeNewPhoneNumber, getUserToken } from 'src/utils/authhelper'
+import { phoneValidation } from 'src/utils/unauthhelper';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import MDInput from 'src/components/Input/MDInput';
 const MenuSettingUbahNoHP = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
 	const [newPhoneNum, setNewPhoneNum] = useState()
 	const [modalVisible, setModalVisible] = useState(false)
 	const [loading, setLoading] = useState(false)
-
 
 	//alert
 	const [alert, setAlert] = useState(false)
@@ -27,7 +27,8 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 		setLoading(true)
 		const a = phoneValidation(newPhoneNum[0] == 0 ? newPhoneNum.replace("0", "62") : newPhoneNum)
 		if (!a) {
-			alert("Mohon masukkan nomer telfon dengan format yang benar")
+			setAlertMessage("Mohon masukkan nomer telfon dengan format yang benar")
+			setAlert(true)
 		}
 		else {
 			const data = {
@@ -40,8 +41,9 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 				setAlertMessage(res.data.errors.msg)
 				setAlert(true)
 			} else if (res.status == 200) {
+				const userToken = await getUserToken()
 				setModalVisible(true)
-				dispatch(getProfile(User.data.id))
+				dispatch(getProfile(User.data.id, userToken))
 				setTimeout(() => {
 					setModalVisible(false)
 					navigation.navigate('/drawer/settings')
@@ -68,7 +70,7 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-					image={require('../../../../assets/images/successchangephone.png')}
+					image={require('src/assets/images/successchangephone.png')}
 					infoText="Anda Berhasil Mengubah No HP!"
 					closeModal={() => setModalVisible(false)}
 				/>
@@ -77,16 +79,12 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 			<GlobalHeader title="Ubah No. HP" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 15, backgroundColor: 'white', margin: 30 }}>
 				<View>
-					<FloatingInput label="Nomor lama anda">
-						<TextInput value={User.data.phone_number} editable={false} />
-					</FloatingInput>
+					<MDInput label="Nomor lama anda" value={User.data.phone_number} editable={false} />
 				</View>
 				<View>
-					<FloatingInput style={{ marginTop: 30 }} label="Masukkan nomor baru anda">
-						<TextInput
-							keyboardType="numeric"
-							value={newPhoneNum} onChangeText={_handleChangePhone} />
-					</FloatingInput>
+					<MDInput style={{ marginTop: 30 }} label="Masukkan nomor baru anda"
+						keyboardType="numeric"
+						value={newPhoneNum} onChangeText={_handleChangePhone} />
 				</View>
 			</View>
 

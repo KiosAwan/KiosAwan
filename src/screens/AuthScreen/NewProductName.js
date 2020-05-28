@@ -11,13 +11,16 @@ import { GlobalHeader } from '../../components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ColorsList } from '../../styles/colors';
 import { Grid, Col, Icon } from 'native-base';
-import { sendNewCategory, editCategory, validNumber } from '../../utils/authhelper';
+import { sendNewCategory, editCategory, validNumber, getUserToken } from '../../utils/authhelper';
 import { Image } from 'src/components/CustomImage';
 import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
 import { Modal as ModalCustom, AwanPopup } from 'src/components/ModalContent/Popups'
 import { Wrapper } from 'src/components/View/Wrapper';
+import MDInput from 'src/components/Input/MDInput';
+import Divider from 'src/components/Row/Divider';
+import SearchInput from 'src/components/Input/SearchInput';
 
 
 const width = Dimensions.get('window').width
@@ -35,12 +38,17 @@ const NewProductName = ({ navigation }) => {
 	const [errorAlert, setErrorAlert] = useState(false)
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
 	const [idEditCategory, setIdEditCategory] = useState()
+	const [searchCategory, setSearchCategory] = useState('')
 	const [isDisabled, setDisabled] = useState(true)
 	useEffect(() => {
-		_checkName()
-		dispatch(getCategory(User.store.id_store))
-
+		_effect()
 	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		_checkName()
+		dispatch(getCategory(User.store.id_store, userToken))
+	}
 	const _checkName = () => {
 		if (NewProduct.name == '') {
 			setDisabled(false)
@@ -66,6 +74,7 @@ const NewProductName = ({ navigation }) => {
 	}
 
 	const _handleSaveNewCategory = async () => {
+		const userToken = await getUserToken()
 		if (newCategoryName == "") {
 			setErrorMessage("Nama tidak boleh kosong")
 			setErrorAlert(true)
@@ -81,9 +90,9 @@ const NewProductName = ({ navigation }) => {
 				await editCategory({
 					name_product_category: newCategoryName,
 				}, idEditCategory)
-				dispatch(getCategory(User.store.id_store))
+				dispatch(getCategory(User.store.id_store, userToken))
 			}
-			dispatch(getCategory(User.store.id_store))
+			dispatch(getCategory(User.store.id_store, userToken))
 			setAddCategoryVisible(false)
 		}
 	}
@@ -106,54 +115,50 @@ const NewProductName = ({ navigation }) => {
 			/>
 			{/* <MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={ */}
 			<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} style={{ width: '80%' }}>
-				<Text style={{ color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
-				<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
-				<View style={{ marginTop: 10 }}>
-					<FloatingInputLabel
-						label={"Nama Kategori"}
+				<Text style={{ paddingHorizontal: 10, color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
+				<Divider />
+				<View style={{ paddingHorizontal: 10, marginTop: 10 }}>
+					<MDInput
+						label="Nama Kategori"
 						value={newCategoryName}
-						handleChangeText={(text) => setNewCategoryName(text)}
+						onChangeText={(text) => setNewCategoryName(text)}
 					/>
 				</View>
-				<View style={styles.viewButtonPopup}>
-					<Button style={{ marginLeft: 10 }} onPress={_handleSaveNewCategory}>SIMPAN</Button>
+				<Wrapper justify="flex-end" style={{ paddingHorizontal: 10 }}>
 					<Button onPress={() => setAddCategoryVisible(false)} color="white">BATAL</Button>
-				</View>
+					<Button style={{ marginLeft: 10 }} onPress={_handleSaveNewCategory}>SIMPAN</Button>
+				</Wrapper>
 			</ModalCustom>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
 				<View styles={{ paddingHorizontal: 30 }}>
-					<Wrapper style={{ marginBottom: 15 }} justify="space-between">
-						<FloatingInputLabel _width="80%" handleChangeText={(text) => {
-							if (validNumber(text)) {
-								dispatch(addProductBarcode(text))
-							}
-						}} label="Nomor Barcode" value={NewProduct.barcode} />
-						<Button onPress={() => navigation.goBack()}>
-							<Image size={25} source={require('src/assets/icons/barcode.png')} />
-						</Button>
-					</Wrapper>
-					<FloatingInputLabel
+					<MDInput onChangeText={(text) => {
+						if (validNumber(text)) {
+							dispatch(addProductBarcode(text))
+						}
+					}} label="Nomor Barcode" renderRightAccessory={() => <Button onPress={() => navigation.goBack()}>
+						<Image size={25} source={require('src/assets/icons/barcode.png')} />
+					</Button>} value={NewProduct.barcode} />
+					<MDInput
 						disabled={isDisabled}
 						label="Nama Produk"
 						value={NewProduct.name}
-						handleChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
+						onChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
 					/>
 					<SelectBoxModal style={{ marginTop: 15 }}
 						label="Pilih Kategori"
+						onOpen={() => setSearchCategory('')}
 						header={
-							<TouchableOpacity style={styles.headerCategory} onPress={() => {
-								setNewCategoryName("")
-								setEditNewCategory('add')
-								setAddCategoryVisible(true)
-							}}>
-								<Text style={{ color: ColorsList.primaryColor }}>Tambah Kategori +</Text>
-								<View style={{ width: '100%', height: 1, backgroundColor: ColorsList.greySoft, marginTop: 5 }} />
-							</TouchableOpacity>
-						}
-						footer={
-							<View style={styles.footerCategory}>
-								<Text style={{ color: ColorsList.greyFont }}>BATAL</Text>
-							</View>
+							<MDInput
+								label="Cari Kategori"
+								value={searchCategory}
+								onChangeText={text => setSearchCategory(text)}
+								renderLeftAccessory={() => <Icon size={15} style={{ color: ColorsList.primary }} name="search" />}
+								renderRightAccessory={() => <Button onPress={() => {
+									setNewCategoryName("")
+									setEditNewCategory('add')
+									setAddCategoryVisible(true)
+								}}>Tambah</Button>}
+							/>
 						}
 						value={selected}
 						handleChangePicker={(item) => {
@@ -161,7 +166,7 @@ const NewProductName = ({ navigation }) => {
 							dispatch(addProductIdCategory(item.id_product_category))
 						}}
 						closeOnSelect
-						data={Category.data}
+						data={Category.data.filter(v => v.name_product_category.toLowerCase().includes(searchCategory.toLowerCase()))}
 						renderItem={(item) => [<Text style={{
 							color: item.id_product_category == NewProduct.id_category ?
 								ColorsList.primaryColor : ColorsList.greyFont
@@ -208,7 +213,7 @@ const styles = StyleSheet.create({
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: '#000', borderWidth: 1, height: 200, borderColor: ColorsList.greyFont },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.black, borderWidth: 1, height: 200, borderColor: ColorsList.greyFont },
 	image: { width: '100%', height: '100%' },
 
 })

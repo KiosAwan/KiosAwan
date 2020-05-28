@@ -127,7 +127,7 @@ GOTO END
 
 :CLEANRUN
 cd android
-gradlew clean && cd .. && %rundevice%
+gradlew clean && cd .. && %rundevice% %2 %3 %4 %5 %6 %7 %8 %9
 
 :NOARGS
 echo React Native Command Tool

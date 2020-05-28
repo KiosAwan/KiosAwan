@@ -21,6 +21,8 @@ import { clearAllRegistration, addSecondPassword } from '../../redux/actions/act
 import { registerUser } from '../../utils/unauthhelper';
 import { getProfile } from '../../redux/actions/actionsUserData';
 import { UnauthBottomButton } from '../../components/Button/UnauthButton';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ColorsList } from 'src/styles/colors';
 
 //Functions
 
@@ -29,6 +31,9 @@ const SecondPassword = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     const [isLoading, setIsLoading] = useState(false)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     // //Sending OTP code to server
     const _handleChangePIN = async (psw) => {
         await dispatch(addSecondPassword(psw))
@@ -36,35 +41,44 @@ const SecondPassword = ({ navigation }) => {
     //Next button function
     const _handleNextButton = async () => {
         if (FormRegister.password != FormRegister.secondpassword) {
-            alert("Password harus sama")
+            setAlertMessage("Password harus sama")
+            setAlert(true)
         } else {
             setIsLoading(true)
+            const pushToken = await AsyncStorage.getItem("@push_token")
             const data = {
                 name: FormRegister.name,
                 phone_number: "62" + FormRegister.phone_number,
                 role: 'Owner',
                 password: FormRegister.password,
-                id_device : FormRegister.deviceId
+                id_device: FormRegister.deviceId,
+                push_token: pushToken
             }
             const res = await registerUser(data)
             if (res.status == 200) {
                 await AsyncStorage.setItem('userId', res.data.id.toString())
                 await AsyncStorage.setItem('@user_token', res.data.token)
-                await dispatch(getProfile(res.data.id.toString()))
+                await dispatch(getProfile(res.data.id.toString(), res.data.token))
                 setIsLoading(false)
                 await dispatch(clearAllRegistration())
                 navigation.navigate('/')
             } else {
                 if (res.status == 400) {
-                    alert(res.data.errors.msg)
+                    setAlertMessage(res.data.errors.msg)
+                    setAlert(true)
                 }
             }
         }
     }
 
     return (
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={styles.container} >
+        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
             <BarStatus />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <HeaderRegister
                 onPressBack={() => navigation.goBack()}
                 onPressNext={_handleNextButton}
@@ -95,7 +109,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        backgroundColor: '#cd0192'
+        backgroundColor: ColorsList.primary
     },
     borderStyleBase: {
         width: 30,
@@ -103,7 +117,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -114,6 +128,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from '../../components/Input/InputComp';
-import { BottomButton } from '../../components/Button/ButtonComp';
-import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from '../../redux/actions/actionsNewProduct';
+import { FloatingInputLabel, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from 'src/redux/actions/actionsNewProduct';
 import Axios from 'axios';
-import { HOST_URL } from '../../config';
-import { validNumber, convertNumber } from '../../utils/authhelper';
-import SwitchButton from '../../components/Button/SwitchButton';
-import { getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
-import { GlobalHeader } from '../../components/Header/Header';
-import ProgressIndicator from '../../components/StepIndicator/ProgressIndicator';
-import { ColorsList } from '../../styles/colors';
-import { FontList } from '../../styles/typography';
-import { RowChild } from '../../components/Helper/RowChild';
+import { HOST_URL } from 'src/config';
+import { validNumber, convertNumber, getUserToken } from 'src/utils/authhelper';
+import SwitchButton from 'src/components/Button/SwitchButton';
+import { getProduct, removeAllCart } from 'src/redux/actions/actionsStoreProduct';
+import { GlobalHeader } from 'src/components/Header/Header';
+import ProgressIndicator from 'src/components/StepIndicator/ProgressIndicator';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import { RowChild } from 'src/components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
-import ModalContent from '../../components/ModalContent/ModalContent';
+import ModalContent from 'src/components/ModalContent/ModalContent';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import MDInput from 'src/components/Input/MDInput';
+import { Text } from 'src/components/Text/CustomText';
 
 const width = Dimensions.get('window').width
 
@@ -73,14 +75,18 @@ const NewProductLast = ({ navigation }) => {
 					name: `${Date.now()}.jpeg`
 				} : null)
 				try {
-					const response = await Axios.post(`${HOST_URL}/product`, formData)
+					const userToken = await getUserToken()
+					const response = await Axios.post(`${HOST_URL}/product`, formData,
+						{
+							headers: { "authorization": userToken }
+						})
 					setApiLoading(false)
 					setModalVisible(true)
 					setTimeout(() => {
 						setModalVisible(false)
 						dispatch(clearAllNewProduct())
 						dispatch(removeAllCart())
-						dispatch(getProduct(User.store.id_store))
+						dispatch(getProduct(User.store.id_store, userToken))
 						if (NewProduct.fromManajemen) {
 							navigation.navigate(NewProduct.fromManajemen.back)
 						} else {
@@ -119,6 +125,7 @@ const NewProductLast = ({ navigation }) => {
 			dispatch(addMinQtyStock(value))
 		}
 	}
+	const [ggg, setGgg] = useState('')
 	return (
 		<View style={{ flex: 1 }}>
 			<AwanPopup.Loading visible={apiLoading} />
@@ -136,7 +143,7 @@ const NewProductLast = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-					image={require('../../assets/images/addproductsuccess.png')}
+					image={require('src/assets/images/addproductsuccess.png')}
 					infoText="Anda Berhasil Menambah Produk!"
 				/>
 			</Modal>
@@ -163,6 +170,7 @@ const NewProductLast = ({ navigation }) => {
 									label="Harga modal"
 									value={NewProduct.price_in}
 									handleChangeText={_handleChangePriceIn}
+									keyboardType="number-pad"
 								/>
 							</View>
 							<View style={styles.inputTwoCol}>
@@ -170,6 +178,7 @@ const NewProductLast = ({ navigation }) => {
 									label="Harga jual"
 									value={NewProduct.price_out}
 									handleChangeText={_handleChangePriceOut}
+									keyboardType="number-pad"
 								/>
 							</View>
 						</View>
@@ -184,12 +193,12 @@ const NewProductLast = ({ navigation }) => {
 						</View>
 						{manageStock ?
 							<View>
-								<View style={{ height: 1, backgroundColor: "#e0dada" }} />
+								<View style={{ height: 1, backgroundColor: ColorsList.light }} />
 								<View style={styles.wrapInputHarga}>
 									<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
 										<FloatingInputLabel
 											label="Jumlah stok"
-											keyboardType="numeric"
+											keyboardType="number-pad"
 											value={NewProduct.qty_stock}
 											handleChangeText={_handleChangeStock}
 										/>
@@ -197,7 +206,7 @@ const NewProductLast = ({ navigation }) => {
 									<View style={styles.inputTwoCol}>
 										<FloatingInputLabel
 											label="Minimum Stok"
-											keyboardType="numeric"
+											keyboardType="number-pad"
 											value={NewProduct.qty_min_stock}
 											handleChangeText={_handleChangeMinStock}
 										/>
@@ -206,10 +215,10 @@ const NewProductLast = ({ navigation }) => {
 								<View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
 									<CheckBox
 										checked={sendNotif}
-										color={sendNotif ? "#cd0192" : "grey"}
+										color={sendNotif ? ColorsList.primary : ColorsList.greyFont}
 										onPress={() => setSendNotif(!sendNotif)}
 									/>
-									<Text style={[{ color: manageStock ? sendNotif ? '#cd0192' : 'grey' : 'grey' }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
+									<Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
 								</View>
 							</View>
 							: null}
@@ -268,7 +277,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginTop: 30,
 		borderWidth: 2,
-		borderColor: "#e0dada"
+		borderColor: ColorsList.light
 	}
 })
 

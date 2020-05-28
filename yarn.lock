@@ -2428,10 +2428,10 @@ domutils@^2.0.0:
     domelementtype "^2.0.1"
     domhandler "^3.0.0"
 
-dot-object@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/dot-object/-/dot-object-2.1.2.tgz#571fece46f16368193bbe39265b8ec7804c5b0f4"
-  integrity sha512-Hx7gYDQfb4umAku7VJW0fr3SXXTaghfBhYNbc4eHTjkgPMoY4DAw210j76mSSlV9LiTozVswT462e4xL7w3GZA==
+dot-object@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/dot-object/-/dot-object-2.1.3.tgz#aa261fdefd232f0edb17e77ff4708bbed6f04b2e"
+  integrity sha512-YihsbZiGU2nEXQs1vjwjBNDJ85BMRHO4ahybAsuHERCxUecFoyt4xM3NO4GskNj8hFLRsgrwE4xBDe8XSOAiYg==
   dependencies:
     commander "^4.0.0"
     glob "^7.1.5"
@@ -3440,7 +3440,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-invariant@2.2.4, invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -5885,6 +5885,11 @@ react-native-confirmation-code-input@^1.0.4:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
+react-native-contacts@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-5.1.0.tgz#94ba9a94f3de2211b812d2dbd268c472441a6684"
+  integrity sha512-mLX9XWLiwmZ5C4iInODEaupzWmkVv3/oRDLcecqFCAvMhJ9cgnxuWvVKE9nMFGUwRIZN+KWjjJJ97/OxvErA7g==
+
 react-native-device-info@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.3.1.tgz#d764732c4841b6b6c2f42516e8840075717ea88a"
@@ -5969,10 +5974,10 @@ react-native-masked-text@^1.13.0:
     date-and-time "0.9.0"
     tinymask "1.0.2"
 
-react-native-material-textfield@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/react-native-material-textfield/-/react-native-material-textfield-0.16.1.tgz#649e71344bb8a7225d5cea7c7b51cd38bcb2bbfc"
-  integrity sha512-pcV/ic3i6vYEODS7pvAMUYJ+evkzIB8cjXtSzkab9rBtYNGRpAlM0Yp8QNnjZ7foZqkj9Ynav0nguWcuJST10A==
+react-native-material-textfield@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-material-textfield/-/react-native-material-textfield-0.12.0.tgz#3fba19d76ab89f67052c81e082152fc243d82a3f"
+  integrity sha1-P7oZ12q4n2cFLIHgghUvwkPYKj8=
   dependencies:
     prop-types "^15.5.9"
 
@@ -5998,6 +6003,13 @@ react-native-modal@^11.0.2:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
+
+react-native-onesignal@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.7.1.tgz#a0bb209dcfb4f66796dd7a57f3d2cdcde5d0cea4"
+  integrity sha512-GGQoCMox1M1NkQn4+vPk8oDgUqJ2faryg4sj13NkntX1kG8KXkg6/NRksj2Qeuq025rvUu7mmjY7/gvPmyT2jQ==
+  dependencies:
+    invariant "^2.2.2"
 
 react-native-parallax-scroll-view@^0.21.3:
   version "0.21.3"
@@ -6069,6 +6081,11 @@ react-native-snap-carousel@^3.8.4:
     prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
 
+react-native-splash-screen@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.2.0.tgz#d47ec8557b1ba988ee3ea98d01463081b60fff45"
+  integrity sha512-Ls9qiNZzW/OLFoI25wfjjAcrf2DZ975hn2vr6U9gyuxi2nooVbzQeFoQS5vQcbCt9QX5NY8ASEEAtlLdIa6KVg==
+
 react-native-svg@^9.13.3:
   version "9.13.3"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.13.3.tgz#6414b337d55af169ac2487ab70f3108404434446"
@@ -6081,6 +6098,13 @@ react-native-tab-view@^2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.11.0.tgz#2e57d1f617ccc88c7f452708804f3409f880b700"
   integrity sha512-vqetlxGO7A8bnqvXcB50MWpRZAImXFrDGz1WCQKdCqe03Ey3ZzENe7yLuWrtBJYlepGfOLAsmCXv+wW82Yfm1w==
+
+react-native-tear-lines@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-tear-lines/-/react-native-tear-lines-1.0.5.tgz#2af18e1fab148441804de4d138ae646d013ecfcb"
+  integrity sha512-lXLfeLM4q0LCYsAgR+V+YC1WwSuL4DWxAigK3EYHFW7AyHexIxD3beCBvo8skuL4EzIHJn35M1hB0WvtSY74xQ==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-text-ticker@^1.0.0:
   version "1.0.0"

@@ -3,8 +3,8 @@ import { View, StyleSheet, Alert, TouchableOpacity, TextInput } from 'react-nati
 import { useDispatch, useSelector } from 'react-redux'
 import { RNCamera } from 'react-native-camera';
 import BarcodeMask from 'react-native-barcode-mask';
-import { AddCartByBarcode } from '../../../../redux/actions/actionsStoreProduct';
-import { GlobalHeader } from '../../../../components/Header/Header';
+import { AddCartByBarcode } from 'src/redux/actions/actionsStoreProduct';
+import { GlobalHeader } from 'src/components/Header/Header';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
 import { Image } from 'src/components/CustomImage';

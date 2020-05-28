@@ -10,6 +10,13 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-end",
 		backgroundColor: ColorsList.whiteColor
 	},
+	infoPembelian: {
+		marginHorizontal: 15,
+		padding: 10,
+		backgroundColor: ColorsList.infoBg,
+		borderRadius: 5,
+		marginVertical : 5
+	},
 	listPulsa: {
 		padding: 10,
 		marginBottom: 70
@@ -40,11 +47,19 @@ const styles = StyleSheet.create({
 		marginRight: 10,
 		marginBottom: 10
 	},
-	custInfo : {
-		borderRadius : 5,
-		backgroundColor : ColorsList.whiteColor,
-		marginHorizontal : 15, 
-		padding : 10
+	custInfo: {
+		borderRadius: 5,
+		backgroundColor: ColorsList.whiteColor,
+		marginHorizontal: 15,
+		marginBottom : 10,
+		padding: 10
+	},
+	simpan: {
+		alignSelf: "flex-end",
+		flexDirection: "row",
+		alignItems: "center",
+		marginRight: 10,
+		marginBottom: 10
 	}
 })
 export default styles

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { ColorsList } from '../../../../styles/colors';
-import { RowChild } from '../../../../components/Helper/RowChild';
+import { ColorsList } from 'src/styles/colors';
+import { RowChild } from 'src/components/Helper/RowChild';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import {  FloatingInputLabelCurrency } from '../../../../components/Input/InputComp';
-import {  formatToDate } from '../../../../utils/authhelper';
-import { AddCashPayment, AddDebtDate } from '../../../../redux/actions/actionsStoreProduct';
+import { FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { formatToDate } from 'src/utils/authhelper';
+import { AddCashPayment, AddDebtDate } from 'src/redux/actions/actionsStoreProduct';
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { PilihPelanggan } from '../../../../components/Picker/SelectBoxModal';
+import { PilihPelanggan } from 'src/components/Picker/SelectBoxModal';
+import MDInput from 'src/components/Input/MDInput';
 
 const Piutang = () => {
 	const Customer = useSelector(state => state.Customer)
@@ -33,13 +34,12 @@ const Piutang = () => {
 				data={Customer.data}
 				dismiss={() => setModalVisible(false)}
 			/>
-			<View style={{ marginTop: 10, alignItems: "center" }}>
-				<FloatingInputLabelCurrency style={{ margin: 0 }}
-					value={Product.cash_payment}
-					label="Uang diterima diawal"
-					handleChangeText={_handleChangeMoney}
-				/>
-			</View>
+			<FloatingInputLabelCurrency
+				value={Product.cash_payment.toString()}
+				label="Uang diterima diawal"
+				handleChangeText={_handleChangeMoney}
+				keyboardType="number-pad"
+			/>
 			<View style={{ marginTop: 20 }}>
 				<TouchableOpacity onPress={() => setModalVisible(true)}>
 					<View style={[styles.wrapNamaPelanggan, { ...RowChild, justifyContent: 'space-between' }]}>
@@ -51,7 +51,7 @@ const Piutang = () => {
 				</TouchableOpacity>
 			</View>
 			<DateTimePicker
-			minimumDate={new Date()}
+				minimumDate={new Date()}
 				isVisible={datePickerVisible}
 				onConfirm={_handleDatePicked}
 				onCancel={() => setDatePickerVisible(!datePickerVisible)}

@@ -17,25 +17,25 @@ const PPOBFitur = {
 	'/ppob/pulsa': {
 		screen: PpobPulsa
 	},
-	'/ppob/paketdata': {
+	'/ppob/kuota': {
 		screen: PpobPaketData
 	},
 	'/ppob/listrik': {
 		screen: PpobListrik
 	},
-	'/ppob/listrik/token': {
+	'/ppob/pln_prepaid': {
 		screen: ListrikToken
 	},
-	'/ppob/listrik/ntl': {
+	'/ppob/pln_non_tagihan_listrik': {
 		screen: ListrikNonTagihanListrik
 	},
-	'/ppob/listrik/prabayar': {
+	'/ppob/pln_postpaid': {
 		screen: ListrikPascabayar
 	},
 	'/ppob/bpjs': {
 		screen: BPJS
 	},
-	'/ppob/telkom': {
+	'/ppob/telco': {
 		screen: Telkom
 	},
 	'/ppob/tvkabel': {

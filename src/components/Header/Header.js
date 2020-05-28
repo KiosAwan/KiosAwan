@@ -1,11 +1,11 @@
+import SearchInput from '../Input/SearchInput'
 import React, { useState } from 'react'
-import Icon from 'react-native-vector-icons/FontAwesome5'
 import LinearGradient from 'react-native-linear-gradient'
 import { View, Image, StyleSheet, Dimensions } from 'react-native'
 import { Header as HeaderNB } from 'native-base'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { Text } from '../Text/CustomText'
-import BarStatus from '../BarStatus';
+import { Header } from 'native-base'
 import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { Wrapper } from '../View/Wrapper'
@@ -36,32 +36,35 @@ export const Header = props => {
 
 export const HeaderRegister = (props) => {
     return (
-        <View style={styles.HeaderRegisterWrap}>
-            <Image style={{ width: 160, height: 90 }} source={require('../../assets/images/logo.png')} />
+        <View style={{
+            flexDirection: 'row',
+            alignItems: "center",
+            justifyContent: 'space-between',
+            paddingTop: 10
+        }}>
+            <Image style={{ width: 160, height: 90 }} source={require('src/assets/images/logo.png')} />
         </View>
     )
 }
 
 export const HomeHeader = props => {
-    return [
-        <LinearGradient colors={['#cd0192', '#6d1d6d']} style={{ height: props.height || 170, justifyContent: "center" }}>
-            <BarStatus />
-            <Wrapper justify="space-between" style={{ padding: 15, paddingTop: 0 }}>
-                <View style={{ justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={props.onPressMenu}>
-                        <Icon color="white" size={20} name="bars" />
-                    </TouchableOpacity>
-                </View>
-                {props.center ? props.center : <Image style={{ width: 150, height: 80 }} source={require('src/assets/images/logo.png')} />}
-                <View style={{ justifyContent: 'center' }}>
-                    <TouchableOpacity>
-                        <Icon color="white" size={20} name="bell" />
-                    </TouchableOpacity>
-                </View>
-            </Wrapper>
-            {props.children}
-        </LinearGradient>
-    ]
+    return <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ height: props.height || 170, justifyContent: "center" }}>
+        <BarStatus />
+        <Wrapper justify="space-between" style={{ padding: 15, paddingTop: 0 }}>
+            <View style={{ justifyContent: 'center' }}>
+                <TouchableOpacity onPress={props.onPressMenu}>
+                    <Icon color="white" size={20} name="bars" />
+                </TouchableOpacity>
+            </View>
+            {props.center ? props.center : <Image style={{ width: 150, height: 80 }} source={require('src/assets/images/logo.png')} />}
+            <View style={{ justifyContent: 'center' }}>
+                <TouchableOpacity>
+                    <Icon color="white" size={20} name="bell" />
+                </TouchableOpacity>
+            </View>
+        </Wrapper>
+        {props.children}
+    </LinearGradient>
 }
 
 export const GlobalHeader = (props) => {
@@ -117,7 +120,7 @@ export const GlobalHeaderWithIcon = (props) => {
     )
 }
 
-export const CashierHeader = (props) => {
+export const CashierHeader = props => {
     const [focus, setFocus] = useState(false)
     return (
         <HeaderNB androidStatusBarColor="#cd0192" style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -147,22 +150,3 @@ export const CashierHeader = (props) => {
         </HeaderNB>
     )
 }
-
-
-const styles = StyleSheet.create({
-    HeaderRegisterWrap: {
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: 'space-between',
-        paddingTop: 10
-    },
-    headerGlobal: {
-        alignItems: "center",
-    },
-    linearHeader: {
-        width,
-        alignItems: "center",
-        flexDirection: 'row',
-        justifyContent: 'space-around'
-    }
-})

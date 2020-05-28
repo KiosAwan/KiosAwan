@@ -6,17 +6,21 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux'
 import CodeInput from 'react-native-confirmation-code-input';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { SizeList } from '../../../../styles/size';
-import { sendCodeToEmail, verifyEmailCode } from '../../../../utils/authhelper';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
+import { sendCodeToEmail, verifyEmailCode } from 'src/utils/authhelper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const [isResendDisabled, setIsResendDisabled] = useState(true)
     const [otpCode, setOtpCode] = useState()
     let [countdown, setCountdown] = useState(59)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     useEffect(() => {
         _sendOTP()
         setTimeout(() => {
@@ -72,7 +76,8 @@ const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
         }
         const res = await sendCodeToEmail(data)
         if (res.status == 400) {
-            alert(res.data.errors.msg)
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
         }
     }
 
@@ -86,7 +91,8 @@ const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
         }
         const res = await verifyEmailCode(data)
         if (res.status == 400) {
-            alert(res.data.errors.msg)
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
         }
         else if (res.status == 200) {
             navigation.navigate('/drawer/settings/change-phone-number/change', {
@@ -96,6 +102,11 @@ const MenuSettingUbahNoHPInputOTP = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader
                 onPressBack={_handleBack}
                 title="Ubah No. HP"
@@ -140,7 +151,7 @@ const styles = StyleSheet.create({
         height: 45
     },
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
     underlineStyleBase: {
         width: 30,
@@ -149,6 +160,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

@@ -1,7 +1,9 @@
 const initialState = {
     data: [],
+    nextPage: 1,
+    total: 1,
     isError: false,
-    isLoading: true
+    isLoading: true,
 }
 
 const reducerRiwayatTransaksi = (state = initialState, actions) => {
@@ -9,16 +11,26 @@ const reducerRiwayatTransaksi = (state = initialState, actions) => {
         case "GET_RIWAYAT_TRANSAKSI":
             return {
                 ...state,
-                data: actions.payload,
                 isLoading: true
             };
         case "GET_RIWAYAT_TRANSAKSI_FULFILLED":
-            console.debug("REDUX")
-            return {
-                ...state,
-                data: actions.payload.data.data,
-                isLoading: false
-            };
+            if (actions.payload.data.data.current_page == 1) {
+                return {
+                    ...state,
+                    data: actions.payload.data.data.history,
+                    nextPage: parseInt(actions.payload.data.data.current_page) + 1,
+                    total: parseInt(actions.payload.data.data.total_pages),
+                    isLoading: false
+                };
+            } else {
+                return {
+                    ...state,
+                    data: [...state.data, ...actions.payload.data.data.history],
+                    nextPage: parseInt(actions.payload.data.data.current_page) + 1,
+                    total: parseInt(actions.payload.data.data.total_pages),
+                    isLoading: false
+                };
+            }
         case "GET_RIWAYAT_TRANSAKSI_REJECTED":
             return {
                 ...state,

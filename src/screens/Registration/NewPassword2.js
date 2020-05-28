@@ -23,6 +23,7 @@ import { sendNewPassword } from '../../utils/unauthhelper';
 import { Spinner } from 'native-base';
 import { FontList } from 'src/styles/typography';
 import AsyncStorage from '@react-native-community/async-storage';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 //Functions
 
@@ -31,6 +32,9 @@ const NewPassword2 = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
     const [isLoading, setIsLoading] = useState(false)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     // //Sending OTP code to server
     const _handleChangePIN = (psw) => {
         dispatch(addSecondPassword(psw))
@@ -38,7 +42,8 @@ const NewPassword2 = ({ navigation }) => {
 
     const _handleSendNewPIN = async () => {
         if (FormRegister.password != FormRegister.secondpassword) {
-            alert("Pin harus sama")
+            setAlertMessage("PIN harus sama")
+            setAlert(true)
         } else {
             setIsLoading(true)
             const data = {
@@ -54,7 +59,8 @@ const NewPassword2 = ({ navigation }) => {
                 navigation.navigate('/')
             } else {
                 if (res.status == 400) {
-                    alert(res.data.errors.msg)
+                    setAlertMessage(res.data.errors.msg)
+                    setAlert(true)
                     setIsLoading(false)
                 } else {
                     alert(JSON.stringify(res))
@@ -66,6 +72,11 @@ const NewPassword2 = ({ navigation }) => {
     return (
         <View style={styles.container} >
             <BarStatus />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
                 title="Atur Password"
@@ -81,7 +92,7 @@ const NewPassword2 = ({ navigation }) => {
                     handleChangeText={(pin) => _handleChangePIN(pin)}
                 />
             </View>
-            {isLoading ? <Spinner color="#cd0192" /> : null}
+            {isLoading ? <Spinner color={ColorsList.primary} /> : null}
             <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
                 <BottomButton
                     onPressBtn={_handleSendNewPIN}
@@ -104,7 +115,7 @@ const styles = StyleSheet.create({
         height: 45
     },
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -115,6 +126,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

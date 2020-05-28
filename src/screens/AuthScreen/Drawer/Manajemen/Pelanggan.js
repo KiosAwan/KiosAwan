@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
-import { Text } from '../../../../components/Text/CustomText';
-import { GlobalHeader } from '../../../../components/Header/Header';
+import { Text } from 'src/components/Text/CustomText';
+import { GlobalHeader } from 'src/components/Header/Header';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
-import { ColorsList } from '../../../../styles/colors';
-import { FontList } from '../../../../styles/typography';
-import SearchInput from '../../../../components/Input/SearchInput';
-import { ManagementPelangganCard } from '../../../../components/Card/ManagementCard';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { SizeList } from '../../../../styles/size';
-import { getCustomer } from '../../../../redux/actions/actionsCustomer';
+import { getCategory } from 'src/redux/actions/actionsStoreCategory';
+import { ColorsList } from 'src/styles/colors';
+import { FontList } from 'src/styles/typography';
+import SearchInput from 'src/components/Input/SearchInput';
+import { ManagementPelangganCard } from 'src/components/Card/ManagementCard';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { SizeList } from 'src/styles/size';
+import { getCustomer } from 'src/redux/actions/actionsCustomer';
+import { getUserToken } from 'src/utils/authhelper';
 
 const ManajemenPelanggan = ({ navigation }) => {
 
@@ -22,9 +23,13 @@ const ManajemenPelanggan = ({ navigation }) => {
 
 	const [search, setSearch] = useState('')
 	useEffect(() => {
-		dispatch(getCustomer(User.store.id_store))
+		_effect()
 	}, [])
 
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getCustomer(User.store.id_store, userToken))
+	}
 	const _handleAddNewCategory = () => {
 		navigation.navigate('/drawer/manajemen/pelanggan/add')
 	}

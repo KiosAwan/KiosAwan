@@ -5,30 +5,38 @@ import { Button } from 'src/components/Button/Button';
 import { Text } from '../Text/CustomText';
 import { Wrapper } from '../View/Wrapper';
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import { stateObject } from 'src/utils/state';
+import Divider from '../Row/Divider';
+import { GlobalHeaderWithIcon } from '../Header/Header';
+import { $Border } from 'src/utils/stylehelper';
 
-
-const PinView = props => {
+let i = 0, defaultPinLength = 6
+const PinViews = props => {
 	const { pinLength, customBtnText, customBtnCallback, onComplete } = props
-	const [pin, setPin] = useState('')
-	const [_pinLength, setPinLength] = useState(6)
+	const _pinLength = pinLength || defaultPinLength
+	const [pin, setPin, resetForm] = stateObject(
+		Array.generateEmpty(_pinLength, true).reduce((obj, cur, i) => {
+			obj[i] = cur
+			return obj
+		}, {})
+	)
 	const pinClick = btn => {
-		if (!['~', 'del'].includes(btn)) {
-			let pinDone = pin.toString() + btn
-			if (pin.length < _pinLength) setPin(pinDone)
-			if (pinLength - 1 == pin.length) {
-				onComplete(pinDone, () => setPin(''))
+		if (btn == 'del') {
+			console.debug(i, pin)
+			if (i >= 0) {
+				setPin({ [i]: '' })
+				if (i != 0) i--
 			}
-		} else if (btn == 'del') {
-			let deleted = pin.substr(0, pin.length - 1)
-			setPin(deleted)
-		} else {
-			customBtnCallback && customBtnCallback()
+		} else if (!['del', '~'].includes(btn)) {
+			if (i < _pinLength) {
+				setPin({ [i]: btn })
+				i++
+			}
 		}
 	}
 	useEffect(() => {
-		if (pinLength) {
-			setPinLength(pinLength)
-		}
+		i = 0
+		resetForm()
 	}, [])
 	return <View style={{ flex: 1, justifyContent: 'space-between' }}>
 		<Wrapper justify="flex-start">
@@ -36,14 +44,14 @@ const PinView = props => {
 				<Icon name="arrow-left" size={20} color="white" />
 			</Button>
 			<View style={{ justifyContent: 'center' }}>
-				<Text color="whiteColor">PIN</Text>
+				<Text color="whiteColor">{props.name || 'PIN'}</Text>
 			</View>
 		</Wrapper>
-		<View style={{ alignSelf: 'center', flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+		<View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', alignItems: "center" }}>
 			{props.title}
-			{
-				[
-					Array.generateEmpty(pinLength).map((item, i) => {
+			<View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 30 }}>
+				{
+					Object.keys(pin).rMap((item, i) => {
 						let txt = pin[item]
 						return <View key={i} style={{
 							backgroundColor: txt ? ColorsList.whiteColor : ColorsList.primary,
@@ -54,8 +62,21 @@ const PinView = props => {
 							height: 30
 						}} />
 					})
-				]
-			}
+					// [
+					// 	Array.generateEmpty(pinLength).rMap((item, i) => {
+					// 		let txt = pin[item]
+					// 		return <View key={i} style={{
+					// 			backgroundColor: txt ? ColorsList.whiteColor : ColorsList.primary,
+					// 			borderRadius: 10,
+					// 			padding: 10,
+					// 			margin: 2,
+					// 			width: 30,
+					// 			height: 30
+					// 		}} />
+					// 	})
+					// ]
+				}
+			</View>
 			{props.children}
 		</View>
 		<View>
@@ -64,7 +85,7 @@ const PinView = props => {
 				data={[1, 2, 3, 4, 5, 6, 7, 8, 9, '~', 0, 'del']}
 				numColumns={3}
 				keyExtractor={(item, i) => i.toString()}
-				renderItem={({ item }) => <Button
+				renderItem={({ item, index }) => <Button
 					style={{
 						flex: 1,
 						borderRadius: 50
@@ -72,6 +93,90 @@ const PinView = props => {
 					padding={20}
 					textProps={{ size: 20 }}
 					color={['transparent', 'whiteColor']}
+					onPress={() => pinClick(item)}>
+					{item == '~' ? (customBtnText ? customBtnText : '') : item.toString().toUpperCase()}
+				</Button>}
+			/>
+		</View>
+	</View>
+}
+
+let pin
+const PinView = props => {
+	useEffect(() => {
+		pin = ''
+	}, [])
+	const {
+		btnColor,
+		pinColor,
+		pinActiveColor,
+		pinLength,
+		customBtnText,
+		customBtnCallback,
+		onComplete
+	} = props
+	const [_pin, setPin] = useState('')
+	const [_pinLength] = useState(pinLength || 6)
+	const [Color] = stateObject({
+		btnColor: btnColor ? btnColor : ['transparent', 'whiteColor'],
+		pinColor: pinColor ? pinColor : ColorsList.primary,
+		pinActiveColor: pinActiveColor ? pinActiveColor : ColorsList.whiteColor
+	})
+	const pinClick = btn => {
+		btn = btn.toString()
+		if (!['~', 'del'].includes(btn)) {
+			if (pin.length < _pinLength) {
+				pin += btn
+				if (pin.length == _pinLength) {
+					onComplete(pin, () => setPin(''))
+				}
+			}
+		} else if (btn == 'del') {
+			pin = pin.slice(0, -1)
+		} else {
+			customBtnCallback && customBtnCallback()
+		}
+		setPin(pin)
+	}
+	const _renderPin = () => Array.generateEmpty(_pinLength).rMap((item, i) => {
+		let txt = _pin[item]
+		return <View key={i} style={{
+			backgroundColor: txt ? Color.pinActiveColor : Color.pinColor,
+			borderRadius: 50,
+			padding: 10,
+			marginHorizontal: 10,
+			width: 25,
+			height: 25,
+			borderColor: txt ? Color.pinActiveColor :
+				Color.pinColor == ColorsList.primary ? Color.pinColor : ColorsList.greyFont,
+			borderWidth: 1
+		}} />
+	})
+	return <View style={{ flex: 1, justifyContent: 'space-between' }}>
+		<GlobalHeaderWithIcon transparent={!props.notTransparent} onPressBack={props.onPressBack} title={props.name || 'PIN'} />
+		<View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', alignItems: "center" }}>
+			{props.title}
+			<View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 30 }}>
+				{_renderPin()}
+			</View>
+			{props.children}
+		</View>
+		<Divider />
+		<View>
+			<FlatList
+				style={{ padding: 10, }}
+				data={[1, 2, 3, 4, 5, 6, 7, 8, 9, '~', 0, 'del']}
+				numColumns={3}
+				columnWrapperStyle={{ justifyContent: "flex-end" }}
+				keyExtractor={(item, i) => i.toString()}
+				renderItem={({ item }) => <Button
+					style={{
+						width: "33.4%",
+						borderRadius: 50,
+					}}
+					padding={20}
+					textProps={{ size: 20 }}
+					color={Color.btnColor}
 					onPress={() => pinClick(item)}>
 					{item == '~' ? (customBtnText ? customBtnText : '') : item.toString().toUpperCase()}
 				</Button>}

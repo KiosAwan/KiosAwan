@@ -19,7 +19,8 @@ const CheckMember = (props) => {
   const { navigation } = props
   const dispatch = useDispatch()
   useEffect(() => {
-    setTimeout(() => _checkFunc(), 1500);
+    _checkFunc()
+    // setTimeout(() => _checkFunc(), 1500);
   }, [])
 
   const _checkFunc = async () => {
@@ -35,17 +36,16 @@ const CheckMember = (props) => {
       });
       if (checkUserData != null) {
         try {
-
           const res = await Axios.get(`${HOST_URL}/auth/check`, {
             headers: { "authorization": userToken }
           })
           if (res.status == 200) {
             await AsyncStorage.setItem('@user_token', res.data.data.token)
-            await dispatch(getProfile(checkUserData))
+            await dispatch(getProfile(checkUserData, res.data.data.token))
             navigation.navigate('/')
           }
         } catch (err) {
-          // alert(JSON.stringify(err))
+          // navigation.navigate('/unauth')
         }
       } else {
         if (checkUserIntro == "sudah") {

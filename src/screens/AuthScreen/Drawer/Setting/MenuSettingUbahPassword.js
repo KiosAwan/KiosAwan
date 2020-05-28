@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { GlobalHeader } from '../../../../components/Header/Header';
+import { GlobalHeader } from 'src/components/Header/Header';
 import { ScrollView } from 'react-native-gesture-handler';
-import { FloatingInput } from '../../../../components/Input/InputComp';
-import { ColorsList } from '../../../../styles/colors';
+import { } from 'src/components/Input/InputComp';
+import { ColorsList } from 'src/styles/colors';
 import { Icon } from 'native-base';
-import { changePassword } from '../../../../utils/authhelper'
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { changePassword, getUserToken } from 'src/utils/authhelper'
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import MDInput from 'src/components/Input/MDInput';
 
 const MenuSettingUbahPassword = ({ navigation }) => {
 	const PIN = navigation.params ? navigation.params.PIN : undefined
@@ -72,10 +73,11 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 				setAlertMessage(res.data.errors.msg)
 				setAlert(true)
 			} else {
+				const userToken = await getUserToken()
 				setModalVisible(true)
 				setTimeout(() => {
 					setModalVisible(false)
-					dispatch(getProfile(User.data.id))
+					dispatch(getProfile(User.data.id, userToken))
 					navigation.navigate('/drawer/settings')
 				}, 1000)
 			}
@@ -96,7 +98,7 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 					setModalVisible(!modalVisible);
 				}}
 			><ModalContent
-					image={require('../../../../assets/images/successchangepassword.png')}
+					image={require('src/assets/images/successchangepassword.png')}
 					infoText="Password Berhasil Diganti!"
 					closeModal={() => setModalVisible(false)}
 				/>
@@ -106,11 +108,9 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
 				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
 					{
-						inputan.map((input, i) => {
-							return <FloatingInput key={i} style={styles.floatingInput} label={input._label}>
-								<TextInput style={{ width: '90%' }} {...input} />
-								<Icon name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />
-							</FloatingInput>
+						inputan.rMap((input, i) => {
+							return <MDInput key={i} style={styles.floatingInput} label={input._label} style={{ width: '90%' }} {...input}
+								renderRightAccessory={() => <Icon name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />} />
 						})
 					}
 				</View>
@@ -125,6 +125,6 @@ export default MenuSettingUbahPassword
 
 const styles = StyleSheet.create({
 	floatingInput: { marginBottom: 15 },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: '#000', borderWidth: 1, height: 250 },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.black, borderWidth: 1, height: 250 },
 	image: { width: '100%', height: '100%' },
 })

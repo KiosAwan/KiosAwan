@@ -9,16 +9,17 @@ import {
     Text,
     TextInput
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader } from '../../../../components/Header/Header';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeader } from 'src/components/Header/Header';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { verifyUserPassword } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
-import { FloatingInput } from '../../../../components/Input/InputComp';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { verifyUserPassword } from 'src/utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { FontList } from 'src/styles/typography';
+import { } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const height = Dimensions.get('window').height
@@ -61,13 +62,10 @@ const ChangePINInputPwd = ({ navigation }) => {
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 16 }}>Masukkan password</Text>
                 </View>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Password">
-                        <TextInput value={password}
-                            secureTextEntry={secure}
-                            onChangeText={(text) => setPassword(text)}
-                        />
-                        <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{ color: ColorsList.greySoft }} />
-                    </FloatingInput>
+                    <MDInput label="Password" value={password}
+                        secureTextEntry={secure}
+                        onChangeText={(text) => setPassword(text)}
+                        renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{ color: ColorsList.greySoft }} />} />
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Password dibutuhkan untuk mengubah pin</Text>
@@ -98,7 +96,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -109,6 +107,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

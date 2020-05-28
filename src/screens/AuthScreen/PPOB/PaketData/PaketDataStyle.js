@@ -14,8 +14,9 @@ const styles = StyleSheet.create({
 	},
 	pulsaWrapper: {
 		justifyContent : "space-between",
-		width : "47%",
 		borderRadius: 5,
+		padding: 5,
+		flex : 1,
 		borderWidth: 1,
 		borderColor: ColorsList.whiteColor,
 		backgroundColor: ColorsList.whiteColor,
@@ -26,6 +27,13 @@ const styles = StyleSheet.create({
 	},
 	pulsaComp: {
 		...$Margin(3, 10)
+	},
+	simpan: {
+		alignSelf: "flex-end",
+		flexDirection: "row",
+		alignItems: "center",
+		marginRight: 10,
+		marginBottom: 10
 	}
 })
 export default styles

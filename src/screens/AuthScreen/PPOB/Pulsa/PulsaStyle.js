@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
 		backgroundColor: ColorsList.whiteColor
 	},
 	listPulsa: {
-		margin : 10,
+		margin: 10,
 	},
 	pulsaWrapper: {
-		justifyContent : "space-between",
-		width : "47%",
+		justifyContent: "space-between",
+		width: "47%",
 		borderRadius: 5,
 		borderWidth: 1,
 		borderColor: ColorsList.whiteColor,
@@ -26,6 +26,13 @@ const styles = StyleSheet.create({
 	},
 	pulsaComp: {
 		...$Margin(3, 10)
+	},
+	simpan: {
+		alignSelf: "flex-end",
+		flexDirection: "row",
+		alignItems: "center",
+		marginRight: 10,
+		marginBottom: 10
 	}
 })
 export default styles

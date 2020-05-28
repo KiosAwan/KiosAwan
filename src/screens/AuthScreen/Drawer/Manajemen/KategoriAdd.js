@@ -10,16 +10,18 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { verifyUserPassword, sendNewCategory } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
-import { FloatingInput } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getCategory } from '../../../../redux/actions/actionsStoreCategory';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { verifyUserPassword, sendNewCategory, getUserToken } from 'src/utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { FontList } from 'src/styles/typography';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getCategory } from 'src/redux/actions/actionsStoreCategory';
+import MDInput from 'src/components/Input/MDInput';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 
 const height = Dimensions.get('window').height
@@ -29,12 +31,17 @@ const KategoriAdd = ({ navigation }) => {
     const [categoryName, setCategoryName] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const User = useSelector(state => state.User)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
 
     const _handleSaveCategory = async () => {
         if (categoryName == "") {
-            alert("Nama tidak boleh kosong")
+            setAlertMessage("Nama tidak boleh kosong")
+            setAlert(true)
         }
         else {
+            const userToken = await getUserToken()
             const res = await sendNewCategory({
                 id_store: User.store.id_store,
                 name_product_category: categoryName
@@ -43,11 +50,12 @@ const KategoriAdd = ({ navigation }) => {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCategory(User.store.id_store))
+                    dispatch(getCategory(User.store.id_store, userToken))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
 
         }
@@ -55,6 +63,11 @@ const KategoriAdd = ({ navigation }) => {
     }
     return (
         <View style={styles.container} >
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <BarStatus />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
@@ -68,18 +81,16 @@ const KategoriAdd = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemenkategorisuccess.png')}
+                    image={require('src/assets/images/managemenkategorisuccess.png')}
                     infoText="Tambah Kategori Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
             <View style={{ alignItems: "center" }}>
-                <View style={{marginTop : 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama Kategori">
-                        <TextInput value={categoryName}
-                            onChangeText={(text) => setCategoryName(text)}
-                        />
-                    </FloatingInput>
+                <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
+                    <MDInput label="Nama Kategori" value={categoryName}
+                        onChangeText={(text) => setCategoryName(text)}
+                    />
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Masukkan nama kategori untuk menambah kategori baru</Text>
@@ -110,7 +121,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -121,6 +132,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

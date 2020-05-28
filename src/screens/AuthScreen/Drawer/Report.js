@@ -1,251 +1,315 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { GlobalHeader } from 'src/components/Header/Header';
+import { StyleSheet, View, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
-import { convertRupiah } from 'src/utils/authhelper';
-import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { AwanPopup, Dropdown, Modal } from 'src/components/ModalContent/Popups';
 import { useSelector } from 'react-redux';
 import { getTransactionData, getReportCategory, getReportNonTunai } from 'src/utils/authhelper'
 import moment from 'moment';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
-import { RowChild } from 'src/components/Helper/RowChild';
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Container, { Body } from 'src/components/View/Container';
+import { TabView } from 'react-native-tab-view';
+import { stateObject } from 'src/utils/state';
+import { $BorderRadius } from 'src/utils/stylehelper';
+import Divider from 'src/components/Row/Divider';
+import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 
 const Report = ({ navigation }) => {
-	let _keuangan = ["pajak", "service_charge"]
-	let _laba = ["harga_pokok_penjualan"]
-	let _notConvert = ["jumlah_transaksi", "product_terjual"]
-	const [_report] = useState({ "penjualan_kotor": "", "discount": "", "total_return": "Pembatalan", "penjualan_bersih": "", "harga_pokok_penjualan": "", "pajak": "", "service_charge": "" })
-	const [categories, setCategory] = useState([])
-	const [indexTab, setIndexTab] = useState(0)
-	const [filter, setFilter] = useState(false)
-	const [filterParam, setFilterParam] = useState({})
-	const [detailPendapatan, setDetailPendapatan] = useState(false)
-	const [detailPenjualan, setDetailPenjualan] = useState(false)
-	const [transaction, setTransaction] = useState({})
-	const [reportCategory, setReportCategory] = useState([])
-
-	//Non Tunai
-	const [detailNonTunai, setDetailNonTunai] = useState(false)
-	const [modalFilterNonTunai, setModalFilterNonTunai] = useState(false)
-	const [indexNonTunai, setIndexNonTunai] = useState(0)
-	const [dataNonTunai, setDataNonTunai] = useState()
-	const nonTunaiKey = ["Penjualan kotor", "Diskon", "Pembatalan", "Penjualan bersih", "Pajak"]
-
+	const [firstOpen, setFirstOpen] = useState(true)
+	const [data, setData] = stateObject({
+		dataTransaction: {},
+		dataReportCategory: [],
+		dataReportNonTunai: []
+	})
+	const { dataTransaction, dataReportCategory, dataReportNonTunai } = data
 	const User = useSelector(state => state.User)
-	const GetData = async (param) => {
-		const res1 = await getTransactionData(User.store.id_store, param)
-		const res2 = await getReportCategory(User.store.id_store, param)
-		const res3 = await getReportNonTunai(User.store.id_store)
-
-		console.debug(res2.data[0])
-		setTransaction(res1.data)
-		setReportCategory(res2.data)
-		setDataNonTunai(res3.data)
+	const GetData = async param => {
+		const { data: dataReportCategory } = await getReportCategory(User.store.id_store, param)
+		const { data: dataTransaction } = await getTransactionData(User.store.id_store, param)
+		const { data: dataReportNonTunai } = await getReportNonTunai(User.store.id_store, param)
+		setData({ dataTransaction, dataReportCategory, dataReportNonTunai })
+		setNT({ selected: dataReportNonTunai[0] })
+		if (firstOpen) {
+			setFirstOpen(false)
+		}
 	}
+
 	useEffect(() => {
 		GetData({})
-		setCategory([])
 	}, [])
 
-	const format = 'YYYY-MM-DD'
-	const _handleFilter = async item => {
-		let now = moment().set({ hours: 0, minutes: 0, seconds: 0 })
-		let param = {
-			from: now.add('month', item).endOf('month').set('date', 1).format(format),
-			to: now.add('month', item).endOf('month').format(format)
+	let format = 'YYYY-MM-DD'
+	const header = {
+		title: "Laporan",
+		image: require('src/assets/icons/filter.png'),
+		onPressBack: () => navigation.goBack(),
+		onPressIcon: () => setCtrl({ visible: true })
+	}
+	let _dateSelected
+	const [dateSelected, setDateSelected] = useState()
+	const [NT, setNT] = stateObject()
+	const _filterData = ({ filter, index }) => {
+		if (!filter) {
+			filter = _dateSelected
 		}
-		setFilterParam(param)
-		setFilter(false)
-		GetData(param)
+		if (!index) {
+			index = _MainTabIndex
+		}
+		let date = moment(filter)
+		const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
+		let tipe_product = index == 1 ? 'product' : index == 2 ? 'ppob' : ''
+		GetData({ from, to, tipe_product })
 	}
-	const _filterView = format => {
-		return (filterParam.from ? moment(filterParam.from) : moment()).format(format)
+	const [ctrl, setCtrl] = stateObject({
+		setVisible: visible => setCtrl({ visible }),
+		setFilter: filter => {
+			_dateSelected = filter
+			setDateSelected(filter)
+			_filterData({ filter })
+		},
+		visible: false
+	})
+	let _MainTabIndex
+	const [MainTab, setMainTab] = stateObject({
+		index: 0,
+		routes: [
+			{ key: 'first', title: 'Semua' },
+			{ key: 'second', title: 'Penjualan Produk' },
+			{ key: 'third', title: 'Penjualan PPOB' }
+		],
+		initialLayout: { width: 300, height: 300 },
+		setIndex: index => {
+			_MainTabIndex = index
+			setMainTab({ index })
+			_filterData({ index })
+		}
+	})
+	const [SecondaryTab, setSecondaryTab] = stateObject({
+		index: 0,
+		routes: [
+			{ key: 'first', title: 'Laporan Keuangan' },
+			{ key: 'second', title: 'Laporan Penjualan' }
+		],
+		initialLayout: { width: 300, height: 300 },
+		setIndex: index => setSecondaryTab({ index })
+	})
+	const _convertRupiah = (data, key) => {
+		let value = !data ? '' : data[key] || ''
+		return value.toString().convertRupiah()
 	}
-	const _handleFilterNonTunai = (i) => {
-		setIndexNonTunai(i)
-		setModalFilterNonTunai(false)
-	}
-	const Keuangan = props => {
-		return <View>
-			<Wrapper justify="space-between" style={styles.report}>
-				<View>
-					<Text font="Bold">{props.isLaba ? 'Laba/Rugi Kotor' : 'Total Pendapatan'}</Text>
-					<Text font="ExtraBold" size={22} color="primary">{convertRupiah(indexTab == 0 ? transaction.total_penjualan : transaction.total_profit)}</Text>
-				</View>
-				<TouchableOpacity onPress={() => setDetailPendapatan(!detailPendapatan)} style={{ justifyContent: 'flex-end' }}>
-					<Text font="ExtraBold" size={15}>DETAIL</Text>
-				</TouchableOpacity>
-			</Wrapper>
-			{detailPendapatan ?
-				<View>
-					{
-						Object.keys(_report).map(key => {
-							let toHide = indexTab == 0 ? _laba : _keuangan
-							return toHide.includes(key) ? null : <Wrapper justify="space-between" style={styles.report}>
-								<Text>{_report[key] ? _report[key] : key.split('_').join(' ').ucwords()}</Text>
-								{_notConvert.includes(key) ? <Text>{transaction[key]}</Text> : <Text>{convertRupiah(transaction[key])}</Text>}
-							</Wrapper>
-						})
-					}
-				</View>
-				: null
-			}
-			<View style={{ marginTop: 15, padding: 15, ...Bg.white }}>
-				<Text color="primary" font="Bold">Laporan Non Tunai</Text>
-				<TouchableOpacity onPress={() => setModalFilterNonTunai(true)} style={{ borderBottomWidth: 1, borderColor: ColorsList.greyFont, marginVertical: 10 }}>
-					<View style={[{ ...RowChild, justifyContent: 'space-between' }]}>
-						<Text size={16}>{dataNonTunai ? dataNonTunai[indexNonTunai].method : null}</Text>
-						<Icon color={ColorsList.greyFont} size={17} name="chevron-down" />
-					</View>
-				</TouchableOpacity>
-				<Wrapper justify="space-between">
+	const _renderMainTab = ({ route }) => {
+		const _renderSecondaryTab = ({ route }) => {
+			return <View>
+				{route.key == 'first' ?
 					<View>
-						<Text font="Bold">Total Pendapatan</Text>
-						<Text font="ExtraBold" size={22} color="primary">{convertRupiah(dataNonTunai ? dataNonTunai[indexNonTunai].penjualan_bersih : 0)}</Text>
-					</View>
-					<TouchableOpacity onPress={() => setDetailNonTunai(!detailNonTunai)}>
-						<Text font="ExtraBold" size={15}>DETAIL</Text>
-					</TouchableOpacity>
-				</Wrapper>
-			</View>
-			{detailNonTunai ?
-				dataNonTunai ?
-					<View>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>{nonTunaiKey[0]}</Text>
-							<Text>{convertRupiah(dataNonTunai[indexNonTunai].penjualan_kotor)}</Text>
-						</Wrapper>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>{nonTunaiKey[1]}</Text>
-							<Text>{convertRupiah(dataNonTunai[indexNonTunai].diskon)}</Text>
-						</Wrapper>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>{nonTunaiKey[2]}</Text>
-							<Text>{convertRupiah(dataNonTunai[indexNonTunai].pembatalan)}</Text>
-						</Wrapper>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>{nonTunaiKey[3]}</Text>
-							<Text>{convertRupiah(dataNonTunai[indexNonTunai].penjualan_bersih)}</Text>
-						</Wrapper>
-						<Wrapper justify="space-between" style={styles.report}>
-							<Text>{nonTunaiKey[4]}</Text>
-							<Text>{convertRupiah(dataNonTunai[indexNonTunai].pajak)}</Text>
-						</Wrapper>
-					</View>
-					: null
-				: null
-			}
-			<Wrapper justify="space-between" style={{ marginTop: 15, padding: 15, ...Bg.white }}>
-				<Text color="primary" font="Bold">Laporan Penjualan</Text>
-				<TouchableOpacity onPress={() => setDetailPenjualan(!detailPenjualan)}>
-					<Text font="ExtraBold" size={15}>DETAIL</Text>
-				</TouchableOpacity>
-			</Wrapper>
-			<View onLayout={({ nativeEvent: { layout } }) => layout.height == 0 && categories.length > 0 ? setCategory([]) : null}>
-				{
-					detailPenjualan ?
-						reportCategory.sort((a, b) => b.id_category - a.id_category).map((category, i) => {
-							let _id = category.id_category ? category.id_category : '~pesan_manual~'
-							let _hasId = categories.includes(_id)
-							if (!_hasId) categories.push(_id)
-							return [_hasId ? null : <Wrapper key={i} style={{ ...Bg.grey, padding: 10 }}>
-								<Text font={category.id_category ? null : 'BoldItalic'}>{category.id_category ? category.nama_category : 'Pesanan Manual'}</Text>
-							</Wrapper>,
-							category.data.map((item, index) => <Wrapper key={index} justify="space-between" style={styles.report}>
-								<View width="70%">
-									<Text>{item.Product}</Text>
-									<Text>{`${convertRupiah(item.harga_Satuan)} x ${item.jumlah}`}</Text>
+						<View style={{ backgroundColor: ColorsList.white, marginBottom: 10, borderRadius: 5 }}>
+							<Text style={{ padding: 10 }}>Ringkasan Laporan Keuangan</Text>
+							<Divider />
+							<Wrapper style={{ padding: 10 }} spaceBetween>
+								<View>
+									<Text>Total Keuntungan</Text>
+									<Text size={17} color="primary">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
 								</View>
-								<Wrapper direction="column" justify="center">
-									<Text>{convertRupiah(item.harga)}</Text>
-								</Wrapper>
-							</Wrapper>)]
-						})
-						: null
+								<Button onPress={() => setCtrl({ dataTransaction: !ctrl.dataTransaction })} color="link">DETAIL</Button>
+							</Wrapper>
+							{
+								dataTransaction && ctrl.dataTransaction &&
+								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
+									.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+										<Text>{key.split('_').join(' ').ucwords()}</Text>
+										<Text>{_convertRupiah(dataTransaction, key)}</Text>
+									</Wrapper>)
+							}
+						</View>
+						<View style={{ backgroundColor: ColorsList.white, marginBottom: 10, borderRadius: 5 }}>
+							<Text style={{ padding: 10 }}>Ringkasan Laporan Laba/Rugi Kotor</Text>
+							<Divider />
+							<Wrapper style={{ padding: 10 }} spaceBetween>
+								<View>
+									<Text>Total Penjualan</Text>
+									<Text size={17} color="primary">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+								</View>
+								<Button onPress={() => setCtrl({ labaRugiKotor: !ctrl.labaRugiKotor })} color="link">DETAIL</Button>
+							</Wrapper>
+							{
+								dataTransaction && ctrl.labaRugiKotor &&
+								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
+									.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+										<Text>{key.split('_').join(' ').ucwords()}</Text>
+										<Text>{_convertRupiah(dataTransaction, key)}</Text>
+									</Wrapper>)
+							}
+						</View>
+						<View style={{ backgroundColor: ColorsList.white, marginBottom: 10, borderRadius: 5 }}>
+							<Text style={{ padding: 10 }}>Ringkasan Laporan Non Tunai</Text>
+							<Divider />
+							<SelectBoxModal
+								closeOnSelect
+								label="Filter Data"
+								data={dataReportNonTunai}
+								value={NT && NT.selected ? NT.selected.method : ''}
+								handleChangePicker={selected => setNT({ selected })}
+								renderItem={item => <Text color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFont'}>{item.method}</Text>}
+								style={{ paddingHorizontal: 10 }}
+							/>
+							<Wrapper style={{ padding: 10 }} spaceBetween>
+								<View>
+									<Text>Total Pendapatan</Text>
+									<Text size={17} color="primary">{_convertRupiah(NT.selected, 'penjualan_bersih')}</Text>
+								</View>
+								<Button onPress={() => setCtrl({ dataReportNonTunai: !ctrl.dataReportNonTunai })} color="link">DETAIL</Button>
+							</Wrapper>
+							{
+								ctrl.dataReportNonTunai && Object.keys(NT.selected).rMap((key, i) => key != 'method' && <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+									<Text>{key.split('_').join(' ').ucwords()}</Text>
+									<Text>{_convertRupiah(NT.selected, key)}</Text>
+								</Wrapper>)
+							}
+						</View>
+					</View> :
+					<View style={{ backgroundColor: ColorsList.white }}>
+						{
+							dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }) => <View>
+								{
+									data && data.length > 0 && <Text style={{ backgroundColor: ColorsList.greyAuthHard, padding: 10 }} font={nama_category ? 'Regular' : 'Italic'} align="center">{nama_category ? nama_category : '~ Pesanan Manual ~'}</Text>
+								}
+								{
+									data && data.rMap(({ Product, harga_jual, total, jumlah }, i) => [
+										<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+											<View _style={{ flex: .7 }}>
+												<Text>{Product}</Text>
+												<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
+											</View>
+											<Text _style={{ flex: .3, alignItems: 'flex-end' }}>{total.convertRupiah()}</Text>
+										</Wrapper>,
+										i < data.length && <Divider />
+									])
+								}
+							</View>)
+						}
+					</View>
 				}
 			</View>
-		</View>
-	}
-	return (
-		<View style={styles.wrapper}>
-			<GlobalHeader title="Report" onPressBack={() => navigation.navigate('/drawer')} />
-			<AwanPopup.Menu backdropDismiss={() => setFilter(false)} visible={filter} title={_filterView('MMM, YYYY')}>
-				<Button onPress={() => _handleFilter(0)} color="link" style={{ padding: 10 }} textProps={{ font: 'Regular' }} align="flex-start">Bulan Ini</Button>
-				<Button onPress={() => _handleFilter(-1)} color="link" style={{ padding: 10 }} textProps={{ font: 'Regular' }} align="flex-start">Satu Bulan Lalu</Button>
-				<Button onPress={() => _handleFilter(-2)} color="link" style={{ padding: 10 }} textProps={{ font: 'Regular' }} align="flex-start">Dua Bulan Lalu</Button>
-			</AwanPopup.Menu>
-			{dataNonTunai ?
-				<AwanPopup.Menu backdropDismiss={() => setModalFilterNonTunai(false)} visible={modalFilterNonTunai} title="Pilih metode">
-					{dataNonTunai.map((item, i) => (
-						<Button key={i} onPress={() => _handleFilterNonTunai(i)} color="link" style={{ padding: 10 }} textProps={{ font: 'Regular' }} align="flex-start">{item.method}</Button>
-					))}
-				</AwanPopup.Menu> :
-				null}
-			<Wrapper justify="space-between" style={styles.filterWrapper}>
-				<View style={{ justifyContent: 'center' }}>
-					<Text>{_filterView('MMMM YYYY')}</Text>
-				</View>
-				<Button onPress={() => setFilter(true)}>
-					<Image style={{ width: 15, height: 15 }} source={require('src/assets/icons/filter.png')} />
-				</Button>
-			</Wrapper>
-			{
-				transaction ?
-					<ScrollView>
-						<View style={{ padding: 15 }}>
-							<Wrapper justify="space-between" style={styles.report}>
-								<Text>Total Penjualan</Text>
-								<Text color="primary" font="Bold">{convertRupiah(transaction.total_penjualan)}</Text>
-							</Wrapper>
-							<Wrapper justify="space-between" style={styles.report}>
-								<Text>Total Keuntungan</Text>
-								<Text color="primary" font="Bold">{convertRupiah(transaction.total_profit)}</Text>
-							</Wrapper>
-							<Wrapper justify="space-between" style={styles.report}>
-								<Text>Transaksi</Text>
-								<Text color="primary" font="Bold">{transaction.jumlah_transaksi || 0}</Text>
-							</Wrapper>
-							<Wrapper justify="space-between" style={styles.report}>
-								<Text>Produk Terjual</Text>
-								<Text color="primary" font="Bold">{transaction.product_terjual || 0}</Text>
-							</Wrapper>
-						</View>
-						<View style={{ padding: 15, paddingTop: 0 }}>
-							<Wrapper style={styles.tabButtonWrapper}>
-								{
-									['LAPORAN KEUANGAN', 'LAPORAN LABA/RUGI'].map((btn, i) => {
-										return <Button disabled={indexTab == i} key={i} onPress={() => setIndexTab(i)} color={indexTab == i ? 'primary' : 'white'} textProps={{ align: 'center', size: 11 }} style={{ borderRadius: 0 }} _width="50%">{btn}</Button>
-									})
-								}
-							</Wrapper>
-							{indexTab == 0 ? <Keuangan /> : <Keuangan isLaba />}
-						</View>
-					</ScrollView>
-					:
-					<View style={{ alignItems: 'center' }}>
-						<Image style={{ width: 350, height: 350 }} source={require('src/assets/images/no-transaction.png')} />
-						<View style={{ alignItems: 'center' }}>
-							<Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
-							<Text>Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
-						</View>
+		}
+		return <Body style={{ paddingTop: 0 }}>
+			<View style={{ borderRadius: 5, backgroundColor: ColorsList.white }}>
+				<Wrapper>
+					<View style={{ padding: 10 }}>
+						<Text color="primary" size={17} align="center">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+						<Text align="center">Total Penjualan</Text>
 					</View>
-			}
-		</View>
-	)
+					<Divider flex />
+					<View style={{ padding: 10 }}>
+						<Text color="primary" size={17} align="center">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
+						<Text align="center">Total Keuntungan</Text>
+					</View>
+				</Wrapper>
+				<Divider />
+				<Wrapper spaceBetween style={{ padding: 10 }}>
+					<Text>Transaksi</Text>
+					<Text color="primary">{dataTransaction && dataTransaction.jumlah_transaksi}</Text>
+				</Wrapper>
+				<Divider />
+				<Wrapper spaceBetween style={{ padding: 10 }}>
+					<Text>Produk Terjual</Text>
+					<Text color="primary">{dataTransaction && dataTransaction.produk_terjual}</Text>
+				</Wrapper>
+			</View>
+			<TabView
+				style={firstOpen && { display: 'none' }}
+				renderTabBar={({ navigationState }) => {
+					const { index, routes, setIndex } = navigationState
+					return <Wrapper style={{ padding: 15 }} flexContent>
+						{
+							routes.rMap((route, i) => {
+								return <Button
+									key={i.toString()}
+									borderBottom
+									active={index == i}
+									disabled={index == i}
+									color={['greyFont']}
+									onPress={() => setIndex(i)}
+									activeColor="primary">{route.title}</Button>
+							})
+						}
+					</Wrapper>
+				}}
+				navigationState={SecondaryTab}
+				renderScene={_renderSecondaryTab}
+				onIndexChange={SecondaryTab.setIndex}
+				initialLayout={SecondaryTab.initialLayout}
+			/>
+		</Body>
+	}
+
+	return <Container header={header}>
+		<ModalMonth {...ctrl} />
+		<TabView
+			renderTabBar={({ navigationState }) => {
+				const { index, routes, setIndex } = navigationState
+				return <View>
+					<Wrapper style={{ padding: 15 }} flexContent noWrapper>
+						{
+							routes.rMap((route, i) => {
+								return <Button
+									textStyle={{ fontSize: 12 }}
+									disabled={index == i}
+									onPress={() => setIndex(i)}
+									active={index == i}
+									color="white"
+									activeColor="primary"
+									noRadius
+									style={{
+										flex: 1,
+										justifyContent: 'center',
+										...i == 0 && $BorderRadius(5, 0, 0, 5),
+										...i == routes.length - 1 && $BorderRadius(0, 5, 5, 0)
+									}}
+								>{route.title}</Button>
+							})
+						}
+					</Wrapper>
+					<Text style={{ paddingHorizontal: 15, paddingBottom: 10 }}>{moment(dateSelected).format('MMMM YYYY')}</Text>
+				</View>
+			}}
+			navigationState={MainTab}
+			renderScene={_renderMainTab}
+			onIndexChange={MainTab.setIndex}
+			initialLayout={MainTab.initialLayout}
+		/>
+	</Container>
 }
 
 export default Report
 
-let Bg = StyleSheet.create({
-	white: { backgroundColor: ColorsList.whiteColor },
-	grey: { backgroundColor: ColorsList.greyAuthHard }
-})
-const styles = StyleSheet.create({
-	wrapper: { flex: 1, backgroundColor: ColorsList.authBackground },
-	filterWrapper: { ...Bg.white, padding: 15, paddingHorizontal: 25 },
-	report: { ...Bg.white, padding: 15, marginBottom: 1 },
-	tabButtonWrapper: { padding: 15, paddingBottom: 0, backgroundColor: ColorsList.whiteColor }
-})
+
+const ModalMonth = props => {
+	const { visible, setVisible, year, month, setFilter } = props
+	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+	const [filter, _setFilter] = stateObject({
+		year: parseInt(year || moment().format('YYYY')),
+		month: parseInt(month || moment().format('MM')) - 1
+	})
+	const _filterMonth = month => {
+		_setFilter({ month })
+	}
+	return <Modal style={{ width: '90%', padding: 15, paddingVertical: 15 }} visible={visible} backdropDismiss={() => setVisible(false)}>
+		<Wrapper spaceBetween>
+			<Button onPress={() => _setFilter({ year: filter.year - 1 })} color="link">{'<'}</Button>
+			<Text>{filter.year}</Text>
+			<Button onPress={() => _setFilter({ year: filter.year + 1 })} color="link">{'>'}</Button>
+		</Wrapper>
+		<FlatList
+			style={{ marginVertical: 15 }}
+			data={bulan}
+			numColumns={3}
+			keyExtractor={(a, i) => i.toString()}
+			renderItem={({ item, index: i }) => <Button onPress={() => _filterMonth(i)} style={{ margin: 5 }} active={i == filter.month} color={['transparent', 'greyFont', 'greyFont']} activeColor="primary" flex>{item}</Button>}
+		/>
+		<Button onPress={() => {
+			setFilter(`${filter.year}-${filter.month.toString().length == 1 ? '0' : ''}${filter.month + 1}`)
+			setVisible(false)
+		}} color="white">TERAPKAN</Button>
+	</Modal >
+}

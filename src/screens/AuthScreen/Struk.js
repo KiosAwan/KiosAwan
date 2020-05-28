@@ -36,7 +36,7 @@ const Struk = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1 }}>
-            {response == undefined ? <Spinner color="#cd0192" /> :
+            {response == undefined ? <Spinner color={ColorsList.primary} /> :
                 <View style={{ flex: 1 }}>
                     <LinearBackground
                         content={
@@ -67,7 +67,7 @@ const Struk = ({ navigation }) => {
                                         <Text style={styles.btnwithIconText}>Kirim Struk</Text>
                                     </View>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', {data : {transaction : response.print ,details_item : response.items }})}>
+                                <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: { transaction: response.print, details_item: response.items } })}>
                                     <View style={[styles.wrapIconText]} >
                                         <Icon color={ColorsList.primaryColor} size={16} style={{ marginRight: 5 }} name="print" />
                                         <Text style={styles.btnwithIconText}>Cetak Struk</Text>

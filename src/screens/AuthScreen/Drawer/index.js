@@ -52,12 +52,12 @@ const Akun = ({ navigation }) => {
 					</Wrapper>
 				</Wrapper>
 				{
-					ListMenu.map((groupMenu, i) => {
+					ListMenu.rMap((groupMenu, i) => {
 						return <View style={{ padding: 15 }} key={i}>
 							{
-								groupMenu.map((menu, o) => {
+								groupMenu.rMap((menu, o) => {
 									return <Button key={o}
-										onPress={() => User.store ? User.data.status == 1 ? navigation.navigate(menu.route) : null : null}
+										onPress={() => ["Hubungi Kami", "FAQ"].includes(menu.name) ? navigation.navigate(menu.route) : User.store && User.data.status == 1 ? navigation.navigate(menu.route) : null}
 										style={{ marginBottom: 5 }}
 										padding={$Padding(5, 10)}
 										wrapper={{ justify: 'flex-start' }}
@@ -76,7 +76,8 @@ const Akun = ({ navigation }) => {
 			</ScrollView>
 			<Bottom>
 				<View style={{ width: '100%' }}>
-					<Text style={{ alignSelf: 'center', marginBottom: 5 }}>Versi 1.0.0</Text>
+					{/* <Text style={{ alignSelf: 'center', marginBottom: 5 }}>Versi 1.0.0</Text> */}
+					<Text style={{ alignSelf: 'center', marginBottom: 5 }}>Testing Versi 1.4.24.5</Text>
 					<Button width="100%" style={{ marginBottom: 5 }}>UPGRADE KE PREMIUM</Button>
 					<Button color="white" width="100%" onPress={_onPressLogout}>KELUAR</Button>
 				</View>

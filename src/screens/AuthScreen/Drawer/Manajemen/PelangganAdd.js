@@ -10,19 +10,18 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import {sendNewCustomer } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
-import { FloatingInput } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { getCustomer } from '../../../../redux/actions/actionsCustomer';
-
-
-const height = Dimensions.get('window').height
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { sendNewCustomer, getUserToken } from 'src/utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { FontList } from 'src/styles/typography';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { getCustomer } from 'src/redux/actions/actionsCustomer';
+import MDInput from 'src/components/Input/MDInput';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const PelangganAdd = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -30,26 +29,32 @@ const PelangganAdd = ({ navigation }) => {
     const [phone_number, setPhoneNumber] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const User = useSelector(state => state.User)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
 
     const _handleSaveNewCustomer = async () => {
         if (name == "") {
-            alert("Nama tidak boleh kosong")
+            setAlertMessage("Nama tidak boleh kosong")
+            setAlert(true)
         }
         else {
+            const userToken = await getUserToken()
             const res = await sendNewCustomer({
                 id_store: User.store.id_store,
                 name_customer: name,
-                phone_number_customer : phone_number
+                phone_number_customer: phone_number
             })
             if (res.status == 201) {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCustomer(User.store.id_store))
+                    dispatch(getCustomer(User.store.id_store, userToken))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
 
         }
@@ -58,6 +63,11 @@ const PelangganAdd = ({ navigation }) => {
     return (
         <View style={styles.container} >
             <BarStatus />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
                 title="Tambah Pelanggan"
@@ -70,25 +80,21 @@ const PelangganAdd = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemenpelanggansuccess.png')}
+                    image={require('src/assets/images/managemenpelanggansuccess.png')}
                     infoText="Tambah Pelanggan Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama Pelanggan">
-                        <TextInput value={name}
-                            onChangeText={(text) => setName(text)}
+                    <MDInput label="Nama Pelanggan" value={name}
+                        onChangeText={(text) => setName(text)}
+                    />
+                    <View style={{ marginTop: 10 }}>
+                        <MDInput label="No Telepon" value={phone_number}
+                            keyboardType="number-pad"
+                            onChangeText={(text) => setPhoneNumber(text)}
                         />
-                    </FloatingInput>
-                    <View style={{marginTop : 10}}>
-                        <FloatingInput label="No Telepon">
-                            <TextInput value={phone_number}
-                                keyboardType="number-pad"
-                                onChangeText={(text) => setPhoneNumber(text)}
-                            />
-                        </FloatingInput>
                     </View>
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -131,6 +137,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

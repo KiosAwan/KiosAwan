@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux'
-import { showPhoneNumber } from '../../../../utils/unauthhelper';
-import { GlobalHeader } from '../../../../components/Header/Header';
+import { showPhoneNumber } from 'src/utils/unauthhelper';
+import { GlobalHeader } from 'src/components/Header/Header';
 import CodeInput from 'react-native-confirmation-code-input';
-import { ColorsList } from '../../../../styles/colors';
-import { sendOTPAuth, verifyOTPAuth } from '../../../../utils/authhelper';
+import { ColorsList } from 'src/styles/colors';
+import { sendOTPAuth, verifyOTPAuth } from 'src/utils/authhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 const MenuSettingUbahEmail = ({ navigation }) => {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         height: 45
     },
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
     underlineStyleBase: {
         width: 30,
@@ -147,6 +147,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

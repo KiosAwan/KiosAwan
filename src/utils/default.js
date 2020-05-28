@@ -1,3 +1,4 @@
+import { isValidElement, cloneElement } from 'react';
 console.warn = console.log = console.group = () => { }
 FormData.prototype.appendObject = function (obj, except) {
   except = except || []
@@ -6,8 +7,17 @@ FormData.prototype.appendObject = function (obj, except) {
       this.append(key, obj[key])
   }
 }
-Array.generateEmpty = function (length) {
-  return Array.from(new Array(length), function (a, i) { return i })
+Array.generateEmpty = function (length, empty) {
+  return Array.from(new Array(length), function (a, i) { return empty ? '' : i })
+}
+Array.prototype.rMap = function (callback) {
+  return this.map(function (data, key) {
+    let cb = callback(data, key)
+    if (isValidElement(cb)) {
+      cb = cloneElement(cb, { key })
+    }
+    return cb
+  })
 }
 Array.prototype.loopCallback = function (callback, reverse, index) {
   var arr = this;
@@ -62,16 +72,40 @@ String.prototype.isBool = function () {
 String.prototype.Contains = Array.prototype.Contains = function (element) {
   return this.indexOf(element) > -1;
 }
+String.prototype.convertRupiah = Number.prototype.convertRupiah = function () {
+  try {
+    var nominal = this.toString() || 0
+    const reverse = nominal
+      .toString()
+      .split("")
+      .reverse()
+      .join("");
+    const ribuan = reverse.match(/\d{1,3}/g);
+    const hasil = ribuan
+      .join(".")
+      .split("")
+      .reverse()
+      .join("");
+    let final = "Rp. " + hasil
+    return final;
+  } catch (e) {
+    return "RP. 0"
+  }
+}
+String.prototype.extractNumber = function () {
+  try {
+    var matches = this.match(/\d+/g);
+    if (matches.length > 0)
+      return matches.join('').toInt()
+  } catch (e) {
+    return 0
+  }
+  return 0
+}
 String.prototype.getRawUrl = function () {
   var str = decodeURI(this)
   var url = str.split("?")[0]
   return url;
-}
-String.prototype.extractNumber = function () {
-  var matches = this.match(/\d+/g);
-  if (matches.length > 0)
-    return matches.join('').toInt()
-  return 0
 }
 String.prototype.toInt = function () {
   return Number(this)

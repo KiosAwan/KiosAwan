@@ -2,9 +2,9 @@ import { Item, Input, Icon, Card, CardItem, Body, Grid, Col } from 'native-base'
 import { View, Modal, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { ScrollView, FlatList, TextInput } from 'react-native-gesture-handler';
-import { FloatingInputLabel, FloatingInput } from '../Input/InputComp';
+import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
-import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer } from '../../utils/authhelper';
+import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer, getUserToken } from '../../utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux'
 import { AddCashPayment, AddCustomer } from '../../redux/actions/actionsStoreProduct';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
@@ -43,14 +43,14 @@ export const ToggleButton = (props) => {
 	return props.vertical ?
 		<View {...props}>
 			{
-				props.buttons.map((btn, i) => {
+				props.buttons.rMap((btn, i) => {
 					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius {...props.buttonProps}>{btn}</Button>
 				})
 			}
 		</View> :
 		<Wrapper {...props}>
 			{
-				props.buttons.map((btn, i) => {
+				props.buttons.rMap((btn, i) => {
 					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius {...props.buttonProps}>{btn}</Button>
 				})
 			}
@@ -63,7 +63,7 @@ export const ToggleButtonMoney = (props) => {
 	return (
 		<Wrapper>
 			{
-				props.buttons.map((btn, i) => {
+				props.buttons.rMap((btn, i) => {
 					return <Button
 						onPress={() => {
 							props.onPress ?
@@ -182,9 +182,10 @@ export const PilihPelanggan = (props) => {
 					...pelanggan,
 					id_store: User.store.id_store
 				}
+				const userToken = await getUserToken()
 				await sendNewCustomer(data)
 				setPelangganVisible(false)
-				dispatch(getCustomer(User.store.id_store))
+				dispatch(getCustomer(User.store.id_store, userToken))
 			}
 		}
 
@@ -217,18 +218,14 @@ export const PilihPelanggan = (props) => {
 					<MyModal visible={pelangganVisible} backdropDismiss={false} body={
 						<View style={{ padding: 15 }}>
 							<Text size={20} align="center">{action == 'add' ? 'Tambah Pelanggan' : 'Edit Pelanggan'}</Text>
-							<FloatingInput label="Nama pelanggan">
-								<TextInput width="100%"
-									value={pelanggan ? pelanggan.name_customer : ''}
-									keyboardType={props.keyboardType || "default"}
-									onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
-							</FloatingInput>
-							<FloatingInput label="No. Telepon">
-								<TextInput width="100%"
-									value={pelanggan ? pelanggan.phone_number_customer : ''}
-									keyboardType={props.keyboardType || "default"}
-									onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
-							</FloatingInput>
+							<MDInput label="Nama pelanggan" width="100%"
+								value={pelanggan ? pelanggan.name_customer : ''}
+								keyboardType={props.keyboardType || "default"}
+								onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
+							<MDInput label="No. Telepon" width="100%"
+								value={pelanggan ? pelanggan.phone_number_customer : ''}
+								keyboardType={props.keyboardType || "default"}
+								onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
 							<Wrapper style={{ paddingTop: 15 }} justify="flex-end">
 								<Button style={{ marginRight: 10 }} onPress={() => setPelangganVisible(false)} color="link">BATAL</Button>
 								<Button onPress={_handleButtonSimpan}>SIMPAN</Button>
@@ -303,36 +300,63 @@ export const MyModal = (props) => {
 }
 
 export const SelectBoxModal = (props) => {
-	const [activeColor, setActiveColor] = useState('grey');
 	const [modalVisible, setModalVisible] = useState(false);
+	const {
+		value,
+		style,
+		renderItem,
+		label,
+		header,
+		handleChangePicker,
+		footer,
+		data,
+		closeOnSelect,
+		children,
+		onOpen,
+		hideRender,
+		hideRenderItem,
+		renderWrapper
+	} = props
+	useEffect(() => {
+		if (typeof onOpen == 'function') {
+			onOpen()
+		}
+	}, [])
 	return <View>
 		<AwanModal visible={modalVisible}
 			backdropDismiss={() => setModalVisible(false)}
 			style={{
-				width: '90%',
 				height: 500,
+				width: '90%',
 				padding: 10
 			}}>
-			{props.header}
-			<ScrollView persistentScrollbar style={{ height: '30%' }}>{
-				props.data.length > 0 ? props.data.map((item) => {
-					return <CardItem style={styles.modalCardItem} button onPress={() => {
-						props.handleChangePicker(item)
-						props.closeOnSelect ? setModalVisible(false) : null
-					}}>
-						{props.renderItem(item)}
-					</CardItem>
-				}) : props.children
+			{header}
+			{
+				!hideRender ?
+					data &&
+						data.length > 0 ? <FlatList
+							persistentScrollbar
+							keyExtractor={(a, i) => i.toString()}
+							data={data}
+							renderItem={({ item }) => {
+								return <Button color="link" onPress={() => {
+									handleChangePicker(item)
+									closeOnSelect ? setModalVisible(false) : null
+								}} spaceBetween {...renderWrapper}>
+									{renderItem(item)}
+								</Button>
+							}}
+						/> : children :
+					hideRenderItem
 			}
-			</ScrollView>
-			{props.footer}
+			{footer}
 		</AwanModal>
-		<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, props.style, {
+		<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, style, {
 			marginTop: 5
 		}]}>
-			<Text font="Regular" style={{ color: props.value ? ColorsList.greyFont : ColorsList.transparent }}>{props.label}</Text>
+			<Text font="Regular" style={{ color: value ? ColorsList.greyFont : ColorsList.transparent }}>{label}</Text>
 			<Wrapper justify="space-between" style={$Border(ColorsList.secondary, 0, 0, .5)}>
-				<Text font="Regular" size={13}>{props.value ? props.value : props.label}</Text>
+				<Text font="Regular" size={13}>{value ? value : label}</Text>
 				<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
 			</Wrapper>
 		</TouchableOpacity>

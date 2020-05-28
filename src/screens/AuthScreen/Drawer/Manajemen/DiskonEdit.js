@@ -10,18 +10,19 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { editDiscount, deleteDiscount } from '../../../../utils/authhelper';
-import { FloatingInput } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { AwanPopup } from '../../../../components/ModalContent/Popups';
-import { ToggleButton } from '../../../../components/Picker/SelectBoxModal';
-import { getDiscount } from '../../../../redux/actions/actionsDiscount';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { editDiscount, deleteDiscount } from 'src/utils/authhelper';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { ToggleButton } from 'src/components/Picker/SelectBoxModal';
+import { getDiscount } from 'src/redux/actions/actionsDiscount';
 import { Button } from 'src/components/Button/Button';
 import { Bottom } from 'src/components/View/Bottom';
+import MDInput from 'src/components/Input/MDInput';
 
 const DiskonEdit = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -105,7 +106,7 @@ const DiskonEdit = ({ navigation }) => {
             <GlobalHeaderWithIcon
                 onPressBack={() => navigation.goBack()}
                 title="Edit Diskon"
-                image={require('../../../../assets/icons/trash.png')}
+                image={require('src/assets/icons/trash.png')}
                 handleDeleteCategory={() => setAlert(true)}
             />
             <Modal
@@ -116,34 +117,30 @@ const DiskonEdit = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemendiskonsuccess.png')}
+                    image={require('src/assets/images/managemendiskonsuccess.png')}
                     infoText="Edit Diskon Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama diskon">
-                        <TextInput value={name}
-                            onChangeText={(text) => setName(text)}
-                        />
-                    </FloatingInput>
+                    <MDInput label="Nama diskon" value={name}
+                        onChangeText={(text) => setName(text)}
+                    />
                     <View style={{ marginTop: 10 }}>
-                        <FloatingInput label="Diskon">
-                            <TextInput value={value}
-                                keyboardType="number-pad"
-                                onChangeText={_handleChangeDiskon}
-                            />
-                            <View style={{ width: '20%' }}>
-                                <ToggleButton
-                                    toggle={discount_type}
-                                    buttons={["Rp", "%"]}
-                                    changeToggle={(i) => {
-                                        setDiscountType(i)
-                                    }}
-                                />
-                            </View>
-                        </FloatingInput>
+                        <MDInput label="Diskon" value={value}
+                            keyboardType="number-pad"
+                            onChangeText={_handleChangeDiskon}
+                            renderRightAccessory={() =>
+                                <View style={{ width: '20%' }}>
+                                    <ToggleButton
+                                        toggle={discount_type}
+                                        buttons={["Rp", "%"]}
+                                        changeToggle={(i) => {
+                                            setDiscountType(i)
+                                        }}
+                                    />
+                                </View>} />
                     </View>
                 </View>
             </View>
@@ -168,7 +165,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -179,6 +176,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

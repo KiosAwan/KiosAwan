@@ -48,7 +48,7 @@ const Kredit = ({ navigation }) => {
                 }} />
                 <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
                     {[1, 2, 3, 4, 5, 6]
-                        .map((item, i) => [
+                        .rMap((item, i) => [
                             <Button color="link">Albert Stanley - 123456789123456789</Button>,
                             i != 5 && <Divider />
                         ])
@@ -71,7 +71,7 @@ const Kredit = ({ navigation }) => {
                 contentStyle={[styles.dropdownContentStyle]}
             >
                 {
-                    [1, 2].map((item, i) => (
+                    [1, 2].rMap((item, i) => (
                         <View key={i}>
                             <Button onPress={_selectMonth} wrapper={{ justify: 'flex-start' }} key={i} justify="space-between" color="link">
                                 {/* <Text>{i}</Text> */}
@@ -102,7 +102,7 @@ const Kredit = ({ navigation }) => {
         </View>
         <Body style={{ padding: 0 }}>
             <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
-                {data.map((item, i) => [
+                {data.rMap((item, i) => [
                     <Wrapper key={i} justify="space-between" style={{ padding: 10 }}>
                         <Text font="Regular">{item.a}</Text>
                         <Text font="Regular">{item.b}</Text>

@@ -46,7 +46,7 @@ const Emoney = ({ navigation }) => {
                 }} />
                 <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
                     {[1, 2, 3, 4, 5, 6]
-                        .map((item, i) => [
+                        .rMap((item, i) => [
                             <Button color="link">Albert Stanley - 123456789123456789</Button>,
                             i != 5 && <Divider />
                         ])
@@ -71,7 +71,7 @@ const Emoney = ({ navigation }) => {
                 contentStyle={[styles.dropdownContentStyle]}
             >
                 {
-                    [1, 2].map((item, i) => [
+                    [1, 2].rMap((item, i) => [
                         <Button onPress={_selectMonth} key={i} width={SizeList.width} wrapper={{ justify: 'flex-start', }} key={i} justify="space-between" color="link">
                             <Text>{i}</Text>
                             <Text>Gopay</Text>

@@ -66,7 +66,7 @@ const AsuransiTipus = ({ navigation }) => {
 				backgroundColor: ColorsList.whiteColor,
 				borderRadius: 5
 			}}>
-				{[1, 2, 3, 4].map((item, i) => [
+				{[1, 2, 3, 4].rMap((item, i) => [
 					<Wrapper justify="space-between" style={{ margin: 10 }}>
 						<Text>Nama Pelanggan</Text>
 						<Text>Albert Stanley</Text>

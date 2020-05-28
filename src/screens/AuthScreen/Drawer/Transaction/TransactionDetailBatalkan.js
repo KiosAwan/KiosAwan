@@ -6,15 +6,16 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { WrapperItem } from 'src/components/Picker/SelectBoxModal';
 import { FontList } from 'src/styles/typography';
 import { ColorsList } from 'src/styles/colors';
-import { convertRupiah, cancelTransaction } from 'src/utils/authhelper';
+import { convertRupiah, cancelTransaction, getUserToken } from 'src/utils/authhelper';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { ReturnTransactionCard } from 'src/components/Card/CardComp';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { } from 'src/components/Input/InputComp';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import MDInput from 'src/components/Input/MDInput';
 
 const TransactionDetailBatalkan = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -71,10 +72,11 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 
 	const _handleCancelTransaction = async () => {
 		setAlertVisible(false)
+		const userToken = await getUserToken()
 		const userId = await AsyncStorage.getItem('userId')
 		let product_cart = []
-		newData.map(item => {
-			product_cart.push({ qty_in: item.qty- item.newQty  })
+		newData.rMap(item => {
+			product_cart.push({ qty_in: item.qty - item.newQty })
 		})
 		const data = {
 			id_transaction: dataTransaksi.transaction.id_transaction,
@@ -85,7 +87,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 		}
 		const res = await cancelTransaction(data)
 		if (res.status == 200) {
-			dispatch(getTransactionList(User.store.id_store))
+			dispatch(getTransactionList(User.store.id_store, userToken))
 			navigation.navigate('/drawer/transaction')
 		}
 	}
@@ -109,7 +111,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 							]} right={
 								<Text onPress={() => setDetailItem(!detailItem)} size={16}>DETAIL</Text>
 							} />
-							{detailItem ? dataTransaksi.details_item.map((data, i) => {
+							{detailItem ? dataTransaksi.details_item.rMap((data, i) => {
 								return (
 									<WrapperItem key={i} style={{ paddingBottom: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
 										<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.product}</Text>,
@@ -156,12 +158,10 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 							keyExtractor={(item, index) => index.toString()}
 						/>
 						<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, marginBottom: 100 }}>
-							<FloatingInput label="Alasan pembatalan">
-								<TextInput
-									value={alasan}
-									onChangeText={text => setAlasan(text)}
-								/>
-							</FloatingInput>
+							<MDInput label="Alasan pembatalan"
+								value={alasan}
+								onChangeText={text => setAlasan(text)}
+							/>
 						</View>
 					</View>
 				}

@@ -50,26 +50,9 @@ const VerifyOTPRegister = (props) => {
         }, 60000)
     }
 
-    //Sending OTP code to server
-    const _handleOTPFulfilled = async (code) => {
-        props.closeSheet()
-        await dispatch(addVerifyOTP(code))
-        const data = {
-            phone_number: "62" + RegisterOTP.phone_number,
-            otp: code
-        }
-        const res = await sendVerifyOTP(data)
-        if (res.status == 200) {
-            props.navigateTo()
-        } else {
-            if (res.status == 400) {
-                alert(res.data.errors.msg)
-            }
-        }
-    }
-
     //Resend Code function
     const _resendCode = async () => {
+        props.sendOTP()
         setIsResendDisabled(true)
         let theTimer = 58
         const a = setInterval(
@@ -84,17 +67,14 @@ const VerifyOTPRegister = (props) => {
         setTimeout(() => {
             setIsResendDisabled(false)
         }, 60000)
-        const data = {
-            phone_number: "62" + RegisterOTP.phone_number,
-        }
-        await sendPhoneNumber(data)
+
     }
 
     return (
         <View style={styles.container}>
             <BarStatus />
-            <Text style={{ marginTop: 10, ...FontList.titleFont, color : ColorsList.greySoft }}>Masukkan kode OTP </Text>
-            <Text style={{ marginTop: 10, ...FontList.titleFont, color : ColorsList.greySoft }}>OTP telah dikirim melalui SMS ke nomor HP Anda </Text>
+            <Text style={{ marginTop: 10, ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kode OTP </Text>
+            <Text style={{ marginTop: 10, ...FontList.titleFont, color: ColorsList.greySoft }}>OTP telah dikirim melalui SMS ke nomor HP Anda </Text>
             <CodeInput
                 keyboardType="numeric"
                 activeColor='black'
@@ -102,12 +82,12 @@ const VerifyOTPRegister = (props) => {
                 codeLength={4}
                 size={40}
                 autoFocus
-                onFulfill={(code) => _handleOTPFulfilled(code)}
+                onFulfill={(code) => props.otpFulfilled(code)}
             />
             {isResendDisabled ?
-                <Text style={{...FontList.titleFont, color:ColorsList.greySoft, marginTop: 70 }}>RESEND ({countdown} s)</Text> :
+                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft, marginTop: 70 }}>RESEND ({countdown} s)</Text> :
                 <TouchableOpacity onPress={_resendCode} style={{ marginTop: 70 }}>
-                    <Text style={{...FontList.titleFont, color: "blue" }}>Resend</Text>
+                    <Text style={{ ...FontList.titleFont, color: "blue" }}>Resend</Text>
                 </TouchableOpacity>
             }
         </View>
@@ -126,7 +106,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -137,6 +117,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

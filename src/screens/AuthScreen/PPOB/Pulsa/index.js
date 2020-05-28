@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'src/components/View/Container';
 import styles from './PulsaStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import { View, FlatList, TouchableOpacity, ScrollView, Modal as RNModal } from 'react-native';
 import { $Padding } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import MDInput from 'src/components/Input/MDInput';
-import { Bottom } from 'src/components/View/Bottom';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import SearchInput from 'src/components/Input/SearchInput';
-import { getProductPulsa,payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
-import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
-import { useDispatch,useSelector } from 'react-redux';
+import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
+import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
+import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
+import { getProfile } from 'src/redux/actions/actionsUserData';
+import ContactsModal from 'src/components/ModalContent/ContacsModal';
+import SwitchButton from 'src/components/Button/SwitchButton';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -30,8 +30,10 @@ const PpobPulsa = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [modal, setModal] = useState(false)
 	//Phone number state
-	const [phoneNumber, setPhoneNumber] = useState("085856740755")
+	const [phoneNumber, setPhoneNumber] = useState("")
 	const [selected, setSelected] = useState()
+	//Favorite transaction
+	const [favorit, setFavorit] = useState()
 	//Product state
 	const [data, setData] = useState()
 
@@ -45,13 +47,16 @@ const PpobPulsa = ({ navigation }) => {
 	// Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
 
+	// PIN Modal state 
+	const [contactVisible, setContactVisible] = useState(false)
+
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
 		setPinVisible(true)
 	}
 
 	//Function onchange phone number
-	const _onChangePhoneNum = async (text) => {
+	const _onChangePhoneNum = async text => {
 		setPhoneNumber(text)
 		let x = {
 			phone_number: text,
@@ -89,13 +94,16 @@ const PpobPulsa = ({ navigation }) => {
 		const data = {
 			phone_number: phoneNumber,
 			productID: selected.code,
-			id_multi: Product.id_multi
+			id_multi: Product.id_multi,
+			favorite: favorit ? 1 : 0
 		}
 		const res = await payPulsaHandphone(data)
 		setPayLoading(false)
 		if (res.status == 200) {
+			const userToken = await getUserToken()
 			const data = { type: "Pulsa", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
 			dispatch(AddPPOBToCart(data))
+			dispatch(getProfile(User.data.id, userToken))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
 			navigation.navigate("/ppob/status", { params: res.data })
 		} else if (res.status == 400) {
@@ -105,10 +113,20 @@ const PpobPulsa = ({ navigation }) => {
 			console.debug(res)
 		}
 	}
+
+	const _handleChangeToggle = async () => {
+		setFavorit(!favorit)
+	}
+	useEffect(() => {
+		if (navigation.state.params) {
+			let { customerID } = navigation.state.params
+			_onChangePhoneNum(customerID)
+		}
+	}, [])
 	return <Container header={{
 		title: "Pulsa",
-		image: require('src/assets/icons/phonebook.png'),
-		onPressIcon: () => setModal(true),
+		// image: require('src/assets/icons/phonebook.png'),
+		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
 		{/* Modal for check user pin */}
@@ -127,6 +145,15 @@ const PpobPulsa = ({ navigation }) => {
 			closeAlert={() => setAlert(false)}
 		/>
 		<AwanPopup.Loading visible={payLoading} />
+		<RNModal visible={contactVisible} animationType="slide" onRequestClose={() => setContactVisible(false)}>
+			<ContactsModal closeModal={() => setContactVisible(false)}
+				chooseContact={
+					(num) => {
+						_onChangePhoneNum(num)
+					}
+				}
+			/>
+		</RNModal>
 		<Modal backdropDismiss={() => setModal(false)} visible={modal}>
 			<View>
 				<Text size={17} align="center">Nomor Pelanggan</Text>
@@ -135,7 +162,7 @@ const PpobPulsa = ({ navigation }) => {
 				}} />
 				<ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
 					{[1, 2, 3, 4, 5, 6]
-						.map((item, i) => [
+						.rMap((item, i) => [
 							<Button color="link">Albert Stanley - 123456789123456789</Button>,
 							i != 5 && <Divider />
 						])
@@ -150,9 +177,32 @@ const PpobPulsa = ({ navigation }) => {
 					value={phoneNumber}
 					onChangeText={_onChangePhoneNum}
 					keyboardType="phone-pad"
+					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
 				/>
-				<Image style={{ borderWidth: 1, borderColor: ColorsList.greyAuthHard }} source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={50} />
+				{/* {data ? <Image source={{ uri: data.provider.image }} size={20} /> : null} */}
+				<TouchableOpacity onPress={() => setContactVisible(true)}>
+					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
+				</TouchableOpacity>
 			</Wrapper>
+			{
+				__DEV__ && <View>
+					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
+					<FlatList
+						style={{}}
+						numColumns={3}
+						data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
+						keyExtractor={(a, i) => i.toString()}
+						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
+					/>
+				</View>
+			}
+		</View>
+		<View style={styles.simpan}>
+			<Text>Simpan ke favorit</Text>
+			<SwitchButton
+				handleChangeToggle={_handleChangeToggle}
+				toggleValue={favorit}
+			/>
 		</View>
 		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
 			columnWrapperStyle={{ justifyContent: 'space-between', }}

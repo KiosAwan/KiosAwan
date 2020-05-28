@@ -10,68 +10,64 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeaderWithIcon } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import {editCustomer, deleteCustomer } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FontList } from '../../../../styles/typography';
-import { FloatingInput } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { AwanPopup } from '../../../../components/ModalContent/Popups';
-import { getCustomer } from '../../../../redux/actions/actionsCustomer';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { editCustomer, deleteCustomer, getUserToken } from 'src/utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { FontList } from 'src/styles/typography';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import MDInput from 'src/components/Input/MDInput';
+import { stateObject } from 'src/utils/state';
 
 
 const height = Dimensions.get('window').height
 
 const PelangganEdit = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [name, setName] = useState()
-    const [phone_number, setPhoneNumber] = useState()
-    const [customerId, setCustomerId] = useState()
+    const [form, setForm] = stateObject(navigation.state.params.item)
     const [modalVisible, setModalVisible] = useState(false)
-    const [alert, setAlert] = useState(false)
+    const [alertDel, setAlertDel] = useState(false)
     const User = useSelector(state => state.User)
 
-    useEffect(() => {
-        _getParams()
-    }, [])
-    const _getParams = async () => {
-        const { item } = navigation.state.params
-        setName(item.name_customer)
-        setPhoneNumber(item.phone_number_customer)
-        setCustomerId(item.id_customer)
-    }
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
+
 
     const _handleFinishEdit = async () => {
-        if (name == "") {
-            alert("Nama tidak boleh kosong")
-        }
-        else {
+        if (form.name_customer == "") {
+            setAlertMessage("Nama tidak boleh kosong")
+            setAlert(true)
+        } else {
+            const userToken = await getUserToken()
             const res = await editCustomer({
-                name_customer: name,
-                phone_number_customer : phone_number
-            }, customerId)
-            console.log(res)
+                name_customer: form.name_customer,
+                phone_number_customer: form.phone_number_customer
+            }, form.id_customer)
             if (res.status == 201) {
                 setModalVisible(true)
                 setTimeout(() => {
                     navigation.goBack()
-                    dispatch(getCustomer(User.store.id_store))
+                    dispatch(getCustomer(User.store.id_store, userToken))
                     setModalVisible(false)
                 }, 1000)
             } else if (res.status == 400) {
-                alert(res.data.errors.msg)
+                setAlertMessage(res.data.errors.msg)
+                setAlert(true)
             }
         }
     }
 
     const _handleDeleteCustomer = async () => {
-        setAlert(false)
-        await deleteCustomer(customerId)
+        setAlertDel(false)
+        await deleteCustomer(form.id_customer)
         setModalVisible(true)
         setTimeout(() => {
             navigation.goBack()
@@ -81,16 +77,21 @@ const PelangganEdit = ({ navigation }) => {
     }
     return (
         <View style={styles.container} >
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <BarStatus />
-            <AwanPopup.Title title="Hapus Pelanggan" visible={alert} message={`${name} akan dihapus dari daftar pelanggan.`}>
+            <AwanPopup.Title title="Hapus Pelanggan" visible={alertDel} message={`${form.name_customer} akan dihapus dari daftar pelanggan.`}>
                 <View></View>
-                <Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
+                <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
                 <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
             </AwanPopup.Title>
             <GlobalHeaderWithIcon
                 onPressBack={() => navigation.goBack()}
                 title="Edit Pelanggan"
-                image={require('../../../../assets/icons/trash.png')}
+                image={require('src/assets/icons/trash.png')}
                 handleDeleteCategory={() => setAlert(true)}
             />
             <Modal
@@ -101,25 +102,21 @@ const PelangganEdit = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemenpelanggansuccess.png')}
+                    image={require('src/assets/images/managemenpelanggansuccess.png')}
                     infoText="Edit Pelanggan Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama Pelanggan">
-                        <TextInput value={name}
-                            onChangeText={(text) => setName(text)}
+                    <MDInput label="Nama Pelanggan" value={form.name_customer}
+                        onChangeText={name_customer => setForm({ name_customer })}
+                    />
+                    <View style={{ marginTop: 10 }}>
+                        <MDInput label="No Telepon" value={form.phone_number_customer}
+                            keyboardType="number-pad"
+                            onChangeText={phone_number_customer => setForm({ phone_number_customer })}
                         />
-                    </FloatingInput>
-                    <View style={{marginTop : 10}}>
-                        <FloatingInput label="No Telepon">
-                            <TextInput value={phone_number}
-                                keyboardType="number-pad"
-                                onChangeText={(text) => setPhoneNumber(text)}
-                            />
-                        </FloatingInput>
                     </View>
                 </View>
                 <View style={{ width: '90%', padding: 10 }}>
@@ -147,7 +144,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -158,6 +155,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

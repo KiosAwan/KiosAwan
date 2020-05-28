@@ -7,11 +7,11 @@ import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
-import { FloatingInput } from 'src/components/Input/InputComp';
+import { } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
 import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { convertRupiah, getReportHutang } from 'src/utils/authhelper';
+import { convertRupiah, getReportHutang, getUserToken } from 'src/utils/authhelper';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
@@ -57,9 +57,14 @@ const TransactionList = ({ navigation }) => {
       .filter(item => JSON.stringify(item).toLowerCase().includes(search))
   }
   useEffect(() => {
-    dispatch(getTransactionList(User.store.id_store))
-    _reportHutang()
+    _effect()
   }, [])
+
+  const _effect = async () => {
+    const userToken = await getUserToken()
+    dispatch(getTransactionList(User.store.id_store, userToken))
+    _reportHutang()
+  }
 
   const [filterPopup, setFilterPopup] = useState(false)
   const selectFilter = (val) => {
@@ -68,7 +73,7 @@ const TransactionList = ({ navigation }) => {
   }
   const DaftarTransaksi = ({ route }) => {
     return (
-      <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+      <View style={{ flex: 1, backgroundColor: DataTransaksi.isLoading ? ColorsList.white : ColorsList.authBackground }}>
 
         {
           DataTransaksi.isLoading ?
@@ -91,16 +96,13 @@ const TransactionList = ({ navigation }) => {
                     <SearchInput width="85%" clear={() => setSearch('')}>
                       <TextInput placeholder="Cari transaksi" onFocus={() => setSearchIconColor(ColorsList.primary)} onBlur={() => setSearchIconColor(ColorsList.greyFont)} value={search} onChangeText={text => setSearch(text)} />
                     </SearchInput>
-                    {/* <FloatingInput left={30} _style={{ width: "85%" }} label="Cari transaksi">
-                      <Icon style={{ color: searchIconColor }} name="search" />
-                    </FloatingInput> */}
                     <Button _style={{ width: '12%', justifyContent: 'flex-end' }} onPress={() => setFilterPopup(true)}>
                       <Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/filter.png')} />
                     </Button>
                   </Wrapper>
                 </View>
                 {
-                  eval(DataTransaksi.data.map(item => filterResult(item.data).length).join('+')) > 0 ?
+                  eval(DataTransaksi.data.rMap(item => filterResult(item.data).length).join('+')) > 0 ?
                     <FlatList
                       style={{ marginBottom: 70 }}
                       data={DataTransaksi.data}
@@ -114,7 +116,7 @@ const TransactionList = ({ navigation }) => {
                           </View> : null,
                         <View style={{ padding: 15 }}>
                           {
-                            filterResult(item.data).map((trx, i) => {
+                            filterResult(item.data).rMap((trx, i) => {
                               return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
                                 <Wrapper style={[i > 0 ? { marginTop: 10 } : null, { backgroundColor: ColorsList.whiteColor }]} justify="space-between">
                                   <View style={{ padding: 15 }}>
@@ -214,7 +216,7 @@ const TransactionList = ({ navigation }) => {
           return (
             <Wrapper style={{ padding: 15 }}>
               {
-                props.navigationState.routes.map((route, i) => {
+                props.navigationState.routes.rMap((route, i) => {
                   return <Button textStyle={{ fontSize: 12 }} disabled={index == i} onPress={() => setIndex(i)} color={index == i ? 'primary' : 'white'} _width={`${width}%`} style={{ borderRadius: 0 }}>{route.title}</Button>
                 })
               }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 //Styling
@@ -20,6 +20,7 @@ import { BottomButton } from '../../components/Button/ButtonComp';
 import { SizeList } from '../../styles/size';
 import { ColorsList } from '../../styles/colors';
 import { FontList } from 'src/styles/typography';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
 //Functions
 
@@ -28,13 +29,17 @@ const height = Dimensions.get('window').height
 const NewPassword1 = ({ navigation }) => {
     const dispatch = useDispatch()
     const FormRegister = useSelector(state => state.Registration)
+    //alert
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState(false)
     // //Sending OTP code to server
     const _handleChangePIN = async (psw) => {
         await dispatch(addFirstPassword(psw))
     }
     const _handleNextBtn = () => {
         if (FormRegister.password.length < 8) {
-            alert("Password minimal 8 karakter")
+            setAlertMessage("Password minimal 8 karakter")
+            setAlert(true)
         }
         else {
             navigation.navigate('/unauth/login/forgot-password/new-password-2')
@@ -46,6 +51,11 @@ const NewPassword1 = ({ navigation }) => {
             <GlobalHeader
                 onPressBack={() => navigation.goBack()}
                 title="Atur password"
+            />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
             />
             <View style={{ alignItems: "center" }}>
                 <View style={{ width: '70%', paddingTop: 30 }}>
@@ -82,7 +92,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -93,6 +103,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })

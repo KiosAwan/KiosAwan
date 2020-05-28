@@ -14,11 +14,12 @@ import { BottomVertical } from 'src/components/View/Bottom';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
-import { convertRupiah, verifyUserPIN } from 'src/utils/authhelper';
+import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { checkTagihanBPJS, payTagihanBPJS } from 'src/utils/api/ppob/bpjs_api';
 import { useDispatch, useSelector } from 'react-redux';
 import GlobalEnterPin from '../../GlobalEnterPin';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 
 const BPJS = ({ navigation }) => {
     //Initialize dispatch 
@@ -31,8 +32,8 @@ const BPJS = ({ navigation }) => {
     const [tagihanLoading, setTagihanLoading] = useState(false)
     const [tagihanData, setTagihanData] = useState()
     const [detail, setDetail] = useState(false)
-    const [phoneNumber, setPhoneNumber] = useState("081232131")
-    const [virtualNumber, setVirtualNumber] = useState(8888801314742533)
+    const [phoneNumber, setPhoneNumber] = useState("")
+    const [virtualNumber, setVirtualNumber] = useState("")
     const [modal, setModal] = useState(false)
 
     // alert
@@ -45,17 +46,23 @@ const BPJS = ({ navigation }) => {
     // Loading pay state
     const [payLoading, setPayLoading] = useState(false)
     const _cekTagihan = async () => {
-        setTagihanLoading(true)
-        const data = {
-            productID: 900001,
-            customerID: virtualNumber
-        }
-        const res = await checkTagihanBPJS(data)
-        setTagihanLoading(false)
-        if (res.status == 400) {
-            alert(res.data.errors.msg)
+        if (typeof phoneNumber == 'string' && phoneNumber.length > 10) {
+            setTagihanLoading(true)
+            const data = {
+                productID: 900001,
+                customerID: virtualNumber
+            }
+            const res = await checkTagihanBPJS(data)
+            setTagihanLoading(false)
+            if (res.status == 400) {
+                setAlertMessage(res.data.errors.msg.trim())
+                setAlert(true)
+            } else {
+                setTagihanData(res.data)
+            }
         } else {
-            setTagihanData(res.data)
+            setAlertMessage("Harap masukkan nomor handpone yang benar")
+            setAlert(true)
         }
     }
 
@@ -103,8 +110,10 @@ const BPJS = ({ navigation }) => {
         const res = await payTagihanBPJS(data)
         setPayLoading(false)
         if (res.status == 200) {
+            const userToken = await getUserToken()
             const data = { type: "bpjs", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: "BPJS" }
             dispatch(AddPPOBToCart(data))
+            dispatch(getProfile(User.data.id, userToken))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
             navigation.navigate("/ppob/status", { params: res.data })
         } else if (res.status == 400) {
@@ -116,8 +125,8 @@ const BPJS = ({ navigation }) => {
     }
     return <Container header={{
         title: "BPJS Kesehatan",
-        image: require('src/assets/icons/phonebook.png'),
-        onPressIcon: () => setModal(true),
+        // image: require('src/assets/icons/phonebook.png'),
+        // onPressIcon: () => setModal(true),
         onPressBack: () => navigation.goBack(),
     }}>
         {/* Modal for check user pin */}
@@ -144,7 +153,7 @@ const BPJS = ({ navigation }) => {
                 }} />
                 <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
                     {[1, 2, 3, 4, 5, 6]
-                        .map((item, i) => [
+                        .rMap((item, i) => [
                             <Button color="link">Albert Stanley - 123456789123456789</Button>,
                             i != 5 && <Divider />
                         ])
@@ -155,22 +164,29 @@ const BPJS = ({ navigation }) => {
         <View style={styles.topComp}>
             <MDInput _width="80%"
                 label="No. Virtual Account"
-                value={virtualNumber}
+                value={virtualNumber.toString()}
                 onChangeText={text => setVirtualNumber(text)}
+                keyboardType="number-pad"
             />
             <MDInput _width="80%"
                 label="No. Handphone"
-                value={phoneNumber}
+                value={phoneNumber.toString()}
                 onChangeText={text => setPhoneNumber(text)}
+                keyboardType="number-pad"
             />
         </View>
-        <View style={styles.simpan}>
+        {/* <View style={styles.simpan}>
             <Text>Simpan VA ini untuk masuk ke favorit</Text>
             <SwitchButton
                 // handleChangeToggle={_handleChangeToggle}
                 toggleValue={true}
             />
-        </View>
+        </View> */}
+        {tagihanData ? <Button style={$Margin(0, 15, 15)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
+            {`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
+                (parseInt(tagihanData.transaction.cashback)
+                ))}`}
+        </Button> : null}
         {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
             :
             tagihanData ?
@@ -202,9 +218,8 @@ const BPJS = ({ navigation }) => {
                         </Wrapper>
                         <TouchableOpacity onPress={() => setDetail(!detail)} style={{ padding: 10, alignSelf: "flex-end" }}>
                             <Text color="primary" font="Regular">DETAIL</Text>
-                            {/* <Text font="Regular">{convertRupiah(tagihanData.total)}</Text> */}
                         </TouchableOpacity>
-                        {detail ? tagihanData.details.map((item, i) => (
+                        {detail ? tagihanData.details.rMap((item, i) => (
                             <View key={i}>
                                 <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
                                     <Text font="Regular">{item.nama.trim()}</Text>
@@ -213,12 +228,6 @@ const BPJS = ({ navigation }) => {
                                 <Divider />
                             </View>
                         )) : null}
-
-                        {/* <Divider />
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Total Tagihan</Text>
-                            <Text font="Regular">{convertRupiah(tagihanData.data.total)}</Text>
-                        </Wrapper> */}
                     </View>
                 </Body>
                 : null}

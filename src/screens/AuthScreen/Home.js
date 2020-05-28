@@ -1,37 +1,39 @@
-import React, { useState, useEffect } from 'react'
-import {
-	View,
-	StyleSheet,
-	Dimensions,
-	ScrollView,
-	TouchableOpacity,
-	RefreshControl,
-	FlatList
-} from 'react-native'
 import TextTicker from 'react-native-text-ticker'
+import React, { useState, useEffect } from 'react'
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Divider from 'src/components/Row/Divider'
 import Axios from 'axios'
-import { ColorsList } from 'src/styles/colors'
-import { FontList } from 'src/styles/typography'
+import { Wrapper } from 'src/components/View/Wrapper'
+import { View, StyleSheet, Dimensions, ScrollView, TouchableOpacity, RefreshControl, FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { CardTextImage } from 'src/components/Card/CardComp'
+import { Text } from 'src/components/Text/CustomText'
+import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
+import { Image } from 'src/components/CustomImage';
 import { HOST_URL } from 'src/config'
+<<<<<<< HEAD
 import { HomeHeader, Header } from 'src/components/Header/Header'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
+=======
+import { HomeHeader } from 'src/components/Header/Header'
+>>>>>>> 8.ppob
 import { getProfile } from 'src/redux/actions/actionsUserData'
-import { Image } from 'src/components/CustomImage';
-import { Text } from 'src/components/Text/CustomText'
+import { FontList } from 'src/styles/typography'
+import { convertRupiah, getUserToken } from 'src/utils/authhelper'
+import { ColorsList } from 'src/styles/colors'
+import { CardTextImage } from 'src/components/Card/CardComp'
 import { Button } from 'src/components/Button/Button'
-import { Wrapper } from 'src/components/View/Wrapper'
-import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
-import { convertRupiah } from 'src/utils/authhelper'
+import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { $Padding } from 'src/utils/stylehelper'
+<<<<<<< HEAD
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Container, { Body } from 'src/components/View/Container'
+=======
+>>>>>>> 8.ppob
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
+	const [flexStart] = [true]
 	const User = useSelector(state => state.User)
 	const dispatch = useDispatch()
 	const [maintanance, setMaintanance] = useState(false)
@@ -50,7 +52,11 @@ const Home = ({ navigation }) => {
 	}
 
 	const _checkService = async () => {
-		const res = await Axios.get(`${HOST_URL}/check_service`)
+		const userToken = await getUserToken()
+		const res = await Axios.get(`${HOST_URL}/check_service`, {
+			headers: { "authorization": userToken }
+		})
+		res.data.data.status == 2 && _featureDisabled();
 		if (res.data.data.service == 1) {
 			setMaintanance(true)
 			setMessage(res.data.data.message)
@@ -59,21 +65,42 @@ const Home = ({ navigation }) => {
 		}
 	}
 
-	const _featureDisabled = action => {
+	const _featureDisabled = (action, num) => {
 		let title, message
-		switch (action) {
-			case 'ppob':
-				title = 'FITUR PAYMENT POINT'
-				message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
-				break;
-			case 'stock':
-				title = 'FITUR BELANJA STOK'
-				message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
-				break;
-			default:
-				title = 'FITUR KASIR'
-				message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
-				break;
+		if (User.data.status == 2) {
+			title = 'AKUN ANDA TERBLOKIR'
+			message = `Anda tidak dapat menggunakan layanan apapun, silahkan hubungi customer service dengan kode ${User.data.banned_log.code}`
+		} else {
+			switch (action) {
+				case 'ppob':
+					title = 'FITUR PAYMENT POINT'
+					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				case 'stock':
+					title = 'FITUR BELANJA STOK'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+					break;
+				case 'hutang':
+					title = 'FITUR PENCATATAN HUTANG'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+					break;
+				case 'blokir':
+					title = 'AKUN ANDA TERBLOKIR'
+					message = `Anda tidak dapat menggunakan layanan apapun, silahkan hubungi customer service dengan kode ${num}`
+					break;
+				case 'topup':
+					title = 'FITUR TOPUP'
+					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				case 'riwayat':
+					title = 'FITUR RIWAYAT'
+					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				default:
+					title = 'FITUR KASIR'
+					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+			}
 		}
 		_setAlertTitle(title)
 		_setAlertMessage(message)
@@ -96,6 +123,7 @@ const Home = ({ navigation }) => {
 		}
 	}
 	const _onPressStock = () => _featureDisabled('stock')
+	const _onPressHutang = () => _featureDisabled('hutang')
 
 	const _handlePressDrawer = () => {
 		navigation.navigate('/drawer')
@@ -104,8 +132,9 @@ const Home = ({ navigation }) => {
 	const [_alertTitle, _setAlertTitle] = useState('')
 	const [_alertMessage, _setAlertMessage] = useState('')
 
-	const _handleRefresh = () => {
-		dispatch(getProfile(User.data.id))
+	const _handleRefresh = async () => {
+		const userToken = await getUserToken()
+		dispatch(getProfile(User.data.id, userToken))
 		_checkService()
 		setOnRefresh(false)
 	}
@@ -132,7 +161,7 @@ const Home = ({ navigation }) => {
 	}
 	const _addressStore = () => {
 		if (User.store && User.store.address_store) {
-			let address = `${User.store.address_store.split('%')[0]}, ${User.store.address_store.split('%')[4]}`
+			let address = User.store.address_store
 			if (address.length > 30) {
 				return address.substr(0, 30) + '...'
 			}
@@ -146,9 +175,7 @@ const Home = ({ navigation }) => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/topup')
 		} else {
-			_setAlertTitle("FITUR INI")
-			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
-			_setAlert(true)
+			_featureDisabled("topup")
 		}
 	}
 
@@ -156,9 +183,7 @@ const Home = ({ navigation }) => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/riwayat')
 		} else {
-			_setAlertTitle("FITUR INI")
-			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
-			_setAlert(true)
+			_featureDisabled("riwayat")
 		}
 	}
 	const oldDesign = <ParallaxScrollView
@@ -195,25 +220,25 @@ const Home = ({ navigation }) => {
 						<Text>Saldo: {convertRupiah(User.data.saldo || 0)}</Text>
 					</Wrapper>
 					<Wrapper justify="flex-end">
-						<Button color="link">
+						<Button color="link" onPress={_handleRefresh}>
 							<Image source={require('src/assets/icons/home/refresh.png')} size={15} />
 						</Button>
 						<Button onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
 					</Wrapper>
 				</Wrapper>
 				<Divider />
-				<Wrapper justify="space-around">
-					<Button color="link" onPress={_onPressRiwayat}>
+				<Wrapper justify="space-evenly">
+					<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={_onPressRiwayat}>
 						<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/chart-up.png')} size={15} />
 						<Text>Riwayat</Text>
 					</Button>
-					<Divider />
-					<Button color="link">
+					<Divider flex />
+					{/* <Button color="link">
 						<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/coupon.png')} size={15} />
 						<Text>Kupon</Text>
 					</Button>
-					<Divider />
-					<Button color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
+					<Divider flex /> */}
+					<Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
 						<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />
 						<Text>Favorit</Text>
 					</Button>
@@ -228,6 +253,7 @@ const Home = ({ navigation }) => {
 				<Button width='30%' onPress={_completeProfile}>OK</Button>
 			</AwanPopup.Title>
 			<View style={{ paddingVertical: 10 }}>
+<<<<<<< HEAD
 				{
 					maintanance &&
 					<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
@@ -267,6 +293,37 @@ const Home = ({ navigation }) => {
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_2.png')} />
 				</ScrollView>
+=======
+				<View style={{ marginBottom: 10 }}>
+					{
+						maintanance && <Button disabled color="info" wrapper={{ flexStart }}>
+							<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+							<TextTicker
+								width="90%"
+								style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+								duration={20000}
+								loop
+								bounce
+								marqueeDelay={500}
+							>{message}</TextTicker>
+						</Button>
+					}
+					{
+						User.store ?
+							User.data.status == 0 &&
+							<Button onPress={() => navigation.navigate('/drawer/settings/change-email')} color="purple" flexStart wrapper={{ flexStart }}>
+								<Icon color={ColorsList.purple} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+								<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
+							</Button>
+							:
+							<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }}>
+								<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+								<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
+								<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>
+							</Button>
+					}
+				</View>
+>>>>>>> 8.ppob
 				<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 					<Wrapper justify="space-between">
 						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
@@ -280,7 +337,7 @@ const Home = ({ navigation }) => {
 					<Wrapper justify="space-between">
 						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
 						<View _width="75%">
-							<Text font="ExtraBold" color="primary">PAYMENT POINT</Text>
+							<Text font="ExtraBold" color="primary">PEMBAYARAN</Text>
 							<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
 						</View>
 					</Wrapper>
@@ -294,8 +351,26 @@ const Home = ({ navigation }) => {
 						</View>
 					</Wrapper>
 				</Button>
+				<Button onPress={_onPressHutang} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
+					<Wrapper justify="space-between">
+						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/hutang.png")} />
+						<View _width="75%">
+							<Text font="ExtraBold" color="primary">PENCATATAN HUTANG</Text>
+							<Text size={12}>Kelola hutang dan piutang usaha kios atau warung</Text>
+						</View>
+					</Wrapper>
+				</Button>
 			</View>
 		</View>
+<<<<<<< HEAD
+=======
+		<ScrollView
+			horizontal={true}
+			showsHorizontalScrollIndicator={false}>
+			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/Banner.jpg')} />
+			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
+		</ScrollView>
+>>>>>>> 8.ppob
 		<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
 		{newsLoading ?
 			<NewsCardPlaceholder />
@@ -307,7 +382,7 @@ const Home = ({ navigation }) => {
 				renderItem={({ item, index }) => (
 					<CardTextImage
 						style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
-						onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url })}
+						onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url, link: item.link })}
 						image={item.jetpack_featured_media_url}
 						info={item.title.rendered}
 					/>

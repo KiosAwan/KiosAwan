@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import { convertRupiah } from '../../utils/authhelper';
+import { convertRupiah, getUserToken } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
-import { addDiscountProductPersen, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct } from '../../redux/actions/actionsStoreProduct';
+import { addDiscountProductPersen, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct, removeProductCart } from '../../redux/actions/actionsStoreProduct';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader } from '../../components/Header/Header';
 import { PilihPelanggan, ToggleButton } from '../../components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
-import { FloatingInputLabel, FloatingInput } from '../../components/Input/InputComp';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
@@ -19,6 +18,9 @@ import { ImageAuto, Image } from 'src/components/CustomImage';
 import { Bottom } from 'src/components/View/Bottom';
 import Divider from 'src/components/Row/Divider';
 import { RemovePPOBFromCart } from 'src/redux/actions/actionsPPOB';
+import MDInput from 'src/components/Input/MDInput';
+import AsyncStorage from 'src/utils/async-storage';
+import Container, { Body } from 'src/components/View/Container';
 
 const Cart = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -31,6 +33,15 @@ const Cart = ({ navigation }) => {
 	const [pesanan, setPesanan] = useState({})
 	const [toggle, setToggle] = useState(0)
 	const [discount_type, setDiscountType] = useState(0)
+
+	useEffect(() => {
+		_effect()
+	}, [])
+
+	const _effect = async () => {
+		const userToken = await getUserToken()
+		dispatch(getCustomer(User.store.id_store, userToken))
+	}
 
 	const _editPesanan = (index, item) => {
 		setEditPesananOpen(true);
@@ -112,10 +123,11 @@ const Cart = ({ navigation }) => {
 		}
 	}
 	const [confirm, setConfirm] = useState({})
-	const _emptyCart = (force) => {
+	const _emptyCart = async (force) => {
 		if (force) {
-			dispatch(removeAllCart())
-			dispatch(getProduct(User.store.id_store))
+			const userToken = await getUserToken()
+			dispatch(removeProductCart())
+			dispatch(getProduct(User.store.id_store, userToken))
 			setHapusPesananOpen(false)
 			navigation.goBack()
 		} else {
@@ -126,7 +138,7 @@ const Cart = ({ navigation }) => {
 			setHapusPesananOpen(true)
 		}
 	}
-	return <View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
+	return <Container>
 		<GlobalHeader
 			title="Detail Pesanan"
 			onPressBack={() => navigation.goBack()} />
@@ -144,10 +156,8 @@ const Cart = ({ navigation }) => {
 				<Text _style={{ width: '30%', alignItems: 'flex-end' }} style={{ textAlignVertical: 'center', color: ColorsList.greyFont }}>{convertRupiah(Number(pesanan.price_out_product) * pesanan.quantity)}</Text>
 			</Wrapper>
 			<Wrapper justify="space-between">
-				<FloatingInput width="70%" label="Diskon">
-					<TextInput keyboardType="number-pad" onChangeText={_handleChangeDiscountItem}
-						value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
-				</FloatingInput>
+				<MDInput width="70%" label="Diskon" keyboardType="number-pad" onChangeText={_handleChangeDiscountItem}
+					value={editPesananOpen ? toggle == 0 ? pesanan.discount_total.toString() : pesanan.discount_persen.toString() : null} />
 				<ToggleButton
 					toggle={toggle}
 					buttons={["Rp", "%"]}
@@ -180,7 +190,7 @@ const Cart = ({ navigation }) => {
 				</Button>
 			</Wrapper>
 		</Modal>
-		<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15, flex: 1 }}>
+		<Body showsVerticalScrollIndicator={false}>
 			<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, borderRadius: 5 }}>
 				{Product.belanja.length > 0 ?
 					<View style={{ backgroundColor: ColorsList.greyAuthHard, padding: 5, alignItems: "center" }}>
@@ -188,7 +198,7 @@ const Cart = ({ navigation }) => {
 					</View>
 					: null}
 				{
-					Product.belanja.map((data, i) => {
+					Product.belanja.rMap((data, i) => {
 						return <View>
 							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
 								<View _width="70%">
@@ -219,7 +229,7 @@ const Cart = ({ navigation }) => {
 					</View>
 					: null}
 				{
-					Product.ppob_cart.map((data, i) => {
+					Product.ppob_cart.rMap((data, i) => {
 						return <View>
 							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
 								<View _width="60%">
@@ -253,9 +263,10 @@ const Cart = ({ navigation }) => {
 					<Text style={{ padding: 10 }} font="Bold">{convertRupiah(Product.total - Product.total_diskon)}</Text>
 				</Wrapper>
 				<Wrapper justify="space-between" style={{ marginVertical: 20, marginHorizontal: 10 }}>
-					<Text size={12} color="primary" onPress={() => {
+					<Text size={12} color="primary" onPress={async () => {
 						if (Product.data.length == 0) {
-							dispatch(getProduct(User.store.id_store))
+							const userToken = await getUserToken()
+							dispatch(getProduct(User.store.id_store, userToken))
 						}
 						navigation.navigate('/cashier')
 					}}>TAMBAH PRODUK</Text>
@@ -264,18 +275,23 @@ const Cart = ({ navigation }) => {
 			</View>
 			{/* <View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, marginBottom: 10 }}> */}
 
-			<Button wrapper={{ justify: "center" }} color="white" style={{ marginBottom: 10 }} _width="100%" justify="center" padding={10} onPress={() => navigation.navigate("/ppob")}>
+			<Button wrapper={{ justify: "center" }} color="white" style={{ marginBottom: 10 }} _width="100%" justify="center" padding={10} onPress={async () => {
+				await AsyncStorage.put("TransactionDetailRoute", "/")
+				navigation.navigate("/ppob")
+			}}>
 				<Image style={{ marginHorizontal: 10 }} size={10} source={require('src/assets/icons/plus-primary.png')} />
-				<Text color="primary">TAGIHAN DAN ISI ULANG</Text>
+				<Text color="primary">PULSA DAN TAGIHAN</Text>
 			</Button>
 			{/* </View> */}
-			<Wrapper justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
-				<Wrapper justify="flex-start">
-					<Icon style={{ marginRight: 10, color: ColorsList.primaryColor }} name="contact" />
-					<Text color="primary">{Product.customer ? Product.customer.name_customer : "Pilih pelanggan"}</Text>
+			<TouchableOpacity onPress={() => setPilihPelangganOpen(true)}>
+				<Wrapper justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
+					<Wrapper justify="flex-start">
+						<Icon style={{ marginRight: 10, color: ColorsList.primaryColor }} name="contact" />
+						<Text color="primary">{Product.customer ? Product.customer.name_customer : "Pilih pelanggan"}</Text>
+					</Wrapper>
+					<Icon style={{ color: ColorsList.primaryColor }} name="add" />
 				</Wrapper>
-				<Icon onPress={() => setPilihPelangganOpen(true)} style={{ color: ColorsList.primaryColor }} name="add" />
-			</Wrapper>
+			</TouchableOpacity>
 			<View style={{ backgroundColor: ColorsList.whiteColor, marginVertical: 10, borderRadius: 5 }}>
 				<Wrapper justify="space-between" style={{ padding: 10 }}>
 					<Text font="Bold">Diskon</Text>
@@ -285,9 +301,7 @@ const Cart = ({ navigation }) => {
 					<View>
 						<Divider />
 						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<FloatingInput _width="70%" label="Diskon">
-								<TextInput keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
-							</FloatingInput>
+							<MDInput _width="70%" label="Diskon" keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
 							<ToggleButton
 								buttons={["Rp", "%"]}
 								changeToggle={(i) => {
@@ -301,18 +315,19 @@ const Cart = ({ navigation }) => {
 					: null}
 			</View>
 			<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5, padding: 10, paddingHorizontal: 15 }}>
-				<FloatingInputLabel value={Product.note} handleChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
+				<MDInput value={Product.note} onChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
 			</View>
-			<Button onPress={() => {
+			<Button onPress={async () => {
 				if (Product.jumlahitem > 0) {
 					navigation.navigate('/cashier/check-out')
-					dispatch(getCustomer(User.store.id_store))
+					const userToken = await getUserToken()
+					dispatch(getCustomer(User.store.id_store, userToken))
 				} else {
 					alert("Keranjang anda kosong")
 				}
-			}} width="100%" style={{ marginBottom: 30 }}>LANJUTKAN</Button>
-		</ScrollView>
-	</View>
+			}}>LANJUTKAN</Button>
+		</Body>
+	</Container>
 }
 
 export default Cart

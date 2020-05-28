@@ -5,11 +5,11 @@ import { SizeList } from "src/styles/size"
 
 const styles = StyleSheet.create({
     topComp: {
-        ...$Margin(15, 15, 10),
+        // ...$Margin(15, 15, 10),
         ...$Padding(0, 10),
         borderRadius: 5,
         justifyContent: "flex-end",
-        backgroundColor: ColorsList.whiteColor
+        backgroundColor: ColorsList.whiteColor,
     },
     listPulsa: {
         padding: 10,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     },
     selectContainer: {
         backgroundColor: ColorsList.whiteColor,
-        marginVertical: 10
+        marginVertical : 10
     },
     selectWrapper: {
         borderBottomWidth: 1,
@@ -44,18 +44,24 @@ const styles = StyleSheet.create({
         elevation: 3,
         backgroundColor: ColorsList.whiteColor,
     },
-    cekTagihan: {
-        paddingHorizontal: 20,
-        alignSelf: "center",
-        paddingBottom: 10
+    cekTagihan : {
+        paddingHorizontal : 20,
+        alignSelf : "center",
+        paddingBottom : 10
     },
-    
     simpan: {
         alignSelf: "flex-end",
         flexDirection: "row",
         alignItems: "center",
         marginRight: 10,
         marginBottom: 10
-    }
+    },
+    infoPembelian: {
+		// marginHorizontal: 15,
+		padding: 10,
+		backgroundColor: ColorsList.infoBg,
+		borderRadius: 5,
+		marginVertical : 5
+	},
 })
 export default styles

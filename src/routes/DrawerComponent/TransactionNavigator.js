@@ -6,6 +6,7 @@ import TransactionDetailLunasi from 'src/screens/AuthScreen/Drawer/Transaction/T
 import TransactionCetakStruk from 'src/screens/AuthScreen/Drawer/Transaction/TransactionCetakStruk'
 import TambahPrinter from 'src/screens/AuthScreen/Drawer/Transaction/TambahPrinter'
 import UbahEmailInfoScreen from 'src/screens/AuthScreen/Drawer/Setting/UbahEmailInfoScreen'
+import TransactionDigitalDetail from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDigitalDetail'
 
 const TransactionNavigator = {
   '/drawer/transaction': {
@@ -16,6 +17,12 @@ const TransactionNavigator = {
   },
   '/drawer/transaction/detail': {
     screen: TransactionDetail,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/transaction/detail/digital': {
+    screen: TransactionDigitalDetail,
     navigationOptions: {
       header: null
     }
@@ -38,25 +45,25 @@ const TransactionNavigator = {
       header: null
     }
   },
-  
-	'/drawer/transaction/cetakstruk': {
-		screen: TransactionCetakStruk,
-		navigationOptions: {
-			header: null
-		}
-	},
-	'/drawer/transaction/tambahprinter': {
-		screen: TambahPrinter,
-		navigationOptions: {
-			header: null
-		}
-	},
-	'/drawer/settings/change-email': {
-		screen: UbahEmailInfoScreen,
-		navigationOptions: {
-			header: null
-		}
-	},
+
+  '/drawer/transaction/cetakstruk': {
+    screen: TransactionCetakStruk,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/transaction/tambahprinter': {
+    screen: TambahPrinter,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/settings/change-email': {
+    screen: UbahEmailInfoScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
 }
 
 export default TransactionNavigator

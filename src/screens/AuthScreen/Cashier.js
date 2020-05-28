@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler';
-import { convertRupiah } from '../../utils/authhelper';
+import { convertRupiah, getUserToken } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { ProductCard } from '../../components/Card/CardComp';
 import { MinusQuantity, AddQuantity, getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
@@ -20,6 +20,7 @@ import { Image } from 'src/components/CustomImage';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Bottom } from 'src/components/View/Bottom';
+import { HOST_IMG_URL } from 'src/config';
 
 const Cashier = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -30,10 +31,10 @@ const Cashier = ({ navigation }) => {
         _loadProduct()
     }, [])
 
-    const _loadProduct = () => {
+    const _loadProduct = async () => {
         if (Product.data.length == 0) {
-            dispatch(getProduct(User.store.id_store))
-            // dispatch(removeAllCart())
+            const userToken = await getUserToken()
+            dispatch(getProduct(User.store.id_store, userToken))
         }
     }
     return (
@@ -83,7 +84,7 @@ const Cashier = ({ navigation }) => {
                             data={Product.data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase()))}
                             renderItem={({ item }) => (
                                 <ProductCard
-                                    productImage={item.photo_product !== "" ? item.photo_product : null}
+                                    productImage={item.photo_product !== "" ? `${HOST_IMG_URL}/${item.photo_product}` : null}
                                     name={item.name_product.toUpperCase()}
                                     price={convertRupiah(item.price_out_product)}
                                     onPressMinus={() => dispatch(MinusQuantity(item))}
@@ -103,9 +104,8 @@ const Cashier = ({ navigation }) => {
             {
                 Product.jumlahitem > 0 ?
                     <Bottom>
-                        <Button onPress={() => {
+                        <Button onPress={async () => {
                             navigation.navigate('/cashier/cart')
-                            dispatch(getCustomer(User.store.id_store))
                         }} width="100%">
                             <Wrapper>
                                 <Icon style={{ color: ColorsList.whiteColor, marginRight: 10 }} name="ios-cart" />

@@ -9,17 +9,18 @@ import {
 	TextInput,
 	Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FloatingInput } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
 import AsyncStorage from '@react-native-community/async-storage';
-import { changeEmail } from '../../../../utils/authhelper';
-import { getProfile } from '../../../../redux/actions/actionsUserData';
+import { changeEmail, getUserToken } from 'src/utils/authhelper';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const height = Dimensions.get('window').height
@@ -40,10 +41,11 @@ const UbahEmailNewEmail = ({ navigation }) => {
 		const res = await changeEmail(data)
 		setLoading(false)
 		if (res.status == 200) {
+			const userToken = await getUserToken()
 			setModalVisible(true)
 			setTimeout(() => {
 				setModalVisible(false)
-				dispatch(getProfile(User.data.id))
+				dispatch(getProfile(User.data.id, userToken))
 				navigation.navigate('/drawer/settings')
 			}, 1000)
 		} else if (res.status == 400) {
@@ -51,7 +53,7 @@ const UbahEmailNewEmail = ({ navigation }) => {
 		}
 	}
 
-const [loading, setLoading]=useState(false)
+	const [loading, setLoading] = useState(false)
 	return (
 		<View style={styles.container} >
 			<BarStatus />
@@ -68,26 +70,22 @@ const [loading, setLoading]=useState(false)
 				}}
 			>
 				<ModalContent
-					image={require('../../../../assets/images/successchangeemail.png')}
+					image={require('src/assets/images/successchangeemail.png')}
 					infoText="Anda Berhasil Mengubah Email!"
 					closeModal={() => setModalVisible(false)}
 				/>
 			</Modal>
-			<AwanPopup.Loading visible={loading}/>
+			<AwanPopup.Loading visible={loading} />
 			<View style={{ alignItems: "center", marginTop: 20 }}>
 				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-					<FloatingInput label="Email lama">
-						<TextInput value={User.data.email}
-							editable={false}
-						/>
-					</FloatingInput>
+					<MDInput label="Email lama" value={User.data.email}
+						editable={false}
+					/>
 				</View>
 				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-					<FloatingInput label="Email baru">
-						<TextInput value={newEmail}
-							onChangeText={(text) => setNewEmail(text)}
-						/>
-					</FloatingInput>
+					<MDInput label="Email baru" value={newEmail}
+						onChangeText={(text) => setNewEmail(text)}
+					/>
 				</View>
 			</View>
 			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
 	},
 
 	borderStyleHighLighted: {
-		borderColor: "#03DAC6",
+		borderColor: ColorsList.successHighlight,
 	},
 
 	underlineStyleBase: {
@@ -126,6 +124,6 @@ const styles = StyleSheet.create({
 	},
 
 	underlineStyleHighLighted: {
-		borderColor: "#03DAC6",
+		borderColor: ColorsList.successHighlight,
 	},
 })

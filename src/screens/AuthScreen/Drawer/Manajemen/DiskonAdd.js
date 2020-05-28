@@ -10,17 +10,18 @@ import {
     TextInput,
     Modal
 } from 'react-native';
-import BarStatus from '../../../../components/BarStatus';
-import { GlobalHeader } from '../../../../components/Header/Header';
-import { ColorsList } from '../../../../styles/colors';
-import { SizeList } from '../../../../styles/size';
-import { addNewDiscount } from '../../../../utils/authhelper';
-import { BottomButton } from '../../../../components/Button/ButtonComp';
-import { FloatingInput } from '../../../../components/Input/InputComp';
-import ModalContent from '../../../../components/ModalContent/ModalContent';
-import { ToggleButton } from '../../../../components/Picker/SelectBoxModal';
-import { getDiscount } from '../../../../redux/actions/actionsDiscount';
+import BarStatus from 'src/components/BarStatus';
+import { GlobalHeader } from 'src/components/Header/Header';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
+import { addNewDiscount } from 'src/utils/authhelper';
+import { BottomButton } from 'src/components/Button/ButtonComp';
+import { } from 'src/components/Input/InputComp';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { ToggleButton } from 'src/components/Picker/SelectBoxModal';
+import { getDiscount } from 'src/redux/actions/actionsDiscount';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import MDInput from 'src/components/Input/MDInput';
 
 
 const height = Dimensions.get('window').height
@@ -100,34 +101,31 @@ const DiskonAdd = ({ navigation }) => {
                     setModalVisible(!modalVisible);
                 }}
             ><ModalContent
-                    image={require('../../../../assets/images/managemendiskonsuccess.png')}
+                    image={require('src/assets/images/managemendiskonsuccess.png')}
                     infoText="Tambah Diskon Berhasil!"
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
             <View style={{ alignItems: "center" }}>
                 <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <FloatingInput label="Nama diskon">
-                        <TextInput value={name}
-                            onChangeText={(text) => setName(text)}
-                        />
-                    </FloatingInput>
+                    <MDInput label="Nama diskon"
+                        value={name}
+                        onChangeText={(text) => setName(text)}
+                    />
                     <View style={{ marginTop: 10 }}>
-                        <FloatingInput label="Diskon">
-                            <TextInput value={value}
-                                style={{ width: '80%' }}
-                                keyboardType="number-pad"
-                                onChangeText={_handleChangeDiskon}
-                            />
-                            <View style={{ width: '20%' }}>
-                                <ToggleButton
-                                    buttons={["Rp", "%"]}
-                                    changeToggle={(i) => {
-                                        setDiscountType(i)
-                                    }}
-                                />
-                            </View>
-                        </FloatingInput>
+                        <MDInput label="Diskon" value={value}
+                            style={{ width: '80%' }}
+                            keyboardType="number-pad"
+                            onChangeText={_handleChangeDiskon}
+                            renderRightAccessory={() =>
+                                <View style={{ width: '20%' }}>
+                                    <ToggleButton
+                                        buttons={["Rp", "%"]}
+                                        changeToggle={(i) => {
+                                            setDiscountType(i)
+                                        }}
+                                    />
+                                </View>} />
                     </View>
                 </View>
             </View>
@@ -156,7 +154,7 @@ const styles = StyleSheet.create({
     },
 
     borderStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 
     underlineStyleBase: {
@@ -167,6 +165,6 @@ const styles = StyleSheet.create({
     },
 
     underlineStyleHighLighted: {
-        borderColor: "#03DAC6",
+        borderColor: ColorsList.successHighlight,
     },
 })
