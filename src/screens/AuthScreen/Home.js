@@ -11,12 +11,7 @@ import { Text } from 'src/components/Text/CustomText'
 import { NewsCardPlaceholder } from 'src/components/LoadingPlaceholder'
 import { Image } from 'src/components/CustomImage';
 import { HOST_URL } from 'src/config'
-<<<<<<< HEAD
 import { HomeHeader, Header } from 'src/components/Header/Header'
-import { AwanPopup } from 'src/components/ModalContent/Popups'
-=======
-import { HomeHeader } from 'src/components/Header/Header'
->>>>>>> 8.ppob
 import { getProfile } from 'src/redux/actions/actionsUserData'
 import { FontList } from 'src/styles/typography'
 import { convertRupiah, getUserToken } from 'src/utils/authhelper'
@@ -25,11 +20,7 @@ import { CardTextImage } from 'src/components/Card/CardComp'
 import { Button } from 'src/components/Button/Button'
 import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { $Padding } from 'src/utils/stylehelper'
-<<<<<<< HEAD
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Container, { Body } from 'src/components/View/Container'
-=======
->>>>>>> 8.ppob
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -253,7 +244,6 @@ const Home = ({ navigation }) => {
 				<Button width='30%' onPress={_completeProfile}>OK</Button>
 			</AwanPopup.Title>
 			<View style={{ paddingVertical: 10 }}>
-<<<<<<< HEAD
 				{
 					maintanance &&
 					<View style={{ borderRadius: 5, padding: 10, backgroundColor: '#d9e6f3', alignItems: "center", marginBottom: 10, flexDirection: 'row' }}>
@@ -293,37 +283,6 @@ const Home = ({ navigation }) => {
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/card_1.png')} />
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/card_2.png')} />
 				</ScrollView>
-=======
-				<View style={{ marginBottom: 10 }}>
-					{
-						maintanance && <Button disabled color="info" wrapper={{ flexStart }}>
-							<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-							<TextTicker
-								width="90%"
-								style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
-								duration={20000}
-								loop
-								bounce
-								marqueeDelay={500}
-							>{message}</TextTicker>
-						</Button>
-					}
-					{
-						User.store ?
-							User.data.status == 0 &&
-							<Button onPress={() => navigation.navigate('/drawer/settings/change-email')} color="purple" flexStart wrapper={{ flexStart }}>
-								<Icon color={ColorsList.purple} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-								<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
-							</Button>
-							:
-							<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }}>
-								<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-								<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
-								<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>
-							</Button>
-					}
-				</View>
->>>>>>> 8.ppob
 				<Button onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }} color="link">
 					<Wrapper justify="space-between">
 						<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
@@ -362,15 +321,6 @@ const Home = ({ navigation }) => {
 				</Button>
 			</View>
 		</View>
-<<<<<<< HEAD
-=======
-		<ScrollView
-			horizontal={true}
-			showsHorizontalScrollIndicator={false}>
-			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/Banner.jpg')} />
-			<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
-		</ScrollView>
->>>>>>> 8.ppob
 		<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
 		{newsLoading ?
 			<NewsCardPlaceholder />

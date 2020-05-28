@@ -5,12 +5,11 @@ import { View, Image, StyleSheet, Dimensions } from 'react-native'
 import { Header as HeaderNB } from 'native-base'
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler'
 import { Text } from '../Text/CustomText'
-import { Header } from 'native-base'
 import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { Wrapper } from '../View/Wrapper'
-import SearchInput from '../Input/SearchInput'
-
+import BarStatus from '../BarStatus'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 const width = Dimensions.get('window').width
 
 export const Header = props => {

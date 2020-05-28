@@ -36,11 +36,8 @@ const width = Dimensions.get('window').width
 export default class AppIntro extends React.Component {
     _renderItem = (item) => {
         return (
-            <LinearGradient
+            <View
                 style={styles.mainContent}
-                colors={[ColorsList.primary, ColorsList.gradientPrimary]}
-                start={{ x: 0, y: 0.1 }}
-                end={{ x: 0.1, y: 1 }}
             >
                 <BarStatus />
                 <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
@@ -53,14 +50,14 @@ export default class AppIntro extends React.Component {
                         <Text style={styles.text}>{item.item.text}</Text>
                     </View>
                 </View>
-            </LinearGradient>
+            </View>
         );
     }
 
     _renderSkipButton = () => {
         return (
             <View style={{ alignSelf: 'center', padding: 12 }}>
-                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Lewati</Text>
+                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14 }}>Lewati</Text>
             </View>
         )
     }
@@ -68,7 +65,7 @@ export default class AppIntro extends React.Component {
     _renderDoneButton = () => {
         return (
             <View style={{ alignSelf: 'center', padding: 12 }}>
-                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14, color: 'white' }}>Mulai</Text>
+                <Text style={{ fontFamily: 'Nunito-black', fontSize: 14 }}>Mulai</Text>
             </View>
         )
     }
