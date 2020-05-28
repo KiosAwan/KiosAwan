@@ -212,19 +212,19 @@ const Home = ({ navigation }) => {
 						<View>
 							<Text align="center" size={12}>Transaksi hari ini:</Text>
 							<Wrapper>
+								<Text color={User.data.name ? ColorsList.success : ColorsList.danger} align="center">{convertRupiah(1250000)}</Text>
 								<Icon
 									size={15}
 									name={User.data.name ? "sort-up" : "sort-down"}
 									color={User.data.name ? ColorsList.success : ColorsList.danger}
 								/>
-								<Text align="center">{convertRupiah(1250000)}</Text>
 							</Wrapper>
 						</View>
 						<Divider flex />
 						<View>
 							<Text align="center" size={12}>Keuntungan hari ini:</Text>
 							<Wrapper>
-								<Text align="center">{convertRupiah(1250000)}</Text>
+								<Text color={!User.data.name ? ColorsList.success : ColorsList.danger} align="center">{convertRupiah(1250000)}</Text>
 								<Icon
 									size={15}
 									name={!User.data.name ? "sort-up" : "sort-down"}
