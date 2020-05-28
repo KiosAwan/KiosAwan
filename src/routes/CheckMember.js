@@ -63,7 +63,7 @@ const CheckMember = (props) => {
     <Container style={styles.container}>
       <BarStatus />
       <Image
-        style={{ width: 170, height: 100 }}
+        style={styles.logo}
         source={require('../assets/images/logo.png')}
       />
       <View style={{ width: '60%', alignItems: "center" }}>
@@ -86,7 +86,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 100,
-    width: 170,
+    width: 200,
+    resizeMode : "contain"
   }
 })
 

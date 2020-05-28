@@ -315,7 +315,7 @@ const Home = ({ navigation }) => {
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/Banner.jpg')} />
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
 				</ScrollView>
-				<Text style={{ padding: 15 }} color="primary" font="Bold">TAHUKAH KAMU??</Text>
+				<Text style={{ paddingHorizontal: 15, paddingVertical: 5 }} font="Bold">Tahukah Kamu?</Text>
 				{
 					newsLoading ?
 						<NewsCardPlaceholder />
