@@ -25,7 +25,7 @@ export const HeaderRegister = () => {
 }
 
 export const HomeHeader = props => {
-    return <View style={{justifyContent: "center" }}>
+    return <View style={{ justifyContent: "center" }}>
         <BarStatus />
         <Wrapper justify="space-between" style={{ padding: 15 }}>
             {props.center}
@@ -66,7 +66,7 @@ export const GlobalHeader = props => {
             return children
         } else {
             if (typeof title == 'string') {
-                return <Text color={transparent ? titleColor || 'white' : 'white'}>{title}</Text>
+                return <Text color={transparent ? titleColor || ColorsList.greyFont : ColorsList.greyFont}>{title}</Text>
             }
         }
     }
@@ -82,7 +82,7 @@ export const GlobalHeader = props => {
     }
     const render = () => <Wrapper spaceBetween={!onlyTitle}>
         {!onlyTitle && <Button color={["transparent"]} onPress={onPressBack} {...leftProps}>
-            <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || "white"} />
+            <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || ColorsList.greyFont} />
         </Button>}
         <View _flex style={onlyTitle && { paddingHorizontal: 10 }}>
             {renderMid()}
@@ -93,15 +93,15 @@ export const GlobalHeader = props => {
             </Button>
         }
     </Wrapper >
-    return <Header androidStatusBarColor={ColorsList.primary} style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
+    return <Header androidStatusBarColor={ColorsList.greyAuthHard} style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
         {
             transparent ?
                 <View style={{ width: '100%', justifyContent: 'center', ...style }}>
                     {render()}
                 </View> :
-                <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{ width: '100%', justifyContent: 'center', ...style }}>
+                <View style={{ backgroundColor: ColorsList.authBackground, width: '100%', justifyContent: 'center', ...style }}>
                     {render()}
-                </LinearGradient>
+                </View>
         }
     </Header>
 }
@@ -110,7 +110,7 @@ export const CashierHeader = props => {
     const [focus, setFocus] = useState(false)
     return <GlobalHeader {...props} onlyTitle={focus} image={<Icon name="ellipsis-v" size={20} color="white" />}>
         <SearchInput onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor} blurColor="transparent">
-            <TextInput style={{ color: ColorsList.whiteColor }} placeholderTextColor={ColorsList.authBackground} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk..." />
+            <TextInput style={{ color: ColorsList.black }} placeholderTextColor={ColorsList.greyFont} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk..." />
         </SearchInput>
     </GlobalHeader>
 }
