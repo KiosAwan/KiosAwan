@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 export const Wrapper = props => {
-	const { noWrapper, children, radius, flexStart, flexEnd, center, spaceBetween, spaceAround } = props
+	const { onPress, noWrapper, children, radius, flexStart, flexEnd, center, spaceBetween, spaceAround } = props
 	if (props.noWrapper) {
 		// console.debug(987654)
 	}
-	return <View style={[{
+	return <TouchableOpacity onPress={onPress} activeOpacity={onPress ? .5 : 1} style={[{
 		flexDirection: props.direction || 'row',
 		justifyContent: props.justify || 'space-around',
 	},
@@ -15,6 +15,7 @@ export const Wrapper = props => {
 	center && { justifyContent: 'center' },
 	spaceAround && { justifyContent: 'space-around' },
 	spaceBetween && { justifyContent: 'space-between' },
+	props.shadow && { elevation: 1, borderRadius: 10 },
 	props.style]}>
 		{
 			children.length > 0 ?
@@ -38,5 +39,5 @@ export const Wrapper = props => {
 					</View>
 				}) : (children)
 		}
-	</View>
+	</TouchableOpacity>
 }
