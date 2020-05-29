@@ -8,19 +8,21 @@ import { Animated, View, FlatList, TouchableOpacity } from 'react-native'
 import { FontName } from 'src/styles/typography'
 import Divider from '../Row/Divider'
 import { stateObject } from 'src/utils/state'
+import { SizeList } from 'src/styles/size'
 
 const MDInput = props => {
 	let objCurrency = {}
-	const { onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur } = props
+	const { lineWidth, onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur, style } = props
 	const _render = (render, isRight) => {
 		return typeof render == 'function' && <View style={{ marginBottom: 8 }}>
 			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
 				{render()}
 			</View>
-			<Divider style={{ marginTop: 5 }} color={On.color} size={On.size} />
+			<Divider style={{ marginTop: 5 }} color={On.color} size={focused ? On.size : (lineWidth != undefined ? lineWidth : On.size)} />
 		</View>
 	}
 	const [tintColor, baseColor] = [ColorsList.primary, ColorsList.secondary]
+	const [focused, setFocused] = useState(false)
 	const [On, setOn] = stateObject({
 		color: baseColor,
 		size: .5
@@ -37,11 +39,12 @@ const MDInput = props => {
 			objCurrency.value = value.extractNumber().convertRupiah()
 		}
 	}
+	const { ..._style } = style
 	const refControl = () => {
 		// if (refs) {
 		// }
 	}
-	return <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+	return <View style={{ flexDirection: 'row', alignItems: 'flex-end', ...props.inputStyle }}>
 		{_render(renderLeftAccessory)}
 		<View style={{ flex: 1 }}>
 			<TextField
@@ -52,19 +55,31 @@ const MDInput = props => {
 				baseColor={baseColor}
 				{...props}
 				onFocus={() => {
+					setFocused(true)
 					setOn({ color: tintColor, size: 2 })
 					if (typeof onFocus == 'function') onFocus()
 				}}
 				onBlur={() => {
+					setFocused(false)
 					setOn({ color: baseColor, size: .5 })
 					if (typeof onBlur == 'function') onBlur()
 				}}
-				style={{ fontFamily: FontName.Regular, ...props.style }}
+				style={{ fontFamily: FontName.Regular, ..._style }}
 				{...objCurrency}
 			/>
 		</View>
 		{_render(renderRightAccessory, true)}
 	</View>
+}
+
+const Input = props => {
+	return <MDInput {...props} lineWidth={0} inputStyle={{
+		elevation: SizeList.elevation,
+		borderRadius: SizeList.secondary,
+		paddingHorizontal: SizeList.base,
+		backgroundColor: ColorsList.white,
+		...props.style
+	}} />
 }
 
 const AutoCompleteInput = props => {
@@ -142,7 +157,6 @@ const MDInputV2 = props => {
 		return btn
 	}
 	const focus = () => {
-		console.debug(typeof leftRef.layout.width, leftRef.layout.width)
 		Animated.timing(LeftValue, {
 			toValue: leftRef.layout.width,
 			duration: 1000
@@ -179,4 +193,4 @@ const MDInputV2 = props => {
 }
 
 export default MDInput
-export { AutoCompleteInput, MDInputV2 }
+export { AutoCompleteInput, MDInputV2, Input }

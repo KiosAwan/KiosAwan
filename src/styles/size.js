@@ -9,5 +9,8 @@ export const SizeList = {
     borderRadius: 5,
     bodyPadding: 15,
     padding: 10,
-    radius: 5
+    radius: 5,
+    elevation: 1,
+    base: 10,
+    secondary: 5
 }
