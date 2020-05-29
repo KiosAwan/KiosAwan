@@ -60,40 +60,11 @@ const NameRegistration = ({ navigation }) => {
                 placeholder="Nama lengkap"
                 value={FormRegister.name}
                 onChangeText={(name) => _handleChangeName(name)}
-                style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}
+                style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground }}
             />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextButton}>LANJUT</Button>
     </Container>
-    return (
-        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
-            <BarStatus />
-            <HeaderRegister
-            />
-            <AwanPopup.Alert
-                message={alertMessage}
-                visible={alert}
-                closeAlert={() => setAlert(false)}
-            />
-            <View style={{ width: '70%', paddingTop: 30 }}>
-                <Text style={{ textAlign: "center", color: 'white' }}>Masukkan nama agar kami mudah mengenali Anda</Text>
-            </View>
-            <View style={styles.inputView}>
-                <InputText
-                    value={FormRegister.name}
-                    label=""
-                    handleChangeText={(name) => _handleChangeName(name)}
-                />
-            </View>
-            <View style={{ position: 'absolute', bottom: 10 }}>
-                <UnauthBottomButton
-                    onPressBackBtn={() => navigation.goBack()}
-                    onPressNextBtn={_handleNextButton}
-                />
-            </View>
-        </LinearGradient>
-
-    )
 }
 
 

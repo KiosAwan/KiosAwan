@@ -11,7 +11,6 @@ import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { ColorsList } from 'src/styles/colors';
 import { PPOBCard } from 'src/components/Card/CardIcon';
 
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import { Button } from 'src/components/Button/Button';
 import { Image } from 'src/components/CustomImage';
 import { $Padding } from 'src/utils/stylehelper';

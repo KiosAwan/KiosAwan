@@ -64,7 +64,7 @@ const NewPassword1 = ({ navigation }) => {
         <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
             <Text align="center">Masukkan password baru Anda.</Text>
-            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
+            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground }}>
                 <TextInput
                     _flex
                     autoFocus
@@ -79,38 +79,6 @@ const NewPassword1 = ({ navigation }) => {
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextBtn}>LANJUT</Button>
     </Container>
-    return (
-        <View style={styles.container} >
-            <BarStatus />
-            <GlobalHeader
-                onPressBack={() => navigation.goBack()}
-                title="Atur password"
-            />
-            <AwanPopup.Alert
-                message={alertMessage}
-                visible={alert}
-                closeAlert={() => setAlert(false)}
-            />
-            <View style={{ alignItems: "center" }}>
-                <View style={{ width: '70%', paddingTop: 30 }}>
-                    <Text style={{ ...FontList.title, textAlign: "center", color: ColorsList.greySoft }}>Buat password baru</Text>
-                </View>
-                <InputPIN
-                    textColor="black"
-                    inputWidth={200}
-                    value={FormRegister.firstPIN}
-                    handleChangeText={(pin) => _handleChangePIN(pin)}
-                />
-            </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_handleNextBtn}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
-                    buttonTitle="LANJUT"
-                />
-            </View>
-        </View>
-    );
 }
 
 export default NewPassword1

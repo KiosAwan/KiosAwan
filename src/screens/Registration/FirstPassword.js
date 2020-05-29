@@ -58,7 +58,7 @@ const FirstPassword = ({ navigation }) => {
         <View style={{ marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
             <Text align="center">Buat password untuk kemananan dalam mengakses aplikasi ini.</Text>
-            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>
+            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground }}>
                 <TextInput
                     _flex
                     autoFocus
