@@ -178,6 +178,19 @@ const Home = ({ navigation }) => {
 			_featureDisabled("riwayat")
 		}
 	}
+
+	const _getFlagColor = (flag) => {
+		switch (flag) {
+			case 0:
+				return null
+			case 1:
+				return ColorsList.danger
+			case 2:
+				return ColorsList.success
+			default : 
+				return null
+		}
+	}
 	return (
 		<Container>
 			<Body style={{ padding: 5 }} refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
@@ -213,24 +226,28 @@ const Home = ({ navigation }) => {
 							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
 								<Text align="center" size={12}>Transaksi hari ini:</Text>
 								<Wrapper>
-									<Text color={User.data.name ? ColorsList.success : ColorsList.danger} align="center">{convertRupiah(User.store.penjualan_harian)}</Text>
-									<Icon
-										size={15}
-										name={User.data.name ? "sort-up" : "sort-down"}
-										color={User.data.name ? ColorsList.success : ColorsList.danger}
-									/>
+									<Text color={_getFlagColor(User.store.penjualan_flag)} align="center">{convertRupiah(User.store.penjualan_harian)}</Text>
+									{User.store.penjualan_flag != 0 &&
+										<Icon
+											size={15}
+											name={User.store.penjualan_flag == 2 ? "sort-up" : "sort-down"}
+											color={_getFlagColor(User.store.penjualan_flag)}
+										/>
+									}
 								</Wrapper>
 							</View>
 							<Divider flex />
 							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
 								<Text align="center" size={12}>Keuntungan hari ini:</Text>
 								<Wrapper>
-									<Text color={!User.data.name ? ColorsList.success : ColorsList.danger} align="center">{convertRupiah(convertRupiah(User.store.profit_harian))}</Text>
-									<Icon
-										size={15}
-										name={!User.data.name ? "sort-up" : "sort-down"}
-										color={!User.data.name ? ColorsList.success : ColorsList.danger}
-									/>
+									<Text color={_getFlagColor(User.store.profit_flag)} align="center">{convertRupiah(convertRupiah(User.store.profit_harian))}</Text>
+									{User.store.profit_flag != 0 &&
+										<Icon
+											size={15}
+											name={User.store.profit_flag == 2 ? "sort-up" : "sort-down"}
+											color={_getFlagColor(User.store.profit_flag)}
+										/>
+									}
 								</Wrapper>
 							</View>
 						</Wrapper>
