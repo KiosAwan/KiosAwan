@@ -199,7 +199,7 @@ const Home = ({ navigation }) => {
 					<Wrapper justify="space-between" style={{ padding: 10, paddingBottom: 0 }}>
 						<View>
 							<Text align="left">Welcome,</Text>
-							<Text align="left" font="Bold" size={16}>{User.data.name}</Text>
+							<Text align="left" font="SemiBold" size={16}>{User.data.name}</Text>
 						</View>
 						<View style={{ justifyContent: 'center' }}>
 							<TouchableOpacity onPress={_onPressRiwayat}>
@@ -212,7 +212,7 @@ const Home = ({ navigation }) => {
 					<View>
 						<Text>Saldo Anda sebesar: </Text>
 						<Wrapper>
-							<Text color="primary" font="Bold">{convertRupiah(User.data.saldo || 0)}</Text>
+							<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
 							<TouchableOpacity onPress={_handleRefresh}>
 								<Image source={require('src/assets/icons/home/refresh.png')} size={15} style={{ marginLeft: 10 }} />
 							</TouchableOpacity>
@@ -289,12 +289,12 @@ const Home = ({ navigation }) => {
 									</Button>
 							}
 						</View>
-						<Text font="Bold" style={{ paddingBottom: 10 }}>Quick Actions</Text>
+						<Text font="SemiBold" style={{ paddingBottom: 10 }}>Quick Actions</Text>
 						<TouchableOpacity onPress={_onPressCashier}>
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
 								<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
 								<View _width="75%">
-									<Text font="ExtraBold" color="primary">KASIR</Text>
+									<Text font="SemiBold" color="primary">KASIR</Text>
 									<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
 								</View>
 							</Wrapper>
@@ -303,7 +303,7 @@ const Home = ({ navigation }) => {
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
 								<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
 								<View _width="75%">
-									<Text font="ExtraBold" color="primary">PEMBAYARAN</Text>
+									<Text font="SemiBold" color="primary">PEMBAYARAN</Text>
 									<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
 								</View>
 							</Wrapper>
@@ -312,7 +312,7 @@ const Home = ({ navigation }) => {
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
 								<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/restock.png")} />
 								<View _width="75%">
-									<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
+									<Text font="SemiBold" color="primary">BELANJA STOK</Text>
 									<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
 								</View>
 							</Wrapper>
@@ -321,7 +321,7 @@ const Home = ({ navigation }) => {
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
 								<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/hutang.png")} />
 								<View _width="75%">
-									<Text font="ExtraBold" color="primary">PENCATATAN HUTANG</Text>
+									<Text font="SemiBold" color="primary">PENCATATAN HUTANG</Text>
 									<Text size={12}>Kelola hutang dan piutang usaha kios atau warung</Text>
 								</View>
 							</Wrapper>
@@ -334,7 +334,7 @@ const Home = ({ navigation }) => {
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/Banner.jpg')} />
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
 				</ScrollView>
-				<Text style={{ paddingHorizontal: 15, paddingVertical: 5 }} font="Bold">Tahukah Kamu?</Text>
+				<Text style={{ paddingHorizontal: 15, paddingVertical: 5 }} font="SemiBold">Tahukah Kamu?</Text>
 				{
 					newsLoading ?
 						<NewsCardPlaceholder />

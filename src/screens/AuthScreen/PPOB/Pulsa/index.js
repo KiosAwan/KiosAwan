@@ -3,15 +3,12 @@ import Container, { Body } from 'src/components/View/Container';
 import styles from './PulsaStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
-import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { View, FlatList, TouchableOpacity, ScrollView, Modal as RNModal } from 'react-native';
-import { $Padding } from 'src/utils/stylehelper';
+import { View, FlatList, TouchableOpacity,Modal as RNModal } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
-import MDInput from 'src/components/Input/MDInput';
-import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
-import SearchInput from 'src/components/Input/SearchInput';
+import  { Input } from 'src/components/Input/MDInput';
+import {  AwanPopup } from 'src/components/ModalContent/Popups';
 import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +25,6 @@ const PpobPulsa = ({ navigation }) => {
 	const Product = useSelector(state => state.Product)
 	//Reducer User data
 	const User = useSelector(state => state.User)
-	const [modal, setModal] = useState(false)
 	//Phone number state
 	const [phoneNumber, setPhoneNumber] = useState("")
 	const [selected, setSelected] = useState()
@@ -152,34 +148,17 @@ const PpobPulsa = ({ navigation }) => {
 				}
 			/>
 		</RNModal>
-		<Modal backdropDismiss={() => setModal(false)} visible={modal}>
-			<View>
-				<Text size={17} align="center">Nomor Pelanggan</Text>
-				<SearchInput textInput={{
-					placeholder: 'Cari nomor'
-				}} />
-				<ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
-					{[1, 2, 3, 4, 5, 6]
-						.rMap((item, i) => [
-							<Button color="link">Albert Stanley - 123456789123456789</Button>,
-							i != 5 && <Divider />
-						])
-					}
-				</ScrollView>
-			</View>
-		</Modal>
 		<Body>
-			<View style={styles.topComp}>
-				<Wrapper justify="space-between" style={$Padding(5, 15)}>
-					<MDInput _width="80%"
+				<Wrapper justify="space-between">
+					<Input
+						_width="85%"
 						label="No. Handphone"
 						value={phoneNumber}
 						onChangeText={_onChangePhoneNum}
 						keyboardType="phone-pad"
 						renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
 					/>
-					{/* {data ? <Image source={{ uri: data.provider.image }} size={20} /> : null} */}
-					<TouchableOpacity onPress={() => setContactVisible(true)}>
+					<TouchableOpacity style={{width : "10%"}} onPress={() => setContactVisible(true)}>
 						<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
 					</TouchableOpacity>
 				</Wrapper>
@@ -195,7 +174,6 @@ const PpobPulsa = ({ navigation }) => {
 						/>
 					</View>
 				}
-			</View>
 			<View style={styles.simpan}>
 				<Text>Simpan ke favorit</Text>
 				<SwitchButton

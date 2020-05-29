@@ -49,11 +49,11 @@ const Akun = ({ navigation }) => {
 	}
 	return (
 		<Container>
-			<Text style={{ marginTop : 15 }} font="Bold" align="center">AKUN</Text>
+			<Text style={{ marginTop : 15 }} font="SemiBold" align="center">AKUN</Text>
 			<Body>
 				<Wrapper style={{ marginBottom: 10 }} justify="space-between">
 					<View>
-						<Text font="Bold" >{User.data.name}</Text>
+						<Text font="SemiBold" >{User.data.name}</Text>
 						<Text size={12}>{User.data.reff_code}</Text>
 					</View>
 					<Button disabled width={110} padding={5}>FREE USER</Button>

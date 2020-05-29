@@ -3,7 +3,7 @@ import { ColorsList } from "./colors";
 export const FontName = {
     'Black': 'Nunito-Black',
     'BlackItalic': 'Nunito-BlackItalic',
-    'Bold': 'Nunito-Bold',
+    'Bold': 'Rubik-Bold',
     'BoldItalic': 'Nunito-BoldItalic',
     'ExtraBold': 'Nunito-ExtraBold',
     'ExtraBoldItalic': 'Nunito-ExtraBoldItalic',
@@ -12,8 +12,8 @@ export const FontName = {
     'Italic': 'Nunito-Italic',
     'Light': 'Nunito-Light',
     'LightItalic': 'Nunito-LightItalic',
-    'Regular': 'Nunito-Regular',
-    'SemiBold': 'Nunito-SemiBold',
+    'Regular': 'SFProDisplay-Regular',
+    'SemiBold': 'Rubik-Regular',
     'SemiBoldItalic': 'Nunito-SemiBoldItalic',
 }
 
@@ -46,5 +46,6 @@ export const FontList = {
     boldFont: "Nunito-Bold",
     titleSize: 14,
     subtitleSize: 11,
+
 
 }

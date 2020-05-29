@@ -1,25 +1,25 @@
 import { StyleSheet } from "react-native"
 import { ColorsList } from "src/styles/colors"
 import { $Margin } from "src/utils/stylehelper"
+import { SizeList } from "src/styles/size"
 
 const styles = StyleSheet.create({
 	topComp: {
-		...$Margin(0, 0, 10),
-		borderRadius: 5,
+		marginBottom : SizeList.base,
+		borderRadius: SizeList.borderRadius,
 		justifyContent: "flex-end",
 		backgroundColor: ColorsList.whiteColor
 	},
 	listPulsa: {
-		margin: 10,
+		margin: 5,
 	},
 	pulsaWrapper: {
-		padding: 5,
-		borderRadius: 5,
+		padding: SizeList.secondary,
+		borderRadius:SizeList.borderRadius,
 		backgroundColor: ColorsList.whiteColor,
 		borderWidth: 1,
-		borderRadius: 5,
 		borderColor: ColorsList.greyAuthHard,
-		...$Margin(0, 0, 8)
+		marginBottom : SizeList.base
 	},
 	pulsaWrapperActive: {
 		borderColor: ColorsList.primary,
@@ -31,8 +31,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		marginHorizontal: 10,
-		marginBottom: 10
+		margin : SizeList.base
 	}
 })
 export default styles

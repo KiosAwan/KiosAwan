@@ -8,7 +8,7 @@ import { Button } from 'src/components/Button/Button';
 import { View, FlatList, TouchableOpacity, ScrollView, Modal as RNModal } from 'react-native';
 import { $Padding } from 'src/utils/stylehelper';
 import { Image } from 'src/components/CustomImage';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import ContactsModal from 'src/components/ModalContent/ContacsModal';
 import SearchInput from 'src/components/Input/SearchInput';
@@ -143,22 +143,6 @@ const PpobPaketData = ({ navigation }) => {
 			closeAlert={() => setAlert(false)}
 		/>
 		<AwanPopup.Loading visible={payLoading} />
-		<Modal backdropDismiss={() => setModal(false)} visible={modal}>
-			<View>
-				<Text size={17} align="center">Nomor Pelanggan</Text>
-				<SearchInput textInput={{
-					placeholder: 'Cari nomor'
-				}} />
-				<ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
-					{[1, 2, 3, 4, 5, 6]
-						.rMap((item, i) => [
-							<Button color="link">Albert Stanley - 123456789123456789</Button>,
-							i != 5 && <Divider />
-						])
-					}
-				</ScrollView>
-			</View>
-		</Modal>
 		<RNModal visible={contactVisible} animationType="slide" onRequestClose={() => setContactVisible(false)}>
 			<ContactsModal closeModal={() => setContactVisible(false)}
 				chooseContact={
@@ -169,20 +153,19 @@ const PpobPaketData = ({ navigation }) => {
 			/>
 		</RNModal>
 		<Body>
-			<View style={styles.topComp}>
-				<Wrapper justify="space-between" style={$Padding(5, 15)}>
-					<MDInput _width="85%"
-						label="No. Handphone"
-						value={phoneNumber}
-						onChangeText={_onChangePhoneNum}
-						keyboardType="phone-pad"
-						renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
-					/>
-					<TouchableOpacity onPress={() => setContactVisible(true)}>
-						<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
-					</TouchableOpacity>
-				</Wrapper>
-			</View>
+			<Wrapper justify="space-between">
+				<Input
+					_width="85%"
+					label="No. Handphone"
+					value={phoneNumber}
+					onChangeText={_onChangePhoneNum}
+					keyboardType="phone-pad"
+					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
+				/>
+				<TouchableOpacity onPress={() => setContactVisible(true)}>
+					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
+				</TouchableOpacity>
+			</Wrapper>
 			<View style={styles.simpan}>
 				<Text>Simpan ke favorit</Text>
 				<SwitchButton
@@ -212,7 +195,8 @@ const PpobPaketData = ({ navigation }) => {
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="70%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }} color="primary">{` ${item.name.split(" ").slice(1).join(" ")}`} </Text>
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{` ${item.name.split(" ").slice(1).join(" ")}`} </Text>
+										<Text style={{ marginLeft: 5 }}>{` ${item.description}`} </Text>
 									</View>
 									<View _width="30%">
 										<Text size={8}>HARGA</Text>

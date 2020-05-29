@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Image } from 'react-native';
-import { } from 'src/components/Input/InputComp';
+import { View, TextInput, Image } from 'react-native';
 import { SizeList } from 'src/styles/size';
 import { useSelector } from 'react-redux'
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -10,8 +9,9 @@ import { sendOTPAuth, resendVerifyEmail } from 'src/utils/authhelper';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import MDInput from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import { Toast } from 'native-base';
+import { Text } from 'src/components/Text/CustomText';
 const UbahEmailInfoScreen = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [apiLoading, setApiLoading] = useState(false)
@@ -62,18 +62,18 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 			<AwanPopup.Loading visible={apiLoading} />
 			<GlobalHeader title="Ubah Email" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 20 }}>
-				<View style={{ padding: 20, width: SizeList.width - 40, backgroundColor: 'white', borderRadius: 5 }}>
-					<MDInput label="Email Anda" value={User.data.email}
-						editable={false}
-						renderRightAccessory={() =>
-							<Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
-				</View>
+				{/* <View style={{ padding: 20, width: SizeList.width - 40, backgroundColor: 'white', borderRadius: 5 }}> */}
+				<Input label="Email" value={User.data.email}
+					editable={false}
+					renderRightAccessory={() =>
+						<Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
+				{/* </View> */}
 				{User.data.status == 0 ?
-					<View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: 30 }}>
-						<Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.danger, padding: 5 }}>Email anda belum terverifikasi, mohon segera verifikasi email Anda</Text>
+					<View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: SizeList.base }}>
+						<Text color="danger" style={{ padding: 10 }} >Email anda belum terverifikasi, mohon segera verifikasi email Anda</Text>
 					</View> :
-					<View style={{ backgroundColor: ColorsList.successSoft, marginTop: 30 }}>
-						<Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.success, padding: 5 }}>Email anda telah terverifikasi, tekan tombol dibawah untuk mengganti</Text>
+					<View style={{ backgroundColor: ColorsList.successSoft, marginTop: SizeList.base }}>
+						<Text style={{ padding: 10 }} color="success">Email anda telah terverifikasi, tekan tombol dibawah untuk mengganti</Text>
 					</View>
 				}
 			</View>
@@ -85,7 +85,7 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 							<Button onPress={() => navigation.navigate('/drawer/settings/change-email/new-email')} width="47.5%">Ubah Email</Button>
 						]
 						:
-						<Button onPress={_nextBtn} color="white" width="100%">UBAH</Button>
+						<Button onPress={_nextBtn} width="100%">UBAH</Button>
 				}
 			</Bottom>
 		</View>
