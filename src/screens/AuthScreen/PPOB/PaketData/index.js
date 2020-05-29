@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Container from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import styles from './PaketDataStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
@@ -168,52 +168,63 @@ const PpobPaketData = ({ navigation }) => {
 				}
 			/>
 		</RNModal>
-		<View style={styles.topComp}>
-			<Wrapper justify="space-between" style={$Padding(5, 15)}>
-				<MDInput _width="85%"
-					label="No. Handphone"
-					value={phoneNumber}
-					onChangeText={_onChangePhoneNum}
-					keyboardType="phone-pad"
-					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
-				/>
-				<TouchableOpacity onPress={() => setContactVisible(true)}>
-					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
-				</TouchableOpacity>
-			</Wrapper>
-		</View>
-		<View style={styles.simpan}>
-			<Text>Simpan ke favorit</Text>
-			<SwitchButton
-				handleChangeToggle={_handleChangeToggle}
-				toggleValue={favorit}
-			/>
-		</View>
-		{
-			__DEV__ && <View>
-				<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
-				<FlatList
-					style={{}}
-					numColumns={3}
-					data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
-					keyExtractor={(a, i) => i.toString()}
-					renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
+		<Body>
+			<View style={styles.topComp}>
+				<Wrapper justify="space-between" style={$Padding(5, 15)}>
+					<MDInput _width="85%"
+						label="No. Handphone"
+						value={phoneNumber}
+						onChangeText={_onChangePhoneNum}
+						keyboardType="phone-pad"
+						renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
+					/>
+					<TouchableOpacity onPress={() => setContactVisible(true)}>
+						<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
+					</TouchableOpacity>
+				</Wrapper>
+			</View>
+			<View style={styles.simpan}>
+				<Text>Simpan ke favorit</Text>
+				<SwitchButton
+					handleChangeToggle={_handleChangeToggle}
+					toggleValue={favorit}
 				/>
 			</View>
-		}
-		<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
-			showsVerticalScrollIndicator={false}
-			data={data ? data.products : []}
-			renderItem={({ item, index }) =>
-				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
-					{/* <Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text> */}
-					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
-					{item.description && <Text size={12} style={styles.pulsaComp}>{item.description}</Text>}
-					<Divider />
-					<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
-				</TouchableOpacity>
+			{
+				__DEV__ && <View>
+					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
+					<FlatList
+						style={{}}
+						numColumns={3}
+						data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
+						keyExtractor={(a, i) => i.toString()}
+						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
+					/>
+				</View>
 			}
-		/>
+			{data &&
+				<View style={{ flex: 1, padding: 10, backgroundColor: "white", elevation: 1, borderRadius: 10 }}>
+					<Text style={{ marginBottom: 5 }}>Pilih jenis paket data: <Text font="SemiBold">{data.products[0] && data.products[0].name.split(" ")[0]}</Text></Text>
+					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
+						showsVerticalScrollIndicator={false}
+						data={data ? data.products : []}
+						renderItem={({ item, index }) =>
+							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
+								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
+									<View _width="70%">
+										<Text font="SemiBold" style={{ marginLeft: 5 }} color="primary">{` ${item.name.split(" ").slice(1).join(" ")}`} </Text>
+									</View>
+									<View _width="30%">
+										<Text size={8}>HARGA</Text>
+										<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
+									</View>
+								</Wrapper>
+							</TouchableOpacity>
+						}
+					/>
+				</View>
+			}
+		</Body>
 	</Container>
 }
 export default PpobPaketData

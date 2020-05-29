@@ -13,12 +13,12 @@ const styles = StyleSheet.create({
 		margin: 5,
 	},
 	pulsaWrapper: {
-		padding : 5,
-		borderRadius : 5,
+		padding: 5,
+		borderRadius: 5,
 		backgroundColor: ColorsList.whiteColor,
-		borderWidth : 1,
-		borderRadius : 5, 
-		borderColor : ColorsList.greyAuthHard,
+		borderWidth: 1,
+		borderRadius: 5,
+		borderColor: ColorsList.greyAuthHard,
 		...$Margin(0, 0, 8)
 	},
 	pulsaWrapperActive: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 		// alignSelf: "flex-end",
 		flexDirection: "row",
 		alignItems: "center",
-		justifyContent : "space-between",
+		justifyContent: "space-between",
 		marginHorizontal: 10,
 		marginBottom: 10
 	}
