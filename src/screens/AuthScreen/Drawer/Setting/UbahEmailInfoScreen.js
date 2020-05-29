@@ -69,10 +69,10 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 						<Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
 				{/* </View> */}
 				{User.data.status == 0 ?
-					<View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: SizeList.base }}>
+					<View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: SizeList.base, borderRadius : SizeList.borderRadius }}>
 						<Text color="danger" style={{ padding: 10 }} >Email anda belum terverifikasi, mohon segera verifikasi email Anda</Text>
 					</View> :
-					<View style={{ backgroundColor: ColorsList.successSoft, marginTop: SizeList.base }}>
+					<View style={{ backgroundColor: ColorsList.successSoft, marginTop: SizeList.base, borderRadius : SizeList.borderRadius }}>
 						<Text style={{ padding: 10 }} color="success">Email anda telah terverifikasi, tekan tombol dibawah untuk mengganti</Text>
 					</View>
 				}
