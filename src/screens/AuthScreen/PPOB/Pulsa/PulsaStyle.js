@@ -16,7 +16,10 @@ const styles = StyleSheet.create({
 		padding : 5,
 		borderRadius : 5,
 		backgroundColor: ColorsList.whiteColor,
-		...$Margin(0, 0, 5)
+		borderWidth : 1,
+		borderRadius : 5, 
+		borderColor : ColorsList.greyAuthHard,
+		...$Margin(0, 0, 8)
 	},
 	pulsaWrapperActive: {
 		borderColor: ColorsList.primary,

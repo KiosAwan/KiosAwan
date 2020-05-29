@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: SizeList.width / 4,
-        height: SizeList.width / 4
+        height: SizeList.width / 4,
+        elevation : 1
     },
 })
