@@ -207,31 +207,33 @@ const Home = ({ navigation }) => {
 					</View>
 					<Button width={80} onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
 				</Wrapper>
-				<Wrapper shadow onPress={() => navigation.navigate("Laporan")} style={{ backgroundColor: ColorsList.white }} justify="space-evenly">
-					<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
-						<Text align="center" size={12}>Transaksi hari ini:</Text>
-						<Wrapper>
-							<Text color={User.data.name ? ColorsList.success : ColorsList.danger} align="center">{convertRupiah(1250000)}</Text>
-							<Icon
-								size={15}
-								name={User.data.name ? "sort-up" : "sort-down"}
-								color={User.data.name ? ColorsList.success : ColorsList.danger}
-							/>
-						</Wrapper>
-					</View>
-					<Divider flex />
-					<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
-						<Text align="center" size={12}>Keuntungan hari ini:</Text>
-						<Wrapper>
-							<Text color={!User.data.name ? ColorsList.success : ColorsList.danger} align="center">{convertRupiah(1250000)}</Text>
-							<Icon
-								size={15}
-								name={!User.data.name ? "sort-up" : "sort-down"}
-								color={!User.data.name ? ColorsList.success : ColorsList.danger}
-							/>
-						</Wrapper>
-					</View>
-				</Wrapper>
+				{User.store &&
+					<Wrapper shadow onPress={() => navigation.navigate("Laporan")} style={{ backgroundColor: ColorsList.white, marginHorizontal: 10 }} justify="space-evenly">
+						<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
+							<Text align="center" size={12}>Transaksi hari ini:</Text>
+							<Wrapper>
+								<Text color={User.data.name ? ColorsList.success : ColorsList.danger} align="center">{convertRupiah(User.store.penjualan_harian)}</Text>
+								<Icon
+									size={15}
+									name={User.data.name ? "sort-up" : "sort-down"}
+									color={User.data.name ? ColorsList.success : ColorsList.danger}
+								/>
+							</Wrapper>
+						</View>
+						<Divider flex />
+						<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
+							<Text align="center" size={12}>Keuntungan hari ini:</Text>
+							<Wrapper>
+								<Text color={!User.data.name ? ColorsList.success : ColorsList.danger} align="center">{convertRupiah(convertRupiah(User.store.profit_harian))}</Text>
+								<Icon
+									size={15}
+									name={!User.data.name ? "sort-up" : "sort-down"}
+									color={!User.data.name ? ColorsList.success : ColorsList.danger}
+								/>
+							</Wrapper>
+						</View>
+					</Wrapper>
+				}
 				<View
 					style={styles.childContainer}>
 					<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
@@ -269,28 +271,28 @@ const Home = ({ navigation }) => {
 							}
 						</View>
 						<Text font="Bold" style={{ paddingBottom: 10 }}>Quick Actions</Text>
-						<Wrapper spaceBetween shadow onPress={_onPressCashier} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }}>
+						<Wrapper spaceBetween shadow onPress={_onPressCashier} style={styles.cardWrapper}>
 							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">KASIR</Text>
 								<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
 							</View>
 						</Wrapper>
-						<Wrapper spaceBetween shadow onPress={_onPressPayment} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }}>
+						<Wrapper spaceBetween shadow onPress={_onPressPayment} style={styles.cardWrapper}>
 							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">PEMBAYARAN</Text>
 								<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
 							</View>
 						</Wrapper>
-						<Wrapper spaceBetween shadow onPress={_onPressStock} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }}>
+						<Wrapper spaceBetween shadow onPress={_onPressStock} style={styles.cardWrapper}>
 							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/restock.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">BELANJA STOK</Text>
 								<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
 							</View>
 						</Wrapper>
-						<Wrapper spaceBetween shadow onPress={_onPressHutang} style={{ marginBottom: 10, backgroundColor: ColorsList.whiteColor }}>
+						<Wrapper spaceBetween shadow onPress={_onPressHutang} style={styles.cardWrapper}>
 							<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/hutang.png")} />
 							<View _width="75%">
 								<Text font="ExtraBold" color="primary">PENCATATAN HUTANG</Text>
@@ -366,5 +368,10 @@ const styles = StyleSheet.create({
 	},
 	infoCategoryStyle: {
 		paddingVertical: 10
+	},
+	cardWrapper: {
+		marginBottom: 10,
+		backgroundColor: ColorsList.whiteColor,
+		padding: 5
 	}
 })
