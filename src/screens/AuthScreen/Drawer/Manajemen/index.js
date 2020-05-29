@@ -11,7 +11,7 @@ const Manajemen = ({ navigation }) => {
 		<Container>
 			<Text style={{ marginTop: 15 }} font="Bold" align="center">MANAJEMEN</Text>
 			<Body>
-				<Text style={{ marginBottom: 10 }}>Pilih modul yang akan dikelola :</Text>
+				<Text style={{ marginBottom: 10 }}>Pilih modul yang akan dikelola</Text>
 				{
 					ListManajemen.rMap((menu, i) => {
 						return <Button

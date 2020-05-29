@@ -42,10 +42,10 @@ const AwanPopup = {
 		useEffect(() => {
 			setRender(true)
 		}, [])
-		return render && <Modal animationType="fade" style={{ padding: 0 }} {...props}>
+		return render && <Modal animationType="fade" style={{ padding: 0, borderRadius : 5 }} {...props}>
 			<View style={[styles.body, props.style]}>
-				{typeof props.title === 'string' ? <Text color={props.textColor} font="Bold" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
-				<Text color={props.textColor} size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
+				{typeof props.title === 'string' ? <Text color={props.textColor} font="Bold" align="left" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
+				<Text color={props.textColor} size={14} style={{ textAlign: 'left' }}>{props.message}</Text>
 				<ButtonWrapper>{props.children}</ButtonWrapper>
 			</View>
 		</Modal>
@@ -53,7 +53,7 @@ const AwanPopup = {
 	NoTitle: props => {
 		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
 			<View style={styles.body}>
-				<Text size={17} style={{ textAlign: 'center' }}>{props.message}</Text>
+				<Text style={{ textAlign: 'left' }}>{props.message}</Text>
 				<ButtonWrapper>{props.children}</ButtonWrapper>
 			</View>
 		</Modal>
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
 	},
 	buttonWrapper: { marginTop: 30, alignSelf: 'flex-end', flexDirection: 'row' },
 	image: { alignSelf: 'center', height: 100, width: '100%' },
-	title: { textAlign: 'center', padding: 20 },
+	title: { alignSelf : "flex-start", paddingVertical: 10 },
 	oldTitle: { position: 'absolute', top: 90, alignSelf: 'center', color: ColorsList.whiteColor },
-	body: { ...$Padding(10, 15, 20), backgroundColor: ColorsList.whiteColor, alignItems: "center" }
+	body: { ...$Padding(10, 20, 20), backgroundColor: ColorsList.whiteColor, alignItems: "center", }
 })

@@ -11,30 +11,12 @@ import Divider from 'src/components/Row/Divider';
 import { View, ScrollView } from 'react-native';
 
 const PpobListrik = ({ navigation }) => {
-	const [modal, setModal] = useState(false)
 	return <Container header={{
 		title: "Listrik",
-		// image: require('src/assets/icons/phonebook.png'),
-		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
-		<Modal backdropDismiss={() => setModal(false)} visible={modal}>
-			<View>
-				<Text size={17} align="center">Nomor Pelanggan</Text>
-				<SearchInput textInput={{
-					placeholder: 'Cari nomor'
-				}} />
-				<ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
-					{[1, 2, 3, 4, 5, 6]
-						.rMap((item, i) => [
-							<Button color="link">Albert Stanley - 123456789123456789</Button>,
-							i != 5 && <Divider />
-						])
-					}
-				</ScrollView>
-			</View>
-		</Modal>
 		<Body>
+			<Text style={{marginBottom : 10}}>Pilih jenis pembayaran listrik</Text>
 			{[
 				{ screen: "pln_prepaid", title: "Token Listrik" },
 				{ screen: "pln_postpaid", title: "Tagihan Listrik" },
@@ -49,7 +31,6 @@ const PpobListrik = ({ navigation }) => {
 				<Image width="13%" size={30} source={require('src/assets/icons/ppob/PLN.png')} />
 				<Wrapper width="87%" justify="space-between">
 					<Text>{item.title}</Text>
-					<Image size={20} source={require('src/assets/icons/next.png')} />
 				</Wrapper>
 			</Button>)}
 		</Body>
