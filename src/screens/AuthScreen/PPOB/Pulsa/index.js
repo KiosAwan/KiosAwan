@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Container from 'src/components/View/Container';
+import Container, { Body } from 'src/components/View/Container';
 import styles from './PulsaStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
@@ -125,8 +125,6 @@ const PpobPulsa = ({ navigation }) => {
 	}, [])
 	return <Container header={{
 		title: "Pulsa",
-		// image: require('src/assets/icons/phonebook.png'),
-		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
 		{/* Modal for check user pin */}
@@ -170,54 +168,55 @@ const PpobPulsa = ({ navigation }) => {
 				</ScrollView>
 			</View>
 		</Modal>
-		<View style={styles.topComp}>
-			<Wrapper justify="space-between" style={$Padding(5, 15)}>
-				<MDInput _width="80%"
-					label="No. Handphone"
-					value={phoneNumber}
-					onChangeText={_onChangePhoneNum}
-					keyboardType="phone-pad"
-					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
-				/>
-				{/* {data ? <Image source={{ uri: data.provider.image }} size={20} /> : null} */}
-				<TouchableOpacity onPress={() => setContactVisible(true)}>
-					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
-				</TouchableOpacity>
-			</Wrapper>
-			{
-				__DEV__ && <View>
-					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
-					<FlatList
-						style={{}}
-						numColumns={3}
-						data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
-						keyExtractor={(a, i) => i.toString()}
-						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
+		<Body>
+			<View style={styles.topComp}>
+				<Wrapper justify="space-between" style={$Padding(5, 15)}>
+					<MDInput _width="80%"
+						label="No. Handphone"
+						value={phoneNumber}
+						onChangeText={_onChangePhoneNum}
+						keyboardType="phone-pad"
+						renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
 					/>
-				</View>
-			}
-		</View>
-		<View style={styles.simpan}>
-			<Text>Simpan ke favorit</Text>
-			<SwitchButton
-				handleChangeToggle={_handleChangeToggle}
-				toggleValue={favorit}
-			/>
-		</View>
-		<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
-			columnWrapperStyle={{ justifyContent: 'space-between', }}
-			showsVerticalScrollIndicator={false}
-			data={data ? data.products : []}
-			renderItem={({ item, index }) =>
-				<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
-					<Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text>
-					<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
-					<View style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
-						<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
+					{/* {data ? <Image source={{ uri: data.provider.image }} size={20} /> : null} */}
+					<TouchableOpacity onPress={() => setContactVisible(true)}>
+						<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
+					</TouchableOpacity>
+				</Wrapper>
+				{
+					__DEV__ && <View>
+						<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
+						<FlatList
+							style={{}}
+							numColumns={3}
+							data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
+							keyExtractor={(a, i) => i.toString()}
+							renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
+						/>
 					</View>
-				</TouchableOpacity>
-			}
-		/>
+				}
+			</View>
+			<View style={styles.simpan}>
+				<Text>Simpan ke favorit</Text>
+				<SwitchButton
+					handleChangeToggle={_handleChangeToggle}
+					toggleValue={favorit}
+				/>
+			</View>
+			<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
+				showsVerticalScrollIndicator={false}
+				data={data ? data.products : []}
+				renderItem={({ item, index }) =>
+					<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
+						<Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text>
+						<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
+						<View style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
+							<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
+						</View>
+					</TouchableOpacity>
+				}
+			/>
+		</Body>
 	</Container>
 }
 export default PpobPulsa
