@@ -69,7 +69,7 @@ export const GlobalHeader = props => {
             return children
         } else {
             if (typeof title == 'string') {
-                return <Text font="SemiBold" color={transparent ? titleColor || ColorsList.greyFont : ColorsList.greyFont}>{title}</Text>
+                return <Text font="SemiBold" color={transparent ? titleColor || ColorsList.greyFontHard : ColorsList.greyFontHard}>{title}</Text>
             }
         }
     }

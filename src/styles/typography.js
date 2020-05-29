@@ -1,20 +1,10 @@
 import { ColorsList } from "./colors";
 
 export const FontName = {
-    'Black': 'Nunito-Black',
-    'BlackItalic': 'Nunito-BlackItalic',
     'Bold': 'Rubik-Bold',
-    'BoldItalic': 'Nunito-BoldItalic',
     'ExtraBold': 'Nunito-ExtraBold',
-    'ExtraBoldItalic': 'Nunito-ExtraBoldItalic',
-    'ExtraLight': 'Nunito-ExtraLight',
-    'ExtraLightItalic': 'Nunito-ExtraLightItalic',
-    'Italic': 'Nunito-Italic',
-    'Light': 'Nunito-Light',
-    'LightItalic': 'Nunito-LightItalic',
     'Regular': 'SFProDisplay-Regular',
     'SemiBold': 'Rubik-Regular',
-    'SemiBoldItalic': 'Nunito-SemiBoldItalic',
 }
 
 export const FontList = {
