@@ -5,7 +5,7 @@ export const Wrapper = props => {
 	if (props.noWrapper) {
 		// console.debug(987654)
 	}
-	return <TouchableOpacity onPress={onPress} activeOpacity={onPress ? .5 : 1} style={[{
+	return <View style={[{
 		flexDirection: props.direction || 'row',
 		justifyContent: props.justify || 'space-around',
 	},
@@ -39,5 +39,5 @@ export const Wrapper = props => {
 					</View>
 				}) : (children)
 		}
-	</TouchableOpacity>
+	</View>
 }

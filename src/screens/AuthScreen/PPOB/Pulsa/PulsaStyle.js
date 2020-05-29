@@ -10,16 +10,13 @@ const styles = StyleSheet.create({
 		backgroundColor: ColorsList.whiteColor
 	},
 	listPulsa: {
-		margin: 10,
+		margin: 5,
 	},
 	pulsaWrapper: {
-		// justifyContent: "space-between",
-		// width: "47%",
-		borderRadius: 5,
-		borderWidth: 1,
-		borderColor: ColorsList.whiteColor,
+		padding : 5,
+		borderRadius : 5,
 		backgroundColor: ColorsList.whiteColor,
-		...$Margin(0, 0, 10)
+		...$Margin(0, 0, 5)
 	},
 	pulsaWrapperActive: {
 		borderColor: ColorsList.primary,

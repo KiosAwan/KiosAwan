@@ -203,19 +203,26 @@ const PpobPulsa = ({ navigation }) => {
 					toggleValue={favorit}
 				/>
 			</View>
-			<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
-				showsVerticalScrollIndicator={false}
-				data={data ? data.products : []}
-				renderItem={({ item, index }) =>
-					<TouchableOpacity onPress={() => _selectPulsa({ item, index })} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
-						<Text style={styles.pulsaComp}>{item.type.ucfirst()}</Text>
-						<Text color="primary" style={styles.pulsaComp}>{item.name}</Text>
-						<View style={{ borderTopWidth: 1, borderTopColor: ColorsList.greyAuthHard }}>
-							<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.price)}</Text>
-						</View>
-					</TouchableOpacity>
-				}
-			/>
+			<View style={{flex : 1, padding: 10,}}>
+				<Text style={{}}>Pilih nominal pulsa:</Text>
+				<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
+					showsVerticalScrollIndicator={false}
+					data={data ? data.products : []}
+					renderItem={({ item, index }) =>
+						<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
+							<Wrapper spaceBetween shadow style={styles.pulsaWrapper}>
+								<View _width="70%">
+									<Text font="SemiBold" color="primary">{`PULSA ${item.name.split(" ")[2]}`} </Text>
+								</View>
+								<View _width="30%">
+									<Text size={8}>HARGA</Text>
+									<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
+								</View>
+							</Wrapper>
+						</TouchableOpacity>
+					}
+				/>
+			</View>
 		</Body>
 	</Container>
 }
