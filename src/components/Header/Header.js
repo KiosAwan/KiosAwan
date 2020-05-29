@@ -10,6 +10,7 @@ import { Text } from '../Text/CustomText'
 import { Header } from 'native-base'
 import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
+import { SizeList } from 'src/styles/size';
 
 export const HeaderRegister = () => {
     return (
@@ -59,6 +60,8 @@ export const GlobalHeader = props => {
         children,
         leftProps,
         rightProps,
+        renderLeftAccessory,
+        renderRightAccessory,
         style
     } = props
     const renderMid = () => {
@@ -81,18 +84,26 @@ export const GlobalHeader = props => {
         }
     }
     const render = () => <Wrapper spaceBetween={!onlyTitle}>
-        {!onlyTitle && <Button color={["transparent"]} onPress={onPressBack} {...leftProps}>
+        {
+            typeof renderLeftAccessory == 'function' &&
+            <View style={{ paddingRight: SizeList.base }}>{renderLeftAccessory()}</View>
+        }
+        {!onlyTitle && !renderLeftAccessory && <Button color={["transparent"]} onPress={onPressBack} {...leftProps}>
             <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || ColorsList.greyFont} />
         </Button>}
-        <View _flex style={onlyTitle && { paddingHorizontal: 10 }}>
+        <Wrapper _flex style={onlyTitle && { paddingHorizontal: 10 }}>
             {renderMid()}
-        </View>
+        </Wrapper>
         {
             !onlyTitle && image && <Button color={["transparent"]} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
                 {renderImage()}
             </Button>
         }
-    </Wrapper >
+        {
+            typeof renderRightAccessory == 'function' &&
+            <View style={{ paddingRight: SizeList.base }}>{renderRightAccessory()}</View>
+        }
+    </Wrapper>
     return <Header androidStatusBarColor={ColorsList.greyAuthHard} style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
         {
             transparent ?
@@ -105,6 +116,9 @@ export const GlobalHeader = props => {
         }
     </Header>
 }
+
+export const IconHeader = props => <Icon {...props} size={20} />
+export const ImageHeader = props => <Image {...props} style={{ width: 30, height: 30 }} />
 
 export const CashierHeader = props => {
     const [focus, setFocus] = useState(false)

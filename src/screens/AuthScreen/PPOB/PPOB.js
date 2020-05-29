@@ -25,6 +25,7 @@ import Axios from 'axios';
 import { FontList } from 'src/styles/typography';
 import Menu from 'src/components/ModalContent/Menu';
 import Container, { Body } from 'src/components/View/Container';
+import { ImageHeader, IconHeader } from 'src/components/Header/Header';
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -82,9 +83,15 @@ const PPOB = ({ navigation }) => {
 	return (
 		<Container header={{
 			onPressBack: () => navigation.goBack(),
-			handleDeleteCategory: () => _moreMenu(),
 			title: "PEMBAYARAN",
-			image: require('src/assets/icons/clock.png'),
+			renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 40 }}>
+				<TouchableOpacity>
+					<IconHeader name="heart" color={ColorsList.greyFont} />
+				</TouchableOpacity>
+				<TouchableOpacity onPress={_moreMenu}>
+					<IconHeader name="ellipsis-v" color={ColorsList.greyFont} />
+				</TouchableOpacity>
+			</Wrapper>
 		}}>
 			{/* <Button style={{ alignItems: "center" }} _width="49%" color="link" onPress={() => navigation.navigate("/ppob/favorit")}>
 				<Image style={{ marginRight: 5 }} source={require('src/assets/icons/home/star.png')} size={15} />

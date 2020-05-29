@@ -74,7 +74,7 @@ const MDInput = props => {
 
 const Input = props => {
 	return <MDInput {...props} lineWidth={0} inputStyle={{
-		elevation: SizeList.elevation,
+		elevation: SizeList.secondary,
 		borderRadius: SizeList.secondary,
 		paddingHorizontal: SizeList.base,
 		backgroundColor: ColorsList.white,
