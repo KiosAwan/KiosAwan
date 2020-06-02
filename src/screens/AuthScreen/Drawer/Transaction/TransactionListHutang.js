@@ -72,7 +72,7 @@ const RingkasanHutang = ({ navigation }) => {
                                 return filterResult(item.data).rMap(trx => {
                                     return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
                                         <Wrapper shadow style={{ marginTop: SizeList.base, paddingHorizontal: 5, paddingVertical: 15, backgroundColor: ColorsList.white }} justify="space-between">
-                                            <Wrapper _width="50%">
+                                            <Wrapper _width="50%" style={{alignSelf : "flex-start", paddingHorizontal : 5}}>
                                                 <View>
                                                     <Text font="SemiBold">{trx.payment_code}</Text>
                                                     <Text>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
