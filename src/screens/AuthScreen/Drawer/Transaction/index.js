@@ -29,15 +29,11 @@ const TransactionList = ({ navigation }) => {
   const dispatch = useDispatch()
   const DataTransaksi = useSelector(state => state.Transaction)
   const User = useSelector(state => state.User)
-  const [reportHutang, setReportHutang] = useState({})
   const [search, setSearch] = useState('')
   const [searchIconColor, setSearchIconColor] = useState(ColorsList.greyFont)
   const [moreVisible, setMoreVisible] = useState(false)
   const [filter, setFilter] = useState('all')
-  const _reportHutang = async () => {
-    const res = await getReportHutang(User.store.id_store)
-    setReportHutang(res.data)
-  }
+
   const iconImage = {
     '3': {
       image: require('src/assets/icons/round-return.png'),
@@ -67,7 +63,6 @@ const TransactionList = ({ navigation }) => {
   const _effect = async () => {
     const userToken = await getUserToken()
     dispatch(getTransactionList(User.store.id_store, userToken))
-    _reportHutang()
   }
 
   const [filterPopup, setFilterPopup] = useState(false)
@@ -109,7 +104,7 @@ const TransactionList = ({ navigation }) => {
                         {
                           filterResult(item.data).rMap((trx, i) => {
                             return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
-                              <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { paddingHorizontal: 10, paddingVertical: 15,backgroundColor: ColorsList.white }]} justify="space-between">
+                              <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { paddingHorizontal: 10, paddingVertical: 15, backgroundColor: ColorsList.white }]} justify="space-between">
                                 {/* <View style={{ padding: 15 }}> */}
                                 <Wrapper _width="50%">
                                   <View style={{ justifyContent: 'center' }}>
@@ -123,7 +118,7 @@ const TransactionList = ({ navigation }) => {
                                 <View _style={{ width: '25%' }}>
                                   <Text color="primary">{convertRupiah(trx.total_transaction)}</Text>
                                 </View>
-                                  <Text color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
+                                <Text color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
                               </Wrapper>
                             </TouchableOpacity>
                           })
@@ -148,48 +143,10 @@ const TransactionList = ({ navigation }) => {
     )
   }
 
-  const RingkasanHutang = ({ route }) => {
-    return (
-      !reportHutang ?
-        <View style={{ alignItems: 'center', flex: 1 }}>
-          <Image style={{ width: 250, height: 250, marginTop: 50 }} source={require('src/assets/images/no-transaction.png')} />
-          <View style={{ alignItems: 'center', width: '75%' }}>
-            <Text font="ExtraBold" size={17}>Anda belum memiliki piutang!</Text>
-            <Text align="center">Silahkan melalukan transaksi baru untuk mengisi laporan.</Text>
-          </View>
-        </View>
-        :
-        <View style={{ flex: 1 }}>
-          <ScrollView
-            refreshControl={<RefreshControl onRefresh={_reportHutang} />}
-            style={{ flex: 1, padding: 15 }}>
-            <Wrapper style={styles.wrapper} justify="space-between">
-              <Text>Jumlah Transaksi Hutang</Text>
-              <Text font="ExtraBold" color="primary">{convertRupiah(reportHutang.jumlah_hutang)}</Text>
-            </Wrapper>
-            <Wrapper style={styles.wrapper} justify="space-between">
-              <Text>Jumlah Pelanggan</Text>
-              <Text font="ExtraBold" color="primary">{reportHutang.jumlah_pelanggan}</Text>
-            </Wrapper>
-            <Wrapper style={styles.wrapper} justify="space-between">
-              <Text>Transaksi Jatuh Tempo</Text>
-              <Text font="ExtraBold" color="primary">{reportHutang.trx_jatuh_tempo}</Text>
-            </Wrapper>
-            <Wrapper style={styles.wrapper} justify="space-between">
-              <Text>Transaksi Belum Lunas</Text>
-              <Text font="ExtraBold" color="primary">{reportHutang.trx_belum_lunas}</Text>
-            </Wrapper>
-          </ScrollView>
-          <Bottom>
-            <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>
-          </Bottom>
-        </View>
-    )
-  }
-
   return (<Container header={{
     onPressBack: () => navigation.goBack(),
     title: "PEMBAYARAN",
+    renderLeftAccessory: () => null,
     renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
       <TouchableOpacity onPress={() => setFilterPopup(true)}>
         <IconHeader name="sliders-h" color={ColorsList.greyFont} />
@@ -210,7 +167,7 @@ const TransactionList = ({ navigation }) => {
       bgColor="transparent"
       position="topRight"
       style={{ backgroundColor: ColorsList.white }}
-      data={[{ name: 'Daftar hutang', route: '/ppob/settings' }]}
+      data={[{ name: 'Daftar hutang', route: '/drawer/transaction/ringkasan_hutang' }]}
       state={setMoreVisible}
       visible={moreVisible}
       onSelect={({ item: { route } }) => navigation.navigate(route)}
