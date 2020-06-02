@@ -7,10 +7,17 @@ import TransactionCetakStruk from 'src/screens/AuthScreen/Drawer/Transaction/Tra
 import TambahPrinter from 'src/screens/AuthScreen/Drawer/Transaction/TambahPrinter'
 import UbahEmailInfoScreen from 'src/screens/AuthScreen/Drawer/Setting/UbahEmailInfoScreen'
 import TransactionDigitalDetail from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDigitalDetail'
+import RingkasanHutang from 'src/screens/AuthScreen/Drawer/Transaction/TransactionListHutang'
 
 const TransactionNavigator = {
   '/drawer/transaction': {
     screen: TransactionList,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/drawer/transaction/ringkasan_hutang': {
+    screen: RingkasanHutang,
     navigationOptions: {
       header: null
     }

@@ -22,7 +22,7 @@ export const PPOBCard = (props) => (
                 // <View style={{ position: "absolute", right: 0, top: 0, padding : 3}}>
                 <Text color={props.status == 0 ? "primary" : "warning"} size={10}>{props.info.ucwords()}</Text>
                 // </View>
-                : null}
+                : <Text size={10}></Text>}
         </View>
     </TouchableOpacity>
 )
