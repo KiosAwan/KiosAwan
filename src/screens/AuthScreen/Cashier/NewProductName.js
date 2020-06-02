@@ -107,6 +107,11 @@ const NewProductName = ({ navigation }) => {
 				{[2, '/', 3].map(v => <Text color="primary" size={16}>{v}</Text>)}
 			</Wrapper>}
 		/>
+		<AwanPopup.Alert
+			message={errorMessage}
+			visible={errorAlert}
+			closeAlert={() => setErrorAlert(false)}
+		/>
 		<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} style={{ width: '80%' }}>
 			<Text style={{ paddingHorizontal: 10, color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
 			<Divider />
