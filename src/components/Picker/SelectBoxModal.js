@@ -12,7 +12,7 @@ import { Wrapper } from '../View/Wrapper';
 import { Button } from '../Button/Button';
 import { Text } from '../Text/CustomText';
 import SearchInput from '../Input/SearchInput';
-import MDInput from '../Input/MDInput';
+import MDInput, { Input as MyInput } from '../Input/MDInput';
 import { Modal as AwanModal } from '../ModalContent/Popups';
 import { $Padding, $Border } from 'src/utils/stylehelper';
 import Alert from 'src/utils/alert';
@@ -323,6 +323,9 @@ export const SelectBoxModal = (props) => {
 			onOpen()
 		}
 	}, [])
+	if (props.inputStyle){
+		console.debug(props)
+	}
 	return <View>
 		<AwanModal visible={modalVisible}
 			backdropDismiss={() => setModalVisible(false)}
@@ -352,14 +355,13 @@ export const SelectBoxModal = (props) => {
 			}
 			{footer}
 		</AwanModal>
-		<TouchableOpacity activeOpacity={.7} onPress={() => setModalVisible(true)} style={[styles.selectBox, style, {
-			marginTop: 5
-		}]}>
-			<Text font="Regular" style={{ color: value ? ColorsList.greyFont : ColorsList.transparent }}>{label}</Text>
+		<TouchableOpacity activeOpacity={1} onPress={() => setModalVisible(true)} style={[styles.selectBox, style]}>
+			<MyInput disabled label={label} value={value} renderRightAccessory={() => <Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />} />
+			{/* <Text font="Regular" style={{ color: value ? ColorsList.greyFont : ColorsList.transparent }}>{label}</Text>
 			<Wrapper justify="space-between" style={$Border(ColorsList.secondary, 0, 0, .5)}>
 				<Text font="Regular" size={13}>{value ? value : label}</Text>
 				<Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />
-			</Wrapper>
+			</Wrapper> */}
 		</TouchableOpacity>
 	</View>
 }

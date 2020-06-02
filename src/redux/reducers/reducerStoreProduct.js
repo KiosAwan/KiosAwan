@@ -23,18 +23,21 @@ const initialState = {
 const reducerStoreProduct = (state = initialState, actions) => {
     switch (actions.type) {
         case "GET_PRODUCT":
+            console.debug(1, actions.payload.data)
             return {
                 ...state,
                 data: actions.payload,
                 isLoading: true
             };
         case "GET_PRODUCT_FULFILLED":
+            console.debug(2, actions.payload.data)
             return {
                 ...state,
                 data: actions.payload.data.data,
                 isLoading: false
             };
         case "GET_PRODUCT_REJECTED":
+            console.debug(3, actions.payload.data)
             return {
                 ...state,
                 isError: true,

@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, cloneElement } from 'react'
 import { TextField } from "react-native-material-textfield"
 import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { Icon } from 'native-base'
 import { Image } from '../CustomImage'
-import { Animated, View, FlatList, TouchableOpacity } from 'react-native'
+import { Animated, View, FlatList, TouchableOpacity, TextInput as TextInputRN } from 'react-native';
 import { FontName } from 'src/styles/typography'
 import Divider from '../Row/Divider'
 import { stateObject } from 'src/utils/state'
 import { SizeList } from 'src/styles/size'
+import { Wrapper } from '../View/Wrapper'
+import { Text } from '../Text/CustomText'
 
 const MDInput = props => {
 	let objCurrency = {}
@@ -73,13 +75,53 @@ const MDInput = props => {
 }
 
 const Input = props => {
-	return <MDInput {...props} lineWidth={0} inputStyle={{
-		elevation: SizeList.secondary,
-		borderRadius: SizeList.secondary,
-		paddingHorizontal: SizeList.base,
-		backgroundColor: ColorsList.white,
-		...props.style
-	}} />
+	const { value, accessoryOut, onFocus, onBlur, renderLeftAccessory, renderRightAccessory, ..._props } = props
+	const [focus, setFocus] = useState(false)
+	const color = () => {
+		if (focus) {
+			return {}
+		}
+		if (!focus && !value) {
+			return {}
+		}
+		return {
+			baseColor: ColorsList.primary,
+			tintColor: ColorsList.primary
+		}
+	}
+	const renderInput = props => <MDInput _flex {...props}
+		{...color()}
+		onFocus={() => {
+			setFocus(true)
+			if (typeof onFocus == 'function') onFocus()
+		}}
+		onBlur={() => {
+			setFocus(false)
+			if (typeof onBlur == 'function') onBlur()
+		}}
+		disabledLineWidth={0} lineWidth={0} inputStyle={{
+			elevation: SizeList.secondary,
+			borderRadius: SizeList.secondary,
+			paddingHorizontal: SizeList.base,
+			backgroundColor: ColorsList.white,
+			...props.inputStyle
+		}} style={props.style} />
+	if (accessoryOut) {
+		return <Wrapper spaceBetween>
+			{typeof renderLeftAccessory == 'function' && cloneElement(renderLeftAccessory(), {
+				_style: { marginRight: SizeList.base }
+			})}
+			{renderInput(_props)}
+			{typeof renderRightAccessory == 'function' && cloneElement(renderRightAccessory(), {
+				_style: { marginLeft: SizeList.base }
+			})}
+		</Wrapper>
+	}
+	return renderInput(props)
+}
+
+const TextInput = props => {
+	return <TextInputRN {...props} />
 }
 
 const AutoCompleteInput = props => {
@@ -193,4 +235,4 @@ const MDInputV2 = props => {
 }
 
 export default MDInput
-export { AutoCompleteInput, MDInputV2, Input }
+export { AutoCompleteInput, MDInputV2, Input, TextInput }

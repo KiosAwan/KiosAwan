@@ -1,14 +1,14 @@
-import Stock from '../../screens/AuthScreen/Stock'
-import Cashier from '../../screens/AuthScreen/Cashier'
-import NewBarcodeProduct from '../../screens/AuthScreen/NewBarcodeProduct'
-import NewProductName from '../../screens/AuthScreen/NewProductName'
-import NewProductLast from '../../screens/AuthScreen/NewProductLast'
-import Cart from '../../screens/AuthScreen/Cart'
-import Struk from '../../screens/AuthScreen/Struk'
-import InputManual from '../../screens/AuthScreen/InputManual'
-import CheckOut from '../../screens/AuthScreen/CheckOut'
-import AddCartWithBarcode from '../../screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
+import Stock from 'src/screens/AuthScreen/Stock'
+import Cashier from 'src/screens/AuthScreen/Cashier'
+import Struk from 'src/screens/AuthScreen/Struk'
+import CheckOut from 'src/screens/AuthScreen/CheckOut'
+import AddCartWithBarcode from 'src/screens/AuthScreen/Cashier/Main/AddCartWithBarcode'
 import EWalletPayment from "src/screens/AuthScreen/Cashier/Payment/E-WalletPayment"
+import NewProductName from 'src/screens/AuthScreen/Cashier/NewProductName'
+import NewBarcodeProduct from 'src/screens/AuthScreen/Cashier/NewBarcodeProduct'
+import NewProductLast from 'src/screens/AuthScreen/Cashier/NewProductLast'
+import InputManual from 'src/screens/AuthScreen/Cashier/InputManual'
+import Cart from 'src/screens/AuthScreen/Cart'
 const CashierNavigator = {
   '/cashier': {
     screen: Cashier,

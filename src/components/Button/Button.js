@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Wrapper } from '../View/Wrapper';
 import { $Padding, $Border } from 'src/utils/stylehelper';
+import { SizeList } from 'src/styles/size';
 
 export const Button = props => {
 	const { borderBottom, padding, color, activeColor, active, children } = props
@@ -111,7 +112,7 @@ export const Button = props => {
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
 		justifyContent: 'flex-start',
-		borderRadius: props.noRadius ? 0 : props.radius || 15,		...ifWhitespaces() && { display: "none" },
+		borderRadius: props.noRadius ? 0 : props.radius || 15, ...ifWhitespaces() && { display: "none" },
 		...props.flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
 		...props.noBorder && { borderColor: ColorsList.transparent },
@@ -129,4 +130,15 @@ export const Button = props => {
 		}
 	</TouchableOpacity>
 	{/* </Animated.View> */ }
+}
+
+export const ButtonShadow = props => {
+	const { children, onPress, style } = props
+	return <TouchableOpacity onPress={onPress}>
+		<Wrapper shadow {...props} style={{
+			borderRadius: 50,
+			padding: SizeList.base,
+			...style
+		}}>{children}</Wrapper>
+	</TouchableOpacity>
 }

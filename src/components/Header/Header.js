@@ -69,7 +69,7 @@ export const GlobalHeader = props => {
             return children
         } else {
             if (typeof title == 'string') {
-                return <Text font="SemiBold" color={transparent ? titleColor || ColorsList.greyFontHard : ColorsList.greyFontHard}>{title}</Text>
+                return <Text font="SemiBold" color={transparent ? titleColor || ColorsList.greyFontHard : ColorsList.greyFontHard}>{title.toUpperCase()}</Text>
             }
         }
     }
@@ -117,7 +117,12 @@ export const GlobalHeader = props => {
     </Header>
 }
 
-export const IconHeader = props => <Icon {...props} size={20} />
+export const IconHeader = props => {
+    const { onPress, ..._props } = props
+    return <TouchableOpacity onPress={onPress}>
+        <Icon {..._props} size={20} />
+    </TouchableOpacity>
+}
 export const ImageHeader = props => <Image {...props} style={{ width: 30, height: 30 }} />
 
 export const CashierHeader = props => {
