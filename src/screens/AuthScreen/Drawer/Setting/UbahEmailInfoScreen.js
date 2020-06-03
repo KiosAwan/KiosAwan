@@ -62,12 +62,10 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 			<AwanPopup.Loading visible={apiLoading} />
 			<GlobalHeader title="Ubah Email" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 20 }}>
-				{/* <View style={{ padding: 20, width: SizeList.width - 40, backgroundColor: 'white', borderRadius: 5 }}> */}
 				<Input label="Email" value={User.data.email}
 					editable={false}
 					renderRightAccessory={() =>
 						<Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
-				{/* </View> */}
 				{User.data.status == 0 ?
 					<View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: SizeList.base, borderRadius : SizeList.borderRadius }}>
 						<Text color="danger" style={{ padding: 10 }} >Email anda belum terverifikasi, mohon segera verifikasi email Anda</Text>
