@@ -18,8 +18,13 @@ import { RowChild } from 'src/components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import { Text } from 'src/components/Text/CustomText';
+import Container, { Body } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { SizeList } from 'src/styles/size';
+import Divider from 'src/components/Row/Divider';
 
 const width = Dimensions.get('window').width
 
@@ -125,7 +130,80 @@ const NewProductLast = ({ navigation }) => {
 			dispatch(addMinQtyStock(value))
 		}
 	}
-	const [ggg, setGgg] = useState('')
+	return <Container style={{ marginBottom: SizeList.base }}>
+		<AwanPopup.Loading visible={apiLoading} />
+		<AwanPopup.Alert
+			message={errorMessage}
+			visible={errorAlert}
+			closeAlert={() => setErrorAlert(false)}
+		/>
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={modalVisible}
+			onRequestClose={() => {
+				setModalVisible(!modalVisible);
+			}}
+		>
+			<ModalContent
+				image={require('src/assets/images/addproductsuccess.png')}
+				infoText="Anda Berhasil Menambah Produk!"
+			/>
+		</Modal>
+		<GlobalHeader
+			title="TAMBAH PRODUK"
+			onPressBack={() => navigation.goBack()}
+			renderRightAccessory={() => <Wrapper style={{ width: 30 }} spaceBetween>
+				{[3, '/', 3].map(v => <Text color="primary" size={16}>{v}</Text>)}
+			</Wrapper>}
+		/>
+		<Body>
+			<Text>Masukkan harga modal dan harga jual produk</Text>
+			<Wrapper style={{ marginVertical: SizeList.base }} spaceBetween>
+				<Input
+					_flex currency
+					label="Harga modal"
+					value={NewProduct.price_in}
+					onChangeText={_handleChangePriceIn}
+				/>
+				<Divider size={SizeList.base} color={ColorsList.transparent} />
+				<Input
+					_flex currency
+					label="Harga jual"
+					value={NewProduct.price_out}
+					onChangeText={_handleChangePriceOut}
+				/>
+			</Wrapper>
+			<Wrapper spaceBetween>
+				<Text>Kelola stok produk</Text>
+				<SwitchButton
+					handleChangeToggle={_handleChangeToggle}
+					toggleValue={manageStock}
+				/>
+			</Wrapper>
+			{manageStock && <View>
+				<Wrapper style={{ marginVertical: SizeList.base }} spaceBetween>
+					<Input
+						_flex
+						label="Jumlah stok"
+						keyboardType="number-pad"
+						value={NewProduct.qty_stock}
+						onChangeText={_handleChangeStock}
+					/>
+					<Divider size={SizeList.base} color={ColorsList.transparent} />
+					<Input
+						_flex
+						label="Minimum Stok"
+						keyboardType="number-pad"
+						value={NewProduct.qty_min_stock}
+						onChangeText={_handleChangeMinStock}
+					/>
+				</Wrapper>
+				<Text>Jika stok produksudah mencapai minimum stok akan diberikan notifikasi</Text>
+			</View>}
+		</Body>
+		<Button style={{ marginHorizontal: SizeList.base }} onPress={_handlePressNext}>LANJUTKAN</Button>
+	</Container>
 	return (
 		<View style={{ flex: 1 }}>
 			<AwanPopup.Loading visible={apiLoading} />

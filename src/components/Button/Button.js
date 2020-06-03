@@ -5,6 +5,7 @@ import { ColorsList } from 'src/styles/colors';
 import { Wrapper } from '../View/Wrapper';
 import { $Padding, $Border } from 'src/utils/stylehelper';
 import { SizeList } from 'src/styles/size';
+import { shadowStyle } from '../Input/MDInput';
 
 export const Button = props => {
 	const { borderBottom, padding, color, activeColor, active, children } = props
@@ -140,5 +141,24 @@ export const ButtonShadow = props => {
 			padding: SizeList.base,
 			...style
 		}}>{children}</Wrapper>
+	</TouchableOpacity>
+}
+
+export const RoundedButton = props => {
+	const { size, style, children, textProps } = props
+	return <TouchableOpacity {...props} style={{
+		...shadowStyle,
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: size || 50,
+		height: size || 50,
+		borderRadius: 50,
+		...style
+	}}>
+		{
+			['string', 'number'].includes(typeof children) ?
+				<Text {...textProps}>{children}</Text> :
+				children
+		}
 	</TouchableOpacity>
 }

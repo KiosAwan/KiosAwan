@@ -95,6 +95,10 @@ export const GlobalHeader = props => {
             {renderMid()}
         </Wrapper>
         {
+            (!image || !renderRightAccessory) &&
+            <Icon name="arrow-left" size={25} color={ColorsList.transparent} />
+        }
+        {
             !onlyTitle && image && <Button color={["transparent"]} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
                 {renderImage()}
             </Button>

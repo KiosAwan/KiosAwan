@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input, TextInput, shadowStyle } from 'src/components/Input/MDInput';
 import Divider from 'src/components/Row/Divider';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -7,13 +7,13 @@ import { View } from 'react-native';
 import { validNumber, getRandomNegativeNum, convertNumber } from 'src/utils/authhelper';
 import { useDispatch } from 'react-redux'
 import { SizeList } from 'src/styles/size';
-import { Input } from 'native-base';
 import { Image } from 'src/components/CustomImage';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
-import { Button } from 'src/components/Button/Button';
+import { Button, ButtonShadow, RoundedButton } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { AddCart } from 'src/redux/actions/actionsStoreProduct';
+import { Text } from 'src/components/Text/CustomText';
 
 
 const InputManual = ({ navigation }) => {
@@ -63,6 +63,49 @@ const InputManual = ({ navigation }) => {
 		let a = parseInt(quantity == "" ? 0 : quantity) + 1
 		setQuantity(a)
 	}
+	return <Container>
+		<GlobalHeader title="Pesanan Manual" onPressBack={() => navigation.goBack()} />
+		<AwanPopup.Alert
+			message={errorMessage}
+			visible={errorAlert}
+			closeAlert={() => setErrorAlert(false)}
+		/>
+		<Body>
+			<Input
+				label="Nama Produk"
+				value={name_product}
+				onChangeText={setName}
+			/>
+			<Wrapper style={{ marginTop: SizeList.base }} spaceBetween>
+				<Input _flex
+					currency label="Harga modal"
+					value={price_in_product}
+					onChangeText={setPriceIn} />
+				<Divider size={SizeList.base} color={ColorsList.transparent} />
+				<Input _flex
+					currency label="Harga jual"
+					value={price_out_product}
+					onChangeText={setPriceOut} />
+			</Wrapper>
+			<Text style={{ marginVertical: SizeList.base }}>Jumlah barang</Text>
+			<Wrapper spaceBetween>
+				<RoundedButton textProps={{ color: 'primary', size: SizeList.base * 2 }} onPress={_handleMinusQuantity}>-</RoundedButton>
+				<Divider size={SizeList.base} color={ColorsList.transparent} />
+				<TextInput _flex value={quantity.toString()}
+					onChangeText={(text) => {
+						if (validNumber(text)) {
+							setQuantity(text)
+						}
+					}}
+					keyboardType="number-pad"
+					style={{ textAlign: 'center', fontSize: SizeList.base * 2 }}
+				/>
+				<Divider size={SizeList.base} color={ColorsList.transparent} />
+				<RoundedButton textProps={{ color: 'primary', size: SizeList.base * 2 }} onPress={_handlePlusQuantity}>+</RoundedButton>
+			</Wrapper>
+		</Body>
+		<Button style={{ marginHorizontal: SizeList.base, marginBottom: SizeList.base }} onPress={_handlePressBtn}>SIMPAN</Button>
+	</Container>
 	return <Container>
 		<GlobalHeader title="Pesanan Manual" onPressBack={() => navigation.goBack()} />
 		<AwanPopup.Alert

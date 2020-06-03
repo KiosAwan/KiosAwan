@@ -66,7 +66,7 @@ const MDInput = props => {
 					setOn({ color: baseColor, size: .5 })
 					if (typeof onBlur == 'function') onBlur()
 				}}
-				style={{ fontFamily: FontName.Regular, ..._style }}
+				style={{ color: baseColor, fontFamily: FontName.Regular, ..._style }}
 				{...objCurrency}
 			/>
 		</View>
@@ -75,13 +75,13 @@ const MDInput = props => {
 }
 
 const Input = props => {
-	const { value, accessoryOut, onFocus, onBlur, renderLeftAccessory, renderRightAccessory, ..._props } = props
+	const { value, currency, accessoryOut, onFocus, onBlur, renderLeftAccessory, renderRightAccessory, ..._props } = props
 	const [focus, setFocus] = useState(false)
 	const color = () => {
 		if (focus) {
 			return {}
-		}
-		if (!focus && !value) {
+		} else if (currency) {
+		} else if (!focus && !value) {
 			return {}
 		}
 		return {
@@ -100,10 +100,7 @@ const Input = props => {
 			if (typeof onBlur == 'function') onBlur()
 		}}
 		disabledLineWidth={0} lineWidth={0} inputStyle={{
-			elevation: SizeList.secondary,
-			borderRadius: SizeList.secondary,
-			paddingHorizontal: SizeList.base,
-			backgroundColor: ColorsList.white,
+			...shadowStyle,
 			...props.inputStyle
 		}} style={props.style} />
 	if (accessoryOut) {
@@ -121,7 +118,13 @@ const Input = props => {
 }
 
 const TextInput = props => {
-	return <TextInputRN {...props} />
+	const { noShadow, style } = props
+	return <TextInputRN {...props} style={{
+		color: ColorsList.secondary,
+		paddingTop: SizeList.base,
+		...!noShadow && shadowStyle,
+		...style
+	}} />
 }
 
 const AutoCompleteInput = props => {
@@ -234,5 +237,12 @@ const MDInputV2 = props => {
 	/>
 }
 
+const shadowStyle = {
+	elevation: SizeList.secondary,
+	borderRadius: SizeList.secondary,
+	paddingHorizontal: SizeList.base,
+	backgroundColor: ColorsList.white,
+}
+
 export default MDInput
-export { AutoCompleteInput, MDInputV2, Input, TextInput }
+export { AutoCompleteInput, MDInputV2, Input, TextInput, shadowStyle }
