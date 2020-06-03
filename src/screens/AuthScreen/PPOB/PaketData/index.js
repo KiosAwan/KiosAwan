@@ -19,6 +19,8 @@ import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { ColorsList } from 'src/styles/colors';
 
 const PpobPaketData = ({ navigation }) => {
 	//Initialize dispatch
@@ -162,9 +164,9 @@ const PpobPaketData = ({ navigation }) => {
 					keyboardType="phone-pad"
 					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
 				/>
-				<TouchableOpacity onPress={() => setContactVisible(true)}>
-					<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
-				</TouchableOpacity>
+				<Button _width="10%" padding={7} onPress={() => setContactVisible(true)}>
+					<Icon name="address-book" size={20} color={ColorsList.white} />
+				</Button>
 			</Wrapper>
 			<View style={styles.simpan}>
 				<Text>Simpan ke favorit</Text>

@@ -85,7 +85,7 @@ const PPOB = ({ navigation }) => {
 			onPressBack: () => navigation.goBack(),
 			title: "PEMBAYARAN",
 			renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 40 }}>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => navigation.navigate("/ppob/favorit")}>
 					<IconHeader name="heart" color={ColorsList.greyFont} />
 				</TouchableOpacity>
 				<TouchableOpacity onPress={_moreMenu}>
@@ -110,7 +110,7 @@ const PPOB = ({ navigation }) => {
 					<View>
 						<Text>Saldo Anda sebesar: </Text>
 						<Wrapper>
-							<Text color="primary" font="Bold">{convertRupiah(User.data.saldo || 0)}</Text>
+							<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
 							<TouchableOpacity onPress={async () => {
 								const userToken = await getUserToken()
 								dispatch(getProfile(User.data.id, userToken))
