@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, Clipboard, FlatList, TouchableOpacity } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
-import { GlobalHeader } from 'src/components/Header/Header';
+import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { RowOpposite } from 'src/components/Row/RowComp';
 import { getTransactionDetail, convertRupiah, formatToDays } from 'src/utils/authhelper';
@@ -84,8 +84,18 @@ const TransactionDetail = ({ navigation }) => {
 	useEffect(() => {
 		_getData()
 	}, [])
-	return <Container>
-		<GlobalHeader title="Detail Transaksi" onPressBack={() => back ? navigation.navigate(back) : navigation.goBack()} />
+	return <Container header={{
+		title: "Struk Belanja",
+		onPressBack: () => back ? navigation.navigate(back) : navigation.goBack(),
+		renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
+			<TouchableOpacity onPress={_shareBill}>
+				<IconHeader name="share-alt" color={ColorsList.greyFont} />
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data, type: true })}>
+				<IconHeader name="print" color={ColorsList.greyFont} />
+			</TouchableOpacity>
+		</Wrapper>
+	}}>
 		<Body>
 			<AwanPopup.Loading visible={dataLoading} />
 			{
@@ -100,8 +110,8 @@ const TransactionDetail = ({ navigation }) => {
 							topLayout.onLayout(e);
 							bottomLayout.onLayout(e);
 						}}
-						style={{ backgroundColor: ColorsList.whiteColor }}>
-						<Text align="center">{data ? data.transaction.name_store : null}</Text>
+						style={{ backgroundColor: ColorsList.whiteColor, padding: 10 }}>
+						<Text font="SemiBold" align="center">{data ? data.transaction.name_store : null}</Text>
 						<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
 							<Wrapper spaceBetween>
 								<Text>Kode Transaksi</Text>
@@ -140,12 +150,12 @@ const TransactionDetail = ({ navigation }) => {
 						}
 						<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
 							<View name="Daftar Produk" style={{ display: data.details_item.length == 0 ? "none" : "flex" }}>
-								<View style={{ padding: 10, ...$Border(ColorsList.primary, 1, 0) }}>
-									<Text align="center" size={16} color="primary">Daftar Produk</Text>
+								<View style={{ padding: 10, ...$Border(ColorsList.greyAuthHard, 1, 0) }}>
+									<Text align="center" size={16} font="SemiBold">Daftar Produk</Text>
 								</View>
 								{
 									data.details_item.rMap((data) => {
-										return <Wrapper width="100%" style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+										return <Wrapper width="100%" style={[$Padding(15, 10), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
 											<View _width="76%">
 												<Text color="primary" size={15}>{data.product}</Text>
 												<Text>{convertRupiah(data.price)} x {data.qty}</Text>
@@ -158,13 +168,13 @@ const TransactionDetail = ({ navigation }) => {
 								}
 							</View>
 							<View name="Daftar Produk Digital" style={{ display: data.product_digital.length == 0 ? "none" : "flex" }}>
-								<View style={{ padding: 10, ...$Border(ColorsList.primary, 1, 0) }}>
-									<Text align="center" size={16} color="primary">Pulsa dan Tagihan</Text>
+								<View style={{ padding: 10, ...$Border(ColorsList.greyAuthHard, 1, 0) }}>
+									<Text align="center" size={16} font="SemiBold">Pulsa dan Tagihan</Text>
 								</View>
 								{
 									data.product_digital.rMap((item, i) => {
 										return <View key={i.toString()}>
-											<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
+											<Wrapper style={[$Padding(15, 10), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
 												<View>
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
 													<Text>{item.transaction.customerID}</Text>
@@ -194,27 +204,27 @@ const TransactionDetail = ({ navigation }) => {
 									})
 								}
 							</View>
-							<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
-								<Text font="Bold">Subtotal</Text>
-								<Text font="Bold">{convertRupiah(data.transaction.sub_total)}</Text>
+							<Wrapper style={[$Padding(5, 10), $Border(ColorsList.greyAuthHard, 1, 0, 0)]} justify="space-between">
+								<Text>Subtotal</Text>
+								<Text>{convertRupiah(data.transaction.sub_total)}</Text>
 							</Wrapper>
 							{
 								data.transaction.discount &&
-								<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
-									<Text font="Bold">Diskon</Text>
-									<Text font="Bold">{convertRupiah(data.transaction.discount)}</Text>
+								<Wrapper style={[$Padding(5, 5)]} justify="space-between">
+									<Text>Diskon</Text>
+									<Text>{convertRupiah(data.transaction.discount)}</Text>
 								</Wrapper>
 							}
 							{
 								data.transaction.status != 1 &&
-								<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
-									<Text font="Bold">Pembatalan Transaksi</Text>
-									<Text font="Bold">{convertRupiah(data.transaction.total_return)}</Text>
+								<Wrapper style={[$Padding(5, 5)]} justify="space-between">
+									<Text>Pembatalan Transaksi</Text>
+									<Text>{convertRupiah(data.transaction.total_return)}</Text>
 								</Wrapper>
 							}
-							<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
-								<Text font="Bold">Total</Text>
-								<Text font="Bold">
+							<Wrapper style={[$Padding(5, 10), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
+								<Text font="SemiBold">Total</Text>
+								<Text font="SemiBold">
 									{
 										data.transaction.status == 1 ?
 											convertRupiah(data.transaction.total_transaction) :
@@ -222,21 +232,21 @@ const TransactionDetail = ({ navigation }) => {
 									}
 								</Text>
 							</Wrapper>
-							<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
-								<Text font="Bold">Jumlah yang dibayar</Text>
-								<Text font="Bold">
+							<Wrapper style={[$Padding(5, 10)]} justify="space-between">
+								<Text>Jumlah yang dibayar</Text>
+								<Text>
 									{convertRupiah(data.transaction.amount_payment)}
 								</Text>
 							</Wrapper>
-							<Wrapper style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]} justify="space-between">
-								<Text font="Bold">Kembalian</Text>
-								<Text font="Bold">
+							<Wrapper style={[$Padding(5, 10), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
+								<Text font="SemiBold">Kembalian</Text>
+								<Text font="SemiBold">
 									{convertRupiah(data.transaction.change_payment)}
 								</Text>
 							</Wrapper>
 							{data.transaction.note !== "" &&
 								<View style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]}>
-									<Text align="left" font="Bold">Note</Text>
+									<Text align="left" font="SemiBold">Note</Text>
 									<Text align="left">{data.transaction.note}</Text>
 								</View>
 							}
@@ -259,44 +269,23 @@ const TransactionDetail = ({ navigation }) => {
 			{
 				!dataLoading && data.transaction.status != 3 &&
 					data.transaction.status_payment == 2 ?
-					<View>
-						<Wrapper style={{ marginBottom: 10 }} justify="space-between">
-							{_canBatal() && <Button wrapper={{ justify: 'center' }} color="white" _width="54.5%"
-								onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
-							>
-								{/* <Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} /> */}
-								<Text color="primary">BATALKAN</Text>
-							</Button>}
-							<Button wrapper={{ justify: 'center' }} color="white" _width={_canBatal() ? "22%" : "49%"} onPress={_shareBill}>
-								<Image _style={{ marginRight: 10 }} style={{ height: 20, width: 20 }} source={require('src/assets/icons/share-primary.png')} />
-								{!_canBatal() && <Text color="primary">KIRIM STRUK</Text>}
-							</Button>
-							<Button wrapper={{ justify: 'center' }} color="white" _width={_canBatal() ? "22%" : "49%"} onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { singleData: params, type: false })}>
-								<Image _style={{ marginRight: 10 }} style={{ height: 20, width: 20 }} source={require('src/assets/icons/print-primary.png')} />
-								{!_canBatal() && <Text color="primary">CETAK STRUK</Text>}
-							</Button>
-						</Wrapper>
-						<Button onPress={async () => {
+					<Wrapper justify="space-between">
+						{_canBatal() && <Button wrapper={{ justify: 'center' }} color="link" _width="49%"
+							onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
+						>
+							<Text color="primary">BATALKAN</Text>
+						</Button>}
+						<Button _width="49%" onPress={async () => {
 							navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })
 						}}>LUNASI</Button>
-					</View>
+					</Wrapper>
 					:
 					<View>
 						{_canBatal() && <Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>}
-						<Wrapper style={{ marginTop: 5 }} justify="space-between">
-							<Button onPress={_shareBill} _width="49.5%">
-								<Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('src/assets/icons/share.png')} />
-								<Text style={styles.btnwithIconText}>KIRIM STRUK</Text>
-							</Button>
-							<Button onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { data: data, type: true })} _width="49.5%">
-								<Image style={{ height: 25, width: 25 }} source={require('src/assets/icons/print.png')} />
-								<Text style={styles.btnwithIconText}>CETAK STRUK</Text>
-							</Button>
-						</Wrapper>
 					</View>
 			}
 		</Footer>
-	</Container>
+	</Container >
 }
 
 export default TransactionDetail

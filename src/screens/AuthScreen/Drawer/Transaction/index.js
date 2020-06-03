@@ -106,8 +106,8 @@ const TransactionList = ({ navigation }) => {
                             return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
                               <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { paddingHorizontal: 10, paddingVertical: 15, backgroundColor: ColorsList.white }]} justify="space-between">
                                 {/* <View style={{ padding: 15 }}> */}
-                                <Wrapper _width="50%">
-                                  <View style={{ justifyContent: 'center' }}>
+                                <Wrapper _width="50%" justify="flex-start">
+                                  <View style={{ justifyContent: 'center',  }}>
                                     <Image style={{ width: 20, height: 20 }} source={iconImage[trx.status].image} />
                                   </View>
                                   <View style={{ paddingLeft: 5, justifyContent: 'center' }}>
