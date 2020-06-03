@@ -221,8 +221,8 @@ const Home = ({ navigation }) => {
 					<Button width={80} onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
 				</Wrapper>
 				{User.store &&
-					<TouchableOpacity>
-						<Wrapper shadow onPress={() => navigation.navigate("Laporan")} style={{ backgroundColor: ColorsList.white, marginHorizontal: 10 }} justify="space-evenly">
+					<TouchableOpacity onPress={() => navigation.navigate("Laporan")}>
+						<Wrapper style={{ backgroundColor: ColorsList.white, marginHorizontal: 10 }} justify="space-evenly">
 							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
 								<Text align="center" size={12}>Transaksi hari ini:</Text>
 								<Wrapper>
