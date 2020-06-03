@@ -155,27 +155,26 @@ const PPOB = ({ navigation }) => {
 						)}
 						keyExtractor={(item, index) => index.toString()}
 					/>}
-
-				{
-					Product.jumlahitem > 0 ?
-						<Bottom>
-							<Button onPress={() => {
-								navigation.navigate('/cashier/cart')
-							}} width="100%">
-								<Wrapper>
-									<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize: 30 }} name="ios-cart" />
-									<Text color="white">BELANJA {Product.jumlahitem} PRODUK</Text>
-								</Wrapper>
-								<View style={{ backgroundColor: ColorsList.primarySoft, height: '100%', width: 2 }} />
-								<View style={{ justifyContent: 'center' }}>
-									<Text color="white">{convertRupiah(Product.total)}</Text>
-								</View>
-							</Button>
-						</Bottom>
-						:
-						null
-				}
 			</Body>
+			{
+				Product.jumlahitem > 0 ?
+					<Bottom>
+						<Button onPress={() => {
+							navigation.navigate('/cashier/cart')
+						}} width="100%">
+							<Wrapper>
+								<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize: 30 }} name="ios-cart" />
+								<Text color="white">BELANJA {Product.jumlahitem} PRODUK</Text>
+							</Wrapper>
+							<View style={{ backgroundColor: ColorsList.primarySoft, height: '100%', width: 2 }} />
+							<View style={{ justifyContent: 'center' }}>
+								<Text color="white">{convertRupiah(Product.total)}</Text>
+							</View>
+						</Button>
+					</Bottom>
+					:
+					null
+			}
 		</Container>
 	)
 }
