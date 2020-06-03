@@ -12,7 +12,7 @@ import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 
 const MenuSettingUbahPassword = ({ navigation }) => {
 	const PIN = navigation.params ? navigation.params.PIN : undefined
@@ -106,14 +106,16 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 			<GlobalHeader title="Ubah Password" onPressBack={() => navigation.goBack()} />
 			<AwanPopup.Loading visible={loading} />
 			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
-				<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
-					{
-						inputan.rMap((input, i) => {
-							return <MDInput key={i} style={styles.floatingInput} label={input._label} style={{ width: '90%' }} {...input}
+				{/* <View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}> */}
+				{
+					inputan.rMap((input, i) => {
+						return <View style={styles.floatingInput}>
+							<Input key={i} label={input._label} style={{ width: '90%' }} {...input}
 								renderRightAccessory={() => <Icon name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />} />
-						})
-					}
-				</View>
+						</View>
+					})
+				}
+				{/* </View> */}
 			</ScrollView>
 			<Bottom>
 				<Button onPress={_handleSavePassword} style={{ width: '100%' }}>SIMPAN</Button>

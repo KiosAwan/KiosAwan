@@ -4,11 +4,11 @@ import styles from './PulsaStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
-import { View, FlatList, TouchableOpacity,Modal as RNModal } from 'react-native';
+import { View, FlatList, TouchableOpacity, Modal as RNModal } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
-import  { Input } from 'src/components/Input/MDInput';
-import {  AwanPopup } from 'src/components/ModalContent/Popups';
+import { Input } from 'src/components/Input/MDInput';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,7 @@ import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import ContactsModal from 'src/components/ModalContent/ContacsModal';
 import SwitchButton from 'src/components/Button/SwitchButton';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -149,31 +150,31 @@ const PpobPulsa = ({ navigation }) => {
 			/>
 		</RNModal>
 		<Body>
-				<Wrapper justify="space-between">
-					<Input
-						_width="85%"
-						label="No. Handphone"
-						value={phoneNumber}
-						onChangeText={_onChangePhoneNum}
-						keyboardType="phone-pad"
-						renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
+			<Wrapper justify="space-between">
+				<Input
+					_width="85%"
+					label="No. Handphone"
+					value={phoneNumber}
+					onChangeText={_onChangePhoneNum}
+					keyboardType="phone-pad"
+					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
+				/>
+				<Button _width="10%" padding={7} onPress={() => setContactVisible(true)}>
+					<Icon name="address-book" size={20} color={ColorsList.white} />
+				</Button>
+			</Wrapper>
+			{
+				__DEV__ && <View>
+					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
+					<FlatList
+						style={{}}
+						numColumns={3}
+						data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
+						keyExtractor={(a, i) => i.toString()}
+						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
 					/>
-					<TouchableOpacity style={{width : "10%"}} onPress={() => setContactVisible(true)}>
-						<Image source={require('src/assets/icons/phonebook-primary.png')} size={30} />
-					</TouchableOpacity>
-				</Wrapper>
-				{
-					__DEV__ && <View>
-						<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
-						<FlatList
-							style={{}}
-							numColumns={3}
-							data={["081320002755", "085856740755", "087861573755", "089636289755", "083811572755", "088212075755"]}
-							keyExtractor={(a, i) => i.toString()}
-							renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
-						/>
-					</View>
-				}
+				</View>
+			}
 			<View style={styles.simpan}>
 				<Text>Simpan ke favorit</Text>
 				<SwitchButton

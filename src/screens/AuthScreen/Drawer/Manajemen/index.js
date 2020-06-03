@@ -9,7 +9,7 @@ const Manajemen = ({ navigation }) => {
 	const ListManajemen = require('src/assets/json/manajemen.json')
 	return (
 		<Container>
-			<Text style={{ marginTop: 15 }} font="Bold" align="center">MANAJEMEN</Text>
+			<Text style={{ marginTop: 15 }} font="SemiBold" align="center">MANAJEMEN</Text>
 			<Body>
 				<Text style={{ marginBottom: 10 }}>Pilih modul yang akan dikelola</Text>
 				{

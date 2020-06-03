@@ -8,13 +8,11 @@ import {
     Dimensions,
 } from 'react-native';
 import BarStatus from 'src/components/BarStatus';
-import { GlobalHeader } from 'src/components/Header/Header';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import { verifyUserPassword } from 'src/utils/authhelper';
 import { FontList } from 'src/styles/typography';
-import { } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
 import { Input } from 'src/components/Input/MDInput';
 import Container, { Body } from 'src/components/View/Container';
