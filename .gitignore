@@ -62,3 +62,4 @@ outputs
 /package-lock.json
 *.project
 react-native-image-tutorial
+/yarn.lock
