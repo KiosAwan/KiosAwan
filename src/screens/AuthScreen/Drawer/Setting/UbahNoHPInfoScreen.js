@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Image } from 'react-native';
-import { } from 'src/components/Input/InputComp';
+import { View, Image } from 'react-native';
 import { SizeList } from 'src/styles/size';
 import { useSelector } from 'react-redux'
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -10,10 +9,14 @@ import { BottomButton } from 'src/components/Button/ButtonComp';
 import { sendCodeToEmail } from 'src/utils/authhelper';
 import { showPhoneNumber } from 'src/utils/unauthhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
+import { Text } from 'src/components/Text/CustomText';
+import { Bottom } from 'src/components/View/Bottom';
+import { Button } from 'src/components/Button/Button';
 const UbahNoHPInfoScreen = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const [apiLoading, setApiLoading] = useState(false)
+
     const _nextBtn = async () => {
         setApiLoading(true)
         const data = {
@@ -29,23 +32,17 @@ const UbahNoHPInfoScreen = ({ navigation }) => {
             <AwanPopup.Loading visible={apiLoading} />
             <GlobalHeader title="Ubah No HP" onPressBack={() => navigation.goBack()} />
             <View style={{ padding: 20 }}>
-                <View style={{ padding: 20, width: SizeList.width - 40, backgroundColor: 'white', borderRadius: 5 }}>
-                    <MDInput label="No.Handphone Anda" value={`62-${showPhoneNumber(User.data.phone_number.slice(2, User.data.length))}`}
-                        editable={false}
-                        renderRightAccessory={() => <Image style={{ width: 30, height: 30 }} source={require('src/assets/icons/successcheck.png')} />}
-                    />
-                </View>
-                <View style={{ backgroundColor: ColorsList.successSoft, marginTop: 30 }}>
-                    <Text style={{ textAlign: 'center', ...FontList.titleFont, color: ColorsList.success, padding: 5, paddingVertical: 10 }}>No. HP dapat diubah apabila dibutuhkan</Text>
+                <Input label="No.Handphone Anda" value={`62-${showPhoneNumber(User.data.phone_number.slice(2, User.data.length))}`}
+                    editable={false}
+                    renderRightAccessory={() =>
+                        <Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
+                <View style={{ backgroundColor: ColorsList.successSoft, marginTop: SizeList.base, padding: SizeList.padding, borderRadius: SizeList.borderRadius }}>
+                    <Text color="success">No. HP dapat diubah apabila dibutuhkan</Text>
                 </View>
             </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_nextBtn}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                    buttonTitle="UBAH"
-                />
-            </View>
+            <Bottom>
+                <Button onPress={_nextBtn} width="100%">UBAH</Button>
+            </Bottom>
         </View>
     )
 }
