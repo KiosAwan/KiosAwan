@@ -10,7 +10,7 @@ import { View, TouchableOpacity, TextInput, ScrollView, ActivityIndicator } from
 import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import { Bottom, BottomVertical } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
@@ -65,7 +65,7 @@ const PDAM = ({ navigation }) => {
         if (navigation.state.params) {
             const { customerID, name, code } = navigation.state.params
             setIdPelanggan(customerID)
-            setSelected({name, code})
+            setSelected({ name, code })
         }
     }
     //Function for getting pdam product list
@@ -80,6 +80,7 @@ const PDAM = ({ navigation }) => {
             alert("Harap pilih PDAM")
         }
         else {
+            setTagihanData()
             setTagihanLoading(true)
             const data = {
                 productID: selected.code,
@@ -171,34 +172,6 @@ const PDAM = ({ navigation }) => {
                 closeAlert={() => setAlert(false)}
             />
             <AwanPopup.Loading visible={payLoading} />
-            <Modal backdropDismiss={() => setModal(false)} visible={modal}>
-                <View>
-                    <Text size={17} align="center">Nomor Pelanggan</Text>
-                    <SearchInput textInput={{
-                        placeholder: 'Cari nomor'
-                    }} />
-                    <ScrollView persistentScrollbar style={{ maxHeight: 250, marginTop: 10 }}>
-                        {[1, 2, 3, 4, 5, 6]
-                            .rMap((item, i) => [
-                                <Button color="link">Albert Stanley - 123456789123456789</Button>,
-                                i != 5 && <Divider />
-                            ])
-                        }
-                    </ScrollView>
-                </View>
-            </Modal>
-            {/* Popup components */}
-            {/* <SelectBoxModal style={{ marginTop: 15 }}
-            label="Pilih PDAM" closeOnSelect
-            data={testJsonData}
-            value={testSelected ? testSelected.id_pelanggan : ""}
-            handleChangePicker={(item) => {
-                setTestSelected(item)
-                _cekTagihan({ code: item.code }, item.id_pelanggan)
-            }}
-            renderItem={(item) => (<Text color={testSelected.id_pelanggan == item.id_pelanggan && 'primary'}>{item.id_pelanggan}</Text>)}>
-            <Text>Data tidak ditemukan</Text>
-        </SelectBoxModal> */}
             <View style={styles.topComp}>
                 {__DEV__ &&
                     <View style={{ backgroundColor: ColorsList.greyBg, padding: 15 }}>
@@ -221,7 +194,7 @@ const PDAM = ({ navigation }) => {
                         </SelectBoxModal>
                     </View>
                 }
-                <SelectBoxModal style={{ marginTop: 15 }}
+                <SelectBoxModal style={{ marginVertical: SizeList.base }}
                     label="Pilih PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
                     header={
@@ -234,11 +207,12 @@ const PDAM = ({ navigation }) => {
                     renderItem={(item) => (<Text color={selected.code == item.code && 'primary'}>{item.name}</Text>)}>
                     <Text>Data tidak ditemukan</Text>
                 </SelectBoxModal>
-                <MDInput _width="80%"
+                <Input _width="80%"
                     label="No Pelanggan"
                     value={idPelanggan.toString()}
                     onChangeText={text => setIdPelanggan(text)}
                     keyboardType="number-pad"
+                    renderRightAccessory={() => <Button onPress={() => _cekTagihan(selected, idPelanggan)} color="white" noBorder>CEK TAGIHAN</Button>}
                 />
             </View>
             <View style={styles.simpan}>
@@ -248,7 +222,7 @@ const PDAM = ({ navigation }) => {
                     toggleValue={favorit}
                 />
             </View>
-            {tagihanData ? <Button style={$Margin(0, 15, 15)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
+            {tagihanData ? <Button noRadius style={$Margin(0, 0, 10)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
                 {`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
                     (parseInt(tagihanData.transaction.cashback)
                     ))}`}
@@ -256,48 +230,38 @@ const PDAM = ({ navigation }) => {
             {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
                 :
                 tagihanData ?
-                    <Body style={{ padding: 0 }}>
-                        <View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
-                            <Wrapper justify="space-between" style={{ padding: 10 }}>
-                                <Text font="Regular">Nama Pelanggan</Text>
-                                <Text font="Regular">{tagihanData.transaction.nama}</Text>
-                            </Wrapper>
-                            <Divider />
-                            <Wrapper justify="space-between" style={{ padding: 10 }}>
-                                <Text font="Regular">Id Pelanggan</Text>
-                                <Text font="Regular">{tagihanData.transaction.customerID}</Text>
-                            </Wrapper>
-                            <Divider />
-                            <Wrapper justify="space-between" style={{ padding: 10 }}>
-                                <Text font="Regular">Jumlah Tagihan</Text>
-                                <Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
-                            </Wrapper>
-                            <Divider />
-                            <Wrapper justify="space-between" style={{ padding: 10 }}>
-                                <Text font="Regular">Denda</Text>
-                                <Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
-                            </Wrapper>
-                            <Divider />
-                            <Wrapper justify="space-between" style={{ padding: 10 }}>
-                                <Text font="Regular">Admin</Text>
-                                <Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
-                            </Wrapper>
-                            <Divider />
-                            <Wrapper justify="space-between" style={{ padding: 10 }}>
-                                <Text font="Regular">Total Tagihan</Text>
-                                <Text font="Regular">{convertRupiah(tagihanData.transaction.total)}</Text>
-                            </Wrapper>
-                        </View>
-                    </Body>
+                    <View style={{ elevation: 1, borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Nama Pelanggan</Text>
+                            <Text font="SemiBold">{tagihanData.transaction.nama}</Text>
+                        </Wrapper>
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Id Pelanggan</Text>
+                            <Text font="SemiBold">{tagihanData.transaction.customerID}</Text>
+                        </Wrapper>
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Jumlah Tagihan</Text>
+                            <Text font="SemiBold">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
+                        </Wrapper>
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Denda</Text>
+                            <Text font="SemiBold">{convertRupiah(tagihanData.transaction.denda)}</Text>
+                        </Wrapper>
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Admin</Text>
+                            <Text font="SemiBold">{convertRupiah(tagihanData.transaction.admin)}</Text>
+                        </Wrapper>
+                        <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Total Tagihan</Text>
+                            <Text font="SemiBold">{convertRupiah(tagihanData.transaction.total)}</Text>
+                        </Wrapper>
+                    </View>
                     : null}
         </Body>
         <Footer>
-            <Button onPress={() => _cekTagihan(selected, idPelanggan)} color="white" width="100%">
-                CEK TAGIHAN
-            </Button>
-            <Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
+            {tagihanData && <Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
                 BAYAR
-            </Button>
+            </Button>}
         </Footer>
     </Container >
 }
