@@ -48,6 +48,7 @@ const ListrikPascabayar = ({ navigation }) => {
 	//Function for check tagihan
 	const _cekTagihan = async (x) => {
 		setTagihanLoading(true)
+		setTagihanData()
 		const params = {
 			productID: 100301,
 			customerID: x
