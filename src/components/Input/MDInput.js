@@ -70,8 +70,8 @@ const MDInput = props => {
 		/>
 		if (noLabel) {
 			return <TextInputRN {...input.props} editable={!props.disabled} style={{
-				// marginBottom: 8,
-				...$Border(On.color, 0, 0, lineWidth != undefined && !focused ? lineWidth : On.size),
+				marginTop: 8,
+				...$Border(On.color, 0, 0, lineWidth != undefined && !focused ? lineWidth : props.activeLineWidth != undefined ? props.activeLineWidth : On.size),
 				...input.props.style
 			}} />
 		}

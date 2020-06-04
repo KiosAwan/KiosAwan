@@ -36,6 +36,9 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border, $Padding } from 'src/utils/stylehelper';
 import PinView from 'src/components/Input/PinView';
 import UnauthHeader from 'src/components/View/UnauthHeader';
+import { Input } from 'src/components/Input/MDInput';
+import Divider from 'src/components/Row/Divider';
+import { SizeList } from 'src/styles/size';
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -199,13 +202,15 @@ const PhoneRegistration = ({ navigation }) => {
 			<UnauthHeader />
 			<Text align="center">{Strings.REGISTERPHONESUBTITLE}</Text>
 			<Wrapper flexStart style={{ marginVertical: 10, alignSelf: 'center', width: '80%' }}>
-				<Text style={{ elevation: 2, padding: 10, backgroundColor: ColorsList.authBackground }}>+62</Text>
-				<TextInput
+				<Input disabled noLabel style={{ width: SizeList.base * 5 }} value="+62" />
+				<Divider transparent size={5} />
+				<Input
 					_flex
+					noLabel
+					placeholder="857xxxxxxxx"
 					keyboardType="number-pad"
 					value={FormRegister.phone_number}
 					onChangeText={phone => _handleChangePhone(phone)}
-					style={{ color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding :  5, backgroundColor: ColorsList.authBackground }}
 				/>
 			</Wrapper>
 			<Text align="center" style={{ color: ColorsList.pink }}>
