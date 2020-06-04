@@ -183,8 +183,8 @@ const MenuSettingProfil = ({ navigation }) => {
 				<Text>Data tidak ditemukan</Text>
 			</SelectBoxModal>
 			{desaSelected.id && <View style={styles.locationDetail}>
-				<Text>
-					Alamat Lengkap: {_renderViewAlamat(desaSelected)}
+				<Text font="SemiBold">
+					{_renderViewAlamat(desaSelected)}
 				</Text>
 			</View>}
 			<SelectBoxModal style={{ marginTop: SizeList.base }}
