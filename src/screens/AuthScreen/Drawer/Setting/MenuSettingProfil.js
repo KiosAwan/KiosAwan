@@ -163,7 +163,7 @@ const MenuSettingProfil = ({ navigation }) => {
 			<FlatList
 				data={inputan}
 				keyExtractor={(a, i) => i.toString()}
-				renderItem={({ item: input }) => <View style={{ marginBottom: 10 }}><Input label={input._label} style={{ width: '90%' }} {...input} /></View>}
+				renderItem={({ item: input }) => <View style={{ marginBottom: 5 }}><Input label={input._label} style={{ width: '90%' }} {...input} /></View>}
 			/>
 			<SelectBoxModal style={{ marginTop: SizeList.base }}
 				label="Kelurahan / Desa" closeOnSelect
@@ -182,7 +182,11 @@ const MenuSettingProfil = ({ navigation }) => {
 				renderItem={item => (<Text>{_renderViewAlamat(item)}</Text>)}>
 				<Text>Data tidak ditemukan</Text>
 			</SelectBoxModal>
-			{desaSelected.id && <View style={{ padding: 5, elevation: 1, backgroundColor: ColorsList.white }}><Text>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text></View>}
+			{desaSelected.id && <View style={styles.locationDetail}>
+				<Text>
+					Alamat Lengkap: {_renderViewAlamat(desaSelected)}
+				</Text>
+			</View>}
 			<SelectBoxModal style={{ marginTop: SizeList.base }}
 				label="Kategori Toko" closeOnSelect
 				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
@@ -220,4 +224,11 @@ export default MenuSettingProfil
 const styles = StyleSheet.create({
 	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.greyAuthHard, borderWidth: 1, height: 250 },
 	image: { width: '100%', height: '100%' },
+	locationDetail: {
+		padding: 5,
+		elevation: 1,
+		backgroundColor: ColorsList.white,
+		borderBottomLeftRadius: SizeList.borderRadius,
+		borderBottomRightRadius: SizeList.borderRadius
+	}
 })
