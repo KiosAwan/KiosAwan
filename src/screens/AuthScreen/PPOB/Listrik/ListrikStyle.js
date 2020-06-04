@@ -13,12 +13,11 @@ const styles = StyleSheet.create({
 		padding: 10,
 		backgroundColor: ColorsList.infoBg,
 		borderRadius: 5,
-		marginVertical : 5,
+		marginVertical : SizeList.base,
 		elevation : 1
 	},
 	listPulsa: {
 		padding: 10,
-		marginBottom: 70
 	},
 	pulsaWrapper: {
 		padding: SizeList.secondary,
