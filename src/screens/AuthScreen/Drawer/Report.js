@@ -17,7 +17,6 @@ import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
 import { SizeList } from 'src/styles/size';
 import { shadowStyle } from 'src/components/Input/MDInput';
-import FloatingInput from 'src/components/Input/FloatingInput';
 
 const ViewShadow = props => <View style={{ marginBottom: SizeList.base }}>
 	{!props.noTitle && <Text>{props.title}</Text>}
