@@ -5,10 +5,6 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import { $Padding } from 'src/utils/stylehelper';
 import { Image } from 'src/components/CustomImage';
-import { Modal } from 'src/components/ModalContent/Popups';
-import SearchInput from 'src/components/Input/SearchInput';
-import Divider from 'src/components/Row/Divider';
-import { View, ScrollView } from 'react-native';
 
 const PpobListrik = ({ navigation }) => {
 	return <Container header={{
