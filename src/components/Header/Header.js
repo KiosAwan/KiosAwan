@@ -124,7 +124,7 @@ export const GlobalHeader = props => {
 export const IconHeader = props => {
     const { onPress, ..._props } = props
     return <TouchableOpacity onPress={onPress}>
-        <Icon {..._props} size={20} />
+        <Icon color={ColorsList.secondary} {..._props} size={20} />
     </TouchableOpacity>
 }
 export const ImageHeader = props => <Image {...props} style={{ width: 30, height: 30 }} />

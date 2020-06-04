@@ -11,16 +11,17 @@ import { stateObject } from 'src/utils/state'
 import { SizeList } from 'src/styles/size'
 import { Wrapper } from '../View/Wrapper'
 import { Text } from '../Text/CustomText'
+import { $Border } from 'src/utils/stylehelper'
 
 const MDInput = props => {
 	let objCurrency = {}
-	const { lineWidth, onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur, style } = props
+	const { noLabel, lineWidth, onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur, style } = props
 	const _render = (render, isRight) => {
-		return typeof render == 'function' && <View style={{ marginBottom: 8 }}>
+		return typeof render == 'function' && <View style={!noLabel && { marginBottom: 8 }}>
 			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
 				{render()}
 			</View>
-			<Divider style={{ marginTop: 5 }} color={On.color} size={focused ? On.size : (lineWidth != undefined ? lineWidth : On.size)} />
+			{/* <Divider style={{ marginTop: 5 }} color={On.color} sizes={focused ? On.size : (lineWidth != undefined ? lineWidth : On.size)} /> */}
 		</View>
 	}
 	const [tintColor, baseColor] = [ColorsList.primary, ColorsList.secondary]
@@ -46,29 +47,40 @@ const MDInput = props => {
 		// if (refs) {
 		// }
 	}
+	const renderInput = () => {
+		const input = <TextField
+			ref={refControl}
+			fontSize={13}
+			textColor={ColorsList.text}
+			tintColor={tintColor}
+			baseColor={baseColor}
+			{...props}
+			onFocus={() => {
+				setFocused(true)
+				setOn({ color: tintColor, size: 2 })
+				if (typeof onFocus == 'function') onFocus()
+			}}
+			onBlur={() => {
+				setFocused(false)
+				setOn({ color: baseColor, size: .5 })
+				if (typeof onBlur == 'function') onBlur()
+			}}
+			style={{ color: baseColor, fontFamily: FontName.Regular, ..._style }}
+			{...objCurrency}
+		/>
+		if (noLabel) {
+			return <TextInputRN {...input.props} editable={!props.disabled} style={{
+				// marginBottom: 8,
+				...$Border(On.color, 0, 0, lineWidth != undefined && !focused ? lineWidth : On.size),
+				...input.props.style
+			}} />
+		}
+		return input
+	}
 	return <View style={{ flexDirection: 'row', alignItems: 'flex-end', ...props.inputStyle }}>
 		{_render(renderLeftAccessory)}
 		<View style={{ flex: 1 }}>
-			<TextField
-				ref={refControl}
-				fontSize={13}
-				textColor={ColorsList.text}
-				tintColor={tintColor}
-				baseColor={baseColor}
-				{...props}
-				onFocus={() => {
-					setFocused(true)
-					setOn({ color: tintColor, size: 2 })
-					if (typeof onFocus == 'function') onFocus()
-				}}
-				onBlur={() => {
-					setFocused(false)
-					setOn({ color: baseColor, size: .5 })
-					if (typeof onBlur == 'function') onBlur()
-				}}
-				style={{ color: baseColor, fontFamily: FontName.Regular, ..._style }}
-				{...objCurrency}
-			/>
+			{renderInput()}
 		</View>
 		{_render(renderRightAccessory, true)}
 	</View>
@@ -99,7 +111,11 @@ const Input = props => {
 			setFocus(false)
 			if (typeof onBlur == 'function') onBlur()
 		}}
-		disabledLineWidth={0} lineWidth={0} inputStyle={{
+		lineWidth={0}
+		activeLineWidth={0}
+		disabledLineWidth={0}
+		labelHeight={25}
+		inputStyle={{
 			...shadowStyle,
 			...props.inputStyle
 		}} style={props.style} />
@@ -238,7 +254,7 @@ const MDInputV2 = props => {
 }
 
 const shadowStyle = {
-	elevation: SizeList.secondary,
+	elevation: 2,
 	borderRadius: SizeList.secondary,
 	paddingHorizontal: SizeList.base,
 	backgroundColor: ColorsList.white,

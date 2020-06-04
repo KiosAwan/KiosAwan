@@ -323,7 +323,7 @@ export const SelectBoxModal = (props) => {
 			onOpen()
 		}
 	}, [])
-	if (props.inputStyle){
+	if (props.inputStyle) {
 		console.debug(props)
 	}
 	return <View>
@@ -342,12 +342,12 @@ export const SelectBoxModal = (props) => {
 							persistentScrollbar
 							keyExtractor={(a, i) => i.toString()}
 							data={data}
-							renderItem={({ item }) => {
+							renderItem={({ item, index }) => {
 								return <Button color="link" onPress={() => {
 									handleChangePicker(item)
 									closeOnSelect ? setModalVisible(false) : null
 								}} spaceBetween {...renderWrapper}>
-									{renderItem(item)}
+									{renderItem(item, index)}
 								</Button>
 							}}
 						/> : children :
@@ -356,7 +356,7 @@ export const SelectBoxModal = (props) => {
 			{footer}
 		</AwanModal>
 		<TouchableOpacity activeOpacity={1} onPress={() => setModalVisible(true)} style={[styles.selectBox, style]}>
-			<MyInput disabled label={label} value={value} renderRightAccessory={() => <Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />} />
+			<MyInput noLabel={props.noLabel} disabled label={label} value={value} renderRightAccessory={() => <Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />} />
 			{/* <Text font="Regular" style={{ color: value ? ColorsList.greyFont : ColorsList.transparent }}>{label}</Text>
 			<Wrapper justify="space-between" style={$Border(ColorsList.secondary, 0, 0, .5)}>
 				<Text font="Regular" size={13}>{value ? value : label}</Text>

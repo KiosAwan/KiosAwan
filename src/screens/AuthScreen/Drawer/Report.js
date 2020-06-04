@@ -14,6 +14,15 @@ import { stateObject } from 'src/utils/state';
 import { $BorderRadius } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
+import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
+import { SizeList } from 'src/styles/size';
+import { shadowStyle } from 'src/components/Input/MDInput';
+import FloatingInput from 'src/components/Input/FloatingInput';
+
+const ViewShadow = props => <View style={{ marginBottom: SizeList.base }}>
+	{!props.noTitle && <Text>{props.title}</Text>}
+	<View {...props} style={[{ padding: SizeList.secondary, marginTop: SizeList.base }, shadowStyle, props.style]} />
+</View>
 
 const Report = ({ navigation }) => {
 	const [firstOpen, setFirstOpen] = useState(true)
@@ -242,6 +251,92 @@ const Report = ({ navigation }) => {
 			/>
 		</Body>
 	}
+	return <Container>
+		<GlobalHeader title="Laporan" renderRightAccessory={() => <IconHeader name="calendar" />} />
+		<View style={{ padding: SizeList.base }}>
+			<SelectBoxModal
+				closeOnSelect noLabel
+				value="lkjhjdf"
+				data={[1, 2, 3, 4]}
+				handleChangePicker={a => console.debug(a)}
+				renderItem={item => <Text>{item}</Text>}
+			/>
+		</View>
+		<Body>
+			<ViewShadow title="Mei 2020">
+				<Wrapper>
+					<View>
+						<Text>a</Text>
+						<Text>a</Text>
+					</View>
+					<View>
+						<Text>a</Text>
+						<Text>a</Text>
+					</View>
+				</Wrapper>
+				<Divider />
+				<Wrapper>
+					<View>
+						<Text>a</Text>
+						<Text>a</Text>
+					</View>
+					<View>
+						<Text>a</Text>
+						<Text>a</Text>
+					</View>
+				</Wrapper>
+			</ViewShadow>
+			<ViewShadow title="Laporan keuangan">
+				<Wrapper spaceBetween>
+					<Text>jh</Text>
+					<Text>jh</Text>
+				</Wrapper>
+				<Wrapper spaceBetween>
+					<Text>jh</Text>
+					<Text>jh</Text>
+				</Wrapper>
+			</ViewShadow>
+			<ViewShadow title="Laporan laba/rugi kotor">
+				<Wrapper spaceBetween>
+					<Text>jh</Text>
+					<Text>jh</Text>
+				</Wrapper>
+				<Wrapper spaceBetween>
+					<Text>jh</Text>
+					<Text>jh</Text>
+				</Wrapper>
+			</ViewShadow>
+			<Text>Laporan non tunai</Text>
+			<SelectBoxModal
+				closeOnSelect noLabel
+				style={{ marginVertical: SizeList.base }}
+				value="lkjhjdf"
+				data={[1, 2, 3, 4]}
+				handleChangePicker={a => console.debug(a)}
+				renderItem={item => <Text>{item}</Text>}
+			/>
+			<ViewShadow noTitle>
+				<Wrapper spaceBetween>
+					<Text>jh</Text>
+					<Text>jh</Text>
+				</Wrapper>
+				<Wrapper spaceBetween>
+					<Text>jh</Text>
+					<Text>jh</Text>
+				</Wrapper>
+			</ViewShadow>
+			<ViewShadow title="Laporan penjualan">
+				<Text align="center">MAKANAN</Text>
+				<Wrapper spaceBetween>
+					<View>
+						<Text>jh</Text>
+						<Text>jh</Text>
+					</View>
+					<Text _flexStart>jh</Text>
+				</Wrapper>
+			</ViewShadow>
+		</Body>
+	</Container>
 
 	return <Container>
 		<ModalMonth {...ctrl} />
