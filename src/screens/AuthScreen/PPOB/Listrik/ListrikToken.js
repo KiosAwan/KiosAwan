@@ -7,7 +7,7 @@ import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
 import { View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import { Bottom, BottomVertical } from 'src/components/View/Bottom';
 import { checkListrikToken, payTokenListrik, getProductToken } from 'src/utils/api/ppob/listrik_api';
 import { ColorsList } from 'src/styles/colors';
@@ -148,7 +148,7 @@ const ListrikToken = ({ navigation }) => {
 		onPressBack: () => navigation.goBack(),
 		title: "Listrik Prabayar"
 	}}>
-		<Body style={{padding: 0,}}>
+		<Body>
 			{/* Modal for check user pin */}
 			<GlobalEnterPin
 				title="Masukkan PIN"
@@ -171,15 +171,16 @@ const ListrikToken = ({ navigation }) => {
 					setCustId('32127971177')
 					_cekTagihan('32127971177')
 				}}>32127971177</Button>}
-				<MDInput _width="80%"
+				<Input
+					_width="80%"
 					label="ID Pelanggan"
 					value={custId.toString()}
 					onChangeText={text => {
 						setCustId(text)
 					}}
-					keyboardType="number-pad"
+					keyboardType="phone-pad"
+					renderRightAccessory={() => <Button onPress={() => _cekTagihan(custId)} color="white" noBorder>CEK TAGIHAN</Button>}
 				/>
-				{/* <Text>32127971177</Text> */}
 			</View>
 			<View style={styles.simpan}>
 				<Text>Simpan ke favorit</Text>
@@ -212,43 +213,43 @@ const ListrikToken = ({ navigation }) => {
 					</View>
 					: null
 			}
-			{productToken &&
+			{productToken && !response &&
 				<View style={styles.infoPembelian}>
-					<Text size={16} font="Bold" color="info">{productToken.info.title}</Text>
+					<Text size={16} font="SemiBold" color="info">{productToken.info.title}</Text>
 					{productToken.info.info.rMap((item, i) => (
 						<Text key={i} color="info">{`${productToken.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 					))}
 				</View>
 			}
-			<FlatList style={styles.listPulsa} numColumns={2} keyExtractor={(a, i) => i.toString()}
-				showsVerticalScrollIndicator={false}
-				data={productToken ? productToken.product : []}
-				renderItem={({ item, index }) =>
-					<TouchableOpacity onPress={() => {
-						if (response && response.length !== 0) {
-							_selectPulsa({ item, index })
-						} else {
-							Toast.show({
-								text: "Harap isi nomer pelanggan dengan benar",
-								type: "danger"
-							})
+			{response && productToken &&
+				<View style={{ flex: 1, padding: 10, backgroundColor: "white", elevation: 1, borderRadius: 10 }}>
+					<Text style={{ marginBottom: 5 }}>Pilih nominal token listrik</Text>
+					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
+						showsVerticalScrollIndicator={false}
+						data={productToken ? productToken.product : []}
+						renderItem={({ item, index }) =>
+							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
+								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
+									<View _width="70%">
+										<Text font="SemiBold" style={{ marginLeft: 5 }} color="primary">{`TOKEN ${item.product.split(" ")[2]}`} </Text>
+									</View>
+									<View _width="30%">
+										<Text size={8}>HARGA</Text>
+										<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
+									</View>
+								</Wrapper>
+							</TouchableOpacity>
 						}
-					}} style={[styles.pulsaWrapper, item === selected && styles.pulsaWrapperActive]}>
-						<Text style={styles.pulsaComp}>{item.product.slice(0, 9)}</Text>
-						<Text color="primary" size={20} style={styles.pulsaComp}>Rp. {item.product.slice(10, item.length)}</Text>
-						<Divider />
-						<Text style={styles.pulsaComp}>Harga: {convertRupiah(item.total)}</Text>
-					</TouchableOpacity>
-				}
-			/>
+					/>
+				</View>
+			}
 		</Body>
 		<Footer>
-			<Button onPress={() => _cekTagihan(custId)} color="white" width="100%">
-				CEK TAGIHAN
+			{response &&
+				<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
+					BAYAR
             </Button>
-			<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
-				BAYAR
-            </Button>
+			}
 		</Footer>
 	</Container>
 }

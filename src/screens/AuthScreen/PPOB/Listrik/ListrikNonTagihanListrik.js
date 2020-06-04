@@ -8,7 +8,7 @@ import { Button } from 'src/components/Button/Button';
 import { View, ActivityIndicator } from 'react-native';
 import { $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import { checkTagihanListrik, payTagihanListrik, payTagihanNonTagList, checkTagihanNonTagList } from 'src/utils/api/ppob/listrik_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,6 +46,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	//Function for check tagihan
 	const _cekTagihan = async (x) => {
 		setTagihanLoading(true)
+		setTagihanData()
 		const params = {
 			productID: 100311,
 			customerID: x
@@ -131,76 +132,78 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
-		<View>
-			{/* Modal for check user pin */}
-			<GlobalEnterPin
-				title="Masukkan PIN"
-				codeLength={4}
-				subtitle="Masukkan PIN untuk melanjutkan transaksi"
-				visible={pinVisible}
-				visibleToggle={setPinVisible}
-				pinResolve={(pin) => _userAuthentication(pin)} />
-			{/* Modal for check user pin */}
-			{/* Popup components */}
-			<AwanPopup.Alert
-				message={alertMessage}
-				visible={alert}
-				closeAlert={() => setAlert(false)}
-			/>
-			<AwanPopup.Loading visible={payLoading} />
-			{/* Popup components */}
-			<View style={styles.topComp}>
-				<MDInput _width="80%"
-					label="ID Pelanggan"
-					value={custId.toString()}
-					onChangeText={text => setCustId(text)}
-					keyboardType="number-pad"
+		<Body>
+			<View>
+				{/* Modal for check user pin */}
+				<GlobalEnterPin
+					title="Masukkan PIN"
+					codeLength={4}
+					subtitle="Masukkan PIN untuk melanjutkan transaksi"
+					visible={pinVisible}
+					visibleToggle={setPinVisible}
+					pinResolve={(pin) => _userAuthentication(pin)} />
+				{/* Modal for check user pin */}
+				{/* Popup components */}
+				<AwanPopup.Alert
+					message={alertMessage}
+					visible={alert}
+					closeAlert={() => setAlert(false)}
 				/>
+				<AwanPopup.Loading visible={payLoading} />
+				{/* Popup components */}
+				<View style={styles.topComp}>
+					{__DEV__ && <Button onPress={() => {
+						setCustId('1412015027820')
+						_cekTagihan('1412015027820')
+					}}>32127971177</Button>}
+					<Input
+						_width="80%"
+						label="ID Pelanggan"
+						value={custId.toString()}
+						onChangeText={text => {
+							setCustId(text)
+						}}
+						keyboardType="phone-pad"
+						renderRightAccessory={() => <Button onPress={() => _cekTagihan(custId)} color="white" noBorder>CEK TAGIHAN</Button>}
+					/>
+				</View>
+				<View style={styles.simpan}>
+					<Text>Simpan ke favorit</Text>
+					<SwitchButton
+						handleChangeToggle={_handleChangeToggle}
+						toggleValue={favorit}
+					/>
+				</View>
 			</View>
-			<View style={styles.simpan}>
-				<Text>Simpan ke favorit</Text>
-				<SwitchButton
-					handleChangeToggle={_handleChangeToggle}
-					toggleValue={favorit}
-				/>
-			</View>
-		</View>
-		<Body style={{ padding: 0 }}>
 			{
 				tagihanLoading ?
 					<ActivityIndicator color={ColorsList.primary} /> :
 					tagihanData && <View>
-						<View style={{ ...$Margin(0, 15), borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+						<View style={{ elevation : 1, borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Nama Pelanggan</Text>
 								<Text font="Regular">{tagihanData.transaction.nama}</Text>
 							</Wrapper>
-							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Jenis transaksi</Text>
 								<Text font="Regular">{tagihanData.transaction.jenis_transaksi}</Text>
 							</Wrapper>
-							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">No Registrasi</Text>
 								<Text font="Regular">{tagihanData.transaction.no_registrasi}</Text>
 							</Wrapper>
-							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Jumlah Tagihan</Text>
 								<Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
 							</Wrapper>
-							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Denda</Text>
 								<Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
 							</Wrapper>
-							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Admin</Text>
 								<Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
 							</Wrapper>
-							<Divider />
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Total Tagihan</Text>
 								<Text font="Regular">{convertRupiah(
@@ -210,7 +213,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 						</View>
 						{tagihanData && tagihanData.info &&
 							<View style={styles.infoPembelian}>
-								<Text size={16} font="Bold" color="info">{tagihanData.info.title}</Text>
+								<Text size={16} font="SemiBold" color="info">{tagihanData.info.title}</Text>
 								{tagihanData.info.info.rMap((item, i) => (
 									<Text key={i} color="info">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 								))}
@@ -220,12 +223,12 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 			}
 		</Body>
 		<Footer>
-			<Button onPress={() => _cekTagihan(custId)} color="white" width="100%">
-				CEK TAGIHAN
+			{
+				tagihanData &&
+				<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
+					BAYAR
             </Button>
-			<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
-				BAYAR
-            </Button>
+			}
 		</Footer>
 	</Container >
 }

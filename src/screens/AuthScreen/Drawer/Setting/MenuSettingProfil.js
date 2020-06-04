@@ -1,7 +1,7 @@
 import Wilayah from 'src/utils/wilayah';
 import React, { useState, useEffect } from 'react';
 import ModalContent from 'src/components/ModalContent/ModalContent';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { View, Image, StyleSheet, Modal, FlatList, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,6 +19,7 @@ import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getStoreCategoryAPI } from 'src/utils/api/global_api';
 import ImagePicker from 'react-native-image-crop-picker';
+import { SizeList } from 'src/styles/size';
 
 const MenuSettingProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -159,48 +160,51 @@ const MenuSettingProfil = ({ navigation }) => {
 					closeModal={() => setModalVisible(false)}
 				/>
 			</Modal>
-			<View style={{ paddingHorizontal: 15, marginBottom: 15, paddingBottom: 15, backgroundColor: 'white' }}>
-				<FlatList
-					data={inputan}
-					keyExtractor={(a, i) => i.toString()}
-					renderItem={({ item: input }) => <MDInput style={styles.floatingInput} label={input._label} style={{ width: '90%' }} {...input} />}
-				/>
-				<SelectBoxModal style={{ marginTop: 15 }}
-					label="Kelurahan / Desa" closeOnSelect
-					data={dataDesa}
-					header={
-						<MDInput label="Cari Desa"
-							onChangeText={_searchDesa}
-							renderLeftAccessory={() =>
-								<Icon style={{ color: ColorsList.primary }} name="search" />}
-						/>
-					}
-					value={desaSelected.desa}
-					handleChangePicker={item => setDesaSelected(item)}
-					hideRender={isTypingDesa}
-					hideRenderItem={<ActivityIndicator color={ColorsList.primary} />}
-					renderItem={item => (<Text>{_renderViewAlamat(item)}</Text>)}>
-					<Text>Data tidak ditemukan</Text>
-				</SelectBoxModal>
-				{desaSelected.id && <Text style={{ marginTop: 10 }}>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text>}
-				<SelectBoxModal style={{ marginTop: 15 }}
-					label="Kategori Toko" closeOnSelect
-					data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
-					header={
-						<MDInput label="Cari Kategori"
-							onChangeText={(text) => setSearchKategori(text)}
-							renderLeftAccessory={() =>
-								<Icon style={{ color: ColorsList.primary }} name="search" />}
-						/>
-					}
-					value={kategoriSelected.category}
-					handleChangePicker={item => setKategoriSelected(item)}
-					renderItem={item => (<Text>{item.category}</Text>)}>
-					<Text>Data tidak ditemukan</Text>
-				</SelectBoxModal>
-			</View>
+			<FlatList
+				data={inputan}
+				keyExtractor={(a, i) => i.toString()}
+				renderItem={({ item: input }) => <View style={{ marginBottom: 5 }}><Input label={input._label} style={{ width: '90%' }} {...input} /></View>}
+			/>
+			<SelectBoxModal style={{ marginTop: SizeList.base }}
+				label="Kelurahan / Desa" closeOnSelect
+				data={dataDesa}
+				header={
+					<MDInput label="Cari Desa"
+						onChangeText={_searchDesa}
+						renderLeftAccessory={() =>
+							<Icon style={{ color: ColorsList.primary }} name="search" />}
+					/>
+				}
+				value={desaSelected.desa}
+				handleChangePicker={item => setDesaSelected(item)}
+				hideRender={isTypingDesa}
+				hideRenderItem={<ActivityIndicator color={ColorsList.primary} />}
+				renderItem={item => (<Text>{_renderViewAlamat(item)}</Text>)}>
+				<Text>Data tidak ditemukan</Text>
+			</SelectBoxModal>
+			{desaSelected.id && <View style={styles.locationDetail}>
+				<Text font="SemiBold">
+					{_renderViewAlamat(desaSelected)}
+				</Text>
+			</View>}
+			<SelectBoxModal style={{ marginTop: SizeList.base }}
+				label="Kategori Toko" closeOnSelect
+				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
+				header={
+					<MDInput label="Cari Kategori"
+						onChangeText={(text) => setSearchKategori(text)}
+						renderLeftAccessory={() =>
+							<Icon style={{ color: ColorsList.primary }} name="search" />}
+					/>
+				}
+				value={kategoriSelected.category}
+				handleChangePicker={item => setKategoriSelected(item)}
+				renderItem={item => (<Text>{item.category}</Text>)}>
+				<Text>Data tidak ditemukan</Text>
+			</SelectBoxModal>
+			{/* </View> */}
 			<View>
-				<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
+				<Text style={{ marginVertical: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 				<View style={styles.imageWrapper}>
 					<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
 						<Image style={styles.image} source={form.photo_store ? { uri: form.photo_store } : require('src/assets/images/img-product.png')} />
@@ -218,6 +222,13 @@ const MenuSettingProfil = ({ navigation }) => {
 export default MenuSettingProfil
 
 const styles = StyleSheet.create({
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.black, borderWidth: 1, height: 250 },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.greyAuthHard, borderWidth: 1, height: 250 },
 	image: { width: '100%', height: '100%' },
+	locationDetail: {
+		padding: 5,
+		elevation: 1,
+		backgroundColor: ColorsList.white,
+		borderBottomLeftRadius: SizeList.borderRadius,
+		borderBottomRightRadius: SizeList.borderRadius
+	}
 })

@@ -5,15 +5,9 @@ import { SizeList } from "src/styles/size"
 
 const styles = StyleSheet.create({
     topComp: {
-        // ...$Margin(15, 15, 10),
-        ...$Padding(0, 10),
-        borderRadius: 5,
+        borderRadius: SizeList.borderRadius,
         justifyContent: "flex-end",
         backgroundColor: ColorsList.whiteColor,
-    },
-    listPulsa: {
-        padding: 10,
-        marginBottom: 70
     },
     pulsaWrapper: {
         flex: 1,
@@ -50,14 +44,12 @@ const styles = StyleSheet.create({
         paddingBottom : 10
     },
     simpan: {
-        alignSelf: "flex-end",
         flexDirection: "row",
         alignItems: "center",
-        marginRight: 10,
-        marginBottom: 10
+        justifyContent: "space-between",
+        marginVertical: SizeList.base
     },
     infoPembelian: {
-		// marginHorizontal: 15,
 		padding: 10,
 		backgroundColor: ColorsList.infoBg,
 		borderRadius: 5,
