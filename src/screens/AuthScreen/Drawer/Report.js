@@ -107,155 +107,12 @@ const Report = ({ navigation }) => {
 		let value = !data ? '' : data[key] || ''
 		return value.toString().convertRupiah()
 	}
-	const _renderMainTab = ({ route }) => {
-		const _renderSecondaryTab = ({ route }) => {
-			return <View>
-				{route.key == 'first' ?
-					<View>
-						<View style={{ backgroundColor: ColorsList.white, marginBottom: 10, borderRadius: 5 }}>
-							<Text style={{ padding: 10 }}>Ringkasan Laporan Keuangan</Text>
-							<Divider />
-							<Wrapper style={{ padding: 10 }} spaceBetween>
-								<View>
-									<Text>Total Keuntungan</Text>
-									<Text size={17} color="primary">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
-								</View>
-								<Button onPress={() => setCtrl({ dataTransaction: !ctrl.dataTransaction })} color="link">DETAIL</Button>
-							</Wrapper>
-							{
-								dataTransaction && ctrl.dataTransaction &&
-								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
-									.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-										<Text>{key.split('_').join(' ').ucwords()}</Text>
-										<Text>{_convertRupiah(dataTransaction, key)}</Text>
-									</Wrapper>)
-							}
-						</View>
-						<View style={{ backgroundColor: ColorsList.white, marginBottom: 10, borderRadius: 5 }}>
-							<Text style={{ padding: 10 }}>Ringkasan Laporan Laba/Rugi Kotor</Text>
-							<Divider />
-							<Wrapper style={{ padding: 10 }} spaceBetween>
-								<View>
-									<Text>Total Penjualan</Text>
-									<Text size={17} color="primary">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
-								</View>
-								<Button onPress={() => setCtrl({ labaRugiKotor: !ctrl.labaRugiKotor })} color="link">DETAIL</Button>
-							</Wrapper>
-							{
-								dataTransaction && ctrl.labaRugiKotor &&
-								['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
-									.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-										<Text>{key.split('_').join(' ').ucwords()}</Text>
-										<Text>{_convertRupiah(dataTransaction, key)}</Text>
-									</Wrapper>)
-							}
-						</View>
-						<View style={{ backgroundColor: ColorsList.white, marginBottom: 10, borderRadius: 5 }}>
-							<Text style={{ padding: 10 }}>Ringkasan Laporan Non Tunai</Text>
-							<Divider />
-							<SelectBoxModal
-								closeOnSelect
-								label="Filter Data"
-								data={dataReportNonTunai}
-								value={NT && NT.selected ? NT.selected.method : ''}
-								handleChangePicker={selected => setNT({ selected })}
-								renderItem={item => <Text color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFont'}>{item.method}</Text>}
-								style={{ paddingHorizontal: 10 }}
-							/>
-							<Wrapper style={{ padding: 10 }} spaceBetween>
-								<View>
-									<Text>Total Pendapatan</Text>
-									<Text size={17} color="primary">{_convertRupiah(NT.selected, 'penjualan_bersih')}</Text>
-								</View>
-								<Button onPress={() => setCtrl({ dataReportNonTunai: !ctrl.dataReportNonTunai })} color="link">DETAIL</Button>
-							</Wrapper>
-							{
-								ctrl.dataReportNonTunai && Object.keys(NT.selected).rMap((key, i) => key != 'method' && <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-									<Text>{key.split('_').join(' ').ucwords()}</Text>
-									<Text>{_convertRupiah(NT.selected, key)}</Text>
-								</Wrapper>)
-							}
-						</View>
-					</View> :
-					<View style={{ backgroundColor: ColorsList.white }}>
-						{
-							dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }) => <View>
-								{
-									data && data.length > 0 && <Text style={{ backgroundColor: ColorsList.greyAuthHard, padding: 10 }} font={nama_category ? 'Regular' : 'Italic'} align="center">{nama_category ? nama_category : '~ Pesanan Manual ~'}</Text>
-								}
-								{
-									data && data.rMap(({ Product, harga_jual, total, jumlah }, i) => [
-										<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-											<View _style={{ flex: .7 }}>
-												<Text>{Product}</Text>
-												<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
-											</View>
-											<Text _style={{ flex: .3, alignItems: 'flex-end' }}>{total.convertRupiah()}</Text>
-										</Wrapper>,
-										i < data.length && <Divider />
-									])
-								}
-							</View>)
-						}
-					</View>
-				}
-			</View>
-		}
-		return <Body style={{ paddingTop: 0 }}>
-			<View style={{ borderRadius: 5, backgroundColor: ColorsList.white }}>
-				<Wrapper>
-					<View style={{ padding: 10 }}>
-						<Text color="primary" size={17} align="center">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
-						<Text align="center">Total Penjualan</Text>
-					</View>
-					<Divider flex />
-					<View style={{ padding: 10 }}>
-						<Text color="primary" size={17} align="center">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
-						<Text align="center">Total Keuntungan</Text>
-					</View>
-				</Wrapper>
-				<Divider />
-				<Wrapper spaceBetween style={{ padding: 10 }}>
-					<Text>Transaksi</Text>
-					<Text color="primary">{dataTransaction && dataTransaction.jumlah_transaksi}</Text>
-				</Wrapper>
-				<Divider />
-				<Wrapper spaceBetween style={{ padding: 10 }}>
-					<Text>Produk Terjual</Text>
-					<Text color="primary">{dataTransaction && dataTransaction.produk_terjual}</Text>
-				</Wrapper>
-			</View>
-			<TabView
-				style={firstOpen && { display: 'none' }}
-				renderTabBar={({ navigationState }) => {
-					const { index, routes, setIndex } = navigationState
-					return <Wrapper style={{ padding: 15 }} flexContent>
-						{
-							routes.rMap((route, i) => {
-								return <Button
-									key={i.toString()}
-									borderBottom
-									active={index == i}
-									disabled={index == i}
-									color={['greyFont']}
-									onPress={() => setIndex(i)}
-									activeColor="primary">{route.title}</Button>
-							})
-						}
-					</Wrapper>
-				}}
-				navigationState={SecondaryTab}
-				renderScene={_renderSecondaryTab}
-				onIndexChange={SecondaryTab.setIndex}
-				initialLayout={SecondaryTab.initialLayout}
-			/>
-		</Body>
-	}
+
 	return <Container>
 		<ModalMonth {...ctrl} />
 		<GlobalHeader
 			title="Laporan"
-			onPressBack={() => navigation.goBack()}
+			renderLeftAccessory={() => null}
 			renderRightAccessory={() => <IconHeader onPress={() => ctrl.setVisible(true)} name="calendar" />}
 		/>
 		<View style={{ padding: SizeList.base }}>
@@ -273,22 +130,12 @@ const Report = ({ navigation }) => {
 					<View>
 						<Text>Total Penjualan</Text>
 						<Wrapper>
-							{/* <Icon
-								size={15}
-								name={User.store.penjualan_flag == 2 ? "sort-up" : "sort-down"}
-								color={_getFlagColor(User.store.penjualan_flag)}
-							/> */}
 							<Text>{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
 						</Wrapper>
 					</View>
 					<View>
 						<Text>Total Keuntungan</Text>
 						<Wrapper>
-							{/* <Icon
-								size={15}
-								name={User.store.penjualan_flag == 2 ? "sort-up" : "sort-down"}
-								color={_getFlagColor(User.store.penjualan_flag)}
-							/> */}
 							<Text>{_convertRupiah(dataTransaction, 'total_profit')}</Text>
 						</Wrapper>
 					</View>
@@ -363,43 +210,6 @@ const Report = ({ navigation }) => {
 			}
 		</Body>
 	</Container >
-
-	return <Container>
-		<ModalMonth {...ctrl} />
-		<TabView
-			renderTabBar={({ navigationState }) => {
-				const { index, routes, setIndex } = navigationState
-				return <View>
-					<Wrapper style={{ padding: 15 }} flexContent noWrapper>
-						{
-							routes.rMap((route, i) => {
-								return <Button
-									textStyle={{ fontSize: 12 }}
-									disabled={index == i}
-									onPress={() => setIndex(i)}
-									active={index == i}
-									color="white"
-									activeColor="primary"
-									noRadius
-									style={{
-										flex: 1,
-										justifyContent: 'center',
-										...i == 0 && $BorderRadius(5, 0, 0, 5),
-										...i == routes.length - 1 && $BorderRadius(0, 5, 5, 0)
-									}}
-								>{route.title}</Button>
-							})
-						}
-					</Wrapper>
-					<Text style={{ paddingHorizontal: 15, paddingBottom: 10 }}>{moment(dateSelected).format('MMMM YYYY')}</Text>
-				</View>
-			}}
-			navigationState={MainTab}
-			renderScene={_renderMainTab}
-			onIndexChange={MainTab.setIndex}
-			initialLayout={MainTab.initialLayout}
-		/>
-	</Container>
 }
 
 export default Report
