@@ -8,6 +8,7 @@ import { FontList } from 'src/styles/typography';
 import { convertRupiah, getNearestFifty, validNumber } from 'src/utils/authhelper';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { AddCashPayment } from 'src/redux/actions/actionsStoreProduct';
+import { SizeList } from 'src/styles/size';
 
 const CashPayment = () => {
     const Product = useSelector(state => state.Product)
@@ -19,23 +20,21 @@ const CashPayment = () => {
     }
     return (
         <View style={styles.container}>
-            <View style={{ marginTop: 10 }}>
-                <FloatingInputLabelCurrency style={{ margin: 0 }}
-                    value={Product.cash_payment.toString()}
-                    handleChangeText={_handleChangePayment}
-                    label="Uang yang diterima"
-                    keyboardType="number-pad"
+            <FloatingInputLabelCurrency style={{ margin: 0 }}
+                value={Product.cash_payment.toString()}
+                handleChangeText={_handleChangePayment}
+                label="Uang yang diterima"
+                keyboardType="number-pad"
+            />
+            {Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)) >= 0 ?
+                <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)))}</Text>
+                : null
+            }
+            <View style={{ ...RowChild, marginTop: SizeList.base }}>
+                <ToggleButtonMoney
+                    style={{ marginRight: 10, }}
+                    buttons={[Product.total - Product.total_diskon, getNearestFifty(Product.total - Product.total_diskon, 1)]}
                 />
-                {Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)) >= 0 ?
-                    <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)))}</Text>
-                    : null
-                }
-                <View style={{ ...RowChild, marginTop: 20 }}>
-                    <ToggleButtonMoney
-                        style={{ marginRight: 10, }}
-                        buttons={[Product.total - Product.total_diskon, getNearestFifty(Product.total - Product.total_diskon, 1)]}
-                    />
-                </View>
             </View>
         </View>
     )
@@ -45,8 +44,11 @@ export default CashPayment;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 20,
-        flex: 1
+        marginTop: SizeList.base,
+        padding: SizeList.base,
+        backgroundColor: ColorsList.white,
+        elevation: 2,
+        borderRadius: SizeList.borderRadius
     },
     tabBar: {
         flexDirection: 'row',
@@ -59,6 +61,6 @@ const styles = StyleSheet.create({
     firstRouteKembalian: {
         ...FontList.subtitleFont,
         color: ColorsList.primaryColor,
-        marginVertical: 15
+        // marginVertical: 5
     },
 });

@@ -218,7 +218,7 @@ class CheckOut extends React.Component {
 		return <Wrapper flexContent>
 			{
 				props.navigationState.routes.rMap((route, i) => {
-					return <Button textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'} style={{ borderRadius: 0 }}>{route.title}</Button>
+					return <Button noBorder={this.state.index == i ? 'primary' : 'white'} textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'}>{route.title}</Button>
 				})
 			}
 		</Wrapper>
@@ -238,20 +238,20 @@ class CheckOut extends React.Component {
 				closeAlert={() => this.setState({ _alert: false })}
 			/>
 			<Body>
-				<View style={{
-					backgroundColor: ColorsList.white,
-					padding: SizeList.padding,
-					borderRadius: SizeList.borderRadius
-				}}>
-					<Text>Total tagihan</Text>
-					<Text size={25} color="primary" font="ExtraBold">{convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}</Text>
+				<View>
+					<Text>
+						Total belanja Anda : 
+					<Text color="primary" font="SemiBold">
+							 {convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}
+						</Text>
+					</Text>
+
 				</View>
 				<View style={{
-					padding: SizeList.padding,
-					backgroundColor: ColorsList.white,
 					marginTop: SizeList.padding,
 					borderRadius: SizeList.borderRadius
 				}}>
+					<Text style={{marginBottom : SizeList.base}}>Pilih metoda pembayaran</Text>
 					<TabView
 						navigationState={this.state}
 						renderScene={this._renderScene}

@@ -72,7 +72,7 @@ const Favorite = ({ navigation }) => {
         </View>
     }
     return <Container>
-        <GlobalHeader title="Favorit" onPressBack={() => navigation.goBack()} />
+        <GlobalHeader title="Daftar Favorit" onPressBack={() => navigation.goBack()} />
         {isLoading ? <View>
             <FavoriteLoader />
             <FavoriteLoader />

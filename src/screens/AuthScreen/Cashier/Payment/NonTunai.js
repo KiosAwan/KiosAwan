@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
 import { RowChild } from 'src/components/Helper/RowChild';
@@ -13,10 +13,9 @@ import { Button } from 'src/components/Button/Button';
 import { stateObject } from 'src/utils/state';
 
 const NonTunai = ({ pressImage }) => {
-	const [_index, setIndex] = stateObject()
-
+	const [_index, setIndex] = useState()
 	const nonTunaiList = [{
-		name: 'DEBIT',
+		name: 'kartu debit',
 		data: [
 			{
 				title: "Bank BCA",
@@ -39,7 +38,7 @@ const NonTunai = ({ pressImage }) => {
 				id: 4
 			}]
 	}, {
-		name: 'E-WALLET',
+		name: 'e-wallet',
 		data: [
 			{
 				title: "Gopay",
@@ -65,27 +64,31 @@ const NonTunai = ({ pressImage }) => {
 	}]
 	return nonTunaiList.rMap(({ name, data }, index) => {
 		return <View style={{ marginTop: SizeList.padding }} key={index.toString()}>
-			<Text align="center" font="Bold">{name}</Text>
+			<Text font="SemiBold">Pembayaran dengan {name}</Text>
 			<Divider />
-			{
-				data.rMap(({ title, image, id }, i) => {
-					return <Button
-						key={i.toString()}
-						active={index == _index.group && i == _index.data}
-						onPress={() => {
-							setIndex({ group: index, data: i })
-							pressImage(id)
-						}}
-						style={{ marginTop: SizeList.padding }}
-						padding={10}
-						color={['transparent', 'greyFont', 'greyFont']}
-						activeColor={['transparent', 'greyFont', 'primary']}
-						flexStart>
-						<Image style={{ width: 50, height: 20 }} source={image} />
-						<Text style={{ marginLeft: 10 }}>{title}</Text>
-					</Button>
-				})
-			}
+			<FlatList
+				data={data}
+				columnWrapperStyle={{justifyContent : "space-between"}}
+				numColumns={2}
+				renderItem={({ item }) => {
+					return (
+						<Button
+							width="45%"
+							active={item.id == index}
+							onPress={() => {
+								setIndex(item.id)
+								pressImage(item.id)
+							}}
+							style={{ marginTop: SizeList.padding , borderRadius : 5}}
+							padding={10}
+							color={['transparent', 'greyFont', 'greyAuthHard']}
+							activeColor={['transparent', 'greyFont', 'primary']}
+							flexStart>
+							<Image style={{ width: "100%", height: 40 }} source={item.image} />
+						</Button>
+					)
+				}}
+			/>
 		</View>
 	})
 }

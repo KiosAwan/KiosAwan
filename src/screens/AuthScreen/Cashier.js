@@ -36,7 +36,7 @@ const Cashier = ({ navigation }) => {
     }, [])
 
     const _loadProduct = async () => {
-        if (data || data.length == 0) {
+        if (data.length == 0) {
             const userToken = await getUserToken()
             dispatch(getProduct(User.store.id_store, userToken))
         }
@@ -114,9 +114,11 @@ const Cashier = ({ navigation }) => {
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold }}>Anda belum mempunyai produk</Text>
                 </View>
         }
+        {Product.jumlahitem > 0 &&
         <ButtonCart quantity={Product.jumlahitem} price={Product.total.convertRupiah()} onPress={() => {
             parseInt(Product.jumlahitem) > 0 && navigation.navigate('/cashier/cart')
         }} />
+    }
     </Container>
 }
 
