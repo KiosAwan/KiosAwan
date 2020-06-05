@@ -93,7 +93,7 @@ const KategoriEdit = ({ navigation }) => {
             <Input label="Nama Kategori" value={form.name_product_category}
                 onChangeText={name_product_category => setForm({ name_product_category })}
             />
-            <Text style={{ marginTop: SizeList.base }} align="center" font="SemiBold">Masukkan nama kategori baru</Text>
+            <Text style={{ marginTop: SizeList.base }} align="center">Masukkan nama kategori baru</Text>
         </Body>
         <Footer>
             <Button onPress={_handleSaveCategory}>SIMPAN</Button>

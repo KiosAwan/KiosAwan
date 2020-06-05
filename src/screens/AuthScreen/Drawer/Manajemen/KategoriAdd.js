@@ -90,7 +90,7 @@ const KategoriAdd = ({ navigation }) => {
                 <Input label="Nama Kategori" value={categoryName}
                     onChangeText={(text) => setCategoryName(text)}
                 />
-                <Text font="SemiBold" style={{ marginTop: SizeList.base }} align="center">Masukkan nama kategori</Text>
+                <Text style={{ marginTop: SizeList.base }} align="center">Masukkan nama kategori</Text>
             </Body>
             <Footer>
                 <Button onPress={_handleSaveCategory}>
