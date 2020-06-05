@@ -12,7 +12,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import { PilihPelanggan } from 'src/components/Picker/SelectBoxModal';
 import MDInput from 'src/components/Input/MDInput';
 
-const Piutang = () => {
+const Piutang = ({ style }) => {
 	const Customer = useSelector(state => state.Customer)
 	const Product = useSelector(state => state.Product)
 	const dispatch = useDispatch()
@@ -27,7 +27,7 @@ const Piutang = () => {
 		dispatch(AddDebtDate(date))
 	};
 	return (
-		<ScrollView style={styles.container}>
+		<ScrollView style={[styles.container, style]}>
 			<PilihPelanggan action={(action, pelanggan) => {
 				console.log(action, pelanggan)
 			}} visible={modalVisible}

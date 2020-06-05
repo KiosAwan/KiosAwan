@@ -50,11 +50,11 @@ class CheckOut extends React.Component {
 		alertMessage: ''
 	};
 
-	FirstRoute = () => <CashPayment />
-	SecondRoute = () => <NonTunai nonTunai={this.state.nonTunai} pressImage={(id) => {
+	FirstRoute = () => <CashPayment style={{ margin: SizeList.base }} />
+	SecondRoute = () => <NonTunai style={{ margin: SizeList.base }} nonTunai={this.state.nonTunai} pressImage={(id) => {
 		this.setState({ nonTunai: id })
 	}} />
-	ThirdRoute = () => <Piutang />
+	ThirdRoute = () => <Piutang style={{ margin: SizeList.base }} />
 	_handleBayar = () => {
 		this.setState({ loadingVisible: true })
 		if (this.state.index == 0) {
@@ -215,7 +215,7 @@ class CheckOut extends React.Component {
 
 	_handleIndexChange = index => this.setState({ index });
 	_renderTabBar = props => {
-		return <Wrapper flexContent>
+		return <Wrapper style={{ margin: SizeList.base }} flexContent>
 			{
 				props.navigationState.routes.rMap((route, i) => {
 					return <Button noBorder={this.state.index == i ? 'primary' : 'white'} textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'}>{route.title}</Button>
@@ -237,12 +237,12 @@ class CheckOut extends React.Component {
 				visible={this.state._alert}
 				closeAlert={() => this.setState({ _alert: false })}
 			/>
-			<Body>
-				<View>
+			<Body style={{ padding: 0 }}>
+				<View style={{ padding: SizeList.base }}>
 					<Text>
-						Total belanja Anda : 
+						Total belanja Anda :
 					<Text color="primary" font="SemiBold">
-							 {convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}
+							{convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}
 						</Text>
 					</Text>
 
@@ -251,7 +251,7 @@ class CheckOut extends React.Component {
 					marginTop: SizeList.padding,
 					borderRadius: SizeList.borderRadius
 				}}>
-					<Text style={{marginBottom : SizeList.base}}>Pilih metoda pembayaran</Text>
+					<Text style={{ margin: SizeList.base }}>Pilih metoda pembayaran</Text>
 					<TabView
 						navigationState={this.state}
 						renderScene={this._renderScene}

@@ -7,7 +7,7 @@ import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
 
-const NonTunai = ({ pressImage }) => {
+const NonTunai = ({ pressImage, style }) => {
 	const [_index, setIndex] = useState()
 	const nonTunaiList = [{
 		name: 'kartu debit',
@@ -58,12 +58,12 @@ const NonTunai = ({ pressImage }) => {
 		]
 	}]
 	return nonTunaiList.rMap(({ name, data }, index) => {
-		return <View style={{ marginTop: SizeList.padding }} key={index.toString()}>
+		return <View style={{ marginTop: SizeList.padding, ...style }} key={index.toString()}>
 			<Text font="SemiBold">Pembayaran dengan {name}</Text>
 			<Divider />
 			<FlatList
 				data={data}
-				columnWrapperStyle={{justifyContent : "space-between"}}
+				columnWrapperStyle={{ justifyContent: "space-between" }}
 				numColumns={2}
 				renderItem={({ item }) => {
 					return (
@@ -74,7 +74,7 @@ const NonTunai = ({ pressImage }) => {
 								setIndex(item.id)
 								pressImage(item.id)
 							}}
-							style={{ marginTop: SizeList.padding , borderRadius : 5}}
+							style={{ marginTop: SizeList.padding, borderRadius: 5 }}
 							padding={10}
 							color={['transparent', 'greyFont', 'greyAuthHard']}
 							activeColor={['transparent', 'greyFont', 'primary']}

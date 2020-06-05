@@ -10,7 +10,7 @@ import { RowChild } from 'src/components/Helper/RowChild';
 import { AddCashPayment } from 'src/redux/actions/actionsStoreProduct';
 import { SizeList } from 'src/styles/size';
 
-const CashPayment = () => {
+const CashPayment = props => {
     const Product = useSelector(state => state.Product)
     const dispatch = useDispatch()
 
@@ -19,7 +19,7 @@ const CashPayment = () => {
         dispatch(AddCashPayment(parseInt(x)))
     }
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,props.style]}>
             <FloatingInputLabelCurrency style={{ margin: 0 }}
                 value={Product.cash_payment.toString()}
                 handleChangeText={_handleChangePayment}
