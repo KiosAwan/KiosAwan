@@ -1,7 +1,6 @@
 import TransactionList from 'src/screens/AuthScreen/Drawer/Transaction'
 import TransactionDetail from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDetail'
 import TransactionDetailBatalkan from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDetailBatalkan'
-import TransactionHutang from 'src/screens/AuthScreen/Drawer/Transaction/TransactionHutang'
 import TransactionDetailLunasi from 'src/screens/AuthScreen/Drawer/Transaction/TransactionDetailLunasi'
 import TransactionCetakStruk from 'src/screens/AuthScreen/Drawer/Transaction/TransactionCetakStruk'
 import TambahPrinter from 'src/screens/AuthScreen/Drawer/Transaction/TambahPrinter'
@@ -46,13 +45,6 @@ const TransactionNavigator = {
       header: null
     }
   },
-  '/drawer/transaction/hutang': {
-    screen: TransactionHutang,
-    navigationOptions: {
-      header: null
-    }
-  },
-
   '/drawer/transaction/cetakstruk': {
     screen: TransactionCetakStruk,
     navigationOptions: {

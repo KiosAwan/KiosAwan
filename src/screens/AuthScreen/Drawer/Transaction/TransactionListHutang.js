@@ -91,9 +91,6 @@ const RingkasanHutang = ({ navigation }) => {
                     </View>
                 }
             </Body>
-            <Bottom>
-                <Button onPress={() => navigation.navigate('/drawer/transaction/hutang')} width='100%'>LIHAT DAFTAR HUTANG</Button>
-            </Bottom>
         </Container>
     )
 }
