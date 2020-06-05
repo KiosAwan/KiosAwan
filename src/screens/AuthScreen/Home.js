@@ -187,7 +187,7 @@ const Home = ({ navigation }) => {
 				return ColorsList.danger
 			case 2:
 				return ColorsList.success
-			default : 
+			default:
 				return null
 		}
 	}
@@ -198,8 +198,8 @@ const Home = ({ navigation }) => {
 					<BarStatus />
 					<Wrapper justify="space-between" style={{ padding: 10, paddingBottom: 0 }}>
 						<View>
-							<Text align="left">Welcome,</Text>
-							<Text align="left" font="SemiBold" size={16}>{User.data.name}</Text>
+							<Text align="left">Halo,</Text>
+							<Text align="left" font="SemiBold" size={16}>{User.data.name.toUpperCase()}</Text>
 						</View>
 						<View style={{ justifyContent: 'center' }}>
 							<TouchableOpacity onPress={_onPressRiwayat}>
@@ -211,7 +211,7 @@ const Home = ({ navigation }) => {
 				<Wrapper justify="space-between" style={$Padding(10, 10)}>
 					<View>
 						<Text>Saldo Anda sebesar: </Text>
-						<Wrapper>
+						<Wrapper spaceBetween>
 							<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
 							<TouchableOpacity onPress={_handleRefresh}>
 								<Image source={require('src/assets/icons/home/refresh.png')} size={15} style={{ marginLeft: 10 }} />
@@ -222,7 +222,7 @@ const Home = ({ navigation }) => {
 				</Wrapper>
 				{User.store &&
 					<TouchableOpacity onPress={() => navigation.navigate("Laporan")}>
-						<Wrapper shadow style={{ backgroundColor: ColorsList.white, marginHorizontal: 10 }} justify="space-evenly">
+						<Wrapper shadow style={{ marginTop: 15, borderWidth: 0, borderColor: '#f4f4f4', backgroundColor: ColorsList.white, marginHorizontal: 10 }} justify="space-evenly">
 							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
 								<Text align="center" size={12}>Transaksi hari ini:</Text>
 								<Wrapper>
@@ -236,7 +236,7 @@ const Home = ({ navigation }) => {
 									}
 								</Wrapper>
 							</View>
-							<Divider flex />
+							{/* <Divider flex /> */}
 							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
 								<Text align="center" size={12}>Keuntungan hari ini:</Text>
 								<Wrapper>
@@ -259,7 +259,7 @@ const Home = ({ navigation }) => {
 						<View></View>
 						<Button width='30%' onPress={_completeProfile}>OK</Button>
 					</AwanPopup.Title>
-					<View style={{ paddingVertical: 10 }}>
+					<View style={{ paddingVertical: 15 }}>
 						<View style={{}}>
 							{
 								maintanance && <Button disabled color="info" wrapper={{ flexStart }}>
@@ -289,11 +289,11 @@ const Home = ({ navigation }) => {
 									</Button>
 							}
 						</View>
-						<Text font="SemiBold" style={{ paddingBottom: 10 }}>Quick Actions</Text>
+						<Text font="SemiBold" style={{ paddingBottom: 15 }}>Quick Actions</Text>
 						<TouchableOpacity onPress={_onPressCashier}>
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
-								<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/kasir.png")} />
-								<View _width="75%">
+								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/kasir.png")} />
+								<View _width="80%">
 									<Text font="SemiBold" color="primary">KASIR</Text>
 									<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
 								</View>
@@ -301,8 +301,8 @@ const Home = ({ navigation }) => {
 						</TouchableOpacity>
 						<TouchableOpacity onPress={_onPressPayment}>
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
-								<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons//home/ppob.png")} />
-								<View _width="75%">
+								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons//home/ppob.png")} />
+								<View _width="80%">
 									<Text font="SemiBold" color="primary">PEMBAYARAN</Text>
 									<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
 								</View>
@@ -310,8 +310,8 @@ const Home = ({ navigation }) => {
 						</TouchableOpacity>
 						<TouchableOpacity onPress={_onPressStock}>
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
-								<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/restock.png")} />
-								<View _width="75%">
+								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/restock.png")} />
+								<View _width="80%">
 									<Text font="SemiBold" color="primary">BELANJA STOK</Text>
 									<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
 								</View>
@@ -319,8 +319,8 @@ const Home = ({ navigation }) => {
 						</TouchableOpacity>
 						<TouchableOpacity onPress={_onPressHutang}>
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
-								<Image size={70} style={{ resizeMode: 'contain' }} _width="25%" source={require("src/assets/icons/home/hutang.png")} />
-								<View _width="75%">
+								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/hutang.png")} />
+								<View _width="80%">
 									<Text font="SemiBold" color="primary">PENCATATAN HUTANG</Text>
 									<Text size={12}>Kelola hutang dan piutang usaha kios atau warung</Text>
 								</View>

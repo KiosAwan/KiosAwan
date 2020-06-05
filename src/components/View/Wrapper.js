@@ -15,7 +15,7 @@ export const Wrapper = props => {
 	center && { justifyContent: 'center' },
 	spaceAround && { justifyContent: 'space-around' },
 	spaceBetween && { justifyContent: 'space-between' },
-	props.shadow && { elevation: 1, borderRadius: 10 },
+	props.shadow && { borderRadius: 5 },
 	props.style]}>
 		{
 			children.length > 0 ?
