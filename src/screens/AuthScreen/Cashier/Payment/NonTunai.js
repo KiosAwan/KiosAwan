@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
-import { FontList } from 'src/styles/typography';
-import { RowChild } from 'src/components/Helper/RowChild';
-import { TouchableImage } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
-import { Wrapper } from 'src/components/View/Wrapper';
 import { ImageAuto, Image } from 'src/components/CustomImage';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
-import { stateObject } from 'src/utils/state';
 
 const NonTunai = ({ pressImage }) => {
 	const [_index, setIndex] = useState()
@@ -74,7 +69,7 @@ const NonTunai = ({ pressImage }) => {
 					return (
 						<Button
 							width="45%"
-							active={item.id == index}
+							active={item.id == _index ? true : false}
 							onPress={() => {
 								setIndex(item.id)
 								pressImage(item.id)
@@ -84,7 +79,7 @@ const NonTunai = ({ pressImage }) => {
 							color={['transparent', 'greyFont', 'greyAuthHard']}
 							activeColor={['transparent', 'greyFont', 'primary']}
 							flexStart>
-							<Image style={{ width: "100%", height: 40 }} source={item.image} />
+							<Image style={{ width: "100%", height: 30 }} source={item.image} />
 						</Button>
 					)
 				}}
