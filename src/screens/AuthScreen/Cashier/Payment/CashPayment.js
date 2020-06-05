@@ -9,6 +9,7 @@ import { convertRupiah, getNearestFifty, validNumber } from 'src/utils/authhelpe
 import { RowChild } from 'src/components/Helper/RowChild';
 import { AddCashPayment } from 'src/redux/actions/actionsStoreProduct';
 import { SizeList } from 'src/styles/size';
+import { Input } from 'src/components/Input/MDInput';
 
 const CashPayment = props => {
     const Product = useSelector(state => state.Product)
@@ -19,10 +20,12 @@ const CashPayment = props => {
         dispatch(AddCashPayment(parseInt(x)))
     }
     return (
-        <View style={[styles.container,props.style]}>
-            <FloatingInputLabelCurrency style={{ margin: 0 }}
+        <View style={[styles.container, props.style]}>
+            <Input style={{ margin: 0 }}
+                currency
+                noShadow
                 value={Product.cash_payment.toString()}
-                handleChangeText={_handleChangePayment}
+                onChangeText={_handleChangePayment}
                 label="Uang yang diterima"
                 keyboardType="number-pad"
             />

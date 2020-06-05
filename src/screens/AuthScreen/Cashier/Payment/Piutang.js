@@ -10,7 +10,9 @@ import { formatToDate } from 'src/utils/authhelper';
 import { AddCashPayment, AddDebtDate } from 'src/redux/actions/actionsStoreProduct';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { PilihPelanggan } from 'src/components/Picker/SelectBoxModal';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
+import { Body } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
 
 const Piutang = ({ style }) => {
 	const Customer = useSelector(state => state.Customer)
@@ -26,48 +28,44 @@ const Piutang = ({ style }) => {
 	const _handleDatePicked = date => {
 		dispatch(AddDebtDate(date))
 	};
-	return (
-		<ScrollView style={[styles.container, style]}>
-			<PilihPelanggan action={(action, pelanggan) => {
-				console.log(action, pelanggan)
-			}} visible={modalVisible}
-				data={Customer.data}
-				dismiss={() => setModalVisible(false)}
+	return <Body>
+		<DateTimePicker
+			minimumDate={new Date()}
+			isVisible={datePickerVisible}
+			onConfirm={_handleDatePicked}
+			onCancel={() => setDatePickerVisible(!datePickerVisible)}
+		/>
+		<PilihPelanggan action={(action, pelanggan) => {
+			console.log(action, pelanggan)
+		}} visible={modalVisible}
+			data={Customer.data}
+			dismiss={() => setModalVisible(false)}
+		/>
+		<Button padding={0} noRadius color="link" onPress={() => setModalVisible(true)}>
+			<Input
+				noLabel
+				disabled
+				inputStyle={{ width: '100%' }}
+				value={Product.customer ? Product.customer.name_customer : "Nama pelanggan"}
+				renderRightAccessory={() => <Icon color={ColorsList.greyFont} size={17} name="chevron-down" />}
 			/>
-			<FloatingInputLabelCurrency
-				value={Product.cash_payment.toString()}
-				label="Uang diterima diawal"
-				handleChangeText={_handleChangeMoney}
-				keyboardType="number-pad"
+		</Button>
+		<Input
+			currency noLabel
+			value={Product.cash_payment.toString()}
+			placeholder="Uang diterima diawal"
+			onChangeText={_handleChangeMoney}
+		/>
+		<Button padding={0} noRadius color="link" onPress={() => setDatePickerVisible(!datePickerVisible)}>
+			<Input
+				noLabel
+				disabled
+				inputStyle={{ width: '100%' }}
+				value={Product.due_debt_date ? formatToDate(Product.due_debt_date) : "Tanggal jatuh tempo"}
+				renderRightAccessory={() => <Icon color={ColorsList.greyFont} name="calendar-plus" size={20} />}
 			/>
-			<View style={{ marginTop: 20 }}>
-				<TouchableOpacity onPress={() => setModalVisible(true)}>
-					<View style={[styles.wrapNamaPelanggan, { ...RowChild, justifyContent: 'space-between' }]}>
-						<View>
-							<Text style={styles.textNamaPelanggan}>{Product.customer ? Product.customer.name_customer : "Nama pelanggan"}</Text>
-						</View>
-						<Icon color={ColorsList.greyFont} size={17} name="chevron-down" />
-					</View>
-				</TouchableOpacity>
-			</View>
-			<DateTimePicker
-				minimumDate={new Date()}
-				isVisible={datePickerVisible}
-				onConfirm={_handleDatePicked}
-				onCancel={() => setDatePickerVisible(!datePickerVisible)}
-			/>
-			<View style={{ marginTop: 20 }}>
-				<TouchableOpacity onPress={() => setDatePickerVisible(!datePickerVisible)}>
-					<View style={[styles.wrapNamaPelanggan, { ...RowChild, justifyContent: 'space-between' }]}>
-						<View>
-							<Text style={styles.textNamaPelanggan}>{Product.due_debt_date ? formatToDate(Product.due_debt_date) : "Tanggal jatuh tempo"}</Text>
-						</View>
-						<Icon name="calendar-plus" size={20} />
-					</View>
-				</TouchableOpacity>
-			</View>
-		</ScrollView>
-	)
+		</Button>
+	</Body>
 }
 
 export default Piutang;

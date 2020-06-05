@@ -6,6 +6,10 @@ import { ImageAuto, Image } from 'src/components/CustomImage';
 import { Text } from 'src/components/Text/CustomText';
 import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
+import { shadowStyle } from 'src/components/Input/MDInput';
+import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { stateObject } from 'src/utils/state';
 
 const NonTunai = ({ pressImage, style }) => {
 	const [_index, setIndex] = useState()
@@ -57,33 +61,40 @@ const NonTunai = ({ pressImage, style }) => {
 			}
 		]
 	}]
+	const [accordion, setAccordion] = stateObject()
 	return nonTunaiList.rMap(({ name, data }, index) => {
-		return <View style={{ marginTop: SizeList.padding, ...style }} key={index.toString()}>
-			<Text font="SemiBold">Pembayaran dengan {name}</Text>
-			<Divider />
-			<FlatList
-				data={data}
-				columnWrapperStyle={{ justifyContent: "space-between" }}
-				numColumns={2}
-				renderItem={({ item }) => {
-					return (
-						<Button
-							width="45%"
-							active={item.id == _index ? true : false}
-							onPress={() => {
-								setIndex(item.id)
-								pressImage(item.id)
-							}}
-							style={{ marginTop: SizeList.padding, borderRadius: 5 }}
-							padding={10}
-							color={['transparent', 'greyFont', 'greyAuthHard']}
-							activeColor={['transparent', 'greyFont', 'primary']}
-							flexStart>
-							<Image style={{ width: "100%", height: 30 }} source={item.image} />
-						</Button>
-					)
-				}}
-			/>
+		return <View style={{ ...shadowStyle, ...style }} key={index.toString()}>
+			<Button color="link" onPress={() => setAccordion({ [index]: !accordion[index] })} spaceBetween>
+				<Text font="SemiBold">Pembayaran dengan {name}</Text>
+				<Icon color={ColorsList.primary} name={accordion[index] ? "sort-up" : "sort-down"} />
+			</Button>
+			{
+				accordion[index] &&
+				<FlatList
+					style={{ paddingBottom: SizeList.base }}
+					data={data}
+					columnWrapperStyle={{ justifyContent: "space-between" }}
+					numColumns={2}
+					renderItem={({ item }) => {
+						return (
+							<Button
+								width="48%"
+								active={item.id == _index ? true : false}
+								onPress={() => {
+									setIndex(item.id)
+									pressImage(item.id)
+								}}
+								style={{ marginTop: SizeList.padding, borderRadius: 5 }}
+								padding={10}
+								color={['transparent', 'greyFont', 'greyAuthHard']}
+								activeColor={['transparent', 'greyFont', 'primary']}
+								flexStart>
+								<Image style={{ width: "100%", height: 30 }} source={item.image} />
+							</Button>
+						)
+					}}
+				/>
+			}
 		</View>
 	})
 }
