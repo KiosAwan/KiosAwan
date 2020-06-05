@@ -45,7 +45,6 @@ const Topup = ({ navigation }) => {
 		} else {
 			Alert(JSON.stringify(res))
 		}
-
 	}
 	return (
 		<Container header={{
