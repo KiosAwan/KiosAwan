@@ -17,7 +17,7 @@ const MDInput = props => {
 	let objCurrency = {}
 	const { noLabel, lineWidth, onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur, style } = props
 	const _render = (render, isRight) => {
-		return typeof render == 'function' && <View style={!noLabel && { marginBottom: 8 }}>
+		return typeof render == 'function' && <View style={[!noLabel && { marginBottom: 8 }, { alignSelf: 'center' }]}>
 			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
 				{render()}
 			</View>
@@ -69,7 +69,7 @@ const MDInput = props => {
 			{...objCurrency}
 		/>
 		if (noLabel) {
-			return <TextInputRN {...input.props} editable={!props.disabled} style={{
+			return <TextInputRN placeholder={props.label} {...input.props} editable={!props.disabled} style={{
 				marginTop: 8,
 				...$Border(On.color, 0, 0, lineWidth != undefined && !focused ? lineWidth : props.activeLineWidth != undefined ? props.activeLineWidth : On.size),
 				...input.props.style
@@ -87,7 +87,7 @@ const MDInput = props => {
 }
 
 const Input = props => {
-	const { value, currency, accessoryOut, onFocus, onBlur, renderLeftAccessory, renderRightAccessory, ..._props } = props
+	const { value, currency, noShadow, accessoryOut, onFocus, onBlur, renderLeftAccessory, renderRightAccessory, ..._props } = props
 	const [focus, setFocus] = useState(false)
 	const color = () => {
 		if (focus) {
@@ -116,7 +116,8 @@ const Input = props => {
 		disabledLineWidth={0}
 		labelHeight={25}
 		inputStyle={{
-			...shadowStyle,
+			marginBottom: SizeList.base,
+			...!noShadow && shadowStyle,
 			...props.inputStyle
 		}} style={props.style} />
 	if (accessoryOut) {
