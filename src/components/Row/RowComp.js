@@ -5,7 +5,7 @@ import { FontList } from '../../styles/typography';
 import { Text } from '../Text/CustomText';
 
 export const RowOpposite = (props) => (
-    <View style={{...RowChild, justifyContent: "space-between", marginBottom : 5}}>
+    <View style={{...RowChild, justifyContent: "space-between"}}>
         <Text>{props.title}</Text>
         <Text>{props.content}</Text>
     </View>
