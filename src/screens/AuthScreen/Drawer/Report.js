@@ -17,7 +17,7 @@ import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
 import { SizeList } from 'src/styles/size';
 import { shadowStyle } from 'src/components/Input/MDInput';
-import FloatingInput from 'src/components/Input/FloatingInput';
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 const ViewShadow = props => <View style={{ marginBottom: SizeList.base }}>
 	{!props.noTitle && <Text>{props.title}</Text>}
@@ -83,7 +83,7 @@ const Report = ({ navigation }) => {
 	const [MainTab, setMainTab] = stateObject({
 		index: 0,
 		routes: [
-			{ key: 'first', title: 'Semua' },
+			{ key: 'first', title: 'Semua Laporan' },
 			{ key: 'second', title: 'Penjualan Produk' },
 			{ key: 'third', title: 'Penjualan PPOB' }
 		],
@@ -252,91 +252,117 @@ const Report = ({ navigation }) => {
 		</Body>
 	}
 	return <Container>
-		<GlobalHeader title="Laporan" renderRightAccessory={() => <IconHeader name="calendar" />} />
+		<ModalMonth {...ctrl} />
+		<GlobalHeader
+			title="Laporan"
+			onPressBack={() => navigation.goBack()}
+			renderRightAccessory={() => <IconHeader onPress={() => ctrl.setVisible(true)} name="calendar" />}
+		/>
 		<View style={{ padding: SizeList.base }}>
 			<SelectBoxModal
 				closeOnSelect noLabel
-				value="lkjhjdf"
-				data={[1, 2, 3, 4]}
-				handleChangePicker={a => console.debug(a)}
-				renderItem={item => <Text>{item}</Text>}
+				value={MainTab.routes[MainTab.index].title}
+				data={MainTab.routes}
+				handleChangePicker={(a, i) => MainTab.setIndex(i)}
+				renderItem={item => <Text>{item.title}</Text>}
 			/>
 		</View>
 		<Body>
-			<ViewShadow title="Mei 2020">
+			<ViewShadow title={moment(dateSelected).format('MMMM YYYY')}>
 				<Wrapper>
 					<View>
-						<Text>a</Text>
-						<Text>a</Text>
+						<Text>Total Penjualan</Text>
+						<Wrapper>
+							{/* <Icon
+								size={15}
+								name={User.store.penjualan_flag == 2 ? "sort-up" : "sort-down"}
+								color={_getFlagColor(User.store.penjualan_flag)}
+							/> */}
+							<Text>{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+						</Wrapper>
 					</View>
 					<View>
-						<Text>a</Text>
-						<Text>a</Text>
+						<Text>Total Keuntungan</Text>
+						<Wrapper>
+							{/* <Icon
+								size={15}
+								name={User.store.penjualan_flag == 2 ? "sort-up" : "sort-down"}
+								color={_getFlagColor(User.store.penjualan_flag)}
+							/> */}
+							<Text>{_convertRupiah(dataTransaction, 'total_profit')}</Text>
+						</Wrapper>
 					</View>
 				</Wrapper>
-				<Divider />
+				<Divider style={{ marginVertical: SizeList.base }} />
 				<Wrapper>
 					<View>
-						<Text>a</Text>
-						<Text>a</Text>
+						<Text align="center">Transaksi</Text>
+						<Text align="center" color="primary">{dataTransaction && dataTransaction.jumlah_transaksi}</Text>
 					</View>
 					<View>
-						<Text>a</Text>
-						<Text>a</Text>
+						<Text align="center">Produk Terjual</Text>
+						<Text align="center" color="primary">{dataTransaction && dataTransaction.produk_terjual}</Text>
 					</View>
 				</Wrapper>
 			</ViewShadow>
 			<ViewShadow title="Laporan keuangan">
-				<Wrapper spaceBetween>
-					<Text>jh</Text>
-					<Text>jh</Text>
-				</Wrapper>
-				<Wrapper spaceBetween>
-					<Text>jh</Text>
-					<Text>jh</Text>
-				</Wrapper>
+				{
+					dataTransaction &&
+					['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
+						.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+							<Text>{key.split('_').join(' ').ucwords()}</Text>
+							<Text>{_convertRupiah(dataTransaction, key)}</Text>
+						</Wrapper>)
+				}
 			</ViewShadow>
 			<ViewShadow title="Laporan laba/rugi kotor">
-				<Wrapper spaceBetween>
-					<Text>jh</Text>
-					<Text>jh</Text>
-				</Wrapper>
-				<Wrapper spaceBetween>
-					<Text>jh</Text>
-					<Text>jh</Text>
-				</Wrapper>
+				{
+					dataTransaction &&
+					['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
+						.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+							<Text>{key.split('_').join(' ').ucwords()}</Text>
+							<Text>{_convertRupiah(dataTransaction, key)}</Text>
+						</Wrapper>)
+				}
 			</ViewShadow>
 			<Text>Laporan non tunai</Text>
 			<SelectBoxModal
 				closeOnSelect noLabel
 				style={{ marginVertical: SizeList.base }}
-				value="lkjhjdf"
-				data={[1, 2, 3, 4]}
-				handleChangePicker={a => console.debug(a)}
-				renderItem={item => <Text>{item}</Text>}
+				value={NT && NT.selected ? NT.selected.method : ''}
+				data={dataReportNonTunai}
+				handleChangePicker={selected => setNT({ selected })}
+				renderItem={item => <Text color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFont'}>{item.method}</Text>}
 			/>
 			<ViewShadow noTitle>
-				<Wrapper spaceBetween>
-					<Text>jh</Text>
-					<Text>jh</Text>
-				</Wrapper>
-				<Wrapper spaceBetween>
-					<Text>jh</Text>
-					<Text>jh</Text>
-				</Wrapper>
+				{
+					NT && NT.selected && Object.keys(NT.selected).rMap((key, i) => (
+						key != 'method' && <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+							<Text>{key.split('_').join(' ').ucwords()}</Text>
+							<Text>{_convertRupiah(NT.selected, key)}</Text>
+						</Wrapper>
+					))
+				}
 			</ViewShadow>
-			<ViewShadow title="Laporan penjualan">
-				<Text align="center">MAKANAN</Text>
-				<Wrapper spaceBetween>
-					<View>
-						<Text>jh</Text>
-						<Text>jh</Text>
-					</View>
-					<Text _flexStart>jh</Text>
-				</Wrapper>
-			</ViewShadow>
+			{
+				dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }, index) => (
+					<ViewShadow noTitle={index != 0} title="Laporan penjualan">
+						<Text align="center">{nama_category.toUpperCase()}</Text>
+						<Divider style={{ marginVertical: SizeList.secondary }} />
+						{
+							data && data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary }} spaceBetween>
+								<View>
+									<Text>{Product}</Text>
+									<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
+								</View>
+								<Text _flexStart>{total.convertRupiah()}</Text>
+							</Wrapper>)
+						}
+					</ViewShadow>
+				))
+			}
 		</Body>
-	</Container>
+	</Container >
 
 	return <Container>
 		<ModalMonth {...ctrl} />

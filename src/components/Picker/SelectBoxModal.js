@@ -344,7 +344,7 @@ export const SelectBoxModal = (props) => {
 							data={data}
 							renderItem={({ item, index }) => {
 								return <Button color="link" onPress={() => {
-									handleChangePicker(item)
+									handleChangePicker(item, index)
 									closeOnSelect ? setModalVisible(false) : null
 								}} spaceBetween {...renderWrapper}>
 									{renderItem(item, index)}

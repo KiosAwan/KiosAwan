@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "run": "yarn android",
-    "cleanr":"cd android && ./gradlew clean && cd .. && yarn android",
-    "clean":"cd android && ./gradlew clean && cd .. ",
+    "cleanr": "cd android && ./gradlew clean && cd .. && yarn android",
+    "clean": "cd android && ./gradlew clean && cd .. ",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
@@ -73,7 +73,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
-    "@babel/runtime": "^7.5.0",
+    "@babel/runtime": "^7.10.2",
     "@react-native-community/eslint-config": "^0.0.3",
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
