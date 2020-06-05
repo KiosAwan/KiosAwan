@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Modal, StyleSheet } from 'react-native';
-import { GlobalHeader } from 'src/components/Header/Header';
-import { ColorsList } from 'src/styles/colors';
+import { View, Modal, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { BottomButton } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
 import { } from 'src/components/Input/InputComp';
 import ModalContent from 'src/components/ModalContent/ModalContent';
@@ -11,7 +8,9 @@ import { changeNewPhoneNumber, getUserToken } from 'src/utils/authhelper'
 import { phoneValidation } from 'src/utils/unauthhelper';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import MDInput from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
+import Container, { Footer, Body } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
 const MenuSettingUbahNoHP = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const User = useSelector(state => state.User)
@@ -55,7 +54,10 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 		setNewPhoneNum(text)
 	}
 	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+		<Container header={{
+			title: "Ubah No. HP",
+			onPressBack: () => navigation.goBack()
+		}}>
 			<AwanPopup.Alert
 				message={alertMessage}
 				visible={alert}
@@ -76,26 +78,20 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 				/>
 			</Modal>
 			<AwanPopup.Loading visible={loading} />
-			<GlobalHeader title="Ubah No. HP" onPressBack={() => navigation.goBack()} />
-			<View style={{ padding: 15, backgroundColor: 'white', margin: 30 }}>
-				<View>
-					<MDInput label="Nomor lama anda" value={User.data.phone_number} editable={false} />
+			<Body>
+				<View style={{ marginBottom: SizeList.base }}>
+					<Input label="Nomor lama anda" value={User.data.phone_number} editable={false} />
 				</View>
-				<View>
-					<MDInput style={{ marginTop: 30 }} label="Masukkan nomor baru anda"
-						keyboardType="numeric"
-						value={newPhoneNum} onChangeText={_handleChangePhone} />
-				</View>
-			</View>
-
-			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-				<BottomButton
-					onPressBtn={_nextBtn}
-					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-					buttonTitle="SIMPAN"
-				/>
-			</View>
-		</View>
+				<Input label="Masukkan nomor baru anda"
+					keyboardType="numeric"
+					value={newPhoneNum} onChangeText={_handleChangePhone} />
+			</Body>
+			<Footer>
+				<Button onPress={_nextBtn}>
+					SIMPAN
+				</Button>
+			</Footer>
+		</Container>
 	)
 }
 

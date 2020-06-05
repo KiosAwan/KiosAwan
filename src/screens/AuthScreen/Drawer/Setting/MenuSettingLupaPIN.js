@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { SizeList } from 'src/styles/size';
 import { useSelector } from 'react-redux'
-import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
-import { BottomButton } from 'src/components/Button/ButtonComp';
 import { sendOTPAuth } from 'src/utils/authhelper';
 import { FontList } from 'src/styles/typography';
 import { showPhoneNumber } from 'src/utils/unauthhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Container, { Footer, Body } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
 const MenuSettingLupaPIN = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const [apiLoading, setApiLoading] = useState(false)
@@ -33,15 +33,17 @@ const MenuSettingLupaPIN = ({ navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+        <Container header={{
+            title: "Lupa PIN",
+            onPressBack: () => navigation.goBack()
+        }}>
             <AwanPopup.Alert
                 message={alertMessage}
                 visible={alert}
                 closeAlert={() => setAlert(false)}
             />
             <AwanPopup.Loading visible={apiLoading} />
-            <GlobalHeader title="Lupa PIN" onPressBack={() => navigation.goBack()} />
-            <View style={{ padding: 20 }}>
+            <Body>
                 <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5, alignItems: "center" }}>
                     <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft, marginBottom: 15 }}>Kode OTP akan dikirim melalui SMS ke</Text>
                     <View style={{ alignItems: "center", backgroundColor: ColorsList.greyAuthHard, padding: 10, width: '90%', borderRadius: 5 }}>
@@ -50,15 +52,13 @@ const MenuSettingLupaPIN = ({ navigation }) => {
                 </View>
                 <View style={{ backgroundColor: ColorsList.successSoft, marginTop: 30 }}>
                 </View>
-            </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_nextBtn}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                    buttonTitle="LANJUT"
-                />
-            </View>
-        </View>
+            </Body>
+            <Footer>
+                <Button onPress={_nextBtn}>
+                    LANJUT
+                </Button>
+            </Footer>
+        </Container>
     )
 }
 

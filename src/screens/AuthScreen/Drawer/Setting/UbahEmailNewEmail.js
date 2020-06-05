@@ -20,7 +20,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { changeEmail, getUserToken } from 'src/utils/authhelper';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
+import Container, { Footer, Body } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
 
 
 const height = Dimensions.get('window').height
@@ -55,12 +57,10 @@ const UbahEmailNewEmail = ({ navigation }) => {
 
 	const [loading, setLoading] = useState(false)
 	return (
-		<View style={styles.container} >
-			<BarStatus />
-			<GlobalHeader
-				onPressBack={() => navigation.goBack()}
-				title="Ubah Email"
-			/>
+		<Container header={{
+			onPressBack: () => navigation.goBack(),
+			title: "Ubah Email"
+		}}>
 			<Modal
 				animationType="fade"
 				transparent={true}
@@ -76,26 +76,22 @@ const UbahEmailNewEmail = ({ navigation }) => {
 				/>
 			</Modal>
 			<AwanPopup.Loading visible={loading} />
-			<View style={{ alignItems: "center", marginTop: 20 }}>
-				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-					<MDInput label="Email lama" value={User.data.email}
+			<Body>
+				<View style={{ marginBottom: SizeList.base }}>
+					<Input label="Email lama" value={User.data.email}
 						editable={false}
 					/>
 				</View>
-				<View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-					<MDInput label="Email baru" value={newEmail}
-						onChangeText={(text) => setNewEmail(text)}
-					/>
-				</View>
-			</View>
-			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-				<BottomButton
-					onPressBtn={_handleNextBtn}
-					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 20 }}
-					buttonTitle="SIMPAN"
+				<Input label="Email baru" value={newEmail}
+					onChangeText={(text) => setNewEmail(text)}
 				/>
-			</View>
-		</View>
+			</Body>
+			<Footer>
+				<Button>
+					SIMPAN
+				</Button>
+			</Footer>
+		</Container >
 	);
 }
 
