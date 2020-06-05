@@ -227,7 +227,7 @@ const Cart = ({ navigation }) => {
 					})
 				}
 				{Product.ppob_cart.length > 0 ?
-						<Text>Payment Point</Text>
+					<Text>Payment Point</Text>
 					: null}
 				{
 					Product.ppob_cart.rMap((data, i) => {
@@ -298,13 +298,13 @@ const Cart = ({ navigation }) => {
 				</TouchableOpacity>
 			</View>
 
-			<View style={{marginVertical: SizeList.base }}>
+			<View style={{ marginVertical: SizeList.base }}>
 				<Wrapper justify="space-between" style={{ padding: 10 }}>
 					<Text>Tambahkan diskon</Text>
 					<SwitchButton handleChangeToggle={_handleChangeToggle} toggleValue={Product.discount_on} />
 				</Wrapper>
 				{Product.discount_on ?
-					<View style={{backgroundColor : ColorsList.white, elevation :1}}>
+					<View style={{ backgroundColor: ColorsList.white, elevation: 1 }}>
 						<Wrapper justify="space-between" style={{ padding: 10 }}>
 							<MDInput _width="70%" label="Diskon" keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
 							<ToggleButton
@@ -320,18 +320,18 @@ const Cart = ({ navigation }) => {
 					: null}
 			</View>
 			{/* <View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5, padding: 10, paddingHorizontal: 15 }}> */}
-				<Input value={Product.note} onChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
+			<Input value={Product.note} onChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
 			{/* </View> */}
-			<Button style={{marginTop : 10}} onPress={async () => {
-				if (Product.jumlahitem > 0) {
-					navigation.navigate('/cashier/check-out')
-					const userToken = await getUserToken()
-					dispatch(getCustomer(User.store.id_store, userToken))
-				} else {
-					Alert("", "Keranjang anda kosong")
-				}
-			}}>LANJUTKAN</Button>
 		</Body>
+		<Button style={{ margin: SizeList.base }} onPress={async () => {
+			if (Product.jumlahitem > 0) {
+				navigation.navigate('/cashier/check-out')
+				const userToken = await getUserToken()
+				dispatch(getCustomer(User.store.id_store, userToken))
+			} else {
+				Alert("", "Keranjang anda kosong")
+			}
+		}}>LANJUTKAN</Button>
 	</Container>
 }
 
