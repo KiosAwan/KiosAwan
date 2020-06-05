@@ -6,8 +6,6 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text,
-    TextInput,
     Modal
 } from 'react-native';
 import BarStatus from 'src/components/BarStatus';
@@ -15,16 +13,15 @@ import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import { editCustomer, deleteCustomer, getUserToken } from 'src/utils/authhelper';
-import { BottomButton } from 'src/components/Button/ButtonComp';
 import { FontList } from 'src/styles/typography';
-import { } from 'src/components/Input/InputComp';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
-import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
-import MDInput from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import { stateObject } from 'src/utils/state';
+import Container, { Body, Footer } from 'src/components/View/Container';
+import { Text } from 'src/components/Text/CustomText';
 
 
 const height = Dimensions.get('window').height
@@ -76,7 +73,7 @@ const PelangganEdit = ({ navigation }) => {
         }, 1000)
     }
     return (
-        <View style={styles.container} >
+        <Container >
             <AwanPopup.Alert
                 message={alertMessage}
                 visible={alert}
@@ -107,26 +104,22 @@ const PelangganEdit = ({ navigation }) => {
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
-            <View style={{ alignItems: "center" }}>
-                <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <MDInput label="Nama Pelanggan" value={form.name_customer}
-                        onChangeText={name_customer => setForm({ name_customer })}
+            <Body>
+                <Input label="Nama Pelanggan" value={form.name_customer}
+                    onChangeText={name_customer => setForm({ name_customer })}
+                />
+                <View style={{ marginTop: 10 }}>
+                    <Input label="No Telepon" value={form.phone_number_customer}
+                        keyboardType="number-pad"
+                        onChangeText={phone_number_customer => setForm({ phone_number_customer })}
                     />
-                    <View style={{ marginTop: 10 }}>
-                        <MDInput label="No Telepon" value={form.phone_number_customer}
-                            keyboardType="number-pad"
-                            onChangeText={phone_number_customer => setForm({ phone_number_customer })}
-                        />
-                    </View>
                 </View>
-                <View style={{ width: '90%', padding: 10 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Ubah data pelanggan</Text>
-                </View>
-            </View>
-            <Bottom>
+                <Text align="center" style={{ marginTop: SizeList.base }}>Ubah data pelanggan</Text>
+            </Body>
+            <Footer>
                 <Button width="100%" onPress={_handleFinishEdit}>SIMPAN</Button>
-            </Bottom>
-        </View>
+            </Footer>
+        </Container>
     );
 }
 

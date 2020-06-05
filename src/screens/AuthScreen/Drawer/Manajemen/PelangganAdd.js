@@ -5,23 +5,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
     View,
     StyleSheet,
-    Dimensions,
-    Text,
-    TextInput,
     Modal
 } from 'react-native';
-import BarStatus from 'src/components/BarStatus';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import { sendNewCustomer, getUserToken } from 'src/utils/authhelper';
-import { BottomButton } from 'src/components/Button/ButtonComp';
 import { FontList } from 'src/styles/typography';
 import { } from 'src/components/Input/InputComp';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
-import MDInput from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Container, { Footer, Body } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
+import { Text } from 'src/components/Text/CustomText';
 
 const PelangganAdd = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -61,8 +59,7 @@ const PelangganAdd = ({ navigation }) => {
 
     }
     return (
-        <View style={styles.container} >
-            <BarStatus />
+        <Container style={styles.container} >
             <AwanPopup.Alert
                 message={alertMessage}
                 visible={alert}
@@ -85,30 +82,24 @@ const PelangganAdd = ({ navigation }) => {
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
-            <View style={{ alignItems: "center" }}>
-                <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <MDInput label="Nama Pelanggan" value={name}
-                        onChangeText={(text) => setName(text)}
-                    />
-                    <View style={{ marginTop: 10 }}>
-                        <MDInput label="No Telepon" value={phone_number}
-                            keyboardType="number-pad"
-                            onChangeText={(text) => setPhoneNumber(text)}
-                        />
-                    </View>
-                </View>
-                <View style={{ width: '90%', padding: 10 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Masukkan nama dan nomer telepon pelanggan</Text>
-                </View>
-            </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_handleSaveNewCustomer}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                    buttonTitle="SIMPAN"
+            <Body>
+                <Input label="Nama Pelanggan" value={name}
+                    onChangeText={(text) => setName(text)}
                 />
-            </View>
-        </View>
+                <View style={{ marginTop: 10 }}>
+                    <Input label="No Telepon" value={phone_number}
+                        keyboardType="number-pad"
+                        onChangeText={(text) => setPhoneNumber(text)}
+                    />
+                </View>
+                <Text style={{ marginTop: SizeList.base }} align="center">Masukkan nama dan nomer telepon pelanggan</Text>
+            </Body>
+            <Footer>
+                <Button onPress={_handleSaveNewCustomer}>
+                    SIMPAN
+               </Button>
+            </Footer>
+        </Container>
     );
 }
 

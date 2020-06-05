@@ -137,14 +137,16 @@ const TransactionDetail = ({ navigation }) => {
 								: null}
 						</View>
 						{data.debt ?
-							// <View style={{ height: 1, backgroundColor: ColorsList.greyFont, width: '100%' }} />
-							<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderTopColor: ColorsList.greySoft, borderTopWidth: 1 }}>
-								<RowOpposite title="Jumlah Hutang" content={convertRupiah(data.debt.total)} />
-								<RowOpposite title="Jumlah yang sudah dibayar" content={convertRupiah(data.transaction.amount_payment)} />
-								<RowOpposite title="Sisa hutang" content={convertRupiah(data.debt.remaining_debt)} />
-								<RowOpposite
-									style={data.transaction.status == 0 ? { color: ColorsList.warning } : null}
-									title="Jatuh Tempo" content={formatToDays(data.debt.due_debt_date)} />
+							<View>
+								<Divider />
+								<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, }}>
+									<RowOpposite title="Jumlah hutang" content={convertRupiah(data.debt.total)} />
+									<RowOpposite title="Jumlah yang sudah dibayar" content={convertRupiah(data.transaction.amount_payment)} />
+									<RowOpposite title="Sisa hutang" content={convertRupiah(data.debt.remaining_debt)} />
+									<RowOpposite
+										style={data.transaction.status == 0 ? { color: ColorsList.warning } : null}
+										title="Jatuh Tempo" content={formatToDays(data.debt.due_debt_date)} />
+								</View>
 							</View>
 							: null
 						}
