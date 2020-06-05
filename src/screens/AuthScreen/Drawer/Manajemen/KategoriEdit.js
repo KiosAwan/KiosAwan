@@ -8,10 +8,11 @@ import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Button } from 'src/components/Button/Button';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import { stateObject } from 'src/utils/state';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { Text } from 'src/components/Text/CustomText';
+import { SizeList } from 'src/styles/size';
 
 
 const KategoriEdit = ({ navigation }) => {
@@ -89,12 +90,10 @@ const KategoriEdit = ({ navigation }) => {
             />
         </Modal>
         <Body>
-            <View style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 15, marginBottom: 15 }}>
-                <MDInput label="Nama Kategori" value={form.name_product_category}
-                    onChangeText={name_product_category => setForm({ name_product_category })}
-                />
-            </View>
-            <Text align="center" font="ExtraBold">Masukkan nama kategori baru</Text>
+            <Input label="Nama Kategori" value={form.name_product_category}
+                onChangeText={name_product_category => setForm({ name_product_category })}
+            />
+            <Text style={{ marginTop: SizeList.base }} align="center" font="SemiBold">Masukkan nama kategori baru</Text>
         </Body>
         <Footer>
             <Button onPress={_handleSaveCategory}>SIMPAN</Button>

@@ -13,6 +13,8 @@ import { BottomButton } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { getUserToken } from 'src/utils/authhelper';
+import Container, { Footer, Body } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
 
 const ManajemenPelanggan = ({ navigation }) => {
 
@@ -34,12 +36,12 @@ const ManajemenPelanggan = ({ navigation }) => {
 		navigation.navigate('/drawer/manajemen/pelanggan/add')
 	}
 	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+		<Container>
 			<GlobalHeader
 				onPressBack={() => navigation.goBack()}
 				title="Pelanggan"
 			/>
-			<View style={{ padding: 20, flex: 1 }}>
+			<Body>
 				<SearchInput
 					placeholder="Cari pelanggan"
 					search={search}
@@ -59,15 +61,13 @@ const ManajemenPelanggan = ({ navigation }) => {
 					)}
 					keyExtractor={(item, index) => index.toString()}
 				/>
-			</View>
-			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-				<BottomButton
-					onPressBtn={_handleAddNewCategory}
-					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-					buttonTitle="TAMBAH PELANGGAN BARU"
-				/>
-			</View>
-		</View>
+			</Body>
+			<Footer>
+				<Button onPress={_handleAddNewCategory}>
+					TAMBAH PELANGGAN BARU
+				</Button>
+			</Footer>
+		</Container>
 	);
 }
 

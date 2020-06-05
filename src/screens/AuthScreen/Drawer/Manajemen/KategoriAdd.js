@@ -6,22 +6,22 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Text,
-    TextInput,
     Modal
 } from 'react-native';
 import BarStatus from 'src/components/BarStatus';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
-import { verifyUserPassword, sendNewCategory, getUserToken } from 'src/utils/authhelper';
-import { BottomButton } from 'src/components/Button/ButtonComp';
+import { sendNewCategory, getUserToken } from 'src/utils/authhelper';
 import { FontList } from 'src/styles/typography';
 import { } from 'src/components/Input/InputComp';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
-import MDInput from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Container, { Body, Footer } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
+import { Text } from 'src/components/Text/CustomText';
 
 
 const height = Dimensions.get('window').height
@@ -62,7 +62,7 @@ const KategoriAdd = ({ navigation }) => {
 
     }
     return (
-        <View style={styles.container} >
+        <Container>
             <AwanPopup.Alert
                 message={alertMessage}
                 visible={alert}
@@ -86,24 +86,18 @@ const KategoriAdd = ({ navigation }) => {
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
-            <View style={{ alignItems: "center" }}>
-                <View style={{ marginTop: 20, padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5 }}>
-                    <MDInput label="Nama Kategori" value={categoryName}
-                        onChangeText={(text) => setCategoryName(text)}
-                    />
-                </View>
-                <View style={{ width: '90%', padding: 10 }}>
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold, fontSize: 14 }}>Masukkan nama kategori untuk menambah kategori baru</Text>
-                </View>
-            </View>
-            <View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-                <BottomButton
-                    onPressBtn={_handleSaveCategory}
-                    style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-                    buttonTitle="SIMPAN"
+            <Body>
+                <Input label="Nama Kategori" value={categoryName}
+                    onChangeText={(text) => setCategoryName(text)}
                 />
-            </View>
-        </View>
+                <Text font="SemiBold" style={{ marginTop: SizeList.base }} align="center">Masukkan nama kategori</Text>
+            </Body>
+            <Footer>
+                <Button onPress={_handleSaveCategory}>
+                    SIMPAN
+                </Button>
+            </Footer>
+        </Container>
     );
 }
 

@@ -12,6 +12,8 @@ import { ManagementCategoryCard } from 'src/components/Card/ManagementCard';
 import { BottomButton } from 'src/components/Button/ButtonComp';
 import { SizeList } from 'src/styles/size';
 import { getUserToken } from 'src/utils/authhelper';
+import Container, { Body, Footer } from 'src/components/View/Container';
+import { Button } from 'src/components/Button/Button';
 
 const ManajemenKategori = ({ navigation }) => {
 
@@ -34,12 +36,12 @@ const ManajemenKategori = ({ navigation }) => {
 		navigation.navigate('/drawer/manajemen/kategori/add')
 	}
 	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+		<Container>
 			<GlobalHeader
 				onPressBack={() => navigation.goBack()}
 				title="Kategori"
 			/>
-			<View style={{ padding: 20, flex: 1 }}>
+			<Body>
 				<SearchInput
 					placeholder="Cari kategori"
 					search={search}
@@ -59,15 +61,13 @@ const ManajemenKategori = ({ navigation }) => {
 					}}
 					keyExtractor={(item, index) => index.toString()}
 				/>
-			</View>
-			<View style={{ alignSelf: "center", position: 'absolute', bottom: 10, }}>
-				<BottomButton
-					onPressBtn={_handleAddNewCategory}
-					style={{ backgroundColor: ColorsList.primaryColor, width: SizeList.width - 40 }}
-					buttonTitle="TAMBAH KATEGORI BARU"
-				/>
-			</View>
-		</View>
+			</Body>
+			<Footer>
+				<Button onPress={_handleAddNewCategory}>
+					TAMBAH KATEGORI BARU
+				</Button>
+			</Footer>
+		</Container>
 	);
 }
 
