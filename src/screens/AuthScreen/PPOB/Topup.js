@@ -21,6 +21,8 @@ import { CopyButton } from 'src/components/Button/CopyButton';
 import Alert from 'src/utils/alert';
 import { DEV_IMG_URL } from 'src/config';
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import Container, { Body } from 'src/components/View/Container';
+import { SizeList } from 'src/styles/size';
 const Topup = ({ navigation }) => {
 	const [listPaymentMethod, setListPaymentMethod] = useState([])
 	const [apiLoading, setApiLoading] = useState(false)
@@ -43,79 +45,75 @@ const Topup = ({ navigation }) => {
 		} else {
 			Alert(JSON.stringify(res))
 		}
-
 	}
 	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
+		<Container header={{
+			title: "Top Up",
+			onPressBack: () => navigation.goBack()
+		}}>
 			<AwanPopup.Alert
 				message={alertMessage}
 				visible={alert}
 				closeAlert={() => setAlert(false)}
 			/>
 			<AwanPopup.Loading visible={apiLoading} />
-			<GlobalHeader title="Top Up" onPressBack={() => navigation.goBack()} />
-			<View style={{ flex: 1, marginTop: 15 }}>
-				<ScrollView style={{ paddingHorizontal: 15 }}>
-					<View style={styles.group} justify="space-between">
-						<Text>Saldo Kios Awan</Text>
-						<Text color="primary" size={20} font="Bold">{convertRupiah(User.data.saldo)}</Text>
-						<Divider style={{ marginVertical: 10 }} />
-						<Text>Minimal top up Rp 50.000, kelipatan Rp 1.000</Text>
-					</View>
-					{/* <Text style={{ marginBottom: 10 }} font="Regular" align="center">Metode Pembayaran</Text> */}
-					{
-						listPaymentMethod.rMap((item, key) => (
-							<View key={key} style={styles.group}>
-								<View style={{ flexDirection: "row", alignItems: "center", borderRadius: 5 }}>
-									<Image style={{ width: "15%", height: 25, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
-									<View style={{ width: "80%", alignSelf: "flex-end" }}>
-										<Text>{item.title}</Text>
-										<Text size={12}>{`Admin : ${convertRupiah(item.adminFee)}`}</Text>
-										<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-											<Text font="Bold">{item.noVa}</Text>
-											<CopyButton onPress={() => {
-												Toast.show({ text: "Berhasil disalin", type: "success" })
-												Clipboard.setString(item.noVa)
-											}} />
-										</View>
+			<Body>
+				<Text>Saldo Anda saat ini :
+						<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo)}</Text>
+				</Text>
+				<Text style={{ marginVertical: SizeList.base }}>Pilih bank</Text>
+				{
+					listPaymentMethod.rMap((item, key) => (
+						<View key={key} style={styles.group}>
+							<View style={{ flexDirection: "row", alignItems: "center", borderRadius: 5 }}>
+								<Image style={{ width: "15%", height: 25, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
+								<View style={{ width: "80%", alignSelf: "flex-end" }}>
+									<Text>{item.title}</Text>
+									<Text size={12}>{`Admin : ${convertRupiah(item.adminFee)}`}</Text>
+									<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+										<Text font="SemiBold">{item.noVa}</Text>
+										<CopyButton onPress={() => {
+											Toast.show({ text: "Berhasil disalin", type: "success" })
+											Clipboard.setString(item.noVa)
+										}} />
 									</View>
 								</View>
-								{item.tutorials.rMap((ttr, i) => (
-									<View key={i} style={{ borderWidth: 1, borderRadius: 5, margin: 10, borderColor: ColorsList.greyAuthHard, backgroundColor: 'white', }}>
-										<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${(key + 1) * (key + 1) + i}`]: !toggled[(key + 1) * (key + 1) + i] }); console.debug(toggled[i * key + 1]); }}>
-											<Wrapper justify="space-between" style={[styles.content, toggled[(key + 1) * (key + 1) + i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
-												<Text font="Bold">{ttr.title}</Text>
-												<Text color="primary" size={18}>{toggled[(key + 1) * (key + 1) + i] ? "-" : "+"}</Text>
-											</Wrapper>
-										</TouchableOpacity>
-										{toggled[(key + 1) * (key + 1) + i] ?
-											<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
-												{ttr.steps.rMap((step, ia) => (
-													<View key={ia} style={styles.categoryView}>
-														<View style={styles.categoryCircle}>
-															<Text size={10} color="whiteColor">0{(ia + 1)}</Text>
-														</View>
-														<View style={{ width: '80%' }}>
-															<Text>{step}</Text>
-														</View>
-													</View>
-												))}
-											</View>
-											: null}
-									</View>
-								))}
 							</View>
-						))}
-				</ScrollView>
-			</View>
-		</View>
+							{item.tutorials.rMap((ttr, i) => (
+								<View key={i} style={{ borderWidth: 1, borderRadius: 5, margin: 10, borderColor: ColorsList.greyAuthHard, backgroundColor: 'white', }}>
+									<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${(key + 1) * (key + 1) + i}`]: !toggled[(key + 1) * (key + 1) + i] }); console.debug(toggled[i * key + 1]); }}>
+										<Wrapper justify="space-between" style={[styles.content, toggled[(key + 1) * (key + 1) + i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
+											<Text font="SemiBold">{ttr.title}</Text>
+											<Text color="primary" size={18}>{toggled[(key + 1) * (key + 1) + i] ? "-" : "+"}</Text>
+										</Wrapper>
+									</TouchableOpacity>
+									{toggled[(key + 1) * (key + 1) + i] ?
+										<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
+											{ttr.steps.rMap((step, ia) => (
+												<View key={ia} style={styles.categoryView}>
+													<View style={styles.categoryCircle}>
+														<Text size={10} color="whiteColor">0{(ia + 1)}</Text>
+													</View>
+													<View style={{ width: '80%' }}>
+														<Text>{step}</Text>
+													</View>
+												</View>
+											))}
+										</View>
+										: null}
+								</View>
+							))}
+						</View>
+					))}
+			</Body>
+		</Container>
 	)
 }
 
 export default Topup;
 
 const styles = StyleSheet.create({
-	group: { backgroundColor: ColorsList.whiteColor, padding: 10, borderRadius: 5, marginBottom: 10 },
+	group: { elevation: 2, backgroundColor: ColorsList.whiteColor, padding: 10, borderRadius: 5, marginBottom: 10 },
 	container: {
 		flex: 1,
 		backgroundColor: ColorsList.authBackground,
