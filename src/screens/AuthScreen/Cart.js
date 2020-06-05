@@ -319,9 +319,7 @@ const Cart = ({ navigation }) => {
 					</View>
 					: null}
 			</View>
-			{/* <View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5, padding: 10, paddingHorizontal: 15 }}> */}
 			<Input value={Product.note} onChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
-			{/* </View> */}
 		</Body>
 		<Button style={{ margin: SizeList.base }} onPress={async () => {
 			if (Product.jumlahitem > 0) {

@@ -24,8 +24,10 @@ import TextTicker from 'react-native-text-ticker';
 import Axios from 'axios';
 import { FontList } from 'src/styles/typography';
 import Menu from 'src/components/ModalContent/Menu';
-import Container, { Body } from 'src/components/View/Container';
+import Container, { Body, Footer } from 'src/components/View/Container';
 import { ImageHeader, IconHeader } from 'src/components/Header/Header';
+import ButtonCart from 'src/components/View/ButtonCart';
+import { SizeList } from 'src/styles/size';
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -155,26 +157,16 @@ const PPOB = ({ navigation }) => {
 						)}
 						keyExtractor={(item, index) => index.toString()}
 					/>}
+
 			</Body>
-			{
-				Product.jumlahitem > 0 ?
-					<Bottom>
-						<Button onPress={() => {
-							navigation.navigate('/cashier/cart')
-						}} width="100%">
-							<Wrapper>
-								<IonIcon style={{ color: ColorsList.whiteColor, marginRight: 10, fontSize: 30 }} name="ios-cart" />
-								<Text color="white">BELANJA {Product.jumlahitem} PRODUK</Text>
-							</Wrapper>
-							<View style={{ backgroundColor: ColorsList.primarySoft, height: '100%', width: 2 }} />
-							<View style={{ justifyContent: 'center' }}>
-								<Text color="white">{convertRupiah(Product.total)}</Text>
-							</View>
-						</Button>
-					</Bottom>
-					:
-					null
-			}
+			<View style={{ marginBottom: SizeList.base }}>
+				{
+					Product.jumlahitem > 0 &&
+					<ButtonCart quantity={Product.jumlahitem} price={Product.total.convertRupiah()} onPress={() => {
+						parseInt(Product.jumlahitem) > 0 && navigation.navigate('/cashier/cart')
+					}} />
+				}
+			</View>
 		</Container>
 	)
 }
