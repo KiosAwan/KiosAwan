@@ -7,6 +7,7 @@ import BarStatus from '../../components/BarStatus';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
 import Container from 'src/components/View/Container';
+import UnauthHeader from 'src/components/View/UnauthHeader';
 
 
 const slides = [
@@ -35,21 +36,19 @@ const width = Dimensions.get('window').width
 
 export default class AppIntro extends React.Component {
     _renderItem = (item) => {
-        return (
-            <Container style={styles.mainContent}>
-                <BarStatus />
-                <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
-                    <Image style={styles.logo} source={require('../../assets/images/logo.png')} />
+        return <Container style={styles.mainContent}>
+            <BarStatus />
+            <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
+                <UnauthHeader />
+            </View>
+            <View style={{ alignItems: "center", flex: 9 }}>
+                <Image source={item.item.image} style={styles.image} />
+                <View style={{ width: '90%', alignItems: "center", marginBottom: 20 }}>
+                    <Text size={15} align="center" color="primary">{item.item.title}</Text>
+                    <Text style={{ marginTop: 10 }} align="center" font="semiBold">{item.item.text}</Text>
                 </View>
-                <View style={{ alignItems: "center", flex: 9 }}>
-                    <Image source={item.item.image} style={styles.image} />
-                    <View style={{ width: '80%', alignItems: "center", marginBottom: 20 }}>
-                        <Text size={16} align="center" font="Bold" color="primary">{item.item.title}</Text>
-                        <Text style={{marginTop : 10}} align="center" font="semiBold">{item.item.text}</Text>
-                    </View>
-                </View>
-            </Container>
-        );
+            </View>
+        </Container>
     }
 
     _renderSkipButton = () => {
@@ -80,7 +79,7 @@ export default class AppIntro extends React.Component {
         return (
             <AppIntroSlider
                 dotStyle={{ backgroundColor: ColorsList.greySoft }}
-                activeDotStyle={{backgroundColor: ColorsList.primary}}
+                activeDotStyle={{ backgroundColor: ColorsList.primary }}
                 renderItem={this._renderItem}
                 slides={slides}
                 onDone={this._onDone}
@@ -101,12 +100,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     image: {
+        resizeMode: 'contain',
         marginTop: 10,
         width: 350,
         height: height * 4 / 9,
     },
     logo: {
-        height: 90,
-        width: 160,
+        height: 50,
+        width: 100,
     }
 });
