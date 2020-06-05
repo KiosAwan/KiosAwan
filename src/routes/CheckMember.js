@@ -50,9 +50,9 @@ const CheckMember = (props) => {
         }
       } else {
         if (checkUserIntro == "sudah") {
-          navigation.navigate('/intro')
-        } else {
           navigation.navigate('/unauth')
+        } else {
+          navigation.navigate('/intro')
         }
       }
     } catch (e) {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   logo: {
     height: 50,
     width: 100,
-    resizeMode : "contain"
+    resizeMode: "contain"
   }
 })
 
