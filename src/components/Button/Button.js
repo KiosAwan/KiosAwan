@@ -139,6 +139,8 @@ export const ButtonShadow = props => {
 		<Wrapper shadow {...props} style={{
 			borderRadius: 50,
 			padding: SizeList.base,
+			backgroundColor: ColorsList.white,
+			borderRadius: 20,
 			...style
 		}}>{children}</Wrapper>
 	</TouchableOpacity>
