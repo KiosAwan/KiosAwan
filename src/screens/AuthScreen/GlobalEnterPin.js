@@ -28,16 +28,16 @@ const GlobalEnterPin = props => {
 			height: '100%',
 			paddingVertical: 0
 		}}>
-		<LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={{
+		<View style={{
 			flex: 1,
 			justifyContent: "space-between",
-			backgroundColor: ColorsList.primary
+			backgroundColor: ColorsList.authBackground
 		}}>
 			<PinView
 				title={
 					<View style={{ width: "60%", alignItems: "center" }}>
-						<Text style={{ marginBottom: 10 }} size={16} color="white">Silahkan masukkan PIN Anda</Text>
-						<Text align="center" size={12} color="white">Proses pemotongan saldo akan dilakukan setelah memasukkan PIN</Text>
+						<Text style={{ marginBottom: 10 }} size={16}>Silahkan masukkan PIN Anda</Text>
+						<Text align="center" size={12}>Proses pemotongan saldo akan dilakukan setelah memasukkan PIN</Text>
 					</View>}
 				onPressBack={_closePin}
 				pinLength={codeLength || 4}
@@ -46,7 +46,7 @@ const GlobalEnterPin = props => {
 					_closePin()
 				})}
 			/>
-		</LinearGradient>
+		</View>
 	</Modal>
 }
 
