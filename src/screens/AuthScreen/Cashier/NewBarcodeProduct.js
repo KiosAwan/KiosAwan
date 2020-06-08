@@ -16,6 +16,7 @@ import { ColorsList } from "src/styles/colors";
 import FillToAspectRatio from '../../../components/View/FIllToAspectRatio';
 import { Button } from "src/components/Button/Button";
 import { SizeList } from "src/styles/size";
+import { Bottom } from "src/components/View/Bottom";
 
 
 const height = Dimensions.get('window').height
@@ -76,14 +77,13 @@ const NewBarcodeProduct = ({ navigation }) => {
       }
       return false
     })
-    // setScanWork(true)
   })
   const _handleNoBarcode = () => {
     dispatch(addProductName(''))
     dispatch(addProductIdCategory(null))
     navigation.navigate('/cashier/new-product-name')
   }
-  return <Container>
+  return <View style={{ backgroundColor: "transparent", flex: 1 }}>
     <GlobalHeader
       title="TAMBAH PRODUK"
       onPressBack={() => navigation.goBack()}
@@ -91,7 +91,7 @@ const NewBarcodeProduct = ({ navigation }) => {
         {[1, '/', 3].map(v => <Text color="primary" size={16}>{v}</Text>)}
       </Wrapper>}
     />
-    <View style={{ paddingBottom: SizeList.base, paddingHorizontal: SizeList.base, justifyContent: "space-between", flex: 1, backgroundColor: ColorsList.black, paddingTop: 50 }}>
+    {/* <View style={{ paddingBottom: SizeList.base, paddingHorizontal: SizeList.base, justifyContent: "space-between", flex: 1, paddingTop: 50 }}>
       <View>
         <Text align="center">PINDAI BARCODE</Text>
         <Text align="center">Jika produk Anda tidak memiliki barcode, maka Anda dapat melewati langkah ini</Text>
@@ -113,7 +113,53 @@ const NewBarcodeProduct = ({ navigation }) => {
         </RNCamera>
       </View>
       <Button onPress={_handleNoBarcode}>LEWATI</Button>
+    </View> */}
+    <View style={{ justifyContent: "center" }}>
+      <RNCamera
+        style={styles.camera}
+        onBarCodeRead={scanWork ? _onBarCodeRead : null}
+        defaultTouchToFocus
+        onFocusChanged={() => { }}
+        ratio="1:1"
+        autoFocus={RNCamera.Constants.AutoFocus.on}
+      >
+        <BarcodeMask
+          width={300} height={300}
+          showAnimatedLine
+          transparency={0}
+        />
+      </RNCamera>
     </View>
-  </Container>
+
+    <View style={styles.lowerSection}>
+      <View style={{ alignItems: "center" }}>
+        <Text style={{ marginTop: 30, fontFamily: FontList.primaryFont, color: 'white', fontSize: 20 }}>Pindai Barcode</Text>
+        <View style={{ width: '70%', alignItems: 'center', marginTop: 10 }}>
+          <Text style={{ color: 'white', textAlign: "center", fontFamily: FontList.primaryFont }}>Jika produk tidak memiliki barcode , Anda dapat melewati langkah ini.</Text>
+        </View>
+      </View>
+      <Bottom>
+        <Button
+          width="100%"
+          onPress={_handleNoBarcode}
+        >LEWATI</Button>
+      </Bottom>
+    </View>
+  </View>
 }
 export default NewBarcodeProduct
+
+const styles = StyleSheet.create({
+  lowerSection: {
+    width: "100%",
+    height: '85%',
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'transparent',
+    justifyContent: 'space-between'
+  },
+  camera: {
+    height: height,
+    alignItems: "flex-start",
+  }
+});

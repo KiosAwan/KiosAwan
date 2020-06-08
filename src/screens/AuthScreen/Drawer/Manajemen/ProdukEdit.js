@@ -21,6 +21,7 @@ import MDInput, { Input } from 'src/components/Input/MDInput';
 import { HOST_IMG_URL } from 'src/config';
 import { SizeList } from 'src/styles/size';
 import { Image } from 'src/components/CustomImage';
+import { Icon } from 'native-base';
 
 
 const width = Dimensions.get('window').width
