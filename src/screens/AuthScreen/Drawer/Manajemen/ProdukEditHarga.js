@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler';
@@ -8,7 +8,6 @@ import { convertNumber, deleteProduct, validNumber, getUserToken } from 'src/uti
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import ModalContent from 'src/components/ModalContent/ModalContent';
-import { FloatingInputLabelCurrency, FloatingInputLabel } from 'src/components/Input/InputComp';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
@@ -18,6 +17,11 @@ import { HOST_URL } from 'src/config';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
+import { Wrapper } from 'src/components/View/Wrapper';
+import { Input } from 'src/components/Input/MDInput';
+import { SizeList } from 'src/styles/size';
+import Divider from 'src/components/Row/Divider';
+import { Text } from 'src/components/Text/CustomText';
 
 const width = Dimensions.get('window').width
 
@@ -155,88 +159,73 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 		</Modal>
 		<AwanPopup.Title title="Hapus Produk" visible={alert} message={`${EditProduct.name} akan dihapus dari daftar produk.`}>
 			<View></View>
-			<Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-			<Button onPress={_handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+			<Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link">Batal</Button>
+			<Button onPress={_handleDeleteProduct} style={{ width: '25%' }}>Ya</Button>
 		</AwanPopup.Title>
 		<GlobalHeaderWithIcon
 			title="Edit Produk"
 			onPressBack={() => navigation.goBack()}
 			handleDeleteCategory={() => setAlert(true)}
-			image={require('src/assets/icons/trash.png')}
+			image={require('src/assets/icons/trash-primary.png')}
 		/>
 		<View style={styles.childContainer}>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<View style={styles.groupingStyle}>
-					<View style={{ padding: 10 }}>
-						<Text style={styles.infoText}>Masukkan harga jual dan beli produk</Text>
-					</View>
-					<View style={styles.wrapInputHarga}>
-						<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
-							<FloatingInputLabelCurrency style={{ margin: 0 }}
-								label="Harga modal"
-								value={EditProduct.price_in}
-								handleChangeText={_handleChangePriceIn}
-								keyboardType="number-pad"
-							/>
-						</View>
-						<View style={styles.inputTwoCol}>
-							<FloatingInputLabelCurrency style={{ margin: 0 }}
-								label="Harga jual"
-								value={EditProduct.price_out}
-								handleChangeText={_handleChangePriceOut}
-								keyboardType="number-pad"
-							/>
-						</View>
-					</View>
-				</View>
-				<View style={styles.groupingStyle}>
-					<View style={styles.wrapSwitchAndText}>
-						<Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Kelola stok produk</Text>
-						<SwitchButton
-							handleChangeToggle={_handleChangeToggle}
-							toggleValue={EditProduct.manageStock == 0 ? false : true}
+				<Text>Masukkan harga modal dan harga jual produk</Text>
+				<Wrapper style={{ marginVertical: SizeList.base }} spaceBetween>
+					<Input
+						_flex currency
+						label="Harga modal"
+						value={EditProduct.price_in}
+						onChangeText={_handleChangePriceIn}
+					/>
+					<Divider size={SizeList.base} color={ColorsList.transparent} />
+					<Input
+						_flex currency
+						label="Harga jual"
+						value={EditProduct.price_out}
+						onChangeText={_handleChangePriceOut}
+					/>
+				</Wrapper>
+				<Wrapper spaceBetween>
+					<Text>Kelola stok produk</Text>
+					<SwitchButton
+						handleChangeToggle={_handleChangeToggle}
+						toggleValue={EditProduct.manageStock == 1 ? true : false}
+					/>
+				</Wrapper>
+				{EditProduct.manageStock == 1 && <View>
+					<Wrapper style={{ marginVertical: SizeList.base }} spaceBetween>
+						<Input
+							_flex
+							label="Jumlah stok"
+							keyboardType="number-pad"
+							value={EditProduct.qty_stock}
+							onChangeText={_handleChangeStock}
 						/>
+						<Divider size={SizeList.base} color={ColorsList.transparent} />
+						<Input
+							_flex
+							label="Minimum Stok"
+							keyboardType="number-pad"
+							value={EditProduct.qty_min_stock}
+							onChangeText={_handleChangeMinStock}
+						/>
+					</Wrapper>
+					<View style={{ ...RowChild, marginBottom: 20, }}>
+						<CheckBox
+							checked={EditProduct.sendNotif == 0 ? false : true}
+							color={EditProduct.sendNotif == 1 ? ColorsList.primary : ColorsList.greyFont}
+							onPress={() => {
+								if (EditProduct.sendNotif == 0) {
+									dispatch(editProductSendNotif(1))
+								} else {
+									dispatch(editProductSendNotif(0))
+								}
+							}}
+						/>
+						<Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text>
 					</View>
-					{
-						EditProduct.manageStock == 1 ?
-							<View>
-								<View style={{ height: 1, backgroundColor: ColorsList.light }} />
-								<View style={styles.wrapInputHarga}>
-									<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
-										<FloatingInputLabel
-											label="Jumlah stok"
-											keyboardType="numeric"
-											value={EditProduct.qty_stock}
-											handleChangeText={_handleChangeStock}
-										/>
-									</View>
-									<View style={styles.inputTwoCol}>
-										<FloatingInputLabel
-											label="Minimum Stok"
-											keyboardType="numeric"
-											value={EditProduct.qty_min_stock}
-											handleChangeText={_handleChangeMinStock}
-										/>
-									</View>
-								</View>
-								<View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
-									<CheckBox
-										checked={EditProduct.sendNotif == 0 ? false : true}
-										color={EditProduct.sendNotif == 1 ? ColorsList.primary : ColorsList.greyFont}
-										onPress={() => {
-											if (EditProduct.sendNotif == 0) {
-												dispatch(editProductSendNotif(1))
-											} else {
-												dispatch(editProductSendNotif(0))
-											}
-										}}
-									/>
-									<Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif == 1 ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
-								</View>
-							</View>
-							: null
-					}
-				</View>
+				</View>}
 			</ScrollView>
 		</View>
 		<Bottom>
