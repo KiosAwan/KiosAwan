@@ -106,7 +106,6 @@ const StatusPesanan = ({ navigation }) => {
 								].includes(item) ? transaction[item].trim() :
 									parseInt(transaction[item]).convertRupiah()}</Text>
 						</Wrapper>
-						{/* <Divider /> */}
 					</View>
 					)
 			}

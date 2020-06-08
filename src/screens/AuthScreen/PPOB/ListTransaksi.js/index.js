@@ -27,7 +27,6 @@ const ListTransaksiPPOB = ({ navigation }) => {
 		_getData({ ...filter, date })
 	}
 	const _getData = async param => {
-		console.debug(param)
 		const { status, data } = await getPPOBTransactionList(param || filter)
 		if (status == 200) {
 			setListTransaction(data)

@@ -61,7 +61,6 @@ const TransactionDigitalDetail = ({ navigation }) => {
     }
 
     const _renderProductDigital = item => {
-        console.debug(payment)
         let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "updated_at", "info"]
         let viewKey = key => {
             let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank", jmlTagihan: "Jumlah tagihan", referenceID : "ReferenceID", noReferensi : "No Referensi" }
