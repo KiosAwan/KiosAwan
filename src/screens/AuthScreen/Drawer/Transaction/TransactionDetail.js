@@ -176,7 +176,8 @@ const TransactionDetail = ({ navigation }) => {
 								{
 									data.product_digital.rMap((item, i) => {
 										return <View key={i.toString()}>
-											<Wrapper style={[$Padding(15, 10), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
+											<Divider />
+											<Wrapper style={[$Padding(15, 10)]} justify="space-between">
 												<View>
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
 													<Text>{item.transaction.customerID}</Text>
@@ -186,7 +187,6 @@ const TransactionDetail = ({ navigation }) => {
 												<View style={{ alignItems: 'flex-end' }}>
 													<Text color={item.transaction.status === "SUCCESS" ? 'success' : (data === "PENDING" ? 'info' : 'danger')}>{item.transaction.status}</Text>
 													<Text>{convertRupiah(item.transaction.total)}</Text>
-													{/* {item.payment && <Button padding={0} color={["transparent", "primary"]} onPress={() => setTogglePayment({ [item.transaction.transaction_code]: !togglePayment[item.transaction.transaction_code] })}>Details</Button>} */}
 												</View>
 											</Wrapper>
 											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
@@ -199,9 +199,9 @@ const TransactionDetail = ({ navigation }) => {
 															Clipboard.setString(item.payment.token)
 														}} />
 													</Wrapper>
+													<Divider />
 												</View>
 											]}
-											{/* {_renderProductDigital(item)} */}
 										</View>
 									})
 								}

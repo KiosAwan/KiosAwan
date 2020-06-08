@@ -4,9 +4,9 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { ColorsList } from 'src/styles/colors';
-import { View, Image, StyleSheet, Clipboard } from 'react-native';
+import { View, Image, StyleSheet, Clipboard, TouchableOpacity } from 'react-native';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { $Border } from 'src/utils/stylehelper';
+import { $Border, $BorderRadius } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { convertRupiah, getUserToken, getUserId, sendNewTransaction } from 'src/utils/authhelper';
 import moment from 'moment';
@@ -19,6 +19,8 @@ import { Toast } from 'native-base';
 import { AddCashPayment, AddCustomer, AddDiscountName, AddDiscountPersen, AddDiscountRupiah, removeAllCart } from 'src/redux/actions/actionsStoreProduct';
 import { SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { SizeList } from 'src/styles/size';
+import { IconHeader } from 'src/components/Header/Header';
 
 const StatusPesanan = ({ navigation }) => {
 	let viewShotRef;
@@ -69,12 +71,11 @@ const StatusPesanan = ({ navigation }) => {
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
 					.rMap(key => {
 						return key != 'description' ? <View>
-							<Wrapper spaceBetween style={{ padding: 10 }}>
+							<Wrapper spaceBetween style={{ padding: SizeList.padding }}>
 								<Text>{viewKey(key)}</Text>
-								<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
+								<Text font="SemiBold" align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
 							</Wrapper>
-							<Divider />
-						</View> : <Button color="info" hideIfEmpty disabled>{payment[key].split(';')[0]}</Button>
+						</View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[key].split(';')[0]}</Button>
 					})
 			}
 		</View>
@@ -105,7 +106,7 @@ const StatusPesanan = ({ navigation }) => {
 								].includes(item) ? transaction[item].trim() :
 									parseInt(transaction[item]).convertRupiah()}</Text>
 						</Wrapper>
-						<Divider />
+						{/* <Divider /> */}
 					</View>
 					)
 			}
@@ -158,7 +159,16 @@ const StatusPesanan = ({ navigation }) => {
 			alert(JSON.stringify(res))
 		}
 	}
-	return <Container header={{ title: 'Status Pesanan' }}>
+	return <Container header={{
+		title: 'Status Pesanan', renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
+			<TouchableOpacity onPress={_shareBill}>
+				<IconHeader name="share-alt" color={ColorsList.greyFont} />
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { singleData: params, type: false })}>
+				<IconHeader name="print" color={ColorsList.greyFont} />
+			</TouchableOpacity>
+		</Wrapper>
+	}}>
 		<AwanPopup.Loading visible={loading} />
 		<AwanPopup.Alert
 			message={alertMessage}
@@ -169,17 +179,37 @@ const StatusPesanan = ({ navigation }) => {
 			<ViewShot style={{ backgroundColor: ColorsList.authBackground }} ref={ref => viewShotRef = ref}>
 				{
 					_checkData('status') === 'PENDING' ?
-						<Button disabled color="warning" wrapper={{ justify: 'flex-start' }}>
+						<Button style={{ borderRadius: SizeList.borderRadius }} disabled color="warning" wrapper={{ justify: 'flex-start' }}>
 							<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
 							<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
 						</Button>
 						:
-						<Button disabled color="success" wrapper={{ justify: 'flex-start' }}>
+						<Button style={{ borderRadius: SizeList.borderRadius }} disabled color="success" wrapper={{ justify: 'flex-start' }}>
 							<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
 							<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
 						</Button>
 				}
-				<View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: 5, marginTop: 15 }}>
+				<View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: SizeList.borderRadius, marginTop: SizeList.base, padding: SizeList.padding }}>
+					<View style={{ marginVertical: SizeList.base }}>
+						<Text align="center" size={16} font="SemiBold">
+							{User.store.name_store}
+						</Text>
+						<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
+							<Wrapper spaceBetween>
+								<Text>Kode Transaksi</Text>
+								<Text>{transaction && transaction.transaction_code}</Text>
+							</Wrapper>
+							<Wrapper spaceBetween>
+								<Text>Waktu dan Tanggal</Text>
+								<Text>{transaction && transaction.date}</Text>
+							</Wrapper>
+							<Wrapper spaceBetween>
+								<Text>Operator</Text>
+								<Text>{User.data.name}</Text>
+							</Wrapper>
+						</View>
+					</View>
+					<Divider />
 					<Wrapper {...wrapper}>
 						<View>
 							<Text color="primary" size={16}>{_checkData('transaction_name').split('_').join(' ').toUpperCase()}</Text>
@@ -210,24 +240,21 @@ const StatusPesanan = ({ navigation }) => {
 			</ViewShot>
 		</Body>
 		<Footer>
-			<Wrapper style={{ marginBottom: 10 }} justify="space-between">
-				<Button wrapper={{ justify: 'center' }} color="white" _width="54.5%" onPress={() => navigation.navigate('/ppob')}>
-					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} />
+			<Wrapper>
+				<Button noBorder wrapper={{ justify: 'center' }} color="white" _width="49%" onPress={() => navigation.navigate('/ppob')}>
 					<Text color="primary">TAMBAH PRODUK</Text>
 				</Button>
-				<Button wrapper={{ justify: 'center' }} color="white" _width="22%" onPress={_shareBill}>
-					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/share-primary.png')} />
-					{/* <Text color="primary">CETAK STRUK</Text> */}
-				</Button>
-				<Button wrapper={{ justify: 'center' }} color="white" _width="22%" onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { singleData: params, type: false })}>
-					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/print-primary.png')} />
-					{/* <Text color="primary">CETAK STRUK</Text> */}
-				</Button>
+				<Button _width="49%" onPress={_onPressSelesai}>SELESAI</Button>
 			</Wrapper>
-			<Button onPress={_onPressSelesai}>SELESAI</Button>
 		</Footer>
 	</Container>
 }
+{/* <Button wrapper={{ justify: 'center' }} color="white" _width="22%" onPress={_shareBill}>
+					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/share-primary.png')} />
+				</Button>
+				<Button wrapper={{ justify: 'center' }} color="white" _width="22%" onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { singleData: params, type: false })}>
+					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/print-primary.png')} />
+				</Button> */}
 export default StatusPesanan
 
 const styles = StyleSheet.create({
