@@ -146,8 +146,8 @@ const ManajemenProdukEdit = ({ navigation }) => {
 						</Button>}
 					/>
 					<View style={{ marginTop: SizeList.base }}>
-						<Input label="Nama Produk"
-							editable={false}
+						<Input
+							label="Nama Produk"
 							value={EditProduct.name}
 							onChangeText={text => text.length <= 45 ? dispatch(editProductName(text)) : null}
 						/>

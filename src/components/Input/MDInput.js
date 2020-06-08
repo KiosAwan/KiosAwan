@@ -87,6 +87,100 @@ const MDInput = props => {
 }
 
 const Input = props => {
+	let objCurrency = {}
+	const { currency, value, label, onChangeText = () => { } } = props
+	const {
+		noLabel,
+		renderLeftAccessory,
+		renderRightAccessory,
+		onFocus,
+		onBlur,
+		accessoryOut,
+		..._props
+	} = props
+	const [focus, setFocus] = useState(false)
+	const color = () => {
+		if (focus) {
+			return {}
+		} else if (currency) {
+		} else if (!focus && !value) {
+			return {}
+		}
+		return {
+			baseColor: ColorsList.primary,
+			tintColor: ColorsList.primary
+		}
+	}
+	const accessory = (render, isLeft) => {
+		return typeof render == 'function' && <View style={{
+			marginHorizontal: SizeList.secondary,
+			marginVertical: SizeList.secondary
+		}}>
+			{render()}
+		</View>
+	}
+	const renderInput = () => {
+		const input = <TextInputRN
+			{...color()}
+			onFocus={() => {
+				setFocus(true)
+				if (typeof onFocus == 'function') onFocus()
+			}}
+			onBlur={() => {
+				setFocus(false)
+				if (typeof onBlur == 'function') onBlur()
+			}}
+			placeholder={label}
+			{..._props}
+			style={{ color: ColorsList.greyFont, fontSize: 14, padding: 0, marginVertical: SizeList.secondary }}
+			{...objCurrency}
+		/>
+		if (!noLabel) {
+			const { placeholder, ...inputProps } = input.props
+			return <TextField
+				lineWidth={0}
+				activeLineWidth={0}
+				disabledLineWidth={0}
+				labelHeight={20}
+				baseColor={ColorsList.primary}
+				tintColor={ColorsList.primary}
+				{...inputProps}
+			/>
+		}
+		return input
+	}
+	if (currency) {
+		objCurrency.keyboardType = 'number-pad'
+		if (typeof onChangeText == 'function') {
+			objCurrency.onChangeText = text => {
+				let txt = text.extractNumber().convertRupiah()
+				onChangeText(txt)
+			}
+		}
+		if (typeof value == 'string') {
+			objCurrency.value = value.extractNumber().convertRupiah()
+		}
+	}
+	return <View style={{
+		marginBottom: SizeList.base,
+		borderRadius: SizeList.secondary,
+		flexDirection: 'row',
+		alignItems: 'center',
+		...!accessoryOut && { backgroundColor: ColorsList.white }
+	}}>
+		{accessory(renderLeftAccessory, true)}
+		<View style={{
+			flex: 1,
+			paddingHorizontal: SizeList.secondary,
+			...accessoryOut && { borderRadius: SizeList.secondary, backgroundColor: ColorsList.white }
+		}}>
+			{renderInput()}
+		</View>
+		{accessory(renderRightAccessory)}
+	</View>
+}
+
+const Inputs = props => {
 	const { value, currency, noShadow, accessoryOut, onFocus, onBlur, renderLeftAccessory, renderRightAccessory, ..._props } = props
 	const [focus, setFocus] = useState(false)
 	const color = () => {
