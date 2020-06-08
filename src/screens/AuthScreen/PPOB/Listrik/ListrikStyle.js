@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
 	topComp: {
 		borderRadius: 5,
 		justifyContent: "flex-end",
-		backgroundColor: ColorsList.whiteColor
 	},
 	infoPembelian: {
 		padding: 10,

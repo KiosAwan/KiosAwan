@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     topComp: {
         borderRadius: SizeList.borderRadius,
         justifyContent: "flex-end",
-        backgroundColor: ColorsList.whiteColor,
     },
     pulsaWrapper: {
         flex: 1,

@@ -167,10 +167,10 @@ const ListrikToken = ({ navigation }) => {
 			<AwanPopup.Loading visible={payLoading} />
 			{/* Popup components */}
 			<View style={styles.topComp}>
-				{__DEV__ && <Button onPress={() => {
+				{/* {__DEV__ && <Button onPress={() => {
 					setCustId('32127971177')
 					_cekTagihan('32127971177')
-				}}>32127971177</Button>}
+				}}>32127971177</Button>} */}
 				<Input
 					_width="80%"
 					label="ID Pelanggan"
