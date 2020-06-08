@@ -109,11 +109,11 @@ const ManajemenProdukEdit = ({ navigation }) => {
 			</Modal>
 			<AwanPopup.Title title="Hapus Produk" visible={alert} message={`${EditProduct.name} akan dihapus dari daftar produk.`}>
 				<View></View>
-				<Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-				<Button onPress={__handleDeleteProduct} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+				<Button onPress={() => setAlert(false)} style={{ width: '25%' }} color="link">Batal</Button>
+				<Button onPress={__handleDeleteProduct} style={{ width: '25%' }}>Ya</Button>
 			</AwanPopup.Title>
 			<GlobalHeaderWithIcon
-				image={require('src/assets/icons/trash.png')}
+				image={require('src/assets/icons/trash-primary.png')}
 				title="Edit Produk"
 				handleDeleteCategory={() => setAlert(true)}
 				onPressBack={() => navigation.goBack()} />
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.borderColor, borderWidth: SizeList.borderWidth, height: 250 },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.greyFont, borderWidth: 1, height: 250 },
 	image: { width: '100%', height: '100%', resizeMode: "stretch" },
 
 })
