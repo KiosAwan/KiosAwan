@@ -118,6 +118,7 @@ const Report = ({ navigation }) => {
 		<View style={{ padding: SizeList.base }}>
 			<SelectBoxModal
 				closeOnSelect noLabel
+				height={150}
 				value={MainTab.routes[MainTab.index].title}
 				data={MainTab.routes}
 				handleChangePicker={(a, i) => MainTab.setIndex(i)}
