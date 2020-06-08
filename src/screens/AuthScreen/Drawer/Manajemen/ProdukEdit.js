@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Image, TouchableOpacity, Dimensions, StyleSheet, View, Modal, TextInput } from 'react-native';
+import { TouchableOpacity, Dimensions, StyleSheet, View, Modal, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import { Grid, Col, Icon } from 'native-base';
 import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
@@ -18,8 +17,10 @@ import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Modal as ModalCustom } from 'src/components/ModalContent/Popups'
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import { HOST_IMG_URL } from 'src/config';
+import { SizeList } from 'src/styles/size';
+import { Image } from 'src/components/CustomImage';
 
 
 const width = Dimensions.get('window').width
@@ -134,25 +135,24 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				</View>
 			</ModalCustom>
 			<ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
-				<View styles={{ paddingHorizontal: 30 }}>
-					<Grid>
-						<Col style={{ paddingRight: 10 }}>
-							<MDInput label="Nomor Barcode" onChangeText={(text) => dispatch(editProductBarcode(text))} value={EditProduct.barcode} />
-						</Col>
-						<Col style={{ justifyContent: 'flex-end' }} size={.2}>
-							<Button onPress={() => navigation.navigate('/drawer/manajemen/produk/edit/barcode')} style={styles.buttonScanBarcode}>
-								<Icon style={{ fontSize: 24, color: ColorsList.whiteColor }} name="barcode" />
-							</Button>
-						</Col>
-					</Grid>
-					<View style={{ marginTop: 15 }}>
-						<MDInput label="Nama Produk"
+				<View styles={{ paddingHorizontal: 20 }}>
+					<Input
+						value={EditProduct.barcode}
+						accessoryOut
+						onChangeText={(text) => dispatch(editProductBarcode(text))}
+						label="Nomor Barcode"
+						renderRightAccessory={() => <Button onPress={() => navigation.goBack()}>
+							<Image size={25} source={require('src/assets/icons/barcode.png')} />
+						</Button>}
+					/>
+					<View style={{ marginTop: SizeList.base }}>
+						<Input label="Nama Produk"
 							editable={false}
 							value={EditProduct.name}
 							onChangeText={text => text.length <= 45 ? dispatch(editProductName(text)) : null}
 						/>
 					</View>
-					<SelectBoxModal style={{ marginTop: 15 }}
+					<SelectBoxModal style={{ marginTop: SizeList.base }}
 						label="Pilih Kategori"
 						header={
 							<TouchableOpacity style={styles.headerCategory} onPress={() => {
@@ -192,8 +192,8 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					/>
 				</View>
 
-				<View style={{ marginTop: 25 }}>
-					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Produk</Text>
+				<View style={{ marginTop: SizeList.base }}>
+					<Text style={{ marginBottom: SizeList.base, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Produk</Text>
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={() => rbRef.open()}>
 							<Image style={styles.image}
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.black, borderWidth: 1, height: 250 },
-	image: { width: '100%', height: '100%' },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.borderColor, borderWidth: SizeList.borderWidth, height: 250 },
+	image: { width: '100%', height: '100%', resizeMode: "stretch" },
 
 })

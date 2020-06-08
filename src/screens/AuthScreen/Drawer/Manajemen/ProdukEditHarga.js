@@ -72,10 +72,12 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 					name: `${Date.now()}.jpeg`
 				} : null : null)
 				try {
-					const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData)
+					const userToken = await getUserToken()
+					const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData, {
+						headers: { "authorization": userToken }
+					})
 					setApiLoading(false)
 					if (res.data.status == 200) {
-						const userToken = await getUserToken()
 						setModalVisible(true)
 						setTimeout(() => {
 							setModalVisible(false)
