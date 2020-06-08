@@ -142,18 +142,6 @@ const Home = ({ navigation }) => {
 		}
 	}
 
-	const _addressStore = () => {
-		if (User.store && User.store.address_store) {
-			let address = User.store.address_store
-			if (address.length > 30) {
-				return address.substr(0, 30) + '...'
-			}
-			return address
-		} else {
-			return 'Lokasi belum di tentukan'
-		}
-	}
-
 	const _onPressTopUp = () => {
 		if (User.data.status == 1) {
 			navigation.navigate('/ppob/topup')

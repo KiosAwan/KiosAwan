@@ -113,7 +113,7 @@ export const Button = props => {
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
 		justifyContent: 'flex-start',
-		borderRadius: props.noRadius ? 0 : props.radius || 15, ...ifWhitespaces() && { display: "none" },
+		borderRadius: props.noRadius ? 0 : props.radius || 20, ...ifWhitespaces() && { display: "none" },
 		...props.flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
 		...props.noBorder && { borderColor: ColorsList.transparent },
