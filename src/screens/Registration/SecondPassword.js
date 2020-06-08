@@ -84,6 +84,11 @@ const SecondPassword = ({ navigation }) => {
     return <Container style={{ justifyContent: 'center', padding: 15 }}>
         <View style={{ marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <Text align="center">Ulangi masukkan password Anda.</Text>
             <Input
                 _flex

@@ -58,6 +58,11 @@ const FirstPassword = ({ navigation }) => {
     return <Container style={{ justifyContent: 'center', padding: 15 }}>
         <View style={{ marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <Text align="center">Buat password untuk kemananan dalam mengakses aplikasi ini.</Text>
             <Input
                 _flex
