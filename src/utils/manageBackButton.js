@@ -1,13 +1,15 @@
 import { BackHandler as BackHandlerRN } from "react-native"
 
-const BackHandler = (route, condition) => {
+const BackHandler = ({
+	callback = () => { },
+	ret = false,
+	removeTriggered = true
+}) => {
 	const backHandler = BackHandlerRN.addEventListener('hardwareBackPress', (e) => {
-		if (condition) {
-			navigation.navigate(route)
+		callback(e)
+		if (removeTriggered)
 			backHandler.remove()
-			return true
-		}
-		return false
+		return ret
 	})
 }
 export default BackHandler

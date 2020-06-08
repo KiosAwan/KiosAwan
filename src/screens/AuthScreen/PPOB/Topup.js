@@ -29,6 +29,7 @@ const Topup = ({ navigation }) => {
 	const [toggled, setToggled] = useState({})
 	//alert
 	const [alert, setAlert] = useState(false)
+	const [Step, setStep] = useState(false)
 	const [alertMessage, setAlertMessage] = useState(false)
 
 	const User = useSelector(state => state.User)
@@ -46,68 +47,133 @@ const Topup = ({ navigation }) => {
 			Alert(JSON.stringify(res))
 		}
 	}
-	return (
-		<Container header={{
-			title: "Top Up",
-			onPressBack: () => navigation.goBack()
-		}}>
-			<AwanPopup.Alert
-				message={alertMessage}
-				visible={alert}
-				closeAlert={() => setAlert(false)}
+	const renderBank = () => {
+		return <View>
+			<FlatList
+				style={{ flex: 1 }}
+				numColumns={2}
+				data={listPaymentMethod.length % 2 == 0 ? listPaymentMethod : [...listPaymentMethod, ""]}
+				keyExtractor={(a, i) => i.toString()}
+				renderItem={({ item, index }) => {
+					return <Button onPress={() => setStep(item)} color={item == "" ? "link" : ["white"]} style={{
+						flex: 1,
+						margin: SizeList.secondary,
+					}}>
+						{
+							item != "" && <Image style={{ width: "80%", height: 50, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
+						}
+					</Button>
+				}}
 			/>
-			<AwanPopup.Loading visible={apiLoading} />
-			<Body>
-				<Text>Saldo Anda saat ini :
-						<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo)}</Text>
+			<Text>Jika anda mengalami kesulitan dalam melakukan TOPUP dapat menghubungi
+				<Text color="primary" onPress={() => navigation.navigate('/drawer/help')}> HELPDESK</Text> kami.
 				</Text>
-				<Text style={{ marginVertical: SizeList.base }}>Pilih bank</Text>
+		</View>
+	}
+	const renderStep = () => {
+		const { selectedId, logo, title, tutorials, noVa, adminFee } = Step
+		return <View>
+			<View style={{ backgroundColor: ColorsList.white, padding: SizeList.base, borderRadius: SizeList.secondary }}>
+				<Wrapper flexStart>
+					<Image style={{ width: 50, height: 50 }} source={{ uri: `${DEV_IMG_URL}/${logo}` }} />
+					<View style={{ marginLeft: SizeList.base }}>
+						<Text>{title}</Text>
+						<Text>Biaya admin: {adminFee.convertRupiah()},-</Text>
+					</View>
+				</Wrapper>
+				<Wrapper spaceBetween>
+					<Text size={16} font="SemiBold">{noVa.split('').join(' ')}</Text>
+					<CopyButton onPress={() => {
+						Toast.show({ text: "Berhasil disalin", type: "success" })
+						Clipboard.setString(noVa)
+					}} />
+				</Wrapper>
+				<Divider style={{ marginVertical: SizeList.base }} />
 				{
-					listPaymentMethod.rMap((item, key) => (
-						<View key={key} style={styles.group}>
-							<View style={{ flexDirection: "row", alignItems: "center", borderRadius: 5 }}>
-								<Image style={{ width: "15%", height: 25, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
-								<View style={{ width: "80%", alignSelf: "flex-end" }}>
-									<Text>{item.title}</Text>
-									<Text size={12}>{`Admin : ${convertRupiah(item.adminFee)}`}</Text>
-									<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-										<Text font="SemiBold">{item.noVa}</Text>
-										<CopyButton onPress={() => {
-											Toast.show({ text: "Berhasil disalin", type: "success" })
-											Clipboard.setString(item.noVa)
-										}} />
-									</View>
+					tutorials.rMap((item, i) => {
+						const { id, title, steps } = item
+						return <View>
+							<Button spaceBetween padding={0} onPress={() => setStep({ ...Step, selectedId: id == selectedId ? "" : id })} color="link">
+								<Text color="greyFontHard">{title}</Text>
+								<Text color="primary">{id == selectedId ? '-' : '+'}</Text>
+							</Button>
+							{
+								id == selectedId && steps.rMap((step, i) => <Text>{i + 1}. {step}</Text>)
+							}
+						</View>
+					})
+				}
+			</View>
+			<Text style={{ marginTop: SizeList.base }}>Minimal topup Rp. 50.000 dengan kelipatan Rp. 1.000</Text>
+		</View>
+	}
+	return <Container header={{
+		title: "Top Up",
+		onPressBack: () => {
+			if (Step) {
+				setStep(false)
+			} else {
+				navigation.goBack()
+			}
+		}
+	}}>
+		<AwanPopup.Alert
+			message={alertMessage}
+			visible={alert}
+			closeAlert={() => setAlert(false)}
+		/>
+		<AwanPopup.Loading visible={apiLoading} />
+		<Body>
+			<Text>Saldo Anda saat ini :
+						<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo)}</Text>
+			</Text>
+			<Text style={{ marginVertical: SizeList.base }}>Pilih bank</Text>
+			{Step ? renderStep() : renderBank()}
+			{/* {
+				listPaymentMethod.rMap((item, key) => (
+					<View key={key} style={styles.group}>
+						<View style={{ flexDirection: "row", alignItems: "center", borderRadius: 5 }}>
+							<Image style={{ width: "15%", height: 25, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
+							<View style={{ width: "80%", alignSelf: "flex-end" }}>
+								<Text>{item.title}</Text>
+								<Text size={12}>{`Admin : ${convertRupiah(item.adminFee)}`}</Text>
+								<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+									<Text font="SemiBold">{item.noVa}</Text>
+									<CopyButton onPress={() => {
+										Toast.show({ text: "Berhasil disalin", type: "success" })
+										Clipboard.setString(item.noVa)
+									}} />
 								</View>
 							</View>
-							{item.tutorials.rMap((ttr, i) => (
-								<View key={i} style={{ borderWidth: 1, borderRadius: 5, margin: 10, borderColor: ColorsList.greyAuthHard, backgroundColor: 'white', }}>
-									<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${(key + 1) * (key + 1) + i}`]: !toggled[(key + 1) * (key + 1) + i] }); console.debug(toggled[i * key + 1]); }}>
-										<Wrapper justify="space-between" style={[styles.content, toggled[(key + 1) * (key + 1) + i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
-											<Text font="SemiBold">{ttr.title}</Text>
-											<Text color="primary" size={18}>{toggled[(key + 1) * (key + 1) + i] ? "-" : "+"}</Text>
-										</Wrapper>
-									</TouchableOpacity>
-									{toggled[(key + 1) * (key + 1) + i] ?
-										<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
-											{ttr.steps.rMap((step, ia) => (
-												<View key={ia} style={styles.categoryView}>
-													<View style={styles.categoryCircle}>
-														<Text size={10} color="whiteColor">0{(ia + 1)}</Text>
-													</View>
-													<View style={{ width: '80%' }}>
-														<Text>{step}</Text>
-													</View>
-												</View>
-											))}
-										</View>
-										: null}
-								</View>
-							))}
 						</View>
-					))}
-			</Body>
-		</Container>
-	)
+						{item.tutorials.rMap((ttr, i) => (
+							<View key={i} style={{ borderWidth: 1, borderRadius: 5, margin: 10, borderColor: ColorsList.greyAuthHard, backgroundColor: 'white', }}>
+								<TouchableOpacity activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${(key + 1) * (key + 1) + i}`]: !toggled[(key + 1) * (key + 1) + i] }); console.debug(toggled[i * key + 1]); }}>
+									<Wrapper justify="space-between" style={[styles.content, toggled[(key + 1) * (key + 1) + i] ? { borderBottomWidth: 1, borderBottomColor: ColorsList.greyAuthHard } : null]}>
+										<Text font="SemiBold">{ttr.title}</Text>
+										<Text color="primary" size={18}>{toggled[(key + 1) * (key + 1) + i] ? "-" : "+"}</Text>
+									</Wrapper>
+								</TouchableOpacity>
+								{toggled[(key + 1) * (key + 1) + i] ?
+									<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
+										{ttr.steps.rMap((step, ia) => (
+											<View key={ia} style={styles.categoryView}>
+												<View style={styles.categoryCircle}>
+													<Text size={10} color="whiteColor">0{(ia + 1)}</Text>
+												</View>
+												<View style={{ width: '80%' }}>
+													<Text>{step}</Text>
+												</View>
+											</View>
+										))}
+									</View>
+									: null}
+							</View>
+						))}
+					</View>
+				))} */}
+		</Body>
+	</Container>
 }
 
 export default Topup;
