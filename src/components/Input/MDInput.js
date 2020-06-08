@@ -96,6 +96,7 @@ const Input = props => {
 		onFocus,
 		onBlur,
 		accessoryOut,
+		style: styleOverride,
 		..._props
 	} = props
 	const [focus, setFocus] = useState(false)
@@ -166,7 +167,8 @@ const Input = props => {
 		borderRadius: SizeList.secondary,
 		flexDirection: 'row',
 		alignItems: 'center',
-		...!accessoryOut && { backgroundColor: ColorsList.white }
+		...!accessoryOut && { backgroundColor: ColorsList.white },
+		...styleOverride
 	}}>
 		{accessory(renderLeftAccessory, true)}
 		<View style={{

@@ -115,35 +115,6 @@ const ForgotPassword = ({ navigation }) => {
                 <Text onPress={_resendCode} style={{ color: 'blue', paddingTop: 60 }}>Resend Code</Text>}
         </View>
     </Container>
-    return (
-        <View style={styles.container}>
-            <AwanPopup.Alert
-                message={alertMessage}
-                visible={alert}
-                closeAlert={() => setAlert(false)}
-            />
-            <GlobalHeader
-                onPressBack={_handleBack}
-                title="Forgot Password"
-            />
-            <View style={{ alignItems: "center" }}>
-                <Text style={{ paddingTop: 20 }}>Kode OTP telah dikirimkan ke</Text>
-                <Text>62-{showedNumber}</Text>
-                <CodeInput
-                    keyboardType="numeric"
-                    activeColor='black'
-                    inactiveColor='grey'
-                    codeLength={4}
-                    size={40}
-                    autoFocus
-                    onFulfill={(code) => _handleOTPFulfilled(code)}
-                />
-                {isResendDisabled ?
-                    <Text style={{ color: 'grey', paddingTop: 60 }}>Resend in {countdown} s</Text> :
-                    <Text onPress={_resendCode} style={{ color: 'blue', paddingTop: 60 }}>Resend Code</Text>}
-            </View>
-        </View>
-    )
 }
 
 
