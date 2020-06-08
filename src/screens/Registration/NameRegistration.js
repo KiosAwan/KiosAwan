@@ -54,6 +54,11 @@ const NameRegistration = ({ navigation }) => {
     return <Container style={{ justifyContent: 'center', padding: 15 }}>
         <View style={{ marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <Text align="center">Masukkan nama lengkap agar kami mudah mengenali Anda.</Text>
             <TextInput
                 autoFocus
