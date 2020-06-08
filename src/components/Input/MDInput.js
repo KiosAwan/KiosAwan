@@ -90,6 +90,7 @@ const Input = props => {
 	let objCurrency = {}
 	const { currency, value, label, onChangeText = () => { } } = props
 	const {
+		disabled,
 		noLabel,
 		renderLeftAccessory,
 		renderRightAccessory,
@@ -123,6 +124,7 @@ const Input = props => {
 	const renderInput = () => {
 		const input = <TextInputRN
 			{...color()}
+			editable={!disabled}
 			onFocus={() => {
 				setFocus(true)
 				if (typeof onFocus == 'function') onFocus()

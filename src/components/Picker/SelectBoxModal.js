@@ -16,6 +16,7 @@ import MDInput, { Input as MyInput } from '../Input/MDInput';
 import { Modal as AwanModal } from '../ModalContent/Popups';
 import { $Padding, $Border } from 'src/utils/stylehelper';
 import Alert from 'src/utils/alert';
+import BottomSheetSelect from './BottomSheetSelect';
 
 const height = Dimensions.get('window').height
 
@@ -299,7 +300,7 @@ export const MyModal = (props) => {
 		</Modal>
 	)
 }
-
+export const SelectBoxModals = props => <BottomSheetSelect {...props} />
 export const SelectBoxModal = (props) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const {
