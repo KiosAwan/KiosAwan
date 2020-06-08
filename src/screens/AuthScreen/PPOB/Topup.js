@@ -58,6 +58,7 @@ const Topup = ({ navigation }) => {
 					return <Button onPress={() => setStep(item)} color={item == "" ? "link" : ["white"]} style={{
 						flex: 1,
 						margin: SizeList.secondary,
+						borderRadius : SizeList.borderRadius,
 					}}>
 						{
 							item != "" && <Image style={{ width: "80%", height: 50, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
