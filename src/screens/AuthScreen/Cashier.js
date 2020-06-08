@@ -36,7 +36,7 @@ const Cashier = ({ navigation }) => {
     }, [])
 
     const _loadProduct = async () => {
-        if (data.length == 0) {
+        if (data) {
             const userToken = await getUserToken()
             dispatch(getProduct(User.store.id_store, userToken))
         }
@@ -78,7 +78,7 @@ const Cashier = ({ navigation }) => {
                 <ProductPlaceholder />
             </View>
             :
-            data || data.length > 0 ?
+            data ?
                 <BodyFlatList
                     style={Product.jumlahitem > 0 ? { marginBottom: 50 } : null}
                     data={data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase()))}
@@ -110,15 +110,15 @@ const Cashier = ({ navigation }) => {
                 />
                 :
                 <View>
-                    <Image style={{ width: 200, height: 200 }} source={require('../../assets/images/noproductlist.png')} />
+                    <Image style={{ width: 200, height: 200, alignSelf: "center" }} source={require('../../assets/images/noproductlist.png')} />
                     <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold }}>Anda belum mempunyai produk</Text>
                 </View>
         }
         {Product.jumlahitem > 0 &&
-        <ButtonCart quantity={Product.jumlahitem} price={Product.total.convertRupiah()} onPress={() => {
-            parseInt(Product.jumlahitem) > 0 && navigation.navigate('/cashier/cart')
-        }} />
-    }
+            <ButtonCart quantity={Product.jumlahitem} price={Product.total.convertRupiah()} onPress={() => {
+                parseInt(Product.jumlahitem) > 0 && navigation.navigate('/cashier/cart')
+            }} />
+        }
     </Container>
 }
 
