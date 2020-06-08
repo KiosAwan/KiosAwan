@@ -7,7 +7,7 @@ const OTPInput = ({ navigation }) => {
 	const { FormRegister, _navigateRegister, otpFulfilled, _resendOTP } = navigation.state.params
 	return <Container style={{ justifyContent: 'center', padding: 15, flex: 1 }}>
 		<Image
-			style={{ width: 170, height: 100, alignSelf: "center" }}
+			style={{ width: 170, height: 100, alignSelf: "center", resizeMode : "contain" }}
 			source={require('src/assets/images/logo.png')}
 		/>
 		<VerifyOTPRegister navigateTo={_navigateRegister}
