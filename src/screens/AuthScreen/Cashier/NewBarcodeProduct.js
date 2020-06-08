@@ -96,8 +96,8 @@ const NewBarcodeProduct = ({ navigation }) => {
         <Text align="center">PINDAI BARCODE</Text>
         <Text align="center">Jika produk Anda tidak memiliki barcode, maka Anda dapat melewati langkah ini</Text>
       </View>
-      <View onLayout={({ nativeEvent }) => setCameraLayout(nativeEvent.layout)} style={{ flex: 1, backgroundColor: ColorsList.greySoft, borderRadius: 5, marginVertical: SizeList.base * 5, width: '80%', alignSelf: "center" }}>
-        {/* <RNCamera
+      <View style={{ flex: 1, borderRadius: 5, marginVertical: SizeList.base * 5, width: '80%', alignSelf: "center", marginTop: "50%" }}>
+        <RNCamera
           style={{}}
           onBarCodeRead={scanWork ? _onBarCodeRead : null}
           defaultTouchToFocus
@@ -106,11 +106,11 @@ const NewBarcodeProduct = ({ navigation }) => {
           autoFocus={RNCamera.Constants.AutoFocus.on}
         >
           <BarcodeMask
-            width={300} height={300}
+            width={SizeList.width * 0.7} height={SizeList.width * 0.7}
             showAnimatedLine
             transparency={0}
           />
-        </RNCamera> */}
+        </RNCamera>
       </View>
       <Button onPress={_handleNoBarcode}>LEWATI</Button>
     </View>
