@@ -17,6 +17,7 @@ import { CopyButton } from 'src/components/Button/CopyButton';
 import { Toast } from 'native-base';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getDetailPPOBTransaction } from 'src/utils/api/setupharga';
+import { SizeList } from 'src/styles/size';
 
 const TransactionDigitalDetail = ({ navigation }) => {
     let viewShotRef;
@@ -88,8 +89,8 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                     'materai'
                                 ].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
                             </Wrapper>
-                            <Divider />
-                        </View> : <Button color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
+                            {/* <Divider /> */}
+                        </View> : <Button style={{borderRadius : SizeList.borderRadius}} color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
                     )
             }
         </View>
@@ -119,7 +120,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                 ].includes(item) ? transaction[item] && transaction[item].trim() :
                                     parseInt(transaction[item]).convertRupiah()}</Text>
                         </Wrapper>
-                        <Divider />
+                        {/* <Divider /> */}
                     </View>
                     )
             }
@@ -132,12 +133,12 @@ const TransactionDigitalDetail = ({ navigation }) => {
                 <ViewShot style={{ backgroundColor: ColorsList.authBackground }} ref={ref => viewShotRef = ref}>
                     {
                         _checkData('status') === 'PENDING' ?
-                            <Button disabled color="warning" wrapper={{ justify: 'flex-start' }}>
+                            <Button style={{borderRadius : SizeList.borderRadius}} disabled color="warning" wrapper={{ justify: 'flex-start' }}>
                                 <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
                                 <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
                             </Button>
                             :
-                            <Button disabled color="success" wrapper={{ justify: 'flex-start' }}>
+                            <Button style={{borderRadius : SizeList.borderRadius}} disabled color="success" wrapper={{ justify: 'flex-start' }}>
                                 <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
                                 <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
                             </Button>
@@ -183,10 +184,6 @@ const TransactionDigitalDetail = ({ navigation }) => {
                     <Text color="primary" style={styles.btnwithIconText}>CETAK STRUK</Text>
                 </Button>
             </Wrapper>
-            {/* <Button onPress={() => navigation.goBack()}> */}
-            {/* <Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} /> */}
-            {/* <Text color="white">KEMBALI</Text>
-            </Button> */}
         </Footer>}
     </Container >
 }

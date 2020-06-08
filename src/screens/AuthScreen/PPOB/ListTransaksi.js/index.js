@@ -54,12 +54,12 @@ const ListTransaksiPPOB = ({ navigation }) => {
 							onChangeText: search => setFilter({ search }),
 						}}
 						clear={() => setFilter({ search: '' })}
-						color={ColorsList.white} icon={require('src/assets/icons/circlerejectwhite.png')}
+						color={ColorsList.greyFont} icon={require('src/assets/icons/circlerejectwhite.png')}
 					/> :
 					<Wrapper spaceBetween>
-						<Text color="white">List Transaksi PPOB</Text>
+						<Text>List Transaksi PPOB</Text>
 						<Button padding={0} color="link" onPress={() => setFilter({ searchOpen: true })}>
-							<Icon size={20} color={ColorsList.white} name="search" />
+							<Icon size={20} color={ColorsList.greyFont} name="search" />
 						</Button>
 					</Wrapper>
 			}
@@ -89,7 +89,7 @@ const ListTransaksiPPOB = ({ navigation }) => {
 								{
 									filteredData().rMap((item, i) => {
 										const { transaction_name, customerID, customer_name, image } = item
-										return <Button onPress={() => navigation.navigate(`/drawer/transaction/detail/digital`, { param: item.id })} style={{ marginHorizontal: SizeList.padding, marginBottom: 5 }} color={["white"]} key={i.toString()} spaceBetween>
+										return <Button onPress={() => navigation.navigate(`/drawer/transaction/detail/digital`, { param: item.id })} style={{ marginHorizontal: SizeList.padding, marginBottom: 5, borderRadius: SizeList.borderRadius }} color={["white"]} key={i.toString()} spaceBetween>
 											<Image _width="10%" size={30} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
 											<View _width="70%">
 												<Text color="primary">{transaction_name.toString().toUpperCase().split('_').join(' ')}</Text>

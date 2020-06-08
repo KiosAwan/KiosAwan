@@ -73,7 +73,7 @@ const StatusPesanan = ({ navigation }) => {
 						return key != 'description' ? <View>
 							<Wrapper spaceBetween style={{ padding: SizeList.padding }}>
 								<Text>{viewKey(key)}</Text>
-								<Text font="SemiBold" align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
+								<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
 							</Wrapper>
 						</View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[key].split(';')[0]}</Button>
 					})
