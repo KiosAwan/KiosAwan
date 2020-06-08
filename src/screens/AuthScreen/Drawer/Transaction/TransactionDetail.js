@@ -253,9 +253,9 @@ const TransactionDetail = ({ navigation }) => {
 								</View>
 							}
 						</View>
-						<View style={{ alignItems: 'center' }}>
-							<Text align="center">Powered by</Text>
-							<Image style={{ width: 150, height: 70 }} source={require('src/assets/images/logostruk.png')} />
+						<View style={{ alignItems: 'center', flexDirection: "row", justifyContent: "center" }}>
+							<Text size={12} align="center">Powered by</Text>
+							<Image style={{ width: 100, height: 70, resizeMode: "contain" }} source={require('src/assets/images/logostruk.png')} />
 						</View>
 					</View>
 					<TearLines

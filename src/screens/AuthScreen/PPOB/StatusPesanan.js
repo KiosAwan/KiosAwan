@@ -237,6 +237,11 @@ const StatusPesanan = ({ navigation }) => {
 					]}
 					<Divider />
 					{payment ? _renderProductDigital() : _renderPendingProductDigital()}
+					<Divider />
+					<View style={{ alignItems: 'center', flexDirection: "row", justifyContent: "center" }}>
+						<Text size={12} align="center">Powered by</Text>
+						<Image style={{ width: 100, height: 70, resizeMode: "contain" }} source={require('src/assets/images/logostruk.png')} />
+					</View>
 				</View>
 			</ViewShot>
 		</Body>
