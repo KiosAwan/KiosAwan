@@ -17,6 +17,7 @@ import { CopyButton } from 'src/components/Button/CopyButton';
 import { Toast } from 'native-base';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getDetailPPOBTransaction } from 'src/utils/api/setupharga';
+import { SizeList } from 'src/styles/size';
 
 const TransactionDigitalDetail = ({ navigation }) => {
     let viewShotRef;
@@ -60,10 +61,9 @@ const TransactionDigitalDetail = ({ navigation }) => {
     }
 
     const _renderProductDigital = item => {
-        console.debug(payment)
         let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "updated_at", "info"]
         let viewKey = key => {
-            let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank", jmlTagihan: "Jumlah tagihan", referenceID : "ReferenceID", noReferensi : "No Referensi" }
+            let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank", jmlTagihan: "Jumlah tagihan", referenceID: "ReferenceID", noReferensi: "No Referensi" }
             return keys[key] || key.split('_').join(' ').ucwords()
         }
         return <View>
@@ -88,8 +88,8 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                     'materai'
                                 ].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
                             </Wrapper>
-                            <Divider />
-                        </View> : <Button color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
+                            {/* <Divider /> */}
+                        </View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
                     )
             }
         </View>
@@ -97,7 +97,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
     const _renderPendingProductDigital = () => {
         let filterPayment = ["id", "updated_at", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
         let viewKey = key => {
-            let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank", jmlTagihan: "Jumlah tagihan", referenceID : "ReferenceID", noReferensi : "No Referensi" }
+            let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank", jmlTagihan: "Jumlah tagihan", referenceID: "ReferenceID", noReferensi: "No Referensi" }
             return keys[key] || key.split('_').join(' ').ucwords()
         }
         return <View>
@@ -119,7 +119,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                 ].includes(item) ? transaction[item] && transaction[item].trim() :
                                     parseInt(transaction[item]).convertRupiah()}</Text>
                         </Wrapper>
-                        <Divider />
+                        {/* <Divider /> */}
                     </View>
                     )
             }
@@ -132,12 +132,12 @@ const TransactionDigitalDetail = ({ navigation }) => {
                 <ViewShot style={{ backgroundColor: ColorsList.authBackground }} ref={ref => viewShotRef = ref}>
                     {
                         _checkData('status') === 'PENDING' ?
-                            <Button disabled color="warning" wrapper={{ justify: 'flex-start' }}>
+                            <Button style={{ borderRadius: SizeList.borderRadius }} disabled color="warning" wrapper={{ justify: 'flex-start' }}>
                                 <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
                                 <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
                             </Button>
                             :
-                            <Button disabled color="success" wrapper={{ justify: 'flex-start' }}>
+                            <Button style={{ borderRadius: SizeList.borderRadius }} disabled color="success" wrapper={{ justify: 'flex-start' }}>
                                 <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
                                 <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
                             </Button>
@@ -168,6 +168,11 @@ const TransactionDigitalDetail = ({ navigation }) => {
                         ]}
                         <Divider />
                         {payment ? _renderProductDigital() : _renderPendingProductDigital()}
+                        <Divider />
+                        <View style={{ alignItems: 'center', flexDirection: "row", justifyContent: "center" }}>
+                            <Text size={12} align="center">Powered by</Text>
+                            <Image style={{ width: 100, height: 70, resizeMode: "contain" }} source={require('src/assets/images/logostruk.png')} />
+                        </View>
                     </View>
                 </ViewShot>
             </Body>
@@ -183,10 +188,6 @@ const TransactionDigitalDetail = ({ navigation }) => {
                     <Text color="primary" style={styles.btnwithIconText}>CETAK STRUK</Text>
                 </Button>
             </Wrapper>
-            {/* <Button onPress={() => navigation.goBack()}> */}
-            {/* <Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/plus-primary.png')} /> */}
-            {/* <Text color="white">KEMBALI</Text>
-            </Button> */}
         </Footer>}
     </Container >
 }

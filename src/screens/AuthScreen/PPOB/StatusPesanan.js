@@ -73,7 +73,7 @@ const StatusPesanan = ({ navigation }) => {
 						return key != 'description' ? <View>
 							<Wrapper spaceBetween style={{ padding: SizeList.padding }}>
 								<Text>{viewKey(key)}</Text>
-								<Text font="SemiBold" align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
+								<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
 							</Wrapper>
 						</View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[key].split(';')[0]}</Button>
 					})
@@ -106,7 +106,6 @@ const StatusPesanan = ({ navigation }) => {
 								].includes(item) ? transaction[item].trim() :
 									parseInt(transaction[item]).convertRupiah()}</Text>
 						</Wrapper>
-						{/* <Divider /> */}
 					</View>
 					)
 			}
@@ -238,6 +237,11 @@ const StatusPesanan = ({ navigation }) => {
 					]}
 					<Divider />
 					{payment ? _renderProductDigital() : _renderPendingProductDigital()}
+					<Divider />
+					<View style={{ alignItems: 'center', flexDirection: "row", justifyContent: "center" }}>
+						<Text size={12} align="center">Powered by</Text>
+						<Image style={{ width: 100, height: 70, resizeMode: "contain" }} source={require('src/assets/images/logostruk.png')} />
+					</View>
 				</View>
 			</ViewShot>
 		</Body>
