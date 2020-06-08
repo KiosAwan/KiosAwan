@@ -14,6 +14,7 @@ import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { ProductPlaceholder } from 'src/components/LoadingPlaceholder';
 import { HOST_IMG_URL } from 'src/config';
+import { SizeList } from 'src/styles/size';
 
 const ManajemenProduk = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -41,7 +42,7 @@ const ManajemenProduk = ({ navigation }) => {
 		<View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
 			<GlobalHeader title="Produk"
 				onPressBack={() => navigation.goBack()} />
-			<View style={{ padding: 20, flex: 1 }}>
+			<View style={{ paddingHorizontal: 20, flex: 1 }}>
 				<SearchInput
 					search={search}
 					placeholder="Cari produk"
@@ -103,7 +104,7 @@ const ManajemenProduk = ({ navigation }) => {
 						back: '/drawer/manajemen/produk'
 					}))
 					navigation.navigate('/cashier/new-barcode')
-				}} width='100%' textProps={{ font: 'Bold' }}>+ TAMBAH PRODUK BARU</Button>
+				}} width='100%'>+ TAMBAH PRODUK BARU</Button>
 			</Bottom>
 		</View>
 	);

@@ -36,7 +36,7 @@ const Cashier = ({ navigation }) => {
     }, [])
 
     const _loadProduct = async () => {
-        if (data) {
+        if (data.length == 0) {
             const userToken = await getUserToken()
             dispatch(getProduct(User.store.id_store, userToken))
         }
@@ -78,7 +78,7 @@ const Cashier = ({ navigation }) => {
                 <ProductPlaceholder />
             </View>
             :
-            data ?
+            data.length > 0 ?
                 <BodyFlatList
                     style={Product.jumlahitem > 0 ? { marginBottom: 50 } : null}
                     data={data.filter(item => item.name_product.toLowerCase().includes(search.toLowerCase()))}
