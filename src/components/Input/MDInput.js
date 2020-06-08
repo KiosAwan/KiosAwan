@@ -143,6 +143,7 @@ const Input = props => {
 				activeLineWidth={0}
 				disabledLineWidth={0}
 				labelHeight={20}
+				fontSize={13}
 				baseColor={ColorsList.primary}
 				tintColor={ColorsList.primary}
 				{...inputProps}
