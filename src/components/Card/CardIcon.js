@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: SizeList.width / 4,
         height: SizeList.width / 4,
-        elevation : 1
+        borderWidth : .5,
+        borderColor : ColorsList.borderColor
     },
 })

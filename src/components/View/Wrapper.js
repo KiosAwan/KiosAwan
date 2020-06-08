@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import { ColorsList } from 'src/styles/colors';
 export const Wrapper = props => {
 	const { onPress, noWrapper, children, radius, flexStart, flexEnd, center, spaceBetween, spaceAround } = props
 	if (props.noWrapper) {
@@ -15,7 +16,7 @@ export const Wrapper = props => {
 	center && { justifyContent: 'center' },
 	spaceAround && { justifyContent: 'space-around' },
 	spaceBetween && { justifyContent: 'space-between' },
-	props.shadow && { borderRadius: 5 },
+	props.shadow && { borderRadius: 5, borderWidth: .5, borderColor: ColorsList.borderColor },
 	props.style]}>
 		{
 			children.length > 0 ?

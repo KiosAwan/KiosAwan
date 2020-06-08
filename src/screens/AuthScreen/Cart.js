@@ -134,7 +134,7 @@ const Cart = ({ navigation }) => {
 			navigation.goBack()
 		} else {
 			setConfirm({
-				title: 'Batalkan transaksi?',
+				title: 'Apakah Anda yakin membatalkan seluruh transaksi?',
 				action: () => _emptyCart(true)
 			})
 			setHapusPesananOpen(true)
@@ -149,8 +149,8 @@ const Cart = ({ navigation }) => {
 	}}>
 		<PilihPelanggan visible={pilihPelangganOpen} data={Customer.data} dismiss={() => setPilihPelangganOpen(false)} />
 		<AwanPopup.NoTitle visible={hapusPesananOpen} message={confirm.title}>
-			<Button width="35%" onPress={() => setHapusPesananOpen(false)} color="link">Tidak</Button>
-			<Button width="35%" onPress={confirm.action}>Ya</Button>
+			<Button width="35%" onPress={confirm.action} color="link">IYA</Button>
+			<Button width="35%" onPress={() => setHapusPesananOpen(false)}>TIDAK</Button>
 		</AwanPopup.NoTitle>
 		<Modal style={{ padding: 10 }} visible={editPesananOpen}>
 			<Wrapper style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} justify="space-between">

@@ -107,7 +107,7 @@ const TransactionList = ({ navigation }) => {
                               <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { paddingHorizontal: 10, paddingVertical: 15, backgroundColor: ColorsList.white }]} justify="space-between">
                                 {/* <View style={{ padding: 15 }}> */}
                                 <Wrapper _width="50%" justify="flex-start">
-                                  <View style={{ justifyContent: 'center',  }}>
+                                  <View style={{ justifyContent: 'center' }}>
                                     <Image style={{ width: 20, height: 20 }} source={iconImage[trx.status].image} />
                                   </View>
                                   <View style={{ paddingLeft: 5, justifyContent: 'center' }}>
@@ -115,10 +115,12 @@ const TransactionList = ({ navigation }) => {
                                     <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
                                   </View>
                                 </Wrapper>
-                                <View _style={{ width: '25%' }}>
+                                <View _style={{ width: '28%' }}>
                                   <Text color="primary">{convertRupiah(trx.total_transaction)}</Text>
                                 </View>
-                                <Text color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
+                                <View _style={{ width: '20%' }}>
+                                  <Text align="right" color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
+                                </View>
                               </Wrapper>
                             </TouchableOpacity>
                           })

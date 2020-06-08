@@ -54,7 +54,7 @@ export default class AppIntro extends React.Component {
     _renderSkipButton = () => {
         return (
             <View style={{ alignSelf: 'center', padding: 12 }}>
-                <Text>Lewati</Text>
+                <Text color="primary">Lewati</Text>
             </View>
         )
     }
@@ -62,7 +62,7 @@ export default class AppIntro extends React.Component {
     _renderDoneButton = () => {
         return (
             <View style={{ alignSelf: 'center', padding: 12 }}>
-                <Text>Mulai</Text>
+                <Text color="primary">Mulai</Text>
             </View>
         )
     }

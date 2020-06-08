@@ -44,13 +44,11 @@ const MenuSettingLupaPIN = ({ navigation }) => {
             />
             <AwanPopup.Loading visible={apiLoading} />
             <Body>
-                <View style={{ padding: 20, width: SizeList.width - 60, backgroundColor: 'white', borderRadius: 5, alignItems: "center" }}>
+                <View style={{ padding: 20,borderRadius: 5, alignItems: "center" }}>
                     <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft, marginBottom: 15 }}>Kode OTP akan dikirim melalui SMS ke</Text>
-                    <View style={{ alignItems: "center", backgroundColor: ColorsList.greyAuthHard, padding: 10, width: '90%', borderRadius: 5 }}>
+                    <View style={{ alignItems: "center", backgroundColor: ColorsList.white, padding: 10, width: '90%', borderRadius: 5 }}>
                         <Text style={{ ...FontList.titleFont, fontSize: 20, color: ColorsList.greySoft }}>62- {showPhoneNumber(User.data.phone_number.slice(2, User.data.length))}</Text>
                     </View>
-                </View>
-                <View style={{ backgroundColor: ColorsList.successSoft, marginTop: 30 }}>
                 </View>
             </Body>
             <Footer>

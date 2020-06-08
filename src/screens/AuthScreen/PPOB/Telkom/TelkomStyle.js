@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     topComp: {
         borderRadius: SizeList.borderRadius,
         justifyContent: "flex-end",
-        backgroundColor: ColorsList.whiteColor,
     },
     pulsaWrapper: {
         flex: 1,
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginVertical: SizeList.base
+        marginBottom: SizeList.base
     },
     infoPembelian: {
 		padding: 10,

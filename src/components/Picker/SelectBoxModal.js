@@ -330,7 +330,7 @@ export const SelectBoxModal = (props) => {
 		<AwanModal visible={modalVisible}
 			backdropDismiss={() => setModalVisible(false)}
 			style={{
-				height: 500,
+				height: props.height || 500,
 				width: '90%',
 				padding: 10
 			}}>

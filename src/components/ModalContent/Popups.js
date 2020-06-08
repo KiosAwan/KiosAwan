@@ -42,16 +42,16 @@ const AwanPopup = {
 		useEffect(() => {
 			setRender(true)
 		}, [])
-		return render && <Modal animationType="fade" style={{ padding: 0, borderRadius : 5 }} {...props}>
+		return render && <Modal animationType="fade" style={{ padding: 0, borderRadius : SizeList.borderRadius }} {...props}>
 			<View style={[styles.body, props.style]}>
-				{typeof props.title === 'string' ? <Text color={props.textColor} font="Bold" align="left" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
+				{typeof props.title === 'string' ? <Text color={props.textColor} font="SemiBold" align="left" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
 				<Text color={props.textColor} size={14} style={{ textAlign: 'left' }}>{props.message}</Text>
 				<ButtonWrapper>{props.children}</ButtonWrapper>
 			</View>
 		</Modal>
 	},
 	NoTitle: props => {
-		return <Modal animationType="fade" style={{ padding: 0 }} {...props}>
+		return <Modal animationType="fade" style={{ padding: 0, borderRadius : SizeList.borderRadius }} {...props}>
 			<View style={styles.body}>
 				<Text style={{ textAlign: 'left' }}>{props.message}</Text>
 				<ButtonWrapper>{props.children}</ButtonWrapper>

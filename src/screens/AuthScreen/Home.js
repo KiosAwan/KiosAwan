@@ -22,6 +22,7 @@ import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { $Padding } from 'src/utils/stylehelper'
 import Container, { Body } from 'src/components/View/Container';
 import BarStatus from 'src/components/BarStatus';
+import { SizeList } from 'src/styles/size';
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -117,9 +118,6 @@ const Home = ({ navigation }) => {
 	const _onPressStock = () => _featureDisabled('stock')
 	const _onPressHutang = () => _featureDisabled('hutang')
 
-	const _handlePressDrawer = () => {
-		navigation.navigate('/drawer')
-	}
 	const [_alert, _setAlert] = useState(false)
 	const [_alertTitle, _setAlertTitle] = useState('')
 	const [_alertMessage, _setAlertMessage] = useState('')
@@ -141,25 +139,6 @@ const Home = ({ navigation }) => {
 			navigation.navigate('/drawer/settings/change-email')
 		} else {
 			_setAlert(false)
-		}
-	}
-	const _nameStore = () => {
-		return User.store ? {
-			children: User.store.name_store.toUpperCase()
-		} : {
-				children: 'Belum ada toko',
-				font: 'BoldItalic'
-			}
-	}
-	const _addressStore = () => {
-		if (User.store && User.store.address_store) {
-			let address = User.store.address_store
-			if (address.length > 30) {
-				return address.substr(0, 30) + '...'
-			}
-			return address
-		} else {
-			return 'Lokasi belum di tentukan'
 		}
 	}
 
@@ -262,7 +241,7 @@ const Home = ({ navigation }) => {
 					<View style={{ paddingVertical: 15 }}>
 						<View style={{}}>
 							{
-								maintanance && <Button disabled color="info" wrapper={{ flexStart }}>
+								maintanance && <Button disabled color="info" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius }}>
 									<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 									<TextTicker
 										width="90%"
@@ -277,12 +256,12 @@ const Home = ({ navigation }) => {
 							{
 								User.store ?
 									User.data.status == 0 &&
-									<Button onPress={() => navigation.navigate('/drawer/settings/change-email')} color="purple" flexStart wrapper={{ flexStart }}>
+									<Button onPress={() => navigation.navigate('/drawer/settings/change-email')} color="purple" flexStart wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius }}>
 										<Icon color={ColorsList.purple} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 										<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
 									</Button>
 									:
-									<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }}>
+									<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius }}>
 										<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 										<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
 										<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>
@@ -399,6 +378,6 @@ const styles = StyleSheet.create({
 	cardWrapper: {
 		marginBottom: 10,
 		backgroundColor: ColorsList.whiteColor,
-		padding: 5
+		padding: SizeList.padding
 	}
 })
