@@ -160,7 +160,9 @@ const StatusPesanan = ({ navigation }) => {
 		}
 	}
 	return <Container header={{
-		title: 'Status Pesanan', renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
+		title: 'Status Pesanan',
+		renderLeftAccessory: () => null,
+		renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
 			<TouchableOpacity onPress={_shareBill}>
 				<IconHeader name="share-alt" color={ColorsList.greyFont} />
 			</TouchableOpacity>
