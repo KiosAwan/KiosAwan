@@ -30,6 +30,7 @@ import { Button } from 'src/components/Button/Button';
 import { Text } from 'src/components/Text/CustomText';
 import UnauthHeader from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
+import { SizeList } from 'src/styles/size';
 
 //Functions
 
@@ -82,7 +83,7 @@ const SecondPassword = ({ navigation }) => {
         }
     }
     return <Container style={{ justifyContent: 'center', padding: 15 }}>
-        <View style={{ marginBottom: 10, flex: 1 }}>
+        <View style={{ marginBottom: 10, flex: 1, justifyContent : "center", alignItems : "center" }}>
             <UnauthHeader />
             <AwanPopup.Alert
                 message={alertMessage}

@@ -52,7 +52,7 @@ const NameRegistration = ({ navigation }) => {
     }
 
     return <Container style={{ justifyContent: 'center', padding: 15 }}>
-        <View style={{ marginBottom: 10, flex: 1 }}>
+        <View style={{ marginBottom: 10, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <UnauthHeader />
             <AwanPopup.Alert
                 message={alertMessage}
@@ -65,7 +65,7 @@ const NameRegistration = ({ navigation }) => {
                 placeholder="Nama lengkap"
                 value={FormRegister.name}
                 onChangeText={(name) => _handleChangeName(name)}
-                style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground }}
+                style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground, width : "90%" }}
             />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextButton}>LANJUT</Button>
