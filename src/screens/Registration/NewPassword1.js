@@ -27,6 +27,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Icon } from 'native-base';
 import { Button } from 'src/components/Button/Button';
+import { Input } from 'src/components/Input/MDInput';
 
 //Functions
 
@@ -64,18 +65,17 @@ const NewPassword1 = ({ navigation }) => {
         <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
             <Text align="center">Masukkan password baru Anda.</Text>
-            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground }}>
-                <TextInput
-                    _flex
-                    autoFocus
-                    secureTextEntry={secure}
-                    placeholder="Masukkan Password"
-                    style={{ color: ColorsList.greyFont }}
-                    value={FormRegister.firstPIN}
-                    onChangeText={(pin) => _handleChangePIN(pin)}
-                />
-                <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />
-            </Wrapper>
+            <Input
+                _flex
+                autoFocus
+                noLabel
+                secureTextEntry={secure}
+                placeholder="Masukkan Konfirmasi Password"
+                style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
+                value={FormRegister.firstPIN}
+                onChangeText={(pin) => _handleChangePIN(pin)}
+                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
+            />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextBtn}>LANJUT</Button>
     </Container>

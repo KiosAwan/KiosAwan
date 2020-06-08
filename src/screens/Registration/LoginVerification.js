@@ -29,6 +29,8 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { Icon } from 'native-base';
 import { Button } from 'src/components/Button/Button';
 import UnauthHeader from 'src/components/View/UnauthHeader';
+import { Input } from 'src/components/Input/MDInput';
+import { SizeList } from '../../styles/size';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -85,22 +87,21 @@ const LoginVerification = ({ navigation }) => {
         <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
             <Text align="center">Masukkan password Anda.</Text>
-            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, paddingHorizontal: 10, backgroundColor: ColorsList.authBackground }}>
-                <TextInput
-                    _flex
-                    autoFocus
-                    secureTextEntry={secure}
-                    placeholder="Masukkan Konfirmasi Password"
-                    style={{ color: ColorsList.greyFont }}
-                    value={FormRegister.secondPIN}
-                    onChangeText={(psw) => {
-                        if (psw.length > 7) setBtnDisabled(false)
-                        else setBtnDisabled(true)
-                        dispatch(addFirstPassword(psw))
-                    }}
-                />
-                <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />
-            </Wrapper>
+            <Input
+                _flex
+                autoFocus
+                noLabel
+                secureTextEntry={secure}
+                placeholder="Masukkan Konfirmasi Password"
+                style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
+                value={FormRegister.secondPIN}
+                onChangeText={(psw) => {
+                    if (psw.length > 7) setBtnDisabled(false)
+                    else setBtnDisabled(true)
+                    dispatch(addFirstPassword(psw))
+                }}
+                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
+            />
             <Button color="link" align="center" onPress={_forgotPIN}>Lupa password?</Button>
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handlePasswordLogin}>LANJUT</Button>

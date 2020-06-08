@@ -61,7 +61,6 @@ export default TermCondition
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		margin: 20,
 		backgroundColor: ColorsList.whiteColor
 	},
 	line: {

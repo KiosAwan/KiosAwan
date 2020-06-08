@@ -28,6 +28,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Icon } from 'native-base';
 import UnauthHeader from 'src/components/View/UnauthHeader';
+import { Input } from 'src/components/Input/MDInput';
 
 //Functions
 
@@ -58,78 +59,20 @@ const FirstPassword = ({ navigation }) => {
         <View style={{ marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
             <Text align="center">Buat password untuk kemananan dalam mengakses aplikasi ini.</Text>
-            <Wrapper spaceBetween style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground }}>
-                <TextInput
-                    _flex
-                    autoFocus
-                    secureTextEntry={secure}
-                    placeholder="Masukkan Password"
-                    value={FormRegister.password}
-                    style={{ color: ColorsList.greyFont }}
-                    onChangeText={(pass) => _handleChangePassword(pass)}
-                />
-                <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />
-            </Wrapper>
+            <Input
+                _flex
+                autoFocus
+                noLabel
+                secureTextEntry={secure}
+                placeholder="Masukkan Konfirmasi Password"
+                style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
+                value={FormRegister.password}
+                onChangeText={(pass) => _handleChangePassword(pass)}
+                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
+            />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextButton}>LANJUT</Button>
     </Container>
-
-    return (
-        <LinearGradient colors={[ColorsList.primary, ColorsList.gradientPrimary]} style={styles.container} >
-            <AwanPopup.Alert
-                message={alertMessage}
-                visible={alert}
-                closeAlert={() => setAlert(false)}
-            />
-            <HeaderRegister
-                onPressBack={() => navigation.goBack()}
-                onPressNext={_handleNextButton}
-            />
-            <View style={{ width: '70%', paddingVertical: 20 }}>
-                <Text style={{ textAlign: "center", color: 'white' }}>Masukkan password</Text>
-            </View>
-            <InputPIN
-                placeholderTextColor={ColorsList.primaryColor}
-                inputWidth={200}
-                value={FormRegister.password}
-                handleChangeText={(pass) => _handleChangePassword(pass)}
-            />
-            <View style={{ position: 'absolute', bottom: 10 }}>
-                <UnauthBottomButton
-                    onPressBackBtn={() => navigation.goBack()}
-                    onPressNextBtn={_handleNextButton}
-                />
-            </View>
-        </LinearGradient>
-    )
 }
 
 export default FirstPassword
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: ColorsList.primary
-    },
-    borderStyleBase: {
-        width: 30,
-        height: 45,
-        borderRadius: 20
-    },
-
-    borderStyleHighLighted: {
-        borderColor: ColorsList.successHighlight,
-    },
-
-    underlineStyleBase: {
-        width: 30,
-        height: 45,
-        borderWidth: 0,
-        borderBottomWidth: 1,
-    },
-
-    underlineStyleHighLighted: {
-        borderColor: ColorsList.successHighlight,
-    },
-})
