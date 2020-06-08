@@ -18,6 +18,7 @@ import { getProfile } from 'src/redux/actions/actionsUserData';
 import ContactsModal from 'src/components/ModalContent/ContacsModal';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { SizeList } from 'src/styles/size';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -183,7 +184,7 @@ const PpobPulsa = ({ navigation }) => {
 				/>
 			</View>
 			{data &&
-				<View style={{ flex: 1, padding: 10, backgroundColor: "white", elevation: 1, borderRadius: 10 }}>
+				<View style={{ flex: 1, padding: 10, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
 					<Text style={{ marginBottom: 5 }}>Pilih nominal pulsa: <Text font="SemiBold">{data.products[0].name.split(" ")[0]}</Text></Text>
 					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 						showsVerticalScrollIndicator={false}

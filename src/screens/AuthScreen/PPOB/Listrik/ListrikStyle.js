@@ -11,20 +11,21 @@ const styles = StyleSheet.create({
 	infoPembelian: {
 		padding: 10,
 		backgroundColor: ColorsList.infoBg,
-		borderRadius: 5,
-		marginVertical : SizeList.base,
-		elevation : 1
+		marginVertical: SizeList.base,
+		borderWidth: SizeList.borderWidth,
+		borderRadius: SizeList.borderRadius,
+		borderColor: ColorsList.borderColor
 	},
 	listPulsa: {
 		padding: 10,
 	},
 	pulsaWrapper: {
 		padding: SizeList.secondary,
-		borderRadius:SizeList.borderRadius,
+		borderRadius: SizeList.borderRadius,
 		backgroundColor: ColorsList.whiteColor,
 		borderWidth: 1,
 		borderColor: ColorsList.greyAuthHard,
-		marginBottom : SizeList.base,
+		marginBottom: SizeList.base,
 	},
 	pulsaWrapperActive: {
 		borderColor: ColorsList.primary,
@@ -41,14 +42,15 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		margin : SizeList.base
+		marginBottom: SizeList.base
 	},
 	custInfo: {
-		borderRadius: 5,
 		backgroundColor: ColorsList.whiteColor,
-		elevation : 1,
-		marginBottom : 10,
-		padding: 10
+		marginBottom: 10,
+		padding: 10, 
+		borderWidth: SizeList.borderWidth, 
+		borderRadius: SizeList.borderRadius, 
+		borderColor : ColorsList.borderColor
 	},
 })
 export default styles

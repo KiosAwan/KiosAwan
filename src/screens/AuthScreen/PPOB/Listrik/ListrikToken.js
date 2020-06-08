@@ -19,6 +19,7 @@ import { verifyUserPIN, convertRupiah, getUserToken } from 'src/utils/authhelper
 import { Toast } from 'native-base';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
+import { SizeList } from 'src/styles/size';
 
 const ListrikToken = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -167,10 +168,10 @@ const ListrikToken = ({ navigation }) => {
 			<AwanPopup.Loading visible={payLoading} />
 			{/* Popup components */}
 			<View style={styles.topComp}>
-				{/* {__DEV__ && <Button onPress={() => {
+				{__DEV__ && <Button onPress={() => {
 					setCustId('32127971177')
 					_cekTagihan('32127971177')
-				}}>32127971177</Button>} */}
+				}}>32127971177</Button>}
 				<Input
 					_width="80%"
 					label="ID Pelanggan"
@@ -222,25 +223,25 @@ const ListrikToken = ({ navigation }) => {
 				</View>
 			}
 			{response && productToken &&
-				<View style={{ flex: 1, padding: 10, backgroundColor: "white", elevation: 1, borderRadius: 10 }}>
+				<View style={{ flex: 1, padding: 10, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor : ColorsList.borderColor }}>
 					<Text style={{ marginBottom: 5 }}>Pilih nominal token listrik</Text>
-					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
-						showsVerticalScrollIndicator={false}
-						data={productToken ? productToken.product : []}
-						renderItem={({ item, index }) =>
-							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
-								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
-									<View _width="70%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }} color="primary">{`TOKEN ${item.product.split(" ")[2]}`} </Text>
-									</View>
-									<View _width="30%">
-										<Text size={8}>HARGA</Text>
-										<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
-									</View>
-								</Wrapper>
-							</TouchableOpacity>
-						}
-					/>
+			<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
+				showsVerticalScrollIndicator={false}
+				data={productToken ? productToken.product : []}
+				renderItem={({ item, index }) =>
+					<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
+						<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
+							<View _width="70%">
+								<Text font="SemiBold" style={{ marginLeft: 5 }} color="primary">{`TOKEN ${item.product.split(" ")[2]}`} </Text>
+							</View>
+							<View _width="30%">
+								<Text size={8}>HARGA</Text>
+								<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
+							</View>
+						</Wrapper>
+					</TouchableOpacity>
+				}
+			/>
 				</View>
 			}
 		</Body>
@@ -251,6 +252,6 @@ const ListrikToken = ({ navigation }) => {
             </Button>
 			}
 		</Footer>
-	</Container>
+	</Container >
 }
 export default ListrikToken

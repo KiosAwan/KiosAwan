@@ -7,6 +7,7 @@ export const SizeList = {
     width: width,
     height: height,
     borderRadius: 5,
+    borderWidth: 1,
     bodyPadding: 15,
     padding: 10,
     radius: 5,

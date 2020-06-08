@@ -16,6 +16,7 @@ import GlobalEnterPin from '../../GlobalEnterPin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
+import { SizeList } from 'src/styles/size';
 
 const ListrikPascabayar = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -181,7 +182,7 @@ const ListrikPascabayar = ({ navigation }) => {
 				tagihanLoading ?
 					<ActivityIndicator color={ColorsList.primary} /> :
 					tagihanData && <View>
-						<View style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, elevation: 1 }}>
+						<View style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Nama Pelanggan</Text>
 								<Text font="SemiBold">{tagihanData.transaction.nama}</Text>

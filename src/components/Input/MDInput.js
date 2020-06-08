@@ -255,10 +255,11 @@ const MDInputV2 = props => {
 }
 
 const shadowStyle = {
-	elevation: 1,
 	borderRadius: SizeList.secondary,
 	paddingHorizontal: SizeList.base,
 	backgroundColor: ColorsList.white,
+	borderWidth: 1,
+	borderColor: ColorsList.borderColor
 }
 
 export default MDInput

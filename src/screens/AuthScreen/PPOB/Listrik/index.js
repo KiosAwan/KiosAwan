@@ -5,6 +5,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import { $Padding } from 'src/utils/stylehelper';
 import { Image } from 'src/components/CustomImage';
+import { SizeList } from 'src/styles/size';
 
 const PpobListrik = ({ navigation }) => {
 	return <Container header={{
@@ -20,7 +21,7 @@ const PpobListrik = ({ navigation }) => {
 			].rMap((item, i) => <Button
 				key={i}
 				onPress={() => navigation.navigate(`/ppob/${item.screen}`)}
-				style={{ marginBottom: 5 }}
+				style={{ marginBottom: 5, borderRadius : SizeList.borderRadius }}
 				padding={$Padding(5, 10)}
 				wrapper={{ justify: 'flex-start' }}
 				color={['whiteColor']}>
