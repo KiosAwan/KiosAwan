@@ -199,119 +199,18 @@ const NewProductLast = ({ navigation }) => {
 						onChangeText={_handleChangeMinStock}
 					/>
 				</Wrapper>
-				<Text>Jika stok produksudah mencapai minimum stok akan diberikan notifikasi</Text>
+				<View style={{ ...RowChild, marginBottom: 20,}}>
+					<CheckBox
+						checked={sendNotif}
+						color={sendNotif ? ColorsList.primary : ColorsList.greyFont}
+						onPress={() => setSendNotif(!sendNotif)}
+					/>
+					<Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text>
+				</View>
 			</View>}
 		</Body>
 		<Button style={{ marginHorizontal: SizeList.base }} onPress={_handlePressNext}>LANJUTKAN</Button>
 	</Container>
-	return (
-		<View style={{ flex: 1 }}>
-			<AwanPopup.Loading visible={apiLoading} />
-			<AwanPopup.Alert
-				message={errorMessage}
-				visible={errorAlert}
-				closeAlert={() => setErrorAlert(false)}
-			/>
-			<Modal
-				animationType="fade"
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			>
-				<ModalContent
-					image={require('src/assets/images/addproductsuccess.png')}
-					infoText="Anda Berhasil Menambah Produk!"
-				/>
-			</Modal>
-			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
-			<ProgressIndicator
-				firstIsCompleteStep={true}
-				firstIsActiveStep={false}
-				firstSeparator
-				secondSeparator
-				secondIsCompleteStep={true}
-				secondIsActiveStep={false}
-				thirdIsCompleteStep={false}
-				thirdIsActiveStep={true}
-			/>
-			<View style={styles.childContainer}>
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<View style={styles.groupingStyle}>
-						<View style={{ padding: 10 }}>
-							<Text style={styles.infoText}>Masukkan harga jual dan beli produk</Text>
-						</View>
-						<View style={styles.wrapInputHarga}>
-							<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
-								<FloatingInputLabelCurrency style={{ margin: 0 }}
-									label="Harga modal"
-									value={NewProduct.price_in}
-									handleChangeText={_handleChangePriceIn}
-									keyboardType="number-pad"
-								/>
-							</View>
-							<View style={styles.inputTwoCol}>
-								<FloatingInputLabelCurrency style={{ margin: 0 }}
-									label="Harga jual"
-									value={NewProduct.price_out}
-									handleChangeText={_handleChangePriceOut}
-									keyboardType="number-pad"
-								/>
-							</View>
-						</View>
-					</View>
-					<View style={styles.groupingStyle}>
-						<View style={styles.wrapSwitchAndText}>
-							<Text style={{ ...FontList.titleFont, color: ColorsList.greyFont }}>Kelola stok produk</Text>
-							<SwitchButton
-								handleChangeToggle={_handleChangeToggle}
-								toggleValue={manageStock}
-							/>
-						</View>
-						{manageStock ?
-							<View>
-								<View style={{ height: 1, backgroundColor: ColorsList.light }} />
-								<View style={styles.wrapInputHarga}>
-									<View style={[styles.inputTwoCol, { marginRight: 25 }]}>
-										<FloatingInputLabel
-											label="Jumlah stok"
-											keyboardType="number-pad"
-											value={NewProduct.qty_stock}
-											handleChangeText={_handleChangeStock}
-										/>
-									</View>
-									<View style={styles.inputTwoCol}>
-										<FloatingInputLabel
-											label="Minimum Stok"
-											keyboardType="number-pad"
-											value={NewProduct.qty_min_stock}
-											handleChangeText={_handleChangeMinStock}
-										/>
-									</View>
-								</View>
-								<View style={{ ...RowChild, marginBottom: 20, paddingHorizontal: 10 }}>
-									<CheckBox
-										checked={sendNotif}
-										color={sendNotif ? ColorsList.primary : ColorsList.greyFont}
-										onPress={() => setSendNotif(!sendNotif)}
-									/>
-									<Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Produk dengan stok menipis akan dikirimkan notifikasi</Text>
-								</View>
-							</View>
-							: null}
-					</View>
-				</ScrollView>
-				<View style={{ alignSelf: "flex-end", marginBottom: 20 }}>
-					<BottomButton
-						onPressBtn={_handlePressNext}
-						buttonTitle="SIMPAN"
-						style={{ backgroundColor: ColorsList.primaryColor, width: width - 40 }}
-					/>
-				</View>
-			</View>
-		</View>
-	);
 }
 
 export default NewProductLast
@@ -347,7 +246,7 @@ const styles = StyleSheet.create({
 		alignSelf: "center"
 	},
 	notifInfo: {
-		...FontList.subtitleFont,
+		// ...FontList.subtitleFont,
 		marginLeft: 15
 	},
 	groupingStyle: {
