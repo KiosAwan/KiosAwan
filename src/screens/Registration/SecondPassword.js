@@ -92,7 +92,7 @@ const SecondPassword = ({ navigation }) => {
                 closeAlert={() => setAlert(false)}
             />
             <AwanPopup.Loading visible={isLoading} />
-            <Text align="center">Ulangi password Anda.</Text>
+            <Text align="center">{`Ulangi masukkan password Anda`}</Text>
             <Input
                 _flex
                 autoFocus

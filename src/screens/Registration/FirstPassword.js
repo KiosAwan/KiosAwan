@@ -65,7 +65,7 @@ const FirstPassword = ({ navigation }) => {
                 visible={alert}
                 closeAlert={() => setAlert(false)}
             />
-            <Text align="center">Buat password untuk kemananan dalam mengakses aplikasi ini.</Text>
+            <Text align="center">{`Buat password untuk kemananan dalam mengakses\n aplikasi ini.`}</Text>
             <Input
                 _flex
                 autoFocus
