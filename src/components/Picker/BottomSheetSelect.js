@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Button } from '../Button/Button';
 import { View, FlatList } from 'react-native';
@@ -11,6 +11,7 @@ import { Icon } from 'native-base';
 const BottomSheetSelect = props => {
 	let rb
 	const {
+		refs = () => { },
 		height = 200,
 		value,
 		style,
@@ -27,9 +28,9 @@ const BottomSheetSelect = props => {
 		hideRender,
 		hideRenderItem
 	} = props
-	if (props.hjd) {
-		console.debug(props.renderItem({}, 0))
-	}
+	useEffect(() => {
+		refs(rb)
+	}, [])
 	return <View>
 		<RBSheet
 			ref={ref => rb = ref}
