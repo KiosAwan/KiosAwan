@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { View, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { Text } from '../Text/CustomText';
+import { SizeList } from 'src/styles/size';
 
 require('../../assets/images/addproductsuccess.png')
 const width = Dimensions.get('window').width
@@ -8,9 +10,9 @@ const ModalContent = (props) => {
     return (
         <TouchableOpacity onPress={props.closeModal} style={styles.touchableStyle}>
             <View style={styles.wrapView}>
-                <Image style={{ height: '80%', width: '80%' }} source={props.image} />
-                <View style={{width : '70%'}}>
-                    <Text style={{fontFamily : 'Nunito-SemiBold', fontSize: 20, textAlign: "center", color : 'grey' }}>{props.infoText}</Text>
+                <Image style={{ height: '60%', width: '60%' }} source={props.image} />
+                <View style={{ width: '90%' }}>
+                    <Text align="center">{props.infoText}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -28,8 +30,9 @@ const styles = StyleSheet.create({
     },
     wrapView: {
         alignItems: "center",
-        width: width * 0.8,
-        height: width * 0.9,
+        justifyContent: 'center',
+        width: width * 0.7,
+        height: width * 0.4,
         backgroundColor: 'white',
         borderRadius: 5
     }

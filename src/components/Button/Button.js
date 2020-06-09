@@ -28,8 +28,8 @@ export const Button = props => {
 		},
 		info: {
 			borderColor: ColorsList.transparent,
-			backgroundColor: ColorsList.infoBg,
-			text: ColorsList.info
+			backgroundColor: ColorsList.informationBg,
+			text: ColorsList.informationFont
 		},
 		danger: {
 			borderColor: ColorsList.transparent,
