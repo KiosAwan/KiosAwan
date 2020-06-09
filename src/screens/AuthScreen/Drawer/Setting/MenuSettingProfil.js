@@ -1,7 +1,7 @@
 import Wilayah from 'src/utils/wilayah';
 import React, { useState, useEffect } from 'react';
 import ModalContent from 'src/components/ModalContent/ModalContent';
-import MDInput, { Input } from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { View, Image, StyleSheet, Modal, FlatList, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,7 +9,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'src/components/Text/CustomText';
 import { stateObject, typingWaitCallback } from 'src/utils/state';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
-import { PickerImage } from 'src/components/Picker/PickerImage';
 import { Icon } from 'native-base';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { getProfile } from 'src/redux/actions/actionsUserData';

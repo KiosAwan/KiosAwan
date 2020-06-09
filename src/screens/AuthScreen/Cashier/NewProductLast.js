@@ -18,7 +18,7 @@ import { RowChild } from 'src/components/Helper/RowChild';
 import { ScrollView } from 'react-native-gesture-handler';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import MDInput, { Input } from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import { Text } from 'src/components/Text/CustomText';
 import Container, { Body } from 'src/components/View/Container';
 import { Button } from 'src/components/Button/Button';
@@ -199,7 +199,7 @@ const NewProductLast = ({ navigation }) => {
 						onChangeText={_handleChangeMinStock}
 					/>
 				</Wrapper>
-				<View style={{ ...RowChild, marginBottom: 20,}}>
+				<View style={{ ...RowChild, marginBottom: 20, }}>
 					<CheckBox
 						checked={sendNotif}
 						color={sendNotif ? ColorsList.primary : ColorsList.greyFont}

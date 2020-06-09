@@ -1,7 +1,5 @@
 import React from 'react';
 import { Picker as PickerNB } from 'native-base';
-import { shadowStyle } from '../Input/MDInput';
-import { SizeList } from 'src/styles/size';
 import { ColorsList } from 'src/styles/colors';
 
 const Picker = props => {

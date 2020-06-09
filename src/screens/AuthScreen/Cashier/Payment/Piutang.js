@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { ColorsList } from 'src/styles/colors';
-import { RowChild } from 'src/components/Helper/RowChild';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import { FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
 import { formatToDate } from 'src/utils/authhelper';
 import { AddCashPayment, AddDebtDate } from 'src/redux/actions/actionsStoreProduct';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { PilihPelanggan } from 'src/components/Picker/SelectBoxModal';
-import MDInput, { Input } from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import { Body } from 'src/components/View/Container';
 import { Button } from 'src/components/Button/Button';
 

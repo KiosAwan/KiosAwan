@@ -8,7 +8,7 @@ import ModalContent from 'src/components/ModalContent/ModalContent';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Button } from 'src/components/Button/Button';
-import MDInput, { Input } from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import { stateObject } from 'src/utils/state';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { Text } from 'src/components/Text/CustomText';

@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import * as Animatable from "react-native-animatable";
-import { FontList, FontName } from '../../styles/typography';
+import { FontName } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
 import Divider from '../Row/Divider';
 import { Wrapper } from '../View/Wrapper';
-import { $Border } from 'src/utils/stylehelper';
-import MDInput from './MDInput';
-import { Button } from '../Button/Button';
 
 const SearchInput = (props) => {
 	let nullFn = () => { }

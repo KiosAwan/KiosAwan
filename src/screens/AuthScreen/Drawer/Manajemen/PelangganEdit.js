@@ -13,7 +13,6 @@ import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import { editCustomer, deleteCustomer, getUserToken } from 'src/utils/authhelper';
-import { FontList } from 'src/styles/typography';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';

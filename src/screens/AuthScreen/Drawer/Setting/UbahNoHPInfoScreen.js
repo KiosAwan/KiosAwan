@@ -9,7 +9,7 @@ import { BottomButton } from 'src/components/Button/ButtonComp';
 import { sendCodeToEmail } from 'src/utils/authhelper';
 import { showPhoneNumber } from 'src/utils/unauthhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import MDInput, { Input } from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import { Text } from 'src/components/Text/CustomText';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';

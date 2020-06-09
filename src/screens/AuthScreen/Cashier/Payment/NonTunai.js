@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
-import { ImageAuto, Image } from 'src/components/CustomImage';
+import { Image } from 'src/components/CustomImage';
 import { Text } from 'src/components/Text/CustomText';
-import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
 import { shadowStyle } from 'src/components/Input/MDInput';
-import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { stateObject } from 'src/utils/state';
 

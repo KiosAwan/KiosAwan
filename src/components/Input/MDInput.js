@@ -10,86 +10,17 @@ import Divider from '../Row/Divider'
 import { stateObject } from 'src/utils/state'
 import { SizeList } from 'src/styles/size'
 import { Wrapper } from '../View/Wrapper'
-import { Text } from '../Text/CustomText'
 import { $Border } from 'src/utils/stylehelper'
 
-const MDInput = props => {
-	let objCurrency = {}
-	const { noLabel, lineWidth, onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur, style } = props
-	const _render = (render, isRight) => {
-		return typeof render == 'function' && <View style={[!noLabel && { marginBottom: 8 }, { alignSelf: 'center' }]}>
-			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
-				{render()}
-			</View>
-			{/* <Divider style={{ marginTop: 5 }} color={On.color} sizes={focused ? On.size : (lineWidth != undefined ? lineWidth : On.size)} /> */}
-		</View>
-	}
-	const [tintColor, baseColor] = [ColorsList.primary, ColorsList.secondary]
-	const [focused, setFocused] = useState(false)
-	const [On, setOn] = stateObject({
-		color: baseColor,
-		size: .5
-	})
-	if (props.currency) {
-		objCurrency.keyboardType = 'number-pad'
-		if (typeof onChangeText == 'function') {
-			objCurrency.onChangeText = text => {
-				let txt = text.extractNumber().convertRupiah()
-				onChangeText(txt)
-			}
-		}
-		if (typeof value == 'string') {
-			objCurrency.value = value.extractNumber().convertRupiah()
-		}
-	}
-	const { ..._style } = style
-	const refControl = () => {
-		// if (refs) {
-		// }
-	}
-	const renderInput = () => {
-		const input = <TextField
-			ref={refControl}
-			fontSize={13}
-			textColor={ColorsList.text}
-			tintColor={tintColor}
-			baseColor={baseColor}
-			{...props}
-			onFocus={() => {
-				setFocused(true)
-				setOn({ color: tintColor, size: 2 })
-				if (typeof onFocus == 'function') onFocus()
-			}}
-			onBlur={() => {
-				setFocused(false)
-				setOn({ color: baseColor, size: .5 })
-				if (typeof onBlur == 'function') onBlur()
-			}}
-			style={{ color: baseColor, fontFamily: FontName.Regular, ..._style }}
-			{...objCurrency}
-		/>
-		if (noLabel) {
-			return <TextInputRN placeholder={props.label} {...input.props} editable={!props.disabled} style={{
-				marginTop: 8,
-				...$Border(On.color, 0, 0, lineWidth != undefined && !focused ? lineWidth : props.activeLineWidth != undefined ? props.activeLineWidth : On.size),
-				...input.props.style
-			}} />
-		}
-		return input
-	}
-	return <View style={{ flexDirection: 'row', alignItems: 'flex-end', ...props.inputStyle }}>
-		{_render(renderLeftAccessory)}
-		<View style={{ flex: 1 }}>
-			{renderInput()}
-		</View>
-		{_render(renderRightAccessory, true)}
-	</View>
-}
+
 
 const Input = props => {
 	let objCurrency = {}
 	const { currency, value, label, onChangeText = () => { } } = props
 	const {
+		spaceTop = 0,
+		spaceBottom = 0,
+		spaceBoth = 0,
 		disabled,
 		noLabel,
 		renderLeftAccessory,
@@ -165,24 +96,118 @@ const Input = props => {
 			objCurrency.value = value.extractNumber().convertRupiah()
 		}
 	}
-	return <View style={{
-		// marginBottom: SizeList.base,
-		// paddingHorizontal: SizeList.padding,
+	return <View style={[spaceBoth > 0 ? { marginVertical: spaceBoth } : {
+		marginTop: spaceTop,
+		marginBottom: spaceBottom,
+	}, {
 		borderRadius: SizeList.secondary,
 		flexDirection: 'row',
 		alignItems: 'center',
 		...!accessoryOut && { backgroundColor: ColorsList.white },
 		...styleOverride
-	}}>
+	}
+	]}>
 		{accessory(renderLeftAccessory, true)}
 		<View style={{
 			flex: 1,
 			paddingHorizontal: SizeList.padding,
-			...accessoryOut && { borderRadius: SizeList.secondary, backgroundColor: ColorsList.white }
+			...accessoryOut && {
+				borderRadius: SizeList.secondary,
+				backgroundColor: ColorsList.white
+			}
 		}}>
 			{renderInput()}
 		</View>
 		{accessory(renderRightAccessory)}
+	</View>
+}
+
+const MDInput = props => {
+	return <Input {...props} />
+}
+
+const TextInput = props => {
+	const { noShadow, style } = props
+	return <TextInputRN {...props} style={{
+		color: ColorsList.secondary,
+		paddingTop: SizeList.base,
+		...!noShadow && shadowStyle,
+		...style
+	}} />
+}
+
+/* Unused Comps */
+
+const MDInputs = props => {
+	let objCurrency = {}
+	const { noLabel, lineWidth, onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur, style } = props
+	const _render = (render, isRight) => {
+		return typeof render == 'function' && <View style={[!noLabel && { marginBottom: 8 }, { alignSelf: 'center' }]}>
+			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
+				{render()}
+			</View>
+			{/* <Divider style={{ marginTop: 5 }} color={On.color} sizes={focused ? On.size : (lineWidth != undefined ? lineWidth : On.size)} /> */}
+		</View>
+	}
+	const [tintColor, baseColor] = [ColorsList.primary, ColorsList.secondary]
+	const [focused, setFocused] = useState(false)
+	const [On, setOn] = stateObject({
+		color: baseColor,
+		size: .5
+	})
+	if (props.currency) {
+		objCurrency.keyboardType = 'number-pad'
+		if (typeof onChangeText == 'function') {
+			objCurrency.onChangeText = text => {
+				let txt = text.extractNumber().convertRupiah()
+				onChangeText(txt)
+			}
+		}
+		if (typeof value == 'string') {
+			objCurrency.value = value.extractNumber().convertRupiah()
+		}
+	}
+	const { ..._style } = style
+	const refControl = () => {
+		// if (refs) {
+		// }
+	}
+	const renderInput = () => {
+		const input = <TextField
+			ref={refControl}
+			fontSize={13}
+			textColor={ColorsList.text}
+			tintColor={tintColor}
+			baseColor={baseColor}
+			{...props}
+			onFocus={() => {
+				setFocused(true)
+				setOn({ color: tintColor, size: 2 })
+				if (typeof onFocus == 'function') onFocus()
+			}}
+			onBlur={() => {
+				setFocused(false)
+				setOn({ color: baseColor, size: .5 })
+				if (typeof onBlur == 'function') onBlur()
+			}}
+			style={{ color: baseColor, fontFamily: FontName.Regular, ..._style }}
+			{...objCurrency}
+		/>
+		if (noLabel) {
+			return <TextInputRN placeholder={props.label} {...input.props} editable={!props.disabled} style={{
+				marginTop: 8,
+				...$Border(On.color, 0, 0, lineWidth != undefined && !focused ? lineWidth : props.activeLineWidth != undefined ? props.activeLineWidth : On.size),
+				...input.props.style
+			}} />
+		}
+		return input
+	}
+	return <View style={{ flexDirection: 'row', alignItems: 'flex-end', ...props.inputStyle }}>
+		{_render(renderLeftAccessory)}
+		<View style={{ flex: 1 }}>
+			{renderInput()}
+		</View>
+		{_render(renderRightAccessory, true)}
 	</View>
 }
 
@@ -234,15 +259,6 @@ const Inputs = props => {
 	return renderInput(props)
 }
 
-const TextInput = props => {
-	const { noShadow, style } = props
-	return <TextInputRN {...props} style={{
-		color: ColorsList.secondary,
-		paddingTop: SizeList.base,
-		...!noShadow && shadowStyle,
-		...style
-	}} />
-}
 
 const AutoCompleteInput = props => {
 	const { data, renderItem, onChangeText, onSelect } = props
@@ -353,6 +369,8 @@ const MDInputV2 = props => {
 		{...props}
 	/>
 }
+
+/* End Unused Comps */
 
 const shadowStyle = {
 	borderRadius: SizeList.secondary,

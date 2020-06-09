@@ -11,17 +11,15 @@ import { } from 'src/components/Input/InputComp';
 import { Icon } from 'native-base';
 import moment from 'moment'
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { convertRupiah, getReportHutang, getUserToken } from 'src/utils/authhelper';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import { convertRupiah, getUserToken } from 'src/utils/authhelper';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
-import { Bottom } from 'src/components/View/Bottom';
 import { TransactionPlaceholder } from 'src/components/LoadingPlaceholder';
 import SearchInput from 'src/components/Input/SearchInput';
 import Container, { Body } from 'src/components/View/Container';
 import Menu from 'src/components/ModalContent/Menu';
 import { SizeList } from 'src/styles/size';
-import { Input } from 'src/components/Input/MDInput';
 const initialLayout = { width: 300, height: 300 };
 
 const TransactionList = ({ navigation }) => {

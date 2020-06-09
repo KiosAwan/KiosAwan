@@ -22,7 +22,7 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { Bottom } from 'src/components/View/Bottom';
 import { HOST_IMG_URL } from 'src/config';
 import Container, { BodyFlatList } from 'src/components/View/Container';
-import { Input, TextInput } from 'src/components/Input/MDInput';
+import { TextInput } from 'src/components/Input/MDInput';
 import ButtonCart from 'src/components/View/ButtonCart';
 
 const Cashier = ({ navigation }) => {

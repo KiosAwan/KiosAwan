@@ -1,7 +1,7 @@
 import { Item, Input, Icon, Card, CardItem, Body, Grid, Col } from 'native-base';
 import { View, Modal, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { ScrollView, FlatList, TextInput } from 'react-native-gesture-handler';
+import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
 import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer, getUserToken } from '../../utils/authhelper';
@@ -14,7 +14,6 @@ import { Text } from '../Text/CustomText';
 import SearchInput from '../Input/SearchInput';
 import MDInput, { Input as MyInput } from '../Input/MDInput';
 import { Modal as AwanModal } from '../ModalContent/Popups';
-import { $Padding, $Border } from 'src/utils/stylehelper';
 import Alert from 'src/utils/alert';
 import BottomSheetSelect from './BottomSheetSelect';
 

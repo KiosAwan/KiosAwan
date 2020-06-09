@@ -12,7 +12,6 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import { verifyUserPassword } from 'src/utils/authhelper';
-import { FontList } from 'src/styles/typography';
 import { Icon } from 'native-base';
 import { Input } from 'src/components/Input/MDInput';
 import Container, { Body } from 'src/components/View/Container';
