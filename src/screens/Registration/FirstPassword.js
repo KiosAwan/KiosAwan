@@ -56,7 +56,7 @@ const FirstPassword = ({ navigation }) => {
             navigation.navigate('/unauth/registration/second-password')
         }
     }
-    return <Container style={{ justifyContent: 'center', padding: SizeList.base }}>
+    return <Container style={{ justifyContent: 'center', padding: SizeList.bodyPadding }}>
         <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <View style={{ marginBottom: 10, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <UnauthHeader />
@@ -65,7 +65,7 @@ const FirstPassword = ({ navigation }) => {
                 visible={alert}
                 closeAlert={() => setAlert(false)}
             />
-            <Text align="center">Buat password untuk kemananan dalam mengakses aplikasi ini.</Text>
+            <Text align="center">{`Buat password untuk kemananan dalam mengakses\n aplikasi ini.`}</Text>
             <Input
                 _flex
                 autoFocus

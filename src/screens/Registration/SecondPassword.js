@@ -82,7 +82,7 @@ const SecondPassword = ({ navigation }) => {
             }
         }
     }
-    return <Container style={{ justifyContent: 'center', padding: SizeList.base }}>
+    return <Container style={{ justifyContent: 'center', padding: SizeList.bodyPadding }}>
         <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <View style={{ marginBottom: 10, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <UnauthHeader />
@@ -92,7 +92,7 @@ const SecondPassword = ({ navigation }) => {
                 closeAlert={() => setAlert(false)}
             />
             <AwanPopup.Loading visible={isLoading} />
-            <Text align="center">Ulangi password Anda.</Text>
+            <Text align="center">{`Ulangi masukkan password Anda`}</Text>
             <Input
                 _flex
                 autoFocus

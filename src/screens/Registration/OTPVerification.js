@@ -7,9 +7,6 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import {
-    Text
-} from 'native-base';
 import CodeInput from 'react-native-confirmation-code-input';
 
 //Redux Actions
@@ -20,6 +17,9 @@ import { sendVerifyOTP, sendPhoneNumber } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
+import { Text } from 'src/components/Text/CustomText';
+import Container from 'src/components/View/Container';
+import { SizeList } from 'src/styles/size';
 
 
 const VerifyOTPRegister = (props) => {
@@ -71,26 +71,28 @@ const VerifyOTPRegister = (props) => {
     }
 
     return (
-        <View style={styles.container}>
-            <BarStatus />
-            <Text style={{ marginTop: 10, ...FontList.titleFont, color: ColorsList.greySoft }}>Masukkan kode OTP </Text>
-            <Text style={{ marginTop: 10, ...FontList.titleFont, color: ColorsList.greySoft }}>OTP telah dikirim melalui SMS ke nomor HP Anda </Text>
-            <CodeInput
-                keyboardType="numeric"
-                activeColor='black'
-                inactiveColor='grey'
-                codeLength={4}
-                size={40}
-                autoFocus
-                onFulfill={(code) => props.otpFulfilled(code)}
-            />
-            {isResendDisabled ?
-                <Text style={{ ...FontList.titleFont, color: ColorsList.greySoft, marginTop: 70 }}>RESEND ({countdown} s)</Text> :
-                <TouchableOpacity onPress={_resendCode} style={{ marginTop: 70 }}>
-                    <Text style={{ ...FontList.titleFont, color: "blue" }}>Resend</Text>
-                </TouchableOpacity>
-            }
-        </View>
+        <Container style={{ justifyContent: 'center', padding: SizeList.base }}>
+            <View style={styles.container}>
+                <BarStatus />
+                <Text style={{ marginTop: 10, }}>Masukkan kode OTP </Text>
+                <Text style={{ marginTop: 10, }}>OTP telah dikirim melalui SMS ke nomor HP anda </Text>
+                <CodeInput
+                    keyboardType="numeric"
+                    activeColor='black'
+                    inactiveColor='grey'
+                    codeLength={4}
+                    size={40}
+                    autoFocus
+                    onFulfill={(code) => props.otpFulfilled(code)}
+                />
+                {isResendDisabled ?
+                    <Text style={{ marginTop: 70 }}>RESEND ({countdown} s)</Text> :
+                    <TouchableOpacity onPress={_resendCode} style={{ marginTop: 70 }}>
+                        <Text color="primary">RESEND</Text>
+                    </TouchableOpacity>
+                }
+            </View>
+        </Container>
     );
 }
 
@@ -99,6 +101,8 @@ export default VerifyOTPRegister
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
+        flex: 1,
+        alignItems: "center"
     },
     borderStyleBase: {
         width: 30,

@@ -9,7 +9,7 @@ const Container = props => {
 	const { padding, style, onlyTitle, justify } = props
 	return <View {...props} style={{
 		flex: 1,
-		backgroundColor: '#f5f5f5',
+		backgroundColor: ColorsList.authBackground,
 		...padding && { padding: SizeList.bodyPadding },
 		...style,
 		...justify && { justifyContent: justify }

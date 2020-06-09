@@ -187,7 +187,7 @@ const Report = ({ navigation }) => {
 			{
 				dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }, index) => (
 					<ViewShadow noTitle={index != 0} title="Laporan penjualan">
-						<Text align="center">{nama_category.toUpperCase()}</Text>
+						{/* <Text align="center">{nama_category.toUpperCase()}</Text> */}
 						<Divider style={{ marginVertical: SizeList.secondary }} />
 						{
 							data && data.length > 0 ? data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary }} spaceBetween>
