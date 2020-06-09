@@ -25,7 +25,9 @@ import Container from 'src/components/View/Container';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
-import UnauthHeader from 'src/components/View/UnauthHeader';
+import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
+import { Input } from 'src/components/Input/MDInput';
+import { SizeList } from 'src/styles/size';
 
 const NameRegistration = ({ navigation }) => {
     const FormRegister = useSelector(state => state.Registration)
@@ -51,7 +53,8 @@ const NameRegistration = ({ navigation }) => {
         }
     }
 
-    return <Container style={{ justifyContent: 'center', padding: 15 }}>
+    return <Container style={{ justifyContent: 'center', padding: SizeList.base }}>
+        <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <View style={{ marginBottom: 10, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <UnauthHeader />
             <AwanPopup.Alert
@@ -60,12 +63,14 @@ const NameRegistration = ({ navigation }) => {
                 closeAlert={() => setAlert(false)}
             />
             <Text align="center">Masukkan nama lengkap agar kami mudah mengenali Anda.</Text>
-            <TextInput
+            <Input
+                _flex
+                noLabel
                 autoFocus
                 placeholder="Nama lengkap"
                 value={FormRegister.name}
                 onChangeText={(name) => _handleChangeName(name)}
-                style={{ marginVertical: 10, color: ColorsList.greyFont, marginLeft: 5, elevation: 2, padding: 5, backgroundColor: ColorsList.authBackground, width : "90%" }}
+                style={{ marginTop: 10 }}
             />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextButton}>LANJUT</Button>

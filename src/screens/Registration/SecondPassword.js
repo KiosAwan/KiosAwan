@@ -28,7 +28,7 @@ import Container from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import { Text } from 'src/components/Text/CustomText';
-import UnauthHeader from 'src/components/View/UnauthHeader';
+import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
 import { SizeList } from 'src/styles/size';
 
@@ -82,25 +82,27 @@ const SecondPassword = ({ navigation }) => {
             }
         }
     }
-    return <Container style={{ justifyContent: 'center', padding: 15 }}>
-        <View style={{ marginBottom: 10, flex: 1, justifyContent : "center", alignItems : "center" }}>
+    return <Container style={{ justifyContent: 'center', padding: SizeList.base }}>
+        <UnauthBackHeader onPressBack={() => navigation.goBack()} />
+        <View style={{ marginBottom: 10, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <UnauthHeader />
             <AwanPopup.Alert
                 message={alertMessage}
                 visible={alert}
                 closeAlert={() => setAlert(false)}
             />
-            <Text align="center">Ulangi masukkan password Anda.</Text>
+            <AwanPopup.Loading visible={isLoading} />
+            <Text align="center">Ulangi password Anda.</Text>
             <Input
                 _flex
                 autoFocus
                 noLabel
                 secureTextEntry={secure}
-                placeholder="Masukkan Konfirmasi Password"
-                style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
+                placeholder="Konfirmasi password"
+                style={{ marginTop: SizeList.base }}
                 value={FormRegister.secondPIN}
                 onChangeText={(pin) => _handleChangePIN(pin)}
-                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
+                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont, fontSize: 20 }} name={!secure ? "eye" : "eye-off"} />}
             />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextButton}>LANJUT</Button>

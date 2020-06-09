@@ -25,7 +25,7 @@ import { FontList } from 'src/styles/typography';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import Container from 'src/components/View/Container';
-import UnauthHeader from 'src/components/View/UnauthHeader';
+import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
@@ -87,6 +87,7 @@ const NewPassword2 = ({ navigation }) => {
             visible={alert}
             closeAlert={() => setAlert(false)}
         />
+        <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
             <Text align="center">Masukkan konfirmasi password.</Text>
@@ -99,7 +100,7 @@ const NewPassword2 = ({ navigation }) => {
                 style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
                 value={FormRegister.secondPIN}
                 onChangeText={(pin) => _handleChangePIN(pin)}
-                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
+                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont, fontSize: 20 }} name={!secure ? "eye" : "eye-off"} />}
             />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleSendNewPIN}>LANJUT</Button>

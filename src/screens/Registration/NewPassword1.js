@@ -22,7 +22,7 @@ import { ColorsList } from '../../styles/colors';
 import { FontList } from 'src/styles/typography';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import Container from 'src/components/View/Container';
-import UnauthHeader from 'src/components/View/UnauthHeader';
+import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Icon } from 'native-base';
@@ -57,6 +57,7 @@ const NewPassword1 = ({ navigation }) => {
     const [secure, setSecure] = useState(true)
     const [btnDisabled, setBtnDisabled] = useState(true)
     return <Container style={{ padding: 15 }}>
+        <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <AwanPopup.Alert
             message={alertMessage}
             visible={alert}
@@ -70,11 +71,11 @@ const NewPassword1 = ({ navigation }) => {
                 autoFocus
                 noLabel
                 secureTextEntry={secure}
-                placeholder="Masukkan Konfirmasi Password"
+                placeholder="Masukkan password"
                 style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
                 value={FormRegister.firstPIN}
                 onChangeText={(pin) => _handleChangePIN(pin)}
-                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
+                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont, fontSize: 20 }} name={!secure ? "eye" : "eye-off"} />}
             />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextBtn}>LANJUT</Button>

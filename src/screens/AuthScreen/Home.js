@@ -172,7 +172,7 @@ const Home = ({ navigation }) => {
 	}
 	return (
 		<Container>
-			<Body style={{ padding: 5 }} refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
+			<Body refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
 				<View style={{ justifyContent: "center" }}>
 					<BarStatus />
 					<Wrapper justify="space-between" style={{ padding: 10, paddingBottom: 0 }}>
@@ -189,7 +189,7 @@ const Home = ({ navigation }) => {
 				</View>
 				<Wrapper justify="space-between" style={$Padding(10, 10)}>
 					<View>
-						<Text>Saldo Anda sebesar: </Text>
+						<Text>Saldo anda sebesar: </Text>
 						<Wrapper spaceBetween>
 							<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
 							<TouchableOpacity onPress={_handleRefresh}>
@@ -238,7 +238,7 @@ const Home = ({ navigation }) => {
 						<View></View>
 						<Button width='30%' onPress={_completeProfile}>OK</Button>
 					</AwanPopup.Title>
-					<View style={{ paddingVertical: 15 }}>
+					<View style={{ paddingVertical: SizeList.base }}>
 						<View style={{}}>
 							{
 								maintanance && <Button disabled color="info" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius }}>
@@ -256,12 +256,12 @@ const Home = ({ navigation }) => {
 							{
 								User.store ?
 									User.data.status == 0 &&
-									<Button onPress={() => navigation.navigate('/drawer/settings/change-email')} color="purple" flexStart wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius }}>
+									<Button onPress={() => navigation.navigate('/drawer/settings/change-email')} color="purple" flexStart wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
 										<Icon color={ColorsList.purple} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 										<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
 									</Button>
 									:
-									<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius }}>
+									<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
 										<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 										<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
 										<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>
@@ -297,7 +297,7 @@ const Home = ({ navigation }) => {
 							</Wrapper>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={_onPressHutang}>
-							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
+							<Wrapper spaceBetween shadow style={[styles.cardWrapper, { marginBottom: 0 }]}>
 								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/hutang.png")} />
 								<View _width="80%">
 									<Text font="SemiBold" color="primary">PENCATATAN HUTANG</Text>
@@ -310,8 +310,8 @@ const Home = ({ navigation }) => {
 				<ScrollView
 					horizontal={true}
 					showsHorizontalScrollIndicator={false}>
-					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginLeft: 10 }} source={require('src/assets/images/Banner.jpg')} />
-					<Image style={{ width: width / 1.3, borderRadius: 5, height: height / 5, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
+					<Image style={{ width: width / 1.3, borderRadius: 5, height: 150, marginLeft: 10 }} source={require('src/assets/images/Banner.jpg')} />
+					<Image style={{ width: width / 1.3, borderRadius: 5, height: 150, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
 				</ScrollView>
 				<Text style={{ paddingHorizontal: 15, paddingVertical: 5 }} font="SemiBold">Tahukah Kamu?</Text>
 				{
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	childContainer: {
-		marginHorizontal: 10,
+		marginHorizontal: SizeList.base,
 	},
 	firstChildView: {
 		height: 80,
