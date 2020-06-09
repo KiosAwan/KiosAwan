@@ -163,13 +163,13 @@ const MenuSettingProfil = ({ navigation }) => {
 			<FlatList
 				data={inputan}
 				keyExtractor={(a, i) => i.toString()}
-				renderItem={({ item: input }) => <View style={{ marginBottom: 5 }}><Input label={input._label} style={{ width: '90%' }} {...input} /></View>}
+				renderItem={({ item: input }) => <View style={{ marginBottom: 5 }}><Input label={input._label}  {...input} /></View>}
 			/>
-			<SelectBoxModal style={{ marginTop: SizeList.base }}
+			<SelectBoxModal
 				label="Kelurahan / Desa" closeOnSelect
 				data={dataDesa}
 				header={
-					<MDInput label="Cari Desa"
+					<Input label="Cari Desa"
 						onChangeText={_searchDesa}
 						renderLeftAccessory={() =>
 							<Icon style={{ color: ColorsList.primary }} name="search" />}
@@ -191,7 +191,7 @@ const MenuSettingProfil = ({ navigation }) => {
 				label="Kategori Toko" closeOnSelect
 				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
 				header={
-					<MDInput label="Cari Kategori"
+					<Input label="Cari Kategori"
 						onChangeText={(text) => setSearchKategori(text)}
 						renderLeftAccessory={() =>
 							<Icon style={{ color: ColorsList.primary }} name="search" />}

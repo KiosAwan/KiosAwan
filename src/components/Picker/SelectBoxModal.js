@@ -300,8 +300,8 @@ export const MyModal = (props) => {
 		</Modal>
 	)
 }
-export const SelectBoxModals = props => <BottomSheetSelect {...props} />
-export const SelectBoxModal = (props) => {
+export const SelectBoxModal = props => <BottomSheetSelect {...props} />
+export const SelectBoxModals = (props) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const {
 		value,

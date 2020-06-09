@@ -128,7 +128,7 @@ const NewProductName = ({ navigation }) => {
 			</Wrapper>
 		</ModalCustom>
 		<Body>
-			<Input accessoryOut onChangeText={text => {
+			<Input style={{ marginBottom: SizeList.base }} accessoryOut onChangeText={text => {
 				if (validNumber(text)) {
 					dispatch(addProductBarcode(text))
 				}
@@ -146,7 +146,7 @@ const NewProductName = ({ navigation }) => {
 				label="Pilih Kategori"
 				onOpen={() => setSearchCategory('')}
 				header={
-					<MDInput
+					<Input
 						label="Cari Kategori"
 						value={searchCategory}
 						onChangeText={text => setSearchCategory(text)}

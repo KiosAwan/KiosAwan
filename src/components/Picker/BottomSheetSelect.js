@@ -27,6 +27,9 @@ const BottomSheetSelect = props => {
 		hideRender,
 		hideRenderItem
 	} = props
+	if (props.hjd) {
+		console.debug(props.renderItem({}, 0))
+	}
 	return <View>
 		<RBSheet
 			ref={ref => rb = ref}
@@ -43,31 +46,31 @@ const BottomSheetSelect = props => {
 			{header && <Divider />}
 			{
 				!hideRender ?
-					data && <FlatList
-						data={data}
-						persistentScrollbar
-						keyExtractor={(a, i) => i.toString()}
-						renderItem={({ item, index }) => (
-							<Button onPress={() => {
-								handleChangePicker(item, index)
-								closeOnSelect && rb.close()
-							}} color="link" flexContent flexStart padding={0}>
-								{renderItem(item, index)}
-							</Button>
-						)}
-					/> :
+					data &&
+						data.length > 0 ? <FlatList
+							data={data}
+							persistentScrollbar
+							keyExtractor={(a, i) => i.toString()}
+							renderItem={({ item, index }) => (
+								<Button onPress={() => {
+									handleChangePicker(item, index)
+									closeOnSelect && rb.close()
+								}} color="link" spaceBetween padding={SizeList.secondary}>
+									{renderItem(item, index)}
+								</Button>
+							)}
+						/> : children :
 					hideRenderItem
 			}
-			{data.length == 0 && children}
 		</RBSheet>
-		<Button color="link" padding={0} onPress={() => rb.open()}>
+		<Button style={{ ...style }} color="link" padding={0} onPress={() => rb.open()}>
 			<Input
 				disabled
 				label={label}
 				value={value}
 				noLabel={noLabel}
 				style={{ width: '100%' }}
-				renderRightAccessory={() => <Icon style={{ color: ColorsList.greyFont }} name='arrow-dropdown' />}
+				renderRightAccessory={() => <Icon style={{ color: ColorsList.primary }} name='arrow-dropdown' />}
 			/>
 		</Button>
 	</View>
