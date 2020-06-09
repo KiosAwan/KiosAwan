@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
 	selectBox: { width: '100%' },
 	selectBoxLabel: { padding: 0, margin: 0 },
 	selectBoxInput: { margin: 0, padding: 0 },
-	selectBoxIconDown: { color: ColorsList.greyFont, marginBottom: 8 },
+	selectBoxIconDown: { color: ColorsList.primary, marginBottom: 8 },
 
 	viewButtonPopup: { marginTop: 15, borderColor: 'transparent', flexDirection: 'row-reverse', alignItems: 'flex-start' },
 	buttonSimpan: { margin: 5, paddingHorizontal: 30, backgroundColor: ColorsList.primaryColor, borderRadius: 5 },

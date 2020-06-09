@@ -42,6 +42,7 @@ const Report = ({ navigation }) => {
 		if (firstOpen) {
 			setFirstOpen(false)
 		}
+		console.debug(JSON.stringify(dataReportCategory))
 	}
 
 	useEffect(() => {
@@ -94,15 +95,6 @@ const Report = ({ navigation }) => {
 			_filterData({ index })
 		}
 	})
-	const [SecondaryTab, setSecondaryTab] = stateObject({
-		index: 0,
-		routes: [
-			{ key: 'first', title: 'Laporan Keuangan' },
-			{ key: 'second', title: 'Laporan Penjualan' }
-		],
-		initialLayout: { width: 300, height: 300 },
-		setIndex: index => setSecondaryTab({ index })
-	})
 	const _convertRupiah = (data, key) => {
 		let value = !data ? '' : data[key] || ''
 		return value.toString().convertRupiah()
@@ -131,13 +123,13 @@ const Report = ({ navigation }) => {
 					<View>
 						<Text>Total Penjualan</Text>
 						<Wrapper>
-							<Text>{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+							<Text color="success">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
 						</Wrapper>
 					</View>
 					<View>
 						<Text>Total Keuntungan</Text>
 						<Wrapper>
-							<Text>{_convertRupiah(dataTransaction, 'total_profit')}</Text>
+							<Text color="warning">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
 						</Wrapper>
 					</View>
 				</Wrapper>
@@ -156,27 +148,27 @@ const Report = ({ navigation }) => {
 			<ViewShadow title="Laporan keuangan">
 				{
 					dataTransaction &&
-					['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
+					['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
 						.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-							<Text>{key.split('_').join(' ').ucwords()}</Text>
-							<Text>{_convertRupiah(dataTransaction, key)}</Text>
+							<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+							<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
 						</Wrapper>)
 				}
 			</ViewShadow>
 			<ViewShadow title="Laporan laba/rugi kotor">
 				{
 					dataTransaction &&
-					['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
+					['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
 						.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-							<Text>{key.split('_').join(' ').ucwords()}</Text>
-							<Text>{_convertRupiah(dataTransaction, key)}</Text>
+							<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+							<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
 						</Wrapper>)
 				}
 			</ViewShadow>
 			<Text>Laporan non tunai</Text>
 			<SelectBoxModal
 				closeOnSelect noLabel
-				style={{ marginVertical: SizeList.base }}
+				style={{ marginTop: SizeList.base }}
 				value={NT && NT.selected ? NT.selected.method : ''}
 				data={dataReportNonTunai}
 				handleChangePicker={selected => setNT({ selected })}
@@ -184,10 +176,10 @@ const Report = ({ navigation }) => {
 			/>
 			<ViewShadow noTitle>
 				{
-					NT && NT.selected && Object.keys(NT.selected).rMap((key, i) => (
-						key != 'method' && <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-							<Text>{key.split('_').join(' ').ucwords()}</Text>
-							<Text>{_convertRupiah(NT.selected, key)}</Text>
+					NT && NT.selected && ['penjualan_bersih', 'penjualan_kotor', 'diskon', 'pembatalan', 'pajak'].rMap((key, i) => (
+						<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+							<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+							<Text color={i == 0 && 'primary'}>{_convertRupiah(NT.selected, key)}</Text>
 						</Wrapper>
 					))
 				}
@@ -198,13 +190,13 @@ const Report = ({ navigation }) => {
 						<Text align="center">{nama_category.toUpperCase()}</Text>
 						<Divider style={{ marginVertical: SizeList.secondary }} />
 						{
-							data && data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary }} spaceBetween>
+							data && data.length > 0 ? data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary }} spaceBetween>
 								<View>
 									<Text>{Product}</Text>
 									<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
 								</View>
 								<Text _flexStart>{total.convertRupiah()}</Text>
-							</Wrapper>)
+							</Wrapper>) : <Text>Tidak ada data penjualan</Text>
 						}
 					</ViewShadow>
 				))
