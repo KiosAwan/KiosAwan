@@ -40,6 +40,7 @@ const Favorite = ({ navigation }) => {
         } else {
             result = [...favorites, ...data.favorites]
         }
+        console.debug(JSON.stringify(result))
         let countPage = page + 1
         setIsLoading(false)
         setIsLoadingMore(false)
