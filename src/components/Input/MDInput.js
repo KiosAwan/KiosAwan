@@ -169,6 +169,7 @@ const Input = props => {
 		marginBottom: SizeList.base,
 		borderRadius: SizeList.secondary,
 		flexDirection: 'row',
+		paddingHorizontal: SizeList.padding,
 		alignItems: 'center',
 		...!accessoryOut && { backgroundColor: ColorsList.white },
 		...styleOverride
@@ -176,7 +177,6 @@ const Input = props => {
 		{accessory(renderLeftAccessory, true)}
 		<View style={{
 			flex: 1,
-			paddingHorizontal: SizeList.secondary,
 			...accessoryOut && { borderRadius: SizeList.secondary, backgroundColor: ColorsList.white }
 		}}>
 			{renderInput()}

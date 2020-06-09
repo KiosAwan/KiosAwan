@@ -56,8 +56,8 @@ const FirstPassword = ({ navigation }) => {
             navigation.navigate('/unauth/registration/second-password')
         }
     }
-    return <Container style={{ justifyContent: 'center', padding: 15 }}>
-        <View style={{ marginBottom: 10, flex: 1, justifyContent : "center", alignItems : "center" }}>
+    return <Container style={{ justifyContent: 'center', padding: SizeList.base }}>
+        <View style={{ marginBottom: 10, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <UnauthHeader />
             <AwanPopup.Alert
                 message={alertMessage}
@@ -70,7 +70,7 @@ const FirstPassword = ({ navigation }) => {
                 autoFocus
                 noLabel
                 secureTextEntry={secure}
-                placeholder="Masukkan Konfirmasi Password"
+                placeholder="Masukkan password"
                 style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
                 value={FormRegister.password}
                 onChangeText={(pass) => _handleChangePassword(pass)}

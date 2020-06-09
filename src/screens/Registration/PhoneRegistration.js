@@ -154,7 +154,7 @@ const PhoneRegistration = ({ navigation }) => {
 	const _navigateRegister = () => {
 		navigation.navigate('/unauth/registration')
 	}
-	return <Container style={{ padding: 15, flex: 1 }}>
+	return <Container style={{ padding: SizeList.base, flex: 1 }}>
 		<RBSheet
 			ref={ref => {
 				OTPRegisterSheet = ref;
@@ -201,8 +201,8 @@ const PhoneRegistration = ({ navigation }) => {
 		<View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
 			<UnauthHeader />
 			<Text align="center">{Strings.REGISTERPHONESUBTITLE}</Text>
-			<Wrapper flexStart style={{ marginVertical: 10, alignSelf: 'center', width: '80%' }}>
-				<Input disabled noLabel style={{ width: SizeList.base * 5 }} value="+62" />
+			<Wrapper flexStart style={{ marginVertical: 10, alignSelf: 'center' }}>
+				<Input disabled noLabel style={{ width: SizeList.base * 4.5 }} value="+62" />
 				<Divider transparent size={5} />
 				<Input
 					_flex
@@ -213,14 +213,14 @@ const PhoneRegistration = ({ navigation }) => {
 					onChangeText={phone => _handleChangePhone(phone)}
 				/>
 			</Wrapper>
-			<Text align="center" style={{ color: ColorsList.pink }}>
+			<Text align="center">
 				{
 					__DEV__ ?
-						<Text size={13} onPress={() => _handleChangePhone('82134156961')}>{Strings.REGISTERTERM1}</Text>
+						<Text onPress={() => _handleChangePhone('82134156961')}>{Strings.REGISTERTERM1}</Text>
 						:
 						Strings.REGISTERTERM1
 				}
-				<Text color="pink" size={13} onPress={() => navigation.navigate('/unauth/registration/term-condition')}>{Strings.REGISTERTERM2}</Text>
+				<Text color="pink" onPress={() => navigation.navigate('/unauth/registration/term-condition')}>{Strings.REGISTERTERM2}</Text>
 			</Text>
 		</View>
 		<Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleSendPhoneNumber}>LANJUT</Button>

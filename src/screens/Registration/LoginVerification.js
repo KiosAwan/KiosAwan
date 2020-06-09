@@ -16,8 +16,6 @@ import { clearAllRegistration, addFirstPassword } from '../../redux/actions/acti
 import { loginData, sendOTP } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { getProfile } from '../../redux/actions/actionsUserData';
-import LinearGradient from 'react-native-linear-gradient';
-import { HeaderRegister } from '../../components/Header/Header';
 import { FontList } from '../../styles/typography';
 import { InputPIN } from '../../components/Input/InputPIN';
 import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
@@ -83,9 +81,15 @@ const LoginVerification = ({ navigation }) => {
         navigation.navigate('/unauth/login/forgot-password')
         await sendOTP(data)
     }
-    return <Container style={{ padding: 15 }}>
+    return <Container style={{ padding: SizeList.base }}>
         <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
+            <AwanPopup.Loading visible={loading} />
+            <AwanPopup.Alert
+                message={alertMessage}
+                visible={alert}
+                closeAlert={() => setAlert(false)}
+            />
             <Text align="center">Masukkan password Anda.</Text>
             <Input
                 _flex
@@ -102,7 +106,7 @@ const LoginVerification = ({ navigation }) => {
                 }}
                 renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
             />
-            <Button color="link" align="center" onPress={_forgotPIN}>Lupa password?</Button>
+            <Button color="link" textStyle={{ color: ColorsList.primary }} align="center" onPress={_forgotPIN}>LUPA PASSWORD?</Button>
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handlePasswordLogin}>LANJUT</Button>
     </Container>
