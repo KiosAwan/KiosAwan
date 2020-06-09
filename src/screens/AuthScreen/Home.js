@@ -175,7 +175,7 @@ const Home = ({ navigation }) => {
 			<Body refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
 				<View style={{ justifyContent: "center" }}>
 					<BarStatus />
-					<Wrapper justify="space-between" style={{ paddingVertical: 10, paddingBottom: 0 }}>
+					<Wrapper justify="space-between" >
 						<View>
 							<Text align="left">Halo,</Text>
 							<Text align="left" font="SemiBold" size={16}>{User.data.name.toUpperCase()}</Text>
@@ -197,11 +197,11 @@ const Home = ({ navigation }) => {
 							</TouchableOpacity>
 						</Wrapper>
 					</View>
-					<Button width={80} onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
+					<Button width={100} onPress={_onPressTopUp}>TOP UP</Button>
 				</Wrapper>
 				{User.store &&
 					<TouchableOpacity onPress={() => navigation.navigate("Laporan")}>
-						<Wrapper shadow style={{ marginTop: 15, borderWidth: 0, borderColor: '#f4f4f4', backgroundColor: ColorsList.white }} justify="space-evenly">
+						<Wrapper shadow style={{ marginTop: SizeList.base, borderWidth: 0, borderColor: '#f4f4f4', backgroundColor: ColorsList.white }} justify="space-evenly">
 							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
 								<Text align="center" size={12}>Transaksi hari ini:</Text>
 								<Wrapper>
@@ -268,7 +268,7 @@ const Home = ({ navigation }) => {
 									</Button>
 							}
 						</View>
-						<Text font="SemiBold" style={{ paddingBottom: 15 }}>Quick Actions</Text>
+						<Text font="SemiBold" style={{ paddingBottom: SizeList.base }}>Quick Actions</Text>
 						<TouchableOpacity onPress={_onPressCashier}>
 							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
 								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/kasir.png")} />
@@ -310,10 +310,10 @@ const Home = ({ navigation }) => {
 				<ScrollView
 					horizontal={true}
 					showsHorizontalScrollIndicator={false}>
-					<Image style={{ width: width / 1.3, borderRadius: 5, height: 150, marginLeft: 10 }} source={require('src/assets/images/Banner.jpg')} />
+					<Image style={{ width: width / 1.3, borderRadius: 5, height: 150, }} source={require('src/assets/images/Banner.jpg')} />
 					<Image style={{ width: width / 1.3, borderRadius: 5, height: 150, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
 				</ScrollView>
-				<Text style={{ paddingHorizontal: 15, paddingVertical: 5 }} font="SemiBold">Tahukah Kamu?</Text>
+				<Text style={{ marginBottom: SizeList.base, }} font="SemiBold">Tahukah Kamu?</Text>
 				{
 					newsLoading ?
 						<NewsCardPlaceholder />
@@ -324,7 +324,7 @@ const Home = ({ navigation }) => {
 							showsHorizontalScrollIndicator={false}
 							renderItem={({ item, index }) => (
 								<CardTextImage
-									style={{ marginLeft: 10, marginRight: index == news.length - 1 ? 10 : 0 }}
+									style={{ marginRight: index != news.length - 1 ? 10 : 0 }}
 									onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url, link: item.link })}
 									image={item.jetpack_featured_media_url}
 									info={item.title.rendered}

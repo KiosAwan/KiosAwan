@@ -109,9 +109,10 @@ const Cashier = ({ navigation }) => {
                     keyExtractor={(item, index) => index.toString()}
                 />
                 :
-                <View>
-                    <Image style={{ width: 200, height: 200, alignSelf: "center" }} source={require('../../assets/images/noproductlist.png')} />
-                    <Text style={{ textAlign: "center", ...FontList.subtitleFontGreyBold }}>Anda belum mempunyai produk</Text>
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center", marginBottom : 70 }}>
+                    <Image style={{ width: 150, height: 150 }} source={require('../../assets/images/noproductlist.png')} />
+                    <Text align="center">Anda belum memiliki produk, tambahkan</Text>
+                    <Text align="center"> produk baru menggunakan tombol diatas</Text>
                 </View>
         }
         {Product.jumlahitem > 0 &&

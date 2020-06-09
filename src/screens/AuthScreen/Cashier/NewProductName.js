@@ -132,8 +132,8 @@ const NewProductName = ({ navigation }) => {
 				if (validNumber(text)) {
 					dispatch(addProductBarcode(text))
 				}
-			}} label="Nomor Barcode" renderRightAccessory={() => <Button onPress={() => navigation.goBack()}>
-				<Image size={25} source={require('src/assets/icons/barcode.png')} />
+			}} label="Nomor Barcode" renderRightAccessory={() => <Button width={40} onPress={() => navigation.goBack()}>
+				<Image size={20} source={require('src/assets/icons/barcode.png')} />
 			</Button>} value={NewProduct.barcode} />
 			<Input
 				inputStyle={{ marginTop: SizeList.base }}
@@ -191,109 +191,6 @@ const NewProductName = ({ navigation }) => {
 		<Button style={{ marginHorizontal: SizeList.base }} onPress={_handlePressNext}>LANJUTKAN</Button>
 	</Container>
 
-	return (
-		<View style={styles.mainView}>
-			<AwanPopup.Alert
-				message={errorMessage}
-				visible={errorAlert}
-				closeAlert={() => setErrorAlert(false)}
-			/>
-			<GlobalHeader title="Tambah Produk" onPressBack={() => navigation.goBack()} />
-			<ProgressIndicator
-				firstIsCompleteStep={true}
-				firstIsActiveStep={false}
-				firstSeparator
-				secondIsCompleteStep={false}
-				secondIsActiveStep={true}
-				thirdIsCompleteStep={false}
-				thirdIsActiveStep={false}
-			/>
-			{/* <MyModal backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} body={ */}
-			<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible} style={{ width: '80%' }}>
-				<Text style={{ paddingHorizontal: 10, color: ColorsList.primaryColor }}>{editNewCategory == 'add' ? 'Kategori Baru' : 'Edit Kategori'}</Text>
-				<Divider />
-				<View style={{ paddingHorizontal: 10, marginTop: 10 }}>
-					<MDInput
-						label="Nama Kategori"
-						value={newCategoryName}
-						onChangeText={(text) => setNewCategoryName(text)}
-					/>
-				</View>
-				<Wrapper justify="flex-end" style={{ paddingHorizontal: 10 }}>
-					<Button onPress={() => setAddCategoryVisible(false)} color="white">BATAL</Button>
-					<Button style={{ marginLeft: 10 }} onPress={_handleSaveNewCategory}>SIMPAN</Button>
-				</Wrapper>
-			</ModalCustom>
-			<ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
-				<View styles={{ paddingHorizontal: 30 }}>
-					<MDInput onChangeText={(text) => {
-						if (validNumber(text)) {
-							dispatch(addProductBarcode(text))
-						}
-					}} label="Nomor Barcode" renderRightAccessory={() => <Button onPress={() => navigation.goBack()}>
-						<Image size={25} source={require('src/assets/icons/barcode.png')} />
-					</Button>} value={NewProduct.barcode} />
-					<MDInput
-						disabled={isDisabled}
-						label="Nama Produk"
-						value={NewProduct.name}
-						onChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
-					/>
-					<SelectBoxModal style={{ marginTop: 15 }}
-						label="Pilih Kategori"
-						onOpen={() => setSearchCategory('')}
-						header={
-							<MDInput
-								label="Cari Kategori"
-								value={searchCategory}
-								onChangeText={text => setSearchCategory(text)}
-								renderLeftAccessory={() => <Icon size={15} style={{ color: ColorsList.primary }} name="search" />}
-								renderRightAccessory={() => <Button onPress={() => {
-									setNewCategoryName("")
-									setEditNewCategory('add')
-									setAddCategoryVisible(true)
-								}}>Tambah</Button>}
-							/>
-						}
-						value={selected}
-						handleChangePicker={(item) => {
-							setSelected(item.name_product_category)
-							dispatch(addProductIdCategory(item.id_product_category))
-						}}
-						closeOnSelect
-						data={Category.data.filter(v => v.name_product_category.toLowerCase().includes(searchCategory.toLowerCase()))}
-						renderItem={(item) => [<Text style={{
-							color: item.id_product_category == NewProduct.id_category ?
-								ColorsList.primaryColor : ColorsList.greyFont
-						}}>{item.name_product_category}</Text>, <Icon onPress={() => {
-							setAddCategoryVisible(true)
-							setEditNewCategory('edit')
-							setNewCategoryName(item.name_product_category)
-							setIdEditCategory(item.id_product_category)
-						}} style={{
-							color: item.id_product_category == NewProduct.id_category ?
-								ColorsList.primaryColor : ColorsList.greySoft
-						}} name="ios-create" />]}
-					/>
-				</View>
-
-				<View style={{ marginTop: 25 }}>
-					<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Produk</Text>
-					<View style={styles.imageWrapper}>
-						<TouchableOpacity onPress={() => rbRef.open()}>
-							<Image style={styles.image}
-								source={imageProduct ? { uri: imageProduct } : require('src/assets/images/img-product.png')}
-							/>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</ScrollView>
-			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
-			<Bottom>
-				<Button width="100%" onPress={_handlePressNext}>LANJUTKAN</Button>
-			</Bottom>
-		</View>
-	);
 }
 
 
@@ -308,7 +205,7 @@ const styles = StyleSheet.create({
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dotted', borderColor: ColorsList.black, borderWidth: 1, height: 200, borderColor: ColorsList.greyFont },
+	imageWrapper: { marginBottom: 10, borderStyle: "dashed", borderColor: ColorsList.black, borderWidth: SizeList.borderWidth, height: 200, borderColor: ColorsList.greyFont, borderRadius : SizeList.borderRadius },
 	image: { width: 300, height: 300 },
 
 })

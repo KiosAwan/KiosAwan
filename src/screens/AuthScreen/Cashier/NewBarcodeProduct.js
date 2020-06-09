@@ -91,29 +91,6 @@ const NewBarcodeProduct = ({ navigation }) => {
         {[1, '/', 3].map(v => <Text color="primary" size={16}>{v}</Text>)}
       </Wrapper>}
     />
-    {/* <View style={{ paddingBottom: SizeList.base, paddingHorizontal: SizeList.base, justifyContent: "space-between", flex: 1, paddingTop: 50 }}>
-      <View>
-        <Text align="center">PINDAI BARCODE</Text>
-        <Text align="center">Jika produk Anda tidak memiliki barcode, maka Anda dapat melewati langkah ini</Text>
-      </View>
-      <View style={{ flex: 1, borderRadius: 5, marginVertical: SizeList.base * 5, width: '80%', alignSelf: "center", marginTop: "50%" }}>
-        <RNCamera
-          style={{}}
-          onBarCodeRead={scanWork ? _onBarCodeRead : null}
-          defaultTouchToFocus
-          onFocusChanged={() => { }}
-          ratio="1:1"
-          autoFocus={RNCamera.Constants.AutoFocus.on}
-        >
-          <BarcodeMask
-            width={SizeList.width * 0.7} height={SizeList.width * 0.7}
-            showAnimatedLine
-            transparency={0}
-          />
-        </RNCamera>
-      </View>
-      <Button onPress={_handleNoBarcode}>LEWATI</Button>
-    </View> */}
     <View style={{ justifyContent: "center" }}>
       <RNCamera
         style={styles.camera}
@@ -133,9 +110,9 @@ const NewBarcodeProduct = ({ navigation }) => {
 
     <View style={styles.lowerSection}>
       <View style={{ alignItems: "center" }}>
-        <Text style={{ marginTop: 30, fontFamily: FontList.primaryFont, color: 'white', fontSize: 20 }}>Pindai Barcode</Text>
+        <Text style={{ marginTop: 30, fontFamily: "Rubik-Regular", color: 'white' }}>PINDAI BARCODE</Text>
         <View style={{ width: '70%', alignItems: 'center', marginTop: 10 }}>
-          <Text style={{ color: 'white', textAlign: "center", fontFamily: FontList.primaryFont }}>Jika produk tidak memiliki barcode , Anda dapat melewati langkah ini.</Text>
+          <Text style={{ color: 'white', textAlign: "center", fontFamily: FontList.primaryFont }}>Jika produk tidak memiliki barcode, Anda dapat melewati langkah ini.</Text>
         </View>
       </View>
       <Bottom>

@@ -70,7 +70,7 @@ const BottomSheetSelect = props => {
 				value={value}
 				noLabel={noLabel}
 				style={{ width: '100%' }}
-				renderRightAccessory={() => <Icon style={{ color: ColorsList.primary }} name='arrow-dropdown' />}
+				renderRightAccessory={() => <Icon style={{ color: ColorsList.greyFont }} name='arrow-dropdown' />}
 			/>
 		</Button>
 	</View>
