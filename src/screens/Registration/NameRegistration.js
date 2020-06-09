@@ -25,7 +25,7 @@ import Container from 'src/components/View/Container';
 import { Text } from 'src/components/Text/CustomText';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
-import UnauthHeader from 'src/components/View/UnauthHeader';
+import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
 import { SizeList } from 'src/styles/size';
 
@@ -54,6 +54,7 @@ const NameRegistration = ({ navigation }) => {
     }
 
     return <Container style={{ justifyContent: 'center', padding: SizeList.base }}>
+        <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <View style={{ marginBottom: 10, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <UnauthHeader />
             <AwanPopup.Alert
