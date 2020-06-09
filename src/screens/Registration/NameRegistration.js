@@ -53,7 +53,7 @@ const NameRegistration = ({ navigation }) => {
         }
     }
 
-    return <Container style={{ justifyContent: 'center', padding: SizeList.base }}>
+    return <Container style={{ justifyContent: 'center', padding: SizeList.bodyPadding }}>
         <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <View style={{ marginBottom: 10, flex: 1, justifyContent: "center", alignItems: "center" }}>
             <UnauthHeader />

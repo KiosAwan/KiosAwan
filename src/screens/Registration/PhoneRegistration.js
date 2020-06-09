@@ -154,7 +154,7 @@ const PhoneRegistration = ({ navigation }) => {
 	const _navigateRegister = () => {
 		navigation.navigate('/unauth/registration')
 	}
-	return <Container style={{ padding: SizeList.base, flex: 1 }}>
+	return <Container style={{ padding: SizeList.bodyPadding, flex: 1 }}>
 		<RBSheet
 			ref={ref => {
 				OTPRegisterSheet = ref;

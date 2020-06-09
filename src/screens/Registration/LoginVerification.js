@@ -81,7 +81,7 @@ const LoginVerification = ({ navigation }) => {
         navigation.navigate('/unauth/login/forgot-password')
         await sendOTP(data)
     }
-    return <Container style={{ padding: SizeList.base }}>
+    return <Container style={{ padding: SizeList.bodyPadding }}>
         <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <View style={{ justifyContent: 'center', marginBottom: 10, flex: 1 }}>
             <UnauthHeader />
