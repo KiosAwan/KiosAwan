@@ -29,6 +29,7 @@ const Akun = ({ navigation }) => {
 					["Helpdesk", "FAQ"].includes(props.name) ? navigation.navigate(props.route) : User.store && User.data.status == 1 ? navigation.navigate(props.route) : null
 				}
 			}}
+			width="100%"
 			style={{ borderRadius: 5, marginBottom: !props.noBottom ? 3 : 15 }}
 			padding={$Padding(5, 10)}
 			wrapper={{ justify: 'flex-start' }}
@@ -40,7 +41,7 @@ const Akun = ({ navigation }) => {
 	}
 	return (
 		<Container>
-			<Text style={{ marginTop : 15 }} font="SemiBold" align="center">AKUN</Text>
+			<Text style={{ marginTop: 15 }} font="SemiBold" align="center">AKUN</Text>
 			<Body>
 				<Wrapper style={{ marginBottom: 10 }} justify="space-between">
 					<View>

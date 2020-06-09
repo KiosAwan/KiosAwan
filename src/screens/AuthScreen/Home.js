@@ -172,7 +172,7 @@ const Home = ({ navigation }) => {
 	}
 	return (
 		<Container>
-			<Body style={{ padding: 5 }} refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
+			<Body refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
 				<View style={{ justifyContent: "center" }}>
 					<BarStatus />
 					<Wrapper justify="space-between" style={{ padding: 10, paddingBottom: 0 }}>
