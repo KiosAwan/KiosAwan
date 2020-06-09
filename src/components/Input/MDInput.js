@@ -12,8 +12,6 @@ import { SizeList } from 'src/styles/size'
 import { Wrapper } from '../View/Wrapper'
 import { $Border } from 'src/utils/stylehelper'
 
-
-
 const Input = props => {
 	let objCurrency = {}
 	const { currency, value = '', label = '', onChangeText = () => { } } = props
@@ -52,38 +50,6 @@ const Input = props => {
 			{render()}
 		</View>
 	}
-	const renderInputs = () => {
-		const noLabelProps = noLabel && {
-			placeholder: label,
-			label: ''
-		}
-		return <TextField
-			{...color()}
-			lineWidth={0}
-			activeLineWidth={0}
-			disabledLineWidth={0}
-			labelHeight={6}
-			fontSize={13}
-			labelFontSize={10}
-			labelTextStyle={{ marginTop: 10 }}
-			baseColor={ColorsList.primary}
-			tintColor={ColorsList.primary}
-			editable={!disabled}
-			onFocus={() => {
-				setFocus(true)
-				if (typeof onFocus == 'function') onFocus()
-			}}
-			onBlur={() => {
-				setFocus(false)
-				if (typeof onBlur == 'function') onBlur()
-			}}
-			placeholder={label}
-			{..._props}
-			style={{ color: ColorsList.greyFont, fontSize: 14, padding: 0, marginVertical: SizeList.secondary }}
-			{...objCurrency}
-			{...noLabelProps}
-		/>
-	}
 	const renderInput = () => {
 		const isFocused = () => {
 			if (focus)
@@ -116,7 +82,6 @@ const Input = props => {
 				activeLineWidth={0}
 				disabledLineWidth={0}
 				labelHeight={10}
-				// labelHeight={20}
 				fontSize={16}
 				labelFontSize={8}
 				labelTextStyle={{ marginTop: isFocused() ? 10 : 0 }}
@@ -147,18 +112,17 @@ const Input = props => {
 		borderRadius: SizeList.secondary,
 		flexDirection: 'row',
 		alignItems: 'center',
-		...!accessoryOut && { backgroundColor: ColorsList.white },
-		...shadowStyle,
+		...!accessoryOut && { backgroundColor: ColorsList.white, ...shadowStyle },
 		...styleOverride
 	}
 	]}>
 		{accessory(renderLeftAccessory)}
 		<View style={{
 			flex: 1,
-			// paddingHorizontal: SizeList.padding,
 			...accessoryOut && {
 				borderRadius: SizeList.secondary,
-				backgroundColor: ColorsList.white
+				backgroundColor: ColorsList.white,
+				...shadowStyle
 			}
 		}}>
 			{renderInput()}

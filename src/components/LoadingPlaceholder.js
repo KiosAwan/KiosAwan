@@ -4,20 +4,21 @@ import ContentLoader, { Rect } from "react-content-loader/native";
 import { Button } from "./Button/Button";
 import { Wrapper } from "./View/Wrapper";
 import { Text } from "./Text/CustomText";
+import { SizeList } from "src/styles/size";
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
 export const FavoriteLoader = () => <Button
     disabled
-    style={{ margin: 5 }}
+    style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}
     color={["white"]}
     noRadius spaceBetween>
     <ContentLoader height={50}>
-        <Rect x="20" y="8" rx="4" ry="4" width="50" height="35" />
-        <Rect x="90" y="10" rx="4" ry="4" width="100" height="15" />
-        <Rect x="90" y="27" rx="4" ry="4" width="100" height="15" />
-        <Rect x="295" y="15" rx="4" ry="4" width="25" height="25" />
+        <Rect x="5" y="8" rx="4" ry="4" width="30" height="35" />
+        <Rect x="45" y="10" rx="4" ry="4" width="200" height="15" />
+        <Rect x="45" y="27" rx="4" ry="4" width="200" height="15" />
+        <Rect x="255" y="15" rx="4" ry="4" width="25" height="25" />
     </ContentLoader>
 </Button>
 
