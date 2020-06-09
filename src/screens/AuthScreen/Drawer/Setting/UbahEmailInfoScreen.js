@@ -65,13 +65,13 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 				<Input label="Email" value={User.data.email}
 					editable={false}
 					renderRightAccessory={() =>
-						<Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
+						<Image style={{ width: 20, height: 20 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
 				{User.data.status == 0 ?
-					<View style={{ backgroundColor: ColorsList.dangerSoft, marginTop: SizeList.base, borderRadius : SizeList.borderRadius }}>
-						<Text color="danger" style={{ padding: 10 }} >Email anda belum terverifikasi, mohon segera verifikasi email Anda</Text>
+					<View style={{ backgroundColor: ColorsList.settingBg, marginTop: SizeList.base, borderRadius: SizeList.borderRadius }}>
+						<Text color="settingFont" style={{ padding: 10 }} >Email anda belum terverifikasi, mohon segera verifikasi email Anda</Text>
 					</View> :
-					<View style={{ backgroundColor: ColorsList.successSoft, marginTop: SizeList.base, borderRadius : SizeList.borderRadius }}>
-						<Text style={{ padding: 10 }} color="success">Email anda telah terverifikasi, tekan tombol dibawah untuk mengganti</Text>
+					<View style={{ backgroundColor: ColorsList.settingBg, marginTop: SizeList.base, borderRadius: SizeList.borderRadius }}>
+						<Text style={{ padding: 10 }} color="settingFont">Email anda telah terverifikasi, tekan tombol dibawah untuk mengganti</Text>
 					</View>
 				}
 			</View>
@@ -79,8 +79,8 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 				{
 					User.data.status == 0 ?
 						[
-							<Button onPress={_handleSendEmail} color="white" width="47.5%">Kirim Ulang</Button>,
-							<Button onPress={() => navigation.navigate('/drawer/settings/change-email/new-email')} width="47.5%">Ubah Email</Button>
+							<Button onPress={_handleSendEmail} color="link" width="47.5%">KIRIM ULANG</Button>,
+							<Button onPress={() => navigation.navigate('/drawer/settings/change-email/new-email')} width="47.5%">UBAH</Button>
 						]
 						:
 						<Button onPress={_nextBtn} width="100%">UBAH</Button>

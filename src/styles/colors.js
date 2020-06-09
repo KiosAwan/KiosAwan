@@ -32,4 +32,8 @@ export const ColorsList = {
     white: "#ffffff",
     whiteColor: "#ffffff",
     whitePlaceholder: "rgba(255,255,255,.5)",
+    informationBg : "#BEDCEF", 
+    informationFont : "#255B7E",
+    settingBg : "#FFF1B7",  
+    settingFont :  "#B79936"
 }

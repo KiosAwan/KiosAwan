@@ -49,7 +49,7 @@ export const Button = props => {
 		link: {
 			borderColor: ColorsList.transparent,
 			backgroundColor: ColorsList.transparent,
-			text: ColorsList.greyFont
+			text: ColorsList.primary
 		},
 		linkPrimary: {
 			borderColor: ColorsList.transparent,
