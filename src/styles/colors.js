@@ -1,6 +1,7 @@
 export const ColorsList = {
-    authBackground: "#f2f2f2",
+    authBackground: "#F7F7FC",
     borderColor: "#f4f4f4",
+    modalBackground: "#FAFAFA",
     black: "#000",
     blackTransparent: "rgba(0,0,0,.5)",
     borderBg: "#cdd3e0",

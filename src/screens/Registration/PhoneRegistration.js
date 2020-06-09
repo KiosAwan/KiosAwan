@@ -189,12 +189,12 @@ const PhoneRegistration = ({ navigation }) => {
 			closeAlert={() => setAlert(false)}
 		/>
 		<AwanPopup.Loading visible={loading} />
-		<Modal visible={popup} style={{ borderRadius: 5, width: '80%', ...$Padding(20, 15) }}>
-			<Text style={{ marginBottom: 10, padding: 10, backgroundColor: ColorsList.white, elevation: 2 }} size={20} align="center">0 {FormRegister.phone_number.split('').join(' ')}</Text>
-			<Text color="pink">Nomor ini tidak ditemukan.</Text>
-			<Text>Apakah Anda yakin akan mendaftar aplikasi menggunakan nomor ini?</Text>
+		<Modal visible={popup} style={{ borderRadius: 5, width: '80%', ...$Padding(20, 20) }}>
+			<Text style={{ marginBottom: 10, padding: 10, backgroundColor: ColorsList.white, borderRadius : SizeList.borderRadius }} size={20} align="center">0 {FormRegister.phone_number.split('').join(' ')}</Text>
+			<Text style={{ marginBottom: 10, }} color="pink">Nomor ini tidak ditemukan.</Text>
+			<Text style={{ marginBottom: 10, }}>Apakah Anda yakin akan mendaftar aplikasi menggunakan nomor ini?</Text>
 			<Wrapper style={{ marginTop: 15 }} flexContent>
-				<Button onPress={() => setPopup(false)} color="link">Batal</Button>
+				<Button onPress={() => setPopup(false)} color="link">BATAL</Button>
 				<Button radius={50} onPress={() => _sendOTP(OTPRegisterSheet)}>LANJUT</Button>
 			</Wrapper>
 		</Modal>
