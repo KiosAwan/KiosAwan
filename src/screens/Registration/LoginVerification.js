@@ -96,7 +96,7 @@ const LoginVerification = ({ navigation }) => {
                 autoFocus
                 noLabel
                 secureTextEntry={secure}
-                placeholder="Masukkan Konfirmasi Password"
+                placeholder="Masukkan password"
                 style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
                 value={FormRegister.secondPIN}
                 onChangeText={(psw) => {
