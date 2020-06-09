@@ -50,7 +50,7 @@ const CheckMember = (props) => {
         }
       } else {
         if (checkUserIntro == "sudah") {
-          navigation.navigate('/unauth/registration')
+          navigation.navigate('/unauth')
         } else {
           navigation.navigate('/intro')
         }

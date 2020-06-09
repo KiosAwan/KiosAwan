@@ -175,7 +175,7 @@ const Home = ({ navigation }) => {
 			<Body refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
 				<View style={{ justifyContent: "center" }}>
 					<BarStatus />
-					<Wrapper justify="space-between" style={{ padding: 10, paddingBottom: 0 }}>
+					<Wrapper justify="space-between" style={{ paddingVertical: 10, paddingBottom: 0 }}>
 						<View>
 							<Text align="left">Halo,</Text>
 							<Text align="left" font="SemiBold" size={16}>{User.data.name.toUpperCase()}</Text>
@@ -187,7 +187,7 @@ const Home = ({ navigation }) => {
 						</View>
 					</Wrapper>
 				</View>
-				<Wrapper justify="space-between" style={$Padding(10, 10)}>
+				<Wrapper justify="space-between" style={$Padding(10, 0)}>
 					<View>
 						<Text>Saldo anda sebesar: </Text>
 						<Wrapper spaceBetween>
@@ -201,7 +201,7 @@ const Home = ({ navigation }) => {
 				</Wrapper>
 				{User.store &&
 					<TouchableOpacity onPress={() => navigation.navigate("Laporan")}>
-						<Wrapper shadow style={{ marginTop: 15, borderWidth: 0, borderColor: '#f4f4f4', backgroundColor: ColorsList.white, marginHorizontal: 10 }} justify="space-evenly">
+						<Wrapper shadow style={{ marginTop: 15, borderWidth: 0, borderColor: '#f4f4f4', backgroundColor: ColorsList.white }} justify="space-evenly">
 							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
 								<Text align="center" size={12}>Transaksi hari ini:</Text>
 								<Wrapper>
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	childContainer: {
-		marginHorizontal: SizeList.base,
+		// marginHorizontal: SizeList.base,
 	},
 	firstChildView: {
 		height: 80,
