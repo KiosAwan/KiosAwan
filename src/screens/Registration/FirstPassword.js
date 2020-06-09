@@ -75,7 +75,7 @@ const FirstPassword = ({ navigation }) => {
                 style={{ marginTop: SizeList.base, color: ColorsList.greyFont }}
                 value={FormRegister.password}
                 onChangeText={(pass) => _handleChangePassword(pass)}
-                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
+                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont, fontSize: 20 }} name={!secure ? "eye" : "eye-off"} />}
             />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextButton}>LANJUT</Button>

@@ -102,7 +102,7 @@ const SecondPassword = ({ navigation }) => {
                 style={{ marginTop: SizeList.base }}
                 value={FormRegister.secondPIN}
                 onChangeText={(pin) => _handleChangePIN(pin)}
-                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont }} name={!secure ? "eye" : "eye-off"} />}
+                renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} style={{ color: ColorsList.greyFont, fontSize: 20 }} name={!secure ? "eye" : "eye-off"} />}
             />
         </View>
         <Button color={!btnDisabled ? 'primary' : ['transparent', 'transparent']} disabled={btnDisabled} radius={50} onPress={_handleNextButton}>LANJUT</Button>
