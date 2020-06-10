@@ -112,7 +112,8 @@ export const Button = props => {
 	return <TouchableOpacity activeOpacity={.5} {...props} style={{
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
-		justifyContent: 'flex-start',
+		height : props.height,
+		justifyContent: props.justify || 'flex-start',
 		borderRadius: props.noRadius ? 0 : props.radius || 20, ...ifWhitespaces() && { display: "none" },
 		...props.flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
@@ -123,6 +124,7 @@ export const Button = props => {
 		{
 			['string', 'number'].includes(typeof children) ?
 				<Text align="center"
+					font="SemiBold"
 					style={[{ alignSelf: props.align || 'center', color: active ? _activeColor.text : _color.text }, props.textStyle]} {...props.textProps}>
 					{children}
 				</Text>

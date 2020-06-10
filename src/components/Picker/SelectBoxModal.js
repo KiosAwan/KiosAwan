@@ -29,7 +29,33 @@ export const WrapperItem = (props) => {
 		</View>
 	)
 }
-
+export const RoundedToggleButton = (props) => {
+	const [activeIndex, setActiveIndex] = useState(props.toggle || 0)
+	useEffect(() => {
+		if (props.toggle) {
+			setActiveIndex(props.toggle)
+		}
+	})
+	const _handleChangeBtn = (btn, i) => {
+		setActiveIndex(i)
+		props.changeToggle(i)
+	}
+	return props.vertical ?
+		<View {...props}>
+			{
+				props.buttons.rMap((btn, i) => {
+					return <Button key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} noRadius {...props.buttonProps}>{btn}</Button>
+				})
+			}
+		</View> :
+		<Wrapper {...props}>
+			{
+				props.buttons.rMap((btn, i) => {
+					return <Button noBorder={activeIndex ==  i ? false : true} justify="center" height={40} padding={0} width={40} key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} {...props.buttonProps}>{btn}</Button>
+				})
+			}
+		</Wrapper>
+}
 export const ToggleButton = (props) => {
 	const [activeIndex, setActiveIndex] = useState(props.toggle || 0)
 	useEffect(() => {

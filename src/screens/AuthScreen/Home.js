@@ -172,148 +172,150 @@ const Home = ({ navigation }) => {
 	}
 	return (
 		<Container>
-			<Body refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
-				<View style={{ justifyContent: "center" }}>
-					<BarStatus />
-					<Wrapper justify="space-between" >
-						<View>
-							<Text align="left">Halo,</Text>
-							<Text align="left" font="SemiBold" size={16}>{User.data.name.toUpperCase()}</Text>
-						</View>
-						<View style={{ justifyContent: 'center' }}>
-							<TouchableOpacity onPress={_onPressRiwayat}>
-								<Icon color="grey" size={20} name="bell" />
-							</TouchableOpacity>
-						</View>
-					</Wrapper>
-				</View>
-				<Wrapper justify="space-between" style={$Padding(10, 0)}>
-					<View>
-						<Text>Saldo anda sebesar: </Text>
-						<Wrapper spaceBetween>
-							<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
-							<TouchableOpacity onPress={_handleRefresh}>
-								<Image source={require('src/assets/icons/home/refresh.png')} size={15} style={{ marginLeft: 10 }} />
-							</TouchableOpacity>
+			<Body style={{ padding: 0 }} refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
+				<View style={{ padding: SizeList.bodyPadding, paddingBottom: 0 }}>
+					<View style={{ justifyContent: "center" }}>
+						<BarStatus />
+						<Wrapper justify="space-between" >
+							<View>
+								<Text align="left">Halo,</Text>
+								<Text align="left" font="SemiBold" size={16}>{User.data.name.toUpperCase()}</Text>
+							</View>
+							<View style={{ justifyContent: 'center' }}>
+								<TouchableOpacity onPress={_onPressRiwayat}>
+									<Icon color="grey" size={20} name="bell" />
+								</TouchableOpacity>
+							</View>
 						</Wrapper>
 					</View>
-					<Button width={100} onPress={_onPressTopUp}>TOP UP</Button>
-				</Wrapper>
-				{User.store &&
-					<TouchableOpacity onPress={() => navigation.navigate("Laporan")}>
-						<Wrapper shadow style={{ marginTop: SizeList.base, borderWidth: 0, borderColor: '#f4f4f4', backgroundColor: ColorsList.white }} justify="space-evenly">
-							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
-								<Text align="center" size={12}>Transaksi hari ini:</Text>
-								<Wrapper>
-									<Text color={_getFlagColor(User.store.penjualan_flag)} align="center">{convertRupiah(User.store.penjualan_harian)}</Text>
-									{User.store.penjualan_flag != 0 &&
-										<Icon
-											size={15}
-											name={User.store.penjualan_flag == 2 ? "sort-up" : "sort-down"}
-											color={_getFlagColor(User.store.penjualan_flag)}
-										/>
-									}
-								</Wrapper>
-							</View>
-							{/* <Divider flex /> */}
-							<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
-								<Text align="center" size={12}>Keuntungan hari ini:</Text>
-								<Wrapper>
-									<Text color={_getFlagColor(User.store.profit_flag)} align="center">{convertRupiah(convertRupiah(User.store.profit_harian))}</Text>
-									{User.store.profit_flag != 0 &&
-										<Icon
-											size={15}
-											name={User.store.profit_flag == 2 ? "sort-up" : "sort-down"}
-											color={_getFlagColor(User.store.profit_flag)}
-										/>
-									}
-								</Wrapper>
-							</View>
-						</Wrapper>
-					</TouchableOpacity>
-				}
-				<View
-					style={styles.childContainer}>
-					<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
-						<View></View>
-						<Button width='30%' onPress={_completeProfile}>OK</Button>
-					</AwanPopup.Title>
-					<View style={{ paddingVertical: SizeList.base }}>
-						<View style={{}}>
-							{
-								maintanance && <Button disabled color="info" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius }}>
-									<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-									<TextTicker
-										width="90%"
-										style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
-										duration={20000}
-										loop
-										bounce
-										marqueeDelay={500}
-									>{message}</TextTicker>
-								</Button>
-							}
-							{
-								User.store ?
-									User.data.status == 0 &&
-									<Button onPress={() => navigation.navigate('/drawer/settings/change-email')} color="purple" flexStart wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
-										<Icon color={ColorsList.purple} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-										<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
-									</Button>
-									:
-									<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
-										<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-										<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
-										<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>
-									</Button>
-							}
+					<Wrapper justify="space-between" style={$Padding(10, 0)}>
+						<View>
+							<Text>Saldo anda sebesar: </Text>
+							<Wrapper spaceBetween>
+								<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
+								<TouchableOpacity onPress={_handleRefresh}>
+									<Image source={require('src/assets/icons/home/refresh.png')} size={15} style={{ marginLeft: 10 }} />
+								</TouchableOpacity>
+							</Wrapper>
 						</View>
-						<Text font="SemiBold" style={{ paddingBottom: SizeList.base }}>Quick Actions</Text>
-						<TouchableOpacity onPress={_onPressCashier}>
-							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
-								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/kasir.png")} />
-								<View _width="80%">
-									<Text font="SemiBold" color="primary">KASIR</Text>
-									<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
+						<Button width={100} onPress={_onPressTopUp}>TOP UP</Button>
+					</Wrapper>
+					{User.store &&
+						<TouchableOpacity onPress={() => navigation.navigate("Laporan")}>
+							<Wrapper shadow style={{ marginTop: SizeList.base, borderWidth: 0, borderColor: '#f4f4f4', backgroundColor: ColorsList.white }} justify="space-evenly">
+								<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
+									<Text align="center" size={12}>Transaksi hari ini:</Text>
+									<Wrapper>
+										<Text color={_getFlagColor(User.store.penjualan_flag)} align="center">{convertRupiah(User.store.penjualan_harian)}</Text>
+										{User.store.penjualan_flag != 0 &&
+											<Icon
+												size={15}
+												name={User.store.penjualan_flag == 2 ? "sort-up" : "sort-down"}
+												color={_getFlagColor(User.store.penjualan_flag)}
+											/>
+										}
+									</Wrapper>
+								</View>
+								{/* <Divider flex /> */}
+								<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
+									<Text align="center" size={12}>Keuntungan hari ini:</Text>
+									<Wrapper>
+										<Text color={_getFlagColor(User.store.profit_flag)} align="center">{convertRupiah(convertRupiah(User.store.profit_harian))}</Text>
+										{User.store.profit_flag != 0 &&
+											<Icon
+												size={15}
+												name={User.store.profit_flag == 2 ? "sort-up" : "sort-down"}
+												color={_getFlagColor(User.store.profit_flag)}
+											/>
+										}
+									</Wrapper>
 								</View>
 							</Wrapper>
 						</TouchableOpacity>
-						<TouchableOpacity onPress={_onPressPayment}>
-							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
-								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons//home/ppob.png")} />
-								<View _width="80%">
-									<Text font="SemiBold" color="primary">PEMBAYARAN</Text>
-									<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
-								</View>
-							</Wrapper>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={_onPressStock}>
-							<Wrapper spaceBetween shadow style={styles.cardWrapper}>
-								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/restock.png")} />
-								<View _width="80%">
-									<Text font="SemiBold" color="primary">BELANJA STOK</Text>
-									<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
-								</View>
-							</Wrapper>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={_onPressHutang}>
-							<Wrapper spaceBetween shadow style={[styles.cardWrapper, { marginBottom: 0 }]}>
-								<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/hutang.png")} />
-								<View _width="80%">
-									<Text font="SemiBold" color="primary">PENCATATAN HUTANG</Text>
-									<Text size={12}>Kelola hutang dan piutang usaha kios atau warung</Text>
-								</View>
-							</Wrapper>
-						</TouchableOpacity>
+					}
+					<View
+						style={styles.childContainer}>
+						<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
+							<View></View>
+							<Button width='30%' onPress={_completeProfile}>OK</Button>
+						</AwanPopup.Title>
+						<View style={{ paddingVertical: SizeList.base }}>
+							<View style={{}}>
+								{
+									maintanance && <Button disabled color="info" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius }}>
+										<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+										<TextTicker
+											width="90%"
+											style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+											duration={20000}
+											loop
+											bounce
+											marqueeDelay={500}
+										>{message}</TextTicker>
+									</Button>
+								}
+								{
+									User.store ?
+										User.data.status == 0 &&
+										<Button onPress={() => navigation.navigate('/drawer/settings/change-email')} color="purple" flexStart wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
+											<Icon color={ColorsList.purple} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+											<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
+										</Button>
+										:
+										<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" wrapper={{ flexStart }} style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
+											<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+											<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
+											<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>
+										</Button>
+								}
+							</View>
+							<Text font="SemiBold" style={{ paddingBottom: SizeList.base }}>Quick Actions</Text>
+							<TouchableOpacity onPress={_onPressCashier}>
+								<Wrapper spaceBetween shadow style={styles.cardWrapper}>
+									<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/kasir.png")} />
+									<View _width="80%">
+										<Text font="SemiBold" color="primary">KASIR</Text>
+										<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
+									</View>
+								</Wrapper>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={_onPressPayment}>
+								<Wrapper spaceBetween shadow style={styles.cardWrapper}>
+									<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons//home/ppob.png")} />
+									<View _width="80%">
+										<Text font="SemiBold" color="primary">PEMBAYARAN</Text>
+										<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
+									</View>
+								</Wrapper>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={_onPressStock}>
+								<Wrapper spaceBetween shadow style={styles.cardWrapper}>
+									<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/restock.png")} />
+									<View _width="80%">
+										<Text font="SemiBold" color="primary">BELANJA STOK</Text>
+										<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
+									</View>
+								</Wrapper>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={_onPressHutang}>
+								<Wrapper spaceBetween shadow style={[styles.cardWrapper, { marginBottom: 0 }]}>
+									<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/hutang.png")} />
+									<View _width="80%">
+										<Text font="SemiBold" color="primary">PENCATATAN HUTANG</Text>
+										<Text size={12}>Kelola hutang dan piutang usaha kios atau warung</Text>
+									</View>
+								</Wrapper>
+							</TouchableOpacity>
+						</View >
 					</View >
-				</View >
+				</View>
 				<ScrollView
 					horizontal={true}
 					showsHorizontalScrollIndicator={false}>
-					<Image style={{ width: width / 1.3, borderRadius: 5, height: 150, }} source={require('src/assets/images/Banner.jpg')} />
-					<Image style={{ width: width / 1.3, borderRadius: 5, height: 150, marginHorizontal: 10 }} source={require('src/assets/images/Banner2.jpg')} />
+					<Image style={{ width: width - 40, borderRadius: 5, height: 170, marginLeft: SizeList.bodyPadding }} source={require('src/assets/images/Banner.jpg')} />
+					<Image style={{ width: width - 40, borderRadius: 5, height: 170, marginHorizontal: SizeList.bodyPadding }} source={require('src/assets/images/Banner2.jpg')} />
 				</ScrollView>
-				<Text style={{ marginBottom: SizeList.base, }} font="SemiBold">Tahukah Kamu?</Text>
+				<Text style={{ margin: SizeList.bodyPadding, marginTop: 0 }} font="SemiBold">Tahukah Kamu?</Text>
 				{
 					newsLoading ?
 						<NewsCardPlaceholder />
@@ -324,7 +326,7 @@ const Home = ({ navigation }) => {
 							showsHorizontalScrollIndicator={false}
 							renderItem={({ item, index }) => (
 								<CardTextImage
-									style={{ marginRight: index != news.length - 1 ? 10 : 0 }}
+									style={{ marginLeft: SizeList.bodyPadding, marginRight: index == news.length - 1 ? SizeList.bodyPadding : 0 }}
 									onPressCard={() => navigation.navigate('/news-screen', { title: item.title.rendered, data: item.content.rendered, newsImage: item.jetpack_featured_media_url, link: item.link })}
 									image={item.jetpack_featured_media_url}
 									info={item.title.rendered}
