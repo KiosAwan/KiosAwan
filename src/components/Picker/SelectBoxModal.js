@@ -86,9 +86,9 @@ export const ToggleButton = (props) => {
 export const ToggleButtonMoney = (props) => {
 	const [activeIndex, setActiveIndex] = useState()
 	const dispatch = useDispatch()
-	const width = 100 / props.buttons.length
+	const width = 90 / props.buttons.length
 	return (
-		<Wrapper>
+		<Wrapper style={{ width : "100%"}} justify="space-between">
 			{
 				props.buttons.rMap((btn, i) => {
 					return <Button
@@ -100,7 +100,8 @@ export const ToggleButtonMoney = (props) => {
 							dispatch(AddCashPayment(btn))
 						}}
 						_width={`${width}%`}
-						color={activeIndex == i ? 'primary' : 'white'} style={props.style}>
+						color={activeIndex == i ? 'primary' : 'linkBorder'} 
+						style={[props.style]}>
 						{i == 0 ? "UANG PAS" : convertRupiah(btn).toUpperCase()}
 					</Button>
 				})
