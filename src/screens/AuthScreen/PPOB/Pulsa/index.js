@@ -164,7 +164,7 @@ const PpobPulsa = ({ navigation }) => {
 					<Icon name="address-book" size={20} color={ColorsList.white} />
 				</Button>
 			</Wrapper>
-			{/* {
+			{
 				__DEV__ && <View>
 					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
 					<FlatList
@@ -175,7 +175,7 @@ const PpobPulsa = ({ navigation }) => {
 						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
 					/>
 				</View>
-			} */}
+			}
 			<View style={styles.simpan}>
 				<Text>Simpan nomor ini ke favorit</Text>
 				<SwitchButton
