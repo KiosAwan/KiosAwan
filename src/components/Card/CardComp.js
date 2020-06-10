@@ -80,7 +80,7 @@ export const CardTextImage = (props) => {
 }
 
 export const ImageText = props => {
-    return <View style={[styles.viewNoImageProduct, { width: props.size || '25%', height: props.size || '100%' }, props.style]}>
+    return <View style={[styles.viewNoImageProduct, { width: props.size || width * 0.17, height: props.size || width * 0.17 }, props.style]}>
         <Text font="SemiBold" color="greyFont" size={20}>{props.name ? props.notGenerated ? props.name : props.name.generateInitial() : null}</Text>
     </View>
 }
@@ -109,26 +109,26 @@ export const ProductCards = props => {
 export const ProductCard = (props) => {
     return (
         <TouchableOpacity onPress={props.onPressPlus ? props.plusDisabled ? null : props.onPressPlus : null} activeOpacity={props.onPressPlus ? .5 : 1}>
-            <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: SizeList.base, borderRadius: 5, padding: SizeList.padding }}>
+            <View style={{ height: width * 0.21, backgroundColor: 'white', marginBottom: SizeList.base, borderRadius: 5, padding: SizeList.base }}>
                 <View style={[styles.card, props.cardStyle]}>
                     <View style={{ ...RowChild, height: '100%', width: '90%' }}>
                         {
                             props.manage_stock ?
                                 props.productImage ?
-                                    <FastImage style={{ width: '20%', height: '80%', margin: 5, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
+                                    <FastImage style={{ width: width * 0.17, height: width * 0.17, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
                                     :
                                     <ImageText name={props.name} />
                                 :
                                 props.productImage ?
                                     <FastImage
-                                        style={{ width: '20%', height: '80%', margin: 5, backgroundColor: ColorsList.greyAuthHard }}
+                                        style={{ width: width * 0.17, height: width * 0.17, backgroundColor: ColorsList.greyAuthHard }}
                                         source={{ uri: props.productImage, priority: FastImage.priority.high, }}
 
                                     />
                                     :
                                     <ImageText name={props.name} />
                         }
-                        <View style={{ marginLeft: SizeList.padding, width: '70%' }}>
+                        <View style={{ marginLeft: SizeList.base, width: '70%' }}>
                             <Text font="SemiBold" color="primary">{props.name.length > 25 ? props.name.substr(0, 25) + '...' : props.name}</Text>
                             <Text style={[props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
                             <Text>{props.price}</Text>
@@ -138,11 +138,11 @@ export const ProductCard = (props) => {
                         props.right ? props.right :
                             <View style={{ width: '10%', backgroundColor: ColorsList.modalBackground, height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
                                 <TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
-                                    <Image style={{ width: 14, height: 14 }} source={require("src/assets/icons/plus.png")} />
+                                    <Image style={{ width: 12, height: 12 }} source={require("src/assets/icons/plus.png")} />
                                 </TouchableOpacity>
                                 <Text font="SemiBold" style={{ marginHorizontal: 8 }}>{props.quantity ? props.quantity : 0}</Text>
                                 <TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
-                                    <Image style={{ width: 14, height: 14 }} source={require("src/assets/icons/minus.png")} />
+                                    <Image style={{ width: 12, height: 12 }} source={require("src/assets/icons/minus.png")} />
                                 </TouchableOpacity>
                             </View>
                     }
@@ -241,8 +241,6 @@ const styles = StyleSheet.create({
         padding: 5
     },
     viewNoImageProduct: {
-        width: '20%',
-        height: '70%',
         backgroundColor: "#e5e5e5",
         justifyContent: "center",
         alignItems: "center",

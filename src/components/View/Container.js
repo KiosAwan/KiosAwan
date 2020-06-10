@@ -32,7 +32,7 @@ const BodyFlatList = props => <FlatList {...props} style={{ padding: SizeList.bo
 const Footer = props => {
 	const { style, noPadding } = props
 	return <View {...props} style={{
-		...!noPadding && { padding: SizeList.bodyPadding },
+		...!noPadding && { paddingHorizontal: SizeList.bodyPadding, marginBottom : SizeList.bodyPadding },
 		...style
 	}} />
 }

@@ -51,6 +51,11 @@ export const Button = props => {
 			backgroundColor: ColorsList.transparent,
 			text: ColorsList.primary
 		},
+		linkBorder: {
+			borderColor: ColorsList.borderColor,
+			backgroundColor: ColorsList.transparent,
+			text: ColorsList.primary
+		},
 		linkPrimary: {
 			borderColor: ColorsList.transparent,
 			backgroundColor: ColorsList.transparent,
@@ -112,17 +117,20 @@ export const Button = props => {
 	return <TouchableOpacity activeOpacity={.5} {...props} style={{
 		borderWidth: props.noBorder ? 0 : 1,
 		width: props.width,
-		justifyContent: 'flex-start',
+		height: props.height,
+		marginHorizontal: props.marginHorizontal,
+		justifyContent: props.justify || 'flex-start',
 		borderRadius: props.noRadius ? 0 : props.radius || 20, ...ifWhitespaces() && { display: "none" },
 		...props.flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
-		...props.noBorder && { borderColor: ColorsList.transparent },
+		...props.noBorder && { borderColor: ColorsList.borderColor },
 		...active ? _activeColor : _color,
 		...props.style
 	}}>
 		{
 			['string', 'number'].includes(typeof children) ?
 				<Text align="center"
+					font="SemiBold"
 					style={[{ alignSelf: props.align || 'center', color: active ? _activeColor.text : _color.text }, props.textStyle]} {...props.textProps}>
 					{children}
 				</Text>

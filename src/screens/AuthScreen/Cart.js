@@ -7,7 +7,7 @@ import { ColorsList } from '../../styles/colors';
 import { addDiscountProductPersen, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct, removeProductCart } from '../../redux/actions/actionsStoreProduct';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader, IconHeader } from '../../components/Header/Header';
-import { PilihPelanggan, ToggleButton } from '../../components/Picker/SelectBoxModal';
+import { PilihPelanggan, ToggleButton, RoundedToggleButton } from '../../components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -20,7 +20,7 @@ import Divider from 'src/components/Row/Divider';
 import { RemovePPOBFromCart } from 'src/redux/actions/actionsPPOB';
 import MDInput, { Input } from 'src/components/Input/MDInput';
 import AsyncStorage from 'src/utils/async-storage';
-import Container, { Body } from 'src/components/View/Container';
+import Container, { Body, Footer } from 'src/components/View/Container';
 import Alert from 'src/utils/alert';
 import { SizeList } from 'src/styles/size';
 
@@ -197,28 +197,30 @@ const Cart = ({ navigation }) => {
 		</Modal>
 		<Body showsVerticalScrollIndicator={false}>
 			{Product.belanja.length > 0 ?
-				<Text>Daftar Produk</Text>
+				<Text style={{ marginBottom: SizeList.base }}>Daftar Produk</Text>
 				: null}
-			<View style={{ marginVertical: 5, borderRadius: 5, backgroundColor: ColorsList.white, elevation: 1, padding: 5 }}>
+			<View style={{ borderColor: ColorsList.borderColor, borderWidth: SizeList.borderWidth, marginBottom: SizeList.base, borderRadius: 5, backgroundColor: ColorsList.white, paddingHorizontal: SizeList.base }}>
 				{
 					Product.belanja.rMap((data, i) => {
 						return <View>
-							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
+							<Wrapper key={i} style={{ paddingVertical: SizeList.base }} justify="space-between">
 								<View _width="70%">
-									<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.name_product}</Text>
+									<Text font="SemiBold" color="primary" size={15} style={{ marginBottom: SizeList.secondary }}>{data.name_product}</Text>
 									<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>
 									{data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen + "%"}</Text>}
 								</View>
-								<View _width="30%" style={{ alignItems: 'flex-end' }}>
-									<Wrapper>
-										<TouchableOpacity activeOpacity={.5} onPress={() => _prompDeletePesanan(i, data)} style={{ width: 30, height: 30 }}>
-											<ImageAuto source={require('src/assets/icons/trash-primary.png')} />
-										</TouchableOpacity>
-										<TouchableOpacity activeOpacity={.5} onPress={() => _editPesanan(i, data)} style={{ width: 35, height: 35 }}>
-											<ImageAuto source={require('src/assets/icons/edit.png')} />
-										</TouchableOpacity>
-									</Wrapper>
-									<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product * data.quantity)}</Text>
+								<View _width="30%">
+									<View style={{ width: "60%", alignSelf: "flex-end", marginBottom: SizeList.secondary }}>
+										<Wrapper align="flex-end" justify="space-between">
+											<TouchableOpacity activeOpacity={.5} onPress={() => _prompDeletePesanan(i, data)} style={{ width: 18, height: 18 }}>
+												<ImageAuto source={require('src/assets/icons/delete.png')} />
+											</TouchableOpacity>
+											<TouchableOpacity activeOpacity={.5} onPress={() => _editPesanan(i, data)} style={{ width: 18, height: 18 }}>
+												<ImageAuto source={require('src/assets/icons/edit.png')} />
+											</TouchableOpacity>
+										</Wrapper>
+									</View>
+									<Text align="right">{convertRupiah(data.price_out_product * data.quantity)}</Text>
 									{data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.discount_total)}</Text>}
 								</View>
 							</Wrapper>
@@ -232,9 +234,9 @@ const Cart = ({ navigation }) => {
 				{
 					Product.ppob_cart.rMap((data, i) => {
 						return <View>
-							<Wrapper key={i} style={{ padding: 10 }} justify="space-between">
+							<Wrapper key={i} style={{ paddingVertical: SizeList.base }} justify="space-between">
 								<View _width="60%">
-									<Text style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.productName.toUpperCase()}</Text>
+									<Text font="SemiBold" style={{ color: ColorsList.primaryColor, fontSize: 15 }}>{data.productName.toUpperCase()}</Text>
 									<Text style={{ color: ColorsList.greyFont }}>{data.customerID}</Text>
 								</View>
 								<View _width="40%" style={{ alignItems: 'flex-end' }}>
@@ -246,27 +248,27 @@ const Cart = ({ navigation }) => {
 					})
 				}
 				<Wrapper justify="space-between">
-					<Text style={{ padding: 10 }}>Subtotal</Text>
-					<Text style={{ padding: 10 }}>{convertRupiah(Product.total)}</Text>
+					<Text style={{ paddingVertical: 10 }}>Subtotal</Text>
+					<Text style={{ paddingVertical: 10 }}>{convertRupiah(Product.total)}</Text>
 				</Wrapper>
 				<Divider />
 				{Product.total_diskon == 0 ? null :
 					<View>
 						<Wrapper justify="space-between">
-							<Text style={{ padding: 10 }}>Total diskon</Text>
-							<Text style={{ padding: 10 }} color="danger">- {convertRupiah(Product.total_diskon)}</Text>
+							<Text style={{ paddingVertical: 10 }}>Total diskon</Text>
+							<Text style={{ paddingVertical: 10 }} color="danger">- {convertRupiah(Product.total_diskon)}</Text>
 						</Wrapper>
 						<Divider />
 					</View>
 				}
 				<Wrapper justify="space-between">
-					<Text style={{ padding: 10 }} font="SemiBold">Total</Text>
-					<Text style={{ padding: 10 }} font="SemiBold">{convertRupiah(Product.total - Product.total_diskon)}</Text>
+					<Text style={{ paddingVertical: 10 }} font="SemiBold">Total</Text>
+					<Text style={{ paddingVertical: 10 }} font="SemiBold">{convertRupiah(Product.total - Product.total_diskon)}</Text>
 				</Wrapper>
 
 			</View>
 			<View style={{ marginVertical: SizeList.base, }}>
-				<Text>Apakah ada tambahan?</Text>
+				<Text style={{ marginBottom: SizeList.base }}>Apakah ada tambahan?</Text>
 				<Wrapper justify="space-between" style={{ marginTop: 5 }}>
 					<Button wrapper={{ justify: "center" }} color="white" noBorder _width="48%" justify="center" padding={10} onPress={async () => {
 						if (Product.data.length == 0) {
@@ -275,61 +277,60 @@ const Cart = ({ navigation }) => {
 						}
 						navigation.navigate('/cashier')
 					}}>
-						<Text color="primary">PRODUK BARANG</Text>
+						PRODUK BARANG
 					</Button>
 					<Button wrapper={{ justify: "center" }} color="white" noBorder _width="48%" justify="center" padding={10} onPress={async () => {
 						await AsyncStorage.put("TransactionDetailRoute", "/")
 						navigation.navigate("/ppob")
 					}}>
-						<Text color="primary">PULSA DAN TAGIHAN</Text>
+						PULSA DAN TAGIHAN
 					</Button>
 				</Wrapper>
 			</View>
 			<View style={{ marginVertical: SizeList.base, }}>
-				<Text>Pelanggan</Text>
+				<Text style={{ marginBottom: SizeList.base }}>Pelanggan</Text>
 				<TouchableOpacity onPress={() => setPilihPelangganOpen(true)}>
-					<Wrapper justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10, marginTop: 5 }}>
+					<Wrapper shadow justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10, marginTop: 5 }}>
 						<Wrapper justify="flex-start">
-							<Icon style={{ marginRight: 10, color: ColorsList.primaryColor }} name="contact" />
-							<Text color="primary">{Product.customer ? Product.customer.name_customer : "Pilih pelanggan"}</Text>
+							<Text>{Product.customer ? Product.customer.name_customer : "Pilih nama pelanggan"}</Text>
 						</Wrapper>
-						<Icon style={{ color: ColorsList.primaryColor }} name="add" />
+						<Icon style={{ color: ColorsList.greyFont }} name="arrow-dropdown" />
 					</Wrapper>
 				</TouchableOpacity>
 			</View>
 
-			<View style={{ marginVertical: SizeList.base }}>
+			<View style={{ marginBottom: SizeList.base }}>
 				<Wrapper justify="space-between" style={{ padding: 10 }}>
 					<Text>Tambahkan diskon</Text>
 					<SwitchButton handleChangeToggle={_handleChangeToggle} toggleValue={Product.discount_on} />
 				</Wrapper>
 				{Product.discount_on ?
-					<View style={{ backgroundColor: ColorsList.white, elevation: 1 }}>
-						<Wrapper justify="space-between" style={{ padding: 10 }}>
-							<MDInput _width="70%" label="Diskon" keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
-							<ToggleButton
-								buttons={["Rp", "%"]}
-								changeToggle={(i) => {
-									setDiscountType(i)
-									dispatch(AddDiscountRupiah(0))
-									dispatch(AddDiscountPersen(0))
-								}}
-							/>
-						</Wrapper>
-					</View>
+					<Wrapper justify="space-between" style={{ paddingVertical: 10 }}>
+						<Input _width="75%" label="Diskon" keyboardType="number-pad" value={discount_type == 0 ? Product.discount_total_rupiah : Product.discount_total_persen} onChangeText={_handleChangeDiskonValue} />
+						<RoundedToggleButton
+							buttons={["Rp", "%"]}
+							changeToggle={(i) => {
+								setDiscountType(i)
+								dispatch(AddDiscountRupiah(0))
+								dispatch(AddDiscountPersen(0))
+							}}
+						/>
+					</Wrapper>
 					: null}
 			</View>
 			<Input value={Product.note} onChangeText={(text) => { dispatch(addTransactionNote(text)) }} label="Catatan Pembelian" placeholder="Masukkan catatan pembelian disini" />
 		</Body>
-		<Button style={{ margin: SizeList.base }} onPress={async () => {
-			if (Product.jumlahitem > 0) {
-				navigation.navigate('/cashier/check-out')
-				const userToken = await getUserToken()
-				dispatch(getCustomer(User.store.id_store, userToken))
-			} else {
-				Alert("", "Keranjang anda kosong")
-			}
-		}}>LANJUTKAN</Button>
+		<Footer>
+			<Button onPress={async () => {
+				if (Product.jumlahitem > 0) {
+					navigation.navigate('/cashier/check-out')
+					const userToken = await getUserToken()
+					dispatch(getCustomer(User.store.id_store, userToken))
+				} else {
+					Alert("", "Keranjang anda kosong")
+				}
+			}}>LANJUTKAN</Button>
+		</Footer>
 	</Container>
 }
 

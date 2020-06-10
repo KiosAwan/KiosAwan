@@ -116,7 +116,7 @@ const Cashier = ({ navigation }) => {
                 </View>
         }
         {Product.jumlahitem > 0 &&
-            <View style={{ marginHorizontal: 20 }}>
+            <View style={{ marginHorizontal: 10 }}>
                 <ButtonCart quantity={Product.jumlahitem} price={Product.total.convertRupiah()} onPress={() => {
                     parseInt(Product.jumlahitem) > 0 && navigation.navigate('/cashier/cart')
                 }} />

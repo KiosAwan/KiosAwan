@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { FloatingInputLabel, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
@@ -10,6 +10,7 @@ import { RowChild } from 'src/components/Helper/RowChild';
 import { AddCashPayment } from 'src/redux/actions/actionsStoreProduct';
 import { SizeList } from 'src/styles/size';
 import { Input } from 'src/components/Input/MDInput';
+import { Text } from 'src/components/Text/CustomText';
 
 const CashPayment = props => {
     const Product = useSelector(state => state.Product)
@@ -31,11 +32,11 @@ const CashPayment = props => {
             />
             {Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)) >= 0 ?
                 <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(Product.cash_payment - (parseInt(Product.total) - parseInt(Product.total_diskon)))}</Text>
-                : null
+                :
+                <Text style={styles.firstRouteKembalian}>Kembalian {convertRupiah(0)}</Text>
             }
             <View style={{ ...RowChild, marginTop: SizeList.base }}>
                 <ToggleButtonMoney
-                    style={{ marginRight: 10, }}
                     buttons={[Product.total - Product.total_diskon, getNearestFifty(Product.total - Product.total_diskon, 1)]}
                 />
             </View>
@@ -50,8 +51,9 @@ const styles = StyleSheet.create({
         marginTop: SizeList.base,
         padding: SizeList.base,
         backgroundColor: ColorsList.white,
-        elevation: 2,
-        borderRadius: SizeList.borderRadius
+        borderRadius: SizeList.borderRadius,
+        borderWidth: SizeList.borderWidth,
+        borderColor: ColorsList.borderColor
     },
     tabBar: {
         flexDirection: 'row',
@@ -62,8 +64,6 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     firstRouteKembalian: {
-        ...FontList.subtitleFont,
-        color: ColorsList.primaryColor,
-        // marginVertical: 5
+        margin: 10
     },
 });
