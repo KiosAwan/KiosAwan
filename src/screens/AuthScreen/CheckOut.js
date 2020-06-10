@@ -215,7 +215,7 @@ class CheckOut extends React.Component {
 
 	_handleIndexChange = index => this.setState({ index });
 	_renderTabBar = props => {
-		return <Wrapper style={{ marginVertical: SizeList.base }} flexContent>
+		return <Wrapper style={{ marginHorizontal: SizeList.bodyPadding, marginVertical: SizeList.base }} flexContent>
 			{
 				props.navigationState.routes.rMap((route, i) => {
 					return <Button marginHorizontal={5} noBorder={this.state.index == i ? 'primary' : 'white'} textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'}>{route.title}</Button>
@@ -237,8 +237,8 @@ class CheckOut extends React.Component {
 				visible={this.state._alert}
 				closeAlert={() => this.setState({ _alert: false })}
 			/>
-			<Body>
-				<View>
+			<Body style={{ padding: 0 }}>
+				<View style={{ padding: SizeList.bodyPadding }}>
 					<Text>
 						Total belanja Anda :
 					<Text color="primary" font="SemiBold">
@@ -251,7 +251,7 @@ class CheckOut extends React.Component {
 					marginTop: SizeList.padding,
 					borderRadius: SizeList.borderRadius
 				}}>
-					<Text style={{ marginVertical: SizeList.base }}>Pilih metoda pembayaran</Text>
+					<Text style={{ paddingHorizontal: SizeList.bodyPadding, marginVertical: SizeList.base }}>Pilih metoda pembayaran</Text>
 					<TabView
 						navigationState={this.state}
 						renderScene={this._renderScene}

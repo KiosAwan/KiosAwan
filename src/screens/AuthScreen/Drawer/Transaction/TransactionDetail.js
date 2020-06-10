@@ -20,6 +20,9 @@ import { Toast } from 'native-base';
 import { stateObject } from 'src/utils/state';
 import Divider from 'src/components/Row/Divider';
 import TearLines from "react-native-tear-lines";
+
+const InfoWrapper = props => <Wrapper spaceBetween style={{ marginBottom: SizeList.secondary }} {...props} />
+
 const TransactionDetail = ({ navigation }) => {
 	let viewShotRef
 	let bottomLayout
@@ -103,6 +106,7 @@ const TransactionDetail = ({ navigation }) => {
 					<TearLines
 						ref={ref => topLayout = ref}
 						color="#FFFFFF"
+						style={{ display: 'none' }}
 						backgroundColor={ColorsList.authBackground}
 					/>
 					<View
@@ -112,28 +116,28 @@ const TransactionDetail = ({ navigation }) => {
 						}}
 						style={{ backgroundColor: ColorsList.whiteColor, padding: 10 }}>
 						<Text font="SemiBold" align="center">{data ? data.transaction.name_store : null}</Text>
-						<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
-							<Wrapper spaceBetween>
+						<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor }}>
+							<InfoWrapper>
 								<Text>Kode Transaksi</Text>
 								<Text>{data.transaction.payment_code}</Text>
-							</Wrapper>
-							<Wrapper spaceBetween>
+							</InfoWrapper>
+							<InfoWrapper>
 								<Text>Waktu dan Tanggal</Text>
 								<Text>{data.transaction.created_at}</Text>
-							</Wrapper>
-							<Wrapper spaceBetween>
+							</InfoWrapper>
+							<InfoWrapper>
 								<Text>Pembayaran</Text>
 								<Text>{data.transaction.id_payment_type == 1 ? "Tunai" : data.transaction.id_payment_type == 2 ? `Non Tunai(${data.transaction.method})` : "Piutang"}</Text>
-							</Wrapper>
-							<Wrapper spaceBetween>
+							</InfoWrapper>
+							<InfoWrapper>
 								<Text>Operator</Text>
 								<Text>{data.transaction.cashier}</Text>
-							</Wrapper>
+							</InfoWrapper>
 							{data.debt ?
-								<Wrapper spaceBetween>
+								<InfoWrapper>
 									<Text>Pelanggan</Text>
 									<Text>{data.transaction.name_customer}</Text>
-								</Wrapper>
+								</InfoWrapper>
 								: null}
 						</View>
 						{data.debt ?
@@ -152,7 +156,7 @@ const TransactionDetail = ({ navigation }) => {
 						}
 						<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
 							<View name="Daftar Produk" style={{ display: data.details_item.length == 0 ? "none" : "flex" }}>
-								<View style={{ padding: 5, ...$Border(ColorsList.greyAuthHard, 1, 0) }}>
+								<View style={{ padding: 5, ...$Border(ColorsList.greyAuthHard, 0, 0, 1) }}>
 									<Text align="center" font="SemiBold">Daftar Produk</Text>
 								</View>
 								{
@@ -170,7 +174,7 @@ const TransactionDetail = ({ navigation }) => {
 								}
 							</View>
 							<View name="Daftar Produk Digital" style={{ display: data.product_digital.length == 0 ? "none" : "flex" }}>
-								<View style={{ padding: 5, ...$Border(ColorsList.greyAuthHard, 1, 0) }}>
+								<View style={{ padding: 5, ...$Border(ColorsList.greyAuthHard, 0, 0, 1) }}>
 									<Text align="center" font="SemiBold">Pulsa dan Tagihan</Text>
 								</View>
 								{
@@ -260,6 +264,7 @@ const TransactionDetail = ({ navigation }) => {
 					</View>
 					<TearLines
 						isUnder
+						style={{ display: 'none' }}
 						ref={ref => bottomLayout = ref}
 						color="#FFFFFF"
 						backgroundColor={ColorsList.authBackground}
@@ -282,9 +287,10 @@ const TransactionDetail = ({ navigation }) => {
 						}}>LUNASI</Button>
 					</Wrapper>
 					:
-					<View>
-						{_canBatal() && <Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="white" width='100%'>BATALKAN</Button>}
-					</View>
+					<Wrapper flexContent>
+						{_canBatal() && <Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="link">BATALKAN</Button>}
+						<Button onPress={() => navigation.replace(back ? back : '/cashier')}>SELESAI</Button>
+					</Wrapper>
 			}
 		</Footer>
 	</Container >

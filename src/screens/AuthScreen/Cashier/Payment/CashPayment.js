@@ -11,6 +11,7 @@ import { AddCashPayment } from 'src/redux/actions/actionsStoreProduct';
 import { SizeList } from 'src/styles/size';
 import { Input } from 'src/components/Input/MDInput';
 import { Text } from 'src/components/Text/CustomText';
+import { Body } from 'src/components/View/Container';
 
 const CashPayment = props => {
     const Product = useSelector(state => state.Product)
@@ -20,7 +21,7 @@ const CashPayment = props => {
         let x = text.extractNumber()
         dispatch(AddCashPayment(parseInt(x)))
     }
-    return (
+    return <Body>
         <View style={[styles.container, props.style]}>
             <Input style={{ margin: 0 }}
                 currency
@@ -41,7 +42,7 @@ const CashPayment = props => {
                 />
             </View>
         </View>
-    )
+    </Body>
 }
 
 export default CashPayment;
