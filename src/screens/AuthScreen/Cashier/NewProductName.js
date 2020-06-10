@@ -21,7 +21,7 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import MDInput, { Input } from 'src/components/Input/MDInput';
 import Divider from 'src/components/Row/Divider';
 import SearchInput from 'src/components/Input/SearchInput';
-import Container, { Body } from 'src/components/View/Container';
+import Container, { Body, Footer } from 'src/components/View/Container';
 import { SizeList } from 'src/styles/size';
 import { $Border } from 'src/utils/stylehelper';
 
@@ -99,7 +99,7 @@ const NewProductName = ({ navigation }) => {
 			setAddCategoryVisible(false)
 		}
 	}
-	return <Container style={{ marginBottom: SizeList.base }}>
+	return <Container>
 		<GlobalHeader
 			title="TAMBAH PRODUK"
 			onPressBack={() => navigation.goBack()}
@@ -188,7 +188,9 @@ const NewProductName = ({ navigation }) => {
 			</TouchableOpacity>
 			<PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} />
 		</Body>
-		<Button style={{ marginHorizontal: SizeList.base }} onPress={_handlePressNext}>LANJUTKAN</Button>
+		<Footer>
+			<Button onPress={_handlePressNext}>LANJUTKAN</Button>
+		</Footer>
 	</Container>
 
 }
@@ -205,7 +207,7 @@ const styles = StyleSheet.create({
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
-	imageWrapper: { marginBottom: 10, borderStyle: "dashed", borderColor: ColorsList.black, borderWidth: SizeList.borderWidth, height: 200, borderColor: ColorsList.greyFont, borderRadius : SizeList.borderRadius },
+	imageWrapper: { marginBottom: 10, borderStyle: "dashed", borderColor: ColorsList.black, borderWidth: SizeList.borderWidth, height: 200, borderColor: ColorsList.greyFont, borderRadius: SizeList.borderRadius },
 	image: { width: 300, height: 300 },
 
 })

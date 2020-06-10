@@ -20,7 +20,7 @@ import ModalContent from 'src/components/ModalContent/ModalContent';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Input } from 'src/components/Input/MDInput';
 import { Text } from 'src/components/Text/CustomText';
-import Container, { Body } from 'src/components/View/Container';
+import Container, { Body, Footer } from 'src/components/View/Container';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { SizeList } from 'src/styles/size';
@@ -72,7 +72,8 @@ const NewProductLast = ({ navigation }) => {
 				if (manageStock == 1) {
 					await formData.append('qty_stock', NewProduct.qty_stock)
 					await formData.append('qty_min_stock', NewProduct.qty_min_stock)
-					await formData.append('send_notification_stock', sendNotif ? 1 : 0)
+					await formData.append('send_notification_stock', sendNotif ? 1 : 1)
+					// Send notif 0 for false value
 				}
 				await formData.append('photo_product', NewProduct.image != "" ? {
 					uri: NewProduct.image,
@@ -130,7 +131,7 @@ const NewProductLast = ({ navigation }) => {
 			dispatch(addMinQtyStock(value))
 		}
 	}
-	return <Container style={{ marginBottom: SizeList.base }}>
+	return <Container>
 		<AwanPopup.Loading visible={apiLoading} />
 		<AwanPopup.Alert
 			message={errorMessage}
@@ -147,7 +148,7 @@ const NewProductLast = ({ navigation }) => {
 		>
 			<ModalContent
 				image={require('src/assets/images/addproductsuccess.png')}
-				infoText="Anda Berhasil Menambah Produk!"
+				infoText="Anda berhasil menambahkan produk"
 			/>
 		</Modal>
 		<GlobalHeader
@@ -200,16 +201,21 @@ const NewProductLast = ({ navigation }) => {
 					/>
 				</Wrapper>
 				<View style={{ ...RowChild, marginBottom: 20, }}>
-					<CheckBox
+					{/* <CheckBox
 						checked={sendNotif}
 						color={sendNotif ? ColorsList.primary : ColorsList.greyFont}
 						onPress={() => setSendNotif(!sendNotif)}
-					/>
-					<Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text>
+					/> */}
+					<Button textProps={{ align: "left" }} color="info" style={{ borderRadius: SizeList.borderRadius }}>
+						Jika stok produk sudah mencapai minimum stok akan ada notifikasi di list produk
+					{/* <Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
+					</Button>
 				</View>
 			</View>}
 		</Body>
-		<Button style={{ marginHorizontal: SizeList.base }} onPress={_handlePressNext}>LANJUTKAN</Button>
+		<Footer>
+			<Button onPress={_handlePressNext}>SIMPAN</Button>
+		</Footer>
 	</Container>
 }
 

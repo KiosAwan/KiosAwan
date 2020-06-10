@@ -47,7 +47,7 @@ const Cashier = ({ navigation }) => {
             <IconHeader onPress={() => navigation.goBack()} color={ColorsList.greyFont} name="arrow-left" />
             <TextInput noShadow value={search} onChangeText={txt => setSearch(txt)} style={{ textAlign: 'center', color: ColorsList.greyFontHard }} _flex placeholder="CARI PRODUK BARANG" />
         </GlobalHeader>
-        <Wrapper justify="space-between" style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
+        <Wrapper justify="space-between" style={{ paddingHorizontal: SizeList.bodyPadding }}>
             <Wrapper _flex flexContent>
                 <ButtonShadow
                     onPress={() => {
@@ -109,16 +109,18 @@ const Cashier = ({ navigation }) => {
                     keyExtractor={(item, index) => index.toString()}
                 />
                 :
-                <View style={{ flex: 1, alignItems: "center", justifyContent: "center", marginBottom : 70 }}>
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center", marginBottom: 70 }}>
                     <Image style={{ width: 150, height: 150 }} source={require('../../assets/images/noproductlist.png')} />
                     <Text align="center">Anda belum memiliki produk, tambahkan</Text>
                     <Text align="center"> produk baru menggunakan tombol diatas</Text>
                 </View>
         }
         {Product.jumlahitem > 0 &&
-            <ButtonCart quantity={Product.jumlahitem} price={Product.total.convertRupiah()} onPress={() => {
-                parseInt(Product.jumlahitem) > 0 && navigation.navigate('/cashier/cart')
-            }} />
+            <View style={{ marginHorizontal: 20 }}>
+                <ButtonCart quantity={Product.jumlahitem} price={Product.total.convertRupiah()} onPress={() => {
+                    parseInt(Product.jumlahitem) > 0 && navigation.navigate('/cashier/cart')
+                }} />
+            </View>
         }
     </Container>
 }

@@ -10,7 +10,7 @@ import { ColorsList } from 'src/styles/colors';
 
 const ButtonCart = props => {
 	const { quantity, price, onPress } = props
-	return <View style={{ bottom: 0, position: 'absolute', width: '100%' }}>
+	return <View style={{ bottom: 0, position: 'absolute', width: '100%', }}>
 		<TouchableOpacity onPress={onPress}>
 			<View style={{ borderRadius: 50, paddingHorizontal: SizeList.base * 2, paddingVertical: SizeList.secondary, marginHorizontal: SizeList.base, backgroundColor: ColorsList.primary }}>
 				<Wrapper spaceBetween>
