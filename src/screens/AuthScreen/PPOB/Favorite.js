@@ -42,7 +42,7 @@ const Favorite = ({ navigation }) => {
 		} else {
 			result = [...favorites, ...data.favorites]
 		}
-		result = result.reduce((obj, curr, i) => {
+		result = result.reduce((obj, curr) => {
 			const key = curr.type
 			if (!obj[key]) {
 				obj[key] = []
@@ -79,7 +79,7 @@ const Favorite = ({ navigation }) => {
 						} = item
 						return <View>
 							<Button onPress={() => navigation.navigate(`/ppob/${type}`, item)} color="link" padding={SizeList.secondary} spaceBetween>
-								<NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
+								<NativeImage style={[styles.image]} source={{ uri: image.validURL() ? image : `${DEV_IMG_URL}/${image}` }} />
 								<View _flex>
 									<Text color="primary">{name}</Text>
 									<Text>{customerID}</Text>
