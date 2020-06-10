@@ -124,7 +124,7 @@ class CheckOut extends React.Component {
 					key: null,
 					actions: [
 						NavigationActions.navigate({ routeName: '/' }),
-						NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/' } })
+						NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/', fromCashier: true } })
 					]
 				})
 			)
@@ -194,7 +194,7 @@ class CheckOut extends React.Component {
 							key: null,
 							actions: [
 								NavigationActions.navigate({ routeName: '/' }),
-								NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/' } })
+								NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/', fromCashier: true } })
 							]
 						}))
 				}
