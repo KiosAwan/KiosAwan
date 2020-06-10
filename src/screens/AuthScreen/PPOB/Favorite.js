@@ -42,6 +42,7 @@ const Favorite = ({ navigation }) => {
 		} else {
 			result = [...favorites, ...data.favorites]
 		}
+		console.debug(JSON.stringify(result))
 		result = result.reduce((obj, curr) => {
 			const key = curr.type
 			if (!obj[key]) {
@@ -85,7 +86,7 @@ const Favorite = ({ navigation }) => {
 									<Text>{customerID}</Text>
 								</View>
 								<Button padding={0} color="link" onPress={() => removeFavorite(id_favorite)}>
-									<Image size={25} source={require("src/assets/icons/trash-primary.png")} />
+									<Image size={25} source={require("src/assets/icons/delete.png")} />
 								</Button>
 							</Button>
 							{i != data.length - 1 && <Divider />}

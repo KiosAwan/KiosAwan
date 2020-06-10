@@ -1,5 +1,5 @@
 import SearchInput from '../Input/SearchInput'
-import React, { useState } from 'react'
+import React, { useState, cloneElement } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import BarStatus from '../BarStatus';
@@ -46,7 +46,6 @@ export const GlobalHeaderWithIcon = props => {
 
 export const GlobalHeader = props => {
     const {
-        title,
         iconBack,
         iconColor,
         titleColor,
@@ -60,16 +59,27 @@ export const GlobalHeader = props => {
         children,
         leftProps,
         rightProps,
-        renderLeftAccessory,
-        renderRightAccessory,
-        style
+        style,
+        title = "",
+        renderLeftAccessory = () => {
+            return !onlyTitle && <Button color="link" _width={30} flexStart padding={0} onPress={onPressBack} {...leftProps}>
+                <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || ColorsList.greyFont} />
+            </Button>
+        },
+        renderRightAccessory = () => {
+            return !onlyTitle && <Button color="link" _width={30} flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
+                {renderImage()}
+            </Button>
+        }
     } = props
     const renderMid = () => {
         if (children) {
-            return children
+            return <View _flex>
+                {children}
+            </View>
         } else {
             if (typeof title == 'string') {
-                return <Text font="SemiBold" color={transparent ? titleColor || ColorsList.greyFontHard : ColorsList.greyFontHard}>{title.toUpperCase()}</Text>
+                return <Text _flex align="center" font="SemiBold" color={transparent ? titleColor || ColorsList.greyFontHard : ColorsList.greyFontHard}>{title.toUpperCase()}</Text>
             }
         }
     }
@@ -83,41 +93,13 @@ export const GlobalHeader = props => {
             return <Image style={{ width: 30, height: 30 }} source={image} />
         }
     }
-    const render = () => <Wrapper spaceBetween={!onlyTitle}>
-        {
-            typeof renderLeftAccessory == 'function' &&
-            <View style={{ paddingRight: SizeList.base }}>{renderLeftAccessory()}</View>
-        }
-        {!onlyTitle && !renderLeftAccessory && <Button color={["transparent"]} onPress={onPressBack} {...leftProps}>
-            <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || ColorsList.greyFont} />
-        </Button>}
-        <Wrapper _flex style={onlyTitle && { paddingHorizontal: 10 }}>
-            {renderMid()}
-        </Wrapper>
-        {
-            (!image || !renderRightAccessory) &&
-            <Icon name="arrow-left" size={25} color={ColorsList.transparent} />
-        }
-        {
-            !onlyTitle && image && <Button color={["transparent"]} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
-                {renderImage()}
-            </Button>
-        }
-        {
-            typeof renderRightAccessory == 'function' &&
-            <View style={{ paddingRight: SizeList.base }}>{renderRightAccessory()}</View>
-        }
+    const render = () => <Wrapper style={{ paddingHorizontal: SizeList.secondary, width: '100%', ...style }} spaceBetween={!onlyTitle}>
+        {renderLeftAccessory()}
+        {renderMid()}
+        {renderRightAccessory()}
     </Wrapper>
     return <Header androidStatusBarColor={ColorsList.greyAuthHard} style={{ paddingLeft: 0, paddingRight: 0, backgroundColor: 'transparent', elevation: 0 }}>
-        {
-            transparent ?
-                <View style={{ width: '100%', justifyContent: 'center', ...style }}>
-                    {render()}
-                </View> :
-                <View style={{ backgroundColor: ColorsList.authBackground, width: '100%', justifyContent: 'center', ...style }}>
-                    {render()}
-                </View>
-        }
+        {render()}
     </Header>
 }
 

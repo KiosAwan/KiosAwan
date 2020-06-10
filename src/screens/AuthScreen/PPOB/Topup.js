@@ -58,7 +58,7 @@ const Topup = ({ navigation }) => {
 					return <Button onPress={() => setStep(item)} color={item == "" ? "link" : ["white"]} style={{
 						flex: 1,
 						margin: SizeList.secondary,
-						borderRadius : SizeList.borderRadius,
+						borderRadius: SizeList.borderRadius,
 					}}>
 						{
 							item != "" && <Image style={{ width: "80%", height: 50, marginHorizontal: 5 }} source={{ uri: `${DEV_IMG_URL}/${item.logo}` }} />
@@ -73,6 +73,7 @@ const Topup = ({ navigation }) => {
 	}
 	const renderStep = () => {
 		const { selectedId, logo, title, tutorials, noVa, adminFee } = Step
+		console.debug(Step)
 		return <View>
 			<View style={{ backgroundColor: ColorsList.white, padding: SizeList.base, borderRadius: SizeList.secondary }}>
 				<Wrapper flexStart>
@@ -109,7 +110,7 @@ const Topup = ({ navigation }) => {
 		</View>
 	}
 	return <Container header={{
-		title: "Top Up",
+		title: "Top Up Saldo",
 		onPressBack: () => {
 			if (Step) {
 				setStep(false)
@@ -126,9 +127,9 @@ const Topup = ({ navigation }) => {
 		<AwanPopup.Loading visible={apiLoading} />
 		<Body>
 			<Text>Saldo Anda saat ini :
-						<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo)}</Text>
+						<Text color="primary" font="SemiBold">  {convertRupiah(User.data.saldo)}</Text>
 			</Text>
-			<Text style={{ marginVertical: SizeList.base }}>Pilih bank</Text>
+			<Text style={{ marginVertical: SizeList.base }}>{Step ? `Cara Topup ${Step.title}` : 'Pilih bank'}</Text>
 			{Step ? renderStep() : renderBank()}
 			{/* {
 				listPaymentMethod.rMap((item, key) => (

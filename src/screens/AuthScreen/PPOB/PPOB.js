@@ -90,7 +90,7 @@ const PPOB = ({ navigation }) => {
 				<TouchableOpacity onPress={() => navigation.navigate("/ppob/favorit")}>
 					<IconHeader name="heart" color={ColorsList.greyFont} />
 				</TouchableOpacity>
-				<TouchableOpacity onPress={_moreMenu}>
+				<TouchableOpacity style={{ padding: SizeList.base }} onPress={_moreMenu}>
 					<IconHeader name="ellipsis-v" color={ColorsList.greyFont} />
 				</TouchableOpacity>
 			</Wrapper>

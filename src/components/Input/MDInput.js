@@ -56,6 +56,8 @@ const Input = props => {
 				return true
 			if (value != '')
 				return true
+			if (currency)
+				return true
 			return false
 		}
 		const input = <TextInputRN
@@ -82,7 +84,7 @@ const Input = props => {
 				activeLineWidth={0}
 				disabledLineWidth={0}
 				labelHeight={10}
-				fontSize={16}
+				fontSize={15}
 				labelFontSize={8}
 				labelTextStyle={{ marginTop: isFocused() ? 10 : 0 }}
 				baseColor={ColorsList.greyFont}
@@ -136,10 +138,11 @@ const MDInput = props => {
 }
 
 const TextInput = props => {
-	const { noShadow, style } = props
+	const { noShadow, align, style } = props
 	return <TextInputRN {...props} style={{
 		color: ColorsList.secondary,
 		paddingTop: SizeList.base,
+		...align && { textAlign: align },
 		...!noShadow && shadowStyle,
 		...style
 	}} />
@@ -149,7 +152,7 @@ const TextInput = props => {
 
 const MDInputs = props => {
 	let objCurrency = {}
-	const { noLabel, lineWidth, onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur, style } = props
+	const { font, noLabel, lineWidth, onChangeText, value, renderLeftAccessory, renderRightAccessory, onFocus, onBlur, style } = props
 	const _render = (render, isRight) => {
 		return typeof render == 'function' && <View style={[!noLabel && { marginBottom: 8 }, { alignSelf: 'center' }]}>
 			<View style={isRight ? { marginLeft: 5 } : { marginRight: 5 }}>
@@ -199,7 +202,7 @@ const MDInputs = props => {
 				setOn({ color: baseColor, size: .5 })
 				if (typeof onBlur == 'function') onBlur()
 			}}
-			style={{ color: baseColor, fontFamily: FontName.Regular, ..._style }}
+			style={{ color: baseColor, fontFamily: FontName[font] || FontName.Regular, ..._style }}
 			{...objCurrency}
 		/>
 		if (noLabel) {

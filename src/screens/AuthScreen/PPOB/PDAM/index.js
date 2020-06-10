@@ -152,7 +152,7 @@ const PDAM = ({ navigation }) => {
         setFavorit(!favorit)
     }
     return <Container header={{
-        title: "PDAM",
+        title: "Pembayaran PDAM",
         onPressBack: () => navigation.goBack()
     }}>
         {/* Modal for check user pin */}
@@ -177,7 +177,7 @@ const PDAM = ({ navigation }) => {
                     <View style={{ backgroundColor: ColorsList.greyBg, padding: 15 }}>
                         <Text align="center">Dev Purpose Only</Text>
                         <SelectBoxModal style={{ marginTop: 15 }}
-                            label="Pilih PDAM" closeOnSelect
+                            label="Pilih Lokasi PDAM" closeOnSelect
                             data={json}
                             value={selected ? selected.name : ""}
                             handleChangePicker={(item) => {
@@ -195,16 +195,17 @@ const PDAM = ({ navigation }) => {
                     </View>
                 }
                 <SelectBoxModal style={{ marginVertical: SizeList.base }}
-                    label="Pilih PDAM" closeOnSelect
+                    height={400}
+                    label="Pilih Lokasi PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
                     header={
-                        <MDInput label="Cari PDAM" renderLeftAccessory={() =>
-                            <Icon style={{ color: ColorsList.primary, marginRight: 10 }} size={20} name="search" />}
+                        <MDInput label="Cari Lokasi PDAM" renderRightAccessory={() =>
+                            <Icon style={{ color: ColorsList.primary, marginRight: 10 }} size={17} name="search" />}
                             value={search} onChangeText={text => setSearch(text)} />
                     }
                     value={selected ? selected.name : ""}
                     handleChangePicker={(item) => setSelected(item)}
-                    renderItem={(item) => (<Text color={selected.code == item.code && 'primary'}>{item.name}</Text>)}>
+                    renderItem={(item) => (<Text font="Regular" style={{ paddingHorizontal: SizeList.secondary }} color={selected.code == item.code ? 'primary' : 'greyFontHard'}>{item.name}</Text>)}>
                     <Text>Data tidak ditemukan</Text>
                 </SelectBoxModal>
                 <Input _width="80%"

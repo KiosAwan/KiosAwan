@@ -43,8 +43,7 @@ const Cashier = ({ navigation }) => {
     }
 
     return <Container style={{ marginBottom: SizeList.base }}>
-        <GlobalHeader onlyTitle>
-            <IconHeader onPress={() => navigation.goBack()} color={ColorsList.greyFont} name="arrow-left" />
+        <GlobalHeader onPressBack={() => navigation.goBack()}>
             <TextInput noShadow value={search} onChangeText={txt => setSearch(txt)} style={{ textAlign: 'center', color: ColorsList.greyFontHard }} _flex placeholder="CARI PRODUK BARANG" />
         </GlobalHeader>
         <Wrapper justify="space-between" style={{ paddingHorizontal: SizeList.bodyPadding }}>
