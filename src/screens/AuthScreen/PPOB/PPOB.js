@@ -106,13 +106,12 @@ const PPOB = ({ navigation }) => {
 				onSelect={({ item: { route } }) => navigation.navigate(route)}
 				renderItem={({ name }) => <Text align="left">{name}</Text>}
 			/>
-			<Body style={{ padding: 0 }}>
-
-				<Wrapper justify="space-between" style={$Padding(10, 15)}>
+			<Body>
+				<Wrapper justify="space-between">
 					<View>
 						<Text>Saldo Anda sebesar: </Text>
-						<Wrapper>
-							<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
+						<Wrapper spaceBetween>
+							<Text align="left" color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
 							<TouchableOpacity onPress={async () => {
 								const userToken = await getUserToken()
 								dispatch(getProfile(User.data.id, userToken))
@@ -121,11 +120,11 @@ const PPOB = ({ navigation }) => {
 							</TouchableOpacity>
 						</Wrapper>
 					</View>
-					<Button width={80} onPress={_onPressTopUp} textProps={{ size: 10 }}>TOP UP</Button>
+					<Button width={100} onPress={_onPressTopUp}>TOP UP</Button>
 				</Wrapper>
 				{
 					maintanance &&
-					<Button style={{ margin: 10 }} disabled color="info" wrapper={{ flexStart: true }}>
+					<Button style={{ marginTop: 10 }} disabled color="info" wrapper={{ flexStart: true }}>
 						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
 						<TextTicker
 							width="90%"
@@ -140,7 +139,7 @@ const PPOB = ({ navigation }) => {
 				{!productData ?
 					<ActivityIndicator color={ColorsList.primary} />
 					: <FlatList
-						style={{ marginHorizontal: 10, marginVertical: 5 }}
+						style={{ marginVertical: 5 }}
 						showsVerticalScrollIndicator={false}
 						data={productData}
 						numColumns={3}

@@ -30,7 +30,7 @@ const TransactionDetail = ({ navigation }) => {
 	const [data, setData] = useState()
 	const [back, setBack] = useState()
 	const [dataLoading, SetDataLoading] = useState(true)
-	const [togglePayment, setTogglePayment, resetTogglePayment] = stateObject()
+	const [fromCashier, setFromCashier] = useState(false)
 	const _shareBill = async () => {
 		let imgPath = await Screenshot.take(viewShotRef)
 		Screenshot.share({ url: imgPath })
@@ -46,43 +46,16 @@ const TransactionDetail = ({ navigation }) => {
 		}
 	}
 	const _getData = async () => {
-		const { transactionId, backState } = await navigation.state.params
+		const { transactionId, backState, fromCashier } = await navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
+		if (fromCashier) setFromCashier(true)
 		setBack(backState)
 		SetDataLoading(false)
 		_backHandler(backState)
 	}
 	const _backHandler = route => {
 
-	}
-	const _renderProductDigital = item => {
-		let filterPayment = ["id", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info"]
-		let keyDontConvert = ['denda', 'total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank', 'stroom_token', 'materai', 'pembelian_token']
-		let viewKey = key => {
-			let keys = { ppn: "PPN", ppj: "PPJ" }
-			return keys[key] || key.split('_').join(' ').ucwords()
-		}
-		const { payment } = item
-		return <View>
-			{
-				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
-					.rMap(key => {
-						return <View>
-							{
-								key != 'description' && [
-									<Wrapper spaceBetween style={{ padding: 10 }}>
-										<Text>{viewKey(key)}</Text>
-										<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
-									</Wrapper>,
-									<Divider />
-								]
-							}
-							{key == 'description' && <Button color="info" hideIfEmpty disabled noRadius>{typeof payment[key] == 'string' && payment[key].split(';')[0]}</Button>}
-						</View>
-					})
-			}
-		</View>
 	}
 	useEffect(() => {
 		_getData()
@@ -114,7 +87,7 @@ const TransactionDetail = ({ navigation }) => {
 							topLayout.onLayout(e);
 							bottomLayout.onLayout(e);
 						}}
-						style={{ backgroundColor: ColorsList.whiteColor, padding: 10 }}>
+						style={{ backgroundColor: ColorsList.whiteColor, padding: 20, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor }}>
 						<Text font="SemiBold" align="center">{data ? data.transaction.name_store : null}</Text>
 						<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor }}>
 							<InfoWrapper>
@@ -143,7 +116,7 @@ const TransactionDetail = ({ navigation }) => {
 						{data.debt ?
 							<View>
 								<Divider />
-								<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, }}>
+								<View style={{ backgroundColor: ColorsList.whiteColor, paddingVertical: 10, }}>
 									<RowOpposite title="Jumlah hutang" content={convertRupiah(data.debt.total)} />
 									<RowOpposite title="Jumlah yang sudah dibayar" content={convertRupiah(data.transaction.amount_payment)} />
 									<RowOpposite title="Sisa hutang" content={convertRupiah(data.debt.remaining_debt)} />
@@ -156,12 +129,12 @@ const TransactionDetail = ({ navigation }) => {
 						}
 						<View style={{ backgroundColor: ColorsList.whiteColor, marginBottom: 10, ...$BorderRadius(0, 0, 5, 5) }}>
 							<View name="Daftar Produk" style={{ display: data.details_item.length == 0 ? "none" : "flex" }}>
-								<View style={{ padding: 5, ...$Border(ColorsList.greyAuthHard, 0, 0, 1) }}>
+								<View style={{ paddingVertical: 5, ...$Border(ColorsList.greyAuthHard, 0, 0, 1) }}>
 									<Text align="center" font="SemiBold">Daftar Produk</Text>
 								</View>
 								{
 									data.details_item.rMap((data) => {
-										return <Wrapper width="100%" style={[$Padding(15, 10), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
+										return <Wrapper width="100%" style={[$Padding(15, 0), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
 											<View _width="76%">
 												<Text color="primary" size={15}>{data.product}</Text>
 												<Text>{convertRupiah(data.price)} x {data.qty}</Text>
@@ -174,14 +147,14 @@ const TransactionDetail = ({ navigation }) => {
 								}
 							</View>
 							<View name="Daftar Produk Digital" style={{ display: data.product_digital.length == 0 ? "none" : "flex" }}>
-								<View style={{ padding: 5, ...$Border(ColorsList.greyAuthHard, 0, 0, 1) }}>
+								<View style={{ paddingVertical: 5, ...$Border(ColorsList.greyAuthHard, 0, 0, 1) }}>
 									<Text align="center" font="SemiBold">Pulsa dan Tagihan</Text>
 								</View>
 								{
 									data.product_digital.rMap((item, i) => {
 										return <View key={i.toString()}>
 											<Divider />
-											<Wrapper style={[$Padding(15, 10)]} justify="space-between">
+											<Wrapper style={[$Padding(15, 0)]} justify="space-between">
 												<View>
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
 													<Text>{item.transaction.customerID}</Text>
@@ -195,9 +168,9 @@ const TransactionDetail = ({ navigation }) => {
 											</Wrapper>
 											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
 												<View>
-													<Text style={{ paddingLeft: 10 }} color="primary">Token Listrik</Text>
+													<Text color="primary">Token Listrik</Text>
 													<Wrapper style={styles.token} justify="space-between">
-														<Text size={15} style={{ paddingLeft: 10 }}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
+														<Text size={15}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
 														<CopyButton onPress={() => {
 															Toast.show({ text: "Berhasil disalin", type: "success" })
 															Clipboard.setString(item.payment.token)
@@ -210,25 +183,31 @@ const TransactionDetail = ({ navigation }) => {
 									})
 								}
 							</View>
-							<Wrapper style={[$Padding(5, 10), $Border(ColorsList.greyAuthHard, 1, 0, 0)]} justify="space-between">
+							<Wrapper style={{
+								paddingTop: SizeList.base
+							}} justify="space-between">
 								<Text>Subtotal</Text>
 								<Text>{convertRupiah(data.transaction.sub_total)}</Text>
 							</Wrapper>
 							{
 								data.transaction.discount &&
-								<Wrapper style={[$Padding(5, 5)]} justify="space-between">
+								<Wrapper style={[$Padding(5, 0)]} justify="space-between">
 									<Text>Diskon</Text>
 									<Text>{convertRupiah(data.transaction.discount)}</Text>
 								</Wrapper>
 							}
 							{
 								data.transaction.status != 1 &&
-								<Wrapper style={[$Padding(5, 5)]} justify="space-between">
+								<Wrapper style={{
+									paddingTop: SizeList.base
+								}} justify="space-between">
 									<Text>Pembatalan Transaksi</Text>
 									<Text>{convertRupiah(data.transaction.total_return)}</Text>
 								</Wrapper>
 							}
-							<Wrapper style={[$Padding(5, 10), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
+							<Wrapper style={[{
+								paddingVertical: SizeList.base
+							}, $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
 								<Text font="SemiBold">Total</Text>
 								<Text font="SemiBold">
 									{
@@ -238,20 +217,24 @@ const TransactionDetail = ({ navigation }) => {
 									}
 								</Text>
 							</Wrapper>
-							<Wrapper style={[$Padding(5, 10)]} justify="space-between">
+							<Wrapper style={{
+								paddingTop: SizeList.base
+							}} justify="space-between">
 								<Text>Jumlah yang dibayar</Text>
 								<Text>
 									{convertRupiah(data.transaction.amount_payment)}
 								</Text>
 							</Wrapper>
-							<Wrapper style={[$Padding(5, 10), $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
+							<Wrapper style={[{
+								paddingVertical: SizeList.base
+							}, $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
 								<Text font="SemiBold">Kembalian</Text>
 								<Text font="SemiBold">
 									{convertRupiah(data.transaction.change_payment)}
 								</Text>
 							</Wrapper>
 							{data.transaction.note !== "" &&
-								<View style={[$Padding(15, 10), $Border(ColorsList.authBackground, 0, 0, 1)]}>
+								<View style={[$Padding(10, 0), $Border(ColorsList.authBackground, 0, 0, 1)]}>
 									<Text align="left" font="SemiBold">Note</Text>
 									<Text align="left">{data.transaction.note}</Text>
 								</View>
@@ -289,7 +272,7 @@ const TransactionDetail = ({ navigation }) => {
 					:
 					<Wrapper flexContent>
 						{_canBatal() && <Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="link">BATALKAN</Button>}
-						<Button onPress={() => navigation.replace(back ? back : '/cashier')}>SELESAI</Button>
+						{fromCashier && <Button onPress={() => navigation.navigate('/cashier')}>SELESAI</Button>}
 					</Wrapper>
 			}
 		</Footer>
@@ -316,7 +299,6 @@ const styles = StyleSheet.create({
 	token: {
 		borderWidth: 1,
 		padding: 5,
-		marginHorizontal: 10,
 		marginBottom: 10,
 		borderColor: ColorsList.primary,
 		borderRadius: 5

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		marginBottom: SizeList.base
+		marginVertical: SizeList.base
 	}
 })
 export default styles

@@ -125,7 +125,7 @@ const PpobPaketData = ({ navigation }) => {
 		setFavorit(!favorit)
 	}
 	return <Container header={{
-		title: "Paket Data",
+		title: "Pembelian Paket Data",
 		// image: require('src/assets/icons/phonebook.png'),
 		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
@@ -163,20 +163,20 @@ const PpobPaketData = ({ navigation }) => {
 					value={phoneNumber}
 					onChangeText={_onChangePhoneNum}
 					keyboardType="phone-pad"
-					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
+					renderRightAccessory={() => data ? <Image source={{ uri: data.provider.image }} size={20} /> : null}
 				/>
 				<Button _width="10%" padding={7} onPress={() => setContactVisible(true)}>
 					<Icon name="address-book" size={20} color={ColorsList.white} />
 				</Button>
 			</Wrapper>
 			<View style={styles.simpan}>
-				<Text>Simpan ke favorit</Text>
+				<Text>Simpan nomor ini ke favorit</Text>
 				<SwitchButton
 					handleChangeToggle={_handleChangeToggle}
 					toggleValue={favorit}
 				/>
 			</View>
-			{
+			{/* {
 				__DEV__ && <View>
 					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
 					<FlatList
@@ -187,9 +187,9 @@ const PpobPaketData = ({ navigation }) => {
 						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
 					/>
 				</View>
-			}
+			} */}
 			{data &&
-				<View style={{ flex: 1, padding: 10, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor : ColorsList.borderColor }}>
+				<View style={{ flex: 1, padding: 10, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
 					<Text style={{ marginBottom: 5 }}>Pilih jenis paket data: <Text font="SemiBold">{data.products[0] && data.products[0].name.split(" ")[0]}</Text></Text>
 					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 						showsVerticalScrollIndicator={false}
