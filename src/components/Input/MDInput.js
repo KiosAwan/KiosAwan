@@ -56,6 +56,8 @@ const Input = props => {
 				return true
 			if (value != '')
 				return true
+			if (currency)
+				return true
 			return false
 		}
 		const input = <TextInputRN

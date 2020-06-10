@@ -3,6 +3,7 @@ import { Image, View } from 'react-native';
 import { Icon } from 'native-base';
 import { SizeList } from 'src/styles/size';
 import { ColorsList } from 'src/styles/colors';
+import { GlobalHeader } from '../Header/Header';
 
 const UnauthHeader = props => {
 	return <View>
@@ -14,9 +15,10 @@ const UnauthHeader = props => {
 }
 
 export const UnauthBackHeader = props => {
-	return <View>
-		<Icon name="arrow-back" style={{ color: ColorsList.greyFont }} onPress={props.onPressBack} />
-	</View>
+	return <GlobalHeader onPressBack={props.onPressBack} />
+	// <View>
+	// 	<Icon name="arrow-back" style={{ color: ColorsList.greyFont }} onPress={props.onPressBack} />
+	// </View>
 }
 
 export default UnauthHeader

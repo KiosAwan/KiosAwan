@@ -4,9 +4,6 @@ import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 export const Wrapper = props => {
 	const { onPress, noWrapper, children, radius, flexStart, flexEnd, center, spaceBetween, spaceAround } = props
-	if (props.noWrapper) {
-		// console.debug(987654)
-	}
 	return <View style={[{
 		flexDirection: props.direction || 'row',
 		justifyContent: props.justify || 'space-around',
