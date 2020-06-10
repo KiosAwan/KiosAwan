@@ -122,7 +122,7 @@ const PpobPulsa = ({ navigation }) => {
 		}
 	}, [])
 	return <Container header={{
-		title: "Pulsa",
+		title: "Pembelian Pulsa",
 		onPressBack: () => navigation.goBack(),
 	}}>
 		{/* Modal for check user pin */}
@@ -158,13 +158,13 @@ const PpobPulsa = ({ navigation }) => {
 					value={phoneNumber}
 					onChangeText={_onChangePhoneNum}
 					keyboardType="phone-pad"
-					renderRightAccessory={() => <Image source={data ? { uri: data.provider.image } : require('src/assets/icons/phone.png')} size={20} />}
+					renderRightAccessory={() => data ? <Image source={{ uri: data.provider.image }} size={20} /> : null}
 				/>
 				<Button _width="10%" padding={7} onPress={() => setContactVisible(true)}>
 					<Icon name="address-book" size={20} color={ColorsList.white} />
 				</Button>
 			</Wrapper>
-			{
+			{/* {
 				__DEV__ && <View>
 					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
 					<FlatList
@@ -175,9 +175,9 @@ const PpobPulsa = ({ navigation }) => {
 						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
 					/>
 				</View>
-			}
+			} */}
 			<View style={styles.simpan}>
-				<Text>Simpan ke favorit</Text>
+				<Text>Simpan nomor ini ke favorit</Text>
 				<SwitchButton
 					handleChangeToggle={_handleChangeToggle}
 					toggleValue={favorit}
@@ -185,7 +185,7 @@ const PpobPulsa = ({ navigation }) => {
 			</View>
 			{data &&
 				<View style={{ flex: 1, padding: 10, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
-					<Text style={{ marginBottom: 5 }}>Pilih nominal pulsa: <Text font="SemiBold">{data.products[0].name.split(" ")[0]}</Text></Text>
+					<Text style={{ marginBottom: 5 }}>Pilih nominal pulsa: <Text font="SemiBold">{data.products[0].name.split(" ")[0].toUpperCase()}</Text></Text>
 					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 						showsVerticalScrollIndicator={false}
 						data={data ? data.products : []}
@@ -193,7 +193,7 @@ const PpobPulsa = ({ navigation }) => {
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="70%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }} color="primary">{`PULSA ${item.name.split(" ")[2]}`} </Text>
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`PULSA ${item.name.split(" ")[2]}`} </Text>
 									</View>
 									<View _width="30%">
 										<Text size={8}>HARGA</Text>

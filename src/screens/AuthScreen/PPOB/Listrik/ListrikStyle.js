@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 	},
 	infoPembelian: {
 		padding: 10,
-		backgroundColor: ColorsList.infoBg,
+		backgroundColor: ColorsList.informationBg,
 		marginVertical: SizeList.base,
 		borderWidth: SizeList.borderWidth,
 		borderRadius: SizeList.borderRadius,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		marginBottom: SizeList.base
+		marginVertical: SizeList.base
 	},
 	custInfo: {
 		backgroundColor: ColorsList.whiteColor,

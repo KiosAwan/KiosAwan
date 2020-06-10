@@ -74,6 +74,7 @@ const ListrikToken = ({ navigation }) => {
 		}
 		// Checking the customer ID to server
 		const res = await checkListrikToken(data)
+		console.debug(res)
 		setLoading(false)
 		setSelected()
 		// Set the response data to state
@@ -147,7 +148,7 @@ const ListrikToken = ({ navigation }) => {
 	}
 	return <Container header={{
 		onPressBack: () => navigation.goBack(),
-		title: "Listrik Prabayar"
+		title: "Listrik Token"
 	}}>
 		<Body>
 			{/* Modal for check user pin */}
@@ -168,10 +169,10 @@ const ListrikToken = ({ navigation }) => {
 			<AwanPopup.Loading visible={payLoading} />
 			{/* Popup components */}
 			<View style={styles.topComp}>
-				{__DEV__ && <Button onPress={() => {
+				{/* {__DEV__ && <Button onPress={() => {
 					setCustId('32127971177')
 					_cekTagihan('32127971177')
-				}}>32127971177</Button>}
+				}}>32127971177</Button>} */}
 				<Input
 					_width="80%"
 					label="ID Pelanggan"
@@ -180,11 +181,11 @@ const ListrikToken = ({ navigation }) => {
 						setCustId(text)
 					}}
 					keyboardType="phone-pad"
-					renderRightAccessory={() => <Button onPress={() => _cekTagihan(custId)} color="white" noBorder>CEK TAGIHAN</Button>}
+					renderRightAccessory={() => <Button onPress={() => _cekTagihan(custId)} color="white" noBorder>CEK IDPEL</Button>}
 				/>
 			</View>
 			<View style={styles.simpan}>
-				<Text>Simpan ke favorit</Text>
+				<Text>Simpan nomor ini ke favorit</Text>
 				<SwitchButton
 					handleChangeToggle={_handleChangeToggle}
 					toggleValue={favorit}
@@ -216,9 +217,9 @@ const ListrikToken = ({ navigation }) => {
 			}
 			{productToken && !response &&
 				<View style={styles.infoPembelian}>
-					<Text size={16} font="SemiBold" color="info">{productToken.info.title}</Text>
+					<Text size={16} font="SemiBold" color="informationFont">{productToken.info.title}</Text>
 					{productToken.info.info.rMap((item, i) => (
-						<Text key={i} color="info">{`${productToken.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
+						<Text key={i} color="informationFont">{`${productToken.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 					))}
 				</View>
 			}
@@ -232,7 +233,7 @@ const ListrikToken = ({ navigation }) => {
 					<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 						<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 							<View _width="70%">
-								<Text font="SemiBold" style={{ marginLeft: 5 }} color="primary">{`TOKEN ${item.product.split(" ")[2]}`} </Text>
+								<Text font="SemiBold" style={{ marginLeft: 5 }}>{`TOKEN ${item.product.split(" ")[2]}`} </Text>
 							</View>
 							<View _width="30%">
 								<Text size={8}>HARGA</Text>
