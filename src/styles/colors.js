@@ -35,5 +35,7 @@ export const ColorsList = {
     informationBg : "#BEDCEF", 
     informationFont : "#255B7E",
     settingBg : "#FFF1B7",  
-    settingFont :  "#B79936"
+    settingFont :  "#B79936",
+    cashbackBg : "#C1EFAD",
+    cashbackFont : "#3F8D1D"
 }

@@ -17,6 +17,7 @@ import GlobalEnterPin from '../../GlobalEnterPin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
+import { SizeList } from 'src/styles/size';
 
 const ListrikNonTagihanListrik = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -168,7 +169,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 					/>
 				</View>
 				<View style={styles.simpan}>
-					<Text>Simpan ke favorit</Text>
+					<Text>Simpan nomor ini ke favorit</Text>
 					<SwitchButton
 						handleChangeToggle={_handleChangeToggle}
 						toggleValue={favorit}
@@ -179,7 +180,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 				tagihanLoading ?
 					<ActivityIndicator color={ColorsList.primary} /> :
 					tagihanData && <View>
-						<View style={{ elevation : 1, borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+						<View style={{ borderRadius: 5, borderColor: ColorsList.borderColor, borderWidth: SizeList.borderWidth, padding: SizeList.secondary, backgroundColor: ColorsList.whiteColor }}>
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Nama Pelanggan</Text>
 								<Text font="Regular">{tagihanData.transaction.nama}</Text>

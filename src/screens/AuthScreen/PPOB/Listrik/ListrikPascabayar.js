@@ -182,7 +182,7 @@ const ListrikPascabayar = ({ navigation }) => {
 				tagihanLoading ?
 					<ActivityIndicator color={ColorsList.primary} /> :
 					tagihanData && <View>
-						<View style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
+						<View style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor, padding : 5 }}>
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Nama Pelanggan</Text>
 								<Text font="SemiBold">{tagihanData.transaction.nama}</Text>
