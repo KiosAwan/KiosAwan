@@ -19,9 +19,9 @@ import { SizeList } from 'src/styles/size';
 import { shadowStyle } from 'src/components/Input/MDInput';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
-const ViewShadow = props => <View style={{ marginBottom: SizeList.base }}>
+const ViewShadow = props => <View style={{ marginBottom: SizeList.base, padding: props.noPadding ? 0 : SizeList.padding, }}>
 	{!props.noTitle && <Text>{props.title}</Text>}
-	<View {...props} style={[{ padding: SizeList.secondary, marginTop: SizeList.base }, shadowStyle, props.style]} />
+	<View {...props} style={[{ marginTop: SizeList.base }, shadowStyle, props.style]} />
 </View>
 
 const Report = ({ navigation }) => {
@@ -106,19 +106,19 @@ const Report = ({ navigation }) => {
 			renderLeftAccessory={() => null}
 			renderRightAccessory={() => <IconHeader onPress={() => ctrl.setVisible(true)} name="calendar" />}
 		/>
-		<View style={{ padding: SizeList.base }}>
-			<SelectBoxModal
-				closeOnSelect noLabel
-				height={150}
-				value={MainTab.routes[MainTab.index].title}
-				data={MainTab.routes}
-				handleChangePicker={(a, i) => MainTab.setIndex(i)}
-				renderItem={item => <Text>{item.title}</Text>}
-			/>
-		</View>
 		<Body>
-			<ViewShadow title={moment(dateSelected).format('MMMM YYYY')}>
-				<Wrapper>
+			<View style={{ marginBottom: SizeList.base }}>
+				<SelectBoxModal
+					closeOnSelect noLabel
+					height={150}
+					value={MainTab.routes[MainTab.index].title}
+					data={MainTab.routes}
+					handleChangePicker={(a, i) => MainTab.setIndex(i)}
+					renderItem={item => <Text>{item.title}</Text>}
+				/>
+			</View>
+			<ViewShadow noPadding title={moment(dateSelected).format('MMMM YYYY')}>
+				<Wrapper style={{ marginVertical: SizeList.base }} >
 					<View>
 						<Text>Total Penjualan</Text>
 						<Wrapper>
@@ -132,8 +132,8 @@ const Report = ({ navigation }) => {
 						</Wrapper>
 					</View>
 				</Wrapper>
-				<Divider style={{ marginVertical: SizeList.base }} />
-				<Wrapper>
+				<Divider />
+				<Wrapper style={{ marginVertical: SizeList.base }} >
 					<View>
 						<Text align="center">Transaksi</Text>
 						<Text align="center" color="primary">{dataTransaction && dataTransaction.jumlah_transaksi}</Text>
@@ -144,17 +144,17 @@ const Report = ({ navigation }) => {
 					</View>
 				</Wrapper>
 			</ViewShadow>
-			<ViewShadow title="Laporan keuangan">
+			<ViewShadow title="Laporan keuangan" noPadding>
 				{
 					dataTransaction &&
 					['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
-						.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+						.rMap((key, i) => <Wrapper key={i.toString()} style={{ margin: 10 }} spaceBetween>
 							<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
 							<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
 						</Wrapper>)
 				}
 			</ViewShadow>
-			<ViewShadow title="Laporan laba/rugi kotor">
+			<ViewShadow noPadding title="Laporan laba/rugi kotor">
 				{
 					dataTransaction &&
 					['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
@@ -173,7 +173,7 @@ const Report = ({ navigation }) => {
 				handleChangePicker={selected => setNT({ selected })}
 				renderItem={item => <Text color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFont'}>{item.method}</Text>}
 			/>
-			<ViewShadow noTitle>
+			<ViewShadow noPadding noTitle>
 				{
 					NT && NT.selected && ['penjualan_bersih', 'penjualan_kotor', 'diskon', 'pembatalan', 'pajak'].rMap((key, i) => (
 						<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
@@ -185,11 +185,11 @@ const Report = ({ navigation }) => {
 			</ViewShadow>
 			{
 				dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }, index) => (
-					<ViewShadow noTitle={index != 0} title="Laporan penjualan">
-						<Text align="center">{!nama_category ? 'PESANAN MANUAL' : nama_category.toUpperCase()}</Text>
+					<ViewShadow noPadding noTitle={index != 0} title="Laporan penjualan">
+						<Text style={{ paddingVertical: SizeList.base }} align="center">{!nama_category ? 'PESANAN MANUAL' : nama_category.toUpperCase()}</Text>
 						<Divider style={{ marginVertical: SizeList.secondary }} />
 						{
-							data && data.length > 0 ? data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary }} spaceBetween>
+							data && data.length > 0 ? data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary, paddingVertical: SizeList.secondary }} spaceBetween>
 								<View>
 									<Text>{Product}</Text>
 									<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
