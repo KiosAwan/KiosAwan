@@ -33,7 +33,7 @@ const Telkom = ({ navigation }) => {
     const Product = useSelector(state => state.Product)
     //User data
     const User = useSelector(state => state.User)
-
+    const [flexStart] = [true]
     const [modal, setModal] = useState(false)
     const [idPelanggan, setIdPelanggan] = useState('')
     // 0361701079
@@ -220,23 +220,10 @@ const Telkom = ({ navigation }) => {
                     toggleValue={favorit}
                 />
             </View>
-            {tagihanData && tagihanData.info &&
-                <View style={styles.infoPembelian}>
-                    <Text size={16} font="SemiBold" color="info">{tagihanData.info.title}</Text>
-                    {tagihanData.info.info.rMap((item, i) => (
-                        <Text key={i} color="info">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
-                    ))}
-                </View>
-            }
-            {tagihanData ? <Button style={$Margin(0, 0, 10)} noRadius textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
-                {`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
-                    (parseInt(tagihanData.transaction.cashback)
-                    ))}`}
-            </Button> : null}
             {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
                 :
                 tagihanData ?
-                    <View style={{ elevation: 1, borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+                    <View style={{ borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor, padding: SizeList.secondary, marginBottom: SizeList.base, borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Nama Pelanggan</Text>
                             <Text font="SemiBold">{tagihanData.transaction.nama}</Text>
@@ -263,7 +250,23 @@ const Telkom = ({ navigation }) => {
                         </Wrapper>
                     </View>
                     : null}
-
+            {tagihanData && tagihanData.info &&
+                <View style={styles.infoPembelian}>
+                    <Text size={16} font="SemiBold" color="informationFont">{tagihanData.info.title}</Text>
+                    {tagihanData.info.info.rMap((item, i) => (
+                        <Text key={i} color="informationFont">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
+                    ))}
+                </View>
+            }
+            {tagihanData ? <Button flexStart style={$Margin(0, 0, 10)} noRadius style={{ borderRadius: SizeList.borderRadius }} color={['cashbackBg', 'cashbackFont']} disabled>
+                <View>
+                    <Text color="cashbackFont" size={16}>Cashback</Text>
+                    <Text color="cashbackFont" >{`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
+                        (parseInt(tagihanData.transaction.cashback)
+                        ))}`}
+                    </Text>
+                </View>
+            </Button> : null}
         </Body>
         <Footer>
             {tagihanData &&

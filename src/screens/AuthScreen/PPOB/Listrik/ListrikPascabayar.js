@@ -182,7 +182,7 @@ const ListrikPascabayar = ({ navigation }) => {
 				tagihanLoading ?
 					<ActivityIndicator color={ColorsList.primary} /> :
 					tagihanData && <View>
-						<View style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
+						<View style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor, padding : SizeList.padding }}>
 							<Wrapper justify="space-between" style={{ padding: 10 }}>
 								<Text font="Regular">Nama Pelanggan</Text>
 								<Text font="SemiBold">{tagihanData.transaction.nama}</Text>
@@ -216,19 +216,19 @@ const ListrikPascabayar = ({ navigation }) => {
 								detail && tagihanData.details.rMap((item, i) =>
 									<View key={i}>
 										{/* <Wrapper justify="space-between" style={{ paddingHorizontal: 10, paddingVertical: 5 }}> */}
-										<Wrapper justify="space-between" style={{ padding: 10 }}>
+										<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 											<Text font="Regular">Periode</Text>
 											<Text font="SemiBold">{item.periode}</Text>
 										</Wrapper>
-										<Wrapper justify="space-between" style={{ padding: 10 }}>
+										<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 											<Text font="Regular">Denda</Text>
 											<Text font="SemiBold">{convertRupiah(item.denda)}</Text>
 										</Wrapper>
-										<Wrapper justify="space-between" style={{ padding: 10 }}>
+										<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 											<Text font="Regular">Tagihan</Text>
 											<Text font="SemiBold">{convertRupiah(item.tagihan)}</Text>
 										</Wrapper>
-										<Wrapper justify="space-between" style={{ padding: 10 }}>
+										<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 											<Text font="Regular">Admin</Text>
 											<Text font="SemiBold">{convertRupiah(selectedCashback)}</Text>
 										</Wrapper>

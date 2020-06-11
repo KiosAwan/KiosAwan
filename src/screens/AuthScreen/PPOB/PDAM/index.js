@@ -173,7 +173,7 @@ const PDAM = ({ navigation }) => {
             />
             <AwanPopup.Loading visible={payLoading} />
             <View style={styles.topComp}>
-                {__DEV__ &&
+                {/* {__DEV__ &&
                     <View style={{ backgroundColor: ColorsList.greyBg, padding: 15 }}>
                         <Text align="center">Dev Purpose Only</Text>
                         <SelectBoxModal style={{ marginTop: 15 }}
@@ -193,8 +193,8 @@ const PDAM = ({ navigation }) => {
                             <Text>Data tidak ditemukan</Text>
                         </SelectBoxModal>
                     </View>
-                }
-                <SelectBoxModal style={{ marginVertical: SizeList.base }}
+                } */}
+                <SelectBoxModal style={{ marginBottom: SizeList.base }}
                     height={400}
                     label="Pilih Lokasi PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
@@ -223,15 +223,10 @@ const PDAM = ({ navigation }) => {
                     toggleValue={favorit}
                 />
             </View>
-            {tagihanData ? <Button noRadius style={$Margin(0, 0, 10)} textProps={{ size: 13 }} color={['infoBg', 'info']} disabled>
-                {`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
-                    (parseInt(tagihanData.transaction.cashback)
-                    ))}`}
-            </Button> : null}
             {tagihanLoading ? <ActivityIndicator color={ColorsList.primary} />
                 :
                 tagihanData ?
-                    <View style={{ elevation: 1, borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
+                    <View style={{ borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor, marginBottom: SizeList.base, padding: SizeList.secondary, borderRadius: 5, backgroundColor: ColorsList.whiteColor }}>
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Nama Pelanggan</Text>
                             <Text font="SemiBold">{tagihanData.transaction.nama}</Text>
@@ -258,6 +253,23 @@ const PDAM = ({ navigation }) => {
                         </Wrapper>
                     </View>
                     : null}
+            {tagihanData && tagihanData.info &&
+                <View style={styles.infoPembelian}>
+                    <Text size={16} font="SemiBold" color="informationFont">{tagihanData.info.title}</Text>
+                    {tagihanData.info.info.rMap((item, i) => (
+                        <Text key={i} color="informationFont">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
+                    ))}
+                </View>
+            }
+            {tagihanData ? <Button flexStart style={$Margin(0, 0, 10)} noRadius style={{ borderRadius: SizeList.borderRadius }} color={['cashbackBg', 'cashbackFont']} disabled>
+                <View>
+                    <Text color="cashbackFont" size={16}>Cashback</Text>
+                    <Text color="cashbackFont" >{`Cashback yang didapat oleh mitra sebesar ${convertRupiah(
+                        (parseInt(tagihanData.transaction.cashback)
+                        ))}`}
+                    </Text>
+                </View>
+            </Button> : null}
         </Body>
         <Footer>
             {tagihanData && <Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">

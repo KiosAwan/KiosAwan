@@ -185,7 +185,7 @@ const PpobPulsa = ({ navigation }) => {
 				/>
 			</View>
 			{data &&
-				<View style={{ flex: 1, padding: 10, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
+				<View style={{ flex: 1, padding: SizeList.padding, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
 					<Text style={{ marginBottom: 5 }}>Pilih nominal pulsa: <Text font="SemiBold">{data.products[0].name.split(" ")[0].toUpperCase()}</Text></Text>
 					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 						showsVerticalScrollIndicator={false}

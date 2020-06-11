@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: SizeList.base
+        marginVertical: SizeList.base
     },
     infoPembelian: {
 		padding: 10,
-		backgroundColor: ColorsList.infoBg,
+		backgroundColor: ColorsList.informationBg,
 		borderRadius: 5,
 		marginVertical : 5
 	},

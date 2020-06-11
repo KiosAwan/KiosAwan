@@ -52,5 +52,11 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginVertical: SizeList.base
     },
+    infoPembelian: {
+        padding: 10,
+        backgroundColor: ColorsList.informationBg,
+        borderRadius: 5,
+        marginVertical: 5
+    },
 })
 export default styles

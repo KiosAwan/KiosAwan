@@ -110,13 +110,14 @@ export const ProductCard = props => {
 				<Text>{props.price}</Text>
 			</View>
 			{
-				props.right ? props.right : <View style={{ backgroundColor: ColorsList.modalBackground, borderRadius: SizeList.secondary }}>
+				props.right ? props.right : <View>
+					{/* style={{ backgroundColor: ColorsList.modalBackground, borderRadius: SizeList.secondary }} */}
 					<TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
-						<Image style={{ width: 12, height: 12 }} source={require("src/assets/icons/plus.png")} />
+						<Image style={{ width: 13, height: 13 }} source={require("src/assets/icons/plus.png")} />
 					</TouchableOpacity>
-					<Text font="SemiBold" style={{ marginHorizontal: 8 }}>{props.quantity ? props.quantity : 0}</Text>
+					<Text font="SemiBold" style={{ marginHorizontal: 8, marginVertical : 4 }}>{props.quantity ? props.quantity : 0}</Text>
 					<TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
-						<Image style={{ width: 12, height: 12 }} source={require("src/assets/icons/minus.png")} />
+						<Image style={{ width: 13, height: 13 }} source={require("src/assets/icons/minus.png")} />
 					</TouchableOpacity>
 				</View>
 			}

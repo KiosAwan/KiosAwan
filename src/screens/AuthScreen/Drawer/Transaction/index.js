@@ -92,32 +92,30 @@ const TransactionList = ({ navigation }) => {
                     data={DataTransaksi.data}
                     renderItem={({ item }) => [
                       filterResult(item.data).length > 0 ?
-                        <View style={{ margin: 5 }}>
+                        <View style={{ marginVertical: 10 }}>
                           <Wrapper justify="space-between">
                             <Text>{moment(item.date).format('ddd, DD MMM YYYY')}</Text>
                             <Text font="SemiBold">{convertRupiah(item.total)}</Text>
                           </Wrapper>
                         </View> : null,
-                      <View style={{ padding: 5 }}>
+                      <View style={{ paddingVertical: 5 }}>
                         {
                           filterResult(item.data).rMap((trx, i) => {
                             return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
-                              <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { paddingHorizontal: 10, paddingVertical: 15, backgroundColor: ColorsList.white }]} justify="space-between">
+                              <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { padding: SizeList.padding, backgroundColor: ColorsList.white }]} justify="space-between">
                                 {/* <View style={{ padding: 15 }}> */}
-                                <Wrapper _width="50%" justify="flex-start">
-                                  <View style={{ justifyContent: 'center' }}>
-                                    <Image style={{ width: 20, height: 20 }} source={iconImage[trx.status].image} />
+                                <Wrapper _width="60%" justify="flex-start">
+                                  <View style={{ justifyContent: 'center', padding: 10, paddingLeft: 5 }}>
+                                    <Image style={{ width: 20, height: 20, }} source={iconImage[trx.status].image} />
                                   </View>
-                                  <View style={{ paddingLeft: 5, justifyContent: 'center' }}>
+                                  <View style={{ justifyContent: 'center' }}>
                                     <Text font="SemiBold">{trx.payment_code}</Text>
                                     <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
                                   </View>
                                 </Wrapper>
-                                <View _style={{ width: '28%' }}>
-                                  <Text color="primary">{convertRupiah(trx.total_transaction)}</Text>
-                                </View>
-                                <View _style={{ width: '20%' }}>
-                                  <Text align="right" color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
+                                <View _style={{ width: '38%' }}>
+                                  <Text font="SemiBold" align="right" color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
+                                  <Text align="right">{convertRupiah(trx.total_transaction)}</Text>
                                 </View>
                               </Wrapper>
                             </TouchableOpacity>
@@ -144,15 +142,14 @@ const TransactionList = ({ navigation }) => {
   }
 
   return (<Container header={{
-    onPressBack: () => navigation.goBack(),
-    title: "PEMBAYARAN",
-    renderLeftAccessory: () => null,
-    renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
+    title: "DAFTAR TRANSAKSI",
+    renderLeftAccessory: () => <View style={{ width: 60 }} />,
+    renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 60 }}>
       <TouchableOpacity onPress={() => setFilterPopup(true)}>
         <IconHeader name="sliders-h" color={ColorsList.greyFont} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setMoreVisible(!moreVisible)}>
-        <IconHeader name="ellipsis-v" color={ColorsList.greyFont} />
+      <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/ringkasan_hutang')}>
+        <IconHeader name="credit-card" color={ColorsList.greyFont} />
       </TouchableOpacity>
     </Wrapper>
   }}>
@@ -162,17 +159,6 @@ const TransactionList = ({ navigation }) => {
       <Button onPress={() => selectFilter('2')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Hutang</Button>
       <Button onPress={() => selectFilter('3')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Dibatalkan</Button>
     </AwanPopup.Menu>
-    <Menu
-      menuColor="link"
-      bgColor="transparent"
-      position="topRight"
-      style={{ backgroundColor: ColorsList.white }}
-      data={[{ name: 'Daftar hutang', route: '/drawer/transaction/ringkasan_hutang' }]}
-      state={setMoreVisible}
-      visible={moreVisible}
-      onSelect={({ item: { route } }) => navigation.navigate(route)}
-      renderItem={({ name }) => <Text align="left">{name}</Text>}
-    />
     <Body>
       <DaftarTransaksi />
     </Body>

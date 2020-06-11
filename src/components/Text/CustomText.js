@@ -6,7 +6,7 @@ import { ColorsList } from '../../styles/colors';
 export const Text = (props) => {
     const styles = {
         fontSize: props.size || 14,
-        fontFamily: FontName[props.font] || FontName.SemiBold,
+        fontFamily: FontName[props.font] || FontName.Regular,
         color: ColorsList[props.color] || props.color || props.font == "SemiBold" && ColorsList.greyFontHard || ColorsList.greyFont,
         textAlign: props.align || null,
         width: props.width

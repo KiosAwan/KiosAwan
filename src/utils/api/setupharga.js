@@ -24,10 +24,10 @@ const getListProducts = async () => {
 	}
 }
 
-const getPPOBTransactionList = async (param) => {
+const getPPOBTransactionList = async (param, page) => {
 	try {
 		const token = await getUserToken()
-		const res = await Axios.get(`${DEV_URL}/service/ppob/transactions`, {
+		const res = await Axios.get(`${DEV_URL}/service/ppob/transactions?page=${page}`, {
 			params: param,
 			headers: { "authorization": token }
 		})
