@@ -5,22 +5,27 @@ import { Button } from "./Button/Button";
 import { Wrapper } from "./View/Wrapper";
 import { Text } from "./Text/CustomText";
 import { SizeList } from "src/styles/size";
+import Divider from "./Row/Divider";
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 
-export const FavoriteLoader = () => <Button
-    disabled
-    style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}
-    color={["white"]}
-    noRadius spaceBetween>
-    <ContentLoader height={50}>
-        <Rect x="5" y="8" rx="4" ry="4" width="30" height="35" />
-        <Rect x="45" y="10" rx="4" ry="4" width="200" height="15" />
-        <Rect x="45" y="27" rx="4" ry="4" width="200" height="15" />
-        <Rect x="255" y="15" rx="4" ry="4" width="25" height="25" />
-    </ContentLoader>
-</Button>
+export const FavoriteLoader = () => <View>
+    <Button
+        disabled
+        style={{ borderRadius: SizeList.borderRadius }}
+        color={["white"]}
+        noRadius spaceBetween>
+        <ContentLoader height={65}>
+            <Rect x="5" y="15" rx="4" ry="4" width="40" height="40" />
+            <Rect x="55" y="10" rx="4" ry="4" width="200" height="15" />
+            <Rect x="55" y="27" rx="4" ry="4" width="200" height="15" />
+            <Rect x="55" y="45" rx="4" ry="4" width="200" height="15" />
+            <Rect x="270" y="20" rx="4" ry="4" width="25" height="25" />
+        </ContentLoader>
+    </Button>
+    <Divider />
+</View>
 
 export const TransactionPlaceholder = () => (
     <ContentLoader height={90}>

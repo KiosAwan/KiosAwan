@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet, TouchableOpacity, Image as NativeImage, ActivityIndicator } from 'react-native';
-import Container, { Body } from 'src/components/View/Container';
+import Container, { Body, BodyFlatList } from 'src/components/View/Container';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
 import { ColorsList } from 'src/styles/colors';
@@ -13,13 +13,22 @@ import { DEV_IMG_URL } from 'src/config';
 import { FavoriteLoader } from 'src/components/LoadingPlaceholder';
 import { SizeList } from 'src/styles/size';
 import Divider from 'src/components/Row/Divider';
+import { stateObject } from 'src/utils/state';
+import { $BorderRadius } from 'src/utils/stylehelper';
+import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
+import BottomSheetSelect from 'src/components/Picker/BottomSheetSelect';
 
 const Favorite = ({ navigation }) => {
-	const [isLoading, setIsLoading] = useState(true)
-	const [isLoadingMore, setIsLoadingMore] = useState(false)
-	const [favorites, setFavorites] = useState([])
-	const [nextPage, setNextPage] = useState(1)
-	const [totalPage, setTotalPage] = useState(1)
+	const [state, setState] = stateObject({
+		favorites: [],
+		totalPage: 1,
+		nextPage: 1,
+		isLoading: true,
+		selected: '~',
+		group: ['~'],
+		isLoadingMore: true
+	})
+	const { group, favorites, totalPage, nextPage, isLoading, isLoadingMore } = state
 	useEffect(() => {
 		getData(1)
 	}, [])
@@ -36,66 +45,89 @@ const Favorite = ({ navigation }) => {
 	}
 	const getData = async (page) => {
 		const { data } = await getFavorites(page)
-		let result = []
+		let favorites = []
 		if (page == 1) {
-			result = data.favorites
+			favorites = data.favorites
 		} else {
-			result = [...favorites, ...data.favorites]
+			favorites = [...state.favorites, ...data.favorites]
 		}
-		console.debug(JSON.stringify(result))
-		result = result.reduce((obj, curr) => {
-			const key = curr.type
-			if (!obj[key]) {
-				obj[key] = []
-			}
-			obj[key] = [...obj[key], curr]
-			return obj
-		}, {})
-		let countPage = page + 1
-		setIsLoading(false)
-		setIsLoadingMore(false)
-		setNextPage(countPage)
-		setTotalPage(data.total_pages)
-		setFavorites(result)
+		let nextPage = page + 1
+		let isLoading = false
+		let isLoadingMore = false
+		let totalPage = data.total_pages
+		let group = ['~', ...data.allproduct]
+		setState({ group, favorites, nextPage, isLoading, totalPage, isLoadingMore })
 	}
 
 	const _addMoreData = async () => {
 		if (parseInt(nextPage) <= parseInt(totalPage)) {
-			setIsLoadingMore(true)
+			setState({ isLoadingMore: true })
 			getData(nextPage)
 		}
 	}
-	const _renderItem = ({ item: type }) => {
-		const data = favorites[type]
+	const _renderItem = ({ item: data, index: i }) => {
+		const { type, customer_name, customerID, id_favorite, image, name } = data
+		const radiusTop = $BorderRadius(SizeList.borderRadius, SizeList.borderRadius, 0, 0)
+		const radiusBottom = $BorderRadius(0, 0, SizeList.borderRadius, SizeList.borderRadius)
 		return <View>
-			<Text style={{ marginBottom: SizeList.base }}>{type.toUpperCase()}</Text>
-			<View style={{ marginBottom: SizeList.base, backgroundColor: ColorsList.white, padding: SizeList.padding, borderRadius: SizeList.borderRadius }}>
-				{
-					data.rMap((item, i) => {
-						const {
-							customerID,
-							id_favorite,
-							image,
-							name
-						} = item
-						return <View>
-							<Button onPress={() => navigation.navigate(`/ppob/${type}`, item)} color="link" padding={SizeList.secondary} spaceBetween>
-								<NativeImage style={[styles.image]} source={{ uri: image.validURL() ? image : `${DEV_IMG_URL}/${image}` }} />
-								<View _flex>
-									<Text color="primary">{name}</Text>
-									<Text>{customerID}</Text>
-								</View>
-								<Button padding={0} color="link" onPress={() => removeFavorite(id_favorite)}>
-									<Image size={25} source={require("src/assets/icons/delete.png")} />
-								</Button>
-							</Button>
-							{i != data.length - 1 && <Divider />}
-						</View>
-					})
-				}
+			<View style={{
+				backgroundColor: ColorsList.white,
+				padding: SizeList.padding,
+				...i == 0 && radiusTop,
+				...i == dataFiltered().length - 1 && radiusBottom
+			}}>
+				<Button onPress={() => navigation.navigate(`/ppob/${type}`, item)} color="link" padding={SizeList.secondary} spaceBetween>
+					<NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
+					<View _flex>
+						<Text>{name}</Text>
+						<Text color="greyFontHard">{customerID}</Text>
+						<Text>{customer_name ? customer_name.ucwords() : type.split('_').join(' ').ucwords()}</Text>
+					</View>
+					<Button padding={0} color="link" onPress={() => removeFavorite(id_favorite)}>
+						<Image size={25} source={require("src/assets/icons/delete.png")} />
+					</Button>
+				</Button>
 			</View>
+			{i != dataFiltered().length - 1 && <Divider style={{ marginHorizontal: SizeList.base }} />}
 		</View>
 	}
+	const renderGroupValue = v => {
+		if (v == 'pdam')
+			return 'PDAM'
+		return v == '~' ? 'Semua Produk' : v.split('_').join(' ').ucwords()
+	}
+	const dataFiltered = () => favorites.filter(({ type }) => state.selected == '~' || state.selected == type)
+	return <Container>
+		<GlobalHeader title="Daftar Favorit" onPressBack={() => navigation.goBack()} />
+		<BottomSheetSelect
+			style={{ paddingHorizontal: SizeList.bodyPadding }}
+			noLabel
+			closeOnSelect
+			data={group}
+			handleChangePicker={selected => setState({ selected })}
+			value={renderGroupValue(state.selected)}
+			renderItem={(item, i) => <Text style={i == 0 && { marginTop: SizeList.base }}>{renderGroupValue(item)}</Text>}
+		/>
+		{isLoading ? <View style={{ marginTop: SizeList.base, paddingHorizontal: SizeList.bodyPadding }}>
+			<FavoriteLoader />
+			<FavoriteLoader />
+			<FavoriteLoader />
+			<FavoriteLoader />
+			<FavoriteLoader />
+			<FavoriteLoader />
+			<FavoriteLoader />
+			<FavoriteLoader />
+		</View> :
+			<BodyFlatList
+				data={dataFiltered()}
+				onEndReached={_addMoreData}
+				onEndReachedThreshold={0.1}
+				showsVerticalScrollIndicator={false}
+				keyExtractor={(a, i) => i.toString()}
+				renderItem={_renderItem}
+			/>
+		}
+	</Container>
 	return <Container>
 		<GlobalHeader title="Daftar Favorit" onPressBack={() => navigation.goBack()} />
 		<Body style={{ paddingTop: 0 }}>
@@ -143,9 +175,9 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	image: {
-		width: 30,
-		height: 30,
-		marginRight: 10,
+		width: 50,
+		height: 50,
+		marginRight: SizeList.base,
 		resizeMode: "contain"
 	},
 	touchableTrash: {

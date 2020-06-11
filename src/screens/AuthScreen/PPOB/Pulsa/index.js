@@ -61,6 +61,7 @@ const PpobPulsa = ({ navigation }) => {
 			type: "pulsa"
 		}
 		let res = await getProductPulsa(x)
+		console.debug(res)
 		if (res.status == 200) {
 			setSelected()
 			if (res.data.length == 0) {

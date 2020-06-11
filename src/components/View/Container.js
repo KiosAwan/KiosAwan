@@ -27,7 +27,7 @@ const Body = props => {
 	</ScrollView>
 }
 
-const BodyFlatList = props => <FlatList {...props} style={{ padding: SizeList.bodyPadding, ...props.style }} />
+const BodyFlatList = props => <FlatList {...props} style={{ margin: SizeList.bodyPadding, ...props.style }} />
 
 const Footer = props => {
 	const { style, noPadding } = props

@@ -176,7 +176,7 @@ const PpobPaketData = ({ navigation }) => {
 					toggleValue={favorit}
 				/>
 			</View>
-			{/* {
+			{
 				__DEV__ && <View>
 					<Text align="center">Ga usah di ilangin bet, ini ada klo <Text>dev</Text> doang</Text>
 					<FlatList
@@ -187,7 +187,7 @@ const PpobPaketData = ({ navigation }) => {
 						renderItem={({ item }) => <Button flex onPress={() => _onChangePhoneNum(item)}>{item}</Button>}
 					/>
 				</View>
-			} */}
+			}
 			{data &&
 				<View style={{ flex: 1, padding: 10, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
 					<Text style={{ marginBottom: 5 }}>Pilih jenis paket data: <Text font="SemiBold">{data.products[0] && data.products[0].name.split(" ")[0]}</Text></Text>
