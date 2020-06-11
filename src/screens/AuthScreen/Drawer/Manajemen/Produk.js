@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Image, ScrollView } from 'react-native'
 import SearchInput from 'src/components/Input/SearchInput';
-import { GlobalHeader } from 'src/components/Header/Header';
+import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from 'src/styles/colors';
 import { ProductCard } from 'src/components/Card/CardComp';
@@ -41,14 +41,20 @@ const ManajemenProduk = ({ navigation }) => {
 	return (
 		<View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
 			<GlobalHeader title="Produk"
-				onPressBack={() => navigation.goBack()} />
+				onPressBack={() => navigation.goBack()}
+				renderRightAccessory={() =>
+					<View style={{width: 60,alignItems : "flex-end" }}>
+						<IconHeader onPress={() => ctrl.setVisible(true)} name="search" />
+					</View>
+				}
+			/>
 			<View style={{ paddingHorizontal: 20, flex: 1 }}>
-				<SearchInput
+				{/* <SearchInput
 					search={search}
 					placeholder="Cari produk"
 					handleChangeInput={(text) => setSearch(text)}
 					handleDeleteSearch={() => setSearch('')}
-				/>
+				/> */}
 				<ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 15, flex: 1, marginBottom: 40 }}>
 					{
 						Product.isLoading ?
@@ -82,14 +88,14 @@ const ManajemenProduk = ({ navigation }) => {
 											dispatch(editProductBarcode(data.barcode_product))
 											navigation.navigate('/drawer/manajemen/produk/edit')
 										}} style={{
-											width: '10%',
-											height: '100%',
-											backgroundColor: ColorsList.greyBg,
+											width: 40,
+											height: 30,
+											// backgroundColor: ColorsList.greyBg,
 											padding: 8,
 											justifyContent: 'center',
 											alignItems: "center"
 										}}>
-											<Image style={{ width: 40, height: 40 }} source={require('src/assets/icons/edit.png')} />
+											<Image style={{ width: 20, height: 20 }} source={require('src/assets/icons/edit.png')} />
 										</TouchableOpacity>
 									}
 								/>

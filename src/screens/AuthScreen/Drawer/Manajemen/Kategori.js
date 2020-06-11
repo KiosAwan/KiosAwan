@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
-import { GlobalHeader } from 'src/components/Header/Header';
+import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
@@ -40,14 +40,19 @@ const ManajemenKategori = ({ navigation }) => {
 			<GlobalHeader
 				onPressBack={() => navigation.goBack()}
 				title="Kategori"
+				renderRightAccessory={() =>
+					<View style={{width: 60,alignItems : "flex-end" }}>
+						<IconHeader onPress={() => ctrl.setVisible(true)} name="search" />
+					</View>
+				}
 			/>
 			<Body>
-				<SearchInput
+				{/* <SearchInput
 					placeholder="Cari kategori"
 					search={search}
 					handleChangeInput={(text) => setSearch(text)}
 					handleDeleteSearch={() => setSearch('')}
-				/>
+				/> */}
 				<FlatList
 					data={Category.data.filter(item => item.name_product_category.toLowerCase().includes(search.toLowerCase()))}
 					renderItem={({ item, index }) => {

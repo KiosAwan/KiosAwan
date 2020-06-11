@@ -111,7 +111,6 @@ export const ProductCard = props => {
 			</View>
 			{
 				props.right ? props.right : <View>
-					{/* style={{ backgroundColor: ColorsList.modalBackground, borderRadius: SizeList.secondary }} */}
 					<TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
 						<Image style={{ width: 13, height: 13 }} source={require("src/assets/icons/plus.png")} />
 					</TouchableOpacity>
