@@ -89,14 +89,14 @@ const ListTransaksiPPOB = ({ navigation }) => {
 			onConfirm={_selectDate}
 			onCancel={() => setFilter({ dateOpen: false })}
 		/>
-		<Body>
+		<View style={{ flex: 1, padding: SizeList.bodyPadding }}>
 			{
 				loading ?
 					<View style={{ flex: 1, alignItems: "center", justifyContent: "center", width: "70%", alignSelf: "center" }}>
 						<ActivityIndicator color={ColorsList.primary} />
 					</View>
 					:
-					<View>
+					<View style={{ flex: 1 }}>
 						{
 							listTransaction.length == 0 ?
 								<View style={{ flex: 1, alignItems: "center", justifyContent: "center", alignSelf: "center" }}>
@@ -106,6 +106,7 @@ const ListTransaksiPPOB = ({ navigation }) => {
 								:
 								<FlatList
 									data={listTransaction}
+									showsVerticalScrollIndicator={false}
 									onEndReached={_addMoreData}
 									onEndReachedThreshold={0.25}
 									renderItem={({ item }) => {
@@ -133,11 +134,12 @@ const ListTransaksiPPOB = ({ navigation }) => {
 										</Fragment>
 									}
 									}
+									keyExtractor={(item, i) => i.toString()}
 								/>
 						}
 					</View>
 			}
-		</Body>
+		</View>
 	</Container>
 }
 
