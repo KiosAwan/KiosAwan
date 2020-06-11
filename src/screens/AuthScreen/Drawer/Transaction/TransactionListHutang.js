@@ -10,12 +10,14 @@ import { ColorsList } from 'src/styles/colors';
 import Container, { Body } from 'src/components/View/Container';
 import moment from 'moment';
 import { SizeList } from 'src/styles/size';
+import SearchInput from 'src/components/Input/SearchInput';
+import { TextInput } from 'src/components/Input/MDInput';
 
 const RingkasanHutang = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const DataTransaksi = useSelector(state => state.Transaction)
     const [reportHutang, setReportHutang] = useState({})
-
+    const [search, setSearch] = useState('')
     useEffect(() => {
         _effect()
     }, [])
@@ -45,8 +47,13 @@ const RingkasanHutang = ({ navigation }) => {
                     </View>
                     :
                     <View style={{ flex: 1 }}>
+                        <View style={{ paddingBottom: 10, backgroundColor: ColorsList.whiteColor }}>
+                            <SearchInput width="100%" clear={() => setSearch('')}>
+                                <TextInput placeholder="Cari transaksi" onFocus={() => setSearchIconColor(ColorsList.primary)} onBlur={() => setSearchIconColor(ColorsList.greyFont)} value={search} onChangeText={text => setSearch(text)} />
+                            </SearchInput>
+                        </View>
                         <Text style={{ marginBottom: 10 }}>Ringkasan Hutang</Text>
-                        <View style={{ backgroundColor: "white", elevation: 1, borderRadius: 5, padding: 5 }}>
+                        <View style={{ backgroundColor: "white", borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor, borderRadius: 5, padding: SizeList.padding }}>
                             <Wrapper style={styles.wrapper} justify="space-between">
                                 <Text>Jumlah Transaksi Hutang</Text>
                                 <Text font="SemiBold">{convertRupiah(reportHutang.jumlah_hutang)}</Text>
@@ -64,28 +71,32 @@ const RingkasanHutang = ({ navigation }) => {
                                 <Text font="SemiBold">{reportHutang.trx_belum_lunas}</Text>
                             </Wrapper>
                         </View>
-
-                        <Text style={{ marginVertical: 10 }}>List Hutang</Text>
                         <FlatList
                             data={DataTransaksi.data}
-                            renderItem={({ item }) => {
-                                return filterResult(item.data).rMap(trx => {
+                            renderItem={({ item }) => [
+                                filterResult(item.data).length > 0 ?
+                                    <View style={{ marginTop: 10 }}>
+                                        <Wrapper justify="space-between">
+                                            <Text>{moment(item.date).format('ddd, DD MMM YYYY')}</Text>
+                                        </Wrapper>
+                                    </View> : null,
+                                filterResult(item.data).rMap(trx => {
                                     return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
-                                        <Wrapper shadow style={{ marginTop: SizeList.base, paddingHorizontal: 5, paddingVertical: 15, backgroundColor: ColorsList.white }} justify="space-between">
-                                            <Wrapper _width="50%" style={{alignSelf : "flex-start", paddingHorizontal : 5}}>
+                                        <Wrapper shadow style={{ marginTop: SizeList.base, paddingHorizontal: SizeList.padding, paddingVertical: 15, backgroundColor: ColorsList.white }} justify="space-between">
+                                            <Wrapper _width="58%" style={{ alignSelf: "flex-start" }}>
                                                 <View>
                                                     <Text font="SemiBold">{trx.payment_code}</Text>
                                                     <Text>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
                                                 </View>
                                             </Wrapper>
-                                            <View _style={{ width: '30%' }}>
-                                                <Text color="primary">{convertRupiah(trx.total_transaction)}</Text>
+                                            <View _style={{ width: '40%', }}>
+                                                <Text align="right" color="warning" font="SemiBold" size={15}>LUNASI</Text>
+                                                <Text align="right">{convertRupiah(trx.total_transaction)}</Text>
                                             </View>
-                                            <Text color="success" font="SemiBold" size={15}>LUNASI</Text>
                                         </Wrapper>
                                     </TouchableOpacity>
                                 })
-                            }}
+                            ]}
                             keyExtractor={(it, id) => id.toString()}
                         />
                     </View>
@@ -107,5 +118,5 @@ const styles = StyleSheet.create({
     containerWithData: {
         flex: 1
     },
-    wrapper: { padding: 5, backgroundColor: ColorsList.whiteColor, marginBottom: 5 }
+    wrapper: { backgroundColor: ColorsList.whiteColor, marginBottom: 5 }
 })

@@ -62,12 +62,12 @@ export const GlobalHeader = props => {
         style,
         title = "",
         renderLeftAccessory = () => {
-            return !onlyTitle && <Button color="link" _width={30} flexStart padding={0} onPress={onPressBack} {...leftProps}>
+            return !onlyTitle && <Button color="link" _width={60} flexStart padding={0} onPress={onPressBack} {...leftProps}>
                 <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || ColorsList.greyFont} />
             </Button>
         },
         renderRightAccessory = () => {
-            return !onlyTitle && <Button color="link" _width={30} flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
+            return !onlyTitle && <Button color="link" _width={60} flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
                 {renderImage()}
             </Button>
         }
@@ -93,7 +93,7 @@ export const GlobalHeader = props => {
             return <Image style={{ width: 30, height: 30 }} source={image} />
         }
     }
-    const render = () => <Wrapper style={{ paddingHorizontal: SizeList.secondary, width: '100%', ...style }} spaceBetween={!onlyTitle}>
+    const render = () => <Wrapper style={{ paddingHorizontal: SizeList.bodyPadding, width: '100%', ...style }} spaceBetween={!onlyTitle}>
         {renderLeftAccessory()}
         {renderMid()}
         {renderRightAccessory()}
