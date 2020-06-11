@@ -181,31 +181,31 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 					<ActivityIndicator color={ColorsList.primary} /> :
 					tagihanData && <View>
 						<View style={{ borderRadius: 5, borderColor: ColorsList.borderColor, borderWidth: SizeList.borderWidth, padding: SizeList.secondary, backgroundColor: ColorsList.whiteColor }}>
-							<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 								<Text font="Regular">Nama Pelanggan</Text>
 								<Text font="Regular">{tagihanData.transaction.nama}</Text>
 							</Wrapper>
-							<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 								<Text font="Regular">Jenis transaksi</Text>
 								<Text font="Regular">{tagihanData.transaction.jenis_transaksi}</Text>
 							</Wrapper>
-							<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 								<Text font="Regular">No Registrasi</Text>
 								<Text font="Regular">{tagihanData.transaction.no_registrasi}</Text>
 							</Wrapper>
-							<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 								<Text font="Regular">Jumlah Tagihan</Text>
 								<Text font="Regular">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
 							</Wrapper>
-							<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 								<Text font="Regular">Denda</Text>
 								<Text font="Regular">{convertRupiah(tagihanData.transaction.denda)}</Text>
 							</Wrapper>
-							<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 								<Text font="Regular">Admin</Text>
 								<Text font="Regular">{convertRupiah(tagihanData.transaction.admin)}</Text>
 							</Wrapper>
-							<Wrapper justify="space-between" style={{ padding: 10 }}>
+							<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 								<Text font="Regular">Total Tagihan</Text>
 								<Text font="Regular">{convertRupiah(
 									parseInt(tagihanData.transaction.total)

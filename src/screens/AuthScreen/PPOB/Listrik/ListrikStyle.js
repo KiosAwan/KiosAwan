@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-end",
 	},
 	infoPembelian: {
-		padding: 10,
+		padding: SizeList.padding,
 		backgroundColor: ColorsList.informationBg,
 		marginVertical: SizeList.base,
 		borderWidth: SizeList.borderWidth,
@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
 	custInfo: {
 		backgroundColor: ColorsList.whiteColor,
 		marginBottom: 10,
-		padding: 10, 
-		borderWidth: SizeList.borderWidth, 
-		borderRadius: SizeList.borderRadius, 
-		borderColor : ColorsList.borderColor
+		padding: 10,
+		borderWidth: SizeList.borderWidth,
+		borderRadius: SizeList.borderRadius,
+		borderColor: ColorsList.borderColor
 	},
 })
 export default styles

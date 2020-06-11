@@ -102,7 +102,7 @@ const TransactionList = ({ navigation }) => {
                         {
                           filterResult(item.data).rMap((trx, i) => {
                             return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
-                              <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { paddingHorizontal: 10, paddingVertical: 15, backgroundColor: ColorsList.white }]} justify="space-between">
+                              <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { padding: SizeList.padding, backgroundColor: ColorsList.white }]} justify="space-between">
                                 {/* <View style={{ padding: 15 }}> */}
                                 <Wrapper _width="60%" justify="flex-start">
                                   <View style={{ justifyContent: 'center', padding: 10, paddingLeft: 5 }}>
