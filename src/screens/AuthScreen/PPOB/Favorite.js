@@ -67,14 +67,12 @@ const Favorite = ({ navigation }) => {
 	}
 	const _renderItem = ({ item: data, index: i }) => {
 		const { type, customer_name, customerID, id_favorite, image, name } = data
-		const radiusTop = $BorderRadius(SizeList.borderRadius, SizeList.borderRadius, 0, 0)
-		const radiusBottom = $BorderRadius(0, 0, SizeList.borderRadius, SizeList.borderRadius)
+		// const radiusTop = $BorderRadius(SizeList.borderRadius, SizeList.borderRadius, 0, 0)
+		// const radiusBottom = $BorderRadius(0, 0, SizeList.borderRadius, SizeList.borderRadius)
 		return <View>
 			<View style={{
 				backgroundColor: ColorsList.white,
-				padding: SizeList.padding,
-				...i == 0 && radiusTop,
-				...i == dataFiltered().length - 1 && radiusBottom
+				paddingHorizontal: SizeList.padding,
 			}}>
 				<Button onPress={() => navigation.navigate(`/ppob/${type}`, item)} color="link" padding={SizeList.secondary} spaceBetween>
 					<NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
@@ -87,8 +85,8 @@ const Favorite = ({ navigation }) => {
 						<Image size={25} source={require("src/assets/icons/delete.png")} />
 					</Button>
 				</Button>
+				{i != dataFiltered().length - 1 && <Divider style={{ marginVertical: SizeList.secondary }} />}
 			</View>
-			{i != dataFiltered().length - 1 && <Divider style={{ marginHorizontal: SizeList.base }} />}
 		</View>
 	}
 	const renderGroupValue = v => {
@@ -127,34 +125,6 @@ const Favorite = ({ navigation }) => {
 				renderItem={_renderItem}
 			/>
 		}
-	</Container>
-	return <Container>
-		<GlobalHeader title="Daftar Favorit" onPressBack={() => navigation.goBack()} />
-		<Body style={{ paddingTop: 0 }}>
-			{isLoading ? <View>
-				<FavoriteLoader />
-				<FavoriteLoader />
-				<FavoriteLoader />
-				<FavoriteLoader />
-				<FavoriteLoader />
-				<FavoriteLoader />
-				<FavoriteLoader />
-				<FavoriteLoader />
-			</View> :
-				Object.keys(favorites).length > 0 ?
-					<FlatList
-						style={{ flex: 1 }}
-						onEndReached={_addMoreData}
-						onEndReachedThreshold={0.1}
-						showsVerticalScrollIndicator={false}
-						data={Object.keys(favorites)}
-						renderItem={_renderItem}
-						keyExtractor={(a, i) => i.toString()}
-					/> :
-					<Button disabled color="info">Anda Belum Mempunyai Daftar Favorit</Button>
-			}
-			{isLoadingMore && <ActivityIndicator style={{ margin: 10 }} color={ColorsList.primary} />}
-		</Body>
 	</Container>
 }
 
