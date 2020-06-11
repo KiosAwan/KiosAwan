@@ -10,6 +10,8 @@ import moment from 'moment';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Container, { Body } from 'src/components/View/Container';
 import { DEV_IMG_URL } from 'src/config';
+import { SizeList } from 'src/styles/size';
+import Divider from 'src/components/Row/Divider';
 
 const RiwayatTransaksi = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -45,29 +47,33 @@ const RiwayatTransaksi = ({ navigation }) => {
 				</View>
 				:
 				// Don't use body Component here, it make the lazy load didn't work
-				<View style={{ padding: 10, flex: 1 }}>
-					<FlatList
-						onEndReached={_addMoreData}
-						onEndReachedThreshold={0.25}
-						showsVerticalScrollIndicator={false}
-						data={RiwayatTransaksi.data}
-						renderItem={({ item }) => <Wrapper justify="space-between" style={{ borderRadius: 5, padding: 10, marginBottom: 5, backgroundColor: ColorsList.whiteColor }}>
-							<Image _width="15%" style={{ resizeMode: 'contain', width: null, height: 50 }} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
-							<View _width="80%">
+				<View style={{ padding: SizeList.bodyPadding, flex: 1 }}>
+					<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.whiteColor }}>
+						<FlatList
+							onEndReached={_addMoreData}
+							onEndReachedThreshold={0.25}
+							showsVerticalScrollIndicator={false}
+							data={RiwayatTransaksi.data}
+							renderItem={({ item }) => <Fragment>
 								<Wrapper justify="space-between">
-									<Text _width="65%" font="SemiBold" color="primary">{item.transaction_name && item.transaction_name.split('_').join(' ').toUpperCase()}</Text>
-									<Text _width="35%" align="right" size={12} color={item.type == 0 ? "success" : "danger"}>{`${item.type == 0 ? "+" : "-"} ${convertRupiah(item.amount)}`}</Text>
+									<View _width="100%">
+										<Wrapper justify="space-between">
+											<Text _width="65%" font="SemiBold" color="primary">{item.transaction_name && item.transaction_name.split('_').join(' ').toUpperCase()}</Text>
+											<Text _width="35%" align="right" color={item.type == 0 ? "success" : "danger"}>{`${item.type == 0 ? "+" : "-"} ${convertRupiah(item.amount)}`}</Text>
+										</Wrapper>
+										<Text color="greyFontHard">{item.customer_id}</Text>
+										<Wrapper justify="space-between" style={{ marginTop: 15 }}>
+											<Text>{item.transaction_code}</Text>
+											<Text>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
+										</Wrapper>
+									</View>
 								</Wrapper>
-								<Text>{item.customer_id}</Text>
-								<Wrapper justify="space-between" style={{ marginTop: 10 }}>
-									<Text size={12}>{item.transaction_code}</Text>
-									<Text size={12}>{moment(item.created_at).format('DD MMM YYYY HH:mm')}</Text>
-								</Wrapper>
-							</View>
-						</Wrapper>
-						}
-						keyExtractor={(item, i) => i.toString()}
-					/>
+								<Divider style={{ marginVertical: 10 }} />
+							</Fragment>
+							}
+							keyExtractor={(item, i) => i.toString()}
+						/>
+					</View>
 				</View>
 		}
 	</Container>
