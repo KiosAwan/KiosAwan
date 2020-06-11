@@ -74,18 +74,20 @@ const Favorite = ({ navigation }) => {
 				backgroundColor: ColorsList.white,
 				paddingHorizontal: SizeList.padding,
 			}}>
-				<Button onPress={() => navigation.navigate(`/ppob/${type}`, item)} color="link" padding={SizeList.secondary} spaceBetween>
-					<NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
-					<View _flex>
-						<Text>{name}</Text>
-						<Text color="greyFontHard">{customerID}</Text>
-						<Text>{customer_name ? customer_name.ucwords() : type.split('_').join(' ').ucwords()}</Text>
-					</View>
-					<Button padding={0} color="link" onPress={() => removeFavorite(id_favorite)}>
-						<Image size={25} source={require("src/assets/icons/delete.png")} />
+				<View style={{ marginVertical: SizeList.base }} >
+					<Button onPress={() => navigation.navigate(`/ppob/${type}`, item)} color="link" padding={SizeList.secondary} spaceBetween>
+						<NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
+						<View _flex>
+							<Text>{name}</Text>
+							<Text color="greyFontHard">{customerID}</Text>
+							<Text>{customer_name ? customer_name.ucwords() : type.split('_').join(' ').ucwords()}</Text>
+						</View>
+						<Button padding={0} color="link" onPress={() => removeFavorite(id_favorite)}>
+							<Image size={25} source={require("src/assets/icons/delete.png")} />
+						</Button>
 					</Button>
-				</Button>
-				{i != dataFiltered().length - 1 && <Divider style={{ marginVertical: SizeList.secondary }} />}
+				</View>
+				{i != dataFiltered().length - 1 && <Divider />}
 			</View>
 		</View>
 	}
