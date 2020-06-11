@@ -119,7 +119,7 @@ const ListTransaksiPPOB = ({ navigation }) => {
 												<View>
 													<Wrapper justify="space-between">
 														<Text _width="65%" font="SemiBold" color="primary">{transaction_name.toString().toUpperCase().split('_').join(' ')}</Text>
-														<Text _width="35%" align="right" color="success">{convertRupiah(total)}</Text>
+														<Text _width="35%" align="right" color="greyFontHard">{convertRupiah(total)}</Text>
 													</Wrapper>
 													<Text color="greyFontHard">{customerID}</Text>
 													<Text color="greyFontHard">{customer_name}</Text>
