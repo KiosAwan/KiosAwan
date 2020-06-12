@@ -33,7 +33,6 @@ const Akun = ({ navigation }) => {
 				}
 			}}
 			width="100%"
-			// padding={$Padding(5, 10)}
 			wrapper={{ justify: 'flex-start' }}
 			color={['whiteColor', 'greyFont']}>
 			<Wrapper width="100%" justify="space-between">
@@ -88,8 +87,8 @@ const Akun = ({ navigation }) => {
 				</View>
 				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
 					<AkunButton
-						name="Pengaturan perangkat"
-						route=""
+						name="Perangkat terhubung"
+						route="/drawer/settings/perangkat"
 						noBottom
 					/>
 				</View>
