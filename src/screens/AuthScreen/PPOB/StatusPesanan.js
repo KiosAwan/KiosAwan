@@ -9,7 +9,6 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border, $BorderRadius } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { convertRupiah, getUserToken, getUserId, sendNewTransaction } from 'src/utils/authhelper';
-import moment from 'moment';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { useDispatch, useSelector } from 'react-redux';
 import ViewShot from 'react-native-view-shot';

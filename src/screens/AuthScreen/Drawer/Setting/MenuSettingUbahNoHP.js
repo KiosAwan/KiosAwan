@@ -45,7 +45,7 @@ const MenuSettingUbahNoHP = ({ navigation }) => {
 				dispatch(getProfile(User.data.id, userToken))
 				setTimeout(() => {
 					setModalVisible(false)
-					navigation.navigate('/drawer/settings')
+					navigation.navigate('/')
 				}, 800)
 			}
 		}

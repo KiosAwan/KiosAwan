@@ -80,7 +80,7 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 				setTimeout(() => {
 					setModalVisible(false)
 					dispatch(getProfile(User.data.id, userToken))
-					navigation.navigate('/drawer/settings')
+					navigation.navigate('/')
 				}, 1000)
 			}
 		}

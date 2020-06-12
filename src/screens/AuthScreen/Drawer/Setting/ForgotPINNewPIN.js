@@ -44,7 +44,7 @@ const ForgotPINNewPIN = ({ navigation }) => {
             setModalVisible(true)
             setTimeout(() => {
                 setModalVisible(false)
-                navigation.navigate('/drawer/settings')
+                navigation.navigate('/')
             }, 1000)
         }
     }
