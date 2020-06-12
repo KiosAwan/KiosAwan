@@ -13,6 +13,8 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import MDInput, { Input } from 'src/components/Input/MDInput';
+import { SizeList } from 'src/styles/size';
+import { Text } from 'src/components/Text/CustomText';
 
 const MenuSettingUbahPassword = ({ navigation }) => {
 	const PIN = navigation.params ? navigation.params.PIN : undefined
@@ -105,17 +107,18 @@ const MenuSettingUbahPassword = ({ navigation }) => {
 			</Modal>
 			<GlobalHeader title="Ubah Password" onPressBack={() => navigation.goBack()} />
 			<AwanPopup.Loading visible={loading} />
-			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: 15 }}>
-				{/* <View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}> */}
+			<ScrollView showsVerticalScrollIndicator={false} style={{ padding: SizeList.bodyPadding }}>
 				{
 					inputan.rMap((input, i) => {
 						return <View style={styles.floatingInput}>
-							<Input key={i} label={input._label} style={{ width: '90%' }} {...input}
-								renderRightAccessory={() => <Icon name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />} />
+							<Input key={i} label={input._label} style={{ width: '100%' }} {...input}
+								renderRightAccessory={() => <Icon style={{ color: ColorsList.greyFont, fontSize: 20 }} name={input.secureTextEntry ? "eye" : "eye-off"} onPress={input._setEyes} />} />
 						</View>
 					})
 				}
-				{/* </View> */}
+				<View style={{ backgroundColor: ColorsList.settingBg,  borderRadius: SizeList.borderRadius }}>
+					<Text style={{ padding: 10 }} color="settingFont">Untuk mengganti password, anda harus memasukkan password anda saat ini</Text>
+				</View>
 			</ScrollView>
 			<Bottom>
 				<Button onPress={_handleSavePassword} style={{ width: '100%' }}>SIMPAN</Button>

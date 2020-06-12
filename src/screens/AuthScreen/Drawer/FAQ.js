@@ -7,7 +7,7 @@ import { $Padding, $BorderRadius } from 'src/utils/stylehelper';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Axios from 'axios';
 import { HOST_URL } from 'src/config';
-import SearchInput from 'src/components/Input/SearchInput';
+import SearchInput, { SearchInputV2 } from 'src/components/Input/SearchInput';
 import { Body } from 'src/components/View/Container';
 import Divider from 'src/components/Row/Divider';
 import { SizeList } from 'src/styles/size';
@@ -27,9 +27,16 @@ const FAQ = ({ navigation }) => {
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader title="FAQ" onPressBack={() => navigation.goBack()} />
-			<View style={{ ...$Padding(5, 15, 15, 15), backgroundColor: ColorsList.whiteColor }}>
-				<SearchInput handleDeleteSearch={() => setSearch('')} search={search} placeholder="Cari jawaban" handleChangeInput={text => setSearch(text)} />
+			{/* <View style={{ ...$Padding(5, 15, 15, 15), backgroundColor: ColorsList.whiteColor }}> */}
+
+			<View style={{ paddingHorizontal: SizeList.bodyPadding }}>
+				<SearchInputV2
+					search={search}
+					placeholder="Cari jawaban"
+					handleChangeInput={text => setSearch(text)}
+				/>
 			</View>
+			{/* </View> */}
 			<Body>
 				<View style={{ padding: 15, backgroundColor: ColorsList.whiteColor }}>
 					{
