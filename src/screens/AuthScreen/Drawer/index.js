@@ -87,7 +87,7 @@ const Akun = ({ navigation }) => {
 				</View>
 				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
 					<AkunButton
-						name="Perangkat terhubung"
+						name="Hubungkan perangkat"
 						route="/drawer/settings/perangkat"
 						noBottom
 					/>
