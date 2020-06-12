@@ -94,7 +94,7 @@ export const Button = props => {
 			_color = {
 				borderRadius: 0,
 				text: backgroundColor,
-				...$Border(backgroundColor, 0, 0, 2, 0)
+				...$Border(backgroundColor, 0, 0, 1, 0)
 			}
 		}
 		return _color

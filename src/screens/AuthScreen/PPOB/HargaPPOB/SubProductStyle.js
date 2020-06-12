@@ -20,16 +20,14 @@ const styles = StyleSheet.create({
         backgroundColor: ColorsList.whiteColor,
     },
     wrapper: {
-        backgroundColor: ColorsList.whiteColor,
-        marginBottom : 10
+        padding: 5,
+        paddingHorizontal : 10,
+        backgroundColor: ColorsList.whiteColor
     },
     leftWrapper: {
-        padding: 5,
-        paddingHorizontal : 10
     },
     rightWrapper: {
         width: '40%',
-        backgroundColor: ColorsList.greyBg,
         padding: 5,
     }
 })

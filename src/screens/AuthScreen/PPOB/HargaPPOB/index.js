@@ -14,45 +14,46 @@ import Divider from 'src/components/Row/Divider'
 import { SizeList } from 'src/styles/size'
 
 const SettingHargaPPOB = ({ navigation }) => {
-    const [listProducts, setListProducts] = useState()
-    const _getData = async () => {
-        const { status, data } = await getListProducts()
-        if (status == 200) {
-            setListProducts(data)
-        } else {
-            setListProducts([])
-        }
-    }
-    useEffect(() => {
-        _getData()
-    }, [])
-    return <Container>
-        <GlobalHeader title="Atur Harga" onPressBack={() => navigation.goBack()} />
-        <Body>
-            {listProducts && listProducts.length > 0 &&
-                <View style={[stylesglobe.shadowView, ]}>
-                    <BodyFlatList
-                        data={listProducts}
-                        renderItem={({ item, index }) => <Fragment>
-                            <Button
-                                onPress={() => navigation.navigate(`/ppob/settings/sub-product`, item)}
-                                wrapper={{ justify: 'flex-start' }}
-                                color={['whiteColor', 'greyFont']}>
-                                <Image width="13%" size={25} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
-                                <Wrapper width="87%" justify="space-between">
-                                    <Text>{item.product}</Text>
-                                    <Image size={20} source={require('src/assets/icons/next.png')} />
-                                </Wrapper>
-                            </Button>
-                            {index != listProducts.length - 1 && <Divider style={{ marginVertical: SizeList.secondary }} />}
-                        </Fragment>
-                        }
-                        keyExtractor={(item, i) => i.toString()}
-                    />
-                </View>
-            }
-        </Body>
-    </Container>
+	const [listProducts, setListProducts] = useState()
+	const _getData = async () => {
+		const { status, data } = await getListProducts()
+		if (status == 200) {
+			setListProducts(data)
+		} else {
+			setListProducts([])
+		}
+	}
+	useEffect(() => {
+		_getData()
+	}, [])
+	return <Container>
+		<GlobalHeader title="Atur Harga" onPressBack={() => navigation.goBack()} />
+		<Body>
+			{listProducts && listProducts.length > 0 &&
+				<View style={[stylesglobe.shadowView,]}>
+					<BodyFlatList
+						style={{ marginVertical: SizeList.base }}
+						data={listProducts}
+						renderItem={({ item, index }) => <Fragment>
+							<Button
+								onPress={() => navigation.navigate(`/ppob/settings/sub-product`, item)}
+								wrapper={{ justify: 'flex-start' }}
+								color={['whiteColor', 'greyFont']}>
+								<Image width="13%" size={25} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
+								<Wrapper width="87%" justify="space-between">
+									<Text>{item.product}</Text>
+									<Image size={20} source={require('src/assets/icons/next.png')} />
+								</Wrapper>
+							</Button>
+							{index != listProducts.length - 1 && <Divider style={{ marginVertical: SizeList.secondary }} />}
+						</Fragment>
+						}
+						keyExtractor={(item, i) => i.toString()}
+					/>
+				</View>
+			}
+		</Body>
+	</Container>
 }
 
 export default SettingHargaPPOB

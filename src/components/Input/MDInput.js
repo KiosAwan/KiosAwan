@@ -14,6 +14,9 @@ import { $Border } from 'src/utils/stylehelper'
 
 const Input = props => {
 	let objCurrency = {}
+	if (props.dd) {
+		console.debug(props)
+	}
 	const { currency, value = '', label = '', onChangeText = () => { } } = props
 	const {
 		spaceTop = 0,
@@ -24,6 +27,7 @@ const Input = props => {
 		renderLeftAccessory,
 		renderRightAccessory,
 		onFocus,
+		font,
 		onBlur,
 		accessoryOut,
 		style: styleOverride,
@@ -74,7 +78,7 @@ const Input = props => {
 			placeholder={label}
 			{..._props}
 			label={isFocused() ? label.toUpperCase() : label}
-			style={{ color: ColorsList.greyFont, fontSize: 14, padding: 0, marginVertical: SizeList.secondary * 3 }}
+			style={{ fontFamily: FontName[font], color: ColorsList.greyFont, fontSize: 14, padding: 0, marginVertical: SizeList.secondary * 3 }}
 			{...objCurrency}
 		/>
 		if (!noLabel) {

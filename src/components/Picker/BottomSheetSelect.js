@@ -17,6 +17,7 @@ const BottomSheetSelect = props => {
 		style,
 		renderItem,
 		label,
+		font,
 		noLabel,
 		header,
 		handleChangePicker = () => { },
@@ -37,6 +38,7 @@ const BottomSheetSelect = props => {
 			height={height}
 			animationType="slide"
 			onOpen={onOpen}
+			closeOnDragDown
 			customStyles={{
 				wrapper: {},
 				container: { backgroundColor: ColorsList.white },
@@ -67,6 +69,7 @@ const BottomSheetSelect = props => {
 		<Button style={{ ...style }} color="link" padding={0} onPress={() => rb.open()}>
 			<Input
 				disabled
+				font={font}
 				label={label}
 				value={value}
 				noLabel={noLabel}
