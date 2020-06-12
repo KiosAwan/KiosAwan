@@ -37,6 +37,7 @@ const BottomSheetSelect = props => {
 			height={height}
 			animationType="slide"
 			onOpen={onOpen}
+			closeOnDragDown={true}
 			customStyles={{
 				wrapper: {},
 				container: { backgroundColor: ColorsList.white },
