@@ -30,14 +30,14 @@ const UbahNoHPInfoScreen = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
             <AwanPopup.Loading visible={apiLoading} />
-            <GlobalHeader title="Ubah No HP" onPressBack={() => navigation.goBack()} />
+            <GlobalHeader title="Ubah No. HP" onPressBack={() => navigation.goBack()} />
             <View style={{ padding: 20 }}>
-                <Input label="No.Handphone Anda" value={`62-${showPhoneNumber(User.data.phone_number.slice(2, User.data.length))}`}
+                <Input label="No.HP" value={`62-${showPhoneNumber(User.data.phone_number.slice(2, User.data.length))}`}
                     editable={false}
                     renderRightAccessory={() =>
                         <Image style={{ width: 30, height: 30 }} source={User.data.status == 0 ? require('src/assets/icons/rejectcheck.png') : require('src/assets/icons/successcheck.png')} />} />
-                <View style={{ backgroundColor: ColorsList.successSoft, marginTop: SizeList.base, padding: SizeList.padding, borderRadius: SizeList.borderRadius }}>
-                    <Text color="success">No. HP dapat diubah apabila dibutuhkan</Text>
+                <View style={{ backgroundColor: ColorsList.settingBg, marginTop: SizeList.base, borderRadius: SizeList.borderRadius }}>
+                    <Text style={{ padding: 10 }} color="settingFont">Nomor anda sudah terverifikasi, tekan tombol dibawah untuk mengganti</Text>
                 </View>
             </View>
             <Bottom>

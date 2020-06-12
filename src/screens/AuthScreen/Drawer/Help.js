@@ -10,6 +10,10 @@ import { useSelector } from 'react-redux';
 import Axios from 'axios';
 import { HOST_URL } from 'src/config';
 import { convertPhoneNumber, getUserToken } from 'src/utils/authhelper';
+import Container, { Body } from 'src/components/View/Container';
+import { SizeList } from 'src/styles/size';
+import Divider from 'src/components/Row/Divider';
+import { Button } from 'src/components/Button/Button';
 const Help = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [callCenter, setCallCenter] = useState()
@@ -29,46 +33,54 @@ const Help = ({ navigation }) => {
 	}
 	const _openUrl = url => Linking.openURL(url)
 	return (
-		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-			<GlobalHeader style={{ height: 190, justifyContent: 'flex-start' }} title="Hubungi Kami" onPressBack={() => navigation.goBack()} />
-			<View style={{ ...$Padding(0, 15), alignItems: 'center' }}>
-				<View style={{ ...$Margin(0, 0, 15) }}>
-					<Text align="center" size={25}>Halo {User.data.name}!</Text>
-					<Text align="center">{'Silahkan hubungi tim Awan\njika anda memiliki pertanyaan atau saran'}</Text>
+		<Container>
+			<GlobalHeader title="HELPDESK" onPressBack={() => navigation.goBack()} />
+			<Body>
+				<View>
+					<Text align="left">Halo,</Text>
+					<Text align="left" font="SemiBold" size={16}>{User.data.name.toUpperCase()}</Text>
 				</View>
-				<View style={styles.white}>
-					<Text align="center">Hubungi nomor ini untuk pelayanan lebih lanjut</Text>
+				<Divider style={{ marginVertical: SizeList.base }} />
+				<View style={styles.secondView}>
+					<Text>Hubungi nomor ini untuk pelayanan lebih lanjut</Text>
 					<TouchableOpacity onPress={() => _openUrl(`tel:${callCenter}`)}>
-						<Wrapper justify="center">
-							<Icon style={{ color: ColorsList.primary, fontSize: 25, marginRight: 10 }} name="call" />
-							<Text color="primary" font="ExtraBold" size={30}>{convertPhoneNumber(callCenter)}</Text>
+						<Wrapper justify="flex-start">
+							<Text color="primary" font="SemiBold" size={30}>{convertPhoneNumber(callCenter)}</Text>
+							<Button disabled style={{ width: 40, justifyContent: "center", marginLeft: 20 }}>
+								<Icon style={{ color: ColorsList.white, fontSize: 20 }} name="call" />
+							</Button>
 						</Wrapper>
 					</TouchableOpacity>
 				</View>
-				<TouchableOpacity style={[styles.white, { marginTop: 10 }]} onPress={() => _openUrl(`https://wa.me/${whatsapp}`)}>
+				<TouchableOpacity style={[styles.card, { marginTop: 10 }]} onPress={() => _openUrl(`https://wa.me/${whatsapp}`)}>
 					<Wrapper justify="flex-start">
 						<Icon style={{ color: ColorsList.primary, fontSize: 15, marginRight: 10 }} name="logo-whatsapp" />
 						<Text size={15}>Live Chat via WhatsApp</Text>
 					</Wrapper>
 				</TouchableOpacity>
-				<TouchableOpacity style={[styles.white, { marginTop: 10 }]} onPress={() => _openUrl(`mailto:${mail}`)}>
+				<TouchableOpacity style={[styles.card, { marginTop: 10 }]} onPress={() => _openUrl(`mailto:${mail}`)}>
 					<Wrapper justify="flex-start">
 						<Icon style={{ color: ColorsList.primary, fontSize: 15, marginRight: 10 }} name="mail" />
 						<Text size={15}>Kirim Email ke Helpdesk KiosAwan</Text>
 					</Wrapper>
 				</TouchableOpacity>
 				<View style={styles.infoTag}>
-					<Text align="center" style={styles.infoTagTitle} size={13}>Hubungi kami kapanpun</Text>
-					<Text align="center" size={10}>{`Puri Imperium Office Plaza Unit G5\nJalan Kuningan Madya Kav 5-6, Jakarta Selatan\n12980 Tlp. 021 294 88 777 | Fax. 021 294 88 770\nEmail: info@kiosawan.com`}</Text>
+					<Text font="SemiBold" style={styles.infoTagTitle}>Alamat</Text>
+					<Text>{`Puri Imperium Office Plaza Unit G5\nJalan Kuningan Madya Kav 5-6, Jakarta Selatan\n12980 Tlp. 021 294 88 777 | Fax. 021 294 88 770\nEmail: info@kiosawan.com`}</Text>
 				</View>
-			</View>
-		</View>
+			</Body>
+		</Container>
 	)
 }
 export default Help
 
 const styles = StyleSheet.create({
-	white: { backgroundColor: ColorsList.whiteColor, ...$BorderRadius(5), padding: 15, width: '100%' },
-	infoTag: { ...$BorderRadius(5), ...$Border(ColorsList.greyAuthHard, 1), padding: 15, paddingTop: 15, position: 'relative', width: '100%', marginTop: 15 },
-	infoTagTitle: { backgroundColor: ColorsList.authBackground, position: 'absolute', left: '20%', right: '20%', top: -10 }
+	card: {
+		backgroundColor: ColorsList.white,
+		borderWidth: SizeList.borderWidth,
+		borderRadius: SizeList.borderRadius,
+		borderColor: ColorsList.borderColor,
+		padding: SizeList.padding
+	},
+	infoTag: { marginTop: SizeList.base },
 })

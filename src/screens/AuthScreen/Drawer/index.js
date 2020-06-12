@@ -1,12 +1,15 @@
 import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux'
 import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Padding } from 'src/utils/stylehelper';
 import Container, { Body } from 'src/components/View/Container';
+import { stylesglobe } from 'src/styles/globalStyle';
+import { SizeList } from 'src/styles/size';
+import Divider from 'src/components/Row/Divider';
 
 const Akun = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -30,8 +33,7 @@ const Akun = ({ navigation }) => {
 				}
 			}}
 			width="100%"
-			style={{ borderRadius: 5, marginBottom: !props.noBottom ? 3 : 15 }}
-			padding={$Padding(5, 10)}
+			// padding={$Padding(5, 10)}
 			wrapper={{ justify: 'flex-start' }}
 			color={['whiteColor', 'greyFont']}>
 			<Wrapper width="100%" justify="space-between">
@@ -50,57 +52,80 @@ const Akun = ({ navigation }) => {
 					</View>
 					<Button disabled width={110} padding={5}>FREE USER</Button>
 				</Wrapper>
-				<AkunButton
-					name="Data pribadi"
-					route="/drawer/settings/profile"
-					noBottom
-				/>
-				<AkunButton
-					name="Ubah email"
-					route="/drawer/settings/change-email"
-				/>
-				<AkunButton
-					name="Ubah No. Hp"
-					route="/drawer/settings/change-phone-number"
-				/>
-				<AkunButton
-					name="Ubah password"
-					route="/drawer/settings/change-password"
-				/>
-				<AkunButton
-					name="Ubah PIN"
-					route="/drawer/settings/change-pin"
-				/>
-				<AkunButton
-					name="Lupa PIN"
-					route="/drawer/settings/lupa-pin"
-					noBottom
-				/>
-				<AkunButton
-					name="Pengaturan perangkat"
-					route=""
-					noBottom
-				/>
-				<AkunButton
-					name="FAQs"
-					route="/drawer/faq"
-				/>
-				<AkunButton
-					name="Helpdesk"
-					route="/drawer/help"
-				/>
-				<AkunButton
-					name="Rate Awan"
-					route=""
-					noBottom
-				/>
-				<AkunButton
-					name="Keluar"
-					route=""
-				/>
+				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
+					<AkunButton
+						name="Data pribadi"
+						route="/drawer/settings/profile"
+						noBottom
+					/>
+				</View>
+				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
+					<AkunButton
+						name="Ubah email"
+						route="/drawer/settings/change-email"
+					/>
+					<Divider />
+					<AkunButton
+						name="Ubah No. Hp"
+						route="/drawer/settings/change-phone-number"
+					/>
+					<Divider />
+					<AkunButton
+						name="Ubah password"
+						route="/drawer/settings/change-password"
+					/>
+					<Divider />
+					<AkunButton
+						name="Ubah PIN"
+						route="/drawer/settings/change-pin"
+					/>
+					<Divider />
+					<AkunButton
+						name="Lupa PIN"
+						route="/drawer/settings/lupa-pin"
+						noBottom
+					/>
+				</View>
+				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
+					<AkunButton
+						name="Pengaturan perangkat"
+						route=""
+						noBottom
+					/>
+				</View>
+				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
+					<AkunButton
+						name="FAQs"
+						route="/drawer/faq"
+					/>
+					<Divider />
+					<AkunButton
+						name="Helpdesk"
+						route="/drawer/help"
+					/>
+					<Divider />
+					<AkunButton
+						name="Rate Awan"
+						route=""
+						noBottom
+					/>
+				</View>
+				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
+					<AkunButton
+						name="Keluar"
+						route=""
+					/>
+				</View>
 			</Body>
 		</Container>
 	)
 }
 
 export default Akun
+
+const styles = StyleSheet.create({
+	viewSeparator: {
+		marginBottom: SizeList.base,
+		// paddingHorizontal : sizeli
+	}
+})
