@@ -116,19 +116,21 @@ const Keyboard = ({ onPress }) => {
 
 export default InputCode
 
-/*
-	navigation.navigate('/input-code', {
-		header: () => <Text align="center">headerr</Text>,
-		footer: () => <Text align="center">footer</Text>,
-		onResolve: (code, close) => {
-			console.debug(code)
-			// close()
-		},
-		secureTextEntry: true,
-		value: '',
-		codeLength: 4,
-		codeProps: {},
-		headerProps: {},
-		keyboardProps: {},
-	})
-*/
+
+/* navigation.navigate('/input-code', {
+	// Wajib
+	value: '',
+	onResolve: (code, close) => {
+		console.debug(code)
+		// close()
+	},
+
+	// Ga Wajib
+	header: () => <Text align="center">headerr</Text>,
+	footer: () => <Text align="center">footer</Text>,
+	secureTextEntry: true,
+	codeLength: 4,
+	codeProps: {},
+	headerProps: {},
+	keyboardProps: {},
+}) */
