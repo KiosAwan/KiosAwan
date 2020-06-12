@@ -29,7 +29,6 @@ const TransactionList = ({ navigation }) => {
   const User = useSelector(state => state.User)
   const [search, setSearch] = useState('')
   const [searchIconColor, setSearchIconColor] = useState(ColorsList.greyFont)
-  const [moreVisible, setMoreVisible] = useState(false)
   const [filter, setFilter] = useState('all')
 
   const iconImage = {

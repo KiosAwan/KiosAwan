@@ -300,7 +300,7 @@ const Cart = ({ navigation }) => {
 			</View>
 
 			<View style={{ marginBottom: SizeList.base }}>
-				<Wrapper justify="space-between" style={{ padding: 10 }}>
+				<Wrapper justify="space-between" style={{ paddingVertical: 10 }}>
 					<Text>Tambahkan diskon</Text>
 					<SwitchButton handleChangeToggle={_handleChangeToggle} toggleValue={Product.discount_on} />
 				</Wrapper>

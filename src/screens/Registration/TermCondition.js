@@ -7,6 +7,7 @@ import { HOST_URL } from 'src/config';
 import { Text } from 'src/components/Text/CustomText';
 import HTML from 'react-native-render-html';
 import { FontList } from 'src/styles/typography';
+import { SizeList } from 'src/styles/size';
 const TermCondition = ({ navigation }) => {
 
 	const [content, setContent] = useState()
@@ -39,7 +40,7 @@ const TermCondition = ({ navigation }) => {
 							}
 							<View style={styles.partView}>
 								<View style={styles.line} />
-								<View style={{ width: '90%',marginLeft : 5 }}>
+								<View style={{ width: '90%', marginLeft: 5 }}>
 									<HTML
 										tagsStyles={{
 											p: { fontFamily: FontList.primaryFont, color: ColorsList.greySoft },
@@ -60,8 +61,8 @@ export default TermCondition
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: ColorsList.whiteColor
+		padding: SizeList.bodyPadding,
+		flex: 1
 	},
 	line: {
 		width: 1,

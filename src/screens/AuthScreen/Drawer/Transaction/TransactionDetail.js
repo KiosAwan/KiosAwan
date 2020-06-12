@@ -87,7 +87,7 @@ const TransactionDetail = ({ navigation }) => {
 							topLayout.onLayout(e);
 							bottomLayout.onLayout(e);
 						}}
-						style={{ backgroundColor: ColorsList.whiteColor, padding: 20, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor }}>
+						style={{ backgroundColor: ColorsList.whiteColor, padding: SizeList.padding, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor, borderRadius: SizeList.borderRadius }}>
 						<Text font="SemiBold" align="center">{data ? data.transaction.name_store : null}</Text>
 						<View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor }}>
 							<InfoWrapper>

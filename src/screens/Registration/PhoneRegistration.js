@@ -190,7 +190,18 @@ const PhoneRegistration = ({ navigation }) => {
 		/>
 		<AwanPopup.Loading visible={loading} />
 		<Modal visible={popup} style={{ borderRadius: 5, width: '80%', ...$Padding(20, 20) }}>
-			<Text style={{ marginBottom: 10, padding: 10, backgroundColor: ColorsList.white, borderRadius : SizeList.borderRadius }} size={20} align="center">0 {FormRegister.phone_number.split('').join(' ')}</Text>
+			<Text
+				style={{
+					marginBottom: 10,
+					padding: 10,
+					backgroundColor: ColorsList.white,
+					borderRadius: SizeList.borderRadius,
+					borderWidth: SizeList.borderWidth,
+					borderColor: ColorsList.borderColor
+				}}
+				size={20}
+				align="center"
+			>0 {FormRegister.phone_number.split('').join(' ')}</Text>
 			<Text style={{ marginBottom: 10, }} color="pink">Nomor ini tidak ditemukan.</Text>
 			<Text style={{ marginBottom: 10, }}>Apakah Anda yakin akan mendaftar aplikasi menggunakan nomor ini?</Text>
 			<Wrapper style={{ marginTop: 15 }} flexContent>

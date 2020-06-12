@@ -110,11 +110,11 @@ const Report = ({ navigation }) => {
 			<View style={{ marginBottom: SizeList.base }}>
 				<SelectBoxModal
 					closeOnSelect noLabel
-					height={150}
+					height={200}
 					value={MainTab.routes[MainTab.index].title}
 					data={MainTab.routes}
 					handleChangePicker={(a, i) => MainTab.setIndex(i)}
-					renderItem={item => <Text>{item.title}</Text>}
+					renderItem={item => <Button color="link" textStyle={{color : ColorsList.greyFontHard}}>{item.title}</Button>}
 				/>
 			</View>
 			<ViewShadow noPadding title={moment(dateSelected).format('MMMM YYYY')}>
