@@ -196,7 +196,7 @@ class PengaturanPerangkat extends Component {
                                 </TouchableOpacity>
                                 : null}
                         {
-                            (this.props.Printer.data[0].boundAddress != (this.state.printEnable ? this.state.printEnable.boundAddress : 0)) &&
+                            (this.props.Printer.data.length > 0 && this.props.Printer.data[0].boundAddress != (this.state.printEnable ? this.state.printEnable.boundAddress : 0)) &&
                             this.props.Printer.data.length > 0 && <View style={[stylesglobe.shadowView, { padding: SizeList.padding }]}>
                                 {this.props.Printer.data.rMap((a, i) =>
                                     a.boundAddress != (this.state.printEnable ? this.state.printEnable.boundAddress : 0) ?
