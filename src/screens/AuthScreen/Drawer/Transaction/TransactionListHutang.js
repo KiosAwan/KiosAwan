@@ -10,7 +10,7 @@ import { ColorsList } from 'src/styles/colors';
 import Container, { Body } from 'src/components/View/Container';
 import moment from 'moment';
 import { SizeList } from 'src/styles/size';
-import SearchInput from 'src/components/Input/SearchInput';
+import SearchInput, { SearchInputV2 } from 'src/components/Input/SearchInput';
 import { TextInput } from 'src/components/Input/MDInput';
 
 const RingkasanHutang = ({ navigation }) => {
@@ -47,12 +47,14 @@ const RingkasanHutang = ({ navigation }) => {
                     </View>
                     :
                     <View style={{ flex: 1 }}>
-                        <View style={{ paddingBottom: 10, backgroundColor: ColorsList.whiteColor }}>
-                            <SearchInput width="100%" clear={() => setSearch('')}>
-                                <TextInput placeholder="Cari transaksi" onFocus={() => setSearchIconColor(ColorsList.primary)} onBlur={() => setSearchIconColor(ColorsList.greyFont)} value={search} onChangeText={text => setSearch(text)} />
-                            </SearchInput>
-                        </View>
-                        <Text style={{ marginBottom: 10 }}>Ringkasan Hutang</Text>
+                        <SearchInputV2
+                            placeholder="Cari transaksi"
+                            onFocus={() => setSearchIconColor(ColorsList.primary)}
+                            onBlur={() => setSearchIconColor(ColorsList.greyFont)}
+                            value={search}
+                            onChangeText={text => setSearch(text)}
+                        />
+                        <Text style={{ marginVertical: 10 }}>Ringkasan Hutang</Text>
                         <View style={{ backgroundColor: "white", borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor, borderRadius: 5, padding: SizeList.padding }}>
                             <Wrapper style={styles.wrapper} justify="space-between">
                                 <Text>Jumlah Transaksi Hutang</Text>
@@ -102,7 +104,7 @@ const RingkasanHutang = ({ navigation }) => {
                     </View>
                 }
             </Body>
-        </Container>
+        </Container >
     )
 }
 

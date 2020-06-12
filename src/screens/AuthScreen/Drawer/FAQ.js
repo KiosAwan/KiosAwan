@@ -7,8 +7,10 @@ import { $Padding, $BorderRadius } from 'src/utils/stylehelper';
 import { Wrapper } from 'src/components/View/Wrapper';
 import Axios from 'axios';
 import { HOST_URL } from 'src/config';
-import SearchInput from 'src/components/Input/SearchInput';
+import SearchInput, { SearchInputV2 } from 'src/components/Input/SearchInput';
 import { Body } from 'src/components/View/Container';
+import Divider from 'src/components/Row/Divider';
+import { SizeList } from 'src/styles/size';
 const FAQ = ({ navigation }) => {
 	const [search, setSearch] = useState('')
 	const [toggled, setToggled] = useState({})
@@ -25,28 +27,36 @@ const FAQ = ({ navigation }) => {
 	return (
 		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<GlobalHeader title="FAQ" onPressBack={() => navigation.goBack()} />
-			<View style={{ ...$Padding(5, 15, 15, 15), backgroundColor: ColorsList.whiteColor }}>
-				<SearchInput handleDeleteSearch={() => setSearch('')} search={search} placeholder="Cari jawaban" handleChangeInput={text => setSearch(text)} />
+			{/* <View style={{ ...$Padding(5, 15, 15, 15), backgroundColor: ColorsList.whiteColor }}> */}
+
+			<View style={{ paddingHorizontal: SizeList.bodyPadding }}>
+				<SearchInputV2
+					search={search}
+					placeholder="Cari jawaban"
+					handleChangeInput={text => setSearch(text)}
+				/>
 			</View>
+			{/* </View> */}
 			<Body>
-				{/* <View style={{ padding: 15 }}> */}
+				<View style={{ padding: 15, backgroundColor: ColorsList.whiteColor }}>
 					{
 						Faqs.filter(faq => faq.question.toLowerCase().includes(search.toLowerCase())).rMap((faq, i) => {
-							return [<TouchableOpacity key={i} style={{ marginTop: i == 0 ? 0 : 10 }} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
+							return [<TouchableOpacity key={i} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
 								<Wrapper justify="space-between" style={[styles.content, toggled[i] ? styles.contentToggled : styles.contentNotToggled]}>
-									<Text color={toggled[i] ? 'whiteColor' : 'greyFont'}>{faq.question}</Text>
-									<Text color={toggled[i] ? 'whiteColor' : 'primary'} size={20}>{toggled[i] ? '-' : '+'}</Text>
+									<Text font="SemiBold">{faq.question}</Text>
+									<Text color="primary" size={20}>{toggled[i] ? '-' : '+'}</Text>
 								</Wrapper>
 							</TouchableOpacity>,
 							toggled[i] ?
-								<View style={[styles.content, $BorderRadius(0, 0, 5, 5)]}>
+								<View style={[styles.subContent]}>
 									<Text>{faq.answer}</Text>
 								</View>
-								: null
+								: null,
+							i != Faqs.length - 1 && <Divider style={{ marginVertical: SizeList.secondary }} />
 							]
 						})
 					}
-				{/* </View> */}
+				</View>
 			</Body>
 		</View>
 	)
@@ -54,6 +64,10 @@ const FAQ = ({ navigation }) => {
 export default FAQ
 
 const styles = StyleSheet.create({
-	content: { ...$Padding(5, 15), ...$BorderRadius(5), backgroundColor: ColorsList.whiteColor },
-	contentToggled: { backgroundColor: ColorsList.primary, ...$BorderRadius(5, 5, 0, 0) }
+	content: { ...$BorderRadius(5) },
+	contentToggled: {},
+	subContent: {
+		padding: SizeList.base,
+		paddingTop: 0
+	}
 })

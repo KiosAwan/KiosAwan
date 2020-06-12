@@ -7,6 +7,7 @@ import { FontName } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
 import Divider from '../Row/Divider';
 import { Wrapper } from '../View/Wrapper';
+import { Input } from './MDInput';
 
 const SearchInput = (props) => {
 	let nullFn = () => { }
@@ -56,13 +57,38 @@ const SearchInput = (props) => {
 		<Divider style={{ marginTop: 5 }} color={isFocused ? props.color || ColorsList.primary : props.blurColor || ColorsList.greyAuthHard} />
 	</View>
 }
+const SearchInputV2 = (props) => {
+	let nullFn = () => { }
+	const [isFocused, setIsFocused] = useState(false)
+	const onFocus = props.onFocus || nullFn
+	const onBlur = props.onBlur || nullFn
+	const _onBlur = () => {
+		onBlur()
+		setIsFocused(false)
+	}
+	const _onFocus = () => {
+		onFocus()
+		setIsFocused(true)
+	}
+	return <View style={props.style}>
+		<Input
+			onBlur={() => setIsFocused(false)}
+			onFocus={() => setIsFocused(true)}
+			onChangeText={props.handleChangeInput}
+			value={props.search}
+			noLabel
+			placeholder={props.placeholder}
+			renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
+			{...props.textInput} />
+	</View>
+}
 
 const InputClear = props => {
 	return <SearchInput noSearch {...props} />
 }
 
 export default SearchInput
-export { InputClear }
+export { InputClear, SearchInputV2 }
 
 const styles = StyleSheet.create({
 	searchWrapper: {

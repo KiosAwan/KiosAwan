@@ -12,6 +12,8 @@ import UbahPasswordInputPIN from '../../screens/AuthScreen/Drawer/Setting/UbahPa
 import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmailNewEmail'
 import MenuSettingUbahNoHPInputOTP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHPInputOTP'
 import UbahNoHPInfoScreen from '../../screens/AuthScreen/Drawer/Setting/UbahNoHPInfoScreen'
+import PengaturanPerangkat from 'src/screens/AuthScreen/Drawer/Setting/PengaturanPerangkat'
+import TambahPerangkat from 'src/screens/AuthScreen/Drawer/Setting/TambahPerangkat'
 
 const SettingNavigator = {
   '/drawer/settings': {
@@ -94,6 +96,18 @@ const SettingNavigator = {
   },
   '/drawer/settings/change-pin/new-pin' : {
     screen : ChangePINNewPIN,
+    navigationOptions : {
+      header : null
+    }
+  },
+  '/drawer/settings/perangkat' : {
+    screen : PengaturanPerangkat,
+    navigationOptions : {
+      header : null
+    }
+  },
+  '/drawer/settings/perangkat/tambah' : {
+    screen : TambahPerangkat,
     navigationOptions : {
       header : null
     }

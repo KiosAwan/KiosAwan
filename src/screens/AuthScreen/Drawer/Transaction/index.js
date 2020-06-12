@@ -16,7 +16,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import { TransactionPlaceholder } from 'src/components/LoadingPlaceholder';
-import SearchInput from 'src/components/Input/SearchInput';
+import SearchInput, { SearchInputV2 } from 'src/components/Input/SearchInput';
 import Container, { Body } from 'src/components/View/Container';
 import Menu from 'src/components/ModalContent/Menu';
 import { SizeList } from 'src/styles/size';
@@ -80,11 +80,13 @@ const TransactionList = ({ navigation }) => {
             </View>
             :
             <View>
-              <View style={{ padding: 10, backgroundColor: ColorsList.whiteColor }}>
-                <SearchInput width="100%" clear={() => setSearch('')}>
-                  <TextInput placeholder="Cari transaksi" onFocus={() => setSearchIconColor(ColorsList.primary)} onBlur={() => setSearchIconColor(ColorsList.greyFont)} value={search} onChangeText={text => setSearch(text)} />
-                </SearchInput>
-              </View>
+              <SearchInputV2
+                placeholder="Cari transaksi"
+                onFocus={() => setSearchIconColor(ColorsList.primary)}
+                onBlur={() => setSearchIconColor(ColorsList.greyFont)}
+                value={search}
+                onChangeText={text => setSearch(text)}
+              />
               {
                 eval(DataTransaksi.data.rMap(item => filterResult(item.data).length).join('+')) > 0 ?
                   <FlatList
