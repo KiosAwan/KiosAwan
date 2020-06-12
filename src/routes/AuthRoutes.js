@@ -11,6 +11,7 @@ import DrawerNavigation from './DrawerNavigator';
 import EnterPIN from 'src/screens/AuthScreen/EnterPIN';
 import PPOBNavigator from './PPOB';
 import BottomTabNavigator from './BottomTabNavigator';
+import InputCode from 'src/components/Input/InputCode';
 
 const handleCustomTransition = ({ scenes }) => {
   global.prevScene = scenes[scenes.length - 2];
@@ -24,6 +25,12 @@ const handleCustomTransition = ({ scenes }) => {
 const Navs = {
   '/': {
     screen: BottomTabNavigator,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/input-code': {
+    screen: InputCode,
     navigationOptions: {
       header: null
     }
