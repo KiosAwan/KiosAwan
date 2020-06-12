@@ -202,7 +202,7 @@ const Home = ({ navigation }) => {
 					</Wrapper>
 					{User.store &&
 						<TouchableOpacity onPress={() => navigation.navigate("Laporan")}>
-							<Wrapper shadow style={{ marginTop: SizeList.base, borderWidth: 0, borderColor: '#f4f4f4', backgroundColor: ColorsList.white }} justify="space-evenly">
+							<Wrapper shadow style={{ marginTop: SizeList.base, backgroundColor: ColorsList.white }} justify="space-evenly">
 								<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
 									<Text align="center" size={12}>Transaksi hari ini:</Text>
 									<Wrapper>

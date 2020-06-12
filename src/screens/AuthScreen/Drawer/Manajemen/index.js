@@ -4,6 +4,8 @@ import Container, { Body } from 'src/components/View/Container';
 import { Button } from 'src/components/Button/Button';
 import { $Padding } from 'src/utils/stylehelper';
 import { Wrapper } from 'src/components/View/Wrapper';
+import { ColorsList } from 'src/styles/colors';
+import { SizeList } from 'src/styles/size';
 
 const Manajemen = ({ navigation }) => {
 	const ListManajemen = require('src/assets/json/manajemen.json')
@@ -18,7 +20,7 @@ const Manajemen = ({ navigation }) => {
 							onPress={() => {
 								navigation.navigate(menu.route)
 							}}
-							style={{ borderRadius: 5, marginBottom: 10 }}
+							style={{ borderRadius: 5, marginBottom: 10, borderWidth : SizeList.borderWidth, borderColor : ColorsList.borderColor }}
 							padding={$Padding(5, 10)}
 							wrapper={{ justify: 'flex-start' }}
 							color={['whiteColor', 'greyFont']}>

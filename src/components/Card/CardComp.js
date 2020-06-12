@@ -87,7 +87,7 @@ export const ImageText = props => {
 
 export const ProductCard = props => {
 	return <TouchableOpacity onPress={props.onPressPlus ? props.plusDisabled ? null : props.onPressPlus : null} activeOpacity={props.onPressPlus ? .5 : 1}>
-		<Wrapper style={{ backgroundColor: 'white', marginBottom: SizeList.base, borderRadius: 5, padding: SizeList.base }} spaceBetween>
+		<Wrapper shadow style={{ backgroundColor: 'white', marginBottom: SizeList.base, borderRadius: 5, padding: SizeList.base }} spaceBetween>
 			{
 				props.manage_stock ?
 					props.productImage ?
@@ -114,7 +114,7 @@ export const ProductCard = props => {
 					<TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
 						<Image style={{ width: 13, height: 13 }} source={require("src/assets/icons/plus.png")} />
 					</TouchableOpacity>
-					<Text font="SemiBold" style={{ marginHorizontal: 8, marginVertical : 4 }}>{props.quantity ? props.quantity : 0}</Text>
+					<Text font="SemiBold" style={{ marginHorizontal: 8, marginVertical: 4 }}>{props.quantity ? props.quantity : 0}</Text>
 					<TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
 						<Image style={{ width: 13, height: 13 }} source={require("src/assets/icons/minus.png")} />
 					</TouchableOpacity>
@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#e5e5e5",
 		justifyContent: "center",
 		alignItems: "center",
-		borderRadius: 5
+		borderRadius: 5,
+		
 	}
 })
