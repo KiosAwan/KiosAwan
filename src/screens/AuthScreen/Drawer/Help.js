@@ -46,9 +46,9 @@ const Help = ({ navigation }) => {
 					<TouchableOpacity onPress={() => _openUrl(`tel:${callCenter}`)}>
 						<Wrapper justify="flex-start">
 							<Text color="primary" font="SemiBold" size={30}>{convertPhoneNumber(callCenter)}</Text>
-							<Button disabled style={{ width: 40, justifyContent: "center", marginLeft: 20 }}>
-								<Icon style={{ color: ColorsList.white, fontSize: 20 }} name="call" />
-							</Button>
+							<View style={{ backgroundColor: ColorsList.primary, width: 30, height: 30, borderRadius: 30, justifyContent: "center", alignItems: "center", marginLeft: 10 }}>
+								<Icon style={{ color: ColorsList.white, fontSize: 15 }} name="call" />
+							</View>
 						</Wrapper>
 					</TouchableOpacity>
 				</View>
