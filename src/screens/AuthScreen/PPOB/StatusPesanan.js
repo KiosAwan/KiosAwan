@@ -9,7 +9,6 @@ import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border, $BorderRadius } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { convertRupiah, getUserToken, getUserId, sendNewTransaction } from 'src/utils/authhelper';
-import moment from 'moment';
 import { getCustomer } from 'src/redux/actions/actionsCustomer';
 import { useDispatch, useSelector } from 'react-redux';
 import ViewShot from 'react-native-view-shot';
@@ -71,7 +70,7 @@ const StatusPesanan = ({ navigation }) => {
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
 					.rMap(key => {
 						return key != 'description' ? <View>
-							<Wrapper spaceBetween style={{ padding: SizeList.padding }}>
+							<Wrapper spaceBetween style={{ padding: SizeList.base }}>
 								<Text>{viewKey(key)}</Text>
 								<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
 							</Wrapper>
@@ -160,8 +159,8 @@ const StatusPesanan = ({ navigation }) => {
 	}
 	return <Container header={{
 		title: 'Status Pesanan',
-		renderLeftAccessory: () => null,
-		renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
+		renderLeftAccessory: () => <View style={{ width: 60 }} />,
+		renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 60 }}>
 			<TouchableOpacity onPress={_shareBill}>
 				<IconHeader name="share-alt" color={ColorsList.greyFont} />
 			</TouchableOpacity>
@@ -223,11 +222,11 @@ const StatusPesanan = ({ navigation }) => {
 								<Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
 						}
 					</Wrapper>
+					<Divider />
 					{transaction && transaction.transaction_name == "pln_prepaid" && payment && payment.token && [
 						<View>
-							<Text style={{ paddingLeft: 10 }} color="primary">Token Listrik</Text>
-							<Wrapper style={styles.token} justify="space-between">
-								<Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
+							<Wrapper style={{ paddingVertical: SizeList.base }} justify="space-between">
+								<Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join("-")}</Text>
 								<CopyButton onPress={() => {
 									Toast.show({ text: "Berhasil disalin", type: "success" })
 									Clipboard.setString(payment.token)
@@ -235,7 +234,6 @@ const StatusPesanan = ({ navigation }) => {
 							</Wrapper>
 						</View>
 					]}
-					<Divider />
 					{payment ? _renderProductDigital() : _renderPendingProductDigital()}
 					<Divider />
 					<View style={{ alignItems: 'center', flexDirection: "row", justifyContent: "center" }}>
@@ -247,7 +245,7 @@ const StatusPesanan = ({ navigation }) => {
 		</Body>
 		<Footer>
 			<Wrapper>
-				<Button noBorder wrapper={{ justify: 'center' }} color="white" _width="49%" onPress={() => navigation.navigate('/ppob')}>
+				<Button noBorder wrapper={{ justify: 'center' }} color="link" _width="49%" onPress={() => navigation.navigate('/ppob')}>
 					<Text color="primary">TAMBAH PRODUK</Text>
 				</Button>
 				<Button _width="49%" onPress={_onPressSelesai}>SELESAI</Button>
@@ -255,12 +253,6 @@ const StatusPesanan = ({ navigation }) => {
 		</Footer>
 	</Container>
 }
-{/* <Button wrapper={{ justify: 'center' }} color="white" _width="22%" onPress={_shareBill}>
-					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/share-primary.png')} />
-				</Button>
-				<Button wrapper={{ justify: 'center' }} color="white" _width="22%" onPress={() => navigation.navigate('/drawer/transaction/cetakstruk', { singleData: params, type: false })}>
-					<Image _style={{ marginRight: 10 }} style={{ height: 18, width: 18 }} source={require('src/assets/icons/print-primary.png')} />
-				</Button> */}
 export default StatusPesanan
 
 const styles = StyleSheet.create({

@@ -119,7 +119,7 @@ const MenuSettingProfil = ({ navigation }) => {
 			setTimeout(() => {
 				setModalVisible(false)
 				dispatch(getProfile(User.data.id, userToken))
-				navigation.navigate('/drawer/settings')
+				navigation.navigate('/')
 			}, 1000)
 		} else {
 			alert(JSON.stringify(res))
