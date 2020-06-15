@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
-import { AwanPopup, Dropdown, Modal } from 'src/components/ModalContent/Popups';
+import { Modal } from 'src/components/ModalContent/Popups';
 import { useSelector } from 'react-redux';
 import { getTransactionData, getReportCategory, getReportNonTunai } from 'src/utils/authhelper'
 import moment from 'moment';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import Container, { Body } from 'src/components/View/Container';
-import { TabView } from 'react-native-tab-view';
 import { stateObject } from 'src/utils/state';
-import { $BorderRadius } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
 import { SizeList } from 'src/styles/size';
 import { shadowStyle } from 'src/components/Input/MDInput';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
 const ViewShadow = props => <View style={{ marginBottom: SizeList.base, padding: props.noPadding ? 0 : SizeList.padding, }}>
 	{!props.noTitle && <Text>{props.title}</Text>}
 	<View {...props} style={[{ marginTop: SizeList.base }, shadowStyle, props.style]} />
@@ -99,6 +96,19 @@ const Report = ({ navigation }) => {
 		return value.toString().convertRupiah()
 	}
 
+	const _getFlagColor = (flag) => {
+		switch (flag) {
+			case 0:
+				return null
+			case 1:
+				return ColorsList.danger
+			case 2:
+				return ColorsList.success
+			default:
+				return null
+		}
+	}
+
 	return <Container>
 		<ModalMonth {...ctrl} />
 		<GlobalHeader
@@ -114,7 +124,7 @@ const Report = ({ navigation }) => {
 					value={MainTab.routes[MainTab.index].title}
 					data={MainTab.routes}
 					handleChangePicker={(a, i) => MainTab.setIndex(i)}
-					renderItem={item => <Button color="link" textStyle={{color : ColorsList.greyFontHard}}>{item.title}</Button>}
+					renderItem={item => <Button color="link" textStyle={{ color: ColorsList.greyFontHard }}>{item.title}</Button>}
 				/>
 			</View>
 			<ViewShadow noPadding title={moment(dateSelected).format('MMMM YYYY')}>
@@ -122,13 +132,27 @@ const Report = ({ navigation }) => {
 					<View>
 						<Text>Total Penjualan</Text>
 						<Wrapper>
-							<Text color="success">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+							<Text color={_getFlagColor(dataTransaction.penjualan_flag)} >{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+							{dataTransaction.penjualan_flag != 0 &&
+								<Icon
+									size={15}
+									name={dataTransaction.penjualan_flag == 2 ? "sort-up" : "sort-down"}
+									color={_getFlagColor(dataTransaction.penjualan_flag)}
+								/>
+							}
 						</Wrapper>
 					</View>
 					<View>
 						<Text>Total Keuntungan</Text>
 						<Wrapper>
-							<Text color="warning">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
+							<Text color={_getFlagColor(dataTransaction.profit_flag)} >{_convertRupiah(dataTransaction, 'total_profit')}</Text>
+							{dataTransaction.profit_flag != 0 &&
+								<Icon
+									size={15}
+									name={dataTransaction.profit_flag == 2 ? "sort-up" : "sort-down"}
+									color={_getFlagColor(dataTransaction.profit_flag)}
+								/>
+							}
 						</Wrapper>
 					</View>
 				</Wrapper>

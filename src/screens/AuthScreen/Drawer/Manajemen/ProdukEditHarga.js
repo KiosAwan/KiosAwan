@@ -137,7 +137,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 			navigation.navigate('/drawer/manajemen/produk')
 		}, 1000)
 	}
-	return <View style={{ flex: 1 }}>
+	return <View style={{ flex: 1., backgroundColor: ColorsList.authBackground }}>
 		<AwanPopup.Loading visible={apiLoading} />
 		<AwanPopup.Alert
 			message={errorMessage}
@@ -212,7 +212,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 						/>
 					</Wrapper>
 					<View style={{ ...RowChild, marginBottom: 20, }}>
-						<CheckBox
+						{/* <CheckBox
 							checked={EditProduct.sendNotif == 0 ? false : true}
 							color={EditProduct.sendNotif == 1 ? ColorsList.primary : ColorsList.greyFont}
 							onPress={() => {
@@ -222,8 +222,9 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 									dispatch(editProductSendNotif(0))
 								}
 							}}
-						/>
-						<Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text>
+						/> */}
+						{/* <Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
+						<Text>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text>
 					</View>
 				</View>}
 			</ScrollView>
@@ -238,7 +239,7 @@ export default ManajemenProdukEditHarga
 
 const styles = StyleSheet.create({
 	childContainer: {
-		paddingHorizontal: 20,
+		padding: SizeList.padding,
 		backgroundColor: ColorsList.authBackground,
 		flex: 1,
 		justifyContent: "space-between"

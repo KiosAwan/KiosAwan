@@ -166,17 +166,16 @@ const TransactionDetail = ({ navigation }) => {
 													<Text>{convertRupiah(item.transaction.total)}</Text>
 												</View>
 											</Wrapper>
+
 											{item.transaction.transaction_name == "pln_prepaid" && item.transaction.status == "SUCCESS" && [
 												<View>
-													<Text color="primary">Token Listrik</Text>
-													<Wrapper style={styles.token} justify="space-between">
-														<Text size={15}>{item.payment.token.match(/.{1,4}/g).join(" ")}</Text>
+													<Wrapper justify="space-between">
+														<Text>{item.payment.token.match(/.{1,4}/g).join("-")}</Text>
 														<CopyButton onPress={() => {
 															Toast.show({ text: "Berhasil disalin", type: "success" })
 															Clipboard.setString(item.payment.token)
 														}} />
 													</Wrapper>
-													<Divider />
 												</View>
 											]}
 										</View>
