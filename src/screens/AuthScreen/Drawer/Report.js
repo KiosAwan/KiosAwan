@@ -15,7 +15,7 @@ import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
 import { SizeList } from 'src/styles/size';
 import { shadowStyle } from 'src/components/Input/MDInput';
-
+import Icon from 'react-native-vector-icons/FontAwesome5'
 const ViewShadow = props => <View style={{ marginBottom: SizeList.base, padding: props.noPadding ? 0 : SizeList.padding, }}>
 	{!props.noTitle && <Text>{props.title}</Text>}
 	<View {...props} style={[{ marginTop: SizeList.base }, shadowStyle, props.style]} />
@@ -132,13 +132,27 @@ const Report = ({ navigation }) => {
 					<View>
 						<Text>Total Penjualan</Text>
 						<Wrapper>
-							<Text color="success">{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+							<Text color={_getFlagColor(dataTransaction.penjualan_flag)} >{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+							{dataTransaction.penjualan_flag != 0 &&
+								<Icon
+									size={15}
+									name={dataTransaction.penjualan_flag == 2 ? "sort-up" : "sort-down"}
+									color={_getFlagColor(dataTransaction.penjualan_flag)}
+								/>
+							}
 						</Wrapper>
 					</View>
 					<View>
 						<Text>Total Keuntungan</Text>
 						<Wrapper>
-							<Text color="warning">{_convertRupiah(dataTransaction, 'total_profit')}</Text>
+							<Text color={_getFlagColor(dataTransaction.profit_flag)} >{_convertRupiah(dataTransaction, 'total_profit')}</Text>
+							{dataTransaction.profit_flag != 0 &&
+								<Icon
+									size={15}
+									name={dataTransaction.profit_flag == 2 ? "sort-up" : "sort-down"}
+									color={_getFlagColor(dataTransaction.profit_flag)}
+								/>
+							}
 						</Wrapper>
 					</View>
 				</Wrapper>
