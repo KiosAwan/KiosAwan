@@ -13,11 +13,11 @@ import { checkTagihanListrik, payTagihanListrik, payTagihanNonTagList, checkTagi
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
-import GlobalEnterPin from '../../GlobalEnterPin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { SizeList } from 'src/styles/size';
+import { openPin } from 'src/utils/pin-otp-helper';
 
 const ListrikNonTagihanListrik = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -71,7 +71,9 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	//Set pin modal visible when user clicked pay button
 	const _onPressBayar = () => {
 		if (tagihanData) {
-			setPinVisible(true)
+			openPin(navigation, (pin, close) => {
+				_userAuthentication(pin, close)
+			})
 		} else {
 			setAlertMessage("Harap cek tagihan terlebih dahulu")
 			setAlert(true)
@@ -79,14 +81,14 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	}
 
 	//Check user pin 
-	const _userAuthentication = async (pin) => {
+	const _userAuthentication = async (pin, closePin) => {
 		const data = {
 			pin,
 			phone_number: User.data.phone_number
 		}
 		const res = await verifyUserPIN(data)
 		if (res.status == 200) {
-			setPinVisible(false)
+			closePin()
 			_processPayment()
 		}
 		else if (res.status == 400) {
@@ -135,15 +137,6 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	}}>
 		<Body>
 			<View>
-				{/* Modal for check user pin */}
-				<GlobalEnterPin
-					title="Masukkan PIN"
-					codeLength={4}
-					subtitle="Masukkan PIN untuk melanjutkan transaksi"
-					visible={pinVisible}
-					visibleToggle={setPinVisible}
-					pinResolve={(pin) => _userAuthentication(pin)} />
-				{/* Modal for check user pin */}
 				{/* Popup components */}
 				<AwanPopup.Alert
 					message={alertMessage}

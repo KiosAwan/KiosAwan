@@ -14,12 +14,12 @@ import { ColorsList } from 'src/styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import GlobalEnterPin from '../../GlobalEnterPin';
 import { verifyUserPIN, convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { Toast } from 'native-base';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { SizeList } from 'src/styles/size';
+import { openPin } from 'src/utils/pin-otp-helper';
 
 const ListrikToken = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -92,7 +92,9 @@ const ListrikToken = ({ navigation }) => {
 				setAlertMessage("Harap pilih produk")
 				setAlert(true)
 			} else {
-				setPinVisible(true)
+				openPin(navigation, (pin, close) => {
+					_userAuthentication(pin, close)
+				})
 			}
 		} else {
 			setAlertMessage("Harap masukkan nomer pelanggan yang benar")
@@ -101,14 +103,14 @@ const ListrikToken = ({ navigation }) => {
 	}
 
 	// Check user pin 
-	const _userAuthentication = async (pin) => {
+	const _userAuthentication = async (pin, closePin) => {
 		const data = {
 			pin,
 			phone_number: User.data.phone_number
 		}
 		const res = await verifyUserPIN(data)
 		if (res.status == 200) {
-			setPinVisible(false)
+			closePin()
 			_processPayment()
 		}
 		else if (res.status == 400) {
@@ -151,15 +153,6 @@ const ListrikToken = ({ navigation }) => {
 		title: "Listrik Token"
 	}}>
 		<Body>
-			{/* Modal for check user pin */}
-			<GlobalEnterPin
-				title="Masukkan PIN"
-				codeLength={4}
-				subtitle="Masukkan PIN untuk melanjutkan transaksi"
-				visible={pinVisible}
-				visibleToggle={setPinVisible}
-				pinResolve={(pin) => _userAuthentication(pin)} />
-			{/* Modal for check user pin */}
 			{/* Popup components */}
 			<AwanPopup.Alert
 				message={alertMessage}
@@ -224,25 +217,25 @@ const ListrikToken = ({ navigation }) => {
 				</View>
 			}
 			{response && productToken &&
-				<View style={{ flex: 1, padding: SizeList.padding, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor : ColorsList.borderColor }}>
+				<View style={{ flex: 1, padding: SizeList.padding, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
 					<Text style={{ marginBottom: 5 }}>Pilih nominal token listrik</Text>
-			<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
-				showsVerticalScrollIndicator={false}
-				data={productToken ? productToken.product : []}
-				renderItem={({ item, index }) =>
-					<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
-						<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
-							<View _width="70%">
-								<Text font="SemiBold" style={{ marginLeft: 5 }}>{`TOKEN ${item.product.split(" ")[2]}`} </Text>
-							</View>
-							<View _width="30%">
-								<Text size={8}>HARGA</Text>
-								<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
-							</View>
-						</Wrapper>
-					</TouchableOpacity>
-				}
-			/>
+					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
+						showsVerticalScrollIndicator={false}
+						data={productToken ? productToken.product : []}
+						renderItem={({ item, index }) =>
+							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
+								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
+									<View _width="70%">
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`TOKEN ${item.product.split(" ")[2]}`} </Text>
+									</View>
+									<View _width="30%">
+										<Text size={8}>HARGA</Text>
+										<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
+									</View>
+								</Wrapper>
+							</TouchableOpacity>
+						}
+					/>
 				</View>
 			}
 		</Body>

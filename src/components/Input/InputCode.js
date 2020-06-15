@@ -10,6 +10,7 @@ import { SizeList } from 'src/styles/size';
 import { Wrapper } from '../View/Wrapper';
 import { GlobalHeader } from '../Header/Header';
 import { stateObject } from 'src/utils/state';
+import Gallery from '../View/Gallery';
 
 const InputCode = ({ navigation }) => {
 	const [state, setState] = stateObject(navigation.state.params)
@@ -54,8 +55,8 @@ const InputCode = ({ navigation }) => {
 		<View style={{ flex: .6 }}>
 			<Code {...codeProps} />
 		</View>
-		<View style={{ flex: .4 }}>
-			<Divider style={{ marginHorizontal: SizeList.bodyPadding }} />
+		<View style={{ flex: .4, justifyContent: 'flex-end' }}>
+			<Divider size={1.5} style={{ marginHorizontal: SizeList.bodyPadding }} />
 			<Keyboard {...keyboardProps} />
 		</View>
 	</Container>
@@ -110,7 +111,7 @@ const Keyboard = ({ onPress }) => {
 			}
 		</Button>
 	}
-	return <FlatList
+	return <Gallery
 		numColumns={3}
 		data={[1, 2, 3, 4, 5, 6, 7, 8, 9, '~', 0, 'del']}
 		keyExtractor={(a, i) => i.toString()}

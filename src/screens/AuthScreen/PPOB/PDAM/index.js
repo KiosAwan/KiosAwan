@@ -23,9 +23,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
-import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import json from 'src/assets/json/ppob_pdam.json'
+import { openPin } from 'src/utils/pin-otp-helper';
 
 const PDAM = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -98,9 +98,12 @@ const PDAM = ({ navigation }) => {
     }
 
     //Set pin modal visible when user clicked pay button
+    
     const _onPressBayar = () => {
         if (tagihanData) {
-            setPinVisible(true)
+            openPin(navigation, (pin, close) => {
+                _userAuthentication(pin, close)
+            })
         } else {
             setAlertMessage("Harap cek tagihan terlebih dahulu")
             setAlert(true)
@@ -108,14 +111,14 @@ const PDAM = ({ navigation }) => {
     }
 
     //Check user pin 
-    const _userAuthentication = async (pin) => {
+    const _userAuthentication = async (pin, closePin) => {
         const data = {
             pin,
             phone_number: User.data.phone_number
         }
         const res = await verifyUserPIN(data)
         if (res.status == 200) {
-            setPinVisible(false)
+            closePin()
             _processPayment()
         }
         else if (res.status == 400) {
@@ -155,16 +158,7 @@ const PDAM = ({ navigation }) => {
         title: "Pembayaran PDAM",
         onPressBack: () => navigation.goBack()
     }}>
-        {/* Modal for check user pin */}
         <Body>
-            <GlobalEnterPin
-                title="Masukkan PIN"
-                codeLength={4}
-                subtitle="Masukkan PIN untuk melanjutkan transaksi"
-                visible={pinVisible}
-                visibleToggle={setPinVisible}
-                pinResolve={(pin) => _userAuthentication(pin)} />
-            {/* Modal for check user pin */}
             {/* Popup components */}
             <AwanPopup.Alert
                 message={alertMessage}

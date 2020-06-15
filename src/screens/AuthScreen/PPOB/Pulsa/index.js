@@ -13,12 +13,12 @@ import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
-import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import ContactsModal from 'src/components/ModalContent/ContacsModal';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { SizeList } from 'src/styles/size';
+import { openPin } from 'src/utils/pin-otp-helper';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -39,39 +39,16 @@ const PpobPulsa = ({ navigation }) => {
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState()
 
-	// PIN Modal state 
-	const [pinVisible, setPinVisible] = useState(false)
-
 	// Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
 
 	// PIN Modal state 
 	const [contactVisible, setContactVisible] = useState(false)
-
-	const openPin = () => {
-		// <GlobalEnterPin
-		// 	title="Masukkan PIN"
-		// 	codeLength={4}
-		// 	subtitle="Masukkan PIN untuk melanjutkan transaksi"
-		// 	visible={pinVisible}
-		// 	visibleToggle={setPinVisible}
-		// 	pinResolve={(pin) => _userAuthentication(pin)} />
-		navigation.navigate('/input-code', {
-			header: <Text align="center">Masukkan PIN anda</Text>,
-			footer: <Info color={["settingBg", "settingFont"]}>Untuk melanjutkan pembayaran, anda harus memasukkan PIN anda saat ini</Info>,
-			secureTextEntry: true,
-			value: '',
-			onResolve: (code, close) => {
-				close()
-				// _userAuthentication(pin)
-			}
-		})
-	}
-
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
-		openPin()
-		// setPinVisible(true)
+		openPin(navigation, (pin, close) => {
+			_userAuthentication(pin, close)
+		})
 	}
 
 	//Function onchange phone number
@@ -82,7 +59,6 @@ const PpobPulsa = ({ navigation }) => {
 			type: "pulsa"
 		}
 		let res = await getProductPulsa(x)
-		console.debug(res)
 		if (res.status == 200) {
 			setSelected()
 			if (res.data.length == 0) {
@@ -93,14 +69,14 @@ const PpobPulsa = ({ navigation }) => {
 		}
 	}
 	// Check user pin 
-	const _userAuthentication = async (pin) => {
+	const _userAuthentication = async (pin, closePin) => {
 		const data = {
 			pin,
 			phone_number: User.data.phone_number
 		}
 		const res = await verifyUserPIN(data)
 		if (res.status == 200) {
-			setPinVisible(false)
+			closePin()
 			_processPayment()
 		}
 		else if (res.status == 400) {
@@ -147,15 +123,6 @@ const PpobPulsa = ({ navigation }) => {
 		title: "Pembelian Pulsa",
 		onPressBack: () => navigation.goBack(),
 	}}>
-		{/* Modal for check user pin */}
-		<GlobalEnterPin
-			title="Masukkan PIN"
-			codeLength={4}
-			subtitle="Masukkan PIN untuk melanjutkan transaksi"
-			visible={pinVisible}
-			visibleToggle={setPinVisible}
-			pinResolve={(pin) => _userAuthentication(pin)} />
-		{/* Modal for check user pin */}
 		{/* Popup components */}
 		<AwanPopup.Alert
 			message={alertMessage}

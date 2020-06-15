@@ -16,12 +16,12 @@ import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
-import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
+import { openPin } from 'src/utils/pin-otp-helper';
 
 const PpobPaketData = ({ navigation }) => {
 	//Initialize dispatch
@@ -54,8 +54,11 @@ const PpobPaketData = ({ navigation }) => {
 
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
-		setPinVisible(true)
+		openPin(navigation, (pin, close) => {
+			_userAuthentication(pin, close)
+		})
 	}
+
 	useEffect(() => {
 		if (navigation.state.params) {
 			let { customerID } = navigation.state.params
@@ -80,14 +83,14 @@ const PpobPaketData = ({ navigation }) => {
 		}
 	}
 	// Check user pin 
-	const _userAuthentication = async (pin) => {
+	const _userAuthentication = async (pin, closePin) => {
 		const data = {
 			pin,
 			phone_number: User.data.phone_number
 		}
 		const res = await verifyUserPIN(data)
 		if (res.status == 200) {
-			setPinVisible(false)
+			closePin()
 			_processPayment()
 		}
 		else if (res.status == 400) {
@@ -130,15 +133,6 @@ const PpobPaketData = ({ navigation }) => {
 		// onPressIcon: () => setModal(true),
 		onPressBack: () => navigation.goBack(),
 	}}>
-		{/* Modal for check user pin */}
-		<GlobalEnterPin
-			title="Masukkan PIN"
-			codeLength={4}
-			subtitle="Masukkan PIN untuk melanjutkan transaksi"
-			visible={pinVisible}
-			visibleToggle={setPinVisible}
-			pinResolve={(pin) => _userAuthentication(pin)} />
-		{/* Modal for check user pin */}
 		{/* Popup components */}
 		<AwanPopup.Alert
 			message={alertMessage}

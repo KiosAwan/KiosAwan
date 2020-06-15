@@ -23,9 +23,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
-import GlobalEnterPin from '../../GlobalEnterPin';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import { checkTagihanTelkom, getTelkomProductList, payTagihanTelkom } from 'src/utils/api/ppob/telkom_api';
+import { openPin } from 'src/utils/pin-otp-helper';
 
 const Telkom = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -101,9 +101,12 @@ const Telkom = ({ navigation }) => {
     }
 
     //Set pin modal visible when user clicked pay button
+
     const _onPressBayar = () => {
         if (tagihanData) {
-            setPinVisible(true)
+            openPin(navigation, (pin, close) => {
+                _userAuthentication(pin, close)
+            })
         } else {
             setAlertMessage("Harap cek tagihan terlebih dahulu")
             setAlert(true)
@@ -111,14 +114,14 @@ const Telkom = ({ navigation }) => {
     }
 
     //Check user pin 
-    const _userAuthentication = async (pin) => {
+    const _userAuthentication = async (pin, closePin) => {
         const data = {
             pin,
             phone_number: User.data.phone_number
         }
         const res = await verifyUserPIN(data)
         if (res.status == 200) {
-            setPinVisible(false)
+            closePin()
             _processPayment()
         }
         else if (res.status == 400) {
@@ -158,16 +161,7 @@ const Telkom = ({ navigation }) => {
         title: "Telco",
         onPressBack: () => navigation.goBack()
     }}>
-        {/* Modal for check user pin */}
         <Body>
-            <GlobalEnterPin
-                title="Masukkan PIN"
-                codeLength={4}
-                subtitle="Masukkan PIN untuk melanjutkan transaksi"
-                visible={pinVisible}
-                visibleToggle={setPinVisible}
-                pinResolve={(pin) => _userAuthentication(pin)} />
-            {/* Modal for check user pin */}
             {/* Popup components */}
             <AwanPopup.Alert
                 message={alertMessage}
