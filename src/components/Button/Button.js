@@ -141,6 +141,14 @@ export const Button = props => {
 	{/* </Animated.View> */ }
 }
 
+export const Info = props => <Button
+	disabled
+	align="flex-start"
+	textProps={{ align: "left" }}
+	radius={SizeList.borderRadius}
+	{...props}
+/>
+
 export const ButtonShadow = props => {
 	const { children, onPress, style } = props
 	return <TouchableOpacity onPress={onPress}>

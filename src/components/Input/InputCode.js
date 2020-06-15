@@ -33,8 +33,8 @@ const InputCode = ({ navigation }) => {
 		value = '',
 		secureTextEntry = false,
 		codeLength = 4,
-		header = () => null,
-		footer = () => null,
+		header,
+		footer,
 		onResolve = () => null,
 		headerProps: headerPropsOverride,
 		codeProps: codePropsOverride,
@@ -71,8 +71,10 @@ const Code = ({
 	secureTextEntry
 }) => {
 	return <View>
-		{header()}
-		<Wrapper center>
+		<View style={{ marginHorizontal: SizeList.bodyPadding }}>
+			{header}
+		</View>
+		<Wrapper style={{ marginVertical: SizeList.base * 2 }} center>
 			{
 				Array.generateEmpty(codeLength).rMap(i => {
 					return <View _style={{ marginHorizontal: SizeList.secondary }} style={{ justifyContent: 'center', width, height, backgroundColor: ColorsList.white }}>
@@ -85,7 +87,9 @@ const Code = ({
 				})
 			}
 		</Wrapper>
-		{footer()}
+		<View style={{ marginHorizontal: SizeList.bodyPadding }}>
+			{footer}
+		</View>
 	</View>
 }
 

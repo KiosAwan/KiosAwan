@@ -3,7 +3,7 @@ import Container, { Body } from 'src/components/View/Container';
 import styles from './PulsaStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
-import { Button } from 'src/components/Button/Button';
+import { Button, Info } from 'src/components/Button/Button';
 import { View, FlatList, TouchableOpacity, Modal as RNModal } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
@@ -48,9 +48,30 @@ const PpobPulsa = ({ navigation }) => {
 	// PIN Modal state 
 	const [contactVisible, setContactVisible] = useState(false)
 
+	const openPin = () => {
+		// <GlobalEnterPin
+		// 	title="Masukkan PIN"
+		// 	codeLength={4}
+		// 	subtitle="Masukkan PIN untuk melanjutkan transaksi"
+		// 	visible={pinVisible}
+		// 	visibleToggle={setPinVisible}
+		// 	pinResolve={(pin) => _userAuthentication(pin)} />
+		navigation.navigate('/input-code', {
+			header: <Text align="center">Masukkan PIN anda</Text>,
+			footer: <Info color={["settingBg", "settingFont"]}>Untuk melanjutkan pembayaran, anda harus memasukkan PIN anda saat ini</Info>,
+			secureTextEntry: true,
+			value: '',
+			onResolve: (code, close) => {
+				close()
+				// _userAuthentication(pin)
+			}
+		})
+	}
+
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
-		setPinVisible(true)
+		openPin()
+		// setPinVisible(true)
 	}
 
 	//Function onchange phone number
