@@ -3,77 +3,147 @@ import { useDispatch, useSelector } from 'react-redux'
 
 //Styling
 import {
-    View,
-    StyleSheet,
-    Dimensions,
+	View,
+	StyleSheet,
+	Dimensions,
+	Modal
 } from 'react-native';
 import BarStatus from 'src/components/BarStatus';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { ColorsList } from 'src/styles/colors';
+import { ColorsList, infoColorSetting } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
-import { verifyUserPassword } from 'src/utils/authhelper';
+import { verifyUserPassword, changeUserPIN } from 'src/utils/authhelper';
 import { Icon } from 'native-base';
 import { Input } from 'src/components/Input/MDInput';
 import Container, { Body } from 'src/components/View/Container';
 import { Bottom } from 'src/components/View/Bottom';
-import { Button } from 'src/components/Button/Button';
+import { Button, Info } from 'src/components/Button/Button';
 import { Text } from 'src/components/Text/CustomText';
+import { stateObject } from 'src/utils/state';
+import ModalContent from 'src/components/ModalContent/ModalContent';
+import { openPin } from 'src/utils/pin-otp-helper';
+import AsyncStorage from 'src/utils/async-storage';
 
 
 const height = Dimensions.get('window').height
 
 const ChangePINInputPwd = ({ navigation }) => {
-    const dispatch = useDispatch()
-    const [password, setPassword] = useState()
-    const [secure, setSecure] = useState(true)
-    const [alert, setAlert] = useState(false)
-    const [alertMessage, setAlertMessage] = useState(false)
-    const User = useSelector(state => state.User)
+	const dispatch = useDispatch()
+	const [password, setPassword] = useState()
+	const [secure, setSecure] = useState(true)
+	const [alert, setAlert] = stateObject({ visible: false, loading: false, modal: false })
+	const User = useSelector(state => state.User)
 
-    const _handleNextBtn = async () => {
-        const data = {
-            phone_number: User.data.phone_number,
-            password
-        }
-        const res = await verifyUserPassword(data)
-        if (res.status == 200) {
-            navigation.navigate('/drawer/settings/change-pin/new-pin')
-        } else if (res.status == 400) {
-            setAlertMessage(res.data.errors.msg)
-            setAlert(true)
-        }
-    }
-    return (
-        <Container header={{
-            onPressBack: () => navigation.goBack(),
-            title: "Ganti PIN"
-        }}>
-            <BarStatus />
-            <AwanPopup.Alert
-                message={alertMessage}
-                visible={alert}
-                closeAlert={() => setAlert(false)}
-            />
-            <Body>
-                <View style={{ alignItems: "center" }}>
-                    <Input label="Password" value={password}
-                        secureTextEntry={secure}
-                        onChangeText={(text) => setPassword(text)}
-                        renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{ color: ColorsList.greySoft }} />} />
-                    {/* </View> */}
-                    <View style={{ width: '90%', padding: SizeList.padding }}>
-                        <Text align="center">Password dibutuhkan untuk mengubah pin</Text>
-                    </View>
-                </View>
-            </Body>
-            <Bottom>
-                <Button onPress={_handleNextBtn} width="100%">UBAH</Button>
-            </Bottom>
-        </Container>
-    );
+	const _handleNextBtn = async () => {
+		const data = { phone_number: User.data.phone_number, password }
+		const res = await verifyUserPassword(data)
+		if (res.status == 200) {
+			openNewPin1()
+			// navigation.navigate('/drawer/settings/change-pin/new-pin')
+		} else if (res.status == 400) {
+			setAlert({ visible: true, message: res.data.errors.msg })
+		}
+	}
+
+	const _handleSavePIN = async ({ old_pin, pin, confirmPin }) => {
+		if (!pin || !confirmPin) {
+			setAlert({ message: "Pin harus 4 digit", visible: true })
+		} else if (pin != confirmPin) {
+			setAlert({ message: "Pin harus sama", visible: true })
+		} else {
+			setAlert({ loading: true })
+			const id = await AsyncStorage.get('userId')
+			const data = { id, pin, old_pin }
+			const res = await changeUserPIN(data)
+			setAlert({ loading: false })
+			if (res.status == 200) {
+				setAlert({ modal: true })
+				setTimeout(() => {
+					setAlert({ modal: false })
+					navigation.navigate('/drawer/settings')
+				}, 1000)
+			} else if (res.status == 400) {
+				setAlert({ message: res.data.errors.msg, visible: true })
+			}
+		}
+	}
+
+	const openNewPin1 = async () => {
+		openPin({
+			navigation: navigation.push,
+			title: "Ubah PIN",
+			textTitle: "Masukkan PIN anda saat ini",
+			footer: null,
+			onResolve: async oldPin => {
+				await AsyncStorage.put("gantiPin_pinOld", oldPin)
+				openNewPin2()
+			}
+		})
+	}
+	const openNewPin2 = () => {
+		openPin({
+			navigation: navigation.push,
+			title: "Ubah PIN",
+			textTitle: "Masukkan PIN baru anda",
+			footer: null,
+			onResolve: async pin => {
+				await AsyncStorage.put("gantiPin_pin", pin)
+				openNewPin3()
+			}
+		})
+	}
+	const openNewPin3 = () => {
+		openPin({
+			navigation: navigation.push,
+			title: "Ubah PIN",
+			textTitle: "Ulangi masukkan PIN baru anda",
+			footer: null,
+			onResolve: async confirmPin => {
+				const [old_pin, pin] = await AsyncStorage.getObj(["gantiPin_pinOld", "gantiPin_pin"], true)
+				if (pin == confirmPin) {
+					_handleSavePIN({ old_pin, pin, confirmPin })
+				} else {
+					setAlert({ visible: true, message: "Pin harus sama" })
+				}
+			}
+		})
+	}
+
+	return <Container header={{
+		onPressBack: () => navigation.goBack(),
+		title: "Ubah PIN"
+	}}>
+		<BarStatus />
+		<AwanPopup.Alert
+			message={alert.message}
+			visible={alert.visible}
+			closeAlert={() => setAlert({ visible: false })}
+		/>
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={alert.modal}>
+			<ModalContent
+				image={require('src/assets/images/successchangepin.png')}
+				infoText="Anda Berhasil Mengubah PIN!"
+				closeModal={() => setAlert({ modal: false })}
+			/>
+		</Modal>
+		<AwanPopup.Loading visible={alert.loading} />
+		<Body>
+			<View style={{ alignItems: "center" }}>
+				<Input label="Password" value={password}
+					secureTextEntry={secure}
+					onChangeText={(text) => setPassword(text)}
+					renderRightAccessory={() => <Icon onPress={() => setSecure(!secure)} name={secure ? 'eye' : 'eye-off'} style={{ color: ColorsList.greySoft }} />}
+				/>
+				<Info color={infoColorSetting} style={{ marginVertical: SizeList.padding }}>Untuk mengganti PIN, anda harus memasukkan password saat ini</Info>
+			</View>
+		</Body>
+		<Bottom>
+			<Button onPress={_handleNextBtn} width="100%">UBAH</Button>
+		</Bottom>
+	</Container>
 }
 
 export default ChangePINInputPwd
-
-const styles = StyleSheet.create({
-})

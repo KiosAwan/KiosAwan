@@ -29,14 +29,18 @@ AsyncStorage.putObj = async obj => {
 		await AsyncStorage.put(key, obj[key])
 	}
 }
-AsyncStorage.getObj = async (arr = []) => {
-	let ret = {}
+AsyncStorage.getObj = async (arr = [], retArr = false) => {
+	let ret = retArr ? [] : {}
 	for (let i = 0; i < arr.length; i++) {
-		ret[arr[i]] = await AsyncStorage.get(arr[i])
+		if (retArr) {
+			ret.push(await AsyncStorage.get(arr[i]))
+		} else {
+			ret[arr[i]] = await AsyncStorage.get(arr[i])
+		}
 	}
 	return ret;
 }
-AsyncStorage.getAll = async () => {
+AsyncStorage.getAll = async retArr => {
 	try {
 		const keys = await AsyncStore.getAllKeys();
 		const result = await AsyncStore.multiGet(keys);

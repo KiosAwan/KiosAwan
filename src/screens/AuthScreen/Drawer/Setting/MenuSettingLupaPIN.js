@@ -52,7 +52,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
         }
     }
 
-    const openNewPassword1 = async () => {
+    const openNewPin1 = async () => {
         openPin({
             navigation: navigation.push,
             title: "Lupa PIN",
@@ -60,12 +60,12 @@ const MenuSettingLupaPIN = ({ navigation }) => {
             footer: null,
             onResolve: async pin => {
                 await AsyncStorage.put("lupaPin_pin", pin)
-                openNewPassword2()
+                openNewPin2()
             }
         })
     }
 
-    const openNewPassword2 = () => {
+    const openNewPin2 = () => {
         openPin({
             navigation: navigation.push,
             title: "Lupa PIN",
@@ -93,7 +93,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
                 if (res.status == 400) {
                     setAlert({ visible: true, message: res.data.errors.msg })
                 } else if (res.status == 200) {
-                    openNewPassword1()
+                    openNewPin1()
                 }
             }
         })
