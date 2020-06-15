@@ -3,13 +3,14 @@ import { View, Image } from 'react-native';
 import { SizeList } from 'src/styles/size';
 import { useSelector } from 'react-redux'
 import { ColorsList } from 'src/styles/colors';
-import { sendOTPAuth } from 'src/utils/authhelper';
+import { sendOTPAuth, verifyOTPAuth } from 'src/utils/authhelper';
 import { showPhoneNumber } from 'src/utils/unauthhelper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import Container, { Footer, Body } from 'src/components/View/Container';
 import { Button } from 'src/components/Button/Button';
 import { Input } from 'src/components/Input/MDInput';
 import { Text } from 'src/components/Text/CustomText';
+import { openOtp } from 'src/utils/pin-otp-helper';
 const MenuSettingLupaPIN = ({ navigation }) => {
     const User = useSelector(state => state.User)
     const [apiLoading, setApiLoading] = useState(false)
@@ -17,7 +18,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState(false)
 
-    const _nextBtn = async () => {
+    const sendOtp = async () => {
         setApiLoading(true)
         const data = {
             phone_number: User.data.phone_number
@@ -28,8 +29,29 @@ const MenuSettingLupaPIN = ({ navigation }) => {
             setAlertMessage(res.data.errors.msg)
             setAlert(true)
         }
-        else {
-            navigation.navigate('/drawer/settings/forgot-pin')
+        return res
+    }
+
+    const _nextBtn = async () => {
+        const { status } = await sendOtp()
+        if (status != 400) {
+            openOtp({
+                navigation,
+                title: 'Lupa PIN',
+                textTitle: `OTP telah di kirim ke nomor +${showPhoneNumber(User.data.phone_number)}`,
+                info: "Untuk membuat PIN, anda harus memasukkan kode OTP yang telah dikirim ke nomor HP anda",
+                resend: sendOtp,
+                onResolve: async otp => {
+                    const data = { phone_number: User.data.phone_number, otp }
+                    const res = await verifyOTPAuth(data)
+                    if (res.status == 400) {
+                        setAlertMessage(res.data.errors.msg)
+                        setAlert(true)
+                    } else if (res.status == 200) {
+                        navigation.navigate('/drawer/settings/forgot-pin/new-pin')
+                    }
+                }
+            })
         }
     }
 

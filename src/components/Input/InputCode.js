@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
 import Container from '../View/Container';
 import { FlatList, View } from 'react-native';
 import { Text } from '../Text/CustomText';
@@ -14,6 +14,18 @@ import Gallery from '../View/Gallery';
 
 const InputCode = ({ navigation }) => {
 	const [state, setState] = stateObject(navigation.state.params)
+	const countDown = () => {
+		let time = resendTimer
+		const interval = setInterval(() => {
+			time--
+			setTimer(time)
+			if (time == 0)
+				clearInterval(interval)
+		}, 1000)
+	}
+	useEffect(() => {
+		if (isOtp) countDown()
+	}, [])
 	const onPress = btn => {
 		let value = state.value
 		if (!['~', 'del'].includes(btn)) {
@@ -36,16 +48,27 @@ const InputCode = ({ navigation }) => {
 		codeLength = 4,
 		header,
 		footer,
+		resendTimer = 60,
+		isOtp = false,
+		resend = () => { },
 		onResolve = () => null,
 		headerProps: headerPropsOverride,
 		codeProps: codePropsOverride,
 		keyboardProps: keyboardPropsOverride
 	} = state
+	const [timer, setTimer] = useState(resendTimer)
 	const codeProps = {
+		resend: () => {
+			setTimer(resendTimer)
+			countDown()
+			resend()
+		},
 		secureTextEntry,
 		header,
 		footer,
 		codeLength,
+		timer,
+		isOtp,
 		value,
 		...codePropsOverride
 	}
@@ -67,6 +90,9 @@ const Code = ({
 	footer,
 	codeLength,
 	value,
+	timer,
+	isOtp,
+	resend,
 	width = 35,
 	height = 35,
 	secureTextEntry
@@ -89,6 +115,16 @@ const Code = ({
 			}
 		</Wrapper>
 		<View style={{ marginHorizontal: SizeList.bodyPadding }}>
+			{
+				isOtp && <Button
+					style={{ marginBottom: SizeList.base }}
+					disabled={timer > 0}
+					onPress={resend}
+					color={["transparent", "greyFont"]}
+					activeColor="link"
+					active={timer == 0}>
+					{`RESEND${timer > 0 ? ` (${timer})` : ''}`}</Button>
+			}
 			{footer}
 		</View>
 	</View>
@@ -138,4 +174,8 @@ export default InputCode
 	codeProps: {},
 	headerProps: {},
 	keyboardProps: {},
+
+	// isOtp
+	isOtp: true,
+	resend: () => { }
 }) */
