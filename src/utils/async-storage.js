@@ -29,18 +29,21 @@ AsyncStorage.putObj = async obj => {
 		await AsyncStorage.put(key, obj[key])
 	}
 }
-AsyncStorage.getObj = async arr => {
-	var ret = {}
-	if (!Array.isArray(arr)) arr = [];
-	for (var i in arr) {
-		ret[arr[i]] = await AsyncStorage.get(arr[i]);
+AsyncStorage.getObj = async (arr = []) => {
+	let ret = {}
+	for (let i = 0; i < arr.length; i++) {
+		ret[arr[i]] = await AsyncStorage.get(arr[i])
 	}
 	return ret;
 }
 AsyncStorage.getAll = async () => {
 	try {
-		const keys = await AsyncStorage.getAllKeys()
-		return await AsyncStorage.getObj(keys)
+		const keys = await AsyncStore.getAllKeys();
+		const result = await AsyncStore.multiGet(keys);
+		return result.reduce((obj, [key, value]) => {
+			obj[key] = value
+			return obj
+		}, {})
 	} catch (error) {
 		return false
 	}
@@ -49,7 +52,7 @@ AsyncStorage.clear = async () => {
 	try {
 		const keys = await AsyncStorage.getAllKeys()
 		keys.forEach(async key => {
-			AsyncLocalStorage.remove(key)
+			AsyncStorage.remove(key)
 		});
 	} catch (err) {
 		return false

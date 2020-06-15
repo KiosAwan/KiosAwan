@@ -4,14 +4,19 @@ import { Info, Button } from 'src/components/Button/Button';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-const openPin = (navigation, onResolve, { info, textTitle }) => {
-	navigation.navigate('/input-code', {
+const openPin = (obj, onResolve) => {
+	let { navigation, textTitle, info, ...objs } = obj
+	if (obj.navigate) {
+		navigation = obj
+	}
+	(typeof navigation == 'function' ? navigation : navigation.navigate)('/input-code', {
 		header: <Text align="center">{textTitle || 'Masukkan PIN anda saat ini'}</Text>,
 		footer: <Info color={["settingBg", "settingFont"]}>{info || 'Untuk melanjutkan pembayaran, anda harus memasukkan PIN anda saat ini'}</Info>,
 		secureTextEntry: true,
 		title: 'PIN',
 		value: '',
-		onResolve
+		onResolve,
+		...objs
 	})
 }
 
