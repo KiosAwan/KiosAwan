@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import { ColorsList } from 'src/styles/colors';
 import { View, Image, StyleSheet, Clipboard, ActivityIndicator } from 'react-native';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { $Border } from 'src/utils/stylehelper';
+import { $Border, $BorderRadius } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
 import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import moment from 'moment';
@@ -22,7 +22,7 @@ import { SizeList } from 'src/styles/size';
 const TransactionDigitalDetail = ({ navigation }) => {
     let viewShotRef;
     const dispatch = useDispatch()
-
+    const User = useSelector(state => state.User)
     const [params, setParams] = useState({
         details: null,
         payment: null,
@@ -142,36 +142,57 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                 <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
                             </Button>
                     }
-                    <View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: 5, marginTop: 15 }}>
-                        <Wrapper {...wrapper}>
-                            <View>
-                                <Text color="primary" size={16}>{_checkData('transaction_name').split('_').join(' ').toUpperCase()}</Text>
-                                <Text>{_checkData('customerID')}</Text>
-                            </View>
-                            {
-                                transaction && transaction.tagihan == 0 ?
-                                    <View /> :
-                                    <Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
-                            }
-                        </Wrapper>
-                        {transaction && transaction.transaction_name == "pln_prepaid" && payment && payment.token && [
-                            <View>
-                                <Text style={{ paddingLeft: 10 }} color="primary">Token Listrik</Text>
-                                <Wrapper style={styles.token} justify="space-between">
-                                    <Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join(" ")}</Text>
-                                    <CopyButton onPress={() => {
-                                        Toast.show({ text: "Berhasil disalin", type: "success" })
-                                        Clipboard.setString(payment.token)
-                                    }} />
+                    <View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: SizeList.borderRadius, marginTop: SizeList.base, padding: SizeList.padding }}>
+                        <View style={{ marginVertical: SizeList.base }}>
+                            <Text align="center" size={16} font="SemiBold">
+                                {User.store.name_store}
+                            </Text>
+                            <View style={{ ...$BorderRadius(5, 5, 0, 0), marginTop: 10, backgroundColor: ColorsList.whiteColor, padding: 10 }}>
+                                <Wrapper spaceBetween>
+                                    <Text>Kode Transaksi</Text>
+                                    <Text>{transaction && transaction.transaction_code}</Text>
                                 </Wrapper>
-                            </View>,
-                        ]}
+                                <Wrapper spaceBetween>
+                                    <Text>Waktu dan Tanggal</Text>
+                                    <Text>{transaction && transaction.date}</Text>
+                                </Wrapper>
+                                <Wrapper spaceBetween>
+                                    <Text>Operator</Text>
+                                    <Text>{User.data.name}</Text>
+                                </Wrapper>
+                            </View>
+                        </View>
                         <Divider />
-                        {payment ? _renderProductDigital() : _renderPendingProductDigital()}
-                        <Divider />
-                        <View style={{ alignItems: 'center', flexDirection: "row", justifyContent: "center" }}>
-                            <Text size={12} align="center">Powered by</Text>
-                            <Image style={{ width: 100, height: 70, resizeMode: "contain" }} source={require('src/assets/images/logostruk.png')} />
+                        <View style={{ backgroundColor: ColorsList.whiteColor, }}>
+                            <Wrapper {...wrapper}>
+                                <View>
+                                    <Text color="primary" size={16}>{_checkData('transaction_name').split('_').join(' ').toUpperCase()}</Text>
+                                    <Text>{_checkData('customerID')}</Text>
+                                </View>
+                                {
+                                    transaction && transaction.tagihan == 0 ?
+                                        <View /> :
+                                        <Text>{convertRupiah(parseInt(_checkData('total')))}</Text>
+                                }
+                            </Wrapper>
+                            {transaction && transaction.transaction_name == "pln_prepaid" && payment && payment.token && [
+                                <View>
+                                    <Wrapper style={{ paddingVertical: SizeList.base }} justify="space-between">
+                                        <Text style={{ paddingLeft: 10 }}>{payment.token.match(/.{1,4}/g).join("-")}</Text>
+                                        <CopyButton onPress={() => {
+                                            Toast.show({ text: "Berhasil disalin", type: "success" })
+                                            Clipboard.setString(payment.token)
+                                        }} />
+                                    </Wrapper>
+                                </View>
+                            ]}
+                            <Divider />
+                            {payment ? _renderProductDigital() : _renderPendingProductDigital()}
+                            <Divider />
+                            <View style={{ alignItems: 'center', flexDirection: "row", justifyContent: "center" }}>
+                                <Text size={12} align="center">Powered by</Text>
+                                <Image style={{ width: 100, height: 70, resizeMode: "contain" }} source={require('src/assets/images/logostruk.png')} />
+                            </View>
                         </View>
                     </View>
                 </ViewShot>
