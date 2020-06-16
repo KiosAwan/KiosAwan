@@ -7,7 +7,7 @@ import { ColorsList } from '../../styles/colors';
 import { addDiscountProductPersen, ChangeCartQuantity, RemoveCartProduct, AddDiscountRupiah, addDiscountProductRupiah, AddDiscountPersen, changeTransactionDiscount, removeAllCart, addTransactionNote, getProduct, removeProductCart } from '../../redux/actions/actionsStoreProduct';
 import { getCustomer } from '../../redux/actions/actionsCustomer';
 import { GlobalHeader, IconHeader } from '../../components/Header/Header';
-import { PilihPelanggan, ToggleButton, RoundedToggleButton } from '../../components/Picker/SelectBoxModal';
+import { PilihPelanggan, ToggleButton, RoundedToggleButton, PilihPelanggans } from '../../components/Picker/SelectBoxModal';
 import { Icon } from 'native-base';
 import SwitchButton from '../../components/Button/SwitchButton';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -147,7 +147,6 @@ const Cart = ({ navigation }) => {
 			<IconHeader name="trash" color={ColorsList.greyFont} />
 		</TouchableOpacity>
 	}}>
-		<PilihPelanggan visible={pilihPelangganOpen} data={Customer.data} dismiss={() => setPilihPelangganOpen(false)} />
 		<AwanPopup.NoTitle visible={hapusPesananOpen} message={confirm.title}>
 			<Button width="35%" onPress={confirm.action} color="link">IYA</Button>
 			<Button width="35%" onPress={() => setHapusPesananOpen(false)}>TIDAK</Button>
@@ -287,16 +286,13 @@ const Cart = ({ navigation }) => {
 					</Button>
 				</Wrapper>
 			</View>
+			<PilihPelanggans visible={pilihPelangganOpen} data={Customer.data} dismiss={() => setPilihPelangganOpen(false)} />
 			<View style={{ marginVertical: SizeList.base, }}>
 				<Text style={{ marginBottom: SizeList.base }}>Pelanggan</Text>
-				<TouchableOpacity onPress={() => setPilihPelangganOpen(true)}>
-					<Wrapper shadow justify="space-between" style={{ borderRadius: 5, backgroundColor: ColorsList.whiteColor, padding: 10, marginTop: 5 }}>
-						<Wrapper justify="flex-start">
-							<Text>{Product.customer ? Product.customer.name_customer : "Pilih nama pelanggan"}</Text>
-						</Wrapper>
-						<Icon style={{ color: ColorsList.greyFont }} name="arrow-dropdown" />
-					</Wrapper>
-				</TouchableOpacity>
+				<PilihPelanggan
+					value={Product.customer ? Product.customer.name_customer : "Pilih nama pelanggan"}
+					data={Customer.data}
+				/>
 			</View>
 
 			<View style={{ marginBottom: SizeList.base }}>

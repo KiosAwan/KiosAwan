@@ -23,7 +23,6 @@ import { $Padding } from 'src/utils/stylehelper'
 import Container, { Body } from 'src/components/View/Container';
 import BarStatus from 'src/components/BarStatus';
 import { SizeList } from 'src/styles/size';
-import { BottomSheet } from 'src/components/Picker/BottomSheetSelect';
 
 const { width, height } = Dimensions.get('window')
 const Home = ({ navigation }) => {
@@ -174,12 +173,6 @@ const Home = ({ navigation }) => {
 	return (
 		<Container>
 			<Body style={{ padding: 0 }} refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
-				<BottomSheet renderButton={<Text>wow</Text>}>
-					<Text>khsdhfh</Text>
-					<Text>khsdhfh</Text>
-					<Text>khsdhfh</Text>
-					<Text>khsdhfh</Text>
-				</BottomSheet>
 				<View style={{ padding: SizeList.bodyPadding, paddingBottom: 0 }}>
 					<View style={{ justifyContent: "center" }}>
 						<BarStatus />

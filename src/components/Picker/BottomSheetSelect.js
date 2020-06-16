@@ -34,7 +34,8 @@ const BottomSheetSelect = props => {
 		hideRender,
 		hideRenderItem,
 		buttonOverride,
-		btnProps
+		btnProps,
+		btnStyle
 	} = props
 	useEffect(() => {
 		refs(rb)
@@ -99,7 +100,7 @@ const BottomSheetSelect = props => {
 			buttonOverride ? <Button color="link" padding={0} onPress={() => rb.open()} {...btnProps}>
 				{buttonOverride}
 			</Button> :
-				<Button color="link" padding={0} onPress={() => rb.open()} {...btnProps}>
+				<Button color="link" padding={0} onPress={() => rb.open()} {...btnProps} style={btnStyle}>
 					<Input
 						disabled
 						font={font}

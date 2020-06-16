@@ -33,23 +33,13 @@ const Piutang = ({ style }) => {
 			onConfirm={_handleDatePicked}
 			onCancel={() => setDatePickerVisible(!datePickerVisible)}
 		/>
-		<PilihPelanggan action={(action, pelanggan) => {
-			console.log(action, pelanggan)
-		}} visible={modalVisible}
+		<PilihPelanggan
+			value={Product.customer ? Product.customer.name_customer : "Pilih Nama pelanggan"}
 			data={Customer.data}
-			dismiss={() => setModalVisible(false)}
 		/>
-		<Button style={{ marginBottom: SizeList.base }} padding={0} noRadius color="link" onPress={() => setModalVisible(true)}>
-			<Input
-				noLabel
-				disabled
-				style={{ width: '100%' }}
-				value={Product.customer ? Product.customer.name_customer : "Nama pelanggan"}
-				renderRightAccessory={() => <Icon color={ColorsList.greyFont} size={17} name="sort-down" />}
-			/>
-		</Button>
 		<Input
 			currency noLabel
+			spaceTop={SizeList.base}
 			value={Product.cash_payment.toString()}
 			placeholder="Uang diterima diawal"
 			onChangeText={_handleChangeMoney}

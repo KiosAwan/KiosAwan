@@ -16,6 +16,8 @@ import MDInput, { Input as MyInput } from '../Input/MDInput';
 import { Modal as AwanModal } from '../ModalContent/Popups';
 import Alert from 'src/utils/alert';
 import BottomSheetSelect from './BottomSheetSelect';
+import { stateObject } from 'src/utils/state';
+import { SizeList } from 'src/styles/size';
 
 const height = Dimensions.get('window').height
 
@@ -51,7 +53,7 @@ export const RoundedToggleButton = (props) => {
 		<Wrapper {...props}>
 			{
 				props.buttons.rMap((btn, i) => {
-					return <Button noBorder={activeIndex ==  i ? false : true} justify="center" height={40} padding={0} width={40} key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} {...props.buttonProps}>{btn}</Button>
+					return <Button noBorder={activeIndex == i ? false : true} justify="center" height={40} padding={0} width={40} key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} {...props.buttonProps}>{btn}</Button>
 				})
 			}
 		</Wrapper>
@@ -88,7 +90,7 @@ export const ToggleButtonMoney = (props) => {
 	const dispatch = useDispatch()
 	const width = 90 / props.buttons.length
 	return (
-		<Wrapper style={{ width : "100%"}} justify="space-between">
+		<Wrapper style={{ width: "100%" }} justify="space-between">
 			{
 				props.buttons.rMap((btn, i) => {
 					return <Button
@@ -100,7 +102,7 @@ export const ToggleButtonMoney = (props) => {
 							dispatch(AddCashPayment(btn))
 						}}
 						_width={`${width}%`}
-						color={activeIndex == i ? 'primary' : 'linkBorder'} 
+						color={activeIndex == i ? 'primary' : 'linkBorder'}
 						style={[props.style]}>
 						{i == 0 ? "UANG PAS" : convertRupiah(btn).toUpperCase()}
 					</Button>
@@ -110,7 +112,126 @@ export const ToggleButtonMoney = (props) => {
 	)
 }
 
-export const PilihPelanggan = (props) => {
+export const PilihPelanggan = props => {
+	const dispatch = useDispatch()
+	const User = useSelector(state => state.User)
+	const [state, setState] = stateObject({
+		search: '',
+		action: 'add',
+		pelanggan: {},
+		pelangganVisible: false,
+		isSelect: true
+	})
+	const { data, value } = props
+	const { search, action, pelanggan, pelangganVisible, isSelect } = state
+
+	const _handleButtonSimpan = () => {
+		if (action == "add") {
+			_handleAddNewCustomer()
+		} else if (action == "edit") {
+			_handleEditCustomer()
+		}
+	}
+	const _handleAddNewCustomer = async () => {
+		if (pelanggan) {
+			if (pelanggan.name_customer == "" || pelanggan.phone_number_customer == "") {
+				Alert("", "Isi semua field")
+			} else {
+				const data = {
+					...pelanggan,
+					id_store: User.store.id_store
+				}
+				const userToken = await getUserToken()
+				await sendNewCustomer(data)
+				setState({ isSelect: true })
+				dispatch(getCustomer(User.store.id_store, userToken))
+			}
+		}
+	}
+
+	const _handleEditCustomer = async () => {
+		if (pelanggan.name_customer == "" || pelanggan.phone_number_customer == "") {
+			Alert("Isi semua field")
+		} else {
+			const data = {
+				...pelanggan,
+				id_store: User.store.id_store
+			}
+			await editCustomer(data, pelanggan.id_customer)
+			setState({ isSelect: true })
+			dispatch(getCustomer(User.store.id_store))
+		}
+	}
+
+	const _handleDeleteCustomer = async (cust) => {
+		const aa = await deleteCustomer(cust.id_customer)
+		console.debug(aa)
+		// dispatch(getCustomer(User.store.id_store))
+	}
+
+	const sheetContent = <View style={{ flex: 1, justifyContent: 'space-between' }}>
+		<View>
+			<Text align="center">{action == 'add' ? 'TAMBAH' : 'UBAH'} PELANGGAN</Text>
+			<MyInput spaceBoth={SizeList.base} label="Nama pelanggan"
+				value={pelanggan ? pelanggan.name_customer : ''}
+				onChangeText={name_customer => setState({ pelanggan: { ...pelanggan, name_customer } })} />
+			<MyInput label="No. Telepon"
+				keyboardType="number-pad"
+				value={pelanggan ? pelanggan.phone_number_customer : ''}
+				onChangeText={phone_number_customer => setState({ pelanggan: { ...pelanggan, phone_number_customer } })} />
+		</View>
+		<Wrapper flexContent>
+			<Button onPress={() => setState({ isSelect: true })} color="link">BATAL</Button>
+			<Button onPress={_handleButtonSimpan}>SIMPAN</Button>
+		</Wrapper>
+	</View>
+
+	const renderItem = item => <Wrapper style={{ flex: 1 }} justify="space-between">
+		<View>
+			<Text color="primary">{item.name_customer}</Text>
+			<Text>{item.phone_number_customer}</Text>
+		</View>
+		<Wrapper justify="flex-end">
+			<Icon onPress={() => _handleDeleteCustomer(item)} style={{ color: ColorsList.primaryColor }} name="trash" />
+			<Icon onPress={() =>
+				setState({
+					isSelect: false,
+					action: 'edit',
+					pelanggan: item
+				})
+			} style={{ marginLeft: 10, color: ColorsList.primaryColor }} name="create" />
+		</Wrapper>
+	</Wrapper>
+
+	const header = <MyInput
+		noLabel
+		renderRightAccessory={() => <Icon size={15} style={{ color: ColorsList.primary }} name="search" />}
+		value={search}
+		label="Cari nama atau no hp"
+		onChangeText={search => setState({ search })}
+	/>
+
+	const footer = <Button onPress={() => setState({ action: 'add', isSelect: false })}>TAMBAH PELANGGAN</Button>
+
+	return <BottomSheetSelect
+		noLabel
+		closeOnSelect
+		height={350}
+		value={value}
+		isSelect={isSelect}
+		onClose={() => setState({ isSelect: true, search: '' })}
+		data={data.filter(item => item.name_customer.toLowerCase().includes(search.toLowerCase()))}
+		handleChangePicker={item => {
+			dispatch(AddCustomer(item))
+		}}
+		sheetContent={sheetContent}
+		header={header}
+		footer={footer}
+		renderItem={renderItem}
+	/>
+}
+
+export const PilihPelanggans = (props) => {
 	const dispatch = useDispatch()
 	const [action, setAction] = useState()
 	const [search, setSearch] = useState('')
