@@ -28,6 +28,7 @@ import Container, { Body, Footer } from 'src/components/View/Container';
 import { ImageHeader, IconHeader } from 'src/components/Header/Header';
 import ButtonCart from 'src/components/View/ButtonCart';
 import { SizeList } from 'src/styles/size';
+import BottomSheetSelect from 'src/components/Picker/BottomSheetSelect';
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -90,22 +91,19 @@ const PPOB = ({ navigation }) => {
 				<TouchableOpacity onPress={() => navigation.navigate("/ppob/favorit")}>
 					<IconHeader name="heart" color={ColorsList.greyFont} />
 				</TouchableOpacity>
-				<TouchableOpacity style={{ padding: SizeList.base }} onPress={_moreMenu}>
-					<IconHeader name="ellipsis-v" color={ColorsList.greyFont} />
-				</TouchableOpacity>
+				<BottomSheetSelect
+				height={150}
+					data={[
+						{ title: "Atur Harga PPOB", route: '/ppob/settings' },
+						{ title: "List Transaksi", route: '/ppob/list-transaksi' }
+					]}
+					renderItem={(item) => <Text font="SemiBold">{item.title}</Text>}
+					handleChangePicker={(item) => navigation.navigate(item.route)}
+					closeOnSelect
+					buttonOverride={<IconHeader name="ellipsis-v" color={ColorsList.greyFont} />}
+				/>
 			</Wrapper>
 		}}>
-			<Menu
-				menuColor="link"
-				bgColor="transparent"
-				position="topRight"
-				style={{ backgroundColor: ColorsList.white }}
-				data={[{ name: 'Atur Harga PPOB', route: '/ppob/settings' }, { name: 'List Transaksi', route: '/ppob/list-transaksi' }]}
-				state={setMoreVisible}
-				visible={moreVisible}
-				onSelect={({ item: { route } }) => navigation.navigate(route)}
-				renderItem={({ name }) => <Text align="left">{name}</Text>}
-			/>
 			<Body>
 				<Wrapper justify="space-between">
 					<View>

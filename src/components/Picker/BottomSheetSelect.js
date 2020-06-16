@@ -55,7 +55,7 @@ const BottomSheetSelect = props => {
 								<Button onPress={() => {
 									handleChangePicker(item, index)
 									closeOnSelect && rb.close()
-								}} color="link" spaceBetween padding={SizeList.secondary}>
+								}} color="link" spaceBetween padding={SizeList.base}>
 									{renderItem(item, index)}
 								</Button>
 							)}
