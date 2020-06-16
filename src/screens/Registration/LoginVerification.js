@@ -13,7 +13,7 @@ import {
 import { clearAllRegistration, addFirstPassword } from '../../redux/actions/actionsRegistration'
 
 //Functions
-import { loginData, sendOTP } from '../../utils/unauthhelper';
+import { loginData, sendOTP, showPhoneNumber, sendVerifyOTP } from '../../utils/unauthhelper';
 import BarStatus from '../../components/BarStatus';
 import { getProfile } from '../../redux/actions/actionsUserData';
 import { FontList } from '../../styles/typography';
@@ -29,6 +29,7 @@ import { Button } from 'src/components/Button/Button';
 import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
 import { SizeList } from '../../styles/size';
+import { openOtp } from 'src/utils/pin-otp-helper';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -75,11 +76,41 @@ const LoginVerification = ({ navigation }) => {
     }
 
     const _forgotPIN = async () => {
+        _sendOTP()
+        openOtp({
+            navigation,
+            title: '',
+            textTitle: `OTP telah di kirim ke nomor +${showPhoneNumber(`62${FormRegister.phone_number}`)}`,
+            info: "Untuk membuat password baru, anda harus memasukkan kode OTP yang telah dikirim ke nomor HP anda",
+            resend: _sendOTP,
+            onResolve: async otp => {
+                const data = {
+                    phone_number: "62" + FormRegister.phone_number,
+                    otp
+                }
+                const res = await sendVerifyOTP(data)
+                if (res.status == 400) {
+                    setAlertMessage(res.data.errors.msg)
+                    setAlert(true)
+                }
+                else if (res.status == 200) {
+                    navigation.navigate('/unauth/login/forgot-password/new-password-1')
+                }
+            }
+        })
+    }
+
+    const _sendOTP = async () => {
+        setLoading(true)
         const data = {
             phone_number: "62" + FormRegister.phone_number
         }
-        navigation.navigate('/unauth/login/forgot-password')
-        await sendOTP(data)
+        const res = await sendOTP(data)
+        setLoading(false)
+        if (res.status == 400) {
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
+        }
     }
     return <Container style={{ padding: SizeList.bodyPadding }}>
         <UnauthBackHeader onPressBack={() => navigation.goBack()} />

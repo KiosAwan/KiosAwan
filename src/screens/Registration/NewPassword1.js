@@ -6,25 +6,16 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    TextInput
 } from 'react-native';
-
-//Own Custom Component
-import { GlobalHeader } from '../../components/Header/Header'
-import { InputPIN } from '../../components/Input/InputPIN'
 
 //Redux Actions
 import { addFirstPassword } from '../../redux/actions/actionsRegistration'
-import BarStatus from '../../components/BarStatus';
-import { BottomButton } from '../../components/Button/ButtonComp';
 import { SizeList } from '../../styles/size';
 import { ColorsList } from '../../styles/colors';
-import { FontList } from 'src/styles/typography';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import Container from 'src/components/View/Container';
 import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Text } from 'src/components/Text/CustomText';
-import { Wrapper } from 'src/components/View/Wrapper';
 import { Icon } from 'native-base';
 import { Button } from 'src/components/Button/Button';
 import { Input } from 'src/components/Input/MDInput';
@@ -56,7 +47,7 @@ const NewPassword1 = ({ navigation }) => {
     }
     const [secure, setSecure] = useState(true)
     const [btnDisabled, setBtnDisabled] = useState(true)
-    return <Container style={{ padding: 15 }}>
+    return <Container style={{ padding: SizeList.bodyPadding }}>
         <UnauthBackHeader onPressBack={() => navigation.goBack()} />
         <AwanPopup.Alert
             message={alertMessage}

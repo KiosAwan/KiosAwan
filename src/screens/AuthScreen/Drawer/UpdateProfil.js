@@ -1,7 +1,7 @@
 import Wilayah from 'src/utils/wilayah';
 import React, { useState, useEffect } from 'react';
 import ModalContent from 'src/components/ModalContent/ModalContent';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 import Container, { Footer, Body } from 'src/components/View/Container';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, StyleSheet, Image, Modal, ActivityIndicator } from 'react-native';
@@ -20,6 +20,7 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 import ImagePicker from 'react-native-image-crop-picker';
 import { getStoreCategoryAPI } from 'src/utils/api/global_api';
 import { typingWaitCallback } from 'src/utils/state';
+import { SizeList } from 'src/styles/size';
 
 const UpdateProfil = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -151,49 +152,49 @@ const UpdateProfil = ({ navigation }) => {
 				/>
 			</Modal>
 			<AwanPopup.Loading visible={loading} />
-			<View style={{ paddingVertical: 30, paddingHorizontal: 15, marginBottom: 15, backgroundColor: 'white' }}>
-				{
-					inputan.rMap((input, i) => <MDInput key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} />)
+			{
+				inputan.rMap((input, i) => <View style={{ marginBottom: SizeList.secondary }}><Input key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} /></View>)
+			}
+			<SelectBoxModal
+				label="Kelurahan / Desa" closeOnSelect
+				data={dataDesa}
+				header={
+					<MDInput label="Cari Desa"
+						onChangeText={_searchDesa}
+						renderLeftAccessory={() =>
+							<Icon style={{ color: ColorsList.primary }} name="search" />}
+					/>
 				}
-				<SelectBoxModal style={{ marginTop: 15 }}
-					label="Kelurahan / Desa" closeOnSelect
-					data={dataDesa}
-					header={
-						<MDInput label="Cari Desa"
-							onChangeText={_searchDesa}
-							renderLeftAccessory={() =>
-								<Icon style={{ color: ColorsList.primary }} name="search" />}
-						/>
-					}
-					hideRender={isTypingDesa}
-					hideRenderItem={<ActivityIndicator color={ColorsList.primary} />}
-					value={desaSelected.desa}
-					handleChangePicker={item => setDesaSelected(item)}
-					renderItem={item => (<Text>{_renderViewAlamat(item)}</Text>)}>
-					<Text>Data tidak ditemukan</Text>
-				</SelectBoxModal>
-				{desaSelected.id && <Text style={{ marginTop: 10 }}>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text>}
-				<SelectBoxModal style={{ marginTop: 15 }}
-					label="Kategori Toko" closeOnSelect
-					data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
-					header={
-						<MDInput label="Cari Kategori"
-							onChangeText={(text) => setSearchKategori(text)}
-							renderLeftAccessory={() =>
-								<Icon style={{ color: ColorsList.primary }} name="search" />}
-						/>
-					}
-					value={kategoriSelected.category}
-					handleChangePicker={item => setKategoriSelected(item)}
-					renderItem={item => (<Text>{item.category}</Text>)}>
-					<Text>Data tidak ditemukan</Text>
-				</SelectBoxModal>
-			</View>
-			<Text style={{ marginBottom: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
-			<View style={styles.imageWrapper}>
-				<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
-					<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />
-				</TouchableOpacity>
+				hideRender={isTypingDesa}
+				hideRenderItem={<ActivityIndicator color={ColorsList.primary} />}
+				value={desaSelected.desa}
+				handleChangePicker={item => setDesaSelected(item)}
+				renderItem={item => (<Text>{_renderViewAlamat(item)}</Text>)}>
+				<Text>Data tidak ditemukan</Text>
+			</SelectBoxModal>
+			{desaSelected.id && <View style={styles.locationDetail}><Text>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text></View>}
+			<SelectBoxModal
+				label="Kategori Toko" closeOnSelect
+				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
+				header={
+					<MDInput label="Cari Kategori"
+						onChangeText={(text) => setSearchKategori(text)}
+						renderLeftAccessory={() =>
+							<Icon style={{ color: ColorsList.primary }} name="search" />}
+					/>
+				}
+				value={kategoriSelected.category}
+				handleChangePicker={item => setKategoriSelected(item)}
+				renderItem={item => (<Text>{item.category}</Text>)}>
+				<Text>Data tidak ditemukan</Text>
+			</SelectBoxModal>
+			<View>
+				<Text style={{ marginVertical: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
+				<View style={styles.imageWrapper}>
+					<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
+						<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />
+					</TouchableOpacity>
+				</View>
 			</View>
 			{/* <PickerImage close={() => rbRef.close()} imageResolve={_handleChoosePhoto} rbRef={ref => setRbRef(ref)} /> */}
 		</Body>
@@ -207,6 +208,16 @@ export default UpdateProfil
 
 const styles = StyleSheet.create({
 	floatingInput: { marginBottom: 15 },
-	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.black, borderWidth: 1, height: 250 },
+	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.greyAuthHard, borderWidth: 1, height: 250, borderRadius: SizeList.borderRadius },
 	image: { width: '100%', height: '100%' },
+	locationDetail: {
+		marginHorizontal: 3,
+		marginBottom: 5,
+		padding: 5,
+		backgroundColor: ColorsList.white,
+		borderBottomLeftRadius: SizeList.borderRadius,
+		borderBottomRightRadius: SizeList.borderRadius,
+		borderWidth: SizeList.borderWidth,
+		borderColor: ColorsList.borderColor
+	}
 })

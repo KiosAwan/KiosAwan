@@ -13,6 +13,7 @@ import LoginVerification from '../screens/Registration/LoginVerification'
 import TermCondition from 'src/screens/Registration/TermCondition'
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 import OTPInput from 'src/screens/Registration/OTPInput'
+import InputCode from 'src/components/Input/InputCode'
 
 const handleCustomTransition = ({ scenes }) => {
   global.prevScene = scenes[scenes.length - 2];
@@ -25,6 +26,12 @@ const handleCustomTransition = ({ scenes }) => {
 const Navs = {
   '/unauth': {
     screen: PhoneRegistration,
+    navigationOptions: {
+      header: null
+    }
+  },
+  '/input-code': {
+    screen: InputCode,
     navigationOptions: {
       header: null
     }
