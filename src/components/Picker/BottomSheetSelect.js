@@ -32,7 +32,9 @@ const BottomSheetSelect = props => {
 		onOpen,
 		onClose,
 		hideRender,
-		hideRenderItem
+		hideRenderItem,
+		buttonOverride,
+		btnProps
 	} = props
 	useEffect(() => {
 		refs(rb)
@@ -83,22 +85,62 @@ const BottomSheetSelect = props => {
 				container: { backgroundColor: ColorsList.transparent },
 				draggableIcon: { width: 75 }
 			}}
-		><View style={{ backgroundColor: ColorsList.white, flex: 1, ...$BorderRadius(borderRadius, borderRadius, 0, 0) }}>
+		>
+			<View style={{
+				...$BorderRadius(borderRadius, borderRadius, 0, 0),
+				backgroundColor: ColorsList.white,
+				flex: 1,
+				...style
+			}}>
 				{render()}
 			</View>
 		</RBSheet>
-		<Button style={{ ...style }} color="link" padding={0} onPress={() => rb.open()}>
-			<Input
-				disabled
-				font={font}
-				label={label}
-				value={value}
-				noLabel={noLabel}
-				style={{ width: '100%' }}
-				renderRightAccessory={() => <Icon style={{ color: ColorsList.greyFont }} name='arrow-dropdown' />}
-			/>
-		</Button>
-	</View >
+		{
+			buttonOverride ? <Button color="link" padding={0} onPress={() => rb.open()} {...btnProps}>
+				{buttonOverride}
+			</Button> :
+				<Button color="link" padding={0} onPress={() => rb.open()} {...btnProps}>
+					<Input
+						disabled
+						font={font}
+						label={label}
+						value={value}
+						noLabel={noLabel}
+						style={{ width: '100%' }}
+						renderRightAccessory={() => <Icon style={{ color: ColorsList.greyFont }} name='arrow-dropdown' />}
+					/>
+				</Button>
+		}
+	</View>
+}
+
+const BottomSheet = props => {
+	const {
+		renderButton,
+		children,
+		height,
+		style: styleOverride,
+		btnStyle: btnStyleOverride
+	} = props
+	return <BottomSheetSelect
+		btnProps={{
+			flexStart: true,
+			style: btnStyleOverride
+		}}
+		height={height}
+		style={styleOverride}
+		buttonOverride={renderButton}
+		sheetContent={children}
+		isSelect={false}
+	/>
+}
+
+BottomSheet.propTypes = {
+	renderButton: PropTypes.any,
+	children: PropTypes.any,
+	height: PropTypes.number,
+	style: PropTypes.object,
+	btnStyle: PropTypes.object
 }
 
 BottomSheetSelect.propTypes = {
@@ -106,14 +148,14 @@ BottomSheetSelect.propTypes = {
 	height: PropTypes.number,
 	value: PropTypes.string,
 	style: PropTypes.object,
-	renderItem: PropTypes.func.isRequired,
+	renderItem: PropTypes.func,
 	label: PropTypes.string,
 	font: PropTypes.string,
 	noLabel: PropTypes.bool,
 	header: PropTypes.any,
 	handleChangePicker: PropTypes.func,
 	footer: PropTypes.any,
-	data: PropTypes.array.isRequired,
+	data: PropTypes.array,
 	closeOnSelect: PropTypes.bool,
 	children: PropTypes.any,
 	onOpen: PropTypes.func,
@@ -124,4 +166,6 @@ BottomSheetSelect.propTypes = {
 	sheetContent: PropTypes.any
 }
 
+
+export { BottomSheet }
 export default BottomSheetSelect
