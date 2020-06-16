@@ -155,10 +155,10 @@ const TransactionList = ({ navigation }) => {
     </Wrapper>
   }}>
     <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
-      <Button onPress={() => selectFilter('all')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Semua</Button>
-      <Button onPress={() => selectFilter('1')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Lunas</Button>
-      <Button onPress={() => selectFilter('2')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Hutang</Button>
-      <Button onPress={() => selectFilter('3')} color="link" textProps={{ font: 'Regular' }} align="flex-start">Dibatalkan</Button>
+      <Button onPress={() => selectFilter('all')} color="link" textStyle={{ color: ColorsList.greyFontHard }} align="flex-start">Semua</Button>
+      <Button onPress={() => selectFilter('1')} color="link" textStyle={{ color: ColorsList.greyFontHard }} align="flex-start">Lunas</Button>
+      <Button onPress={() => selectFilter('2')} color="link" textStyle={{ color: ColorsList.greyFontHard }} align="flex-start">Hutang</Button>
+      <Button onPress={() => selectFilter('3')} color="link" textStyle={{ color: ColorsList.greyFontHard }} align="flex-start">Dibatalkan</Button>
     </AwanPopup.Menu>
     <Body>
       <DaftarTransaksi />
