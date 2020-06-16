@@ -24,6 +24,7 @@ import SearchInput from 'src/components/Input/SearchInput';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { SizeList } from 'src/styles/size';
 import { $Border } from 'src/utils/stylehelper';
+import BottomSheetSelect from 'src/components/Picker/BottomSheetSelect';
 
 
 const width = Dimensions.get('window').width
@@ -81,8 +82,7 @@ const NewProductName = ({ navigation }) => {
 		if (newCategoryName == "") {
 			setErrorMessage("Nama tidak boleh kosong")
 			setErrorAlert(true)
-		}
-		else {
+		} else {
 			if (editNewCategory == 'add') {
 				await sendNewCategory({
 					id_store: User.store.id_store,
@@ -98,7 +98,9 @@ const NewProductName = ({ navigation }) => {
 			dispatch(getCategory(User.store.id_store, userToken))
 			setAddCategoryVisible(false)
 		}
+		setSheetIsSelect(true)
 	}
+	const [sheetIsSelect, setSheetIsSelect] = useState(true)
 	return <Container>
 		<GlobalHeader
 			title="TAMBAH PRODUK"
@@ -132,7 +134,8 @@ const NewProductName = ({ navigation }) => {
 				if (validNumber(text)) {
 					dispatch(addProductBarcode(text))
 				}
-			}} label="Nomor Barcode" renderRightAccessory={() => <Button width={40} onPress={() => navigation.goBack()}>
+			}} 
+			label="Nomor Barcode" renderRightAccessory={() => <Button width={40} onPress={() => navigation.goBack()}>
 				<Image size={20} source={require('src/assets/icons/barcode.png')} />
 			</Button>} value={NewProduct.barcode} />
 			<Input
@@ -142,20 +145,32 @@ const NewProductName = ({ navigation }) => {
 				value={NewProduct.name}
 				onChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
 			/>
-			<SelectBoxModal style={{ marginTop: SizeList.base }}
+			<BottomSheetSelect style={{ marginTop: SizeList.base }}
 				label="Pilih Kategori"
+				isSelect={sheetIsSelect}
+				sheetContent={<View style={{ flex: 1, justifyContent: 'space-between' }}>
+					<View>
+						<Text style={{ marginBottom: SizeList.base * 2 }} align="center">TAMBAH KATEGORI</Text>
+						<Input
+							label="Nama Kategori"
+							value={newCategoryName}
+							onChangeText={(text) => setNewCategoryName(text)}
+						/>
+					</View>
+					<Wrapper flexContent>
+						<Button color="link" onPress={() => setSheetIsSelect(true)}>BATAL</Button>
+						<Button onPress={_handleSaveNewCategory}>SIMPAN</Button>
+					</Wrapper>
+				</View>}
+				footer={<Button onPress={() => setSheetIsSelect(false)}>TAMBAH KATEGORI</Button>}
 				onOpen={() => setSearchCategory('')}
+				onClose={() => setSheetIsSelect(true)}
 				header={
 					<Input
 						label="Cari Kategori"
 						value={searchCategory}
 						onChangeText={text => setSearchCategory(text)}
-						renderLeftAccessory={() => <Icon size={15} style={{ color: ColorsList.primary }} name="search" />}
-						renderRightAccessory={() => <Button onPress={() => {
-							setNewCategoryName("")
-							setEditNewCategory('add')
-							setAddCategoryVisible(true)
-						}}>Tambah</Button>}
+						renderRightAccessory={() => <Icon size={15} style={{ color: ColorsList.primary }} name="search" />}
 					/>
 				}
 				value={selected}

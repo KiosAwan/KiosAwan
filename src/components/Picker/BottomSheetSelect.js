@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Button } from '../Button/Button';
 import { View, FlatList } from 'react-native';
@@ -7,50 +7,45 @@ import { SizeList } from 'src/styles/size';
 import Divider from '../Row/Divider';
 import { Input } from '../Input/MDInput';
 import { Icon } from 'native-base';
+import PropTypes from 'prop-types'
+import { $BorderRadius } from 'src/utils/stylehelper';
 
 const BottomSheetSelect = props => {
 	let rb
 	const {
-		refs = () => { },
-		height = 200,
+		refs = () => null,
+		height = 250,
+		renderItem = () => null,
+		handleChangePicker = () => null,
+		isSelect = true,
+		data = [],
+		sheetContent,
 		value,
 		style,
-		renderItem,
 		label,
 		font,
 		noLabel,
 		header,
-		handleChangePicker = () => { },
 		footer,
-		data = [],
 		closeOnSelect,
 		children,
 		onOpen,
+		onClose,
 		hideRender,
 		hideRenderItem
 	} = props
 	useEffect(() => {
 		refs(rb)
 	}, [])
-	return <View>
-		<RBSheet
-			ref={ref => rb = ref}
-			height={height}
-			animationType="slide"
-			onOpen={onOpen}
-			closeOnDragDown
-			customStyles={{
-				wrapper: {},
-				container: { backgroundColor: ColorsList.white },
-				draggableIcon: {}
-			}}
-		>
+	const render = () => {
+		return isSelect ? <View style={{ flex: 1 }}>
 			{header}
 			{header && <Divider />}
 			{
 				!hideRender ?
 					data &&
 						data.length > 0 ? <FlatList
+							style={{ marginHorizontal: SizeList.base }}
 							data={data}
 							persistentScrollbar
 							keyExtractor={(a, i) => i.toString()}
@@ -65,6 +60,32 @@ const BottomSheetSelect = props => {
 						/> : children :
 					hideRenderItem
 			}
+			<View style={{ padding: SizeList.base }}>
+				{footer}
+			</View>
+		</View> : <View style={{ flex: 1, padding: SizeList.base }}>
+				{sheetContent}
+			</View>
+	}
+	const { borderRadius } = SizeList
+	return <View>
+		<RBSheet
+			ref={ref => {
+				if (!rb) rb = ref
+			}}
+			onClose={onClose}
+			height={height}
+			animationType="slide"
+			onOpen={onOpen}
+			closeOnDragDown
+			customStyles={{
+				wrapper: {},
+				container: { backgroundColor: ColorsList.transparent },
+				draggableIcon: { width: 75 }
+			}}
+		><View style={{ backgroundColor: ColorsList.white, flex: 1, ...$BorderRadius(borderRadius, borderRadius, 0, 0) }}>
+				{render()}
+			</View>
 		</RBSheet>
 		<Button style={{ ...style }} color="link" padding={0} onPress={() => rb.open()}>
 			<Input
@@ -77,7 +98,30 @@ const BottomSheetSelect = props => {
 				renderRightAccessory={() => <Icon style={{ color: ColorsList.greyFont }} name='arrow-dropdown' />}
 			/>
 		</Button>
-	</View>
+	</View >
+}
+
+BottomSheetSelect.propTypes = {
+	refs: PropTypes.func,
+	height: PropTypes.number,
+	value: PropTypes.string,
+	style: PropTypes.object,
+	renderItem: PropTypes.func.isRequired,
+	label: PropTypes.string,
+	font: PropTypes.string,
+	noLabel: PropTypes.bool,
+	header: PropTypes.any,
+	handleChangePicker: PropTypes.func,
+	footer: PropTypes.any,
+	data: PropTypes.array.isRequired,
+	closeOnSelect: PropTypes.bool,
+	children: PropTypes.any,
+	onOpen: PropTypes.func,
+	onClose: PropTypes.func,
+	hideRender: PropTypes.bool,
+	hideRenderItem: PropTypes.any,
+	isSelect: PropTypes.bool,
+	sheetContent: PropTypes.any
 }
 
 export default BottomSheetSelect
