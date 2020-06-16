@@ -18,6 +18,7 @@ import Alert from 'src/utils/alert';
 import BottomSheetSelect from './BottomSheetSelect';
 import { stateObject } from 'src/utils/state';
 import { SizeList } from 'src/styles/size';
+import { Image } from '../CustomImage';
 
 const height = Dimensions.get('window').height
 
@@ -191,14 +192,19 @@ export const PilihPelanggan = props => {
 			<Text>{item.phone_number_customer}</Text>
 		</View>
 		<Wrapper justify="flex-end">
-			<Icon onPress={() => _handleDeleteCustomer(item)} style={{ color: ColorsList.primaryColor }} name="trash" />
-			<Icon onPress={() =>
+			<TouchableOpacity onPress={() => _handleDeleteCustomer(item)} >
+				<Image size={20} source={require('src/assets/icons/delete.png')} />
+			</TouchableOpacity>
+			<TouchableOpacity onPress={() =>
 				setState({
 					isSelect: false,
 					action: 'edit',
 					pelanggan: item
 				})
-			} style={{ marginLeft: 10, color: ColorsList.primaryColor }} name="create" />
+			} style={{ marginLeft: 10 }}
+			>
+				<Image size={20} source={require('src/assets/icons/edit.png')} />
+			</TouchableOpacity>
 		</Wrapper>
 	</Wrapper>
 
