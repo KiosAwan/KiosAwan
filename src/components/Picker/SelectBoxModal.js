@@ -164,9 +164,8 @@ export const PilihPelanggan = props => {
 	}
 
 	const _handleDeleteCustomer = async (cust) => {
-		const aa = await deleteCustomer(cust.id_customer)
-		console.debug(aa)
-		// dispatch(getCustomer(User.store.id_store))
+		await deleteCustomer(cust.id_customer)
+		dispatch(getCustomer(User.store.id_store))
 	}
 
 	const sheetContent = <View style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -229,129 +228,6 @@ export const PilihPelanggan = props => {
 		footer={footer}
 		renderItem={renderItem}
 	/>
-}
-
-export const PilihPelanggans = (props) => {
-	const dispatch = useDispatch()
-	const [action, setAction] = useState()
-	const [search, setSearch] = useState('')
-	const [pelanggan, setPelanggan] = useState()
-	const [pelangganVisible, setPelangganVisible] = useState(false)
-	const User = useSelector(state => state.User)
-
-	const _handleButtonSimpan = () => {
-		if (action == "add") {
-			_handleAddNewCustomer()
-		}
-		else if (action == "edit") {
-			_handleEditCustomer()
-		}
-	}
-	const _handleAddNewCustomer = async () => {
-		if (pelanggan) {
-			if (pelanggan.name_customer == "" || pelanggan.phone_number_customer == "") {
-				Alert("", "Isi semua field")
-			}
-			else {
-				const data = {
-					...pelanggan,
-					id_store: User.store.id_store
-				}
-				const userToken = await getUserToken()
-				await sendNewCustomer(data)
-				setPelangganVisible(false)
-				dispatch(getCustomer(User.store.id_store, userToken))
-			}
-		}
-
-	}
-
-	const _handleEditCustomer = async () => {
-		if (pelanggan.name_customer == "" || pelanggan.phone_number_customer == "") {
-			Alert("Isi semua field")
-		}
-		else {
-			const data = {
-				...pelanggan,
-				id_store: User.store.id_store
-			}
-			await editCustomer(data, pelanggan.id_customer)
-			setPelangganVisible(false)
-			dispatch(getCustomer(User.store.id_store))
-		}
-	}
-
-	const _handleDeleteCustomer = async (cust) => {
-		await deleteCustomer(cust.id_customer)
-		dispatch(getCustomer(User.store.id_store))
-	}
-	return (
-		<MyModal onRequestClose={props.onRequestClose} visible={props.visible}
-			body={
-				<View style={{ padding: 15 }}>
-					{/* Modal AddEditPelanggan */}
-					<MyModal visible={pelangganVisible} backdropDismiss={false} body={
-						<View style={{ padding: 15 }}>
-							<Text size={20} align="center">{action == 'add' ? 'Tambah Pelanggan' : 'Edit Pelanggan'}</Text>
-							<MDInput label="Nama pelanggan" width="100%"
-								value={pelanggan ? pelanggan.name_customer : ''}
-								keyboardType={props.keyboardType || "default"}
-								onChangeText={(nama) => setPelanggan({ ...pelanggan, name_customer: nama })} />
-							<MDInput label="No. Telepon" width="100%"
-								value={pelanggan ? pelanggan.phone_number_customer : ''}
-								keyboardType={props.keyboardType || "default"}
-								onChangeText={(notelp) => setPelanggan({ ...pelanggan, phone_number_customer: notelp })} />
-							<Wrapper style={{ paddingTop: 15 }} justify="flex-end">
-								<Button style={{ marginRight: 10 }} onPress={() => setPelangganVisible(false)} color="link">BATAL</Button>
-								<Button onPress={_handleButtonSimpan}>SIMPAN</Button>
-							</Wrapper>
-						</View>
-					} />
-					<Text size={20} align="center">Pilih Pelanggan</Text>
-					<SearchInput clear={() => setSearch('')}>
-						<TextInput disabled={props.disabled || false}
-							value={search}
-							placeholder="Cari nama atau no hp"
-							keyboardType={props.keyboardType || "default"}
-							onChangeText={text => setSearch(text)} />
-					</SearchInput>
-					<FlatList
-						showsVerticalScrollIndicator={false}
-						data={props.data.filter(item => item.name_customer.toLowerCase().includes(search.toLowerCase()))}
-						renderItem={({ item }) => <TouchableOpacity onPress={() => {
-							dispatch(AddCustomer(item))
-							props.dismiss()
-						}}>
-							<Wrapper justify="space-between">
-								<View>
-									<Text color="primary">{item.name_customer}</Text>
-									<Text>{item.phone_number_customer}</Text>
-								</View>
-								<Wrapper justify="flex-end">
-									<Icon onPress={() => _handleDeleteCustomer(item)} style={{ color: ColorsList.primaryColor }} name="trash" />
-									<Icon onPress={() => {
-										setAction('edit')
-										setPelanggan(item)
-										setPelangganVisible(true)
-									}} style={{ marginLeft: 10, color: ColorsList.primaryColor }} name="create" />
-								</Wrapper>
-							</Wrapper>
-						</TouchableOpacity>}
-						keyExtractor={(item, index) => index.toString()}
-					/>
-					<Wrapper style={{ marginTop: 15 }} justify="flex-end">
-						<Button onPress={props.dismiss} color="link">BATAL</Button>
-						<Button style={{ marginLeft: 10 }} onPress={() => {
-							setAction('add')
-							setPelanggan({ nama: '', notelp: '' })
-							setPelangganVisible(true)
-						}}>TAMBAH</Button>
-					</Wrapper>
-				</View>
-			}
-			backdropDismiss={false}
-		/>
-	)
 }
 
 export const MyModal = (props) => {
