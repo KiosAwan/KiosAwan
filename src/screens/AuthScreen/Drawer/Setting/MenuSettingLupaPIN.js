@@ -48,7 +48,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
             setTimeout(() => {
                 setAlert({ modal: false })
                 navigation.navigate('/')
-            }, 1000)
+            }, 2000)
         }
     }
 

@@ -5,29 +5,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
     View,
     StyleSheet,
-    TextInput
 } from 'react-native';
-
-//Own Custom Component
-import { GlobalHeader } from '../../components/Header/Header'
-import { InputPIN } from '../../components/Input/InputPIN'
-
 
 //Redux Actions
 import { clearAllRegistration, addSecondPassword } from '../../redux/actions/actionsRegistration'
-import BarStatus from '../../components/BarStatus';
-import { BottomButton } from '../../components/Button/ButtonComp';
 import { ColorsList } from '../../styles/colors';
 import { SizeList } from '../../styles/size';
 import { sendNewPassword } from '../../utils/unauthhelper';
 import { Spinner, Icon } from 'native-base';
-import { FontList } from 'src/styles/typography';
 import AsyncStorage from '@react-native-community/async-storage';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import Container from 'src/components/View/Container';
 import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Text } from 'src/components/Text/CustomText';
-import { Wrapper } from 'src/components/View/Wrapper';
 import { Button } from 'src/components/Button/Button';
 import Alert from 'src/utils/alert';
 import { Input } from 'src/components/Input/MDInput';
@@ -81,7 +71,7 @@ const NewPassword2 = ({ navigation }) => {
 
     const [secure, setSecure] = useState(true)
     const [btnDisabled, setBtnDisabled] = useState(true)
-    return <Container style={{ padding: 15 }}>
+    return <Container style={{ padding: SizeList.bodyPadding }}>
         <AwanPopup.Alert
             message={alertMessage}
             visible={alert}

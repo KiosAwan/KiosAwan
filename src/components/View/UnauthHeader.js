@@ -15,7 +15,7 @@ const UnauthHeader = props => {
 }
 
 export const UnauthBackHeader = props => {
-	return <GlobalHeader onPressBack={props.onPressBack} />
+	return <GlobalHeader onPressBack={props.onPressBack} style={{ paddingHorizontal : 0 }} />
 	// <View>
 	// 	<Icon name="arrow-back" style={{ color: ColorsList.greyFont }} onPress={props.onPressBack} />
 	// </View>

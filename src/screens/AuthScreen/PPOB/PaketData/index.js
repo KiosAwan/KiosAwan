@@ -159,7 +159,7 @@ const PpobPaketData = ({ navigation }) => {
 					keyboardType="phone-pad"
 					renderRightAccessory={() => data ? <Image source={{ uri: data.provider.image }} size={20} /> : null}
 				/>
-				<Button _width="10%" padding={7} onPress={() => setContactVisible(true)}>
+				<Button _width={37} padding={7} onPress={() => setContactVisible(true)}>
 					<Icon name="address-book" size={20} color={ColorsList.white} />
 				</Button>
 			</Wrapper>
