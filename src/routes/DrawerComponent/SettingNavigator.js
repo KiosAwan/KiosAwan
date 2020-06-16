@@ -8,7 +8,6 @@ import ForgotPINNewPIN from '../../screens/AuthScreen/Drawer/Setting/ForgotPINNe
 import ForgotPINOTP from '../../screens/AuthScreen/Drawer/Setting/ForgotPINOTP'
 import ChangePINNewPIN from '../../screens/AuthScreen/Drawer/Setting/ChangePINNewPIN';
 import ChangePINInputPwd from '../../screens/AuthScreen/Drawer/Setting/ChangePINInputPwd';
-import UbahPasswordInputPIN from '../../screens/AuthScreen/Drawer/Setting/UbahPasswordInputPIN';
 import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmailNewEmail'
 import MenuSettingUbahNoHPInputOTP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHPInputOTP'
 import UbahNoHPInfoScreen from '../../screens/AuthScreen/Drawer/Setting/UbahNoHPInfoScreen'
@@ -58,12 +57,6 @@ const SettingNavigator = {
       header: null
     }
 	},
-  '/drawer/settings/change-password' : {
-    screen : UbahPasswordInputPIN,
-    navigationOptions : {
-      header : null
-    }
-  },
 	'/drawer/settings/change-password/change': {
     screen: MenuSettingUbahPassword,
     navigationOptions: {

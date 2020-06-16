@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux'
 import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { $Padding } from 'src/utils/stylehelper';
 import Container, { Body } from 'src/components/View/Container';
 import { stylesglobe } from 'src/styles/globalStyle';
 import { SizeList } from 'src/styles/size';
 import Divider from 'src/components/Row/Divider';
-
+import { openPin } from 'src/utils/pin-otp-helper';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
+import { verifyUserPIN } from 'src/utils/authhelper';
 const Akun = ({ navigation }) => {
 	const User = useSelector(state => state.User)
+	//alert
+	const [alert, setAlert] = useState(false)
+	const [alertMessage, setAlertMessage] = useState(false)
 	const _onPressLogout = async (props) => {
 		try {
 			await AsyncStorage.removeItem('userId')
@@ -28,7 +32,11 @@ const Akun = ({ navigation }) => {
 			onPress={() => {
 				if (props.name == "Keluar") {
 					_onPressLogout()
-				} else {
+				}
+				else if (props.name == "Ubah password") {
+					openPIN()
+				}
+				else {
 					["Helpdesk", "FAQ"].includes(props.name) ? navigation.navigate(props.route) : User.store && User.data.status == 1 ? navigation.navigate(props.route) : null
 				}
 			}}
@@ -40,8 +48,45 @@ const Akun = ({ navigation }) => {
 			</Wrapper>
 		</Button>
 	}
+
+	const openPIN = async () => {
+		openPin({
+			navigation: navigation.push,
+			title: "Ubah PIN",
+			textTitle: "Masukkan PIN anda saat ini",
+			footer: null,
+			onResolve: async pin => {
+				_nextBtn(pin)
+			}
+		})
+	}
+
+	const _nextBtn = async pinCode => {
+		if (!pinCode) {
+			setAlertMessage("PIN tidak boleh kosong")
+			setAlert(true)
+		} else {
+			const data = {
+				pin: pinCode,
+				phone_number: User.data.phone_number
+			}
+			const res = await verifyUserPIN(data)
+			if (res.status == 200) {
+				navigation.navigate('/drawer/settings/change-password/change')
+			}
+			else if (res.status == 400) {
+				setAlertMessage(res.data.errors.msg)
+				setAlert(true)
+			}
+		}
+	}
 	return (
 		<Container>
+			<AwanPopup.Alert
+				message={alertMessage}
+				visible={alert}
+				closeAlert={() => setAlert(false)}
+			/>
 			<Text style={{ marginTop: 15 }} font="SemiBold" align="center">AKUN</Text>
 			<Body>
 				<Wrapper style={{ marginBottom: 10 }} justify="space-between">
