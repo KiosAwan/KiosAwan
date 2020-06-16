@@ -5,13 +5,15 @@ import { useSelector } from 'react-redux'
 import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
-import { sendOTPAuth, resendVerifyEmail } from 'src/utils/authhelper';
+import { sendOTPAuth, resendVerifyEmail, verifyOTPAuth } from 'src/utils/authhelper';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Input } from 'src/components/Input/MDInput';
 import { Toast } from 'native-base';
 import { Text } from 'src/components/Text/CustomText';
+import { openOtp } from 'src/utils/pin-otp-helper';
+import { showPhoneNumber } from 'src/utils/unauthhelper';
 const UbahEmailInfoScreen = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [apiLoading, setApiLoading] = useState(false)
@@ -20,18 +22,36 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState(false)
 	const _nextBtn = async () => {
+		_sendCode()
+		openOtp({
+			navigation,
+			title: 'Ubah Email',
+			textTitle: `OTP telah di kirim ke nomor +${showPhoneNumber(User.data.phone_number)}`,
+			info: "Untuk mengubah email, anda harus memasukkan kode OTP yang telah dikirim ke nomor HP anda",
+			resend: _sendCode,
+			onResolve: async otp => {
+				const data = { phone_number: User.data.phone_number, otp }
+				const res = await verifyOTPAuth(data)
+				if (res.status == 400) {
+					setAlertMessage(res.data.errors.msg)
+					setAlert(true)
+				} else if (res.status == 200) {
+					navigation.navigate('/drawer/settings/change-email/new-email')
+				}
+			}
+		})
+	}
+
+	const _sendCode = async () => {
 		setApiLoading(true)
 		const data = {
 			phone_number: User.data.phone_number
 		}
 		const res = await sendOTPAuth(data)
+		setApiLoading(false)
 		if (res.status == 400) {
-			setApiLoading(false)
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
-		} else {
-			setApiLoading(false)
-			navigation.navigate('/drawer/settings/change-email/otp-validation')
 		}
 	}
 

@@ -1,6 +1,5 @@
 import MenuSetting from '../../screens/AuthScreen/Drawer/Setting/MenuSetting'
 import MenuSettingProfil from '../../screens/AuthScreen/Drawer/Setting/MenuSettingProfil'
-import MenuSettingUbahEmail from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahEmail'
 import MenuSettingUbahNoHP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHP'
 import MenuSettingUbahPassword from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahPassword'
 import MenuSettingLupaPIN from '../../screens/AuthScreen/Drawer/Setting/MenuSettingLupaPIN'
@@ -9,7 +8,6 @@ import ForgotPINOTP from '../../screens/AuthScreen/Drawer/Setting/ForgotPINOTP'
 import ChangePINNewPIN from '../../screens/AuthScreen/Drawer/Setting/ChangePINNewPIN';
 import ChangePINInputPwd from '../../screens/AuthScreen/Drawer/Setting/ChangePINInputPwd';
 import UbahEmailNewEmail from '../../screens/AuthScreen/Drawer/Setting/UbahEmailNewEmail'
-import MenuSettingUbahNoHPInputOTP from '../../screens/AuthScreen/Drawer/Setting/MenuSettingUbahNoHPInputOTP'
 import UbahNoHPInfoScreen from '../../screens/AuthScreen/Drawer/Setting/UbahNoHPInfoScreen'
 import PengaturanPerangkat from 'src/screens/AuthScreen/Drawer/Setting/PengaturanPerangkat'
 import TambahPerangkat from 'src/screens/AuthScreen/Drawer/Setting/TambahPerangkat'
@@ -27,12 +25,6 @@ const SettingNavigator = {
       header: null
     }
 	},
-  '/drawer/settings/change-email/otp-validation': {
-    screen: MenuSettingUbahEmail,
-    navigationOptions: {
-      header: null
-    }
-	},
   '/drawer/settings/change-email/new-email' : {
     screen : UbahEmailNewEmail,
     navigationOptions : {
@@ -45,12 +37,6 @@ const SettingNavigator = {
       header: null
     }
 	},
-	'/drawer/settings/change-phone-number/otp-validation': {
-    screen: MenuSettingUbahNoHPInputOTP,
-    navigationOptions: {
-      header: null
-    }
-  },
   '/drawer/settings/change-phone-number': {
     screen: UbahNoHPInfoScreen,
     navigationOptions: {

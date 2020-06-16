@@ -31,12 +31,15 @@ const ChangePINInputPwd = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const [password, setPassword] = useState()
 	const [secure, setSecure] = useState(true)
+	const [isLoading, setIsLoading] = useState(false)
 	const [alert, setAlert] = stateObject({ visible: false, loading: false, modal: false })
 	const User = useSelector(state => state.User)
 
 	const _handleNextBtn = async () => {
+		setIsLoading(true)
 		const data = { phone_number: User.data.phone_number, password }
 		const res = await verifyUserPassword(data)
+		setIsLoading(false)
 		if (res.status == 200) {
 			openNewPin1()
 			// navigation.navigate('/drawer/settings/change-pin/new-pin')
@@ -141,7 +144,7 @@ const ChangePINInputPwd = ({ navigation }) => {
 			</View>
 		</Body>
 		<Bottom>
-			<Button onPress={_handleNextBtn} width="100%">UBAH</Button>
+			<Button disabled={isLoading} onPress={_handleNextBtn} width="100%">UBAH</Button>
 		</Bottom>
 	</Container>
 }
