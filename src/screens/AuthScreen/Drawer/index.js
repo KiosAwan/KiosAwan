@@ -52,7 +52,7 @@ const Akun = ({ navigation }) => {
 	const openPIN = async () => {
 		openPin({
 			navigation: navigation.push,
-			title: "Ubah PIN",
+			title: "Ubah Password",
 			textTitle: "Masukkan PIN anda saat ini",
 			footer: null,
 			onResolve: async pin => {
