@@ -11,11 +11,6 @@ import {
 	Image,
 	TextInput
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-
-//Own custom components
-import { InputNumber } from '../../components/Input/InputComp'
-import VerifyOTPRegister from './OTPVerification';
 
 //Redux Actions
 import { addPhoneNumber, addDeviceId, addVerifyOTP } from '../../redux/actions/actionsRegistration'
