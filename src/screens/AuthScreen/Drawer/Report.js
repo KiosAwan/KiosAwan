@@ -124,7 +124,7 @@ const Report = ({ navigation }) => {
 					value={MainTab.routes[MainTab.index].title}
 					data={MainTab.routes}
 					handleChangePicker={(a, i) => MainTab.setIndex(i)}
-					renderItem={item => <Button color="link" textStyle={{ color: ColorsList.greyFontHard }}>{item.title}</Button>}
+					renderItem={item => <Text font="SemiBold">{item.title}</Text>}
 				/>
 			</View>
 			<ViewShadow noPadding title={moment(dateSelected).format('MMMM YYYY')}>

@@ -20,6 +20,7 @@ import SearchInput, { SearchInputV2 } from 'src/components/Input/SearchInput';
 import Container, { Body } from 'src/components/View/Container';
 import Menu from 'src/components/ModalContent/Menu';
 import { SizeList } from 'src/styles/size';
+import BottomSheetSelect, { BottomSheet } from 'src/components/Picker/BottomSheetSelect';
 const initialLayout = { width: 300, height: 300 };
 
 const TransactionList = ({ navigation }) => {
@@ -99,7 +100,7 @@ const TransactionList = ({ navigation }) => {
                             <Text font="SemiBold">{convertRupiah(item.total)}</Text>
                           </Wrapper>
                         </View> : null,
-                      <View style={{ paddingVertical: 5 }}>
+                      <View>
                         {
                           filterResult(item.data).rMap((trx, i) => {
                             return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
@@ -146,20 +147,23 @@ const TransactionList = ({ navigation }) => {
     title: "DAFTAR TRANSAKSI",
     renderLeftAccessory: () => <View style={{ width: 60 }} />,
     renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 60 }}>
-      <TouchableOpacity onPress={() => setFilterPopup(true)}>
-        <IconHeader name="sliders-h" color={ColorsList.greyFont} />
-      </TouchableOpacity>
+      <BottomSheetSelect
+        data={[
+          { title: "Semua", onPress: () => selectFilter('all') },
+          { title: "Lunas", onPress: () => selectFilter('1') },
+          { title: "Hutang", onPress: () => selectFilter('2') },
+          { title: "Dibatalkan", onPress: () => selectFilter('3') },
+        ]}
+        renderItem={(item) => <Text font="SemiBold">{item.title}</Text>}
+        handleChangePicker={(item) => item.onPress()}
+        closeOnSelect
+        buttonOverride={<IconHeader name="sliders-h" color={ColorsList.greyFont} />}
+      />
       <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/ringkasan_hutang')}>
         <IconHeader name="credit-card" color={ColorsList.greyFont} />
       </TouchableOpacity>
     </Wrapper>
   }}>
-    <AwanPopup.Menu visible={filterPopup} title="FILTER" backdropDismiss={() => setFilterPopup(false)}>
-      <Button onPress={() => selectFilter('all')} color="link" textStyle={{ color: ColorsList.greyFontHard }} align="flex-start">Semua</Button>
-      <Button onPress={() => selectFilter('1')} color="link" textStyle={{ color: ColorsList.greyFontHard }} align="flex-start">Lunas</Button>
-      <Button onPress={() => selectFilter('2')} color="link" textStyle={{ color: ColorsList.greyFontHard }} align="flex-start">Hutang</Button>
-      <Button onPress={() => selectFilter('3')} color="link" textStyle={{ color: ColorsList.greyFontHard }} align="flex-start">Dibatalkan</Button>
-    </AwanPopup.Menu>
     <Body>
       <DaftarTransaksi />
     </Body>
