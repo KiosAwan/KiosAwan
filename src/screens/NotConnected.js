@@ -33,7 +33,7 @@ const NotConnected = ({ navigation }) => {
 	return <Container padding>
 		<Wrapper direction="column" center style={{ flex: 1 }}>
 			<Image align="center" size={200} source={require('src/assets/images/not-connected.png')} />
-			<Text align="center" size={20} font="ExtraBold">Internet tidak tersedia</Text>
+			<Text align="center" color="greyFont" size={20} font="SemiBold">Internet tidak tersedia</Text>
 			<Text align="center" style={{ marginBottom: 15 }}>Mohon hubungkan ke jaringan internet untuk memulai kembali</Text>
 		</Wrapper>
 		<Footer noPadding>
