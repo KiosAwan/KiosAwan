@@ -209,7 +209,7 @@ const SubProduct = ({ navigation }) => {
 				productMargin[_key].margin.toString() || price_sale.toString()
 		}
 		return <View>
-			<Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
+			<Wrapper shadow key={i.toString()} style={styles.wrapper} justify="space-between">
 				<View _flex style={styles.leftWrapper}>
 					<Text font="SemiBold" color="greyFontHard">{name}</Text>
 					<Text>Modal : {convertRupiah(price)}</Text>
@@ -241,7 +241,7 @@ const SubProduct = ({ navigation }) => {
 			{
 				['pulsa', 'kuota'].includes(product.type) && <BottomSheetSelect
 					font="SemiBold"
-					style={{ paddingHorizontal: SizeList.bodyPadding }}
+					btnStyle={{ padding: SizeList.bodyPadding }}
 					data={selectFilter}
 					height={300}
 					header={

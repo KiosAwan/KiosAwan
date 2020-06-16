@@ -54,7 +54,7 @@ export const RoundedToggleButton = (props) => {
 		<Wrapper {...props}>
 			{
 				props.buttons.rMap((btn, i) => {
-					return <Button noBorder={activeIndex == i ? false : true} justify="center" height={40} padding={0} width={40} key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} {...props.buttonProps}>{btn}</Button>
+					return <Button _style={{ marginLeft: 5 }} noBorder={activeIndex == i ? false : true} justify="center" height={40} padding={0} width={40} key={i} onPress={() => _handleChangeBtn(btn, i)} color={activeIndex == i ? 'primary' : 'white'} {...props.buttonProps}>{btn}</Button>
 				})
 			}
 		</Wrapper>
