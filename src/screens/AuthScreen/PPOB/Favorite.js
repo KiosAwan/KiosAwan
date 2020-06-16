@@ -100,7 +100,7 @@ const Favorite = ({ navigation }) => {
 	return <Container>
 		<GlobalHeader title="Daftar Favorit" onPressBack={() => navigation.goBack()} />
 		<BottomSheetSelect
-			style={{ paddingHorizontal: SizeList.bodyPadding }}
+			btnStyle={{ paddingHorizontal: SizeList.bodyPadding }}
 			noLabel
 			closeOnSelect
 			data={group}

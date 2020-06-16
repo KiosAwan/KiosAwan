@@ -188,7 +188,7 @@ const PDAM = ({ navigation }) => {
                         </SelectBoxModal>
                     </View>
                 } */}
-                <SelectBoxModal style={{ marginBottom: SizeList.base }}
+                <SelectBoxModal btnStyle={{ marginBottom: SizeList.base }}
                     height={400}
                     label="Pilih Lokasi PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}

@@ -186,7 +186,7 @@ const MenuSettingProfil = ({ navigation }) => {
 					{_renderViewAlamat(desaSelected)}
 				</Text>
 			</View>}
-			<SelectBoxModal style={{ marginTop: SizeList.base }}
+			<SelectBoxModal btnStyle={{ marginTop: SizeList.base }}
 				label="Kategori Toko" closeOnSelect
 				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
 				header={

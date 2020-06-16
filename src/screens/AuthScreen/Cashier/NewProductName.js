@@ -145,7 +145,7 @@ const NewProductName = ({ navigation }) => {
 				value={NewProduct.name}
 				onChangeText={(text) => text.length <= 45 ? dispatch(addProductName(text)) : null}
 			/>
-			<BottomSheetSelect style={{ marginTop: SizeList.base }}
+			<BottomSheetSelect btnStyle={{ marginTop: SizeList.base }}
 				label="Pilih Kategori"
 				isSelect={sheetIsSelect}
 				sheetContent={<View style={{ flex: 1, justifyContent: 'space-between' }}>

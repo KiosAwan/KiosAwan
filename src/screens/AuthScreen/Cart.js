@@ -286,7 +286,6 @@ const Cart = ({ navigation }) => {
 					</Button>
 				</Wrapper>
 			</View>
-			<PilihPelanggans visible={pilihPelangganOpen} data={Customer.data} dismiss={() => setPilihPelangganOpen(false)} />
 			<View style={{ marginVertical: SizeList.base, }}>
 				<Text style={{ marginBottom: SizeList.base }}>Pelanggan</Text>
 				<PilihPelanggan

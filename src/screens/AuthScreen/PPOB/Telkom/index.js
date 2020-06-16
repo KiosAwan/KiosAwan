@@ -186,7 +186,7 @@ const Telkom = ({ navigation }) => {
                 </View>
             </Modal>
             <View style={styles.topComp}>
-                <SelectBoxModal style={{ marginVertical: SizeList.base }}
+                <SelectBoxModal btnStyle={{ marginVertical: SizeList.base }}
                     label="Pilih Produk" closeOnSelect
                     data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
                     header={

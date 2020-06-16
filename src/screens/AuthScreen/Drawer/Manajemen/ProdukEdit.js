@@ -153,7 +153,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 							onChangeText={text => text.length <= 45 ? dispatch(editProductName(text)) : null}
 						/>
 					</View>
-					<SelectBoxModal style={{ marginTop: SizeList.base }}
+					<SelectBoxModal btnStyle={{ marginTop: SizeList.base }}
 						label="Pilih Kategori"
 						header={
 							<TouchableOpacity style={styles.headerCategory} onPress={() => {
