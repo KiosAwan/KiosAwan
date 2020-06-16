@@ -165,18 +165,22 @@ const NewProductName = ({ navigation }) => {
 				}}
 				closeOnSelect
 				data={Category.data.filter(v => v.name_product_category.toLowerCase().includes(searchCategory.toLowerCase()))}
-				renderItem={(item) => [<Text style={{
+				renderItem={(item) => [<Text font="SemiBold" style={{
 					color: item.id_product_category == NewProduct.id_category ?
-						ColorsList.primaryColor : ColorsList.greyFont
-				}}>{item.name_product_category}</Text>, <Icon onPress={() => {
-					setAddCategoryVisible(true)
-					setEditNewCategory('edit')
-					setNewCategoryName(item.name_product_category)
-					setIdEditCategory(item.id_product_category)
-				}} style={{
-					color: item.id_product_category == NewProduct.id_category ?
-						ColorsList.primaryColor : ColorsList.greySoft
-				}} name="ios-create" />]}
+						ColorsList.primaryColor : ColorsList.greyFontHard
+				}}>{item.name_product_category.toUpperCase()}</Text>
+					// , 
+					// <Icon onPress={() => {
+					// 	setAddCategoryVisible(true)
+					// 	setEditNewCategory('edit')
+					// 	setNewCategoryName(item.name_product_category)
+					// 	setIdEditCategory(item.id_product_category)
+					// }} 
+					// style={{
+					// 	color: item.id_product_category == NewProduct.id_category ?
+					// 		ColorsList.primaryColor : ColorsList.greySoft
+					// }} name="ios-create" />
+				]}
 			/>
 			<Text style={{ marginVertical: SizeList.base }}>Unggah Foto Produk</Text>
 			<TouchableOpacity style={[styles.imageWrapper, {

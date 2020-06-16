@@ -337,6 +337,7 @@ export const SelectBoxModals = (props) => {
 		header,
 		handleChangePicker,
 		footer,
+		
 		data,
 		closeOnSelect,
 		children,
@@ -354,13 +355,7 @@ export const SelectBoxModals = (props) => {
 		console.debug(props)
 	}
 	return <View>
-		<AwanModal visible={modalVisible}
-			backdropDismiss={() => setModalVisible(false)}
-			style={{
-				height: props.height || 500,
-				width: '90%',
-				padding: 10
-			}}>
+		<View>
 			{header}
 			{
 				!hideRender ?
@@ -381,7 +376,7 @@ export const SelectBoxModals = (props) => {
 					hideRenderItem
 			}
 			{footer}
-		</AwanModal>
+		</View>
 		<TouchableOpacity activeOpacity={1} onPress={() => setModalVisible(true)} style={[styles.selectBox, style]}>
 			<MyInput noLabel={props.noLabel} disabled label={label} value={value} renderRightAccessory={() => <Icon name='arrow-dropdown' style={styles.selectBoxIconDown} />} />
 			{/* <Text font="Regular" style={{ color: value ? ColorsList.greyFont : ColorsList.transparent }}>{label}</Text>

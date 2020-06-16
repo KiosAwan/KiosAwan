@@ -104,7 +104,7 @@ const Code = ({
 		<Wrapper style={{ marginVertical: SizeList.base * 2 }} center>
 			{
 				Array.generateEmpty(codeLength).rMap(i => {
-					return <View _style={{ marginHorizontal: SizeList.secondary }} style={{ justifyContent: 'center', width, height, backgroundColor: ColorsList.white }}>
+					return <View _style={{ marginHorizontal: SizeList.secondary, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor, borderRadius: SizeList.borderRadius }} style={{ justifyContent: 'center', width, height, backgroundColor: ColorsList.white, borderRadius: SizeList.borderRadius }}>
 						{
 							secureTextEntry ?
 								value[i] && <View style={{ borderRadius: 50, alignSelf: "center", padding: SizeList.secondary, backgroundColor: ColorsList.greyFontHard }} /> :
