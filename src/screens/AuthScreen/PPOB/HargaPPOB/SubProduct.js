@@ -265,7 +265,7 @@ const SubProduct = ({ navigation }) => {
 					handleChangePicker={item => _selectProvider(item)}
 					renderItem={(item, i) => <Button disabled key={i} width={SizeList.width} wrapper={{ justify: 'flex-start', }} key={i} color="link">
 						<Image style={{ width: 20, height: 20 }} _style={{ marginRight: 10 }} source={{ uri: item.image }} />
-						<Text>{item.operator.toUpperCase()}</Text>
+						<Text font="SemiBold">{item.operator.toUpperCase()}</Text>
 					</Button>
 					}
 				/>
