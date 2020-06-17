@@ -84,13 +84,19 @@ const SubProduct = ({ navigation }) => {
 
 	const renderList = () => {
 		if (product.product_type == 1) {
-			return renderProductType1()
+			return <View style={styles.viewShadow}>
+				{renderProductType1()}
+			</View>
 		}
 		if (product.product_type == 2) {
-			return renderProductType2()
+			return <View style={styles.viewShadow}>
+				{renderProductType2()}
+			</View>
 		}
 		if (product.product_type == 3) {
-			return renderProductType3()
+			return <View style={styles.viewShadow}>
+				{renderProductType3()}
+			</View>
 		}
 	}
 	const renderProductType1 = () => {
@@ -209,7 +215,7 @@ const SubProduct = ({ navigation }) => {
 				productMargin[_key].margin.toString() || price_sale.toString()
 		}
 		return <View>
-			<Wrapper shadow key={i.toString()} style={styles.wrapper} justify="space-between">
+			<Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
 				<View _flex style={styles.leftWrapper}>
 					<Text font="SemiBold" color="greyFontHard">{name}</Text>
 					<Text>Modal : {convertRupiah(price)}</Text>
@@ -230,7 +236,7 @@ const SubProduct = ({ navigation }) => {
 					currency
 					_style={styles.rightWrapper} value={value()} label="Harga Jual" />
 			</Wrapper>
-			{i < products.length && <Divider />}
+			{i < products.length && <Divider style={{ paddingHorizontal: SizeList.padding }} />}
 		</View>
 	})
 

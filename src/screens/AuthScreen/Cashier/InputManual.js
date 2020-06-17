@@ -89,7 +89,9 @@ const InputManual = ({ navigation }) => {
 			</Wrapper>
 			<Text style={{ marginVertical: SizeList.base }}>Jumlah barang</Text>
 			<Wrapper spaceBetween>
-				<RoundedButton textProps={{ color: 'primary', size: SizeList.base * 2 }} onPress={_handleMinusQuantity}>-</RoundedButton>
+				<RoundedButton onPress={_handleMinusQuantity}>
+					<Image size={13} source={require("src/assets/icons/minus-primary.png")} />
+				</RoundedButton>
 				<Divider size={SizeList.base} color={ColorsList.transparent} />
 				<TextInput _flex value={quantity.toString()}
 					onChangeText={(text) => {
@@ -101,64 +103,12 @@ const InputManual = ({ navigation }) => {
 					style={{ textAlign: 'center', fontSize: SizeList.base * 2 }}
 				/>
 				<Divider size={SizeList.base} color={ColorsList.transparent} />
-				<RoundedButton textProps={{ color: 'primary', size: SizeList.base * 2 }} onPress={_handlePlusQuantity}>+</RoundedButton>
+				<RoundedButton onPress={_handlePlusQuantity}>
+					<Image size={13} source={require("src/assets/icons/plus-primary.png")} />
+				</RoundedButton>
 			</Wrapper>
 		</Body>
 		<Button style={{ marginHorizontal: SizeList.base, marginBottom: SizeList.base }} onPress={_handlePressBtn}>SIMPAN</Button>
-	</Container>
-	return <Container>
-		<GlobalHeader title="Pesanan Manual" onPressBack={() => navigation.goBack()} />
-		<AwanPopup.Alert
-			message={errorMessage}
-			visible={errorAlert}
-			closeAlert={() => setErrorAlert(false)}
-		/>
-		<Body>
-			<View style={{ elevation: 2, padding: SizeList.padding, backgroundColor: ColorsList.white, borderRadius: SizeList.borderRadius }}>
-				<MDInput
-					label="Nama Produk"
-					value={name_product}
-					onChangeText={setName}
-				/>
-				<Wrapper>
-					<MDInput _flex
-						currency label="Harga modal"
-						value={price_in_product}
-						onChangeText={setPriceIn} />
-					<Divider size={20} color={ColorsList.transparent} />
-					<MDInput _flex
-						currency label="Harga jual"
-						value={price_out_product}
-						onChangeText={setPriceOut} />
-				</Wrapper>
-				<Wrapper>
-					<Button color="link" onPress={_handleMinusQuantity}>
-						<Image size={45} source={require('src/assets/icons/minusedit.png')} />
-					</Button>
-					<Input value={quantity.toString()}
-						onChangeText={(text) => {
-							if (validNumber(text)) {
-								setQuantity(text)
-							}
-						}}
-						keyboardType="number-pad"
-						style={{
-							fontSize: 25,
-							color: ColorsList.greyFont,
-							borderBottomWidth: 1,
-							borderBottomColor: ColorsList.greyFont,
-							textAlign: 'center'
-						}}
-					/>
-					<Button color="link" onPress={_handlePlusQuantity}>
-						<Image size={45} source={require('src/assets/icons/plusedit.png')} />
-					</Button>
-				</Wrapper>
-			</View>
-		</Body>
-		<Footer>
-			<Button onPress={_handlePressBtn}>SIMPAN</Button>
-		</Footer>
 	</Container>
 }
 

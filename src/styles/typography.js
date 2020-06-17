@@ -10,7 +10,7 @@ export const FontName = {
 export const FontList = {
     titleFont: {
         fontSize: 14,
-        fontFamily: 'Nunito-Bold'
+        fontFamily: 'SFProDisplay-Regular'
     },
     subtitleFont: {
         fontSize: 11,

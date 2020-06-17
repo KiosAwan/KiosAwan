@@ -28,7 +28,7 @@ export const ManagementPelangganCard = (props) => {
                 <Text font="SemiBold" size={12}>{props.subName}</Text>
             </View>
             <TouchableOpacity onPress={props.onPressEdit} disabled={props.disabled || false} style={styles.touchableStyle}>
-                <View >
+                <View style={{ alignItems: "center" }}>
                     <Image style={{ width: 20, height: 20 }} source={require('../../assets/icons/edit.png')} />
                 </View>
             </TouchableOpacity>
@@ -50,9 +50,7 @@ const styles = StyleSheet.create({
     },
     touchableStyle: {
         width: '10%',
-        height: '100%',
-        paddingVertical: SizeList.base,
-        paddingRight: SizeList.base,
-        alignItems: "center"
+        justifyContent: "center",
+        alignSelf: "center",
     }
 })

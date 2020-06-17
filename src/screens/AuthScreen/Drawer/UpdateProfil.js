@@ -158,6 +158,7 @@ const UpdateProfil = ({ navigation }) => {
 			<SelectBoxModal
 				label="Kelurahan / Desa" closeOnSelect
 				data={dataDesa}
+				btnStyle={{marginBottom : SizeList.secondary}}
 				header={
 					<MDInput label="Cari Desa"
 						onChangeText={_searchDesa}
@@ -175,6 +176,7 @@ const UpdateProfil = ({ navigation }) => {
 			{desaSelected.id && <View style={styles.locationDetail}><Text>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text></View>}
 			<SelectBoxModal
 				label="Kategori Toko" closeOnSelect
+				btnStyle={{marginBottom : SizeList.secondary}}
 				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
 				header={
 					<MDInput label="Cari Kategori"
@@ -189,7 +191,7 @@ const UpdateProfil = ({ navigation }) => {
 				<Text>Data tidak ditemukan</Text>
 			</SelectBoxModal>
 			<View>
-				<Text style={{ marginVertical: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
+				<Text style={{ marginVertical: 10, color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 				<View style={styles.imageWrapper}>
 					<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
 						<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />

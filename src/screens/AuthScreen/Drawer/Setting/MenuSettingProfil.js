@@ -203,7 +203,7 @@ const MenuSettingProfil = ({ navigation }) => {
 			</SelectBoxModal>
 			{/* </View> */}
 			<View>
-				<Text style={{ marginVertical: 10, alignSelf: 'center', color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
+				<Text style={{ marginVertical: 10, color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 				<View style={styles.imageWrapper}>
 					<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
 						<Image style={styles.image} source={form.photo_store ? { uri: form.photo_store } : require('src/assets/images/img-product.png')} />

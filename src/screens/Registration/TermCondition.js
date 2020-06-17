@@ -43,7 +43,7 @@ const TermCondition = ({ navigation }) => {
 								<View style={{ width: '90%', marginLeft: 5 }}>
 									<HTML
 										tagsStyles={{
-											p: { fontFamily: FontList.primaryFont, color: ColorsList.greySoft },
+											p: { fontFamily: FontList.primaryFont, color: ColorsList.greyFont },
 										}}
 										html={item.name}
 									/>
