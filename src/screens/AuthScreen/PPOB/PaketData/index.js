@@ -55,7 +55,7 @@ const PpobPaketData = ({ navigation }) => {
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
 		openPin(navigation, (pin, close) => {
-			_userAuthentication(pin, close)
+			_userAuthentication(pin, close, item)
 		})
 	}
 
@@ -83,7 +83,7 @@ const PpobPaketData = ({ navigation }) => {
 		}
 	}
 	// Check user pin 
-	const _userAuthentication = async (pin, closePin) => {
+	const _userAuthentication = async (pin, closePin, selected) => {
 		const data = {
 			pin,
 			phone_number: User.data.phone_number
@@ -91,7 +91,7 @@ const PpobPaketData = ({ navigation }) => {
 		const res = await verifyUserPIN(data)
 		if (res.status == 200) {
 			closePin()
-			_processPayment()
+			_processPayment(selected)
 		}
 		else if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg)
@@ -99,7 +99,7 @@ const PpobPaketData = ({ navigation }) => {
 		}
 	}
 
-	const _processPayment = async () => {
+	const _processPayment = async (selected) => {
 		setPayLoading(true)
 		const data = {
 			phone_number: phoneNumber,

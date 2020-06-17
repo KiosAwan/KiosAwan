@@ -93,8 +93,7 @@ const ListrikPascabayar = ({ navigation }) => {
 		if (res.status == 200) {
 			closePin()
 			_processPayment()
-		}
-		else if (res.status == 400) {
+		} else if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
 		}

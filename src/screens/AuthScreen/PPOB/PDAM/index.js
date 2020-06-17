@@ -78,8 +78,7 @@ const PDAM = ({ navigation }) => {
     const _cekTagihan = async (selected, idPelanggan) => {
         if (!selected) {
             alert("Harap pilih PDAM")
-        }
-        else {
+        } else {
             setTagihanData()
             setTagihanLoading(true)
             const data = {
@@ -102,7 +101,7 @@ const PDAM = ({ navigation }) => {
     const _onPressBayar = () => {
         if (tagihanData) {
             openPin(navigation, (pin, close) => {
-                _userAuthentication(pin, close)
+                _userAuthentication(pin, close, selected)
             })
         } else {
             setAlertMessage("Harap cek tagihan terlebih dahulu")
@@ -111,7 +110,7 @@ const PDAM = ({ navigation }) => {
     }
 
     //Check user pin 
-    const _userAuthentication = async (pin, closePin) => {
+    const _userAuthentication = async (pin, closePin, selected) => {
         const data = {
             pin,
             phone_number: User.data.phone_number
@@ -119,7 +118,7 @@ const PDAM = ({ navigation }) => {
         const res = await verifyUserPIN(data)
         if (res.status == 200) {
             closePin()
-            _processPayment()
+            _processPayment(selected)
         }
         else if (res.status == 400) {
             setAlertMessage(res.data.errors.msg)
@@ -127,7 +126,7 @@ const PDAM = ({ navigation }) => {
         }
     }
 
-    const _processPayment = async () => {
+    const _processPayment = async (selected) => {
         setPayLoading(true)
         const data = {
             customerID: tagihanData.transaction.customerID,

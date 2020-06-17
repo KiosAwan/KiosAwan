@@ -105,7 +105,7 @@ const Telkom = ({ navigation }) => {
     const _onPressBayar = () => {
         if (tagihanData) {
             openPin(navigation, (pin, close) => {
-                _userAuthentication(pin, close)
+                _userAuthentication(pin, close, selected)
             })
         } else {
             setAlertMessage("Harap cek tagihan terlebih dahulu")
@@ -114,7 +114,7 @@ const Telkom = ({ navigation }) => {
     }
 
     //Check user pin 
-    const _userAuthentication = async (pin, closePin) => {
+    const _userAuthentication = async (pin, closePin, selected) => {
         const data = {
             pin,
             phone_number: User.data.phone_number
@@ -122,7 +122,7 @@ const Telkom = ({ navigation }) => {
         const res = await verifyUserPIN(data)
         if (res.status == 200) {
             closePin()
-            _processPayment()
+            _processPayment(selected)
         }
         else if (res.status == 400) {
             setAlertMessage(res.data.errors.msg)
@@ -130,7 +130,7 @@ const Telkom = ({ navigation }) => {
         }
     }
 
-    const _processPayment = async () => {
+    const _processPayment = async (selected) => {
         setPayLoading(true)
         const data = {
             customerID: tagihanData.transaction.customerID,
