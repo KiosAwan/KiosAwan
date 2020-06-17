@@ -38,7 +38,7 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 			<Wrapper spaceBetween shadow style={styles.cardWrapper}>
 				<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons//home/ppob.png")} />
 				<View _width="80%">
-					<Text font="SemiBold" color="primary">PEMBAYARAN</Text>
+					<Text font="SemiBold" color="primary">PEMBAYARAN (PPOB)</Text>
 					<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
 				</View>
 			</Wrapper>

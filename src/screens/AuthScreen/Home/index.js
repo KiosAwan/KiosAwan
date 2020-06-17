@@ -133,6 +133,7 @@ const Home = ({ navigation }) => {
 				<View style={{ paddingVertical: SizeList.base }}>
 					<Notification
 						User={User}
+						navigation={navigation}
 						maintenance={maintenance}
 						message={message}
 					/>

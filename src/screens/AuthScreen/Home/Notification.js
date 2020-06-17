@@ -8,7 +8,7 @@ import { FontList } from 'src/styles/typography';
 import { ColorsList } from "src/styles/colors"
 import { Button } from "src/components/Button/Button"
 
-const Notification = ({ User, maintenance, message }) => {
+const Notification = ({ User, maintenance, message, navigation }) => {
 	return <View>
 		{
 			maintenance && <Button disabled color="info" flexStart style={{ borderRadius: SizeList.borderRadius }}>
