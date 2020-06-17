@@ -162,7 +162,7 @@ const MenuSettingProfil = ({ navigation }) => {
 			<FlatList
 				data={inputan}
 				keyExtractor={(a, i) => i.toString()}
-				renderItem={({ item: input }) => <View style={{ marginBottom: 5 }}><Input label={input._label}  {...input} /></View>}
+				renderItem={({ item: input }) => <View style={{ marginBottom: 10 }}><Input label={input._label}  {...input} /></View>}
 			/>
 			<SelectBoxModal
 				label="Kelurahan / Desa" closeOnSelect
@@ -186,7 +186,7 @@ const MenuSettingProfil = ({ navigation }) => {
 					{_renderViewAlamat(desaSelected)}
 				</Text>
 			</View>}
-			<SelectBoxModal btnStyle={{ marginTop: SizeList.base }}
+			<SelectBoxModal btnStyle={{ marginTop: 7, marginBottom: SizeList.base }}
 				label="Kategori Toko" closeOnSelect
 				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
 				header={
@@ -203,7 +203,7 @@ const MenuSettingProfil = ({ navigation }) => {
 			</SelectBoxModal>
 			{/* </View> */}
 			<View>
-				<Text style={{ marginVertical: 10, color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
+				<Text style={{ marginBottom: 10, color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 				<View style={styles.imageWrapper}>
 					<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
 						<Image style={styles.image} source={form.photo_store ? { uri: form.photo_store } : require('src/assets/images/img-product.png')} />
@@ -225,9 +225,12 @@ const styles = StyleSheet.create({
 	image: { width: '100%', height: '100%' },
 	locationDetail: {
 		padding: 5,
-		elevation: 1,
+		margin: 2,
+		marginTop: 0,
 		backgroundColor: ColorsList.white,
 		borderBottomLeftRadius: SizeList.borderRadius,
-		borderBottomRightRadius: SizeList.borderRadius
+		borderBottomRightRadius: SizeList.borderRadius,
+		borderWidth: SizeList.borderWidth,
+		borderColor: ColorsList.borderColor
 	}
 })

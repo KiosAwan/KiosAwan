@@ -153,12 +153,12 @@ const UpdateProfil = ({ navigation }) => {
 			</Modal>
 			<AwanPopup.Loading visible={loading} />
 			{
-				inputan.rMap((input, i) => <View style={{ marginBottom: SizeList.secondary }}><Input key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} /></View>)
+				inputan.rMap((input, i) => <View style={{ marginBottom: SizeList.base }}><Input key={i} onChangeText={input.handleChangeText} value={input.value} label={input.label} /></View>)
 			}
 			<SelectBoxModal
 				label="Kelurahan / Desa" closeOnSelect
 				data={dataDesa}
-				btnStyle={{ marginBottom: SizeList.secondary }}
+				btnStyle={{ marginBottom: SizeList.base }}
 				header={
 					<MDInput label="Cari Desa"
 						onChangeText={_searchDesa}
@@ -191,7 +191,7 @@ const UpdateProfil = ({ navigation }) => {
 				<Text>Data tidak ditemukan</Text>
 			</SelectBoxModal>
 			<View>
-				<Text style={{ marginVertical: 10, color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
+				<Text style={{ marginBottom: 10, color: ColorsList.greyFont }}>Unggah Foto Toko</Text>
 				<View style={styles.imageWrapper}>
 					<TouchableOpacity onPress={_handleChoosePhoto} style={{ backgroundColor: 'white' }}>
 						<Image style={styles.image} source={photo_store ? { uri: photo_store } : require('src/assets/images/img-product.png')} />
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
 	image: { width: '100%', height: '100%' },
 	locationDetail: {
 		marginHorizontal: 3,
-		marginBottom: 5,
+		marginBottom: SizeList.base,
 		padding: 5,
 		backgroundColor: ColorsList.white,
 		borderBottomLeftRadius: SizeList.borderRadius,
