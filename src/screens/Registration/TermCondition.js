@@ -32,14 +32,11 @@ const TermCondition = ({ navigation }) => {
 						<View style={{ padding: 10 }}>
 							{item.id == 0 ? null :
 								<View style={styles.categoryView}>
-									<View style={styles.categoryCircle}>
-										<Text color="primary">{item.id}</Text>
-									</View>
-									<Text color="primary">{item.title}</Text>
+									<Text font="SemiBold" color="primary">{item.id}. </Text>
+									<Text font="SemiBold" color="primary">{item.title}</Text>
 								</View>
 							}
 							<View style={styles.partView}>
-								<View style={styles.line} />
 								<View style={{ width: '90%', marginLeft: 5 }}>
 									<HTML
 										tagsStyles={{
@@ -61,14 +58,13 @@ export default TermCondition
 
 const styles = StyleSheet.create({
 	container: {
-		padding: SizeList.bodyPadding,
-		flex: 1
-	},
-	line: {
-		width: 1,
-		height: '100%',
-		backgroundColor: ColorsList.primary,
-		marginHorizontal: 10
+		margin: SizeList.bodyPadding,
+		padding: SizeList.padding,
+		backgroundColor: ColorsList.white,
+		flex: 1,
+		borderWidth: SizeList.borderWidth,
+		borderColor: ColorsList.borderColor,
+		borderRadius: SizeList.borderRadius
 	},
 	partView: {
 		flexDirection: 'row',
