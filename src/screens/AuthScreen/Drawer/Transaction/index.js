@@ -145,8 +145,7 @@ const TransactionList = ({ navigation }) => {
 
   return (<Container header={{
     title: "DAFTAR TRANSAKSI",
-    renderLeftAccessory: () => <View style={{ width: 60 }} />,
-    renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 60 }}>
+    renderLeftAccessory: () => <View style={{ width: 60, alignItems: "flex-start" }}>
       <BottomSheetSelect
         data={[
           { title: "Semua", onPress: () => selectFilter('all') },
@@ -159,10 +158,12 @@ const TransactionList = ({ navigation }) => {
         closeOnSelect
         buttonOverride={<IconHeader name="sliders-h" color={ColorsList.greyFont} />}
       />
+    </View>,
+    renderRightAccessory: () => <View style={{ width: 60, alignItems: "flex-end" }}>
       <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/ringkasan_hutang')}>
         <IconHeader name="credit-card" color={ColorsList.greyFont} />
       </TouchableOpacity>
-    </Wrapper>
+    </View>
   }}>
     <Body>
       <DaftarTransaksi />
