@@ -17,7 +17,7 @@ export const FavoriteLoader = () => <View>
         color={["white"]}
         noRadius spaceBetween>
         <ContentLoader height={65}>
-            <Rect x="5" y="15" rx="4" ry="4" width="40" height="40" />
+            <Rect x="10" y="15" rx="4" ry="4" width="40" height="40" />
             <Rect x="55" y="10" rx="4" ry="4" width="200" height="15" />
             <Rect x="55" y="27" rx="4" ry="4" width="200" height="15" />
             <Rect x="55" y="45" rx="4" ry="4" width="200" height="15" />
