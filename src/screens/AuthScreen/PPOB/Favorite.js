@@ -94,7 +94,7 @@ const Favorite = ({ navigation }) => {
 	const renderGroupValue = v => {
 		if (v == 'pdam')
 			return 'PDAM'
-		return v == '~' ? 'SEMUA PRODUK' : v.split('_').join(' ').toUpperCase()
+		return v == '~' ? 'Semua Produk' : v.split('_').join(' ').ucwords()
 	}
 	const dataFiltered = () => favorites.filter(({ type }) => state.selected == '~' || state.selected == type)
 	return <Container>
@@ -106,7 +106,7 @@ const Favorite = ({ navigation }) => {
 			data={group}
 			handleChangePicker={selected => setState({ selected })}
 			value={renderGroupValue(state.selected)}
-			renderItem={(item, i) => <Text font="SemiBold" style={i == 0 && { marginTop: SizeList.base }}>{renderGroupValue(item)}</Text>}
+			renderItem={(item, i) => <Text font="SemiBold" style={i == 0 && { marginTop: SizeList.base }}>{renderGroupValue(item).toUpperCase()}</Text>}
 		/>
 		{isLoading ? <View style={{ marginTop: SizeList.base, paddingHorizontal: SizeList.bodyPadding }}>
 			<FavoriteLoader />
