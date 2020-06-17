@@ -17,8 +17,8 @@ import { SizeList } from 'src/styles/size';
 import { shadowStyle } from 'src/components/Input/MDInput';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 const ViewShadow = props => <View style={{ marginBottom: SizeList.base, padding: props.noPadding ? 0 : SizeList.padding, }}>
-	{!props.noTitle && <Text>{props.title}</Text>}
-	<View {...props} style={[{ marginTop: SizeList.base }, shadowStyle, props.style]} />
+	{!props.noTitle && <Text style={{ marginBottom: props.noMargin ? 10 : 0 }}>{props.title}</Text>}
+	<View {...props} style={[{ marginTop: props.noMargin ? 0 : SizeList.base }, shadowStyle, props.style]} />
 </View>
 
 const Report = ({ navigation }) => {
@@ -188,7 +188,7 @@ const Report = ({ navigation }) => {
 						</Wrapper>)
 				}
 			</ViewShadow>
-			<Text>Laporan non tunai</Text>
+			<Text style={{ marginBottom: SizeList.base }}>Laporan non tunai</Text>
 			<SelectBoxModal
 				closeOnSelect noLabel
 				style={{ marginTop: SizeList.base }}
@@ -209,7 +209,7 @@ const Report = ({ navigation }) => {
 			</ViewShadow>
 			{
 				dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }, index) => (
-					<ViewShadow noPadding noTitle={index != 0} title="Laporan penjualan">
+					<ViewShadow noMargin noPadding noTitle={index != 0} title="Laporan penjualan">
 						<Text style={{ paddingVertical: SizeList.base }} align="center">{!nama_category ? 'PESANAN MANUAL' : nama_category.toUpperCase()}</Text>
 						<Divider style={{ marginVertical: SizeList.secondary }} />
 						{
