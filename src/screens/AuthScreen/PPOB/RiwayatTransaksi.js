@@ -48,7 +48,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 				:
 				// Don't use body Component here, it make the lazy load didn't work
 				<View style={{ padding: SizeList.bodyPadding, flex: 1 }}>
-					<View style={{ borderRadius: 5, padding: 10, backgroundColor: ColorsList.whiteColor }}>
+					<View style={{ borderRadius: 5, padding: SizeList.padding, backgroundColor: ColorsList.whiteColor }}>
 						<FlatList
 							onEndReached={_addMoreData}
 							onEndReachedThreshold={0.25}
