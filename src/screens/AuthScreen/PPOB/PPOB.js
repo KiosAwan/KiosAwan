@@ -86,18 +86,18 @@ const PPOB = ({ navigation }) => {
 	return (
 		<Container header={{
 			onPressBack: () => navigation.goBack(),
-			title: "PEMBAYARAN",
+			title: "PRODUK PEMBAYARAN",
 			renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 60 }}>
 				<TouchableOpacity onPress={() => navigation.navigate("/ppob/favorit")}>
 					<IconHeader name="heart" color={ColorsList.greyFont} />
 				</TouchableOpacity>
 				<BottomSheetSelect
-				height={150}
+					height={150}
 					data={[
 						{ title: "Atur Harga PPOB", route: '/ppob/settings' },
 						{ title: "List Transaksi", route: '/ppob/list-transaksi' }
 					]}
-					renderItem={(item) => <Text font="SemiBold">{item.title}</Text>}
+					renderItem={(item) => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
 					handleChangePicker={(item) => navigation.navigate(item.route)}
 					closeOnSelect
 					buttonOverride={<IconHeader name="ellipsis-v" color={ColorsList.greyFont} />}

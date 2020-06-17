@@ -196,7 +196,7 @@ const Telkom = ({ navigation }) => {
                     }
                     value={selected ? selected.name : ""}
                     handleChangePicker={(item) => setSelected(item)}
-                    renderItem={(item) => (<Text color={selected.code == item.code && 'primary'}>{item.name}</Text>)}>
+                    renderItem={(item) => (<Text font="SemiBold" color={selected.code == item.code && 'primary'}>{item.name.toUpperCase()}</Text>)}>
                     <Text>Data tidak ditemukan</Text>
                 </SelectBoxModal>
                 <Input _width="80%"

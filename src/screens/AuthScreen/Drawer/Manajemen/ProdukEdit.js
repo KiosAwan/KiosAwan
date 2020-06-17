@@ -181,7 +181,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 						renderItem={(item) => [<Text color={
 							item.id_product_category == EditProduct.id_category ?
 								ColorsList.primaryColor : ColorsList.greyFont
-						}>{item.name_product_category}</Text>, <Icon onPress={() => {
+						}>{item.name_product_category.toUpperCase()}</Text>, <Icon onPress={() => {
 							setAddCategoryVisible(true)
 							setEditNewCategory('edit')
 							setNewCategoryName(item.name_product_category)

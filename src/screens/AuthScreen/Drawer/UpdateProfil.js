@@ -51,7 +51,7 @@ const UpdateProfil = ({ navigation }) => {
 	}
 	const _renderViewAlamat = item => {
 		if (item.id) {
-			return `${item.desa}, ${item.kecamatan}, ${item.kabupaten}, ${item.provinsi}`
+			return `${item.desa}, ${item.kecamatan}, ${item.kabupaten}, ${item.provinsi}`.toUpperCase()
 		} else {
 			return ''
 		}
@@ -158,7 +158,7 @@ const UpdateProfil = ({ navigation }) => {
 			<SelectBoxModal
 				label="Kelurahan / Desa" closeOnSelect
 				data={dataDesa}
-				btnStyle={{marginBottom : SizeList.secondary}}
+				btnStyle={{ marginBottom: SizeList.secondary }}
 				header={
 					<MDInput label="Cari Desa"
 						onChangeText={_searchDesa}
@@ -170,13 +170,13 @@ const UpdateProfil = ({ navigation }) => {
 				hideRenderItem={<ActivityIndicator color={ColorsList.primary} />}
 				value={desaSelected.desa}
 				handleChangePicker={item => setDesaSelected(item)}
-				renderItem={item => (<Text>{_renderViewAlamat(item)}</Text>)}>
+				renderItem={item => (<Text font="SemiBold">{_renderViewAlamat(item)}</Text>)}>
 				<Text>Data tidak ditemukan</Text>
 			</SelectBoxModal>
 			{desaSelected.id && <View style={styles.locationDetail}><Text>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text></View>}
 			<SelectBoxModal
 				label="Kategori Toko" closeOnSelect
-				btnStyle={{marginBottom : SizeList.secondary}}
+				btnStyle={{ marginBottom: SizeList.secondary }}
 				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
 				header={
 					<MDInput label="Cari Kategori"
@@ -187,7 +187,7 @@ const UpdateProfil = ({ navigation }) => {
 				}
 				value={kategoriSelected.category}
 				handleChangePicker={item => setKategoriSelected(item)}
-				renderItem={item => (<Text>{item.category}</Text>)}>
+				renderItem={item => (<Text font="SemiBold">{item.category.toUpperCase()}</Text>)}>
 				<Text>Data tidak ditemukan</Text>
 			</SelectBoxModal>
 			<View>

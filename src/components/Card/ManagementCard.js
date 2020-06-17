@@ -7,7 +7,7 @@ import { SizeList } from 'src/styles/size';
 
 export const ManagementCategoryCard = (props) => {
     return (
-        <View style={styles.mainwrap}>
+        <View style={[styles.mainwrap, { paddingVertical: SizeList.base }]}>
             <View style={{ width: '90%' }}>
                 <Text>{props.name}</Text>
             </View>
