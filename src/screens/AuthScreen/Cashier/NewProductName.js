@@ -37,11 +37,11 @@ const NewProductName = ({ navigation }) => {
 	const [selected, setSelected] = useState()
 	const [imageProduct, setImageProduct] = useState()
 	const [newCategoryName, setNewCategoryName] = useState('')
-	const [editNewCategory, setEditNewCategory] = useState('new')
+	const [editNewCategory] = useState('add')
 	const [errorMessage, setErrorMessage] = useState()
 	const [errorAlert, setErrorAlert] = useState(false)
 	const [addCategoryVisible, setAddCategoryVisible] = useState(false)
-	const [idEditCategory, setIdEditCategory] = useState()
+	const [idEditCategory] = useState()
 	const [searchCategory, setSearchCategory] = useState('')
 	const [isDisabled, setDisabled] = useState(true)
 	useEffect(() => {
@@ -78,27 +78,31 @@ const NewProductName = ({ navigation }) => {
 	}
 
 	const _handleSaveNewCategory = async () => {
-		const userToken = await getUserToken()
-		if (newCategoryName == "") {
-			setErrorMessage("Nama tidak boleh kosong")
-			setErrorAlert(true)
-		} else {
-			if (editNewCategory == 'add') {
-				await sendNewCategory({
-					id_store: User.store.id_store,
-					name_product_category: newCategoryName
-				})
-				setNewCategoryName("")
+		try {
+			const userToken = await getUserToken()
+			if (newCategoryName == "") {
+				setErrorMessage("Nama tidak boleh kosong")
+				setErrorAlert(true)
 			} else {
-				await editCategory({
-					name_product_category: newCategoryName,
-				}, idEditCategory)
+				if (editNewCategory == 'add') {
+					await sendNewCategory({
+						id_store: User.store.id_store,
+						name_product_category: newCategoryName
+					})
+					setNewCategoryName("")
+				} else {
+					await editCategory({
+						name_product_category: newCategoryName,
+					}, idEditCategory)
+					dispatch(getCategory(User.store.id_store, userToken))
+				}
 				dispatch(getCategory(User.store.id_store, userToken))
+				setAddCategoryVisible(false)
 			}
-			dispatch(getCategory(User.store.id_store, userToken))
-			setAddCategoryVisible(false)
+			setSheetIsSelect(true)
+		} catch (err) {
+			console.debug(err)
 		}
-		setSheetIsSelect(true)
 	}
 	const [sheetIsSelect, setSheetIsSelect] = useState(true)
 	return <Container>
@@ -134,10 +138,10 @@ const NewProductName = ({ navigation }) => {
 				if (validNumber(text)) {
 					dispatch(addProductBarcode(text))
 				}
-			}} 
-			label="Nomor Barcode" renderRightAccessory={() => <Button width={40} onPress={() => navigation.goBack()}>
-				<Image size={20} source={require('src/assets/icons/barcode.png')} />
-			</Button>} value={NewProduct.barcode} />
+			}}
+				label="Nomor Barcode" renderRightAccessory={() => <Button width={40} onPress={() => navigation.goBack()}>
+					<Image size={20} source={require('src/assets/icons/barcode.png')} />
+				</Button>} value={NewProduct.barcode} />
 			<Input
 				inputStyle={{ marginTop: SizeList.base }}
 				disabled={isDisabled}
@@ -226,7 +230,7 @@ const styles = StyleSheet.create({
 	buttonBatal: { elevation: 0, backgroundColor: 'transparent', margin: 5, paddingHorizontal: 30 },
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
-	imageWrapper: { marginBottom: 10, borderStyle: "dashed",borderWidth: SizeList.borderWidth, height: 200, borderColor: ColorsList.greyFont, borderRadius: SizeList.borderRadius },
+	imageWrapper: { marginBottom: 10, borderStyle: "dashed", borderWidth: SizeList.borderWidth, height: 200, borderColor: ColorsList.greyFont, borderRadius: SizeList.borderRadius },
 	image: { width: 300, height: 300 },
 
 })
