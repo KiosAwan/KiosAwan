@@ -107,20 +107,29 @@ const AwanPopup = {
 				return require('src/assets/icons/circlereject.png')
 			}
 		}
-		return <Modal animationType="fade" style={{ padding: 0, width: SizeList.width * 2 / 3 }} {...props}>
-			<View style={[styles.body, style]}>
-				<Image source={icon()}
-					style={[styles.image, { width: 50, height: 50 }]}
-					resizeMode="stretch" />
-				<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{title || 'Oops...'}</Text>
-				<View style={{ width: '80%', alignItems: "center" }}>
-					<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{message}</Text>
-				</View>
+		return <Modal animationType="fade" style={{ padding: 0, borderRadius: SizeList.borderRadius, width: SizeList.width - (SizeList.bodyPadding * 2) }} {...props}>
+			<View style={[styles.body, props.style, { alignItems: "flex-start" }]}>
+				<Text color={props.textColor} font="SemiBold" align="left" size={17} style={styles.title}>ERROR</Text>
+				<Text color={props.textColor} align="left">{message}</Text>
 				<ButtonWrapper style={{ justifyContent: "center" }}>
-					<Button color="white" width='50%' onPress={closeAlert}>OK</Button>
+					<Button width={100} onPress={closeAlert}>OK</Button>
 				</ButtonWrapper>
 			</View>
 		</Modal>
+		// return <Modal animationType="fade" style={{ padding: 0, width: SizeList.width * 2 / 3 }} {...props}>
+		// 	<View style={[styles.body, style]}>
+		// 		<Image source={icon()}
+		// 			style={[styles.image, { width: 50, height: 50 }]}
+		// 			resizeMode="stretch" />
+		// 		<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{title || 'Oops...'}</Text>
+		// 		<View style={{ width: '80%', alignItems: "center" }}>
+		// 			<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{message}</Text>
+		// 		</View>
+		// 		<ButtonWrapper style={{ justifyContent: "center" }}>
+		// 			<Button color="white" width={100} onPress={closeAlert}>OK</Button>
+		// 		</ButtonWrapper>
+		// 	</View>
+		// </Modal>
 	}
 }
 

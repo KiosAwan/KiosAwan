@@ -24,7 +24,7 @@ const Summary = ({ User, navigation }) => {
 		<TouchableOpacity onPress={() => navigation.navigate("Laporan")}>
 			<Wrapper shadow style={{ marginTop: SizeList.base, backgroundColor: ColorsList.white }} justify="space-evenly">
 				<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
-					<Text align="center" size={12}>Transaksi hari ini:</Text>
+					<Text align="center">Transaksi hari ini:</Text>
 					<Wrapper>
 						<Text color={_getFlagColor(User.store.penjualan_flag)} align="center">{convertRupiah(User.store.penjualan_harian)}</Text>
 						{User.store.penjualan_flag != 0 &&
@@ -37,7 +37,7 @@ const Summary = ({ User, navigation }) => {
 					</Wrapper>
 				</View>
 				<View style={{ marginHorizontal: 10, paddingVertical: 10 }}>
-					<Text align="center" size={12}>Keuntungan hari ini:</Text>
+					<Text align="center">Keuntungan hari ini:</Text>
 					<Wrapper>
 						<Text color={_getFlagColor(User.store.profit_flag)} align="center">{convertRupiah(User.store.profit_harian)}</Text>
 						{User.store.profit_flag != 0 &&

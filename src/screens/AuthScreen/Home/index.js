@@ -125,7 +125,7 @@ const Home = ({ navigation }) => {
 	return <Container>
 		<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
 			<View></View>
-			<Button onPress={_completeProfile}>OK</Button>
+			<Button width={100} onPress={_completeProfile}>OK</Button>
 		</AwanPopup.Title>
 		<Modal
 			animationType="fade"

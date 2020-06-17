@@ -233,7 +233,7 @@ export default Report
 
 const ModalMonth = props => {
 	const { visible, setVisible, year, month, setFilter } = props
-	const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+	const bulan = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOV", "DES"]
 	const [filter, _setFilter] = stateObject({
 		year: parseInt(year || moment().format('YYYY')),
 		month: parseInt(month || moment().format('MM')) - 1
@@ -248,7 +248,7 @@ const ModalMonth = props => {
 			<Button onPress={() => _setFilter({ year: filter.year + 1 })} color="link">{'>'}</Button>
 		</Wrapper>
 		<FlatList
-			style={{ marginVertical: 15 }}
+			style={{ marginVertical: SizeList.base }}
 			data={bulan}
 			numColumns={3}
 			keyExtractor={(a, i) => i.toString()}

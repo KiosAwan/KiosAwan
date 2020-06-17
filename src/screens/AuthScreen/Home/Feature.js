@@ -30,7 +30,7 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 				<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/kasir.png")} />
 				<View _width="80%">
 					<Text font="SemiBold" color="primary">KASIR</Text>
-					<Text size={12}>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
+					<Text>Masuk kedalam mode kasir dan atur penjualan kios atau warung</Text>
 				</View>
 			</Wrapper>
 		</TouchableOpacity>
@@ -39,7 +39,7 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 				<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons//home/ppob.png")} />
 				<View _width="80%">
 					<Text font="SemiBold" color="primary">PEMBAYARAN (PPOB)</Text>
-					<Text size={12}>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
+					<Text>Lakukan pembayaran tagihan listrik, PDAM, pulsa, paket data, dll</Text>
 				</View>
 			</Wrapper>
 		</TouchableOpacity>
@@ -48,7 +48,7 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 				<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/restock.png")} />
 				<View _width="80%">
 					<Text font="SemiBold" color="primary">BELANJA STOK</Text>
-					<Text size={12}>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
+					<Text>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
 				</View>
 			</Wrapper>
 		</TouchableOpacity>
@@ -57,7 +57,7 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 				<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/hutang.png")} />
 				<View _width="80%">
 					<Text font="SemiBold" color="primary">PENCATATAN HUTANG</Text>
-					<Text size={12}>Kelola hutang dan piutang usaha kios atau warung</Text>
+					<Text>Kelola hutang dan piutang usaha kios atau warung</Text>
 				</View>
 			</Wrapper>
 		</TouchableOpacity>
