@@ -257,6 +257,6 @@ const ModalMonth = props => {
 		<Button onPress={() => {
 			setFilter(`${filter.year}-${filter.month.toString().length == 1 ? '0' : ''}${filter.month + 1}`)
 			setVisible(false)
-		}} color="white">TERAPKAN</Button>
+		}}>TERAPKAN</Button>
 	</Modal >
 }
