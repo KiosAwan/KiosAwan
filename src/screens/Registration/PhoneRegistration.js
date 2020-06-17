@@ -163,7 +163,7 @@ const PhoneRegistration = ({ navigation }) => {
 			<UnauthHeader />
 			<Text align="center">{Strings.REGISTERPHONESUBTITLE}</Text>
 			<Wrapper flexStart style={{ marginVertical: 10, alignSelf: 'center' }}>
-				<Input disabled noLabel style={{ width: SizeList.base * 4.5 }} value="+62" />
+				<Input disabled noLabel style={{ width: SizeList.base * 5 }} value="+62" />
 				<Divider transparent size={5} />
 				<Input
 					_flex
