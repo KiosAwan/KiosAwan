@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Image, ScrollView } from 'react-native'
 import SearchInput from 'src/components/Input/SearchInput';
-import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
+import { GlobalHeader, IconHeader, SearchHeader } from 'src/components/Header/Header';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from 'src/styles/colors';
 import { ProductCard } from 'src/components/Card/CardComp';
@@ -40,21 +40,14 @@ const ManajemenProduk = ({ navigation }) => {
 
 	return (
 		<View style={{ backgroundColor: ColorsList.authBackground, flex: 1 }}>
-			<GlobalHeader title="Produk"
+			<SearchHeader
 				onPressBack={() => navigation.goBack()}
-				renderRightAccessory={() =>
-					<View style={{width: 60,alignItems : "flex-end" }}>
-						<IconHeader onPress={() => ctrl.setVisible(true)} name="search" />
-					</View>
-				}
+				onChangeText={txt => setSearch(txt)}
+				search={search}
+				label="CARI PRODUK"
+				title="PRODUK"
 			/>
 			<View style={{ paddingHorizontal: 20, flex: 1 }}>
-				{/* <SearchInput
-					search={search}
-					placeholder="Cari produk"
-					handleChangeInput={(text) => setSearch(text)}
-					handleDeleteSearch={() => setSearch('')}
-				/> */}
 				<ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 15, flex: 1, marginBottom: 40 }}>
 					{
 						Product.isLoading ?

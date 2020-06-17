@@ -31,6 +31,8 @@ const Input = props => {
 		onBlur,
 		accessoryOut,
 		style: styleOverride,
+		inputStyle: inputStyleOverride,
+		transparent,
 		..._props
 	} = props
 	const [focus, setFocus] = useState(false)
@@ -78,7 +80,7 @@ const Input = props => {
 			placeholder={label}
 			{..._props}
 			label={isFocused() ? label.toUpperCase() : label}
-			style={{ fontFamily: FontName[font], color: ColorsList.greyFont, fontSize: 14, padding: 0, marginVertical: SizeList.secondary * 3 }}
+			style={{ fontFamily: FontName[font], color: ColorsList.greyFont, fontSize: 14, padding: 0, marginVertical: SizeList.secondary * 3, ...inputStyleOverride }}
 			{...objCurrency}
 		/>
 		if (!noLabel) {
@@ -94,7 +96,7 @@ const Input = props => {
 				baseColor={ColorsList.greyFont}
 				tintColor={ColorsList.primary}
 				{...inputProps}
-				style={{ color: ColorsList.greyFont, fontSize: 14, padding: 0, marginVertical: SizeList.secondary }}
+				style={{ color: ColorsList.greyFont, fontSize: 14, padding: 0, marginVertical: SizeList.secondary, ...inputStyleOverride }}
 			/>
 		}
 		return input
@@ -118,7 +120,11 @@ const Input = props => {
 		borderRadius: SizeList.secondary,
 		flexDirection: 'row',
 		alignItems: 'center',
-		...!accessoryOut && { backgroundColor: ColorsList.white, ...shadowStyle },
+		...!accessoryOut && {
+			...shadowStyle,
+			...transparent && { borderWidth: 0 },
+			backgroundColor: transparent ? ColorsList.transparent : ColorsList.white,
+		},
 		...styleOverride
 	}
 	]}>
@@ -126,15 +132,16 @@ const Input = props => {
 		<View style={{
 			flex: 1,
 			...accessoryOut && {
+				...shadowStyle,
 				borderRadius: SizeList.secondary,
-				backgroundColor: ColorsList.white,
-				...shadowStyle
+				...transparent && { borderWidth: 0 },
+				backgroundColor: transparent ? ColorsList.transparent : ColorsList.white,
 			}
 		}}>
 			{renderInput()}
 		</View>
 		{accessory(renderRightAccessory)}
-	</View>
+	</View >
 }
 
 const MDInput = props => {

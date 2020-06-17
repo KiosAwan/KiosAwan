@@ -11,6 +11,7 @@ import { Header } from 'native-base'
 import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { SizeList } from 'src/styles/size';
+import { Input } from '../Input/MDInput';
 
 export const HeaderRegister = () => {
     return (
@@ -62,12 +63,12 @@ export const GlobalHeader = props => {
         style,
         title = "",
         renderLeftAccessory = () => {
-            return !onlyTitle && <Button color="link" _width={60} flexStart padding={0} onPress={onPressBack} {...leftProps}>
+            return !onlyTitle && <Button color="link" flexStart padding={0} onPress={onPressBack} {...leftProps}>
                 <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || ColorsList.greyFont} />
             </Button>
         },
         renderRightAccessory = () => {
-            return !onlyTitle && <Button color="link" _width={60} flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
+            return !onlyTitle && <Button color="link" flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
                 {renderImage()}
             </Button>
         }
@@ -117,5 +118,39 @@ export const CashierHeader = props => {
         <SearchInput onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor} blurColor="transparent">
             <TextInput style={{ color: ColorsList.black }} placeholderTextColor={ColorsList.greyFont} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk..." />
         </SearchInput>
+    </GlobalHeader>
+}
+
+export const SearchHeader = _props => {
+    const {
+        title,
+        label,
+        search,
+        onChangeText,
+        onPressIcon = () => null,
+        ...props
+    } = _props
+    const [active, setActive] = useState(false)
+    return <GlobalHeader
+        title={title}
+        renderRightAccessory={() => <Button onPress={() => {
+            setActive(!active)
+            onPressIcon()
+        }} color="link" padding={0}>
+            <Icon size={active ? 17 : 20} style={{ color: ColorsList.greyFont }} name={active ? "times-circle" : "search"} />
+        </Button>}
+        {...props}
+    >
+        {
+            active && <Input
+                transparent
+                noLabel
+                autoFocus
+                label={label}
+                value={search}
+                onChangeText={onChangeText}
+                inputStyle={{ textAlign: "center" }}
+            />
+        }
     </GlobalHeader>
 }

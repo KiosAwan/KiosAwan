@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
-import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
+import { GlobalHeader, IconHeader, SearchHeader } from 'src/components/Header/Header';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
@@ -37,22 +37,15 @@ const ManajemenPelanggan = ({ navigation }) => {
 	}
 	return (
 		<Container>
-			<GlobalHeader
+			<SearchHeader
 				onPressBack={() => navigation.goBack()}
-				title="Pelanggan"
-				renderRightAccessory={() =>
-					<View style={{width: 60,alignItems : "flex-end" }}>
-						<IconHeader onPress={() => ctrl.setVisible(true)} name="search" />
-					</View>
-				}
+				onChangeText={txt => setSearch(txt)}
+				onPressIcon={() => setSearch('')}
+				search={search}
+				label="CARI PELANGGAN"
+				title="PELANGGAN"
 			/>
 			<Body>
-				{/* <SearchInput
-					placeholder="Cari pelanggan"
-					search={search}
-					handleChangeInput={(text) => setSearch(text)}
-					handleDeleteSearch={() => setSearch('')}
-				/> */}
 				<FlatList
 					data={Customer.data.filter(item => item.name_customer.toLowerCase().includes(search.toLowerCase()))}
 					renderItem={({ item, index }) => (

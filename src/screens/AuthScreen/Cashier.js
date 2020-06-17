@@ -6,7 +6,7 @@ import { convertRupiah, getUserToken } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { ProductCard } from '../../components/Card/CardComp';
 import { MinusQuantity, AddQuantity, getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
-import { CashierHeader, GlobalHeader, IconHeader } from '../../components/Header/Header';
+import { CashierHeader, GlobalHeader, IconHeader, SearchHeader } from '../../components/Header/Header';
 import { stylesglobe } from '../../styles/globalStyle';
 import { RowChild } from '../../components/Helper/RowChild';
 import { Icon } from 'native-base';
@@ -43,9 +43,14 @@ const Cashier = ({ navigation }) => {
     }
 
     return <Container style={{ marginBottom: SizeList.base }}>
-        <GlobalHeader onPressBack={() => navigation.goBack()}>
-            <TextInput noShadow value={search} onChangeText={txt => setSearch(txt)} style={{ textAlign: 'center', color: ColorsList.greyFontHard }} _flex placeholder="CARI PRODUK BARANG" />
-        </GlobalHeader>
+        <SearchHeader
+            onPressBack={() => navigation.goBack()}
+            onChangeText={txt => setSearch(txt)}
+            onPressIcon={() => setSearch('')}
+            search={search}
+            label="CARI PRODUK BARANG"
+            title="PRODUK BARANG"
+        />
         <Wrapper justify="space-between" style={{ paddingHorizontal: SizeList.bodyPadding }}>
             <Wrapper _flex flexContent>
                 <ButtonShadow
