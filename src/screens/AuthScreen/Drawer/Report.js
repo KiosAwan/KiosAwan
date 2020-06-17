@@ -124,7 +124,7 @@ const Report = ({ navigation }) => {
 					value={MainTab.routes[MainTab.index].title}
 					data={MainTab.routes}
 					handleChangePicker={(a, i) => MainTab.setIndex(i)}
-					renderItem={item => <Text font="SemiBold">{item.title}</Text>}
+					renderItem={item => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
 				/>
 			</View>
 			<ViewShadow noPadding title={moment(dateSelected).format('MMMM YYYY')}>
@@ -195,7 +195,7 @@ const Report = ({ navigation }) => {
 				value={NT && NT.selected ? NT.selected.method : ''}
 				data={dataReportNonTunai}
 				handleChangePicker={selected => setNT({ selected })}
-				renderItem={item => <Text color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFont'}>{item.method}</Text>}
+				renderItem={item => <Text font="SemiBold" color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFontHard'}>{item.method.toUpperCase()}</Text>}
 			/>
 			<ViewShadow noPadding noTitle>
 				{

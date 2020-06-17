@@ -153,7 +153,7 @@ const TransactionList = ({ navigation }) => {
           { title: "Hutang", onPress: () => selectFilter('2') },
           { title: "Dibatalkan", onPress: () => selectFilter('3') },
         ]}
-        renderItem={(item) => <Text font="SemiBold">{item.title}</Text>}
+        renderItem={(item) => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
         handleChangePicker={(item) => item.onPress()}
         closeOnSelect
         buttonOverride={<IconHeader name="sliders-h" color={ColorsList.greyFont} />}

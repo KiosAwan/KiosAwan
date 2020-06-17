@@ -98,7 +98,7 @@ const PDAM = ({ navigation }) => {
     }
 
     //Set pin modal visible when user clicked pay button
-    
+
     const _onPressBayar = () => {
         if (tagihanData) {
             openPin(navigation, (pin, close) => {
@@ -199,7 +199,7 @@ const PDAM = ({ navigation }) => {
                     }
                     value={selected ? selected.name : ""}
                     handleChangePicker={(item) => setSelected(item)}
-                    renderItem={(item) => (<Text font="Regular" style={{ paddingHorizontal: SizeList.secondary }} color={selected.code == item.code ? 'primary' : 'greyFontHard'}>{item.name}</Text>)}>
+                    renderItem={(item) => (<Text font="SemiBold" style={{ paddingHorizontal: SizeList.secondary }} color={selected.code == item.code ? 'primary' : 'greyFontHard'}>{item.name.toUpperCase()}</Text>)}>
                     <Text>Data tidak ditemukan</Text>
                 </SelectBoxModal>
                 <Input _width="80%"
