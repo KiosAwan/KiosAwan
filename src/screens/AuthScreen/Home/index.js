@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
-import { View, RefreshControl } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
-import { HOST_URL } from 'src/config'
+import { AwanPopup } from 'src/components/ModalContent/Popups'
+import { Button } from 'src/components/Button/Button'
 import { getProfile } from 'src/redux/actions/actionsUserData'
 import { getUserToken } from 'src/utils/authhelper'
-import { Button } from 'src/components/Button/Button'
-import { AwanPopup } from 'src/components/ModalContent/Popups'
-import Container, { Body } from 'src/components/View/Container';
+import { HOST_URL } from 'src/config'
 import { SizeList } from 'src/styles/size';
-import styles from './style'
+import { useSelector, useDispatch } from 'react-redux'
+import { View, RefreshControl, Modal } from 'react-native'
 import Ads from './Ads';
+import Axios from 'axios'
+import Container, { Body } from 'src/components/View/Container';
 import Feature from './Feature';
 import Header from './Header';
-import Summary from './Summary';
 import Notification from './Notification';
+import React, { useState, useEffect } from 'react'
+import styles from './style'
+import Summary from './Summary';
+import ModalContent from 'src/components/ModalContent/ModalContent'
+import CreatePin from './CreatePin';
 
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -25,9 +27,12 @@ const Home = ({ navigation }) => {
 	const [onRefresh, setOnRefresh] = useState(false)
 	const [news, setNews] = useState()
 	const [newsLoading, setNewsLoading] = useState(true)
+	const [_modalVisible, _setModalVisible] = useState(false)
 	const [_alert, _setAlert] = useState(false)
 	const [_alertTitle, _setAlertTitle] = useState('')
 	const [_alertMessage, _setAlertMessage] = useState('')
+
+	const modalFn = [_setAlertMessage, _setAlert, _setModalVisible, _setAlertTitle]
 
 	const _getNewsData = async () => {
 		const res = await Axios.get('https://kiosawan.com/wp-json/wp/v2/posts')
@@ -100,8 +105,9 @@ const Home = ({ navigation }) => {
 
 	const _completeProfile = () => {
 		if (!User.store) {
+			const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modalFn
 			_setAlert(false)
-			navigation.navigate('/temp/create-pin')
+			CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })
 		}
 		else if (User.data.status == 0) {
 			_setAlert(false)
@@ -119,29 +125,47 @@ const Home = ({ navigation }) => {
 	return <Container>
 		<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
 			<View></View>
-			<Button width='30%' onPress={_completeProfile}>OK</Button>
+			<Button onPress={_completeProfile}>OK</Button>
 		</AwanPopup.Title>
-		<Body refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
-			<Header
-				User={User}
-				navigation={navigation}
-				_featureDisabled={_featureDisabled}
-				_handleRefresh={_handleRefresh}
+		<Modal
+			animationType="fade"
+			transparent={true}
+			visible={_modalVisible}
+			onRequestClose={() => {
+				_setModalVisible(!_modalVisible);
+			}}>
+			<ModalContent
+				image={require('src/assets/images/createpinsuccess.png')}
+				infoText="Anda Berhasil Membuat PIN!"
+				closeModal={() => _setModalVisible(false)}
 			/>
-			<Summary User={User} navigation={navigation} />
-			<View style={styles.childContainer}>
-				<View style={{ paddingVertical: SizeList.base }}>
-					<Notification
+		</Modal>
+		<Body style={{ padding: 0 }} refreshControl={<RefreshControl refreshing={onRefresh} onRefresh={_handleRefresh} />}>
+			<View style={{ paddingHorizontal: SizeList.bodyPadding }}>
+				<View style={{ paddingTop: SizeList.bodyPadding }}>
+					<Header
 						User={User}
 						navigation={navigation}
-						maintenance={maintenance}
-						message={message}
-					/>
-					<Feature
-						User={User}
+						_handleRefresh={_handleRefresh}
 						_featureDisabled={_featureDisabled}
-						navigation={navigation}
 					/>
+				</View>
+				<Summary User={User} navigation={navigation} />
+				<View style={styles.childContainer}>
+					<View style={{ paddingVertical: SizeList.base }}>
+						<Notification
+							User={User}
+							message={message}
+							navigation={navigation}
+							maintenance={maintenance}
+							modal={modalFn}
+						/>
+						<Feature
+							User={User}
+							navigation={navigation}
+							_featureDisabled={_featureDisabled}
+						/>
+					</View>
 				</View>
 			</View>
 			<Ads loading={newsLoading} newsData={news} />

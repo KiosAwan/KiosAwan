@@ -1,14 +1,17 @@
 import TextTicker from 'react-native-text-ticker';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { View } from 'react-native';
+import { View, Modal } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { SizeList } from 'src/styles/size';
 import { FontList } from 'src/styles/typography';
 import { ColorsList } from "src/styles/colors"
 import { Button } from "src/components/Button/Button"
+import CreatePin from './CreatePin';
+import { AwanPopup } from 'src/components/ModalContent/Popups';
 
-const Notification = ({ User, maintenance, message, navigation }) => {
+const Notification = ({ User, maintenance, message, navigation, modal }) => {
+	const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modal
 	return <View>
 		{
 			maintenance && <Button disabled color="info" flexStart style={{ borderRadius: SizeList.borderRadius }}>
@@ -31,7 +34,7 @@ const Notification = ({ User, maintenance, message, navigation }) => {
 					<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
 				</Button>
 				:
-				<Button onPress={() => navigation.navigate('/temp/create-pin')} flexStart color="warning" flexStart style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
+				<Button onPress={() => CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })} flexStart color="warning" flexStart style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
 					<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 					<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
 					<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>
