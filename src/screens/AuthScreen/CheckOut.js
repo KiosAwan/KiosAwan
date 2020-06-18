@@ -53,6 +53,7 @@ class CheckOut extends React.Component {
 	FirstRoute = () => <CashPayment style={{ marginVertical: SizeList.base }} />
 	SecondRoute = () => <NonTunai style={{ marginVertical: SizeList.base }} nonTunai={this.state.nonTunai} pressImage={(id) => {
 		this.setState({ nonTunai: id })
+		this.props.navigation.navigate("/cashier/check-out/payewallet", { amount: this.props.Product.total - this.props.Product.total_diskon })
 	}} />
 	ThirdRoute = () => <Piutang style={{ marginVertical: SizeList.base }} />
 	_handleBayar = () => {

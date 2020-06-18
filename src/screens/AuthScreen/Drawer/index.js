@@ -160,6 +160,7 @@ const Akun = ({ navigation }) => {
 						route=""
 					/>
 				</View>
+				<Text align="center">Versi : 0.6.18.1</Text>
 			</Body>
 		</Container>
 	)
