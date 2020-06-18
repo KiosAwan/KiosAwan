@@ -20,6 +20,8 @@ import { Toast } from 'native-base';
 import { stateObject } from 'src/utils/state';
 import Divider from 'src/components/Row/Divider';
 import TearLines from "react-native-tear-lines";
+import { StackActions, NavigationActions } from 'react-navigation';
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 const InfoWrapper = props => <Wrapper spaceBetween style={{ marginBottom: SizeList.secondary }} {...props} />
 
@@ -57,12 +59,25 @@ const TransactionDetail = ({ navigation }) => {
 	const _backHandler = route => {
 
 	}
+	const _navigateFromCheckout = () => {
+		navigation.dispatch(
+			StackActions.reset({
+				index: 1,
+				key: null,
+				actions: [
+					NavigationActions.navigate({ routeName: '/' }),
+					NavigationActions.navigate({ routeName: '/cashier' })
+				]
+			})
+		)
+	}
 	useEffect(() => {
 		_getData()
 	}, [])
 	return <Container header={{
 		title: "Struk Belanja",
-		onPressBack: () => back ? navigation.navigate(back) : navigation.goBack(),
+		renderLeftAccesory: () => fromCashier ? <View style={{ width: 60 }} /> : <Icon name={"arrow-left"} size={20} color={ColorsList.greyFont} />,
+		onPressBack: () => fromCashier ? null : back ? navigation.navigate(back) : navigation.goBack(),
 		renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
 			<TouchableOpacity onPress={_shareBill}>
 				<IconHeader name="share-alt" color={ColorsList.greyFont} />
@@ -271,7 +286,7 @@ const TransactionDetail = ({ navigation }) => {
 					:
 					<Wrapper flexContent>
 						{_canBatal() && <Button onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })} color="link">BATALKAN</Button>}
-						{fromCashier && <Button onPress={() => navigation.navigate('/cashier')}>SELESAI</Button>}
+						{fromCashier && <Button onPress={_navigateFromCheckout}>SELESAI</Button>}
 					</Wrapper>
 			}
 		</Footer>
