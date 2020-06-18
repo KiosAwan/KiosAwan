@@ -110,7 +110,7 @@ const PPOB = ({ navigation }) => {
 					</View>
 					<Button width={100} onPress={_onPressTopUp}>TOP UP</Button>
 				</Wrapper>
-				<Button
+				{User.data.atur_harga == 0 && <Button
 					align="flex-start"
 					textProps={{ align: "left" }}
 					onPress={() => navigation.navigate("/ppob/settings")}
@@ -119,7 +119,7 @@ const PPOB = ({ navigation }) => {
 						<Text style={{ textDecorationLine: 'underline', }}>Klik disini</Text>
 					</Text>
 
-				</Button>
+				</Button>}
 				{
 					maintanance &&
 					<Button style={{ marginTop: 10 }} disabled color="info" wrapper={{ flexStart: true }}>
