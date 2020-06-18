@@ -46,7 +46,7 @@ const EWalletPayment = ({ navigation }) => {
             </Body>
             <Bottom>
                 <Button onPress={() => navigation.goBack()} width="100%">
-                    SIMPAN
+                    LANJUT
                 </Button>
             </Bottom>
         </Container>
