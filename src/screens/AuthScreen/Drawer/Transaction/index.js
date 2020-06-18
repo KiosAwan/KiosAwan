@@ -60,7 +60,10 @@ const TransactionList = ({ navigation }) => {
 
   const _effect = async () => {
     const userToken = await getUserToken()
-    dispatch(getTransactionList(User.store.id_store, userToken))
+      dispatch(getTransactionList(
+        User.store?  User.store.id_store : 0, 
+        userToken
+        ))
   }
 
   const [filterPopup, setFilterPopup] = useState(false)
