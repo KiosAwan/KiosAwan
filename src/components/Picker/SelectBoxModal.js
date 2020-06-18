@@ -132,6 +132,7 @@ export const PilihPelanggan = props => {
 		} else if (action == "edit") {
 			_handleEditCustomer()
 		}
+		setState({ isSelect: true })
 	}
 	const _handleAddNewCustomer = async () => {
 		if (pelanggan) {
@@ -158,9 +159,10 @@ export const PilihPelanggan = props => {
 				...pelanggan,
 				id_store: User.store.id_store
 			}
+			const userToken = await getUserToken()
 			await editCustomer(data, pelanggan.id_customer)
 			setState({ isSelect: true })
-			dispatch(getCustomer(User.store.id_store))
+			dispatch(getCustomer(User.store.id_store, userToken))
 		}
 	}
 
