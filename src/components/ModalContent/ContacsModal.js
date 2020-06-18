@@ -78,7 +78,7 @@ export default class ContactsModal extends Component {
                                 this.props.chooseContact(item.phoneNumbers[0] ? phone : '')
                             }}>
                                 <View style={{ padding: 5, }}>
-                                    <Text size={16}>{item.givenName}</Text>
+                                    <Text size={16}>{item.givenName ? item.givenName : ""}</Text>
                                     <Text size={12} color="primary">{item.phoneNumbers[0] ? item.phoneNumbers[0].number : null}</Text>
                                 </View>
                                 <Divider />

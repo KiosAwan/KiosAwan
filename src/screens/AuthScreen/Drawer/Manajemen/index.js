@@ -6,9 +6,11 @@ import { $Padding } from 'src/utils/stylehelper';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
+import { useSelector } from 'react-redux';
 
 const Manajemen = ({ navigation }) => {
 	const ListManajemen = require('src/assets/json/manajemen.json')
+	const User = useSelector(state => state.User)
 	return (
 		<Container>
 			<Text style={{ marginTop: 15 }} font="SemiBold" align="center">MANAJEMEN</Text>
@@ -18,9 +20,11 @@ const Manajemen = ({ navigation }) => {
 					ListManajemen.rMap((menu, i) => {
 						return <Button
 							onPress={() => {
-								navigation.navigate(menu.route)
+								if (User.store) {
+									navigation.navigate(menu.route)
+								}
 							}}
-							style={{ borderRadius: 5, marginBottom: 10, borderWidth : SizeList.borderWidth, borderColor : ColorsList.borderColor }}
+							style={{ borderRadius: 5, marginBottom: 10, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor }}
 							padding={$Padding(5, 10)}
 							wrapper={{ justify: 'flex-start' }}
 							color={['whiteColor', 'greyFont']}>

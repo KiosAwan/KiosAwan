@@ -168,7 +168,7 @@ const Home = ({ navigation }) => {
 					</View>
 				</View>
 			</View>
-			<Ads loading={newsLoading} newsData={news} />
+			<Ads loading={newsLoading} newsData={news} navigation={navigation} />
 		</Body>
 	</Container>
 }

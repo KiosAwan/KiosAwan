@@ -34,10 +34,10 @@ const Akun = ({ navigation }) => {
 					_onPressLogout()
 				}
 				else if (props.name == "Ubah password") {
-					openPIN()
+					User.store && openPIN()
 				}
 				else {
-					["Helpdesk", "FAQ"].includes(props.name) ? navigation.navigate(props.route) : User.store && User.data.status == 1 ? navigation.navigate(props.route) : null
+					["Helpdesk", "FAQs"].includes(props.name) ? navigation.navigate(props.route) : User.store && User.data.status == 1 ? navigation.navigate(props.route) : null
 				}
 			}}
 			width="100%"

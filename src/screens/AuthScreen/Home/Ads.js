@@ -6,7 +6,7 @@ import { Image } from 'src/components/CustomImage';
 import { Dimensions, View, ScrollView, FlatList } from 'react-native';
 import { CardTextImage } from 'src/components/Card/CardComp';
 
-const Ads = ({ loading, newsData }) => {
+const Ads = ({ loading, newsData, navigation }) => {
 	const { width, height } = Dimensions.get('window')
 	return <View>
 		<ScrollView
