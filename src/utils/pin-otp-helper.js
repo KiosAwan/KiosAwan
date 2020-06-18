@@ -11,7 +11,7 @@ const openPin = (obj, onResolve) => {
 	}
 	(typeof navigation == 'function' ? navigation : navigation.navigate)('/input-code', {
 		header: <Text align="center">{textTitle || 'Masukkan PIN anda saat ini'}</Text>,
-		footer: <Info color={["settingBg", "settingFont"]}>{info || `Untuk melanjutkan pembayaran, anda harus memasukkan PIN anda saat ini \n\n Saldo akan terpotong dan transaksi tidak dapat dibatalkan`}</Info>,
+		footer: <Info color={["settingBg", "settingFont"]}>{info || `Untuk melanjutkan pembayaran, anda harus memasukkan PIN anda saat ini \n\nSaldo akan terpotong dan transaksi tidak dapat dibatalkan`}</Info>,
 		secureTextEntry: true,
 		title: 'PIN',
 		value: '',

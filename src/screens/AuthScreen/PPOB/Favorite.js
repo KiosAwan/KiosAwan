@@ -75,7 +75,7 @@ const Favorite = ({ navigation }) => {
 				paddingHorizontal: SizeList.padding,
 			}}>
 				<View style={{ marginVertical: SizeList.base }} >
-					<Button onPress={() => navigation.navigate(`/ppob/${type}`, item)} color="link" padding={SizeList.secondary} spaceBetween>
+					<Button onPress={() => navigation.navigate(`/ppob/${type}`, data)} color="link" padding={SizeList.secondary} spaceBetween>
 						<NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
 						<View _flex>
 							<Text>{name}</Text>

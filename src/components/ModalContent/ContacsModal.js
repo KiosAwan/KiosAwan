@@ -64,8 +64,18 @@ export default class ContactsModal extends Component {
                         data={this.state.contacts.filter(item => item.givenName.toLowerCase().includes(this.state.search.toLowerCase()))}
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => {
+                                let phone = ""
+                                let selectedNum = item.phoneNumbers[0]
+                                let formattedNum = selectedNum.number.replace(/\D/g, '')
+                                phone = formattedNum
+                                if (formattedNum) {
+                                    if (formattedNum.slice(0, 2) == "62") {
+                                        phone = `0${formattedNum.slice(2, formattedNum.length)}`
+                                        console.debug(phone)
+                                    }
+                                }
                                 this.props.closeModal()
-                                this.props.chooseContact(item.phoneNumbers[0] ? item.phoneNumbers[0].number.replace(/\D/g,'') : '')
+                                this.props.chooseContact(item.phoneNumbers[0] ? phone : '')
                             }}>
                                 <View style={{ padding: 5, }}>
                                     <Text size={16}>{item.givenName}</Text>
