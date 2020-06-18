@@ -14,7 +14,7 @@ Array.prototype.rMap = function (callback) {
   return this.map(function (data, key) {
     let cb = callback(data, key)
     if (isValidElement(cb)) {
-      cb = cloneElement(cb, { key })
+      cb = cloneElement(cb, { key: key.toString() })
     }
     return cb
   })

@@ -57,30 +57,16 @@ const SearchInput = (props) => {
 		<Divider style={{ marginTop: 5 }} color={isFocused ? props.color || ColorsList.primary : props.blurColor || ColorsList.greyAuthHard} />
 	</View>
 }
-const SearchInputV2 = (props) => {
-	let nullFn = () => { }
-	const [isFocused, setIsFocused] = useState(false)
-	const onFocus = props.onFocus || nullFn
-	const onBlur = props.onBlur || nullFn
-	const _onBlur = () => {
-		onBlur()
-		setIsFocused(false)
-	}
-	const _onFocus = () => {
-		onFocus()
-		setIsFocused(true)
-	}
-	return <View style={props.style}>
-		<Input
-			onBlur={() => setIsFocused(false)}
-			onFocus={() => setIsFocused(true)}
-			onChangeText={props.handleChangeInput}
-			value={props.search}
-			noLabel
-			placeholder={props.placeholder}
-			renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
-			{...props.textInput} />
-	</View>
+const SearchInputV2 = _props => {
+	const { handleChangeInput, search, placeholder, ...props } = _props
+	return <Input
+		onChangeText={handleChangeInput}
+		value={search}
+		noLabel
+		label={placeholder}
+		renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
+		{...props}
+	/>
 }
 
 const InputClear = props => {

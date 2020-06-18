@@ -21,15 +21,18 @@ import Container, { Body } from 'src/components/View/Container';
 import Menu from 'src/components/ModalContent/Menu';
 import { SizeList } from 'src/styles/size';
 import BottomSheetSelect, { BottomSheet } from 'src/components/Picker/BottomSheetSelect';
+import { Input } from 'src/components/Input/MDInput';
+import Gallery from 'src/components/View/Gallery';
+
 const initialLayout = { width: 300, height: 300 };
 
 const TransactionList = ({ navigation }) => {
 
   const dispatch = useDispatch()
-  const DataTransaksi = useSelector(state => state.Transaction)
   const User = useSelector(state => state.User)
+  const DataTransaksi = useSelector(state => state.Transaction)
+  const { data: trxData, isLoading } = DataTransaksi
   const [search, setSearch] = useState('')
-  const [searchIconColor, setSearchIconColor] = useState(ColorsList.greyFont)
   const [filter, setFilter] = useState('all')
 
   const iconImage = {
@@ -51,8 +54,8 @@ const TransactionList = ({ navigation }) => {
   }
   const filterResult = (data) => {
     return data
-      .filter(item => filter == 'all' ? item : item.status.includes(filter))
-      .filter(item => JSON.stringify(item).toLowerCase().includes(search))
+      .filter(({ status }) => filter == 'all' ? true : status.includes(filter))
+      .filter(({ payment_code }) => payment_code.toLowerCase().includes(search.toLowerCase()))
   }
   useEffect(() => {
     _effect()
@@ -60,93 +63,16 @@ const TransactionList = ({ navigation }) => {
 
   const _effect = async () => {
     const userToken = await getUserToken()
-      dispatch(getTransactionList(
-        User.store?  User.store.id_store : 0, 
-        userToken
-        ))
+    dispatch(getTransactionList(
+      User.store ? User.store.id_store : 0,
+      userToken
+    ))
   }
 
-  const [filterPopup, setFilterPopup] = useState(false)
   const selectFilter = (val) => {
-    setFilterPopup(false)
     setFilter(val)
   }
-  const DaftarTransaksi = ({ route }) => {
-    return (
-      <View style={{ flex: 1, backgroundColor: DataTransaksi.isLoading ? ColorsList.white : ColorsList.authBackground }}>
-        {
-          DataTransaksi.isLoading ?
-            <View>
-              <TransactionPlaceholder />
-              <TransactionPlaceholder />
-              <TransactionPlaceholder />
-            </View>
-            :
-            <View>
-              <SearchInputV2
-                placeholder="Cari transaksi"
-                onFocus={() => setSearchIconColor(ColorsList.primary)}
-                onBlur={() => setSearchIconColor(ColorsList.greyFont)}
-                value={search}
-                onChangeText={text => setSearch(text)}
-              />
-              {
-                eval(DataTransaksi.data.rMap(item => filterResult(item.data).length).join('+')) > 0 ?
-                  <FlatList
-                    style={{ marginBottom: 70 }}
-                    data={DataTransaksi.data}
-                    renderItem={({ item }) => [
-                      filterResult(item.data).length > 0 ?
-                        <View style={{ marginVertical: 10 }}>
-                          <Wrapper justify="space-between">
-                            <Text>{moment(item.date).format('ddd, DD MMM YYYY')}</Text>
-                            <Text font="SemiBold">{convertRupiah(item.total)}</Text>
-                          </Wrapper>
-                        </View> : null,
-                      <View>
-                        {
-                          filterResult(item.data).rMap((trx, i) => {
-                            return <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}>
-                              <Wrapper shadow style={[i > 0 ? { marginTop: SizeList.base } : null, { padding: SizeList.padding, backgroundColor: ColorsList.white }]} justify="space-between">
-                                {/* <View style={{ padding: 15 }}> */}
-                                <Wrapper _width="60%" justify="flex-start">
-                                  <View style={{ justifyContent: 'center', padding: 10, paddingLeft: 5 }}>
-                                    <Image style={{ width: 20, height: 20, }} source={iconImage[trx.status].image} />
-                                  </View>
-                                  <View style={{ justifyContent: 'center' }}>
-                                    <Text font="SemiBold">{trx.payment_code}</Text>
-                                    <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
-                                  </View>
-                                </Wrapper>
-                                <View _style={{ width: '38%' }}>
-                                  <Text font="SemiBold" align="right" color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
-                                  <Text align="right">{convertRupiah(trx.total_transaction)}</Text>
-                                </View>
-                              </Wrapper>
-                            </TouchableOpacity>
-                          })
-                        }
-                      </View>
-                    ]}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                  :
-                  <View style={{ alignItems: 'center' }}>
-                    <Image style={{ width: 250, height: 250 }} source={require('src/assets/images/no-transaction.png')} />
-                    <View style={{ padding: 20, alignItems: 'center' }}>
-                      <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
-                      <Text align="center">Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
-                    </View>
-                  </View>
-              }
-            </View>
-        }
-      </View>
-    )
-  }
-
-  return (<Container header={{
+  return <Container header={{
     title: "DAFTAR TRANSAKSI",
     renderLeftAccessory: () => <View style={{ width: 60, alignItems: "flex-start" }}>
       <BottomSheetSelect
@@ -168,11 +94,82 @@ const TransactionList = ({ navigation }) => {
       </TouchableOpacity>
     </View>
   }}>
-    <Body>
-      <DaftarTransaksi />
+    <Input
+      style={{ marginHorizontal: SizeList.bodyPadding }}
+      noLabel
+      value={search}
+      label="Cari transaksi"
+      onChangeText={text => setSearch(text)}
+      renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
+    />
+    <Body style={{ paddingTop: 0, marginTop: SizeList.base }} persistentScrollbar>
+      <View style={{ flex: 1, backgroundColor: isLoading ? ColorsList.white : ColorsList.authBackground }}>
+        {
+          isLoading ?
+            <View>
+              <TransactionPlaceholder />
+              <TransactionPlaceholder />
+              <TransactionPlaceholder />
+            </View>
+            :
+            <View>
+              {
+                eval(trxData.map(({ data }) => filterResult(data).length).join('+')) > 0 ? <Gallery
+                  data={trxData}
+                  renderItem={({ item: { data, date, total } }) => {
+                    const dataTrx = filterResult(data)
+                    return <View>
+                      <Wrapper style={{
+                        marginVertical: SizeList.base,
+                        ...dataTrx.length == 0 && { display: "none" }
+                      }} justify="space-between">
+                        <Text>{moment(date).format('ddd, DD MMM YYYY')}</Text>
+                        <Text font="SemiBold">{convertRupiah(total)}</Text>
+                      </Wrapper>
+                      <Gallery
+                        data={dataTrx}
+                        renderItem={({ item: trx, i }) => {
+                          return <Button
+                            spaceBetween
+                            style={{ marginVertical: SizeList.secondary }}
+                            radius={SizeList.borderRadius}
+                            padding={SizeList.padding}
+                            color={["white"]}
+                            onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}
+                          >
+                            <Wrapper justify="flex-start">
+                              <View style={{ justifyContent: 'center', padding: 10, paddingLeft: 5 }}>
+                                <Image style={{ width: 20, height: 20, }} source={iconImage[trx.status].image} />
+                              </View>
+                              <View style={{ justifyContent: 'center' }}>
+                                <Text font="SemiBold">{trx.payment_code}</Text>
+                                <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
+                              </View>
+                            </Wrapper>
+                            <View>
+                              <Text font="SemiBold" align="right" color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
+                              <Text align="right">{convertRupiah(trx.total_transaction)}</Text>
+                            </View>
+                          </Button>
+                        }}
+                      />
+                    </View>
+                  }}
+                />
+                  :
+                  <View style={{ alignItems: 'center' }}>
+                    <Image style={{ width: 250, height: 250 }} source={require('src/assets/images/no-transaction.png')} />
+                    <View style={{ padding: 20, alignItems: 'center' }}>
+                      <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
+                      <Text align="center">Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+                    </View>
+                  </View>
+              }
+            </View>
+        }
+      </View>
     </Body>
   </Container>
-  )
 }
 
 export default TransactionList
