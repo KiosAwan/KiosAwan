@@ -8,10 +8,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import BarStatus from 'src/components/BarStatus';
 import { useSelector, useDispatch } from 'react-redux';
 import { convertRupiah, getUserToken } from 'src/utils/authhelper';
-import { ColorsList } from 'src/styles/colors';
+import { ColorsList, infoColorSetting } from 'src/styles/colors';
 import { PPOBCard } from 'src/components/Card/CardIcon';
 
-import { Button } from 'src/components/Button/Button';
+import { Button, Info } from 'src/components/Button/Button';
 import { Image } from 'src/components/CustomImage';
 import { $Padding } from 'src/utils/stylehelper';
 import Divider from 'src/components/Row/Divider';
@@ -70,19 +70,9 @@ const PPOB = ({ navigation }) => {
 		}
 	}
 
-	const _onPressRiwayat = () => {
-		if (User.data.status == 1) {
-			navigation.navigate('/ppob/riwayat')
-		} else {
-			_setAlertTitle("FITUR INI")
-			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
-			_setAlert(true)
-		}
-	}
 	const _navigateProduct = route => {
 		navigation.navigate(route)
 	}
-	const _moreMenu = () => setMoreVisible(true)
 	return (
 		<Container header={{
 			onPressBack: () => navigation.goBack(),
@@ -120,6 +110,16 @@ const PPOB = ({ navigation }) => {
 					</View>
 					<Button width={100} onPress={_onPressTopUp}>TOP UP</Button>
 				</Wrapper>
+				<Button
+					align="flex-start"
+					textProps={{ align: "left" }}
+					onPress={() => navigation.navigate("/ppob/settings")}
+					color={infoColorSetting} style={{ marginVertical: SizeList.padding, borderRadius: SizeList.borderRadius, }}>
+					<Text>{`Silahkan atur harga produk sebelum memulai transaksi.`}
+						<Text style={{ textDecorationLine: 'underline', }}>Klik disini</Text>
+					</Text>
+
+				</Button>
 				{
 					maintanance &&
 					<Button style={{ marginTop: 10 }} disabled color="info" wrapper={{ flexStart: true }}>
