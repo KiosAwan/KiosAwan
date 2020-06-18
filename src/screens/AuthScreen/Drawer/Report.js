@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
 import { Modal } from 'src/components/ModalContent/Popups';
@@ -16,6 +16,7 @@ import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
 import { SizeList } from 'src/styles/size';
 import { shadowStyle } from 'src/components/Input/MDInput';
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import { Image } from 'src/components/CustomImage';
 const ViewShadow = props => <View style={{ marginBottom: SizeList.base, padding: props.noPadding ? 0 : SizeList.padding, }}>
 	{!props.noTitle && <Text style={{ marginBottom: props.noMargin ? 10 : 0 }}>{props.title}</Text>}
 	<View {...props} style={[{ marginTop: props.noMargin ? 0 : SizeList.base }, shadowStyle, props.style]} />
@@ -109,6 +110,11 @@ const Report = ({ navigation }) => {
 		}
 	}
 
+	const _handleRefresh = async () => {
+		if (User.store) {
+			GetData({})
+		}
+	}
 	return <Container>
 		<ModalMonth {...ctrl} />
 		<GlobalHeader
@@ -116,113 +122,125 @@ const Report = ({ navigation }) => {
 			renderLeftAccessory={() => null}
 			renderRightAccessory={() => <IconHeader onPress={() => ctrl.setVisible(true)} name="calendar" />}
 		/>
-		<Body>
-			<View style={{ marginBottom: SizeList.base }}>
-				<SelectBoxModal
-					closeOnSelect noLabel
-					height={200}
-					value={MainTab.routes[MainTab.index].title}
-					data={MainTab.routes}
-					handleChangePicker={(a, i) => MainTab.setIndex(i)}
-					renderItem={item => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
-				/>
-			</View>
-			<ViewShadow noPadding title={moment(dateSelected).format('MMMM YYYY')}>
-				<Wrapper style={{ marginVertical: SizeList.base }} >
-					<View>
-						<Text>Total Penjualan</Text>
-						<Wrapper>
-							<Text color={_getFlagColor(dataTransaction.penjualan_flag)} >{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
-							{dataTransaction.penjualan_flag != 0 &&
-								<Icon
-									size={15}
-									name={dataTransaction.penjualan_flag == 2 ? "sort-up" : "sort-down"}
-									color={_getFlagColor(dataTransaction.penjualan_flag)}
-								/>
-							}
+		<Body refreshControl={<RefreshControl refreshing={false} onRefresh={_handleRefresh} />}>
+			{!User.store ?
+				<View style={{ alignItems: 'center', }}>
+					<Image style={{ width: 250, height: 250 }} source={require('src/assets/images/no-transaction.png')} />
+					<View style={{ padding: 20, alignItems: 'center' }}>
+						<Text font="SemiBold" size={17}>Anda belum memiliki transaksi</Text>
+						<Text align="center">Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
+					</View>
+				</View>
+				:
+				<View>
+					<View style={{ marginBottom: SizeList.base }}>
+						<SelectBoxModal
+							closeOnSelect noLabel
+							height={200}
+							value={MainTab.routes[MainTab.index].title}
+							data={MainTab.routes}
+							handleChangePicker={(a, i) => MainTab.setIndex(i)}
+							renderItem={item => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
+						/>
+					</View>
+					<ViewShadow noPadding title={moment(dateSelected).format('MMMM YYYY')}>
+						<Wrapper style={{ marginVertical: SizeList.base }} >
+							<View>
+								<Text>Total Penjualan</Text>
+								<Wrapper>
+									<Text color={_getFlagColor(dataTransaction.penjualan_flag)} >{_convertRupiah(dataTransaction, 'total_penjualan')}</Text>
+									{dataTransaction.penjualan_flag != 0 &&
+										<Icon
+											size={15}
+											name={dataTransaction.penjualan_flag == 2 ? "sort-up" : "sort-down"}
+											color={_getFlagColor(dataTransaction.penjualan_flag)}
+										/>
+									}
+								</Wrapper>
+							</View>
+							<View>
+								<Text>Total Keuntungan</Text>
+								<Wrapper>
+									<Text color={_getFlagColor(dataTransaction.profit_flag)} >{_convertRupiah(dataTransaction, 'total_profit')}</Text>
+									{dataTransaction.profit_flag != 0 &&
+										<Icon
+											size={15}
+											name={dataTransaction.profit_flag == 2 ? "sort-up" : "sort-down"}
+											color={_getFlagColor(dataTransaction.profit_flag)}
+										/>
+									}
+								</Wrapper>
+							</View>
 						</Wrapper>
-					</View>
-					<View>
-						<Text>Total Keuntungan</Text>
-						<Wrapper>
-							<Text color={_getFlagColor(dataTransaction.profit_flag)} >{_convertRupiah(dataTransaction, 'total_profit')}</Text>
-							{dataTransaction.profit_flag != 0 &&
-								<Icon
-									size={15}
-									name={dataTransaction.profit_flag == 2 ? "sort-up" : "sort-down"}
-									color={_getFlagColor(dataTransaction.profit_flag)}
-								/>
-							}
+						<Divider />
+						<Wrapper style={{ marginVertical: SizeList.base }} >
+							<View>
+								<Text align="center">Transaksi</Text>
+								<Text align="center" color="primary">{dataTransaction && dataTransaction.jumlah_transaksi}</Text>
+							</View>
+							<View>
+								<Text align="center">Produk Terjual</Text>
+								<Text align="center" color="primary">{dataTransaction && dataTransaction.produk_terjual}</Text>
+							</View>
 						</Wrapper>
-					</View>
-				</Wrapper>
-				<Divider />
-				<Wrapper style={{ marginVertical: SizeList.base }} >
-					<View>
-						<Text align="center">Transaksi</Text>
-						<Text align="center" color="primary">{dataTransaction && dataTransaction.jumlah_transaksi}</Text>
-					</View>
-					<View>
-						<Text align="center">Produk Terjual</Text>
-						<Text align="center" color="primary">{dataTransaction && dataTransaction.produk_terjual}</Text>
-					</View>
-				</Wrapper>
-			</ViewShadow>
-			<ViewShadow title="Laporan keuangan" noPadding>
-				{
-					dataTransaction &&
-					['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
-						.rMap((key, i) => <Wrapper key={i.toString()} style={{ margin: 10 }} spaceBetween>
-							<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
-							<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
-						</Wrapper>)
-				}
-			</ViewShadow>
-			<ViewShadow noPadding title="Laporan laba/rugi kotor">
-				{
-					dataTransaction &&
-					['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
-						.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-							<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
-							<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
-						</Wrapper>)
-				}
-			</ViewShadow>
-			<Text style={{ marginBottom: SizeList.base }}>Laporan non tunai</Text>
-			<SelectBoxModal
-				closeOnSelect noLabel
-				style={{ marginTop: SizeList.base }}
-				value={NT && NT.selected ? NT.selected.method : ''}
-				data={dataReportNonTunai}
-				handleChangePicker={selected => setNT({ selected })}
-				renderItem={item => <Text font="SemiBold" color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFontHard'}>{item.method.toUpperCase()}</Text>}
-			/>
-			<ViewShadow noPadding noTitle>
-				{
-					NT && NT.selected && ['penjualan_bersih', 'penjualan_kotor', 'diskon', 'pembatalan', 'pajak'].rMap((key, i) => (
-						<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-							<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
-							<Text color={i == 0 && 'primary'}>{_convertRupiah(NT.selected, key)}</Text>
-						</Wrapper>
-					))
-				}
-			</ViewShadow>
-			{
-				dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }, index) => (
-					<ViewShadow noMargin noPadding noTitle={index != 0} title="Laporan penjualan">
-						<Text style={{ paddingVertical: SizeList.base }} align="center">{!nama_category ? 'PESANAN MANUAL' : nama_category.toUpperCase()}</Text>
-						<Divider style={{ marginVertical: SizeList.secondary }} />
+					</ViewShadow>
+					<ViewShadow title="Laporan keuangan" noPadding>
 						{
-							data && data.length > 0 ? data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary, paddingVertical: SizeList.secondary }} spaceBetween>
-								<View>
-									<Text>{Product}</Text>
-									<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
-								</View>
-								<Text _flexStart>{total.convertRupiah()}</Text>
-							</Wrapper>) : <Text>Tidak ada data penjualan</Text>
+							dataTransaction &&
+							['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
+								.rMap((key, i) => <Wrapper key={i.toString()} style={{ margin: 10 }} spaceBetween>
+									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+									<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
+								</Wrapper>)
 						}
 					</ViewShadow>
-				))
+					<ViewShadow noPadding title="Laporan laba/rugi kotor">
+						{
+							dataTransaction &&
+							['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
+								.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+									<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
+								</Wrapper>)
+						}
+					</ViewShadow>
+					<Text style={{ marginBottom: SizeList.base }}>Laporan non tunai</Text>
+					<SelectBoxModal
+						closeOnSelect noLabel
+						style={{ marginTop: SizeList.base }}
+						value={NT && NT.selected ? NT.selected.method : ''}
+						data={dataReportNonTunai}
+						handleChangePicker={selected => setNT({ selected })}
+						renderItem={item => <Text font="SemiBold" color={NT.selected && NT.selected.method == item.method ? 'primary' : 'greyFontHard'}>{item.method.toUpperCase()}</Text>}
+					/>
+					<ViewShadow noPadding noTitle>
+						{
+							NT && NT.selected && ['penjualan_bersih', 'penjualan_kotor', 'diskon', 'pembatalan', 'pajak'].rMap((key, i) => (
+								<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
+									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+									<Text color={i == 0 && 'primary'}>{_convertRupiah(NT.selected, key)}</Text>
+								</Wrapper>
+							))
+						}
+					</ViewShadow>
+					{
+						dataReportCategory && dataReportCategory.rMap(({ harga, data, nama_category }, index) => (
+							<ViewShadow noMargin noPadding noTitle={index != 0} title="Laporan penjualan">
+								<Text style={{ paddingVertical: SizeList.base }} align="center">{!nama_category ? 'PESANAN MANUAL' : nama_category.toUpperCase()}</Text>
+								<Divider style={{ marginVertical: SizeList.secondary }} />
+								{
+									data && data.length > 0 ? data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary, paddingVertical: SizeList.secondary }} spaceBetween>
+										<View>
+											<Text>{Product}</Text>
+											<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
+										</View>
+										<Text _flexStart>{total.convertRupiah()}</Text>
+									</Wrapper>) : <Text>Tidak ada data penjualan</Text>
+								}
+							</ViewShadow>
+						))
+					}
+				</View>
 			}
 		</Body>
 	</Container >
