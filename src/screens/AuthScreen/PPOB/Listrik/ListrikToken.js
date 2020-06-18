@@ -216,7 +216,7 @@ const ListrikToken = ({ navigation }) => {
 					))}
 				</View>
 			}
-			{response && productToken &&
+			{response && response.length != 0 && productToken &&
 				<View style={{ flex: 1, padding: SizeList.padding, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
 					<Text style={{ marginBottom: 5 }}>Pilih nominal token listrik</Text>
 					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
@@ -240,7 +240,7 @@ const ListrikToken = ({ navigation }) => {
 			}
 		</Body>
 		<Footer>
-			{response &&
+			{response && response.length != 0 &&
 				<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
 					BAYAR
             </Button>
