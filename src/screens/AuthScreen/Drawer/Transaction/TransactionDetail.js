@@ -76,7 +76,7 @@ const TransactionDetail = ({ navigation }) => {
 	}, [])
 	return <Container header={{
 		title: "Struk Belanja",
-		renderLeftAccesory: () => fromCashier ? <View style={{ width: 60 }} /> : <Icon name={"arrow-left"} size={20} color={ColorsList.greyFont} />,
+		renderLeftAccessory: () => fromCashier ? <View style={{ width: 60 }} /> : <Icon name={"arrow-left"} size={20} color={ColorsList.greyFont} />,
 		onPressBack: () => fromCashier ? null : back ? navigation.navigate(back) : navigation.goBack(),
 		renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 50 }}>
 			<TouchableOpacity onPress={_shareBill}>

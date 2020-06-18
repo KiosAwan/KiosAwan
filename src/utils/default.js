@@ -45,6 +45,10 @@ Array.prototype.loopCallback = function (callback, reverse, index) {
     }
   }
 }
+Number.prototype.format = function (n, x) {
+  var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&.');
+}
 String.prototype.validURL = function () {
   var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -82,30 +86,14 @@ String.prototype.Contains = Array.prototype.Contains = function (element) {
   return this.indexOf(element) > -1;
 }
 String.prototype.convertRupiah = Number.prototype.convertRupiah = function () {
-  try {
-    var nominal = this.toString() || 0
-    const reverse = nominal
-      .toString()
-      .split("")
-      .reverse()
-      .join("");
-    const ribuan = reverse.match(/\d{1,3}/g);
-    const hasil = ribuan
-      .join(".")
-      .split("")
-      .reverse()
-      .join("");
-    let final = "Rp. " + hasil
-    return final;
-  } catch (e) {
-    return "RP. 0"
-  }
+  return "Rp. " + parseInt(this).format(0, 3)
 }
-String.prototype.extractNumber = function () {
+String.prototype.extractNumber = Number.prototype.extractNumber = function () {
+  var str = this.toString()
   try {
-    var matches = this.match(/\d+/g);
+    var matches = str.match(/(-?|-\s+?)\d+/g);
     if (matches.length > 0)
-      return matches.join('').toInt()
+      return matches.join('').replace(/\s/g, '').toInt()
   } catch (e) {
     return 0
   }

@@ -21,7 +21,7 @@ import { Icon } from 'native-base'
 
 const SubProduct = ({ navigation }) => {
 	const [dropdownVisible, setDropdownVisible] = useState(false)
-	const [products, setProducts] = useState([])
+	const [products, setProducts, resetProducts] = stateObject({})
 	const [providerSelected, setProviderSelected] = useState()
 	const [subProduct, setSubProduct] = useState([])
 	const [product] = useState(navigation.state.params)
@@ -51,22 +51,32 @@ const SubProduct = ({ navigation }) => {
 			} else {
 				setProviderSelected(provider)
 				const { data, status } = await getSubProducts(product.type, provider.code)
-				resetProductMargin()
+				const objData = data.reduce((obj, item, i) => {
+					let index = i.toString().length == 3 ? i : (i.toString().length == 2 ? "0" + i : "00" + i)
+					let key = `${index} - ${item.name} - ${item.productID}`
+					item.oldMargin = item.margin
+					item.oldPrice_sale = item.price_sale
+					obj[key] = item
+					return obj
+				}, {})
 				if (status == 200) {
-					setProducts([])
-					setTimeout(() => setProducts(data), 50)
+					setTimeout(() => resetProducts(objData), 50)
 				}
 			}
 		}
 	}
 	const _saveMargin = async () => {
 		let { type } = product
-		let finalMargins = Object.keys(productMargin).rMap(i => {
-			let { margin, price, productID, product: name } = productMargin[i] || {}
+		let finalMargins = Object.keys(products).map(key => {
+			let { margin, price_sale, price, productID, name, openCashback } = products[key] || {}
 			if (product.product_type == 3) {
-				margin = margin.extractNumber() - price
+				margin = price_sale.toString().extractNumber() - price
+			} else {
+				if (parseInt(margin) < 2000) {
+					return {}
+				}
 			}
-			if (!productID) {
+			if (!productID || (![false, true].includes(openCashback))) {
 				return {}
 			}
 			return { productID, product: name, margin, type }
@@ -100,69 +110,46 @@ const SubProduct = ({ navigation }) => {
 		}
 	}
 	const renderProductType1 = () => {
-		const show = item => {
-			try {
-				let key = item.productID + item.name
-				let data = productMargin[key]
-				return data.openCashback
-			} catch (err) {
-				return false
+		const _openCashback = key => {
+			const data = {
+				...products[key],
+				openCashback: true
 			}
+			setProducts({ [key]: data })
 		}
-		const _openCashback = item => {
-			let key = item.productID + item.name
-			let data = productMargin[key]
-			data = { ...data, openCashback: true }
-			setProductMargin({ [key]: data })
-		}
-
-		const _pilihCashback = (item, margin) => {
-			let { name, productID } = item
-			let key = productID + name
-			let data = productMargin[key]
-			data = {
-				...data,
-				margin, productID, product: name,
-				openCashback: false
+		const _pilihCashback = (key, margin) => {
+			const item = products[key]
+			const cash_back = parseInt(margin) - parseInt(item.awan)
+			const data = {
+				...item,
+				openCashback: false,
+				cash_back,
+				margin
 			}
-			setProductMargin({ [key]: data })
+			setProducts({ [key]: data })
 		}
-
-		const renderMap = (item, i) => {
-			let key = item.productID + item.name
-			const renderCashback = () => {
-				let [modal, harga] = [
-					item.awan + parseInt(item.price),
-					parseInt(item.price) + (
-						productMargin[key] ?
-							productMargin[key].margin ?
-								productMargin[key].margin :
-								parseInt(item.margin) :
-							parseInt(item.margin)
-					)
-				]
-				return harga - modal > 0 ? harga - modal : 0
-			}
-			return <View key={i.toString()}>
+		const renderMap = (key, index) => {
+			const item = products[key]
+			return <View>
 				<Wrapper spaceBetween style={{ backgroundColor: ColorsList.white }}>
 					<View style={{ padding: 10 }}>
 						<Text color="greyFontHard">{item.name}</Text>
-						{!show(item) && <View>
-							<Text>Admin : {convertRupiah(productMargin[key] && productMargin[key].margin || item.margin)}</Text>
-							<Text>Cashback : {convertRupiah(renderCashback())}</Text>
+						{!item.openCashback && <View>
+							<Text>Admin : {convertRupiah(item.margin)}</Text>
+							<Text>Cashback : {convertRupiah(item.cash_back)}</Text>
 						</View>}
 					</View>
-					{show(item) ?
-						<Text style={{ marginRight: SizeList.base }}>Cashback : {convertRupiah(renderCashback())}</Text> :
-						<Button color="linkPrimary" onPress={() => _openCashback(item)}>Pilih Biaya Admin</Button>
+					{item.openCashback ?
+						<Text style={{ marginRight: SizeList.base }}>Cashback : {convertRupiah(item.cash_back)}</Text> :
+						<Button color="linkPrimary" onPress={() => _openCashback(key)}>Pilih Biaya Admin</Button>
 					}
 				</Wrapper>
 				{
-					show(item) && <View style={{ backgroundColor: ColorsList.white, paddingHorizontal: SizeList.base }}>
+					item.openCashback && <View style={{ backgroundColor: ColorsList.white, paddingHorizontal: SizeList.base }}>
 						<Input
 							currency disabled
 							label="Biaya Admin"
-							value={renderCashback().toString()}
+							value={item.margin.toString()}
 						/>
 						<Text style={{ marginTop: SizeList.secondary }}>Pilih jumlah biaya admin</Text>
 						<Wrapper flexContent style={{ marginVertical: 10 }}>
@@ -170,9 +157,9 @@ const SubProduct = ({ navigation }) => {
 								[2000, 2500, 3000, 3500].rMap((btn, i) => {
 									return <Button
 										key={i.toString()}
-										active={productMargin[key] && productMargin[key].margin == btn || !productMargin[key].margin && btn == item.margin}
+										active={btn.toString() == item.margin.toString()}
 										style={{ marginHorizontal: 1 }}
-										onPress={() => _pilihCashback(item, btn)}
+										onPress={() => _pilihCashback(key, btn)}
 										textProps={{ size: 10 }}
 										color={["white", "greyFontHard", "borderColor"]}
 										activeColor="primary"
@@ -190,55 +177,58 @@ const SubProduct = ({ navigation }) => {
 									<IconFA style={{ color: ColorsList.cashbackFont, marginRight: SizeList.secondary }} name="coins" />
 									<Text color="cashbackFont">CASHBACK</Text>
 								</Wrapper>
-								<Text color="cashbackFont">{`Cashback yang di dapat oleh mitra sebesar ${convertRupiah(renderCashback())}`}</Text>
+								<Text color="cashbackFont">{`Cashback yang di dapat oleh mitra sebesar ${convertRupiah(item.cash_back)}`}</Text>
 							</View>
 						</Button>
 					</View>
 				}
-				{i < products.length && <Divider />}
+				{index < dataProduct.length && <Divider />}
 			</View>
 		}
+		const dataProduct = Object.keys(products).sort((a, b) => a > b)
 		return <View style={{ flex: 1, paddingTop: 10 }}>
 			<Text style={{ marginBottom: SizeList.base }}>Jumlah cashback menyesuaikan biaya admin yang dipilih</Text>
-			{products.rMap(renderMap)}
+			{dataProduct.rMap(renderMap)}
 		</View>
 	}
 
 	const renderProductType2 = () => {
 		return null
 	}
-	const renderProductType3 = () => products.rMap((item, i) => {
-		let { price, productID, name, price_sale } = item
-		let _key = `${productID}${name}`
-		let value = () => {
-			return productMargin[_key] &&
-				productMargin[_key].margin.toString() || price_sale.toString()
-		}
-		return <View>
-			<Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
-				<View _flex style={styles.leftWrapper}>
-					<Text font="SemiBold" color="greyFontHard">{name}</Text>
-					<Text>Modal : {convertRupiah(price)}</Text>
-				</View>
-				<MDInput
-					onChangeText={margin => setProductMargin({
-						[_key]: { margin, productID, product: name, price }
-					})}
-					onBlur={() => {
-						if (!(productMargin[_key] && productMargin[_key].margin.extractNumber() > parseInt(price))) {
-							setProductMargin({ [_key]: null })
-							setAlertProps({
-								visible: true,
-								message: 'Harga Jual Harus Lebih Besar Dari Harga Modal'
-							})
-						}
-					}}
-					currency
-					_style={styles.rightWrapper} value={value()} label="Harga Jual" />
-			</Wrapper>
-			{i < products.length && <Divider style={{ paddingHorizontal: SizeList.padding }} />}
-		</View>
-	})
+	const renderProductType3 = () => {
+		const dataProduct = Object.keys(products).sort((a, b) => a > b)
+		return dataProduct.rMap((key, i) => {
+			let item = products[key]
+			let { price, productID, name, price_sale } = item
+			let _key = `${productID}${name}`
+			return <View>
+				<Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
+					<View _flex style={styles.leftWrapper}>
+						<Text font="SemiBold" color="greyFontHard">{name}</Text>
+						<Text>Modal : {convertRupiah(price)}</Text>
+					</View>
+					<MDInput
+						onChangeText={price_sale => {
+							const data = { ...item, price_sale, openCashback: true }
+							setProducts({ [key]: data })
+						}}
+						onBlur={() => {
+							if (item.price_sale.extractNumber() < parseInt(item.price)) {
+								const data = { ...item, price_sale: item.oldPrice_sale, openCashback: false }
+								setProducts({ [key]: data })
+								setAlertProps({
+									visible: true,
+									message: 'Harga Jual Harus Lebih Besar Dari Harga Modal'
+								})
+							}
+						}}
+						currency
+						_style={styles.rightWrapper} value={item.price_sale.toString()} label="Harga Jual" />
+				</Wrapper>
+				{i < products.length && <Divider style={{ paddingHorizontal: SizeList.padding }} />}
+			</View>
+		})
+	}
 
 	const render = () => {
 		const [cari, setCari] = useState('')
@@ -263,7 +253,7 @@ const SubProduct = ({ navigation }) => {
 					closeOnSelect noLabel
 					keyExtractor={(a, i) => i.toString()}
 					handleChangePicker={item => _selectProvider(item)}
-					renderItem={(item, i) => <Button disabled key={i} width={SizeList.width} wrapper={{ justify: 'flex-start', }} key={i} color="link">
+					renderItem={(item, i) => <Button padding={0} disabled key={i} width={SizeList.width} wrapper={{ justify: 'flex-start' }} key={i} color="link">
 						<Image style={{ width: 20, height: 20 }} _style={{ marginRight: 10 }} source={{ uri: item.image }} />
 						<Text font="SemiBold">{item.operator.toUpperCase()}</Text>
 					</Button>

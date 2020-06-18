@@ -15,22 +15,9 @@ export const getUserId = async () => {
 }
 
 //helper
-export const convertRupiah = nominal => {
-  nominal = nominal || 0
-  const reverse = nominal
-    .toString()
-    .split("")
-    .reverse()
-    .join("");
-  const ribuan = reverse.match(/\d{1,3}/g);
-  const hasil = ribuan
-    .join(".")
-    .split("")
-    .reverse()
-    .join("");
-  let final = "Rp. " + hasil
-  return final;
-};
+export const convertRupiah = (nominal = "0") => {
+  return "Rp. " + parseInt(nominal).format(0, 3)
+}
 
 export const convertPhoneNumber = num => {
   num = num || 0

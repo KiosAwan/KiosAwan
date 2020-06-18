@@ -12,7 +12,7 @@ const stateObject = initValue => {
 		// console.debug(callback)
 		_setState({ ...state, ...value })
 	}
-	return [state, setState, () => _setState(initValue || {})]
+	return [state, setState, newValue => _setState(newValue || initValue || {})]
 }
 const stateArray = initValue => {
 	const [state, _setState] = useState(initValue || [])
