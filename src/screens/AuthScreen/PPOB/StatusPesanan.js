@@ -69,10 +69,12 @@ const StatusPesanan = ({ navigation }) => {
 			{
 				(payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
 					.rMap(key => {
+						if (key == 'tarif')
+							console.debug(key, payment[key], payment[key].convertRupiah())
 						return key != 'description' ? <View>
 							<Wrapper spaceBetween style={{ padding: SizeList.base }}>
 								<Text>{viewKey(key)}</Text>
-								<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : parseInt(payment[key]).convertRupiah()}</Text>
+								<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : payment[key].convertRupiah()}</Text>
 							</Wrapper>
 						</View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[key].split(';')[0]}</Button>
 					})
