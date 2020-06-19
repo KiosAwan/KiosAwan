@@ -155,7 +155,7 @@ const SubProduct = ({ navigation }) => {
 					item.openCashback && <View style={{ backgroundColor: ColorsList.white, paddingHorizontal: SizeList.base }}>
 						<Input
 							currency disabled
-							label="Biaya Admin"
+							label="Biaya Admin Tercetak"
 							value={item.margin.toString()}
 						/>
 						<Text style={{ marginTop: SizeList.secondary }}>Pilih jumlah biaya admin</Text>

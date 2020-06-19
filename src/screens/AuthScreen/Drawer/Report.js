@@ -230,11 +230,11 @@ const Report = ({ navigation }) => {
 								<Divider style={{ marginVertical: SizeList.secondary }} />
 								{
 									data && data.length > 0 ? data.rMap(({ Product, harga_jual, total, jumlah }, i) => <Wrapper style={{ marginBottom: SizeList.secondary, paddingVertical: SizeList.secondary }} spaceBetween>
-										<View>
+										<View _width="68%">
 											<Text>{Product}</Text>
 											<Text>{harga_jual.convertRupiah()} x {jumlah}</Text>
 										</View>
-										<Text _flexStart>{total.convertRupiah()}</Text>
+										<Text _width="30%" _flexStart align="right">{total.convertRupiah()}</Text>
 									</Wrapper>) : <Text>Tidak ada data penjualan</Text>
 								}
 							</ViewShadow>
