@@ -86,7 +86,11 @@ String.prototype.Contains = Array.prototype.Contains = function (element) {
   return this.indexOf(element) > -1;
 }
 String.prototype.convertRupiah = Number.prototype.convertRupiah = function () {
-  return "Rp. " + parseInt(this).format(0, 3)
+  var str = this
+  if ([undefined, null, ""].includes(str)) {
+    str = "0"
+  }
+  return "Rp. " + parseInt(str).format(0, 3)
 }
 String.prototype.extractNumber = Number.prototype.extractNumber = function () {
   var str = this.toString()

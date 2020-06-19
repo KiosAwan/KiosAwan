@@ -16,7 +16,7 @@ export const getUserId = async () => {
 
 //helper
 export const convertRupiah = (nominal = "0") => {
-  return "Rp. " + parseInt(nominal).format(0, 3)
+  return nominal.convertRupiah()
 }
 
 export const convertPhoneNumber = num => {
