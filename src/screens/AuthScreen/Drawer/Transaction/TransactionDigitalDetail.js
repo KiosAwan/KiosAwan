@@ -70,27 +70,30 @@ const TransactionDigitalDetail = ({ navigation }) => {
             {
                 (payment ? Object.keys(payment).filter(a => !filterPayment.includes(a)) : [])
                     .rMap(
-                        item => item != 'description' ? <View>
-                            <Wrapper spaceBetween style={{ padding: 10 }}>
-                                <Text>{viewKey(item)}</Text>
-                                <Text align="right" _width="49%">{![
-                                    'total',
-                                    'admin',
-                                    'tarif',
-                                    'ppj',
-                                    'ppn',
-                                    'angsuran',
-                                    'tagihan',
-                                    'adminBank',
-                                    'denda',
-                                    'stroom_token',
-                                    'pembelian_token',
-                                    'materai'
-                                ].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()}</Text>
-                            </Wrapper>
-                            {/* <Divider /> */}
-                        </View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
-                    )
+                        item => {
+                            // if (item == 'periode') {
+                            //     console.debug(payment[item])
+                            // }
+                            return item != 'description' ? <View>
+                                <Wrapper spaceBetween style={{ padding: 10 }}>
+                                    <Text>{viewKey(item)}</Text>
+                                    <Text align="right" _width="49%">{![
+                                        'total',
+                                        'admin',
+                                        'ppj',
+                                        'ppn',
+                                        'angsuran',
+                                        'tagihan',
+                                        'adminBank',
+                                        'denda',
+                                        'stroom_token',
+                                        'pembelian_token',
+                                        'materai'
+                                    ].includes(item) ? payment[item].trim() : payment[item].convertRupiah()}</Text>
+                                </Wrapper>
+                                {/* <Divider /> */}
+                            </View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
+                        })
             }
         </View>
     }
