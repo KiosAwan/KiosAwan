@@ -93,7 +93,7 @@ const Report = ({ navigation }) => {
 		}
 	})
 	const _convertRupiah = (data, key) => {
-		let value = !data ? '' : data[key] || ''
+		let value = !data ? '' : data[key] || 0
 		return value.toString().convertRupiah()
 	}
 
