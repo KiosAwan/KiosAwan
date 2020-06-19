@@ -97,7 +97,6 @@ const StatusPesanan = ({ navigation }) => {
 								!['total',
 									'tagihan1', 'tagihan2', 'tagihan3',
 									'admin',
-									'tarif',
 									'ppj',
 									'ppn',
 									'angsuran',
