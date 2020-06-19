@@ -43,7 +43,7 @@ const CheckMember = (props) => {
           if (res.status == 200) {
             await AsyncStorage.setItem('@user_token', res.data.data.token)
             await dispatch(getProfile(checkUserData, res.data.data.token))
-            navigation.navigate('/')
+            // navigation.navigate('/')
           }
         } catch (err) {
           navigation.navigate('/unauth')
@@ -64,11 +64,8 @@ const CheckMember = (props) => {
       <BarStatus />
       <Image
         style={styles.logo}
-        source={require('../assets/images/logo.png')}
+        source={require('../assets/images/splash_logo.png')}
       />
-      <View style={{ width: '60%', alignItems: "center" }}>
-        <Text align="center">{Strings.SPLASHSCREENTEXT}</Text>
-      </View>
     </Container>
   );
 }
@@ -85,8 +82,8 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   logo: {
-    height: 50,
-    width: 100,
+    height: 80,
+    width: 160,
     resizeMode: "contain"
   }
 })

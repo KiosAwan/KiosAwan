@@ -8,7 +8,7 @@ import { Deeplink } from './src/routes/Deeplink';
 import { Root } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import OneSignal from 'react-native-onesignal'
-
+import SplashScreen from 'react-native-splash-screen'
 const prefix = 'awanapp://';
 export default class App extends Component {
   constructor(properties) {
@@ -20,6 +20,7 @@ export default class App extends Component {
   componentDidMount() {
     Linking.getInitialURL().then(Deeplink).catch(err => console.error('An error occurred', err));
     Linking.addEventListener('url', this._handleOpenURL);
+    SplashScreen.hide()
   }
   componentWillUnmount() {
     OneSignal.removeEventListener('ids', this.onIds);
