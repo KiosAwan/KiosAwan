@@ -1,5 +1,6 @@
 import { openPin } from "src/utils/pin-otp-helper"
 import { createUserPIN } from "src/utils/authhelper"
+import { NavigationActions, StackActions } from "react-navigation"
 
 const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle }) => {
 	const onResolve = async (pin, confirmPin) => {
@@ -18,8 +19,17 @@ const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisibl
 			if (res.status == 200) {
 				setTimeout(() => {
 					setModalVisible(false)
-					navigation.navigate('/temp/update-profile')
-				}, 800)
+					navigation.dispatch(
+						StackActions.reset({
+							index: 1,
+							key: null,
+							actions: [
+								NavigationActions.navigate({ routeName: '/' }),
+								NavigationActions.navigate({ routeName: '/temp/update-profile' })
+							]
+						})
+					)
+				}, 1000)
 			} else {
 				setAlertMessage("Gagal membuat PIN")
 				setAlert(true)

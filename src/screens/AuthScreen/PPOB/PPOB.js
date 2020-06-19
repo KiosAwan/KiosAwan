@@ -115,7 +115,7 @@ const PPOB = ({ navigation }) => {
 					textProps={{ align: "left" }}
 					onPress={() => navigation.navigate("/ppob/settings")}
 					color={infoColorSetting} style={{ marginVertical: SizeList.padding, borderRadius: SizeList.borderRadius, }}>
-					<Text>{`Silahkan atur harga produk sebelum memulai transaksi.`}
+					<Text>{`Silahkan atur harga produk sebelum memulai transaksi. `}
 						<Text style={{ textDecorationLine: 'underline', }}>Klik disini</Text>
 					</Text>
 

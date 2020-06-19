@@ -4,7 +4,7 @@ import MDInput, { Input } from 'src/components/Input/MDInput'
 import Divider from 'src/components/Row/Divider'
 import Container, { Footer, Body } from 'src/components/View/Container'
 import { Wrapper } from 'src/components/View/Wrapper'
-import { View, Image } from 'react-native'
+import { View, Image, Modal } from 'react-native'
 import { Text } from 'src/components/Text/CustomText'
 import { stateObject } from 'src/utils/state'
 import { SizeList } from 'src/styles/size'
@@ -18,9 +18,11 @@ import { $Border } from 'src/utils/stylehelper'
 import BottomSheetSelect from 'src/components/Picker/BottomSheetSelect'
 import IconFA from 'react-native-vector-icons/FontAwesome5'
 import { Icon } from 'native-base'
+import ModalContent from 'src/components/ModalContent/ModalContent'
 
 const SubProduct = ({ navigation }) => {
 	const [dropdownVisible, setDropdownVisible] = useState(false)
+	const [modalVisible, setModalVisible] = useState(false)
 	const [products, setProducts, resetProducts] = stateObject({})
 	const [providerSelected, setProviderSelected] = useState()
 	const [subProduct, setSubProduct] = useState([])
@@ -84,6 +86,11 @@ const SubProduct = ({ navigation }) => {
 		const { status, data } = await setMarginProduct(finalMargins)
 		if (status == 200) {
 			_selectProvider(providerSelected, true)
+			setModalVisible(true)
+			setTimeout(() => {
+				setModalVisible(false)
+				navigation.goBack()
+			}, 1000)
 		} else {
 			setAlertProps({
 				visible: true,
@@ -234,6 +241,19 @@ const SubProduct = ({ navigation }) => {
 		const [cari, setCari] = useState('')
 		const selectFilter = subProduct.filter(({ operator }) => operator.toLowerCase().includes(cari.toLowerCase()))
 		return <View style={{ flex: 1 }}>
+			<Modal
+				animationType="fade"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+			>
+				<ModalContent
+					image={require('src/assets/images/addproductsuccess.png')}
+					infoText="Anda berhasil mengatur harga"
+				/>
+			</Modal>
 			{
 				['pulsa', 'kuota'].includes(product.type) && <BottomSheetSelect
 					font="SemiBold"

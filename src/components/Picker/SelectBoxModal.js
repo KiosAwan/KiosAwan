@@ -145,7 +145,7 @@ export const PilihPelanggan = props => {
 				}
 				const userToken = await getUserToken()
 				await sendNewCustomer(data)
-				setState({ isSelect: true })
+				setState({ isSelect: true, pelanggan: {} })
 				dispatch(getCustomer(User.store.id_store, userToken))
 			}
 		}
@@ -161,7 +161,7 @@ export const PilihPelanggan = props => {
 			}
 			const userToken = await getUserToken()
 			await editCustomer(data, pelanggan.id_customer)
-			setState({ isSelect: true })
+			setState({ isSelect: true, pelanggan: {} })
 			dispatch(getCustomer(User.store.id_store, userToken))
 		}
 	}
