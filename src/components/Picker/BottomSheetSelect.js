@@ -12,6 +12,7 @@ import { $BorderRadius } from 'src/utils/stylehelper';
 
 const BottomSheetSelect = props => {
 	let rb
+	const { borderRadius } = SizeList
 	const {
 		refs = () => null,
 		height = 250,
@@ -67,10 +68,9 @@ const BottomSheetSelect = props => {
 				{footer}
 			</View>
 		</View> : <View style={{ flex: 1, padding: SizeList.base }}>
-				{sheetContent}
+				{typeof sheetContent == "function" ? sheetContent(() => rb.close()) : sheetContent}
 			</View>
 	}
-	const { borderRadius } = SizeList
 	return <View>
 		<RBSheet
 			ref={ref => {
@@ -115,32 +115,28 @@ const BottomSheetSelect = props => {
 	</View>
 }
 
-const BottomSheet = props => {
+const BottomSheet = _props => {
 	const {
+		content,
 		renderButton,
-		children,
-		height,
-		style: styleOverride,
-		btnStyle: btnStyleOverride
-	} = props
+		btnStyle: btnStyleOverride,
+		...props
+	} = _props
 	return <BottomSheetSelect
 		btnProps={{
 			flexStart: true,
 			style: btnStyleOverride
 		}}
-		height={height}
-		style={styleOverride}
 		buttonOverride={renderButton}
-		sheetContent={children}
+		sheetContent={content}
 		isSelect={false}
+		{...props}
 	/>
 }
 
 BottomSheet.propTypes = {
 	renderButton: PropTypes.any,
-	children: PropTypes.any,
-	height: PropTypes.number,
-	style: PropTypes.object,
+	content: PropTypes.func,
 	btnStyle: PropTypes.object
 }
 
