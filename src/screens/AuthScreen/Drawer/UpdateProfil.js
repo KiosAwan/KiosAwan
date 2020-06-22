@@ -158,7 +158,7 @@ const UpdateProfil = ({ navigation }) => {
 			<SelectBoxModal
 				label="Kelurahan / Desa" closeOnSelect
 				data={dataDesa}
-				btnStyle={{ marginBottom: SizeList.base }}
+				btnStyle={{}}
 				header={
 					<MDInput label="Cari Desa"
 						onChangeText={_searchDesa}

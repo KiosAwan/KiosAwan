@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image } from 'react-native';
+import { View, TextInput, Image, Modal } from 'react-native';
 import { SizeList } from 'src/styles/size';
 import { useSelector } from 'react-redux'
 import { GlobalHeader } from 'src/components/Header/Header';
@@ -14,10 +14,11 @@ import { Toast } from 'native-base';
 import { Text } from 'src/components/Text/CustomText';
 import { openOtp } from 'src/utils/pin-otp-helper';
 import { showPhoneNumber } from 'src/utils/unauthhelper';
+import ModalContent from 'src/components/ModalContent/ModalContent';
 const UbahEmailInfoScreen = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [apiLoading, setApiLoading] = useState(false)
-
+	const [modalVisible, setModalVisible] = useState(false)
 	//alert
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState(false)
@@ -79,6 +80,20 @@ const UbahEmailInfoScreen = ({ navigation }) => {
 				visible={alert}
 				closeAlert={() => setAlert(false)}
 			/>
+			<Modal
+				animationType="fade"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					setModalVisible(!modalVisible);
+				}}
+			>
+				<ModalContent
+					image={require('src/assets/images/successcreatestore.png')}
+					infoText="Email berhasil dikirim"
+					closeModal={() => setModalVisible(false)}
+				/>
+			</Modal>
 			<AwanPopup.Loading visible={apiLoading} />
 			<GlobalHeader title="Ubah Email" onPressBack={() => navigation.goBack()} />
 			<View style={{ padding: 20 }}>
