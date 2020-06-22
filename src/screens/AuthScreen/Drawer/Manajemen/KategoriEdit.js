@@ -64,7 +64,7 @@ const KategoriEdit = ({ navigation }) => {
         onPressBack: () => navigation.goBack(),
         handleDeleteCategory: () => setAlertDel(true),
         title: "Edit Kategori",
-        image: require('src/assets/icons/trash.png'),
+        image: require('src/assets/icons/trash-primary.png'),
     }}>
         <AwanPopup.Alert
             message={alertMessage}
@@ -73,8 +73,8 @@ const KategoriEdit = ({ navigation }) => {
         />
         <AwanPopup.Title title="Hapus Kategori" visible={alertDel} message={`Kategori ${form.name_product_category} akan dihapus dari daftar kategorimu.`}>
             <View></View>
-            <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-            <Button onPress={_handleDeleteCategory} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+            <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link">Batal</Button>
+            <Button onPress={_handleDeleteCategory} style={{ width: '25%' }}>Ya</Button>
         </AwanPopup.Title>
         <Modal
             animationType="fade"
