@@ -13,7 +13,7 @@ import SwitchButton from '../../components/Button/SwitchButton';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import { Text } from 'src/components/Text/CustomText';
-import { Button } from 'src/components/Button/Button';
+import { Button, RoundedButton } from 'src/components/Button/Button';
 import { ImageAuto, Image } from 'src/components/CustomImage';
 import { Bottom } from 'src/components/View/Bottom';
 import Divider from 'src/components/Row/Divider';
@@ -23,6 +23,7 @@ import AsyncStorage from 'src/utils/async-storage';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import Alert from 'src/utils/alert';
 import { SizeList } from 'src/styles/size';
+import { BottomSheet } from 'src/components/Picker/BottomSheetSelect';
 
 const Cart = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -110,17 +111,21 @@ const Cart = ({ navigation }) => {
 		}
 	}
 	const _quantityControl = control => {
-		if (control == 'add') {
-			if (pesanan.manage_stock == 1) {
-				if (pesanan.quantity < pesanan.stock) {
+		if (!isNaN(parseInt(control))) {
+			setPesanan({ ...pesanan, quantity: Number(control) })
+		} else {
+			if (control == 'add') {
+				if (pesanan.manage_stock == 1) {
+					if (pesanan.quantity < pesanan.stock) {
+						setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) + 1 })
+					}
+				} else {
 					setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) + 1 })
 				}
 			} else {
-				setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) + 1 })
-			}
-		} else {
-			if (pesanan.quantity > 1) {
-				setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) - 1 })
+				if (pesanan.quantity > 1) {
+					setPesanan({ ...pesanan, quantity: Number(pesanan.quantity) - 1 })
+				}
 			}
 		}
 	}
@@ -203,20 +208,69 @@ const Cart = ({ navigation }) => {
 					Product.belanja.rMap((data, i) => {
 						return <View>
 							<Wrapper key={i} style={{ paddingVertical: SizeList.base }} justify="space-between">
-								<View _width="70%">
+								<View>
 									<Text font="SemiBold" color="primary" size={15} style={{ marginBottom: SizeList.secondary }}>{data.name_product}</Text>
 									<Text style={{ color: ColorsList.greyFont }}>{convertRupiah(data.price_out_product)} x {data.quantity}</Text>
 									{data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen + "%"}</Text>}
 								</View>
-								<View _width="30%">
-									<View style={{ width: "60%", alignSelf: "flex-end", marginBottom: SizeList.secondary }}>
+								<View>
+									<View style={{ alignSelf: "flex-end", marginBottom: SizeList.secondary }}>
 										<Wrapper align="flex-end" justify="space-between">
 											<TouchableOpacity activeOpacity={.5} onPress={() => _prompDeletePesanan(i, data)} style={{ width: 18, height: 18 }}>
 												<ImageAuto source={require('src/assets/icons/delete.png')} />
 											</TouchableOpacity>
-											<TouchableOpacity activeOpacity={.5} onPress={() => _editPesanan(i, data)} style={{ width: 18, height: 18 }}>
-												<ImageAuto source={require('src/assets/icons/edit.png')} />
-											</TouchableOpacity>
+											<BottomSheet
+												height={300}
+												onOpen={() => setPesanan(data)}
+												renderButton={<Image style={{ width: 18, height: 18 }} source={require('src/assets/icons/edit.png')} />}
+												content={close => {
+													return <View style={{ flex: 1, justifyContent: 'space-between' }}>
+														<View>
+															<Wrapper spaceBetween>
+																<View>
+																	<Text color="primary">{pesanan.name_product}</Text>
+																	<Text>{convertRupiah(pesanan.price_out_product)} x {pesanan.quantity}</Text>
+																</View>
+																<Text _flexEnd>{convertRupiah(Number(pesanan.price_out_product) * pesanan.quantity)}</Text>
+															</Wrapper>
+															<Input
+																accessoryOut currency={toggle == 0}
+																label="Jumlah Diskon"
+																keyboardType="number-pad"
+																onChangeText={_handleChangeDiscountItem}
+																style={{ paddingVertical: SizeList.base * 2 }}
+																value={toggle == 0 ? pesanan.discount_total ? pesanan.discount_total.toString() : '' : pesanan.discount_persen ? pesanan.discount_persen.toString() : ''}
+																renderRightAccessory={() => <RoundedToggleButton
+																	buttons={["Rp", "%"]}
+																	changeToggle={i => setToggle(i)}
+																/>}
+															/>
+															<Wrapper>
+																<RoundedButton onPress={() => _quantityControl('min')}>
+																	<Image size={13} source={require("src/assets/icons/minus-primary.png")} />
+																</RoundedButton>
+																<Divider size={SizeList.base} color="transparent" />
+																<Input noLabel _flex
+																	onChangeText={_quantityControl} value={pesanan.quantity ? pesanan.quantity.toString() : ''}
+																	keyboardType="number-pad"
+																	inputStyle={{ textAlign: 'center' }}
+																/>
+																<Divider size={SizeList.base} color="transparent" />
+																<RoundedButton onPress={() => _quantityControl('add')}>
+																	<Image size={13} source={require("src/assets/icons/plus-primary.png")} />
+																</RoundedButton>
+															</Wrapper>
+														</View>
+														<Wrapper flexContent>
+															<Button color="link" onPress={close}>BATAL</Button>
+															<Button onPress={() => {
+																dispatch(ChangeCartQuantity(pesanan))
+																close()
+															}}>SIMPAN</Button>
+														</Wrapper>
+													</View>
+												}}
+											/>
 										</Wrapper>
 									</View>
 									<Text align="right">{convertRupiah(data.price_out_product * data.quantity)}</Text>
