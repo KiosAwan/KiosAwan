@@ -9,10 +9,13 @@ const height = Dimensions.get('window').height
 const ModalContent = (props) => {
     return (
         <TouchableOpacity onPress={props.closeModal} style={styles.touchableStyle}>
-            <View style={styles.wrapView}>
-                <Image style={{ height: '60%', width: '60%' }} source={props.image} />
+            <View style={[styles.wrapView, props.style]}>
+                <Image style={{ height: '50%', width: '50%' }} source={props.image} />
                 <View style={{ width: '90%' }}>
                     <Text align="center">{props.infoText}</Text>
+                </View>
+                <View>
+                    {props.children || null}
                 </View>
             </View>
         </TouchableOpacity>

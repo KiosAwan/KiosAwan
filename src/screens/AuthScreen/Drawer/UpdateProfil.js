@@ -146,9 +146,15 @@ const UpdateProfil = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
+					style={{ height: 340 ,}}
 					image={require('src/assets/images/successcreatestore.png')}
 					infoText="Pembaruan Profil Berhasil!"
 					closeModal={() => setModalVisible(false)}
+					children={<View style={{ backgroundColor: ColorsList.settingBg, margin: 20, borderRadius: SizeList.borderRadius }}>
+						<Text color="settingFont" style={{ padding: 10 }} >
+							{`Email anda belum terverifikasi, mohon segera verifikasi email Anda \n\nJika anda tidak menerima, cek folder spam atau hubungi helpdesk kami`}
+						</Text>
+					</View>}
 				/>
 			</Modal>
 			<AwanPopup.Loading visible={loading} />
