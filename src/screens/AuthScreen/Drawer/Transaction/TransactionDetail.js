@@ -66,7 +66,7 @@ const TransactionDetail = ({ navigation }) => {
 				key: null,
 				actions: [
 					NavigationActions.navigate({ routeName: '/' }),
-					NavigationActions.navigate({ routeName: '/cashier' })
+					NavigationActions.navigate({ routeName: '/cashier' }),
 				]
 			})
 		)
@@ -271,7 +271,7 @@ const TransactionDetail = ({ navigation }) => {
 		</Body>
 		<Footer>
 			{
-				!dataLoading && data.transaction.status != 3 &&
+				!dataLoading && !fromCashier && data.transaction.status != 3 &&
 					data.transaction.status_payment == 2 ?
 					<Wrapper justify="space-between">
 						{_canBatal() && <Button wrapper={{ justify: 'center' }} color="link" _width="49%"

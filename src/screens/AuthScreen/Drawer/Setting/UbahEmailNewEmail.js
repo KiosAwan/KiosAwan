@@ -87,7 +87,7 @@ const UbahEmailNewEmail = ({ navigation }) => {
 				/>
 			</Body>
 			<Footer>
-				<Button>
+				<Button onPress={_handleNextBtn}>
 					SIMPAN
 				</Button>
 			</Footer>
