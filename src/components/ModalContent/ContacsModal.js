@@ -66,16 +66,19 @@ export default class ContactsModal extends Component {
                             <TouchableOpacity onPress={() => {
                                 let phone = ""
                                 let selectedNum = item.phoneNumbers[0]
-                                let formattedNum = selectedNum.number.replace(/\D/g, '')
-                                phone = formattedNum
-                                if (formattedNum) {
-                                    if (formattedNum.slice(0, 2) == "62") {
-                                        phone = `0${formattedNum.slice(2, formattedNum.length)}`
-                                        console.debug(phone)
+                                if (selectedNum) {
+                                    let formattedNum = selectedNum.number.replace(/\D/g, '')
+                                    phone = formattedNum
+                                    if (formattedNum) {
+                                        if (formattedNum.slice(0, 2) == "62") {
+                                            phone = `0${formattedNum.slice(2, formattedNum.length)}`
+                                        }
                                     }
+                                    this.props.chooseContact(item.phoneNumbers[0] ? phone : '')
+                                    this.props.closeModal()
+                                } else {
+                                    this.props.closeModal()
                                 }
-                                this.props.closeModal()
-                                this.props.chooseContact(item.phoneNumbers[0] ? phone : '')
                             }}>
                                 <View style={{ padding: 5, }}>
                                     <Text size={16}>{item.givenName ? item.givenName : ""}</Text>
