@@ -41,7 +41,7 @@ const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 		</View>
 		<Wrapper justify="space-between" style={$Padding(10, 0)}>
 			<View>
-				<Text>Saldo anda sebesar: </Text>
+				<Text>jhdsfhj sdkjfh sdkjfh Saldo anda sebesar: </Text>
 				<Wrapper spaceBetween>
 					<Text color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
 					<TouchableOpacity onPress={_handleRefresh}>
