@@ -224,6 +224,6 @@ const styles = StyleSheet.create({
 	headerCategory: { padding: 10, width: width - 80, alignItems: 'center' },
 	footerCategory: { padding: 10, width: width - 80, alignItems: 'flex-end' },
 	imageWrapper: { marginBottom: 10, borderStyle: 'dashed', borderColor: ColorsList.greyFont, borderWidth: 1, height: 250 },
-	image: { width: '100%', height: '100%', resizeMode: "stretch" },
+	image: { width: '100%', height: '100%', resizeMode: "contain" },
 
 })

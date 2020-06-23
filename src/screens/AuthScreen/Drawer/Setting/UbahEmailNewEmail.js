@@ -9,18 +9,14 @@ import {
 	TextInput,
 	Modal
 } from 'react-native';
-import BarStatus from 'src/components/BarStatus';
-import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
-import { BottomButton } from 'src/components/Button/ButtonComp';
-import { } from 'src/components/Input/InputComp';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import AsyncStorage from '@react-native-community/async-storage';
 import { changeEmail, getUserToken } from 'src/utils/authhelper';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import MDInput, { Input } from 'src/components/Input/MDInput';
+import { Input } from 'src/components/Input/MDInput';
 import Container, { Footer, Body } from 'src/components/View/Container';
 import { Button } from 'src/components/Button/Button';
 

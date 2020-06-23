@@ -131,19 +131,19 @@ export const ReturnTransactionCard = (props) => {
 				<View style={{ ...RowChild, height: '100%', width: '90%' }}>
 					{/* <View></View> */}
 					<View style={{ width: '50%', paddingLeft: 10 }}>
-						<Text style={styles.infoText}>{props.name}</Text>
-						<Text style={[styles.infoText, { color: ColorsList.greyFont }]}>{props.price}</Text>
+						<Text font="SemiBold" color="primary">{props.name}</Text>
+						<Text >{props.price}</Text>
 					</View>
 				</View>
 				{
 					props.right ? props.right :
 						<View style={{ width: '10%', backgroundColor: '#f9faf7', height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
 							<TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
-								<Icon size={20} name="plus" color={ColorsList.greyFont} />
+								<Icon size={15} name="plus" color={ColorsList.greyFont} />
 							</TouchableOpacity>
-							<Text style={{ marginHorizontal: 8, color: ColorsList.primaryColor }}>{props.quantity ? props.quantity : 0}</Text>
+							<Text font="SemiBold" style={{ marginHorizontal: 8, }}>{props.quantity ? props.quantity : 0}</Text>
 							<TouchableOpacity onPress={props.onPressMinus} disabled={props.minusDisabled} style={styles.cardPlusMinusIcon}>
-								<Icon size={20} name="minus" color={ColorsList.greyFont} />
+								<Icon size={15} name="minus" color={ColorsList.greyFont} />
 							</TouchableOpacity>
 						</View>
 				}
@@ -161,7 +161,6 @@ const styles = StyleSheet.create({
 	},
 	infoText: {
 		color: '#cd0192',
-		...FontList.titleFont
 	},
 	wrapView: {
 		height: height / 7,
@@ -217,6 +216,6 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		borderRadius: 5,
-		
+
 	}
 })

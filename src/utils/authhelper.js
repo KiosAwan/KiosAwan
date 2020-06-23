@@ -215,11 +215,15 @@ export const sendNewTransaction = async (data) => {
 
 //post new customer to database
 export const sendNewCustomer = async (data) => {
-  const userToken = await getUserToken()
-  const res = await axios.post(`${HOST_URL}/customer`, data, {
-    headers: { "authorization": userToken }
-  })
-  return res.data
+  try {
+    const userToken = await getUserToken()
+    const res = await axios.post(`${HOST_URL}/customer`, data, {
+      headers: { "authorization": userToken }
+    })
+    return res.data
+  } catch (err) {
+    return err.response.data
+  }
 }
 
 //edit customer data
@@ -237,11 +241,15 @@ export const editCustomer = async (data, id_cust) => {
 
 //delete customer data
 export const deleteCustomer = async (id_cust) => {
-  const userToken = await getUserToken()
-  const res = await axios.delete(`${HOST_URL}/customer/${id_cust}`, {
-    headers: { "authorization": userToken }
-  })
-  return res.data
+  try {
+    const userToken = await getUserToken()
+    const res = await axios.delete(`${HOST_URL}/customer/${id_cust}`, {
+      headers: { "authorization": userToken }
+    })
+    return res.data
+  } catch (err) {
+    return err.response.data
+  }
 }
 
 //get detail transaction 

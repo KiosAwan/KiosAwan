@@ -61,7 +61,7 @@ export default class ContactsModal extends Component {
                             onChangeText={text => this.setState({ search: text })} />
                     </SearchInput>
                     <FlatList
-                        data={this.state.contacts.filter(item => item.givenName.toLowerCase().includes(this.state.search.toLowerCase()))}
+                        data={this.state.contacts.filter(item => item.givenName && item.givenName.toLowerCase().includes(this.state.search.toLowerCase()))}
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => {
                                 let phone = ""

@@ -9,6 +9,7 @@ import { Root } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import OneSignal from 'react-native-onesignal'
 import SplashScreen from 'react-native-splash-screen'
+import * as Sentry from '@sentry/react-native';
 const prefix = 'awanapp://';
 export default class App extends Component {
   constructor(properties) {
@@ -16,10 +17,14 @@ export default class App extends Component {
     OneSignal.init("401b51c9-664d-45cb-8630-4bb301ffd9fa");
     OneSignal.inFocusDisplaying(2);
     OneSignal.addEventListener('ids', this.onIds);
+    Sentry.init({
+      dsn: 'https://b0a17f87bf17433493ede939075e84ac@o410762.ingest.sentry.io/5285053',
+    });
   }
   componentDidMount() {
     Linking.getInitialURL().then(Deeplink).catch(err => console.error('An error occurred', err));
     Linking.addEventListener('url', this._handleOpenURL);
+    
     SplashScreen.hide()
   }
   componentWillUnmount() {

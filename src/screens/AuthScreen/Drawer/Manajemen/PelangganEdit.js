@@ -63,13 +63,20 @@ const PelangganEdit = ({ navigation }) => {
 
     const _handleDeleteCustomer = async () => {
         setAlertDel(false)
-        await deleteCustomer(form.id_customer)
-        setModalVisible(true)
-        setTimeout(() => {
-            navigation.goBack()
-            dispatch(getCustomer(User.store.id_store))
-            setModalVisible(false)
-        }, 1000)
+        const res = await deleteCustomer(form.id_customer)
+        const userToken = await getUserToken()
+        console.debug(res)
+        if (res.status == 200) {
+            setModalVisible(true)
+            setTimeout(() => {
+                navigation.goBack()
+                dispatch(getCustomer(User.store.id_store, userToken))
+                setModalVisible(false)
+            }, 1000)
+        } else if (res.status == 400) {
+            setAlertMessage(res.data.errors.msg)
+            setAlert(true)
+        }
     }
     return (
         <Container >
@@ -81,14 +88,14 @@ const PelangganEdit = ({ navigation }) => {
             <BarStatus />
             <AwanPopup.Title title="Hapus Pelanggan" visible={alertDel} message={`${form.name_customer} akan dihapus dari daftar pelanggan.`}>
                 <View></View>
-                <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-                <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+                <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link">Batal</Button>
+                <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }}>Ya</Button>
             </AwanPopup.Title>
             <GlobalHeaderWithIcon
                 onPressBack={() => navigation.goBack()}
                 title="Edit Pelanggan"
-                image={require('src/assets/icons/trash.png')}
-                handleDeleteCategory={() => setAlert(true)}
+                image={require('src/assets/icons/trash-primary.png')}
+                handleDeleteCategory={() => setAlertDel(true)}
             />
             <Modal
                 animationType="fade"

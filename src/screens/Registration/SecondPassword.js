@@ -67,11 +67,11 @@ const SecondPassword = ({ navigation }) => {
                 push_token: pushToken
             }
             const res = await registerUser(data)
+            setIsLoading(false)
             if (res.status == 200) {
                 await AsyncStorage.setItem('userId', res.data.id.toString())
                 await AsyncStorage.setItem('@user_token', res.data.token)
                 await dispatch(getProfile(res.data.id.toString(), res.data.token))
-                setIsLoading(false)
                 await dispatch(clearAllRegistration())
                 navigation.navigate('/')
             } else {

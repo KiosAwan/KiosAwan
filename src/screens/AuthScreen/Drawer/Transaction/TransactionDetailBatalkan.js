@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
-import MDInput from 'src/components/Input/MDInput';
+import MDInput, { Input } from 'src/components/Input/MDInput';
 
 const TransactionDetailBatalkan = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -24,6 +24,8 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 	const [loading, setLoading] = useState(true)
 	const [detailItem, setDetailItem] = useState(false)
 	const [alertVisible, setAlertVisible] = useState(false)
+	const [errorMessage, setErrorMessage] = useState(false)
+	const [errorAlert, setErrorAlert] = useState(false)
 	const [newData, setNewData] = useState()
 	const [alasan, setAlasan] = useState('')
 	const [amount_cancel, setAmountCancel] = useState(0)
@@ -89,15 +91,23 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 		if (res.status == 200) {
 			dispatch(getTransactionList(User.store.id_store, userToken))
 			navigation.navigate('/drawer/transaction')
+		} else if (res.status == 400) {
+			setErrorMessage(res.data.errors.msg)
+			setErrorAlert(true)
 		}
 	}
 	return (
 		<View style={{ flex: 1 }}>
 			<AwanPopup.Title title="Batalkan Transaksi" visible={alertVisible} message={`Dana sebesar ${convertRupiah(amount_cancel)} akan dikembalikan kepada pelanggan.`}>
 				<View></View>
-				<Button onPress={() => setAlertVisible(false)} style={{ width: '25%' }} color="link" textProps={{ size: 15, font: 'Bold' }}>Batal</Button>
-				<Button onPress={_handleCancelTransaction} style={{ width: '25%' }} textProps={{ size: 15, font: 'Bold' }}>Ya</Button>
+				<Button onPress={() => setAlertVisible(false)} style={{ width: '25%' }} color="link">Batal</Button>
+				<Button onPress={_handleCancelTransaction} style={{ width: '25%' }}>Ya</Button>
 			</AwanPopup.Title>
+			<AwanPopup.Alert
+				message={errorMessage}
+				visible={errorAlert}
+				closeAlert={() => setErrorAlert(false)}
+			/>
 			<GlobalHeader title="Batalkan Transaksi"
 				onPressBack={() => navigation.goBack()}
 			/>
@@ -126,14 +136,14 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 							{detailItem ?
 								<View>
 									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>Subtotal</Text>,
+										<Text>Subtotal</Text>,
 									]} right={
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>{convertRupiah(dataTransaksi.transaction.sub_total)}</Text>
+										<Text>{convertRupiah(dataTransaksi.transaction.sub_total)}</Text>
 									} />
 									<WrapperItem style={{ padding: 10, paddingHorizontal: 15, borderBottomWidth: 3, borderBottomColor: ColorsList.authBackground }} left={[
-										<Text style={{ ...FontList.subtitleFontGreyBold }}>Pembatalan transaksi</Text>,
+										<Text>Pembatalan transaksi</Text>,
 									]} right={
-										<Text style={{ ...FontList.subtitleFontGreyBold, color: ColorsList.danger }}>- {convertRupiah(amount_cancel)}</Text>
+										<Text color="danger">- {convertRupiah(amount_cancel)}</Text>
 									} />
 								</View>
 								: null}
@@ -157,12 +167,10 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 							showsVerticalScrollIndicator={false}
 							keyExtractor={(item, index) => index.toString()}
 						/>
-						<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, marginBottom: 100 }}>
-							<MDInput label="Alasan pembatalan"
-								value={alasan}
-								onChangeText={text => setAlasan(text)}
-							/>
-						</View>
+						<Input label="Alasan pembatalan"
+							value={alasan}
+							onChangeText={text => setAlasan(text)}
+						/>
 					</View>
 				}
 			</ScrollView>

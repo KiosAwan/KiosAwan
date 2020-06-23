@@ -43,8 +43,8 @@ const AwanPopup = {
 		useEffect(() => {
 			setRender(true)
 		}, [])
-		return render && <Modal animationType="fade" style={{ padding: 0, borderRadius: SizeList.borderRadius }} {...props}>
-			<View style={[styles.body, props.style]}>
+		return render && <Modal animationType="fade" style={{ padding: 0, borderRadius: SizeList.borderRadius, width: SizeList.width - (SizeList.bodyPadding * 2) }} {...props}>
+			<View style={[styles.body, props.style, { alignItems: "flex-start" }]}>
 				{typeof props.title === 'string' ? <Text color={props.textColor} font="SemiBold" align="left" size={17} style={styles.title}>{props.title.toUpperCase()}</Text> : props.title}
 				<Text color={props.textColor} size={14} style={{ textAlign: 'left' }}>{props.message}</Text>
 				<ButtonWrapper>{props.children}</ButtonWrapper>
@@ -116,20 +116,6 @@ const AwanPopup = {
 				</ButtonWrapper>
 			</View>
 		</Modal>
-		// return <Modal animationType="fade" style={{ padding: 0, width: SizeList.width * 2 / 3 }} {...props}>
-		// 	<View style={[styles.body, style]}>
-		// 		<Image source={icon()}
-		// 			style={[styles.image, { width: 50, height: 50 }]}
-		// 			resizeMode="stretch" />
-		// 		<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{title || 'Oops...'}</Text>
-		// 		<View style={{ width: '80%', alignItems: "center" }}>
-		// 			<Text size={17} style={{ textAlign: 'center', paddingTop: 20, }}>{message}</Text>
-		// 		</View>
-		// 		<ButtonWrapper style={{ justifyContent: "center" }}>
-		// 			<Button color="white" width={100} onPress={closeAlert}>OK</Button>
-		// 		</ButtonWrapper>
-		// 	</View>
-		// </Modal>
 	}
 }
 

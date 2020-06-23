@@ -144,9 +144,14 @@ export const PilihPelanggan = props => {
 					id_store: User.store.id_store
 				}
 				const userToken = await getUserToken()
-				await sendNewCustomer(data)
-				setState({ isSelect: true, pelanggan: {} })
-				dispatch(getCustomer(User.store.id_store, userToken))
+				const res = await sendNewCustomer(data)
+				if (res.status == 201) {
+					setState({ isSelect: true, pelanggan: {} })
+					dispatch(getCustomer(User.store.id_store, userToken))
+				} else if (res.status == 400) {
+					setState({ isSelect: false, ...pelanggan })
+					props.onError(res.data.errors.msg)
+				}
 			}
 		}
 	}
@@ -160,15 +165,24 @@ export const PilihPelanggan = props => {
 				id_store: User.store.id_store
 			}
 			const userToken = await getUserToken()
-			await editCustomer(data, pelanggan.id_customer)
-			setState({ isSelect: true, pelanggan: {} })
-			dispatch(getCustomer(User.store.id_store, userToken))
+			const res = await editCustomer(data, pelanggan.id_customer)
+			if (res.status == 200) {
+				setState({ isSelect: true, pelanggan: {} })
+				dispatch(getCustomer(User.store.id_store, userToken))
+			}
 		}
 	}
 
 	const _handleDeleteCustomer = async (cust) => {
-		await deleteCustomer(cust.id_customer)
-		dispatch(getCustomer(User.store.id_store))
+		const res = await deleteCustomer(cust.id_customer)
+		const userToken = await getUserToken()
+		console.debug(res)
+		if (res.status == 200) {
+			dispatch(getCustomer(User.store.id_store, userToken))
+		} else if (res.status == 400) {
+			setState({ isSelect: false, ...pelanggan })
+			props.onError(res.data.errors.msg)
+		}
 	}
 
 	const sheetContent = <View style={{ flex: 1, justifyContent: 'space-between' }}>

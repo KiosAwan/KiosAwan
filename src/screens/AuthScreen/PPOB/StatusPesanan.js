@@ -20,6 +20,7 @@ import { SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import { IconHeader } from 'src/components/Header/Header';
+import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 
 const StatusPesanan = ({ navigation }) => {
 	let viewShotRef;
@@ -146,6 +147,7 @@ const StatusPesanan = ({ navigation }) => {
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
 		} else if (res.status == 200) {
+			dispatch(getTransactionList(User.store.id_store, userToken))
 			dispatch(removeAllCart())
 			dispatch(AddCashPayment(0))
 			dispatch(AddCustomer(null))

@@ -36,6 +36,8 @@ const Cart = ({ navigation }) => {
 	const [pesanan, setPesanan] = useState({})
 	const [toggle, setToggle] = useState(0)
 	const [discount_type, setDiscountType] = useState(0)
+	const [errorMessage, setErrorMessage] = useState("")
+	const [errorAlert, setErrorAlert] = useState(false)
 
 	useEffect(() => {
 		_effect()
@@ -46,10 +48,6 @@ const Cart = ({ navigation }) => {
 		dispatch(getCustomer(User.store.id_store, userToken))
 	}
 
-	const _editPesanan = (index, item) => {
-		setEditPesananOpen(true);
-		setPesanan(item)
-	}
 
 	const _prompDeletePesanan = (index, item) => {
 		// setPesanan(item)
@@ -152,6 +150,11 @@ const Cart = ({ navigation }) => {
 			<IconHeader name="trash" color={ColorsList.greyFont} />
 		</TouchableOpacity>
 	}}>
+		<AwanPopup.Alert
+			message={errorMessage}
+			visible={errorAlert}
+			closeAlert={() => setErrorAlert(false)}
+		/>
 		<AwanPopup.NoTitle visible={hapusPesananOpen} message={confirm.title}>
 			<Button width="35%" onPress={confirm.action} color="link">IYA</Button>
 			<Button width="35%" onPress={() => setHapusPesananOpen(false)}>TIDAK</Button>
@@ -214,7 +217,7 @@ const Cart = ({ navigation }) => {
 									{data.discount_total == 0 ? null : <Text style={{ color: ColorsList.greyFont }}>Diskon {data.discount_rupiah ? convertRupiah(data.discount_total) : data.discount_persen + "%"}</Text>}
 								</View>
 								<View>
-									<View style={{ alignSelf: "flex-end", marginBottom: SizeList.secondary }}>
+									<View style={{  marginBottom: SizeList.secondary }}>
 										<Wrapper align="flex-end" justify="space-between">
 											<TouchableOpacity activeOpacity={.5} onPress={() => _prompDeletePesanan(i, data)} style={{ width: 18, height: 18 }}>
 												<ImageAuto source={require('src/assets/icons/delete.png')} />
@@ -345,6 +348,10 @@ const Cart = ({ navigation }) => {
 				<PilihPelanggan
 					value={Product.customer ? Product.customer.name_customer : "Pilih nama pelanggan"}
 					data={Customer.data}
+					onError={(alert) => {
+						setErrorMessage(alert)
+						setErrorAlert(true)
+					}}
 				/>
 			</View>
 
