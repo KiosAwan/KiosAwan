@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
-import { View, Modal, TextInput } from 'react-native';
+import { View, Modal, TextInput, TouchableOpacity } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { editCategory, deleteCategory, getUserToken } from 'src/utils/authhelper';
 import ModalContent from 'src/components/ModalContent/ModalContent';
@@ -13,6 +13,7 @@ import { stateObject } from 'src/utils/state';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { Text } from 'src/components/Text/CustomText';
 import { SizeList } from 'src/styles/size';
+import { IconHeader } from 'src/components/Header/Header';
 
 
 const KategoriEdit = ({ navigation }) => {
@@ -62,9 +63,10 @@ const KategoriEdit = ({ navigation }) => {
     }
     return <Container header={{
         onPressBack: () => navigation.goBack(),
-        handleDeleteCategory: () => setAlertDel(true),
+        renderRightAccessory: () => <TouchableOpacity onPress={() => setAlertDel(true)}>
+            <IconHeader name="trash" color={ColorsList.greyFont} />
+        </TouchableOpacity>,
         title: "Edit Kategori",
-        image: require('src/assets/icons/trash-primary.png'),
     }}>
         <AwanPopup.Alert
             message={alertMessage}
@@ -98,7 +100,7 @@ const KategoriEdit = ({ navigation }) => {
         <Footer>
             <Button onPress={_handleSaveCategory}>SIMPAN</Button>
         </Footer>
-    </Container>
+    </Container >
 }
 
 export default KategoriEdit
