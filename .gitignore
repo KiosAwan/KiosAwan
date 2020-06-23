@@ -63,5 +63,3 @@ outputs
 *.project
 react-native-image-tutorial
 /yarn.lock
-android/app/src/main/java/com/awanapp/MainActivity.java
-android/app/src/main/java/com/awanapp/MainApplication.java
