@@ -11,7 +11,7 @@ import { SizeList } from 'src/styles/size'
 import { GlobalHeader } from 'src/components/Header/Header'
 import { getSubProducts, setMarginProduct } from 'src/utils/api/setupharga'
 import { Dropdown, AwanPopup } from 'src/components/ModalContent/Popups'
-import { convertRupiah } from 'src/utils/authhelper'
+import { convertRupiah, getUserToken } from 'src/utils/authhelper'
 import { ColorsList } from 'src/styles/colors'
 import { Button } from 'src/components/Button/Button'
 import { $Border } from 'src/utils/stylehelper'
@@ -19,8 +19,12 @@ import BottomSheetSelect from 'src/components/Picker/BottomSheetSelect'
 import IconFA from 'react-native-vector-icons/FontAwesome5'
 import { Icon } from 'native-base'
 import ModalContent from 'src/components/ModalContent/ModalContent'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProfile } from 'src/redux/actions/actionsUserData'
 
 const SubProduct = ({ navigation }) => {
+	const dispatch = useDispatch()
+	const User = useSelector(state => state.User)
 	const [dropdownVisible, setDropdownVisible] = useState(false)
 	const [modalVisible, setModalVisible] = useState(false)
 	const [products, setProducts, resetProducts] = stateObject({})
@@ -86,6 +90,8 @@ const SubProduct = ({ navigation }) => {
 		const { status, data } = await setMarginProduct(finalMargins)
 		if (status == 200) {
 			_selectProvider(providerSelected, true)
+			const userToken = await getUserToken()
+			dispatch(getProfile(User.data.id, userToken))
 			setModalVisible(true)
 			setTimeout(() => {
 				setModalVisible(false)

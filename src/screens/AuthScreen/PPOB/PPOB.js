@@ -77,7 +77,7 @@ const PPOB = ({ navigation }) => {
 		<Container header={{
 			onPressBack: () => navigation.goBack(),
 			title: "PRODUK PEMBAYARAN",
-			renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 60 }}>
+			renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 40 }}>
 				<TouchableOpacity onPress={() => navigation.navigate("/ppob/favorit")}>
 					<IconHeader name="heart" color={ColorsList.greyFont} />
 				</TouchableOpacity>

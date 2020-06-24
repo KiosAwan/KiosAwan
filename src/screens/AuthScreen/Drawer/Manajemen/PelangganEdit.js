@@ -6,10 +6,11 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Modal
+    Modal,
+    TouchableOpacity
 } from 'react-native';
 import BarStatus from 'src/components/BarStatus';
-import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
+import { GlobalHeaderWithIcon, GlobalHeader, IconHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import { editCustomer, deleteCustomer, getUserToken } from 'src/utils/authhelper';
@@ -87,15 +88,16 @@ const PelangganEdit = ({ navigation }) => {
             />
             <BarStatus />
             <AwanPopup.Title title="Hapus Pelanggan" visible={alertDel} message={`${form.name_customer} akan dihapus dari daftar pelanggan.`}>
-                <View></View>
+                <View></View> 
                 <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link">Batal</Button>
                 <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }}>Ya</Button>
             </AwanPopup.Title>
-            <GlobalHeaderWithIcon
+            <GlobalHeader
                 onPressBack={() => navigation.goBack()}
                 title="Edit Pelanggan"
-                image={require('src/assets/icons/trash-primary.png')}
-                handleDeleteCategory={() => setAlertDel(true)}
+                renderRightAccessory={() => <TouchableOpacity onPress={() => setAlertDel(true)}>
+                    <IconHeader name="trash" color={ColorsList.greyFont} />
+                </TouchableOpacity>}
             />
             <Modal
                 animationType="fade"

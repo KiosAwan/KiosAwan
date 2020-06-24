@@ -32,7 +32,7 @@ export const FontList = {
     },
     primaryFont: "Nunito-Regular",
     regularFont: "Nunito-Regular",
-    semiBoldFont: "Nunito-SemiBold",
+    semiBoldFont: "SFProDisplay-Regular",
     boldFont: "Nunito-Bold",
     titleSize: 14,
     subtitleSize: 11,

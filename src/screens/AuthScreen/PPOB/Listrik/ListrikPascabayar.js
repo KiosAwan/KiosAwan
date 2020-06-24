@@ -222,7 +222,7 @@ const ListrikPascabayar = ({ navigation }) => {
 										</Wrapper>
 										<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 											<Text font="Regular">Admin</Text>
-											<Text font="SemiBold">{convertRupiah(selectedCashback)}</Text>
+											<Text font="SemiBold">{convertRupiah(item.admin)}</Text>
 										</Wrapper>
 										{/* </Wrapper> */}
 										{i < tagihanData.details.length - 1 ?
@@ -233,7 +233,7 @@ const ListrikPascabayar = ({ navigation }) => {
 						</View>
 						{tagihanData &&
 							<View style={styles.infoPembelian}>
-								<Text size={16} font="SemiBold" color="informationFont">{tagihanData.info.title}</Text>
+								<Text size={16} color="informationFont">{tagihanData.info.title}</Text>
 								{tagihanData.info.info.rMap((item, i) => (
 									<Text key={i} color="informationFont">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 								))}
