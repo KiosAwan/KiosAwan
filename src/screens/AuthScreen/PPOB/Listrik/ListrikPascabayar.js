@@ -222,7 +222,7 @@ const ListrikPascabayar = ({ navigation }) => {
 										</Wrapper>
 										<Wrapper justify="space-between" style={{ padding: 10, paddingHorizontal: SizeList.padding }}>
 											<Text font="Regular">Admin</Text>
-											<Text font="SemiBold">{convertRupiah(selectedCashback)}</Text>
+											<Text font="SemiBold">{convertRupiah(item.admin)}</Text>
 										</Wrapper>
 										{/* </Wrapper> */}
 										{i < tagihanData.details.length - 1 ?

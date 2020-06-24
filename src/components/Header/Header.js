@@ -91,7 +91,7 @@ export const GlobalHeader = props => {
             }
             return image
         } catch (err) {
-            return <Image style={{ width: 20, height: 20 }} source={image} />
+            return <Image style={{ width: 40, height: 40 }} source={image} />
         }
     }
     const render = () => <Wrapper style={{ paddingHorizontal: SizeList.bodyPadding, width: '100%', ...style }} spaceBetween={!onlyTitle}>

@@ -230,7 +230,7 @@ const ListrikToken = ({ navigation }) => {
 									</View>
 									<View _width="30%">
 										<Text size={8}>HARGA</Text>
-										<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
+										<Text font="SemiBold" color="primary">{convertRupiah(item.total)}</Text>
 									</View>
 								</Wrapper>
 							</TouchableOpacity>
