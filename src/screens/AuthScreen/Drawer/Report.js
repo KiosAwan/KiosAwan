@@ -90,7 +90,7 @@ const Report = ({ navigation }) => {
 			title="Laporan"
 			renderLeftAccessory={() => null}
 			renderRightAccessory={() => <BottomSheet
-				height={375}
+				height={425}
 				renderButton={<IconHeader disabled name="calendar" />}
 				content={close => <DateRangePicker
 					initialRange={initRange(dateRange.length > 0 ? dateRange : undefined)}
