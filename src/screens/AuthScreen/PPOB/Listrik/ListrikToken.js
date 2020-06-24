@@ -225,10 +225,10 @@ const ListrikToken = ({ navigation }) => {
 						renderItem={({ item, index }) =>
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
-									<View _width="70%">
+									<View _width="60%">
 										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`TOKEN ${item.product.split(" ")[2]}`} </Text>
 									</View>
-									<View _width="30%">
+									<View _width="40%">
 										<Text size={8}>HARGA</Text>
 										<Text font="SemiBold" color="primary">{convertRupiah(item.total)}</Text>
 									</View>
