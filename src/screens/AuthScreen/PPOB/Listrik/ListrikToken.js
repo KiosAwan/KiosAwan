@@ -210,7 +210,7 @@ const ListrikToken = ({ navigation }) => {
 			}
 			{productToken && !response &&
 				<View style={styles.infoPembelian}>
-					<Text size={16} font="SemiBold" color="informationFont">{productToken.info.title}</Text>
+					<Text size={16} color="informationFont">{productToken.info.title}</Text>
 					{productToken.info.info.rMap((item, i) => (
 						<Text key={i} color="informationFont">{`${productToken.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 					))}

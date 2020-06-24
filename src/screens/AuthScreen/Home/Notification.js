@@ -14,11 +14,11 @@ const Notification = ({ User, maintenance, message, navigation, modal }) => {
 	const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modal
 	return <View>
 		{
-			maintenance && <Button disabled color="info" flexStart style={{ borderRadius: SizeList.borderRadius }}>
-				<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+			maintenance && <Button disabled color="informationBg" flexStart style={{ borderRadius: SizeList.borderRadius }}>
+				<Icon color={ColorsList.informationFont} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 				<TextTicker
 					width="90%"
-					style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
+					style={{ color: ColorsList.informationFont, fontFamily: FontList.regularFont }}
 					duration={20000}
 					loop
 					bounce

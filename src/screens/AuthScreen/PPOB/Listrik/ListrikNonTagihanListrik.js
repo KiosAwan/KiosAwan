@@ -206,7 +206,7 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 						</View>
 						{tagihanData && tagihanData.info &&
 							<View style={styles.infoPembelian}>
-								<Text size={16} font="SemiBold" color="informationFont">{tagihanData.info.title}</Text>
+								<Text size={16} color="informationFont">{tagihanData.info.title}</Text>
 								{tagihanData.info.info.rMap((item, i) => (
 									<Text key={i} color="informationFont">{`${tagihanData.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 								))}
