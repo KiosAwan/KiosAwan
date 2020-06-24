@@ -64,7 +64,7 @@ export const GlobalHeader = props => {
         title = "",
         renderLeftAccessory = () => {
             return !onlyTitle && <Button color="link" flexStart padding={0} onPress={onPressBack} {...leftProps}>
-                <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || ColorsList.greyFont} />
+                <Icon name={iconBack || "arrow-left"} style={{ width: 40 }} size={20} color={iconColor || ColorsList.greyFont} />
             </Button>
         },
         renderRightAccessory = () => {
