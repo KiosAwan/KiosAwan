@@ -88,7 +88,7 @@ const PelangganEdit = ({ navigation }) => {
             />
             <BarStatus />
             <AwanPopup.Title title="Hapus Pelanggan" visible={alertDel} message={`${form.name_customer} akan dihapus dari daftar pelanggan.`}>
-                <View></View>
+                <View></View> 
                 <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link">Batal</Button>
                 <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }}>Ya</Button>
             </AwanPopup.Title>
