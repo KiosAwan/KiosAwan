@@ -61,7 +61,7 @@ const StatusPesanan = ({ navigation }) => {
 
 	const _renderProductDigital = item => {
 		let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "updated_at", "info"]
-		let keyDontConvert = ['total', 'admin', 'tagihan1', 'tagihan2', 'tagihan3', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank', 'denda', 'stroom_token', 'pembelian_token', 'materai']
+		let keyDontConvert = ['total', 'admin', 'tagihan1', 'tagihan2', 'tagihan3', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank', 'denda', 'stroom_token', 'pembelian_token', 'materai']
 		let viewKey = key => {
 			let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", Jmltagihan: "Jumlah Tagihan", adminBank: "Admin Bank" }
 			return keys[key] || key.split('_').join(' ').ucwords()
@@ -77,7 +77,7 @@ const StatusPesanan = ({ navigation }) => {
 								<Text>{viewKey(key)}</Text>
 								<Text align="right" _width="49%">{!keyDontConvert.includes(key) ? payment[key].trim() : payment[key].convertRupiah()}</Text>
 							</Wrapper>
-						</View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[key].split(';')[0]}</Button>
+						</View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled><Text color="informationFont" align="center">{payment[key].split(';')[0]}</Text></Button>
 					})
 			}
 		</View>
