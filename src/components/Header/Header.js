@@ -105,8 +105,8 @@ export const GlobalHeader = props => {
 }
 
 export const IconHeader = props => {
-    const { onPress, ..._props } = props
-    return <TouchableOpacity onPress={onPress}>
+    const { onPress, disabled, ..._props } = props
+    return <TouchableOpacity disabled={disabled} onPress={onPress}>
         <Icon color={ColorsList.secondary} {..._props} size={20} />
     </TouchableOpacity>
 }

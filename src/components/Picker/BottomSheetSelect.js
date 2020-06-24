@@ -36,7 +36,8 @@ const BottomSheetSelect = props => {
 		hideRenderItem,
 		buttonOverride,
 		btnProps,
-		btnStyle
+		btnStyle,
+		customStyle: customStyleOverride
 	} = props
 	useEffect(() => {
 		refs(rb)
@@ -84,7 +85,8 @@ const BottomSheetSelect = props => {
 			customStyles={{
 				wrapper: {},
 				container: { backgroundColor: ColorsList.transparent },
-				draggableIcon: { width: 75 }
+				draggableIcon: { width: 75 },
+				...customStyleOverride
 			}}
 		>
 			<View style={{

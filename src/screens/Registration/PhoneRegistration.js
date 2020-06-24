@@ -174,6 +174,12 @@ const PhoneRegistration = ({ navigation }) => {
 					onChangeText={phone => _handleChangePhone(phone)}
 				/>
 			</Wrapper>
+			{
+				__DEV__ && <Text onPress={() => _handleChangePhone('81213141570')}>081213141570</Text>
+			}
+			{
+				__DEV__ && <Text onPress={() => _handleChangePhone('85717570370')}>085717570370</Text>
+			}
 			<Text align="center">
 				{
 					__DEV__ ?

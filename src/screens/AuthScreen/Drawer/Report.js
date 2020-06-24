@@ -17,6 +17,8 @@ import { SizeList } from 'src/styles/size';
 import { shadowStyle } from 'src/components/Input/MDInput';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { Image } from 'src/components/CustomImage';
+import { BottomSheet } from 'src/components/Picker/BottomSheetSelect';
+import DateRangePicker from 'src/components/Picker/DateRangePicker';
 const ViewShadow = props => <View style={{ marginBottom: SizeList.base, padding: props.noPadding ? 0 : SizeList.padding, }}>
 	{!props.noTitle && <Text style={{ marginBottom: props.noMargin ? 10 : 0 }}>{props.title}</Text>}
 	<View {...props} style={[{ marginTop: props.noMargin ? 0 : SizeList.base }, shadowStyle, props.style]} />
@@ -45,53 +47,7 @@ const Report = ({ navigation }) => {
 	useEffect(() => {
 		GetData({})
 	}, [])
-
-	let format = 'YYYY-MM-DD'
-	const header = {
-		title: "Laporan",
-		image: require('src/assets/icons/filter.png'),
-		onPressBack: () => navigation.goBack(),
-		onPressIcon: () => setCtrl({ visible: true })
-	}
-	let _dateSelected
-	const [dateSelected, setDateSelected] = useState()
 	const [NT, setNT] = stateObject()
-	const _filterData = ({ filter, index }) => {
-		if (!filter) {
-			filter = _dateSelected
-		}
-		if (!index) {
-			index = _MainTabIndex
-		}
-		let date = moment(filter)
-		const [from, to] = [date.startOf('month').format(format), date.endOf('month').format(format)]
-		let tipe_product = index == 1 ? 'product' : index == 2 ? 'ppob' : ''
-		GetData({ from, to, tipe_product })
-	}
-	const [ctrl, setCtrl] = stateObject({
-		setVisible: visible => setCtrl({ visible }),
-		setFilter: filter => {
-			_dateSelected = filter
-			setDateSelected(filter)
-			_filterData({ filter })
-		},
-		visible: false
-	})
-	let _MainTabIndex
-	const [MainTab, setMainTab] = stateObject({
-		index: 0,
-		routes: [
-			{ key: 'first', title: 'Semua Laporan' },
-			{ key: 'second', title: 'Penjualan Produk' },
-			{ key: 'third', title: 'Penjualan PPOB' }
-		],
-		initialLayout: { width: 300, height: 300 },
-		setIndex: index => {
-			_MainTabIndex = index
-			setMainTab({ index })
-			_filterData({ index })
-		}
-	})
 	const _convertRupiah = (data, key) => {
 		let value = !data ? '' : data[key] || 0
 		return value.toString().convertRupiah()
@@ -109,18 +65,42 @@ const Report = ({ navigation }) => {
 				return null
 		}
 	}
-
 	const _handleRefresh = async () => {
 		if (User.store) {
 			GetData({})
 		}
 	}
+
+	const [dateRange, setDateRange] = useState([])
+	const initRange = date => {
+		const format = 'YYYY-MM-DD'
+		const [startDate, endDate] = date ? date.map(a => moment(a)) : [moment().startOf('month'), moment().endOf('month')]
+		return [startDate.format(format), endDate.format(format)]
+	}
+	const [SelectBox, setSelectBox] = stateObject({
+		index: 0,
+		data: ['Semua Laporan', 'Penjualan Produk', 'Penjualan PPOB']
+	})
+	const setFilter = ({ from, to, index }) => {
+		let tipe_product = index == 1 ? 'product' : index == 2 ? 'ppob' : ''
+		GetData({ from, to, tipe_product })
+	}
 	return <Container>
-		<ModalMonth {...ctrl} />
 		<GlobalHeader
 			title="Laporan"
 			renderLeftAccessory={() => null}
-			renderRightAccessory={() => <IconHeader onPress={() => ctrl.setVisible(true)} name="calendar" />}
+			renderRightAccessory={() => <BottomSheet
+				height={375}
+				renderButton={<IconHeader disabled name="calendar" />}
+				content={close => <DateRangePicker
+					initialRange={initRange(dateRange.length > 0 ? dateRange : undefined)}
+					onSuccess={(from, to) => {
+						setFilter({ from, to, index: SelectBox.index })
+						setDateRange([from, to])
+						close()
+					}}
+				/>}
+			/>}
 		/>
 		<Body refreshControl={<RefreshControl refreshing={false} onRefresh={_handleRefresh} />}>
 			{!User.store ?
@@ -136,14 +116,21 @@ const Report = ({ navigation }) => {
 					<View style={{ marginBottom: SizeList.base }}>
 						<SelectBoxModal
 							closeOnSelect noLabel
-							height={200}
-							value={MainTab.routes[MainTab.index].title}
-							data={MainTab.routes}
-							handleChangePicker={(a, i) => MainTab.setIndex(i)}
-							renderItem={item => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
+							height={170}
+							value={SelectBox.data[SelectBox.index]}
+							data={SelectBox.data}
+							handleChangePicker={(a, index) => {
+								const [from, to] = initRange(dateRange.length > 0 ? dateRange : undefined)
+								setSelectBox({ index })
+								setFilter({ from, to, index })
+							}}
+							renderItem={(title, i) => <Text color={i == SelectBox.index ? 'primary' : 'greyFont'} font="SemiBold">{title.toUpperCase()}</Text>}
 						/>
 					</View>
-					<ViewShadow noPadding title={moment(dateSelected).format('MMMM YYYY')}>
+					<ViewShadow noPadding title={initRange(dateRange.length > 0 ? dateRange : undefined).map(date => {
+						const currentDate = moment(date).format('DD MMM YYYY')
+						return currentDate
+					}).join(' - ')}>
 						<Wrapper style={{ marginVertical: SizeList.base }} >
 							<View>
 								<Text>Total Penjualan</Text>
@@ -247,34 +234,3 @@ const Report = ({ navigation }) => {
 }
 
 export default Report
-
-
-const ModalMonth = props => {
-	const { visible, setVisible, year, month, setFilter } = props
-	const bulan = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOV", "DES"]
-	const [filter, _setFilter] = stateObject({
-		year: parseInt(year || moment().format('YYYY')),
-		month: parseInt(month || moment().format('MM')) - 1
-	})
-	const _filterMonth = month => {
-		_setFilter({ month })
-	}
-	return <Modal style={{ width: '90%', padding: 15, paddingVertical: 15 }} visible={visible} backdropDismiss={() => setVisible(false)}>
-		<Wrapper spaceBetween>
-			<Button onPress={() => _setFilter({ year: filter.year - 1 })} color="link">{'<'}</Button>
-			<Text>{filter.year}</Text>
-			<Button onPress={() => _setFilter({ year: filter.year + 1 })} color="link">{'>'}</Button>
-		</Wrapper>
-		<FlatList
-			style={{ marginVertical: SizeList.base }}
-			data={bulan}
-			numColumns={3}
-			keyExtractor={(a, i) => i.toString()}
-			renderItem={({ item, index: i }) => <Button onPress={() => _filterMonth(i)} style={{ margin: 5 }} active={i == filter.month} color={['transparent', 'greyFont', 'greyFont']} activeColor="primary" flex>{item}</Button>}
-		/>
-		<Button onPress={() => {
-			setFilter(`${filter.year}-${filter.month.toString().length == 1 ? '0' : ''}${filter.month + 1}`)
-			setVisible(false)
-		}}>TERAPKAN</Button>
-	</Modal >
-}
