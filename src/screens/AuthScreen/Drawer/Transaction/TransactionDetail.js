@@ -48,7 +48,7 @@ const TransactionDetail = ({ navigation }) => {
 		}
 	}
 	const _getData = async () => {
-		const { transactionId, backState, fromCashier } = await navigation.state.params
+		const { transactionId, backState, fromCashier } = navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
 		if (fromCashier) setFromCashier(true)

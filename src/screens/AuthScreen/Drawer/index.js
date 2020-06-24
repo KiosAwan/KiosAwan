@@ -36,6 +36,9 @@ const Akun = ({ navigation }) => {
 				else if (props.name == "Ubah password") {
 					User.store && openPIN()
 				}
+				else if (props.name == "Tutorial") {
+					navigation.navigate('/news-screen', { title: "Tutorial", link: "https://kiosawan.com/tutorial/", tutorial: true })
+				}
 				else {
 					["Helpdesk", "FAQs"].includes(props.name) ? navigation.navigate(props.route) : User.store && User.data.status == 1 ? navigation.navigate(props.route) : null
 				}
@@ -133,6 +136,11 @@ const Akun = ({ navigation }) => {
 				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
 					<AkunButton
 						name="Hubungkan perangkat"
+						route="/drawer/settings/perangkat"
+					/>
+					<Divider />
+					<AkunButton
+						name="Tutorial"
 						route="/drawer/settings/perangkat"
 						noBottom
 					/>

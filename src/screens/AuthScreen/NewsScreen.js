@@ -35,20 +35,20 @@ const NewsScreen = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1 }}>
-            <GlobalHeader title="News" onPressBack={_onPressBack} />
+            <GlobalHeader title={navigation.state.params.tutorial ? "Tutorial" : "News"} onPressBack={_onPressBack} />
             {/* <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, margin: 10 }}> */}
-                {isLoading &&
-                    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                        <ActivityIndicator size={40} />
-                    </View>
-                }
-                <WebView
-                    onLoadStart={() => setIsLoading(true)}
-                    onLoadEnd={() => setIsLoading(false)}
-                    javaScriptEnabled
-                    source={{ uri: url }}
-                />
-                {/* <Text style={{ alignSelf: 'center', textAlign : 'center' }}>{title}</Text>
+            {isLoading &&
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                    <ActivityIndicator size={40} />
+                </View>
+            }
+            <WebView
+                onLoadStart={() => setIsLoading(true)}
+                onLoadEnd={() => setIsLoading(false)}
+                javaScriptEnabled
+                source={{ uri: url }}
+            />
+            {/* <Text style={{ alignSelf: 'center', textAlign : 'center' }}>{title}</Text>
                 <Image source={{uri : imageData ? imageData : null}} style={{width : SizeList.width, height : 200,marginVertical : 10, resizeMode : 'contain'}}/>
                 <HTML
                     tagsStyles={{
