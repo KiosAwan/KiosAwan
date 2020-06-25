@@ -97,7 +97,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 		}
 	}
 	return (
-		<View style={{ flex: 1 }}>
+		<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
 			<AwanPopup.Title title="Batalkan Transaksi" visible={alertVisible} message={`Dana sebesar ${convertRupiah(amount_cancel)} akan dikembalikan kepada pelanggan.`}>
 				<View></View>
 				<Button onPress={() => setAlertVisible(false)} style={{ width: '25%' }} color="link">Batal</Button>
@@ -167,10 +167,12 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 							showsVerticalScrollIndicator={false}
 							keyExtractor={(item, index) => index.toString()}
 						/>
-						<Input label="Alasan pembatalan"
-							value={alasan}
-							onChangeText={text => setAlasan(text)}
-						/>
+						<View style={{ marginBottom: 90 }}>
+							<Input label="Alasan pembatalan"
+								value={alasan}
+								onChangeText={text => setAlasan(text)}
+							/>
+						</View>
 					</View>
 				}
 			</ScrollView>
