@@ -142,7 +142,7 @@ const TransactionList = ({ navigation }) => {
                               <Wrapper justify="space-between">
                                 <Wrapper _width="65%" justify="flex-start">
                                   <View style={{ justifyContent: 'center', padding: 10, paddingLeft: 5 }}>
-                                    <Image style={{ width: 20, height: 20, }} source={iconImage[trx.status].image} />
+                                    <Image style={{ width: 20, height: 20, }} source={iconImage[trx.status_payment].image} />
                                   </View>
                                   <View style={{ justifyContent: 'center' }}>
                                     <Text font="SemiBold">{trx.payment_code}</Text>
@@ -150,11 +150,11 @@ const TransactionList = ({ navigation }) => {
                                   </View>
                                 </Wrapper>
                                 <View _width="33%">
-                                  <Text font="SemiBold" align="right" color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
+                                  <Text font="SemiBold" align="right" color={iconImage[trx.status_payment].color} font="SemiBold" size={15}>{iconImage[trx.status_payment].text}</Text>
                                   <Text align="right">{convertRupiah(trx.total_transaction)}</Text>
                                 </View>
                               </Wrapper>
-                              {trx.total_return > 0 &&
+                              {trx.status == 3 && trx.status_payment != 3 &&
                                 <View>
                                   <Divider style={{ marginVertical: 5 }} />
                                   <Wrapper justify="space-between">
