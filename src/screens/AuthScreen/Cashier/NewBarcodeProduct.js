@@ -68,16 +68,6 @@ const NewBarcodeProduct = ({ navigation }) => {
       )
     }
   }
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', (e) => {
-      if (NewProduct.fromManajemen) {
-        navigation.navigate(NewProduct.fromManajemen.back)
-        BackHandler.removeEventListener('hardwareBackPress')
-        return true
-      }
-      return false
-    })
-  })
   const _handleNoBarcode = () => {
     dispatch(addProductName(''))
     dispatch(addProductIdCategory(null))

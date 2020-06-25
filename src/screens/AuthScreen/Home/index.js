@@ -5,7 +5,7 @@ import { getUserToken } from 'src/utils/authhelper'
 import { HOST_URL } from 'src/config'
 import { SizeList } from 'src/styles/size';
 import { useSelector, useDispatch } from 'react-redux'
-import { View, RefreshControl, Modal } from 'react-native'
+import { View, RefreshControl, Modal, BackHandler } from 'react-native'
 import Ads from './Ads';
 import Axios from 'axios'
 import Container, { Body } from 'src/components/View/Container';
@@ -17,6 +17,8 @@ import styles from './style'
 import Summary from './Summary';
 import ModalContent from 'src/components/ModalContent/ModalContent'
 import CreatePin from './CreatePin';
+import { Toast } from 'native-base'
+import { ColorsList } from 'src/styles/colors'
 
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -116,12 +118,39 @@ const Home = ({ navigation }) => {
 			_setAlert(false)
 		}
 	}
-
+	let [canExit, exitDuration] = [false, 1000]
 	useEffect(() => {
 		_checkService()
 		_getNewsData()
+		BackHandler.addEventListener('hardwareBackPress', (e) => {
+			if (navigation.state.routeName == "Home") {
+				if (canExit) {
+					BackHandler.exitApp()
+				} else {
+					canExit = true
+					setTimeout(() => {
+						canExit = false
+					}, exitDuration)
+					Toast.show({
+						style: {
+							backgroundColor: ColorsList.blackTransparent,
+							marginHorizontal: 20,
+							marginBottom: 20,
+							borderRadius: 50,
+						},
+						textStyle: {
+							paddingHorizontal: 10,
+							textAlign: 'center',
+							fontSize: 13
+						},
+						text: "Tekan KEMBALI sekali lagi untuk keluar aplikasi"
+					})
+				}
+				return true
+			}
+			return false
+		})
 	}, [])
-
 	return <Container>
 		<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
 			<View></View>
