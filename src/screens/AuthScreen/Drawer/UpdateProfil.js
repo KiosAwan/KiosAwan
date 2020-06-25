@@ -177,7 +177,7 @@ const UpdateProfil = ({ navigation }) => {
 				value={desaSelected.desa}
 				handleChangePicker={item => setDesaSelected(item)}
 				renderItem={item => (<Text font="SemiBold">{_renderViewAlamat(item)}</Text>)}>
-				<Text>Data tidak ditemukan</Text>
+				<Text style={{ marginHorizontal: 15 }}>Data tidak ditemukan</Text>
 			</SelectBoxModal>
 			{desaSelected.id && <View style={styles.locationDetail}><Text>Alamat Lengkap: {_renderViewAlamat(desaSelected)}</Text></View>}
 			<SelectBoxModal

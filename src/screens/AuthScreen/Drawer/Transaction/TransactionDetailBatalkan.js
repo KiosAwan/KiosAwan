@@ -90,7 +90,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 		const res = await cancelTransaction(data)
 		if (res.status == 200) {
 			dispatch(getTransactionList(User.store.id_store, userToken))
-			navigation.navigate('/drawer/transaction')
+			navigation.navigate('Transaksi')
 		} else if (res.status == 400) {
 			setErrorMessage(res.data.errors.msg)
 			setErrorAlert(true)

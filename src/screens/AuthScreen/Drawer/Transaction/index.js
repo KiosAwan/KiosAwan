@@ -135,7 +135,7 @@ const TransactionList = ({ navigation }) => {
                             radius={SizeList.borderRadius}
                             padding={SizeList.padding}
                             color={["white"]}
-                            onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}
+                            onPress={() => navigation.push('/drawer/transaction/detail', { transactionId: trx.id_transaction })}
                           >
                             <Wrapper justify="flex-start">
                               <View style={{ justifyContent: 'center', padding: 10, paddingLeft: 5 }}>

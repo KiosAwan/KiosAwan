@@ -199,7 +199,7 @@ const MenuSettingProfil = ({ navigation }) => {
 				value={kategoriSelected.category}
 				handleChangePicker={item => setKategoriSelected(item)}
 				renderItem={item => (<Text>{item.category}</Text>)}>
-				<Text>Data tidak ditemukan</Text>
+				<Text style={{ marginHorizontal: 15 }}>Data tidak ditemukan</Text>
 			</SelectBoxModal>
 			{/* </View> */}
 			<View>
