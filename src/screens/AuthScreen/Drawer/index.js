@@ -139,17 +139,17 @@ const Akun = ({ navigation }) => {
 						name="Hubungkan perangkat"
 						route="/drawer/settings/perangkat"
 					/>
-					<Divider />
-					<AkunButton
-						name="Tutorial"
-						route="/drawer/settings/perangkat"
-						noBottom
-					/>
 				</View>
 				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
 					<AkunButton
 						name="FAQs"
 						route="/drawer/faq"
+					/>
+					<Divider />
+					<AkunButton
+						name="Tutorial"
+						route="/drawer/settings/perangkat"
+						noBottom
 					/>
 					<Divider />
 					<AkunButton

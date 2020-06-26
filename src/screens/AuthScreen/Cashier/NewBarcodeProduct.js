@@ -35,7 +35,6 @@ const NewBarcodeProduct = ({ navigation }) => {
     }
     const response = await checkBarcode(data)
     await dispatch(addProductBarcode(response.data.barcode))
-
     if (response.data.nama_product != undefined) {
       Alert.alert(
         '',
@@ -68,7 +67,8 @@ const NewBarcodeProduct = ({ navigation }) => {
       )
     }
   }
-  const _handleNoBarcode = () => {
+  const _handleNoBarcode = async () => {
+    await setScanWork(false)
     dispatch(addProductName(''))
     dispatch(addProductIdCategory(null))
     navigation.navigate('/cashier/new-product-name')

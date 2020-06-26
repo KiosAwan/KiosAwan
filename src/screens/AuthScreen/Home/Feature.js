@@ -48,7 +48,7 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 				<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/restock.png")} />
 				<View _width="80%">
 					<Text font="SemiBold" color="primary">BELANJA STOK</Text>
-					<Text>Dapatkan berbagai macam produk dan barang untuk kebutuhan kios atau warung</Text>
+					<Text>Dapatkan berbagai macam produk untuk kebutuhan kios atau warung</Text>
 				</View>
 			</Wrapper>
 		</TouchableOpacity>
