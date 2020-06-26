@@ -34,7 +34,10 @@ const RiwayatTransaksi = ({ navigation }) => {
 	}
 
 	return <Container>
-		<GlobalHeader title="Riwayat" onPressBack={() => navigation.goBack()} />
+		<GlobalHeader title="Riwayat"
+			onPressBack={() => navigation.goBack()}
+			renderRightAccessory={() => <View style={{ width: 40 }} />}
+		/>
 		{RiwayatTransaksi.isLoading ? <View style={{ flex: 1, justifyContent: 'center' }} >
 			<ActivityIndicator color={ColorsList.primary} />
 		</View>
@@ -54,7 +57,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 							onEndReachedThreshold={0.25}
 							showsVerticalScrollIndicator={false}
 							data={RiwayatTransaksi.data}
-							renderItem={({ item }) => <Fragment>
+							renderItem={({ item, index }) => <Fragment>
 								<Wrapper justify="space-between">
 									<View _width="100%">
 										<Wrapper justify="space-between">
@@ -68,7 +71,7 @@ const RiwayatTransaksi = ({ navigation }) => {
 										</Wrapper>
 									</View>
 								</Wrapper>
-								<Divider style={{ marginVertical: 10 }} />
+								{index != RiwayatTransaksi.data.length - 1 && <Divider style={{ marginVertical: 10 }} />}
 							</Fragment>
 							}
 							keyExtractor={(item, i) => i.toString()}
