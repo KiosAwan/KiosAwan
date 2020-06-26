@@ -38,4 +38,8 @@ const stateArray = initValue => {
 	}]
 }
 
-export { stateObject, stateArray, typingWaitCallback }
+const renderIf = predicate => (then, ifElse) => {
+	return predicate ? then : ifElse
+}
+
+export { stateObject, stateArray, typingWaitCallback, renderIf }

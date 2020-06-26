@@ -1,6 +1,5 @@
 import SearchInput from '../Input/SearchInput'
-import React, { useState, cloneElement } from 'react'
-import LinearGradient from 'react-native-linear-gradient'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import BarStatus from '../BarStatus';
 import { Wrapper } from '../View/Wrapper'
@@ -12,6 +11,7 @@ import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { SizeList } from 'src/styles/size';
 import { Input } from '../Input/MDInput';
+import Divider from '../Row/Divider';
 
 export const HeaderRegister = () => {
     return (
@@ -62,17 +62,26 @@ export const GlobalHeader = props => {
         rightProps,
         style,
         title = "",
-        renderLeftAccessory = () => {
-            return !onlyTitle && <Button color="link" flexStart padding={0} onPress={onPressBack} {...leftProps}>
+        renderLeftAccessory: LeftAccessory,
+        renderRightAccessory: RightAccessory,
+    } = props
+    const renderLeftAccessory = () => {
+        return typeof LeftAccessory == "function" ?
+            LeftAccessory() :
+            !onlyTitle && <Button color="link" flexStart padding={0} onPress={onPressBack} {...leftProps}>
                 <Icon name={iconBack || "arrow-left"} style={{ width: 40 }} size={20} color={iconColor || ColorsList.greyFont} />
             </Button>
-        },
-        renderRightAccessory = () => {
-            return !onlyTitle && <Button color="link" flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
-                {renderImage()}
-            </Button>
-        }
-    } = props
+    }
+    const renderRightAccessory = () => {
+        return (RightAccessory || children || image) ?
+            typeof RightAccessory == "function" ?
+                RightAccessory() :
+                !onlyTitle && <Button color="link" flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
+                    {renderImage()}
+                </Button>
+            :
+            <Divider size={40} color="link" />
+    }
     const renderMid = () => {
         if (children) {
             return <View _flex>

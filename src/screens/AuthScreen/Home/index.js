@@ -122,34 +122,34 @@ const Home = ({ navigation }) => {
 	useEffect(() => {
 		_checkService()
 		_getNewsData()
-		BackHandler.addEventListener('hardwareBackPress', (e) => {
-			if (navigation.state.routeName == "Home") {
-				if (canExit) {
-					BackHandler.exitApp()
-				} else {
-					canExit = true
-					setTimeout(() => {
-						canExit = false
-					}, exitDuration)
-					Toast.show({
-						style: {
-							backgroundColor: ColorsList.blackTransparent,
-							marginHorizontal: 20,
-							marginBottom: 20,
-							borderRadius: 50,
-						},
-						textStyle: {
-							paddingHorizontal: 10,
-							textAlign: 'center',
-							fontSize: 13
-						},
-						text: "Tekan KEMBALI sekali lagi untuk keluar aplikasi"
-					})
-				}
-				return true
-			}
-			return false
-		})
+		// BackHandler.addEventListener('hardwareBackPress', (e) => {
+		// 	if (navigation.state.routeName == "Home") {
+		// 		if (canExit) {
+		// 			BackHandler.exitApp()
+		// 		} else {
+		// 			canExit = true
+		// 			setTimeout(() => {
+		// 				canExit = false
+		// 			}, exitDuration)
+		// 			Toast.show({
+		// 				style: {
+		// 					backgroundColor: ColorsList.blackTransparent,
+		// 					marginHorizontal: 20,
+		// 					marginBottom: 20,
+		// 					borderRadius: 50,
+		// 				},
+		// 				textStyle: {
+		// 					paddingHorizontal: 10,
+		// 					textAlign: 'center',
+		// 					fontSize: 13
+		// 				},
+		// 				text: "Tekan KEMBALI sekali lagi untuk keluar aplikasi"
+		// 			})
+		// 		}
+		// 		return true
+		// 	}
+		// 	return false
+		// })
 	}, [])
 	return <Container>
 		<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
