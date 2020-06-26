@@ -31,6 +31,7 @@ import { Text } from 'src/components/Text/CustomText';
 import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
 import { SizeList } from 'src/styles/size';
+import { APP_VERSION } from 'src/config/constant';
 
 //Functions
 
@@ -64,7 +65,8 @@ const SecondPassword = ({ navigation }) => {
                 role: 'Owner',
                 password: FormRegister.password,
                 id_device: FormRegister.deviceId,
-                push_token: pushToken
+                push_token: pushToken,
+                app_version: APP_VERSION
             }
             const res = await registerUser(data)
             setIsLoading(false)

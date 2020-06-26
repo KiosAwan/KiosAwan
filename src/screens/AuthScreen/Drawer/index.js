@@ -12,6 +12,7 @@ import Divider from 'src/components/Row/Divider';
 import { openPin } from 'src/utils/pin-otp-helper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { verifyUserPIN } from 'src/utils/authhelper';
+import { APP_VERSION } from 'src/config/constant';
 const Akun = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	//alert
@@ -168,7 +169,7 @@ const Akun = ({ navigation }) => {
 						route=""
 					/>
 				</View>
-				<Text align="center">Versi : 0.6.18.1</Text>
+				<Text align="center">{`Versi : ${APP_VERSION}`}</Text>
 			</Body>
 		</Container>
 	)
