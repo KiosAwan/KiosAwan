@@ -30,6 +30,7 @@ import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader
 import { Input } from 'src/components/Input/MDInput';
 import { SizeList } from '../../styles/size';
 import { openOtp } from 'src/utils/pin-otp-helper';
+import { APP_VERSION } from 'src/config/constant';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -51,7 +52,8 @@ const LoginVerification = ({ navigation }) => {
             phone_number: "62" + FormRegister.phone_number,
             password: FormRegister.password,
             id_device: FormRegister.deviceId,
-            push_token: pushToken
+            push_token: pushToken,
+            app_version: APP_VERSION
         }
         try {
             const res = await loginData(data)
