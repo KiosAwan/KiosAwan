@@ -35,6 +35,7 @@ import { Input } from 'src/components/Input/MDInput';
 import Divider from 'src/components/Row/Divider';
 import { SizeList } from 'src/styles/size';
 import { openOtp } from 'src/utils/pin-otp-helper';
+import { APP_VERSION } from 'src/config/constant';
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -115,6 +116,7 @@ const PhoneRegistration = ({ navigation }) => {
 		setPopup(false)
 		const data = {
 			phone_number: "62" + FormRegister.phone_number,
+			app_version: APP_VERSION
 		}
 		const res = await sendPhoneNumber(data)
 		setLoading(false)

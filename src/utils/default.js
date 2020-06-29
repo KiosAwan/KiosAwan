@@ -66,6 +66,9 @@ String.prototype.generateInitial = function () {
   if (name.length > 1) {
     return name[0][0].toUpperCase() + name[1][0].toUpperCase()
   }
+  if (this.length == 1) {
+    return this[0].toUpperCase()
+  }
   return name[0][0].toUpperCase() + name[0][1]
 }
 String.prototype.ucfirst = function () {

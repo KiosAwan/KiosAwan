@@ -200,7 +200,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={() => rbRef.open()}>
 							<Image style={styles.image}
-								source={EditProduct.image !== "" ? { uri: `${HOST_IMG_URL}/${EditProduct.image}` } : require('src/assets/images/img-product.png')}
+								source={EditProduct.image !== "" ? { uri: `${EditProduct.image}` } : require('src/assets/images/img-product.png')}
 							/>
 						</TouchableOpacity>
 					</View>

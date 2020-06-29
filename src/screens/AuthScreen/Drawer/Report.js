@@ -26,6 +26,7 @@ const ViewShadow = props => <View style={{ marginBottom: SizeList.base, padding:
 
 const Report = ({ navigation }) => {
 	const [firstOpen, setFirstOpen] = useState(true)
+	const [filterData, setFilterData] = useState({})
 	const [data, setData] = stateObject({
 		dataTransaction: {},
 		dataReportCategory: [],
@@ -67,7 +68,7 @@ const Report = ({ navigation }) => {
 	}
 	const _handleRefresh = async () => {
 		if (User.store) {
-			GetData({})
+			GetData(filterData)
 		}
 	}
 
@@ -84,6 +85,7 @@ const Report = ({ navigation }) => {
 	const setFilter = ({ from, to, index }) => {
 		let tipe_product = index == 1 ? 'product' : index == 2 ? 'ppob' : ''
 		GetData({ from, to, tipe_product })
+		setFilterData({ from, to, tipe_product })
 	}
 	return <Container>
 		<GlobalHeader

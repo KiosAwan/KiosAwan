@@ -67,6 +67,7 @@ const Telkom = ({ navigation }) => {
             const { customerID, name, code } = navigation.state.params
             setIdPelanggan(customerID)
             setSelected({ name, code })
+            _cekTagihan({ name, code }, customerID)
         }
     }
     //Function for getting pdam product list
@@ -77,15 +78,15 @@ const Telkom = ({ navigation }) => {
     }
 
     //Function when user clicked check tagihan button
-    const _cekTagihan = async (selected, idPelanggan) => {
-        if (!selected) {
+    const _cekTagihan = async (prod, idPelanggan) => {
+        if (!prod) {
             alert("Harap pilih product!")
         }
         else {
             setTagihanData()
             setTagihanLoading(true)
             const data = {
-                productID: selected.code,
+                productID: prod.code,
                 customerID: idPelanggan
             }
             const res = await checkTagihanTelkom(data)

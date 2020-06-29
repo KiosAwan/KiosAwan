@@ -97,7 +97,7 @@ const Cashier = ({ navigation }) => {
                             manage_stock
                         } = item
                         return <ProductCard
-                            productImage={photo_product !== "" ? `${HOST_IMG_URL}/${photo_product}` : null}
+                            productImage={photo_product !== "" ? `${photo_product}` : null}
                             name={name_product.toUpperCase()}
                             price={convertRupiah(price_out_product)}
                             onPressMinus={() => dispatch(MinusQuantity(item))}
