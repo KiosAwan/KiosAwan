@@ -1,15 +1,39 @@
 import React from 'react';
-import { Text as ReactNativeText } from 'react-native'
-import { FontName } from '../../styles/typography';
+import { Text as ReactNativeText, ViewPropTypes } from 'react-native';
+import { FontName, FontNameKey } from '../../styles/typography';
 import { ColorsList } from '../../styles/colors';
+import PropTypes from 'prop-types'
 
-export const Text = (props) => {
+export const Text = props => {
+    const {
+        size,
+        font,
+        color,
+        align,
+        width,
+        style: styleOverride
+    } = props
     const styles = {
-        fontSize: props.size || 14,
-        fontFamily: FontName[props.font] || FontName.Regular,
-        color: ColorsList[props.color] || props.color || props.font == "SemiBold" && ColorsList.greyFontHard || ColorsList.greyFont,
-        textAlign: props.align || null,
-        width: props.width
+        fontSize: size || 14,
+        fontFamily: FontName[font] || FontName.Regular,
+        color: ColorsList[color] || color || font == "SemiBold" && ColorsList.greyFontHard || ColorsList.greyFont,
+        textAlign: align || null,
+        width: width
     }
-    return (<ReactNativeText {...props} style={[styles, props.style]} />)
+    return <ReactNativeText {...props} style={[styles, styleOverride]} />
+}
+Text.propTypes = {
+    size: PropTypes.number,
+    align: PropTypes.string,
+    width: PropTypes.number,
+    style: ReactNativeText.propTypes.style,
+    font: PropTypes.oneOf(FontNameKey),
+    color: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.oneOf(Object.keys(ColorsList))
+    ])
+}
+
+function a() {
+    <Text style={{}} />
 }

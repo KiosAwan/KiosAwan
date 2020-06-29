@@ -2,11 +2,25 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
-export const Wrapper = props => {
-	const { onPress, noWrapper, children, radius, flexStart, flexEnd, center, spaceBetween, spaceAround } = props
+import PropTypes from 'prop-types'
+
+export const Wrapper = _props => {
+	const {
+		noWrapper,
+		children,
+		radius,
+		flexStart,
+		flexEnd,
+		center,
+		spaceBetween,
+		spaceAround,
+		direction,
+		justify,
+		flexContent
+	} = _props
 	return <View style={[{
-		flexDirection: props.direction || 'row',
-		justifyContent: props.justify || 'space-around',
+		flexDirection: direction || 'row',
+		justifyContent: justify || 'space-around',
 	},
 	radius && { borderRadius: 5 },
 	flexStart && { justifyContent: 'flex-start' },
@@ -14,29 +28,43 @@ export const Wrapper = props => {
 	center && { justifyContent: 'center' },
 	spaceAround && { justifyContent: 'space-around' },
 	spaceBetween && { justifyContent: 'space-between' },
-	props.shadow && { borderRadius: 5, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor },
-	props.style]}>
+	_props.shadow && { borderRadius: 5, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor },
+	_props.style]}>
 		{
 			children.length > 0 ?
 				children.rMap((item, i) => {
 					if (!item) return null
 					const itemCLoned = React.cloneElement(item, {})
+					const props = item.props
 					return noWrapper ? itemCLoned : <View style={[
-						{ width: item.props._width, justifyContent: item.props._justify || 'center' },
-						item.props._flexStart && { justifyContent: 'flex-start' },
-						item.props._flexEnd && { justifyContent: 'flex-end' },
-						item.props._center && { justifyContent: 'center' },
-						item.props._spaceAround && { justifyContent: 'space-around' },
-						item.props._spaceBetween && { justifyContent: 'space-between' },
-						!item.props._unFlex && props.flexContent && { flex: 1 },
-						!item.props._unFlex && item.props._flex && { flex: 1 },
-						item.props.style && item.props.style.width ? { width: item.props.style.width } : {},
-						item.props.width ? { width: item.props.width } : {},
-						item.props._style,
+						{ width: props._width, justifyContent: props._justify || 'center' },
+						props._flexStart && { justifyContent: 'flex-start' },
+						props._flexEnd && { justifyContent: 'flex-end' },
+						props._center && { justifyContent: 'center' },
+						props._spaceAround && { justifyContent: 'space-around' },
+						props._spaceBetween && { justifyContent: 'space-between' },
+						!props._unFlex && flexContent && { flex: 1 },
+						!props._unFlex && props._flex && { flex: 1 },
+						props.style && props.style.width ? { width: props.style.width } : {},
+						props.width ? { width: props.width } : {},
+						props._style,
 					]} key={i}>
 						{itemCLoned}
 					</View>
 				}) : (children)
 		}
 	</View>
+}
+
+Wrapper.propTypes = {
+	noWrapper: PropTypes.bool,
+	radius: PropTypes.number,
+	flexStart: PropTypes.bool,
+	flexEnd: PropTypes.bool,
+	center: PropTypes.bool,
+	spaceBetween: PropTypes.bool,
+	spaceAround: PropTypes.bool,
+	direction: PropTypes.oneOf(['row', 'column']),
+	justify: PropTypes.oneOf(['space-evenly', 'flex-start', 'flex-end', 'center', 'space-between', 'space-around']),
+	flexContent: PropTypes.bool
 }
