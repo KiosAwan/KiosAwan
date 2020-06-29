@@ -21,7 +21,6 @@ import BarStatus from '../../components/BarStatus';
 import { clearAllRegistration, addSecondPassword } from '../../redux/actions/actionsRegistration'
 import { registerUser } from '../../utils/unauthhelper';
 import { getProfile } from '../../redux/actions/actionsUserData';
-import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from 'src/styles/colors';
 import Container from 'src/components/View/Container';

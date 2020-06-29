@@ -1,15 +1,39 @@
 import React from 'react';
 import { Text } from '../Text/CustomText';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ViewPropTypes } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Wrapper } from '../View/Wrapper';
 import { $Padding, $Border } from 'src/utils/stylehelper';
 import { SizeList } from 'src/styles/size';
 import { shadowStyle } from '../Input/MDInput';
+import PropTypes from 'prop-types'
 
 export const Button = props => {
-	const { borderBottom, padding, color, activeColor, active, children } = props
 	const { flexStart, flexEnd, center, spaceAround, spaceBetween } = props
+	const {
+		active,
+		activeColor,
+		align,
+		borderBottom,
+		children,
+		color,
+		flex,
+		flexContent,
+		height,
+		hideIfEmpty,
+		justify,
+		marginHorizontal,
+		noBorder,
+		noRadius,
+		noWrapper,
+		padding,
+		radius,
+		style,
+		textProps,
+		textStyle,
+		width,
+		wrapper,
+	} = props
 	let Colors = {
 		white: {
 			borderColor: ColorsList.primary,
@@ -107,47 +131,69 @@ export const Button = props => {
 		if (
 			['number', 'string'].includes(typeof children) &&
 			children.toString().replace(/\s/g, '').length == 0 &&
-			props.hideIfEmpty
+			hideIfEmpty
 		) {
 			return true
 		}
 		return false
 	}
-	// return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? 1 : 1 }]}>
 	return <TouchableOpacity activeOpacity={.5} {...props} style={{
-		borderWidth: props.noBorder ? 0 : 1,
-		width: props.width,
-		height: props.height,
-		marginHorizontal: props.marginHorizontal,
-		justifyContent: props.justify || 'flex-start',
-		borderRadius: props.noRadius ? 0 : props.radius || 20, ...ifWhitespaces() && { display: "none" },
-		...props.flex && { flex: 1 },
+		borderWidth: noBorder ? 0 : 1,
+		width, height, marginHorizontal,
+		justifyContent: justify || 'flex-start',
+		borderRadius: noRadius ? 0 : radius || 20, ...ifWhitespaces() && { display: "none" },
+		...flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
-		...props.noBorder && { borderColor: ColorsList.borderColor },
+		...noBorder && { borderColor: ColorsList.borderColor },
 		...active ? _activeColor : _color,
-		...props.style
+		...style
 	}}>
 		{
 			['string', 'number'].includes(typeof children) ?
 				<Text align="center"
 					font="SemiBold"
-					style={[{ alignSelf: props.align || 'center', color: active ? _activeColor.text : _color.text }, props.textStyle]} {...props.textProps}>
+					style={[{ alignSelf: align || 'center', color: active ? _activeColor.text : _color.text }, textStyle]} {...textProps}>
 					{children}
 				</Text>
 				:
-				children && <Wrapper {...props.wrapper} {...{ flexStart, flexEnd, center, spaceAround, spaceBetween }} noWrapper={props.noWrapper} flexContent={props.flexContent}>{children}</Wrapper>
+				children && <Wrapper {...wrapper} {...{ flexStart, flexEnd, center, spaceAround, spaceBetween }} noWrapper={noWrapper} flexContent={flexContent}>{children}</Wrapper>
 		}
 	</TouchableOpacity>
-	{/* </Animated.View> */ }
 }
 
+// const colorType = ['color', 'actveColor'].reduce((a, c) => {
+// 	a[c] = PropTypes.oneOfType([
+// 		PropTypes.string,
+// 		PropTypes.array
+// 	])
+// 	return a
+// }, {})
+
+// const justify = ['flexStart', 'flexEnd', 'center', 'spaceAround', 'spaceBetween']
+// 	.reduce((a, j) => {
+// 		a[j] = PropTypes.bool
+// 		return a
+// 	}, {})
+
+
+Button.propTypes = {
+}
+
+console.debug(Button.propTypes)
+
 export const Info = props => <Button
+
 	disabled
 	align="flex-start"
 	textProps={{ align: "left" }}
 	radius={SizeList.borderRadius}
 	{...props}
 />
+
+Info.propTypes = {
+	color: Button.propTypes.color,
+	style: ViewPropTypes.style
+}
 
 export const ButtonShadow = props => {
 	const { children, onPress, style } = props
@@ -179,4 +225,15 @@ export const RoundedButton = props => {
 				children
 		}
 	</TouchableOpacity>
+}
+
+RoundedButton.propTypes = {
+	size: PropTypes.number,
+	style: ViewPropTypes.style,
+	textProps: Text.propTypes,
+	children: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+		PropTypes.element
+	]),
 }

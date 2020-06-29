@@ -18,7 +18,7 @@ import { addName } from 'src/redux/actions/actionsRegistration'
 //Functions
 import { HeaderRegister } from 'src/components/Header/Header';
 import BarStatus from 'src/components/BarStatus';
-import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
+
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from 'src/styles/colors';
 import Container from 'src/components/View/Container';

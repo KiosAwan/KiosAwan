@@ -7,6 +7,8 @@ export const FontName = {
     'SemiBold': 'Rubik-Regular',
 }
 
+export const FontNameKey = Object.keys(FontName)
+
 export const FontList = {
     titleFont: {
         fontSize: 14,
