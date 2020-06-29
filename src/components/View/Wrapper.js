@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, ViewPropTypes } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import PropTypes from 'prop-types'
@@ -16,7 +16,9 @@ export const Wrapper = _props => {
 		spaceAround,
 		direction,
 		justify,
-		flexContent
+		flexContent,
+		shadow,
+		style
 	} = _props
 	return <View style={[{
 		flexDirection: direction || 'row',
@@ -28,8 +30,8 @@ export const Wrapper = _props => {
 	center && { justifyContent: 'center' },
 	spaceAround && { justifyContent: 'space-around' },
 	spaceBetween && { justifyContent: 'space-between' },
-	_props.shadow && { borderRadius: 5, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor },
-	_props.style]}>
+	shadow && { borderRadius: 5, borderWidth: SizeList.borderWidth, borderColor: ColorsList.borderColor },
+		style]}>
 		{
 			children.length > 0 ?
 				children.rMap((item, i) => {
@@ -66,5 +68,7 @@ Wrapper.propTypes = {
 	spaceAround: PropTypes.bool,
 	direction: PropTypes.oneOf(['row', 'column']),
 	justify: PropTypes.oneOf(['space-evenly', 'flex-start', 'flex-end', 'center', 'space-between', 'space-around']),
-	flexContent: PropTypes.bool
+	flexContent: PropTypes.bool,
+	shadow: PropTypes.bool,
+	style: ViewPropTypes.style
 }
