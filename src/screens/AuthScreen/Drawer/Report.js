@@ -176,7 +176,9 @@ const Report = ({ navigation }) => {
 					<ViewShadow title="Laporan keuangan" noPadding>
 						{
 							dataTransaction &&
-							['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'service_charge']
+							['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih',
+								// 'pajak', 'service_charge'
+							]
 								.rMap((key, i) => <Wrapper key={i.toString()} style={{ margin: 10 }} spaceBetween>
 									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
 									<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
@@ -186,7 +188,11 @@ const Report = ({ navigation }) => {
 					<ViewShadow noPadding title="Laporan laba/rugi kotor">
 						{
 							dataTransaction &&
-							['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih', 'pajak', 'harga_pokok_penjualan']
+							['total_penjualan', 'penjualan_kotor', 'discount', 'total_return',
+								'penjualan_bersih',
+								// 'pajak',
+								'harga_pokok_penjualan'
+							]
 								.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
 									<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
@@ -204,7 +210,9 @@ const Report = ({ navigation }) => {
 					/>
 					<ViewShadow noPadding noTitle>
 						{
-							NT && NT.selected && ['penjualan_bersih', 'penjualan_kotor', 'diskon', 'pembatalan', 'pajak'].rMap((key, i) => (
+							NT && NT.selected && ['penjualan_bersih', 'penjualan_kotor', 'diskon', 'pembatalan',
+								// 'pajak'
+							].rMap((key, i) => (
 								<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
 									<Text color={i == 0 && 'primary'}>{_convertRupiah(NT.selected, key)}</Text>

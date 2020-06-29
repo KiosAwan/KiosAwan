@@ -136,7 +136,9 @@ const TransactionList = ({ navigation }) => {
                             radius={SizeList.borderRadius}
                             padding={SizeList.padding}
                             color={["white"]}
-                            onPress={() => navigation.push('/drawer/transaction/detail', { transactionId: trx.id_transaction })}
+                            onPress={() => {
+                              navigation.push('/drawer/transaction/detail', { transactionId: trx.id_transaction })
+                            }}
                           >
                             <View style={{ width: "100%" }}>
                               <Wrapper justify="space-between">
@@ -146,7 +148,7 @@ const TransactionList = ({ navigation }) => {
                                   </View>
                                   <View style={{ justifyContent: 'center' }}>
                                     <Text font="SemiBold">{trx.payment_code}</Text>
-                                    <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'N/A'}</Text>
+                                    <Text font={trx.name_customer ? 'SemiBold' : 'Regular'}>{trx.name_customer ? trx.name_customer : 'N/A'}</Text>
                                   </View>
                                 </Wrapper>
                                 <View _width="33%">
@@ -154,7 +156,7 @@ const TransactionList = ({ navigation }) => {
                                   <Text align="right">{convertRupiah(trx.total_transaction)}</Text>
                                 </View>
                               </Wrapper>
-                              {trx.status == 3 && trx.status_payment != 3 &&
+                              {trx.status == 2 && trx.status_payment != 3 &&
                                 <View>
                                   <Divider style={{ marginVertical: 5 }} />
                                   <Wrapper justify="space-between">
