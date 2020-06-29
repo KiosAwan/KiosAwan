@@ -8,6 +8,7 @@ import { Image } from 'src/components/CustomImage';
 import { convertRupiah } from 'src/utils/authhelper';
 import { Button } from 'src/components/Button/Button';
 import { $Padding } from 'src/utils/stylehelper';
+import { ColorsList } from 'src/styles/colors';
 
 const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 	const _onPressTopUp = () => {
@@ -34,6 +35,7 @@ const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 				</View>
 				<View style={{ justifyContent: 'center' }}>
 					<TouchableOpacity onPress={_onPressRiwayat}>
+						<View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: ColorsList.primary, position: "absolute", right: 0, top: 0 }} />
 						<Icon color="grey" size={20} name="bell" />
 					</TouchableOpacity>
 				</View>
