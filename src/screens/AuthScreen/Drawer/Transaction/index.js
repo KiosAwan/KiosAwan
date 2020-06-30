@@ -101,7 +101,7 @@ const TransactionList = ({ navigation }) => {
       value={search}
       label="Cari transaksi"
       onChangeText={text => setSearch(text)}
-      renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
+      renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary, fontSize : 20 }} />}
     />
     <Body style={{ paddingTop: 0, marginTop: SizeList.base }} persistentScrollbar>
       <View style={{ flex: 1, backgroundColor: isLoading ? ColorsList.white : ColorsList.authBackground }}>
