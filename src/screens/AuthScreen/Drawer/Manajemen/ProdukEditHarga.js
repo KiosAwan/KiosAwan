@@ -225,7 +225,10 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 							}}
 						/> */}
 						{/* <Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
-						<Text>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text>
+						<Button textProps={{ align: "left", font: "Regular" }} color="info" style={{ borderRadius: SizeList.borderRadius }}>
+							Jika stok produk sudah mencapai minimum stok akan ada notifikasi di list produk
+						{/* <Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
+						</Button>
 					</View>
 				</View>}
 			</ScrollView>

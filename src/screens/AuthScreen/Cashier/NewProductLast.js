@@ -206,9 +206,9 @@ const NewProductLast = ({ navigation }) => {
 						color={sendNotif ? ColorsList.primary : ColorsList.greyFont}
 						onPress={() => setSendNotif(!sendNotif)}
 					/> */}
-					<Button textProps={{ align: "left" }} color="info" style={{ borderRadius: SizeList.borderRadius }}>
+					<Button textProps={{ align: "left", font: "Regular" }} color="info" style={{ borderRadius: SizeList.borderRadius }}>
 						Jika stok produk sudah mencapai minimum stok akan ada notifikasi di list produk
-					{/* <Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
+						{/* <Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
 					</Button>
 				</View>
 			</View>}
