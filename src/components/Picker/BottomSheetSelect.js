@@ -138,7 +138,7 @@ const BottomSheet = _props => {
 }
 
 BottomSheetSelect.propTypes = {
-	btnProps: Button.propTypes,
+	btnProps: PropTypes.shape(Button.propTypes),
 	btnStyle: ViewPropTypes.style,
 	buttonOverride: PropTypes.element,
 	children: PropTypes.element,

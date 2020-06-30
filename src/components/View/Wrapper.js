@@ -70,5 +70,9 @@ Wrapper.propTypes = {
 	justify: PropTypes.oneOf(['space-evenly', 'flex-start', 'flex-end', 'center', 'space-between', 'space-around']),
 	flexContent: PropTypes.bool,
 	shadow: PropTypes.bool,
-	style: ViewPropTypes.style
+	style: ViewPropTypes.style,
+	children: PropTypes.oneOfType([
+		PropTypes.element,
+		// PropTypes.objectOf(PropTypes.element)
+	])
 }

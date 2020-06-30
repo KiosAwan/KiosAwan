@@ -71,7 +71,7 @@ const BtnColorsObj = {
 	}
 }
 
-export const Button = props => {
+const Button = props => {
 	const { flexStart, flexEnd, center, spaceAround, spaceBetween } = props
 	const {
 		active,
@@ -167,7 +167,7 @@ export const Button = props => {
 	</TouchableOpacity>
 }
 
-export const Info = props => <Button
+const Info = props => <Button
 	disabled
 	align="flex-start"
 	textProps={{ align: "left" }}
@@ -175,7 +175,7 @@ export const Info = props => <Button
 	{...props}
 />
 
-export const ButtonShadow = props => {
+const ButtonShadow = props => {
 	const { children, onPress, style } = props
 	return <TouchableOpacity onPress={onPress}>
 		<Wrapper shadow {...props} style={{
@@ -188,7 +188,7 @@ export const ButtonShadow = props => {
 	</TouchableOpacity>
 }
 
-export const RoundedButton = props => {
+const RoundedButton = props => {
 	const { size, style, children, textProps } = props
 	return <TouchableOpacity {...props} style={{
 		...shadowStyle,
@@ -243,7 +243,14 @@ Button.propTypes = {
 	children: PropTypes.oneOfType([
 		PropTypes.number,
 		PropTypes.string,
-		PropTypes.element
+		PropTypes.element,
+		PropTypes.arrayOf(
+			PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string,
+				PropTypes.element
+			])
+		)
 	])
 }
 
@@ -262,3 +269,5 @@ Info.propTypes = {
 	color: Button.propTypes.color,
 	style: ViewPropTypes.style
 }
+
+export { Button, Info, ButtonShadow, RoundedButton }
