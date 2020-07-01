@@ -238,20 +238,9 @@ Button.propTypes = {
 	style: ViewPropTypes.style,
 	width: PropTypes.number,
 	textStyle: Text.propTypes.style,
+	children: PropTypes.any,
 	textProps: PropTypes.shape(Text.propTypes),
-	wrapper: PropTypes.shape(Wrapper.propTypes),
-	children: PropTypes.oneOfType([
-		PropTypes.number,
-		PropTypes.string,
-		PropTypes.element,
-		PropTypes.arrayOf(
-			PropTypes.oneOfType([
-				PropTypes.number,
-				PropTypes.string,
-				PropTypes.element
-			])
-		)
-	])
+	wrapper: PropTypes.shape(Wrapper.propTypes)
 }
 
 RoundedButton.propTypes = {

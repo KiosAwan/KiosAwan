@@ -6,7 +6,7 @@ import { convertRupiah, getUserToken } from '../../utils/authhelper';
 import { ColorsList } from '../../styles/colors';
 import { ProductCard } from '../../components/Card/CardComp';
 import { MinusQuantity, AddQuantity, getProduct, removeAllCart } from '../../redux/actions/actionsStoreProduct';
-import { CashierHeader, GlobalHeader, IconHeader, SearchHeader } from '../../components/Header/Header';
+import { GlobalHeader, IconHeader, SearchHeader } from '../../components/Header/Header';
 import { stylesglobe } from '../../styles/globalStyle';
 import { RowChild } from '../../components/Helper/RowChild';
 import { Icon } from 'native-base';

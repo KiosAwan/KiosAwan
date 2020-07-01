@@ -2,7 +2,6 @@ import { Item, Input, Icon, Card, CardItem, Body, Grid, Col } from 'native-base'
 import { View, Modal, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
-import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
 import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer, getUserToken } from '../../utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux'

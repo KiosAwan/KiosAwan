@@ -18,7 +18,6 @@ import { Button } from 'src/components/Button/Button';
 import { TransactionPlaceholder } from 'src/components/LoadingPlaceholder';
 import SearchInput, { SearchInputV2 } from 'src/components/Input/SearchInput';
 import Container, { Body } from 'src/components/View/Container';
-import Menu from 'src/components/ModalContent/Menu';
 import { SizeList } from 'src/styles/size';
 import BottomSheetSelect, { BottomSheet } from 'src/components/Picker/BottomSheetSelect';
 import { Input } from 'src/components/Input/MDInput';

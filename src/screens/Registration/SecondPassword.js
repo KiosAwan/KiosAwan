@@ -13,7 +13,6 @@ import LinearGradient from 'react-native-linear-gradient';
 
 //Own Custom Component
 import { HeaderRegister } from '../../components/Header/Header'
-import { InputPIN } from '../../components/Input/InputPIN'
 import BarStatus from '../../components/BarStatus';
 
 

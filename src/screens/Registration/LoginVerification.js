@@ -17,7 +17,6 @@ import { loginData, sendOTP, showPhoneNumber, sendVerifyOTP } from '../../utils/
 import BarStatus from '../../components/BarStatus';
 import { getProfile } from '../../redux/actions/actionsUserData';
 import { FontList } from '../../styles/typography';
-import { InputPIN } from '../../components/Input/InputPIN';
 
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from '../../styles/colors';

@@ -14,7 +14,6 @@ import LinearGradient from 'react-native-linear-gradient';
 
 //Own Custom Component
 import { HeaderRegister } from 'src/components/Header/Header'
-import { InputPIN } from 'src/components/Input/InputPIN'
 
 //Redux Actions
 import { addFirstPIN, addFirstPassword } from 'src/redux/actions/actionsRegistration'

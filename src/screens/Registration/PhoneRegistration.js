@@ -29,7 +29,6 @@ import { ColorsList } from 'src/styles/colors';
 import Container from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border, $Padding } from 'src/utils/stylehelper';
-import PinView from 'src/components/Input/PinView';
 import UnauthHeader from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
 import Divider from 'src/components/Row/Divider';

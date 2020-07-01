@@ -71,8 +71,5 @@ Wrapper.propTypes = {
 	flexContent: PropTypes.bool,
 	shadow: PropTypes.bool,
 	style: ViewPropTypes.style,
-	children: PropTypes.oneOfType([
-		PropTypes.element,
-		// PropTypes.objectOf(PropTypes.element)
-	])
+	children: PropTypes.any
 }

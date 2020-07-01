@@ -14,30 +14,13 @@ import { Input } from '../Input/MDInput';
 import Divider from '../Row/Divider';
 
 export const HeaderRegister = () => {
-    return (
-        <View style={{
-            flexDirection: 'row',
-            alignItems: "center",
-            justifyContent: 'space-between',
-            paddingTop: 10
-        }}>
-            <Image style={{ width: 160, height: 90 }} source={require('src/assets/images/logo.png')} />
-        </View>
-    )
-}
-
-export const HomeHeader = props => {
-    return <View style={{ justifyContent: "center" }}>
-        <BarStatus />
-        <Wrapper justify="space-between" style={{ padding: 15 }}>
-            {props.center}
-            <View style={{ justifyContent: 'center' }}>
-                <TouchableOpacity>
-                    <Icon color="black" size={20} name="bell" />
-                </TouchableOpacity>
-            </View>
-        </Wrapper>
-        {props.children}
+    return <View style={{
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'space-between',
+        paddingTop: 10
+    }}>
+        <Image style={{ width: 160, height: 90 }} source={require('src/assets/images/logo.png')} />
     </View>
 }
 
@@ -120,15 +103,6 @@ export const IconHeader = props => {
     </TouchableOpacity>
 }
 export const ImageHeader = props => <Image {...props} style={{ width: 30, height: 30 }} />
-
-export const CashierHeader = props => {
-    const [focus, setFocus] = useState(false)
-    return <GlobalHeader {...props} onlyTitle={focus} image={<Icon name="ellipsis-v" size={20} color="white" />}>
-        <SearchInput onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor} blurColor="transparent">
-            <TextInput style={{ color: ColorsList.black }} placeholderTextColor={ColorsList.greyFont} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk..." />
-        </SearchInput>
-    </GlobalHeader>
-}
 
 export const SearchHeader = _props => {
     const {

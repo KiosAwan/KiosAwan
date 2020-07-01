@@ -10,7 +10,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 //Own custom components
-import { InputText } from 'src/components/Input/InputComp'
 
 //Redux Actions
 import { addName } from 'src/redux/actions/actionsRegistration'
