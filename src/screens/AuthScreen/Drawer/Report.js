@@ -222,6 +222,7 @@ const Report = ({ navigation }) => {
 								// 'diskon',
 								// 'pembatalan',
 								'penjualan_bersih',
+								'jumlah_transaksi'
 								// 'pajak'
 							].rMap((key, i) => (
 								<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
