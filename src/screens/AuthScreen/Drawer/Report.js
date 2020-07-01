@@ -87,6 +87,11 @@ const Report = ({ navigation }) => {
 		GetData({ from, to, tipe_product })
 		setFilterData({ from, to, tipe_product })
 	}
+
+	let viewKey = key => {
+		let keys = { discount : "Diskon", total_profit : "Laba / rugi kotor", total_return : "Pembatalan" }
+		return keys[key] || key.split('_').join(' ').ucwords()
+	}
 	return <Container>
 		<GlobalHeader
 			title="Laporan"
@@ -176,11 +181,11 @@ const Report = ({ navigation }) => {
 					<ViewShadow title="Laporan keuangan" noPadding>
 						{
 							dataTransaction &&
-							['total_penjualan', 'penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih',
+							['penjualan_kotor', 'discount', 'total_return', 'penjualan_bersih',
 								// 'pajak', 'service_charge'
 							]
 								.rMap((key, i) => <Wrapper key={i.toString()} style={{ margin: 10 }} spaceBetween>
-									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+									<Text color={i == 0 && 'primary'}>{viewKey(key)}</Text>
 									<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
 								</Wrapper>)
 						}
@@ -188,13 +193,15 @@ const Report = ({ navigation }) => {
 					<ViewShadow noPadding title="Laporan laba/rugi kotor">
 						{
 							dataTransaction &&
-							['total_penjualan', 'penjualan_kotor', 'discount', 'total_return',
+							[
+								// 'total_penjualan', 'penjualan_kotor', 'discount', 'total_return',
 								'penjualan_bersih',
 								// 'pajak',
-								'harga_pokok_penjualan'
+								'harga_pokok_penjualan',
+								'total_profit'
 							]
 								.rMap((key, i) => <Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+									<Text color={i == 0 && 'primary'}>{viewKey(key)}</Text>
 									<Text color={i == 0 && 'primary'}>{_convertRupiah(dataTransaction, key)}</Text>
 								</Wrapper>)
 						}
@@ -210,11 +217,15 @@ const Report = ({ navigation }) => {
 					/>
 					<ViewShadow noPadding noTitle>
 						{
-							NT && NT.selected && ['penjualan_bersih', 'penjualan_kotor', 'diskon', 'pembatalan',
+							NT && NT.selected && [
+								// 'penjualan_kotor',
+								// 'diskon',
+								// 'pembatalan',
+								'penjualan_bersih',
 								// 'pajak'
 							].rMap((key, i) => (
 								<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
-									<Text color={i == 0 && 'primary'}>{key.split('_').join(' ').ucwords()}</Text>
+									<Text color={i == 0 && 'primary'}>{key == "penjualan_bersih" ? "Penerimaan" : key == "" ? "" : key.split('_').join(' ').ucwords()}</Text>
 									<Text color={i == 0 && 'primary'}>{_convertRupiah(NT.selected, key)}</Text>
 								</Wrapper>
 							))
