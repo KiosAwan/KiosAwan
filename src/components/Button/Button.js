@@ -233,7 +233,28 @@ Button.propTypes = {
 	noBorder: PropTypes.bool,
 	noRadius: PropTypes.bool,
 	noWrapper: PropTypes.bool,
-	padding: PropTypes.number,
+	padding: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+		PropTypes.shape({
+			paddingBottom: PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string
+			]),
+			paddingLeft: PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string
+			]),
+			paddingRight: PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string
+			]),
+			paddingTop: PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string
+			])
+		})
+	]),
 	radius: PropTypes.number,
 	style: ViewPropTypes.style,
 	width: PropTypes.oneOfType([
