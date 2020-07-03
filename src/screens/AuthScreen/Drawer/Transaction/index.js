@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { View, StyleSheet, TextInput, Image, FlatList, TouchableOpacity as TouchableOpacityRN, RefreshControl } from 'react-native';
-import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
+import { View, StyleSheet, Image, TouchableOpacity as TouchableOpacityRN, RefreshControl } from 'react-native';
+import { IconHeader } from 'src/components/Header/Header';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
-import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
-import { } from 'src/components/Input/InputComp';
-import { Icon } from 'native-base';
 import moment from 'moment'
-import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Icon from 'react-native-vector-icons/FontAwesome5'
 import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -100,7 +97,7 @@ const TransactionList = ({ navigation }) => {
       value={search}
       label="Cari transaksi"
       onChangeText={text => setSearch(text)}
-      renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary, fontSize : 20 }} />}
+      renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
     />
     <Body style={{ paddingTop: 0, marginTop: SizeList.base }} persistentScrollbar>
       <View style={{ flex: 1, backgroundColor: isLoading ? ColorsList.white : ColorsList.authBackground }}>

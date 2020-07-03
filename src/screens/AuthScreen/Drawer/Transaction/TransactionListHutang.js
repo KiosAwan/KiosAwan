@@ -34,9 +34,10 @@ const RingkasanHutang = ({ navigation }) => {
 			style={{ marginHorizontal: SizeList.bodyPadding }}
 			placeholder="Cari transaksi"
 			value={search}
+
 			onChangeText={text => setSearch(text)}
 		/>
-		<Body refreshControl={<RefreshControl onRefresh={_reportHutang} />}>
+		<Body style={{paddingTop: 0, marginTop: SizeList.base}} refreshControl={<RefreshControl onRefresh={_reportHutang} />}>
 			{!reportHutang ?
 				<View style={{ alignItems: 'center', flex: 1 }}>
 					<Image style={{ width: 250, height: 250, marginTop: 50 }} source={require('src/assets/images/no-transaction.png')} />
