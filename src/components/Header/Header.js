@@ -58,7 +58,7 @@ export const GlobalHeader = props => {
     const renderRightAccessory = () => {
         return (RightAccessory || children || image) ?
             typeof RightAccessory == "function" ?
-                RightAccessory() :
+                <View style={{ width: 40, alignItems: 'flex-end' }}>{RightAccessory()}</View> :
                 !onlyTitle && <Button color="link" flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
                     {renderImage()}
                 </Button>
