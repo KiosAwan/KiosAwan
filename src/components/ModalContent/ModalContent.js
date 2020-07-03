@@ -17,7 +17,7 @@ const ModalContent = (props) => {
         <View style={[styles.wrapView, props.style]}>
             <Image style={imageStyle} source={props.image} />
             <Text align="center" style={{ marginBottom: SizeList.padding }}>{props.infoText}</Text>
-            {props.children && <View style={{ marginBottom: SizeList.base }}>{props.children}</View>}
+            {props.children && <View style={{ marginBottom: SizeList.padding }}>{props.children}</View>}
         </View>
     </TouchableOpacity>
 }

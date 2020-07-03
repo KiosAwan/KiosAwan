@@ -140,7 +140,7 @@ const UpdateProfil = ({ navigation }) => {
 			<Modal
 				animationType="fade"
 				transparent={true}
-				visible={true}
+				visible={modalVisible}
 				onRequestClose={() => {
 					setModalVisible(!modalVisible);
 				}}
