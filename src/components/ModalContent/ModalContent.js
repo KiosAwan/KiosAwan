@@ -16,7 +16,7 @@ const ModalContent = (props) => {
     return <TouchableOpacity onPress={props.closeModal} style={styles.touchableStyle}>
         <View style={[styles.wrapView, props.style]}>
             <Image style={imageStyle} source={props.image} />
-            <Text align="center" style={{ marginBottom: SizeList.base }}>{props.infoText}</Text>
+            <Text align="center" style={{ marginBottom: SizeList.padding }}>{props.infoText}</Text>
             {props.children && <View style={{ marginBottom: SizeList.base }}>{props.children}</View>}
         </View>
     </TouchableOpacity>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'center',
         marginHorizontal: SizeList.bodyPadding * 3,
-        paddingHorizontal: SizeList.base,
+        paddingHorizontal: SizeList.padding,
         backgroundColor: 'white',
         borderRadius: SizeList.borderRadius
     }
