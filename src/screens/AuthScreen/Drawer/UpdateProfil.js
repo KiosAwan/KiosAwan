@@ -146,7 +146,6 @@ const UpdateProfil = ({ navigation }) => {
 				}}
 			>
 				<ModalContent
-					style={{ height: 350 ,}}
 					image={require('src/assets/images/successcreatestore.png')}
 					infoText="Pembaruan Profil Berhasil!"
 					closeModal={() => setModalVisible(false)}

@@ -236,7 +236,10 @@ Button.propTypes = {
 	padding: PropTypes.number,
 	radius: PropTypes.number,
 	style: ViewPropTypes.style,
-	width: PropTypes.number,
+	width: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string
+	]),
 	textStyle: Text.propTypes.style,
 	children: PropTypes.any,
 	textProps: PropTypes.shape(Text.propTypes),
