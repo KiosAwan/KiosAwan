@@ -1,4 +1,4 @@
-package com.awanapp.release;
+package com.awan;
 import android.os.Bundle; // here
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

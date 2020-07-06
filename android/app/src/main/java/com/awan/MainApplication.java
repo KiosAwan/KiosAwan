@@ -1,4 +1,4 @@
-package com.awanapp.release;
+package com.awan;
 import cl.json.RNSharePackage;
 import cl.json.ShareApplication;
 import android.app.Application;
