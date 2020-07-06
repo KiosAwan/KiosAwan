@@ -11,8 +11,6 @@ import { Image } from 'src/components/CustomImage';
 import MDInput, { Input } from 'src/components/Input/MDInput';
 import { Modal, AwanPopup } from 'src/components/ModalContent/Popups';
 import ContactsModal from 'src/components/ModalContent/ContacsModal';
-import SearchInput from 'src/components/Input/SearchInput';
-import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
@@ -22,6 +20,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import { openPin } from 'src/utils/pin-otp-helper';
+import { PPOB_PRODUCT_CODE } from 'src/config/constant';
+import { getProductPulsa, paymentPPOBProduct } from 'src/utils/api/ppobapi';
 
 const PpobPaketData = ({ navigation }) => {
 	//Initialize dispatch
@@ -103,11 +103,12 @@ const PpobPaketData = ({ navigation }) => {
 		setPayLoading(true)
 		const data = {
 			phone_number: phoneNumber,
-			productID: selected.code,
+			productID: PPOB_PRODUCT_CODE.KUOTA,
+			product_code: selected.code,
 			id_multi: Product.id_multi,
 			favorite: favorit ? 1 : 0
 		}
-		const res = await payPulsaHandphone(data)
+		const res = await paymentPPOBProduct(data)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()

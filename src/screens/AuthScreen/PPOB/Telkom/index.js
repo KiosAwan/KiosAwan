@@ -26,6 +26,7 @@ import SwitchButton from 'src/components/Button/SwitchButton';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import { checkTagihanTelkom, getTelkomProductList, payTagihanTelkom } from 'src/utils/api/ppob/telkom_api';
 import { openPin } from 'src/utils/pin-otp-helper';
+import { getProductPPOBGeneral } from 'src/utils/api/ppobapi';
 
 const Telkom = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -72,8 +73,7 @@ const Telkom = ({ navigation }) => {
     }
     //Function for getting pdam product list
     const _getProductList = async () => {
-        const res = await getTelkomProductList()
-        // console.debug(res)
+        const res = await getProductPPOBGeneral("telco")
         setProductData(res.data)
     }
 

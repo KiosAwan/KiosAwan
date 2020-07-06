@@ -9,7 +9,6 @@ import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import { Input } from 'src/components/Input/MDInput';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
@@ -19,6 +18,8 @@ import SwitchButton from 'src/components/Button/SwitchButton';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { SizeList } from 'src/styles/size';
 import { openPin } from 'src/utils/pin-otp-helper';
+import { PPOB_PRODUCT_CODE } from 'src/config/constant';
+import { paymentPPOBProduct, getProductPulsa } from 'src/utils/api/ppobapi';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -89,11 +90,12 @@ const PpobPulsa = ({ navigation }) => {
 		setPayLoading(true)
 		const data = {
 			phone_number: phoneNumber,
-			productID: selected.code,
+			productID: PPOB_PRODUCT_CODE.PULSA,
+			product_code: selected.code,
 			id_multi: Product.id_multi,
 			favorite: favorit ? 1 : 0
 		}
-		const res = await payPulsaHandphone(data)
+		const res = await paymentPPOBProduct(data)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()

@@ -2,24 +2,21 @@ import React, { useState, useEffect } from 'react';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { GlobalHeader } from 'src/components/Header/Header';
 import { Text } from 'src/components/Text/CustomText';
-import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
 import { View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
-import MDInput, { Input } from 'src/components/Input/MDInput';
-import { Bottom, BottomVertical } from 'src/components/View/Bottom';
-import { checkListrikToken, payTokenListrik, getProductToken } from 'src/utils/api/ppob/listrik_api';
+import { Input } from 'src/components/Input/MDInput';
 import { ColorsList } from 'src/styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { verifyUserPIN, convertRupiah, getUserToken } from 'src/utils/authhelper';
-import { Toast } from 'native-base';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { SizeList } from 'src/styles/size';
 import { openPin } from 'src/utils/pin-otp-helper';
+import { getProductPPOBGeneral, inquiryPPOBProduct, paymentPPOBProduct } from 'src/utils/api/ppobapi';
+import { PPOB_PRODUCT_CODE } from 'src/config/constant';
 
 const ListrikToken = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -41,9 +38,6 @@ const ListrikToken = ({ navigation }) => {
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState()
 
-	// PIN Modal state 
-	const [pinVisible, setPinVisible] = useState(false)
-
 	// Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
 	const _selectPulsa = ({ item, index }) => {
@@ -62,19 +56,17 @@ const ListrikToken = ({ navigation }) => {
 
 	}, [])
 	const _getProduct = async () => {
-		const res = await getProductToken()
-		// console.debug(res)
+		const res = await getProductPPOBGeneral("pln_prepaid")
 		setProduct(res.data)
 	}
 	const _cekTagihan = async (idPel) => {
 		setLoading(true)
 		const data = {
-			productID: 100302,
+			productID: PPOB_PRODUCT_CODE.PLN_PREPAID,
 			customerID: idPel
 		}
 		// Checking the customer ID to server
-		const res = await checkListrikToken(data)
-		console.debug(res)
+		const res = await inquiryPPOBProduct(data)
 		setLoading(false)
 		setSelected()
 		// Set the response data to state
@@ -123,12 +115,12 @@ const ListrikToken = ({ navigation }) => {
 		setPayLoading(true)
 		const data = {
 			customerID: response.transaction.customerID,
-			productID: response.transaction.productID,
+			productID: PPOB_PRODUCT_CODE.PLN_PREPAID,
 			amount: selected.price,
 			id_multi: Product.id_multi,
 			favorite: favorit ? 1 : 0
 		}
-		const res = await payTokenListrik(data)
+		const res = await paymentPPOBProduct(data)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
