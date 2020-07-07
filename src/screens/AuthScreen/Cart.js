@@ -323,7 +323,7 @@ const Cart = ({ navigation }) => {
 			</Wrapper>
 
 			</View>
-		<View style={{ marginVertical: SizeList.base, }}>
+		{/* <View style={{ marginVertical: SizeList.base, }}>
 			<Text style={{ marginBottom: SizeList.base }}>Apakah ada tambahan?</Text>
 			<Wrapper justify="space-between" style={{ marginTop: 5 }}>
 				<Button wrapper={{ justify: "center" }} color="white" noBorder _width="48%" justify="center" padding={10} onPress={async () => {
@@ -342,7 +342,7 @@ const Cart = ({ navigation }) => {
 					PULSA DAN TAGIHAN
 					</Button>
 			</Wrapper>
-		</View>
+		</View> */}
 		<View style={{ marginVertical: SizeList.base, }}>
 			<Text style={{ marginBottom: SizeList.base }}>Pelanggan</Text>
 			<PilihPelanggan
