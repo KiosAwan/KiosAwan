@@ -15,11 +15,11 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 		}
 	}
 	const _onPressPayment = () => {
-		if (User.data.status == 1) {
-			navigation.navigate('/ppob')
-		} else {
-			_featureDisabled('ppob')
-		}
+		// if (User.data.status == 1) {
+		// 	navigation.navigate('/ppob')
+		// } else {
+		_featureDisabled('ppob')
+		// }
 	}
 	const _onPressStock = () => _featureDisabled('stock')
 	const _onPressHutang = () => _featureDisabled('hutang')
