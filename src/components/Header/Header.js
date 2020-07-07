@@ -1,6 +1,5 @@
 import SearchInput from '../Input/SearchInput'
-import React, { useState, cloneElement } from 'react'
-import LinearGradient from 'react-native-linear-gradient'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import BarStatus from '../BarStatus';
 import { Wrapper } from '../View/Wrapper'
@@ -12,32 +11,16 @@ import { ColorsList } from 'src/styles/colors'
 import { Button } from '../Button/Button'
 import { SizeList } from 'src/styles/size';
 import { Input } from '../Input/MDInput';
+import Divider from '../Row/Divider';
 
 export const HeaderRegister = () => {
-    return (
-        <View style={{
-            flexDirection: 'row',
-            alignItems: "center",
-            justifyContent: 'space-between',
-            paddingTop: 10
-        }}>
-            <Image style={{ width: 160, height: 90 }} source={require('src/assets/images/logo.png')} />
-        </View>
-    )
-}
-
-export const HomeHeader = props => {
-    return <View style={{ justifyContent: "center" }}>
-        <BarStatus />
-        <Wrapper justify="space-between" style={{ padding: 15 }}>
-            {props.center}
-            <View style={{ justifyContent: 'center' }}>
-                <TouchableOpacity>
-                    <Icon color="black" size={20} name="bell" />
-                </TouchableOpacity>
-            </View>
-        </Wrapper>
-        {props.children}
+    return <View style={{
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'space-between',
+        paddingTop: 10
+    }}>
+        <Image style={{ width: 160, height: 90 }} source={require('src/assets/images/logo.png')} />
     </View>
 }
 
@@ -62,17 +45,26 @@ export const GlobalHeader = props => {
         rightProps,
         style,
         title = "",
-        renderLeftAccessory = () => {
-            return !onlyTitle && <Button color="link" flexStart padding={0} onPress={onPressBack} {...leftProps}>
-                <Icon name={iconBack || "arrow-left"} size={20} color={iconColor || ColorsList.greyFont} />
-            </Button>
-        },
-        renderRightAccessory = () => {
-            return !onlyTitle && <Button color="link" flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
-                {renderImage()}
-            </Button>
-        }
+        renderLeftAccessory: LeftAccessory,
+        renderRightAccessory: RightAccessory,
     } = props
+    const renderLeftAccessory = () => {
+        return typeof LeftAccessory == "function" ?
+            LeftAccessory() :
+            onlyTitle ? <View style={{ width: 40 }} /> : <Button color="link" flexStart padding={0} onPress={onPressBack} {...leftProps}>
+                <Icon name={iconBack || "arrow-left"} style={{ width: 40 }} size={20} color={iconColor || ColorsList.greyFont} />
+            </Button>
+    }
+    const renderRightAccessory = () => {
+        return (RightAccessory || children || image) ?
+            typeof RightAccessory == "function" ?
+                <View style={{ width: 40, alignItems: 'flex-end' }}>{RightAccessory()}</View> :
+                !onlyTitle && <Button color="link" flexEnd padding={0} onPress={handleDeleteCategory || handlePressIcon || onPressIcon} {...rightProps}>
+                    {renderImage()}
+                </Button>
+            :
+            <Divider size={40} color="link" />
+    }
     const renderMid = () => {
         if (children) {
             return <View _flex>
@@ -91,7 +83,7 @@ export const GlobalHeader = props => {
             }
             return image
         } catch (err) {
-            return <Image style={{ width: 20, height: 20 }} source={image} />
+            return <Image style={{ width: 40, height: 40 }} source={image} />
         }
     }
     const render = () => <Wrapper style={{ paddingHorizontal: SizeList.bodyPadding, width: '100%', ...style }} spaceBetween={!onlyTitle}>
@@ -105,21 +97,12 @@ export const GlobalHeader = props => {
 }
 
 export const IconHeader = props => {
-    const { onPress, ..._props } = props
-    return <TouchableOpacity onPress={onPress}>
+    const { onPress, disabled, ..._props } = props
+    return <TouchableOpacity disabled={disabled} onPress={onPress}>
         <Icon color={ColorsList.secondary} {..._props} size={20} />
     </TouchableOpacity>
 }
 export const ImageHeader = props => <Image {...props} style={{ width: 30, height: 30 }} />
-
-export const CashierHeader = props => {
-    const [focus, setFocus] = useState(false)
-    return <GlobalHeader {...props} onlyTitle={focus} image={<Icon name="ellipsis-v" size={20} color="white" />}>
-        <SearchInput onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} clear={props.clear} icon={require('src/assets/icons/circlerejectwhite.png')} clear={props.clear} color={ColorsList.whiteColor} blurColor="transparent">
-            <TextInput style={{ color: ColorsList.black }} placeholderTextColor={ColorsList.greyFont} value={props.value} onChangeText={props.handleChangeText} placeholder="Cari produk..." />
-        </SearchInput>
-    </GlobalHeader>
-}
 
 export const SearchHeader = _props => {
     const {

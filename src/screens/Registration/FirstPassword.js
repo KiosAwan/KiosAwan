@@ -14,11 +14,10 @@ import LinearGradient from 'react-native-linear-gradient';
 
 //Own Custom Component
 import { HeaderRegister } from 'src/components/Header/Header'
-import { InputPIN } from 'src/components/Input/InputPIN'
 
 //Redux Actions
 import { addFirstPIN, addFirstPassword } from 'src/redux/actions/actionsRegistration'
-import { UnauthBottomButton } from 'src/components/Button/UnauthButton';
+
 import { FontList } from 'src/styles/typography';
 import { ColorsList } from 'src/styles/colors';
 import { AwanPopup } from 'src/components/ModalContent/Popups';

@@ -210,7 +210,7 @@ const ListrikToken = ({ navigation }) => {
 			}
 			{productToken && !response &&
 				<View style={styles.infoPembelian}>
-					<Text size={16} font="SemiBold" color="informationFont">{productToken.info.title}</Text>
+					<Text size={16} color="informationFont">{productToken.info.title}</Text>
 					{productToken.info.info.rMap((item, i) => (
 						<Text key={i} color="informationFont">{`${productToken.info.info.length == 1 ? "" : `${i + 1}. `}${item}`}</Text>
 					))}
@@ -225,12 +225,12 @@ const ListrikToken = ({ navigation }) => {
 						renderItem={({ item, index }) =>
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
-									<View _width="70%">
+									<View _width="60%">
 										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`TOKEN ${item.product.split(" ")[2]}`} </Text>
 									</View>
-									<View _width="30%">
+									<View _width="40%">
 										<Text size={8}>HARGA</Text>
-										<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
+										<Text font="SemiBold" color="primary">{convertRupiah(item.total)}</Text>
 									</View>
 								</Wrapper>
 							</TouchableOpacity>

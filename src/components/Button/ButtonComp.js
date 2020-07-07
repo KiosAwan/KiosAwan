@@ -14,17 +14,6 @@ import { Text } from '../Text/CustomText'
 
 const width = Dimensions.get('window').width
 
-export const RegisterButton = (props) => {
-	return (
-		<ButtonNB primary style={[styles.btn, props.style]}
-			disabled={props.disabled}
-			onPress={props.onPressBtn}
-		>
-			<Text>{props.buttonTitle}</Text>
-		</ButtonNB>
-	)
-}
-
 export const BottomButton = (props) => {
 	return (
 		<ButtonNB
@@ -51,13 +40,6 @@ export const ButtonWithIcon = (props) => {
 	)
 }
 
-export const TouchableImage = (props) => {
-	return (
-		<TouchableOpacity onPress={props.onPressBtn} style={{ width: '100%' }}>
-			<Image style={styles.imageButtonNB} source={{ uri: props.image }} />
-		</TouchableOpacity>
-	)
-}
 const styles = StyleSheet.create({
 	btn: {
 		justifyContent: "center",

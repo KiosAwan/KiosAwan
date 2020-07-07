@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Dimensions, StyleSheet, View, Modal, TextInput } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
-import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
+import { GlobalHeaderWithIcon, IconHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { Text } from 'src/components/Text/CustomText';
@@ -113,10 +113,12 @@ const ManajemenProdukEdit = ({ navigation }) => {
 				<Button onPress={__handleDeleteProduct} style={{ width: '25%' }}>Ya</Button>
 			</AwanPopup.Title>
 			<GlobalHeaderWithIcon
-				image={require('src/assets/icons/trash-primary.png')}
 				title="Edit Produk"
-				handleDeleteCategory={() => setAlert(true)}
-				onPressBack={() => navigation.goBack()} />
+				renderRightAccessory={() => <TouchableOpacity onPress={() => setAlert(true)}>
+					<IconHeader name="trash" color={ColorsList.greyFont} />
+				</TouchableOpacity>}
+				onPressBack={() => navigation.goBack()}
+			/>
 
 			<ModalCustom backdropDismiss={() => setAddCategoryVisible(false)} visible={addCategoryVisible}>
 				<View style={{ padding: 15 }}>
@@ -198,7 +200,7 @@ const ManajemenProdukEdit = ({ navigation }) => {
 					<View style={styles.imageWrapper}>
 						<TouchableOpacity onPress={() => rbRef.open()}>
 							<Image style={styles.image}
-								source={EditProduct.image !== "" ? { uri: `${HOST_IMG_URL}/${EditProduct.image}` } : require('src/assets/images/img-product.png')}
+								source={EditProduct.image !== "" ? { uri: `${EditProduct.image}` } : require('src/assets/images/img-product.png')}
 							/>
 						</TouchableOpacity>
 					</View>

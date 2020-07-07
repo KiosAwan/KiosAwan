@@ -2,7 +2,6 @@ import { Item, Input, Icon, Card, CardItem, Body, Grid, Col } from 'native-base'
 import { View, Modal, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
-import { FloatingInputLabel } from '../Input/InputComp';
 import { ColorsList } from '../../styles/colors';
 import { convertRupiah, sendNewCustomer, editCustomer, deleteCustomer, getUserToken } from '../../utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux'
@@ -132,7 +131,6 @@ export const PilihPelanggan = props => {
 		} else if (action == "edit") {
 			_handleEditCustomer()
 		}
-		setState({ isSelect: true })
 	}
 	const _handleAddNewCustomer = async () => {
 		if (pelanggan) {
@@ -178,6 +176,7 @@ export const PilihPelanggan = props => {
 		const userToken = await getUserToken()
 		console.debug(res)
 		if (res.status == 200) {
+			setState({ isSelect: true, pelanggan: {} })
 			dispatch(getCustomer(User.store.id_store, userToken))
 		} else if (res.status == 400) {
 			setState({ isSelect: false, ...pelanggan })
@@ -197,7 +196,7 @@ export const PilihPelanggan = props => {
 				onChangeText={phone_number_customer => setState({ pelanggan: { ...pelanggan, phone_number_customer } })} />
 		</View>
 		<Wrapper flexContent>
-			<Button onPress={() => setState({ isSelect: true })} color="link">BATAL</Button>
+			<Button onPress={() => setState({ isSelect: true, pelanggan: {} })} color="link">BATAL</Button>
 			<Button onPress={_handleButtonSimpan}>SIMPAN</Button>
 		</Wrapper>
 	</View>
@@ -240,7 +239,7 @@ export const PilihPelanggan = props => {
 		height={350}
 		value={value}
 		isSelect={isSelect}
-		onClose={() => setState({ isSelect: true, search: '' })}
+		onClose={() => setState({ isSelect: true, search: '', pelanggan: {} })}
 		data={data.filter(item => item.name_customer.toLowerCase().includes(search.toLowerCase()))}
 		handleChangePicker={item => {
 			dispatch(AddCustomer(item))
@@ -249,7 +248,7 @@ export const PilihPelanggan = props => {
 		header={header}
 		footer={footer}
 		renderItem={renderItem}
-	/>
+	><View style={{ flex: 1 }} /></BottomSheetSelect>
 }
 
 export const MyModal = (props) => {

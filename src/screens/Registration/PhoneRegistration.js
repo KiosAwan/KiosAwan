@@ -29,12 +29,12 @@ import { ColorsList } from 'src/styles/colors';
 import Container from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { $Border, $Padding } from 'src/utils/stylehelper';
-import PinView from 'src/components/Input/PinView';
 import UnauthHeader from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
 import Divider from 'src/components/Row/Divider';
 import { SizeList } from 'src/styles/size';
 import { openOtp } from 'src/utils/pin-otp-helper';
+import { APP_VERSION } from 'src/config/constant';
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -115,6 +115,7 @@ const PhoneRegistration = ({ navigation }) => {
 		setPopup(false)
 		const data = {
 			phone_number: "62" + FormRegister.phone_number,
+			app_version: APP_VERSION
 		}
 		const res = await sendPhoneNumber(data)
 		setLoading(false)
@@ -174,6 +175,12 @@ const PhoneRegistration = ({ navigation }) => {
 					onChangeText={phone => _handleChangePhone(phone)}
 				/>
 			</Wrapper>
+			{
+				__DEV__ && <Text onPress={() => _handleChangePhone('81213141570')}>081213141570</Text>
+			}
+			{
+				__DEV__ && <Text onPress={() => _handleChangePhone('85717570370')}>085717570370</Text>
+			}
 			<Text align="center">
 				{
 					__DEV__ ?

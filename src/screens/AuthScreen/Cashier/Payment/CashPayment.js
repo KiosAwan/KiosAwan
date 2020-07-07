@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';

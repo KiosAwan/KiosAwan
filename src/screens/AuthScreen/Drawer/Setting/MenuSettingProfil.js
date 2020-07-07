@@ -186,7 +186,7 @@ const MenuSettingProfil = ({ navigation }) => {
 					{_renderViewAlamat(desaSelected)}
 				</Text>
 			</View>}
-			<SelectBoxModal btnStyle={{ marginTop: 7, marginBottom: SizeList.base }}
+			<SelectBoxModal btnStyle={{ marginTop: 10, marginBottom: SizeList.base }}
 				label="Kategori Toko" closeOnSelect
 				data={dataKategori.filter(item => item.category.toLowerCase().includes(searchKategori.toLowerCase()))}
 				header={
@@ -199,7 +199,7 @@ const MenuSettingProfil = ({ navigation }) => {
 				value={kategoriSelected.category}
 				handleChangePicker={item => setKategoriSelected(item)}
 				renderItem={item => (<Text>{item.category}</Text>)}>
-				<Text>Data tidak ditemukan</Text>
+				<Text style={{ marginHorizontal: 15 }}>Data tidak ditemukan</Text>
 			</SelectBoxModal>
 			{/* </View> */}
 			<View>
@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
 		padding: 5,
 		margin: 2,
 		marginTop: 0,
+		marginBottom : 0,
 		backgroundColor: ColorsList.white,
 		borderBottomLeftRadius: SizeList.borderRadius,
 		borderBottomRightRadius: SizeList.borderRadius,

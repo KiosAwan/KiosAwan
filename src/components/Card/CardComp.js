@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Dimensions, StyleSheet, Image } from 'react-native';
+import { View, TouchableOpacity, Dimensions, StyleSheet, Image, ViewPropTypes } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { FontList } from '../../styles/typography';
 import { RowChild } from '../Helper/RowChild';
@@ -8,75 +8,20 @@ import FastImage from 'react-native-fast-image'
 import { Wrapper } from '../View/Wrapper';
 import { SizeList } from 'src/styles/size';
 import { Text } from '../Text/CustomText';
-
+import PropTypes from 'prop-types'
 
 const height = Dimensions.get('window').height
 const width = Dimensions.get('window').width
 
-export const CardComp = (props) => {
-	return (
-		<View style={styles.wrapView}>
-			<TouchableOpacity style={{ backgroundColor: 'transparent' }} onPress={props.onPressCard} disabled={props.disabled}>
-				<View style={[styles.card, props.cardStyle]}>
-					<Image style={{ width: 50, height: 50, marginHorizontal: 10 }} source={props.icon} />
-					<View style={{ width: '70%', paddingLeft: 20 }}>
-						<Text style={styles.infoText}>{props.info}</Text>
-						<Text style={styles.subText}>{props.subInfo}</Text>
-					</View>
-				</View>
-			</TouchableOpacity>
-		</View>
-	);
-}
-
-export const TransactionCard = (props) => {
-	return (
-		<View style={{ ...RowChild, justifyContent: 'space-between', marginBottom: 20, borderBottomWidth: 2 }}>
-			<Icon name="money-bill-alt" />
-			<View>
-				<Text>Rp. {props.total_transaction}</Text>
-				<Text>{props.payment_code}</Text>
-				{props.status_payment == 3 ? <Text>Dibatalkan</Text> : null}
-			</View>
-			<View>
-				<Text>{props.payment_type}</Text>
-				<Text>{props.transactiontime}</Text>
-			</View>
-		</View>
-	)
-}
-
-export const LinearCardComp = (props) => {
-	return (
-		<View style={{ height: height / 15, backgroundColor: 'white', justifyContent: "center", borderRadius: 5 }}>
-			<View style={{ ...RowChild, justifyContent: "space-between" }}>
-				<View style={{ flexDirection: 'row', alignItems: "center", marginLeft: 20 }}>
-					<Icon size={20} name="wallet" color={ColorsList.primaryColor} />
-					<Text style={{ fontSize: 13, color: 'grey', fontFamily: FontList.primaryFont, paddingLeft: 10, paddingRight: 50 }}>Saldo : Rp. 470.000</Text>
-				</View>
-				<TouchableOpacity>
-					<View style={styles.topUpStyle}>
-						<Text style={{ color: 'white', fontFamily: 'Nunito-Bold' }}>TOP UP</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
-		</View>
-
-	);
-}
-
-
 export const CardTextImage = (props) => {
-	return (
-		<TouchableOpacity onPress={props.onPressCard}>
-			<View style={[styles.CardTextImage, props.style]}>
-				<Image style={styles.imageCardTextImage} source={{ uri: props.image }} />
-				<View style={styles.textImageWrapper}>
-					<Text style={{ fontSize: FontList.titleSize, color: ColorsList.greyFont, paddingHorizontal: '6%' }}>{props.info}</Text>
-				</View>
+	return <TouchableOpacity onPress={props.onPressCard}>
+		<View style={[styles.CardTextImage, props.style]}>
+			<Image style={styles.imageCardTextImage} source={{ uri: props.image }} />
+			<View style={styles.textImageWrapper}>
+				<Text style={{ fontSize: FontList.titleSize, color: ColorsList.greyFont, paddingHorizontal: '6%' }}>{props.info}</Text>
 			</View>
-		</TouchableOpacity>
-	);
+		</View>
+	</TouchableOpacity>
 }
 
 export const ImageText = props => {
@@ -86,36 +31,49 @@ export const ImageText = props => {
 }
 
 export const ProductCard = props => {
-	return <TouchableOpacity onPress={props.onPressPlus ? props.plusDisabled ? null : props.onPressPlus : null} activeOpacity={props.onPressPlus ? .5 : 1}>
+	const {
+		manage_stock,
+		min_stock,
+		name,
+		onPressMinus,
+		onPressPlus,
+		plusDisabled,
+		price,
+		productImage,
+		quantity,
+		right,
+		stock
+	} = props
+	return <TouchableOpacity onPress={onPressPlus ? plusDisabled ? null : onPressPlus : null} activeOpacity={onPressPlus ? .5 : 1}>
 		<Wrapper shadow style={{ backgroundColor: 'white', marginBottom: SizeList.base, borderRadius: 5, padding: SizeList.base }} spaceBetween>
 			{
-				props.manage_stock ?
-					props.productImage ?
-						<FastImage style={{ width: width * 0.17, height: width * 0.17, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: props.productImage }} />
+				manage_stock ?
+					productImage ?
+						<FastImage style={{ width: width * 0.17, height: width * 0.17, backgroundColor: ColorsList.greyAuthHard }} source={{ uri: productImage }} />
 						:
-						<ImageText name={props.name} />
+						<ImageText name={name} />
 					:
-					props.productImage ?
+					productImage ?
 						<FastImage
 							style={{ width: width * 0.17, height: width * 0.17, backgroundColor: ColorsList.greyAuthHard }}
-							source={{ uri: props.productImage, priority: FastImage.priority.high, }}
+							source={{ uri: productImage, priority: FastImage.priority.high, }}
 
 						/>
 						:
-						<ImageText name={props.name} />
+						<ImageText name={name} />
 			}
 			<View style={{ marginHorizontal: SizeList.base }} _flex>
-				<Text font="SemiBold" color="primary">{props.name.length > 25 ? props.name.substr(0, 25) + '...' : props.name}</Text>
-				<Text style={[props.min_stock ? parseInt(props.stock) <= parseInt(props.min_stock) ? { color: ColorsList.danger } : (props.stock - props.quantity) <= props.min_stock ? { color: ColorsList.danger } : null : null]}>{props.stock ? `Stok : ${props.stock}` : "Fitur stok tidak aktif"}</Text>
-				<Text>{props.price}</Text>
+				<Text font="SemiBold" color="primary">{name.length > 25 ? name.substr(0, 25) + '...' : name}</Text>
+				<Text style={[min_stock ? parseInt(stock) <= parseInt(min_stock) ? { color: ColorsList.danger } : (stock - quantity) <= min_stock ? { color: ColorsList.danger } : null : null]}>{stock ? `Stok : ${stock}` : "Fitur stok tidak aktif"}</Text>
+				<Text>{price}</Text>
 			</View>
 			{
-				props.right ? props.right : <View>
-					<TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
+				right ? right : <View>
+					<TouchableOpacity onPress={onPressPlus} disabled={plusDisabled} style={styles.cardPlusMinusIcon}>
 						<Image style={{ width: 13, height: 13 }} source={require("src/assets/icons/plus.png")} />
 					</TouchableOpacity>
-					<Text font="SemiBold" style={{ marginHorizontal: 8, marginVertical: 4 }}>{props.quantity ? props.quantity : 0}</Text>
-					<TouchableOpacity onPress={props.onPressMinus} style={styles.cardPlusMinusIcon}>
+					<Text font="SemiBold" style={{ marginHorizontal: 8, marginVertical: 4 }}>{quantity ? quantity : 0}</Text>
+					<TouchableOpacity onPress={onPressMinus} style={styles.cardPlusMinusIcon}>
 						<Image style={{ width: 13, height: 13 }} source={require("src/assets/icons/minus.png")} />
 					</TouchableOpacity>
 				</View>
@@ -123,33 +81,70 @@ export const ProductCard = props => {
 		</Wrapper>
 	</TouchableOpacity>
 }
-
 export const ReturnTransactionCard = (props) => {
-	return (
-		<View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
-			<View style={[styles.card, props.cardStyle]}>
-				<View style={{ ...RowChild, height: '100%', width: '90%' }}>
-					{/* <View></View> */}
-					<View style={{ width: '50%', paddingLeft: 10 }}>
-						<Text font="SemiBold" color="primary">{props.name}</Text>
-						<Text >{props.price}</Text>
-					</View>
+	return <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
+		<View style={[styles.card, props.cardStyle]}>
+			<View style={{ ...RowChild, height: '100%', width: '90%' }}>
+				{/* <View></View> */}
+				<View style={{ width: '50%', paddingLeft: 10 }}>
+					<Text font="SemiBold" color="primary">{props.name}</Text>
+					<Text >{props.price}</Text>
 				</View>
-				{
-					props.right ? props.right :
-						<View style={{ width: '10%', backgroundColor: '#f9faf7', height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
-							<TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
-								<Icon size={15} name="plus" color={ColorsList.greyFont} />
-							</TouchableOpacity>
-							<Text font="SemiBold" style={{ marginHorizontal: 8, }}>{props.quantity ? props.quantity : 0}</Text>
-							<TouchableOpacity onPress={props.onPressMinus} disabled={props.minusDisabled} style={styles.cardPlusMinusIcon}>
-								<Icon size={15} name="minus" color={ColorsList.greyFont} />
-							</TouchableOpacity>
-						</View>
-				}
 			</View>
+			{
+				props.right ? props.right :
+					<View style={{ width: '10%', backgroundColor: '#f9faf7', height: '100%', justifyContent: "space-around", alignItems: "center", borderTopRightRadius: 5, borderBottomRightRadius: 5 }}>
+						<TouchableOpacity onPress={props.onPressPlus} disabled={props.plusDisabled} style={styles.cardPlusMinusIcon}>
+							<Icon size={15} name="plus" color={ColorsList.greyFont} />
+						</TouchableOpacity>
+						<Text font="SemiBold" style={{ marginHorizontal: 8, }}>{props.quantity ? props.quantity : 0}</Text>
+						<TouchableOpacity onPress={props.onPressMinus} disabled={props.minusDisabled} style={styles.cardPlusMinusIcon}>
+							<Icon size={15} name="minus" color={ColorsList.greyFont} />
+						</TouchableOpacity>
+					</View>
+			}
 		</View>
-	);
+	</View>
+}
+
+CardTextImage.propTypes = {
+	onPressCard: PropTypes.func,
+	style: ViewPropTypes.style,
+	image: PropTypes.string,
+	info: PropTypes.string
+}
+
+ImageText.propTypes = {
+	size: PropTypes.number,
+	style: ViewPropTypes.style,
+	notGenerated: PropTypes.bool,
+	name: PropTypes.string
+}
+
+ProductCard.propTypes = {
+	manage_stock: PropTypes.bool,
+	min_stock: PropTypes.string,
+	name: PropTypes.string,
+	onPressMinus: PropTypes.number,
+	onPressPlus: PropTypes.number,
+	plusDisabled: PropTypes.bool,
+	price: PropTypes.string,
+	productImage: PropTypes.string,
+	quantity: PropTypes.string,
+	right: PropTypes.bool,
+	stock: PropTypes.string
+}
+
+ReturnTransactionCard.propTypes = {
+	cardStyle: ViewPropTypes.style,
+	minusDisabled: PropTypes.bool,
+	name: PropTypes.string,
+	onPressMinus: PropTypes.func,
+	onPressPlus: PropTypes.func,
+	plusDisabled: PropTypes.string,
+	price: PropTypes.string,
+	quantity: PropTypes.string,
+	right: PropTypes.bool
 }
 
 const styles = StyleSheet.create({

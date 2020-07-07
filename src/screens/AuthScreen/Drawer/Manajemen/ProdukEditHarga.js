@@ -1,12 +1,12 @@
 import Axios from 'axios';
 import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Dimensions, Modal, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler';
 import { convertNumber, deleteProduct, validNumber, getUserToken } from 'src/utils/authhelper';
 import { getProduct } from 'src/redux/actions/actionsStoreProduct';
-import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
+import { GlobalHeaderWithIcon, IconHeader } from 'src/components/Header/Header';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { ColorsList } from 'src/styles/colors';
@@ -165,8 +165,9 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 		<GlobalHeaderWithIcon
 			title="Edit Produk"
 			onPressBack={() => navigation.goBack()}
-			handleDeleteCategory={() => setAlert(true)}
-			image={require('src/assets/icons/trash-primary.png')}
+			renderRightAccessory={() => <TouchableOpacity onPress={() => setAlert(true)}>
+				<IconHeader name="trash" color={ColorsList.greyFont} />
+			</TouchableOpacity>}
 		/>
 		<View style={styles.childContainer}>
 			<ScrollView showsVerticalScrollIndicator={false}>
@@ -224,7 +225,10 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 							}}
 						/> */}
 						{/* <Text style={[{ color: EditProduct.manageStock == 1 ? EditProduct.sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
-						<Text>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text>
+						<Button textProps={{ align: "left", font: "Regular" }} color="info" style={{ borderRadius: SizeList.borderRadius }}>
+							Jika stok produk sudah mencapai minimum stok akan ada notifikasi di list produk
+						{/* <Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
+						</Button>
 					</View>
 				</View>}
 			</ScrollView>

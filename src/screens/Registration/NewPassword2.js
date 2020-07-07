@@ -21,6 +21,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { Button } from 'src/components/Button/Button';
 import Alert from 'src/utils/alert';
 import { Input } from 'src/components/Input/MDInput';
+import { APP_VERSION } from 'src/config/constant';
 
 //Functions
 
@@ -45,9 +46,13 @@ const NewPassword2 = ({ navigation }) => {
             setAlert(true)
         } else {
             setIsLoading(true)
+            const pushToken = await AsyncStorage.getItem("@push_token")
             const data = {
                 phone_number: "62" + FormRegister.phone_number,
-                password: FormRegister.password
+                password: FormRegister.password,
+                id_device: FormRegister.deviceId,
+                push_token: pushToken,
+                app_version: APP_VERSION
             }
             const res = await sendNewPassword(data)
             if (res.status == 200) {

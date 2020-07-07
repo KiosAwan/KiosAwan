@@ -1,6 +1,36 @@
 import axios from 'axios'
 import { HOST_URL } from '../config'
+import { Image } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Dimensions } from 'react-native';
+
+
+export const getImageSize = image => {
+  const { width: winWidth, height: winHeight } = Dimensions.get('window')
+  const imageRatio = ({ width, height }) => {
+    const ratio = winWidth / width;
+    return {
+      width: winWidth,
+      height: height * ratio
+    }
+  }
+  return new Promise(resolve => {
+    if (typeof image == 'number') {
+      const { width, height } = Image.resolveAssetSource(image)
+      resolve({
+        size: { width, height },
+        ratio: imageRatio({ width, height })
+      })
+    } else {
+      Image.getSize(image, (width, height) => {
+        resolve({
+          size: { width, height },
+          ratio: imageRatio({ width, height })
+        })
+      })
+    }
+  })
+}
 
 //get User token
 export const getUserToken = async () => {

@@ -8,7 +8,6 @@ import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
 import { Image } from 'src/components/CustomImage';
-import Accordion from 'src/components/View/Accordion';
 import { Bottom } from 'src/components/View/Bottom';
 import { useSelector } from 'react-redux';
 import { requestTopUp } from 'src/utils/api/ppobapi';

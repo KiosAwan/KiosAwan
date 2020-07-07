@@ -23,7 +23,6 @@ import { getProfile } from 'src/redux/actions/actionsUserData'
 import TextTicker from 'react-native-text-ticker';
 import Axios from 'axios';
 import { FontList } from 'src/styles/typography';
-import Menu from 'src/components/ModalContent/Menu';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { ImageHeader, IconHeader } from 'src/components/Header/Header';
 import ButtonCart from 'src/components/View/ButtonCart';
@@ -77,7 +76,7 @@ const PPOB = ({ navigation }) => {
 		<Container header={{
 			onPressBack: () => navigation.goBack(),
 			title: "PRODUK PEMBAYARAN",
-			renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 60 }}>
+			renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 40 }}>
 				<TouchableOpacity onPress={() => navigation.navigate("/ppob/favorit")}>
 					<IconHeader name="heart" color={ColorsList.greyFont} />
 				</TouchableOpacity>

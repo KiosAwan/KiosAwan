@@ -1,7 +1,7 @@
-import React, { useEffect, useState, forwardRef } from 'react';
+import React, { useEffect } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Button } from '../Button/Button';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, ViewPropTypes } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import Divider from '../Row/Divider';
@@ -9,6 +9,7 @@ import { Input } from '../Input/MDInput';
 import { Icon } from 'native-base';
 import PropTypes from 'prop-types'
 import { $BorderRadius } from 'src/utils/stylehelper';
+import { FontNameKey } from 'src/styles/typography';
 
 const BottomSheetSelect = props => {
 	let rb
@@ -36,7 +37,8 @@ const BottomSheetSelect = props => {
 		hideRenderItem,
 		buttonOverride,
 		btnProps,
-		btnStyle
+		btnStyle,
+		customStyle: customStyleOverride
 	} = props
 	useEffect(() => {
 		refs(rb)
@@ -84,7 +86,8 @@ const BottomSheetSelect = props => {
 			customStyles={{
 				wrapper: {},
 				container: { backgroundColor: ColorsList.transparent },
-				draggableIcon: { width: 75 }
+				draggableIcon: { width: 75 },
+				...customStyleOverride
 			}}
 		>
 			<View style={{
@@ -134,35 +137,41 @@ const BottomSheet = _props => {
 	/>
 }
 
+BottomSheetSelect.propTypes = {
+	btnProps: PropTypes.shape(Button.propTypes),
+	btnStyle: ViewPropTypes.style,
+	buttonOverride: PropTypes.element,
+	children: PropTypes.element,
+	closeOnSelect: PropTypes.bool,
+	customStyle: ViewPropTypes.style,
+	data: PropTypes.array,
+	footer: PropTypes.element,
+	handleChangePicker: PropTypes.func,
+	header: PropTypes.element,
+	height: PropTypes.number,
+	hideRender: PropTypes.bool,
+	hideRenderItem: PropTypes.element,
+	isSelect: PropTypes.bool,
+	label: PropTypes.string,
+	noLabel: PropTypes.bool,
+	onClose: PropTypes.func,
+	onOpen: PropTypes.func,
+	refs: PropTypes.func,
+	renderItem: PropTypes.func,
+	style: PropTypes.object,
+	value: PropTypes.string,
+	font: PropTypes.oneOf(FontNameKey),
+	sheetContent: PropTypes.oneOfType([
+		PropTypes.element,
+		PropTypes.func
+	])
+}
+
 BottomSheet.propTypes = {
 	renderButton: PropTypes.any,
 	content: PropTypes.func,
-	btnStyle: PropTypes.object
+	btnStyle: ViewPropTypes.style
 }
-
-BottomSheetSelect.propTypes = {
-	refs: PropTypes.func,
-	height: PropTypes.number,
-	value: PropTypes.string,
-	style: PropTypes.object,
-	renderItem: PropTypes.func,
-	label: PropTypes.string,
-	font: PropTypes.string,
-	noLabel: PropTypes.bool,
-	header: PropTypes.any,
-	handleChangePicker: PropTypes.func,
-	footer: PropTypes.any,
-	data: PropTypes.array,
-	closeOnSelect: PropTypes.bool,
-	children: PropTypes.any,
-	onOpen: PropTypes.func,
-	onClose: PropTypes.func,
-	hideRender: PropTypes.bool,
-	hideRenderItem: PropTypes.any,
-	isSelect: PropTypes.bool,
-	sheetContent: PropTypes.any
-}
-
 
 export { BottomSheet }
 export default BottomSheetSelect

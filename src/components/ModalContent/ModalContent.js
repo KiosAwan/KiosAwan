@@ -1,32 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import { Text } from '../Text/CustomText';
 import { SizeList } from 'src/styles/size';
+import { getImageSize } from 'src/utils/authhelper';
 
-require('../../assets/images/addproductsuccess.png')
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 const ModalContent = (props) => {
-    return (
-        <TouchableOpacity onPress={props.closeModal} style={styles.touchableStyle}>
-            <View style={[styles.wrapView, props.style]}>
-                <Image style={{ height: '50%', width: '50%' }} source={props.image} />
-                <View style={{ width: '90%' }}>
-                    <Text align="center">{props.infoText}</Text>
-                </View>
-                <View>
-                    {props.children || null}
-                </View>
-            </View>
-        </TouchableOpacity>
-    )
+    const [imageStyle, setImageStyle] = useState({})
+    useEffect(() => {
+        getImageSize(props.image).then(({ ratio: { width, height } }) => {
+            setImageStyle({ width: width / 2, height: height / 2 })
+        })
+    }, [])
+    return <TouchableOpacity onPress={props.closeModal} style={styles.touchableStyle}>
+        <View style={[styles.wrapView, props.style]}>
+            <Image style={imageStyle} source={props.image} />
+            <Text align="center" style={{ marginBottom: SizeList.padding }}>{props.infoText}</Text>
+            {props.children && <View style={{ marginBottom: SizeList.padding }}>{props.children}</View>}
+        </View>
+    </TouchableOpacity>
 }
 export default ModalContent;
 
 const styles = StyleSheet.create({
     touchableStyle: {
-        width,
-        height,
+        width, height,
         alignItems: "center",
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,.5)'
@@ -34,9 +33,9 @@ const styles = StyleSheet.create({
     wrapView: {
         alignItems: "center",
         justifyContent: 'center',
-        width: width * 0.7,
-        height: width * 0.4,
+        marginHorizontal: SizeList.bodyPadding * 3,
+        paddingHorizontal: SizeList.padding,
         backgroundColor: 'white',
-        borderRadius: 5
+        borderRadius: SizeList.borderRadius
     }
 })

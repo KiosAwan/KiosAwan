@@ -8,12 +8,10 @@ import { checkBarcode } from "src/utils/authhelper";
 import { addProductBarcode, addProductName, addProductIdCategory } from "src/redux/actions/actionsNewProduct";
 import { FontList } from "src/styles/typography";
 import { BottomButton } from "src/components/Button/ButtonComp";
-import ProgressIndicator from "src/components/StepIndicator/ProgressIndicator";
 import Container from "src/components/View/Container";
 import { Text } from "src/components/Text/CustomText";
 import { Wrapper } from "src/components/View/Wrapper";
 import { ColorsList } from "src/styles/colors";
-import FillToAspectRatio from '../../../components/View/FIllToAspectRatio';
 import { Button } from "src/components/Button/Button";
 import { SizeList } from "src/styles/size";
 import { Bottom } from "src/components/View/Bottom";
@@ -35,7 +33,6 @@ const NewBarcodeProduct = ({ navigation }) => {
     }
     const response = await checkBarcode(data)
     await dispatch(addProductBarcode(response.data.barcode))
-
     if (response.data.nama_product != undefined) {
       Alert.alert(
         '',
@@ -68,17 +65,8 @@ const NewBarcodeProduct = ({ navigation }) => {
       )
     }
   }
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', (e) => {
-      if (NewProduct.fromManajemen) {
-        navigation.navigate(NewProduct.fromManajemen.back)
-        BackHandler.removeEventListener('hardwareBackPress')
-        return true
-      }
-      return false
-    })
-  })
-  const _handleNoBarcode = () => {
+  const _handleNoBarcode = async () => {
+    await setScanWork(false)
     dispatch(addProductName(''))
     dispatch(addProductIdCategory(null))
     navigation.navigate('/cashier/new-product-name')

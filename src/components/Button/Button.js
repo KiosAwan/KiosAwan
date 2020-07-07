@@ -1,77 +1,103 @@
 import React from 'react';
 import { Text } from '../Text/CustomText';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ViewPropTypes, TextPropTypes } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Wrapper } from '../View/Wrapper';
 import { $Padding, $Border } from 'src/utils/stylehelper';
 import { SizeList } from 'src/styles/size';
 import { shadowStyle } from '../Input/MDInput';
+import PropTypes from 'prop-types'
 
-export const Button = props => {
-	const { borderBottom, padding, color, activeColor, active, children } = props
-	const { flexStart, flexEnd, center, spaceAround, spaceBetween } = props
-	let Colors = {
-		white: {
-			borderColor: ColorsList.primary,
-			backgroundColor: ColorsList.whiteColor,
-			text: ColorsList.primary
-		},
-		primary: {
-			borderColor: ColorsList.primary,
-			backgroundColor: ColorsList.primary,
-			text: ColorsList.whiteColor
-		},
-		success: {
-			borderColor: ColorsList.transparent,
-			backgroundColor: ColorsList.success,
-			text: ColorsList.whiteColor
-		},
-		info: {
-			borderColor: ColorsList.transparent,
-			backgroundColor: ColorsList.informationBg,
-			text: ColorsList.informationFont
-		},
-		danger: {
-			borderColor: ColorsList.transparent,
-			backgroundColor: ColorsList.danger,
-			text: ColorsList.whiteColor
-		},
-		warning: {
-			borderColor: ColorsList.transparent,
-			backgroundColor: ColorsList.warning,
-			text: ColorsList.whiteColor
-		},
-		purple: {
-			borderColor: ColorsList.transparent,
-			backgroundColor: ColorsList.purpleSoft,
-			text: ColorsList.purple
-		},
-		link: {
-			borderColor: ColorsList.transparent,
-			backgroundColor: ColorsList.transparent,
-			text: ColorsList.primary
-		},
-		linkBorder: {
-			borderColor: ColorsList.borderColor,
-			backgroundColor: ColorsList.transparent,
-			text: ColorsList.primary
-		},
-		linkPrimary: {
-			borderColor: ColorsList.transparent,
-			backgroundColor: ColorsList.transparent,
-			text: ColorsList.primary
-		},
-		transparent: {
-			borderColor: ColorsList.primary,
-			backgroundColor: ColorsList.transparent,
-			text: ColorsList.primary
-		},
-		transparentWhite: {
-			borderColor: ColorsList.whiteColor,
-			backgroundColor: ColorsList.transparent,
-			text: ColorsList.whiteColor
-		}
+const BtnColorsObj = {
+	white: {
+		borderColor: ColorsList.primary,
+		backgroundColor: ColorsList.whiteColor,
+		text: ColorsList.primary
+	},
+	primary: {
+		borderColor: ColorsList.primary,
+		backgroundColor: ColorsList.primary,
+		text: ColorsList.whiteColor
+	},
+	success: {
+		borderColor: ColorsList.transparent,
+		backgroundColor: ColorsList.success,
+		text: ColorsList.whiteColor
+	},
+	info: {
+		borderColor: ColorsList.transparent,
+		backgroundColor: ColorsList.informationBg,
+		text: ColorsList.informationFont
+	},
+	danger: {
+		borderColor: ColorsList.transparent,
+		backgroundColor: ColorsList.danger,
+		text: ColorsList.whiteColor
+	},
+	warning: {
+		borderColor: ColorsList.transparent,
+		backgroundColor: ColorsList.warning,
+		text: ColorsList.whiteColor
+	},
+	purple: {
+		borderColor: ColorsList.transparent,
+		backgroundColor: ColorsList.purpleSoft,
+		text: ColorsList.purple
+	},
+	link: {
+		borderColor: ColorsList.transparent,
+		backgroundColor: ColorsList.transparent,
+		text: ColorsList.primary
+	},
+	linkBorder: {
+		borderColor: ColorsList.borderColor,
+		backgroundColor: ColorsList.transparent,
+		text: ColorsList.primary
+	},
+	linkPrimary: {
+		borderColor: ColorsList.transparent,
+		backgroundColor: ColorsList.transparent,
+		text: ColorsList.primary
+	},
+	transparent: {
+		borderColor: ColorsList.primary,
+		backgroundColor: ColorsList.transparent,
+		text: ColorsList.primary
+	},
+	transparentWhite: {
+		borderColor: ColorsList.whiteColor,
+		backgroundColor: ColorsList.transparent,
+		text: ColorsList.whiteColor
 	}
+}
+
+const Button = props => {
+	const { flexStart, flexEnd, center, spaceAround, spaceBetween } = props
+	const {
+		active,
+		activeColor,
+		align,
+		borderBottom,
+		children,
+		color,
+		flex,
+		flexContent,
+		height,
+		hideIfEmpty,
+		justify,
+		marginHorizontal,
+		noBorder,
+		noRadius,
+		noWrapper,
+		padding,
+		radius,
+		style,
+		textProps,
+		textStyle,
+		width,
+		wrapper,
+	} = props
+	let Colors = BtnColorsObj
 	const generateColor = color => {
 		let _color = Colors.primary
 		for (let key in Colors) {
@@ -107,41 +133,41 @@ export const Button = props => {
 		if (
 			['number', 'string'].includes(typeof children) &&
 			children.toString().replace(/\s/g, '').length == 0 &&
-			props.hideIfEmpty
+			hideIfEmpty
 		) {
 			return true
 		}
 		return false
 	}
-	// return <Animated.View style={[{ width: props.width || undefined, opacity: props.disabled ? 1 : 1 }]}>
 	return <TouchableOpacity activeOpacity={.5} {...props} style={{
-		borderWidth: props.noBorder ? 0 : 1,
-		width: props.width,
-		height: props.height,
-		marginHorizontal: props.marginHorizontal,
-		justifyContent: props.justify || 'flex-start',
-		borderRadius: props.noRadius ? 0 : props.radius || 20, ...ifWhitespaces() && { display: "none" },
-		...props.flex && { flex: 1 },
+		borderWidth: noBorder ? 0 : 1,
+		width, height, marginHorizontal,
+		justifyContent: justify || 'flex-start',
+		borderRadius: noRadius ? 0 : radius || 20, ...ifWhitespaces() && { display: "none" },
+		...flex && { flex: 1 },
 		...['number', 'string'].includes(typeof padding) ? { padding: padding } : $Padding(8, 10),
-		...props.noBorder && { borderColor: ColorsList.borderColor },
+		...noBorder && { borderColor: ColorsList.borderColor },
 		...active ? _activeColor : _color,
-		...props.style
+		...style
 	}}>
 		{
 			['string', 'number'].includes(typeof children) ?
 				<Text align="center"
 					font="SemiBold"
-					style={[{ alignSelf: props.align || 'center', color: active ? _activeColor.text : _color.text }, props.textStyle]} {...props.textProps}>
+					color={active ? _activeColor.text : _color.text}
+					style={{
+						alignSelf: align || 'center',
+						...textStyle
+					}} {...textProps}>
 					{children}
 				</Text>
 				:
-				children && <Wrapper {...props.wrapper} {...{ flexStart, flexEnd, center, spaceAround, spaceBetween }} noWrapper={props.noWrapper} flexContent={props.flexContent}>{children}</Wrapper>
+				children && <Wrapper {...wrapper} {...{ flexStart, flexEnd, center, spaceAround, spaceBetween }} noWrapper={noWrapper} flexContent={flexContent}>{children}</Wrapper>
 		}
 	</TouchableOpacity>
-	{/* </Animated.View> */ }
 }
 
-export const Info = props => <Button
+const Info = props => <Button
 	disabled
 	align="flex-start"
 	textProps={{ align: "left" }}
@@ -149,7 +175,7 @@ export const Info = props => <Button
 	{...props}
 />
 
-export const ButtonShadow = props => {
+const ButtonShadow = props => {
 	const { children, onPress, style } = props
 	return <TouchableOpacity onPress={onPress}>
 		<Wrapper shadow {...props} style={{
@@ -162,7 +188,7 @@ export const ButtonShadow = props => {
 	</TouchableOpacity>
 }
 
-export const RoundedButton = props => {
+const RoundedButton = props => {
 	const { size, style, children, textProps } = props
 	return <TouchableOpacity {...props} style={{
 		...shadowStyle,
@@ -180,3 +206,81 @@ export const RoundedButton = props => {
 		}
 	</TouchableOpacity>
 }
+
+const colorType = PropTypes.oneOfType([
+	PropTypes.string,
+	PropTypes.oneOf(Object.keys(BtnColorsObj)),
+	PropTypes.arrayOf(
+		PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.oneOf(Object.keys(BtnColorsObj))
+		])
+	)
+])
+
+Button.propTypes = {
+	color: colorType,
+	activeColor: colorType,
+	active: PropTypes.bool,
+	align: PropTypes.string,
+	borderBottom: PropTypes.number,
+	flex: PropTypes.bool,
+	flexContent: PropTypes.bool,
+	height: PropTypes.number,
+	hideIfEmpty: PropTypes.bool,
+	justify: PropTypes.string,
+	marginHorizontal: PropTypes.number,
+	noBorder: PropTypes.bool,
+	noRadius: PropTypes.bool,
+	noWrapper: PropTypes.bool,
+	padding: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+		PropTypes.shape({
+			paddingBottom: PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string
+			]),
+			paddingLeft: PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string
+			]),
+			paddingRight: PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string
+			]),
+			paddingTop: PropTypes.oneOfType([
+				PropTypes.number,
+				PropTypes.string
+			])
+		})
+	]),
+	radius: PropTypes.number,
+	style: ViewPropTypes.style,
+	width: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string
+	]),
+	textStyle: Text.propTypes.style,
+	children: PropTypes.any,
+	textProps: PropTypes.shape(Text.propTypes),
+	wrapper: PropTypes.shape(Wrapper.propTypes)
+}
+
+RoundedButton.propTypes = {
+	size: PropTypes.number,
+	style: ViewPropTypes.style,
+	textProps: Text.propTypes,
+	children: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+		PropTypes.element
+	])
+}
+
+Info.propTypes = {
+	color: Button.propTypes.color,
+	style: ViewPropTypes.style
+}
+
+export { Button, Info, ButtonShadow, RoundedButton }

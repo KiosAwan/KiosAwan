@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { View, StyleSheet, TextInput, Image, FlatList, TouchableOpacity as TouchableOpacityRN, RefreshControl } from 'react-native';
-import { GlobalHeader, IconHeader } from 'src/components/Header/Header';
+import { View, StyleSheet, Image, TouchableOpacity as TouchableOpacityRN, RefreshControl } from 'react-native';
+import { IconHeader } from 'src/components/Header/Header';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { ColorsList } from 'src/styles/colors';
-import { SceneMap, TabView } from 'react-native-tab-view';
 import { Text } from 'src/components/Text/CustomText';
-import { } from 'src/components/Input/InputComp';
-import { Icon } from 'native-base';
 import moment from 'moment'
-import { AwanPopup } from 'src/components/ModalContent/Popups';
+import Icon from 'react-native-vector-icons/FontAwesome5'
 import { convertRupiah, getUserToken } from 'src/utils/authhelper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -18,11 +15,11 @@ import { Button } from 'src/components/Button/Button';
 import { TransactionPlaceholder } from 'src/components/LoadingPlaceholder';
 import SearchInput, { SearchInputV2 } from 'src/components/Input/SearchInput';
 import Container, { Body } from 'src/components/View/Container';
-import Menu from 'src/components/ModalContent/Menu';
 import { SizeList } from 'src/styles/size';
 import BottomSheetSelect, { BottomSheet } from 'src/components/Picker/BottomSheetSelect';
 import { Input } from 'src/components/Input/MDInput';
 import Gallery from 'src/components/View/Gallery';
+import Divider from 'src/components/Row/Divider';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -135,20 +132,35 @@ const TransactionList = ({ navigation }) => {
                             radius={SizeList.borderRadius}
                             padding={SizeList.padding}
                             color={["white"]}
-                            onPress={() => navigation.navigate('/drawer/transaction/detail', { transactionId: trx.id_transaction })}
+                            onPress={() => {
+                              navigation.push('/drawer/transaction/detail', { transactionId: trx.id_transaction })
+                            }}
                           >
-                            <Wrapper justify="flex-start">
-                              <View style={{ justifyContent: 'center', padding: 10, paddingLeft: 5 }}>
-                                <Image style={{ width: 20, height: 20, }} source={iconImage[trx.status].image} />
-                              </View>
-                              <View style={{ justifyContent: 'center' }}>
-                                <Text font="SemiBold">{trx.payment_code}</Text>
-                                <Text font={trx.name_customer ? 'SemiBold' : 'SemiBoldItalic'}>{trx.name_customer ? trx.name_customer : 'Tidak ada Pelanggan'}</Text>
-                              </View>
-                            </Wrapper>
-                            <View>
-                              <Text font="SemiBold" align="right" color={iconImage[trx.status].color} font="SemiBold" size={15}>{iconImage[trx.status].text}</Text>
-                              <Text align="right">{convertRupiah(trx.total_transaction)}</Text>
+                            <View style={{ width: "100%" }}>
+                              <Wrapper justify="space-between">
+                                <Wrapper _width="65%" justify="flex-start">
+                                  <View style={{ justifyContent: 'center', padding: 10, paddingLeft: 5 }}>
+                                    <Image style={{ width: 20, height: 20, }} source={iconImage[trx.status_payment].image} />
+                                  </View>
+                                  <View style={{ justifyContent: 'center' }}>
+                                    <Text font="SemiBold">{trx.payment_code}</Text>
+                                    <Text font={trx.name_customer ? 'SemiBold' : 'Regular'}>{trx.name_customer ? trx.name_customer : 'N/A'}</Text>
+                                  </View>
+                                </Wrapper>
+                                <View _width="33%">
+                                  <Text font="SemiBold" align="right" color={iconImage[trx.status_payment].color} font="SemiBold" size={15}>{iconImage[trx.status_payment].text}</Text>
+                                  <Text align="right">{convertRupiah(trx.total_transaction)}</Text>
+                                </View>
+                              </Wrapper>
+                              {trx.status == 2 && trx.status_payment != 3 &&
+                                <View>
+                                  <Divider style={{ marginVertical: 5 }} />
+                                  <Wrapper justify="space-between">
+                                    <Text color="danger">Nominal yang dibatalkan</Text>
+                                    <Text color="danger">{convertRupiah(trx.total_return)}</Text>
+                                  </Wrapper>
+                                </View>
+                              }
                             </View>
                           </Button>
                         }}

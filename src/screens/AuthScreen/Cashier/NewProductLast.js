@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions, Modal } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
-import { FloatingInputLabel, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
 import { BottomButton } from 'src/components/Button/ButtonComp';
 import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from 'src/redux/actions/actionsNewProduct';
 import Axios from 'axios';
@@ -11,7 +10,6 @@ import { validNumber, convertNumber, getUserToken } from 'src/utils/authhelper';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { getProduct, removeAllCart } from 'src/redux/actions/actionsStoreProduct';
 import { GlobalHeader } from 'src/components/Header/Header';
-import ProgressIndicator from 'src/components/StepIndicator/ProgressIndicator';
 import { ColorsList } from 'src/styles/colors';
 import { FontList } from 'src/styles/typography';
 import { RowChild } from 'src/components/Helper/RowChild';
@@ -206,9 +204,9 @@ const NewProductLast = ({ navigation }) => {
 						color={sendNotif ? ColorsList.primary : ColorsList.greyFont}
 						onPress={() => setSendNotif(!sendNotif)}
 					/> */}
-					<Button textProps={{ align: "left" }} color="info" style={{ borderRadius: SizeList.borderRadius }}>
+					<Button textProps={{ align: "left", font: "Regular" }} color="info" style={{ borderRadius: SizeList.borderRadius }}>
 						Jika stok produk sudah mencapai minimum stok akan ada notifikasi di list produk
-					{/* <Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
+						{/* <Text style={[{ color: manageStock ? sendNotif ? ColorsList.primary : ColorsList.greyFont : ColorsList.greyFont }, styles.notifInfo]}>Jika stok produk sudah mencapai minimum stok akan diberikan notifikasi</Text> */}
 					</Button>
 				</View>
 			</View>}

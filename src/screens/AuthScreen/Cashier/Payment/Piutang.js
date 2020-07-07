@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { ColorsList } from 'src/styles/colors';
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -33,16 +33,19 @@ const Piutang = ({ style }) => {
 			onConfirm={_handleDatePicked}
 			onCancel={() => setDatePickerVisible(!datePickerVisible)}
 		/>
+		<View style={{ marginBottom: 10 }}>
+			<Input
+				currency
+				// spaceTop={SizeList.base}
+				value={Product.cash_payment.toString()}
+				placeholder="Uang diterima diawal"
+				onChangeText={_handleChangeMoney}
+				label="Uang yang diterima"
+			/>
+		</View>
 		<PilihPelanggan
-			value={Product.customer ? Product.customer.name_customer : "Pilih Nama pelanggan"}
+			value={Product.customer ? Product.customer.name_customer : "Pilih nama pelanggan"}
 			data={Customer.data}
-		/>
-		<Input
-			currency noLabel
-			spaceTop={SizeList.base}
-			value={Product.cash_payment.toString()}
-			placeholder="Uang diterima diawal"
-			onChangeText={_handleChangeMoney}
 		/>
 		<Button style={{ marginTop: SizeList.base }} padding={0} noRadius color="link" onPress={() => setDatePickerVisible(!datePickerVisible)}>
 			<Input

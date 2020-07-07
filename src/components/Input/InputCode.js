@@ -108,7 +108,7 @@ const Code = ({
 						{
 							secureTextEntry ?
 								value[i] && <View style={{ borderRadius: 50, alignSelf: "center", padding: SizeList.secondary, backgroundColor: ColorsList.greyFontHard }} /> :
-								<Text align="center" font="SemiBold" color="greyFontHard" >{value[i]}</Text>
+								<Text align="center" color="greyFontHard" >{value[i]}</Text>
 						}
 					</View>
 				})

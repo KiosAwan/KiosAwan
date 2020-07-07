@@ -8,9 +8,8 @@ import { Text } from 'src/components/Text/CustomText';
 import { convertRupiah, getNearestFifty, payCredit, convertNumber, getUserToken } from 'src/utils/authhelper';
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { RowChild } from 'src/components/Helper/RowChild';
-import { FloatingInput, FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
+import { FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
 import AsyncStorage from '@react-native-community/async-storage';
-import { InputCurrency } from 'src/components/Input/InputComp';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -92,7 +91,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		if (res.status == 200) {
 			dispatch(getTransactionList(User.store.id_store, userToken))
 			navigation.navigate('/drawer/transaction')
-		}else if(res.status == 400){
+		} else if (res.status == 400) {
 			alert(res.data.errors.msg)
 		}
 	}
@@ -137,7 +136,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 				<View style={{ backgroundColor: ColorsList.whiteColor, padding: 10, paddingTop: 0 }}>
 					{nonTunaiList.rMap((item, i) => (
 						<TouchableOpacity style={[styles.card, nonTunai == i + 1 ? styles.selectedNonTunai : null]}
-						 onPress={() => pressCard(i + 1)}
+							onPress={() => pressCard(i + 1)}
 						>
 							<View style={{ width: 60, height: 30, marginHorizontal: 20 }}>
 								<ImageAuto style={{ resizeMode: "contain" }} source={item.image} />

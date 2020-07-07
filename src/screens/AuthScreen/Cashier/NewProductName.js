@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import { Text } from 'src/components/Text/CustomText'
-import ProgressIndicator from 'src/components/StepIndicator/ProgressIndicator';
 import { useSelector, useDispatch } from 'react-redux'
-import { FloatingInputLabel } from 'src/components/Input/InputComp';
 import { SelectBoxModal, MyModal } from 'src/components/Picker/SelectBoxModal';
 import { getCategory } from 'src/redux/actions/actionsStoreCategory';
 import { addProductName, addProductImage, addProductIdCategory, addProductBarcode } from 'src/redux/actions/actionsNewProduct';

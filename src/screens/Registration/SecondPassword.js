@@ -13,7 +13,6 @@ import LinearGradient from 'react-native-linear-gradient';
 
 //Own Custom Component
 import { HeaderRegister } from '../../components/Header/Header'
-import { InputPIN } from '../../components/Input/InputPIN'
 import BarStatus from '../../components/BarStatus';
 
 
@@ -21,7 +20,6 @@ import BarStatus from '../../components/BarStatus';
 import { clearAllRegistration, addSecondPassword } from '../../redux/actions/actionsRegistration'
 import { registerUser } from '../../utils/unauthhelper';
 import { getProfile } from '../../redux/actions/actionsUserData';
-import { UnauthBottomButton } from '../../components/Button/UnauthButton';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { ColorsList } from 'src/styles/colors';
 import Container from 'src/components/View/Container';
@@ -31,6 +29,7 @@ import { Text } from 'src/components/Text/CustomText';
 import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
 import { SizeList } from 'src/styles/size';
+import { APP_VERSION } from 'src/config/constant';
 
 //Functions
 
@@ -64,7 +63,8 @@ const SecondPassword = ({ navigation }) => {
                 role: 'Owner',
                 password: FormRegister.password,
                 id_device: FormRegister.deviceId,
-                push_token: pushToken
+                push_token: pushToken,
+                app_version: APP_VERSION
             }
             const res = await registerUser(data)
             setIsLoading(false)

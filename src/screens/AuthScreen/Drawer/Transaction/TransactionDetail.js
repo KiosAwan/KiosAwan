@@ -48,7 +48,7 @@ const TransactionDetail = ({ navigation }) => {
 		}
 	}
 	const _getData = async () => {
-		const { transactionId, backState, fromCashier } = await navigation.state.params
+		const { transactionId, backState, fromCashier } = navigation.state.params
 		const productData = await getTransactionDetail(transactionId)
 		setData(productData.data)
 		if (fromCashier) setFromCashier(true)
@@ -210,15 +210,6 @@ const TransactionDetail = ({ navigation }) => {
 									<Text>{convertRupiah(data.transaction.discount)}</Text>
 								</Wrapper>
 							}
-							{
-								data.transaction.status != 1 &&
-								<Wrapper style={{
-									paddingTop: SizeList.base
-								}} justify="space-between">
-									<Text>Pembatalan Transaksi</Text>
-									<Text>{convertRupiah(data.transaction.total_return)}</Text>
-								</Wrapper>
-							}
 							<Wrapper style={[{
 								paddingVertical: SizeList.base
 							}, $Border(ColorsList.greyAuthHard, 0, 0, 1)]} justify="space-between">
@@ -247,6 +238,15 @@ const TransactionDetail = ({ navigation }) => {
 									{convertRupiah(data.transaction.change_payment)}
 								</Text>
 							</Wrapper>
+							{
+								data.transaction.status != 1 &&
+								<Wrapper style={{
+									paddingTop: SizeList.base
+								}} justify="space-between">
+									<Text>Pembatalan Transaksi</Text>
+									<Text color="danger">- {convertRupiah(data.transaction.total_return)}</Text>
+								</Wrapper>
+							}
 							{data.transaction.note !== "" &&
 								<View style={[$Padding(10, 0), $Border(ColorsList.authBackground, 0, 0, 1)]}>
 									<Text align="left" font="SemiBold">Note</Text>

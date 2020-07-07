@@ -92,7 +92,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                     ].includes(item) ? payment[item].trim() : payment[item].convertRupiah()}</Text>
                                 </Wrapper>
                                 {/* <Divider /> */}
-                            </View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled>{payment[item].split(';')[0]}</Button>
+                            </View> : <Button style={{ borderRadius: SizeList.borderRadius }} color="info" hideIfEmpty disabled><Text color="informationFont" align="center">{payment[item].split(';')[0]}</Text></Button>
                         })
             }
         </View>
@@ -122,7 +122,6 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                 ].includes(item) ? transaction[item] && transaction[item].trim() :
                                     parseInt(transaction[item]).convertRupiah()}</Text>
                         </Wrapper>
-                        {/* <Divider /> */}
                     </View>
                     )
             }

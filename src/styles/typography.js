@@ -7,6 +7,8 @@ export const FontName = {
     'SemiBold': 'Rubik-Regular',
 }
 
+export const FontNameKey = Object.keys(FontName)
+
 export const FontList = {
     titleFont: {
         fontSize: 14,
@@ -32,7 +34,7 @@ export const FontList = {
     },
     primaryFont: "Nunito-Regular",
     regularFont: "Nunito-Regular",
-    semiBoldFont: "Nunito-SemiBold",
+    semiBoldFont: "SFProDisplay-Regular",
     boldFont: "Nunito-Bold",
     titleSize: 14,
     subtitleSize: 11,
