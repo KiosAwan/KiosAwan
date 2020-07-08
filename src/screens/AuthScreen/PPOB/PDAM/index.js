@@ -26,6 +26,8 @@ import SwitchButton from 'src/components/Button/SwitchButton';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import json from 'src/assets/json/ppob_pdam.json'
 import { openPin } from 'src/utils/pin-otp-helper';
+import { getProductPPOBGeneral, inquiryPPOBProduct, paymentPPOBProduct } from 'src/utils/api/ppobapi';
+import { PPOB_PRODUCT_CODE } from 'src/config/constant';
 
 const PDAM = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -63,14 +65,14 @@ const PDAM = ({ navigation }) => {
 
     const _setFavoritData = async () => {
         if (navigation.state.params) {
-            const { customerID, name, code } = navigation.state.params
+            const { customerID, name, product_code } = navigation.state.params
             setIdPelanggan(customerID)
-            setSelected({ name, code })
+            setSelected({ name, product_code })
         }
     }
     //Function for getting pdam product list
     const _getProductList = async () => {
-        const res = await getPDAMProductList()
+        const res = await getProductPPOBGeneral("pdam")
         setProductData(res.data)
     }
 
@@ -82,10 +84,12 @@ const PDAM = ({ navigation }) => {
             setTagihanData()
             setTagihanLoading(true)
             const data = {
-                productID: selected.code,
-                customerID: idPelanggan
+                productID: PPOB_PRODUCT_CODE.PDAM,
+                customerID: idPelanggan,
+                product_code: selected.product_code
             }
-            const res = await checkTagihanPDAM(data)
+            const res = await inquiryPPOBProduct(data)
+            console.debug(res)
             setTagihanLoading(false)
             if (res.status == 400) {
                 setAlertMessage("Data tidak ditemukan")
@@ -130,11 +134,12 @@ const PDAM = ({ navigation }) => {
         setPayLoading(true)
         const data = {
             customerID: tagihanData.transaction.customerID,
-            productID: tagihanData.transaction.productID,
+            productID: PPOB_PRODUCT_CODE.PDAM,
+            product_code : selected.product_code,
             id_multi: Product.id_multi,
             favorite: favorit ? 1 : 0
         }
-        const res = await payTagihanPDAM(data)
+        const res = await paymentPPOBProduct(data)
         setPayLoading(false)
         if (res.status == 200) {
             const userToken = await getUserToken()
@@ -166,7 +171,7 @@ const PDAM = ({ navigation }) => {
             />
             <AwanPopup.Loading visible={payLoading} />
             <View style={styles.topComp}>
-                {/* {__DEV__ &&
+                {__DEV__ &&
                     <View style={{ backgroundColor: ColorsList.greyBg, padding: 15 }}>
                         <Text align="center">Dev Purpose Only</Text>
                         <SelectBoxModal style={{ marginTop: 15 }}
@@ -176,29 +181,29 @@ const PDAM = ({ navigation }) => {
                             handleChangePicker={(item) => {
                                 let {
                                     customerID,
-                                    productID: code,
-                                    PDAM: name
+                                    productID: product_code,
+                                    PDAM: product_name
                                 } = item
-                                setSelected({ code, name })
+                                setSelected({ product_code, product_name })
                                 setIdPelanggan(customerID)
                             }}
                             renderItem={(item) => <Text color={idPelanggan == item.customerID && 'primary'}>{item.customerID} - {item.PDAM}</Text>}>
                             <Text>Data tidak ditemukan</Text>
                         </SelectBoxModal>
                     </View>
-                } */}
+                }
                 <SelectBoxModal btnStyle={{ marginBottom: SizeList.base }}
                     height={400}
                     label="Pilih Lokasi PDAM" closeOnSelect
-                    data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
+                    data={productData ? productData.filter(item => item.product_name.toLowerCase().includes(search.toLowerCase())) : []}
                     header={
                         <MDInput label="Cari Lokasi PDAM" renderRightAccessory={() =>
                             <Icon style={{ color: ColorsList.primary, marginRight: 10 }} size={17} name="search" />}
                             value={search} onChangeText={text => setSearch(text)} />
                     }
-                    value={selected ? selected.name : ""}
+                    value={selected ? selected.product_name : ""}
                     handleChangePicker={(item) => setSelected(item)}
-                    renderItem={(item) => (<Text font="SemiBold" style={{ paddingHorizontal: SizeList.secondary }} color={selected.code == item.code ? 'primary' : 'greyFontHard'}>{item.name.toUpperCase()}</Text>)}>
+                    renderItem={(item) => (<Text font="SemiBold" style={{ paddingHorizontal: SizeList.secondary }} color={selected.product_code == item.product_code ? 'primary' : 'greyFontHard'}>{item.product_name.toUpperCase()}</Text>)}>
                     <Text>Data tidak ditemukan</Text>
                 </SelectBoxModal>
                 <Input _width="80%"

@@ -89,13 +89,13 @@ const Report = ({ navigation }) => {
 	}
 
 	let viewKey = key => {
-		let keys = { discount : "Diskon", total_profit : "Laba / rugi kotor", total_return : "Pembatalan" }
+		let keys = { discount: "Diskon", total_profit: "Laba / rugi kotor", total_return: "Pembatalan" }
 		return keys[key] || key.split('_').join(' ').ucwords()
 	}
 	return <Container>
 		<GlobalHeader
 			title="Laporan"
-			renderLeftAccessory={() => null}
+			renderLeftAccessory={() => <View style={{ width: 40 }} />}
 			renderRightAccessory={() => <BottomSheet
 				height={425}
 				renderButton={<IconHeader disabled name="calendar" />}
