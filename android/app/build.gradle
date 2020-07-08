@@ -152,7 +152,7 @@ android {
         missingDimensionStrategy 'react-native-camera', 'general'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10000
+        versionCode 10002
         versionName "1.0"
     }
     splits {
@@ -208,6 +208,7 @@ android {
 }
 
 dependencies {
+    implementation project(':@sentry_react-native')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-bluetooth-escpos-printer')
     implementation project(':react-native-branch')
