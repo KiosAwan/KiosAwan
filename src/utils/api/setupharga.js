@@ -1,6 +1,7 @@
 import Axios from "axios"
 import { getUserToken, getUserId } from "../authhelper"
-import { DEV_URL } from "src/config"
+import { DEV_URL, PPOB_URL } from "src/config"
+import PPOB from "src/screens/AuthScreen/PPOB/PPOB"
 
 export {
 	getListProducts,
@@ -13,7 +14,7 @@ export {
 const getListProducts = async () => {
 	try {
 		const token = await getUserToken()
-		const res = await Axios.get(`${DEV_URL}/service/ppob/products`, {
+		const res = await Axios.get(`${PPOB_URL}/service/ppob/products`, {
 			headers: { "authorization": token }
 		})
 		return res.data
@@ -27,7 +28,7 @@ const getListProducts = async () => {
 const getPPOBTransactionList = async (param, page) => {
 	try {
 		const token = await getUserToken()
-		const res = await Axios.get(`${DEV_URL}/service/ppob/transactions?page=${page}`, {
+		const res = await Axios.get(`${PPOB_URL}/service/ppob/transactions?page=${page}`, {
 			params: param,
 			headers: { "authorization": token }
 		})
@@ -42,7 +43,7 @@ const getPPOBTransactionList = async (param, page) => {
 const getDetailPPOBTransaction = async (transactionId) => {
 	try {
 		const token = await getUserToken()
-		const res = await Axios.get(`${DEV_URL}/service/ppob/transaction/${transactionId}`, {
+		const res = await Axios.get(`${PPOB_URL}/service/ppob/transaction/${transactionId}`, {
 			headers: { "authorization": token }
 		})
 		return res.data
@@ -57,7 +58,7 @@ const getSubProducts = async (productType, productId) => {
 	try {
 		const token = await getUserToken()
 		const userId = await getUserId()
-		const url = `${DEV_URL}/user/${userId}/service/ppob/product/${productType}/${productId ? productId : ''}`
+		const url = `${PPOB_URL}/user/${userId}/service/ppob/product/${productType}/${productId ? productId : ''}`
 		const res = await Axios.get(url, {
 			headers: { "authorization": token }
 		})
@@ -73,7 +74,7 @@ const setMarginProduct = async product => {
 	try {
 		const token = await getUserToken()
 		const userId = await getUserId()
-		const url = `${DEV_URL}/user/${userId}/service/ppob/product/custom`
+		const url = `${PPOB_URL}/user/${userId}/service/ppob/product/custom`
 		const res = await Axios.post(url, { product }, {
 			headers: { "authorization": token }
 		})

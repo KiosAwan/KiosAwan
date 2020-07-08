@@ -1,13 +1,12 @@
 import Axios from "axios"
 import { getUserToken, getUserId } from "../authhelper"
-import { DEV_URL } from "src/config"
-
+import { PPOB_URL } from "src/config"
 export { getPaymentChannelList }
 
 const getPaymentChannelList = async () => {
 	try {
 		const token = await getUserToken()
-		const res = await Axios.get(`${DEV_URL}/service/topup/payment_channel`, {
+		const res = await Axios.get(`${PPOB_URL}/service/topup/payment_channel`, {
 			headers: { "authorization": token }
 		})
 		return res.data

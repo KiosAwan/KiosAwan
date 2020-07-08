@@ -1,4 +1,5 @@
-export const BASE_URL = "https://dev.kiosawan.com"
+// export const BASE_URL = "https://dev.kiosawan.com"
+export const BASE_URL = "http://18.139.169.177"
 
 export const HOST_URL = `${BASE_URL}/rest/api/v1`
 

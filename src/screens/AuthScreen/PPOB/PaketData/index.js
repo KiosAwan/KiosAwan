@@ -62,6 +62,7 @@ const PpobPaketData = ({ navigation }) => {
 	useEffect(() => {
 		if (navigation.state.params) {
 			let { customerID } = navigation.state.params
+			setPhoneNumber(customerID)
 			_onChangePhoneNum(customerID)
 		}
 	}, [])
@@ -74,11 +75,11 @@ const PpobPaketData = ({ navigation }) => {
 		}
 		let res = await getProductPulsa(x)
 		if (res.status == 200) {
-			
+
 			setSelected()
 			if (res.data.products.length > 0) {
 				setData(res.data)
-			}else {
+			} else {
 				setData()
 			}
 		}

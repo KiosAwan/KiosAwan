@@ -62,28 +62,6 @@ const ListTransaksiPPOB = ({ navigation }) => {
 		title: "List Transaksi PPOB",
 		onPressBack: () => navigation.goBack()
 	}}>
-		{/* <GlobalHeader onlyTitle={filter.searchOpen} onPressIcon={() => setFilter({ dateOpen: true })} onPressBack={() => navigation.goBack()} image={require('src/assets/icons/filter.png')}>
-			{
-				filter.searchOpen ?
-					<SearchInput
-						textInput={{
-							value: filter.search,
-							style: { color: ColorsList.white },
-							ref: ref => ref && ref.focus(),
-							onBlur: () => setFilter({ searchOpen: false }),
-							onChangeText: search => setFilter({ search }),
-						}}
-						clear={() => setFilter({ search: '' })}
-						color={ColorsList.greyFont} icon={require('src/assets/icons/circlerejectwhite.png')}
-					/> :
-					<Wrapper spaceBetween>
-						<Text>List Transaksi PPOB</Text>
-						<Button padding={0} color="link" onPress={() => setFilter({ searchOpen: true })}>
-							<Icon size={20} color={ColorsList.greyFont} name="search" />
-						</Button>
-					</Wrapper>
-			}
-		</GlobalHeader> */}
 		<DateTimePicker
 			isVisible={filter.dateOpen}
 			onConfirm={_selectDate}

@@ -11,20 +11,17 @@ import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import MDInput, { Input } from 'src/components/Input/MDInput';
-import { Bottom, BottomVertical } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { } from 'src/components/Input/InputComp';
-import { getPDAMProductList, checkTagihanPDAM, payTagihanPDAM } from 'src/utils/api/ppob/pdam_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import SearchInput from 'src/components/Input/SearchInput';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { getProfile } from 'src/redux/actions/actionsUserData';
-import { checkTagihanTelkom, getTelkomProductList, payTagihanTelkom } from 'src/utils/api/ppob/telkom_api';
 import { openPin } from 'src/utils/pin-otp-helper';
 import { getProductPPOBGeneral, inquiryPPOBProduct, paymentPPOBProduct } from 'src/utils/api/ppobapi';
 
@@ -65,10 +62,10 @@ const Telkom = ({ navigation }) => {
 
     const _setFavoritData = async () => {
         if (navigation.state.params) {
-            const { customerID, name, product_id } = navigation.state.params
+            const { customerID, name, code } = navigation.state.params
             setIdPelanggan(customerID)
-            setSelected({ name, product_id })
-            _cekTagihan({ name, product_id }, customerID)
+            setSelected({ product_name: name, product_id: code })
+            _cekTagihan({ product_name: name, product_id: code }, customerID)
         }
     }
     //Function for getting pdam product list
@@ -90,7 +87,6 @@ const Telkom = ({ navigation }) => {
                 customerID: idPelanggan
             }
             const res = await inquiryPPOBProduct(data)
-            console.debug(res)
             setTagihanLoading(false)
             if (res.status == 400) {
                 setAlertMessage("Data tidak ditemukan")
@@ -143,7 +139,7 @@ const Telkom = ({ navigation }) => {
         setPayLoading(false)
         if (res.status == 200) {
             const userToken = await getUserToken()
-            const data = { type: "Telco Pascabayar", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
+            const data = { type: "Telco Pascabayar", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.product_name }
             dispatch(AddPPOBToCart(data))
             dispatch(getProfile(User.data.id, userToken))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
