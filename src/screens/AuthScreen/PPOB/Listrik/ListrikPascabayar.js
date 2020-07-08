@@ -56,7 +56,6 @@ const ListrikPascabayar = ({ navigation }) => {
 			customerID: x
 		}
 		const { status, data } = await inquiryPPOBProduct(params)
-		console.log(data)
 		setTagihanLoading(false)
 		if (status == 400) {
 			setAlertMessage(data.errors.msg)
@@ -150,8 +149,8 @@ const ListrikPascabayar = ({ navigation }) => {
 				{/* Popup components */}
 				<View style={styles.topComp}>
 					{__DEV__ && <Button onPress={() => {
-						setCustId('142600857205')
-						_cekTagihan('142600857205')
+						setCustId('532210000062')
+						_cekTagihan('532210000062')
 					}}>32127971177</Button>}
 					<Input
 						_width="80%"

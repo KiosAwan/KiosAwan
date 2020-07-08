@@ -26,7 +26,7 @@ import SwitchButton from 'src/components/Button/SwitchButton';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import { checkTagihanTelkom, getTelkomProductList, payTagihanTelkom } from 'src/utils/api/ppob/telkom_api';
 import { openPin } from 'src/utils/pin-otp-helper';
-import { getProductPPOBGeneral } from 'src/utils/api/ppobapi';
+import { getProductPPOBGeneral, inquiryPPOBProduct, paymentPPOBProduct } from 'src/utils/api/ppobapi';
 
 const Telkom = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -65,10 +65,10 @@ const Telkom = ({ navigation }) => {
 
     const _setFavoritData = async () => {
         if (navigation.state.params) {
-            const { customerID, name, code } = navigation.state.params
+            const { customerID, name, product_id } = navigation.state.params
             setIdPelanggan(customerID)
-            setSelected({ name, code })
-            _cekTagihan({ name, code }, customerID)
+            setSelected({ name, product_id })
+            _cekTagihan({ name, product_id }, customerID)
         }
     }
     //Function for getting pdam product list
@@ -86,16 +86,16 @@ const Telkom = ({ navigation }) => {
             setTagihanData()
             setTagihanLoading(true)
             const data = {
-                productID: prod.code,
+                productID: prod.product_id,
                 customerID: idPelanggan
             }
-            const res = await checkTagihanTelkom(data)
+            const res = await inquiryPPOBProduct(data)
+            console.debug(res)
             setTagihanLoading(false)
             if (res.status == 400) {
                 setAlertMessage("Data tidak ditemukan")
                 setAlert(true)
             } else {
-                // console.debug(res.data)
                 setTagihanData(res.data)
             }
         }
@@ -135,11 +135,11 @@ const Telkom = ({ navigation }) => {
         setPayLoading(true)
         const data = {
             customerID: tagihanData.transaction.customerID,
-            productID: tagihanData.transaction.productID,
+            productID: selected.product_id,
             id_multi: Product.id_multi,
             favorite: favorit ? 1 : 0
         }
-        const res = await payTagihanTelkom(data)
+        const res = await paymentPPOBProduct(data)
         setPayLoading(false)
         if (res.status == 200) {
             const userToken = await getUserToken()
@@ -189,15 +189,15 @@ const Telkom = ({ navigation }) => {
             <View style={styles.topComp}>
                 <SelectBoxModal btnStyle={{ marginVertical: SizeList.base }}
                     label="Pilih Produk" closeOnSelect
-                    data={productData ? productData.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : []}
+                    data={productData ? productData.filter(item => item.product_name.toLowerCase().includes(search.toLowerCase())) : []}
                     header={
                         <MDInput label="Cari Produk" renderLeftAccessory={() =>
                             <Icon style={{ color: ColorsList.primary, marginRight: 10 }} size={20} name="search" />}
                             value={search} onChangeText={text => setSearch(text)} />
                     }
-                    value={selected ? selected.name : ""}
+                    value={selected ? selected.product_name : ""}
                     handleChangePicker={(item) => setSelected(item)}
-                    renderItem={(item) => (<Text font="SemiBold" color={selected.code == item.code && 'primary'}>{item.name.toUpperCase()}</Text>)}>
+                    renderItem={(item) => (<Text font="SemiBold" color={selected.product_id == item.product_id && 'primary'}>{item.product_name.toUpperCase()}</Text>)}>
                     <Text>Data tidak ditemukan</Text>
                 </SelectBoxModal>
                 <Input _width="80%"

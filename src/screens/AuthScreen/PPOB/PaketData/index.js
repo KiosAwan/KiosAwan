@@ -74,11 +74,12 @@ const PpobPaketData = ({ navigation }) => {
 		}
 		let res = await getProductPulsa(x)
 		if (res.status == 200) {
+			
 			setSelected()
-			if (res.data.length == 0) {
-				setData()
-			} else {
+			if (res.data.products.length > 0) {
 				setData(res.data)
+			}else {
+				setData()
 			}
 		}
 	}
@@ -102,9 +103,9 @@ const PpobPaketData = ({ navigation }) => {
 	const _processPayment = async (selected) => {
 		setPayLoading(true)
 		const data = {
-			phone_number: phoneNumber,
+			customerID: phoneNumber,
 			productID: PPOB_PRODUCT_CODE.KUOTA,
-			product_code: selected.code,
+			product_code: selected.product_code,
 			id_multi: Product.id_multi,
 			favorite: favorit ? 1 : 0
 		}
@@ -112,7 +113,7 @@ const PpobPaketData = ({ navigation }) => {
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
-			const data = { type: "Paket Data", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
+			const data = { type: "Paket Data", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.product_name }
 			dispatch(AddPPOBToCart(data))
 			dispatch(getProfile(User.data.id, userToken))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
@@ -158,7 +159,7 @@ const PpobPaketData = ({ navigation }) => {
 					value={phoneNumber}
 					onChangeText={_onChangePhoneNum}
 					keyboardType="phone-pad"
-					renderRightAccessory={() => data ? <Image source={{ uri: data.provider.image }} size={20} /> : null}
+					renderRightAccessory={() => data ? <Image source={{ uri: data.image }} size={20} /> : null}
 				/>
 				<Button _width={37} padding={7} onPress={() => setContactVisible(true)}>
 					<Icon name="address-book" size={20} color={ColorsList.white} />
@@ -185,7 +186,7 @@ const PpobPaketData = ({ navigation }) => {
 			}
 			{data &&
 				<View style={{ flex: 1, padding: SizeList.padding, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
-					<Text style={{ marginBottom: 5 }}>Pilih jenis paket data: <Text font="SemiBold">{data.products[0] && data.products[0].name.split(" ")[0]}</Text></Text>
+					<Text style={{ marginBottom: 5 }}>Pilih jenis paket data: <Text font="SemiBold">{data && data.products[0].product_name.split(" ")[0]}</Text></Text>
 					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 						showsVerticalScrollIndicator={false}
 						data={data ? data.products : []}
@@ -193,7 +194,7 @@ const PpobPaketData = ({ navigation }) => {
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="70%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }}>{` ${item.name.split(" ").slice(1).join(" ")}`} </Text>
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{` ${item.product_name.split(" ").slice(1).join(" ")}`} </Text>
 										<Text style={{ marginLeft: 5 }}>{` ${item.description}`} </Text>
 									</View>
 									<View _width="30%">

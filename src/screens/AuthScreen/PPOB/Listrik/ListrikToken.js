@@ -52,11 +52,9 @@ const ListrikToken = ({ navigation }) => {
 			_cekTagihan(customerID)
 		}
 	}, [])
-	useEffect(() => {
-
-	}, [])
+	
 	const _getProduct = async () => {
-		const res = await getProductPPOBGeneral("pln_prepaid")
+		const res = await getProductPPOBGeneral("listrik/pln_prepaid")
 		setProduct(res.data)
 	}
 	const _cekTagihan = async (idPel) => {
@@ -116,7 +114,7 @@ const ListrikToken = ({ navigation }) => {
 		const data = {
 			customerID: response.transaction.customerID,
 			productID: PPOB_PRODUCT_CODE.PLN_PREPAID,
-			amount: selected.price,
+			nominal: selected.price,
 			id_multi: Product.id_multi,
 			favorite: favorit ? 1 : 0
 		}
@@ -155,8 +153,8 @@ const ListrikToken = ({ navigation }) => {
 			{/* Popup components */}
 			<View style={styles.topComp}>
 				{__DEV__ && <Button onPress={() => {
-					setCustId('32127971177')
-					_cekTagihan('32127971177')
+					setCustId('777777777777')
+					_cekTagihan('777777777777')
 				}}>32127971177</Button>}
 				<Input
 					_width="80%"
@@ -218,7 +216,7 @@ const ListrikToken = ({ navigation }) => {
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="60%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`TOKEN ${item.product.split(" ")[2]}`} </Text>
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`TOKEN ${item.product_name.split(" ")[2]}`} </Text>
 									</View>
 									<View _width="40%">
 										<Text size={8}>HARGA</Text>
