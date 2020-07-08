@@ -9,7 +9,6 @@ import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import { Input } from 'src/components/Input/MDInput';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { getProductPulsa, payPulsaHandphone } from 'src/utils/api/ppob/pulsa_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
@@ -19,6 +18,8 @@ import SwitchButton from 'src/components/Button/SwitchButton';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { SizeList } from 'src/styles/size';
 import { openPin } from 'src/utils/pin-otp-helper';
+import { PPOB_PRODUCT_CODE } from 'src/config/constant';
+import { paymentPPOBProduct, getProductPulsa } from 'src/utils/api/ppobapi';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -61,7 +62,7 @@ const PpobPulsa = ({ navigation }) => {
 		let res = await getProductPulsa(x)
 		if (res.status == 200) {
 			setSelected()
-			if (res.data.length == 0) {
+			if (res.data.products.length == 0) {
 				setData()
 			} else {
 				setData(res.data)
@@ -88,12 +89,13 @@ const PpobPulsa = ({ navigation }) => {
 	const _processPayment = async selected => {
 		setPayLoading(true)
 		const data = {
-			phone_number: phoneNumber,
-			productID: selected.code,
+			customerID: phoneNumber,
+			productID: PPOB_PRODUCT_CODE.PULSA,
+			product_code: selected.product_code,
 			id_multi: Product.id_multi,
 			favorite: favorit ? 1 : 0
 		}
-		const res = await payPulsaHandphone(data)
+		const res = await paymentPPOBProduct(data)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
@@ -147,7 +149,7 @@ const PpobPulsa = ({ navigation }) => {
 					value={phoneNumber}
 					onChangeText={_onChangePhoneNum}
 					keyboardType="phone-pad"
-					renderRightAccessory={() => data ? <Image source={{ uri: data.provider.image }} size={20} /> : null}
+					renderRightAccessory={() => data ? <Image source={{ uri: data.image }} size={20} /> : null}
 				/>
 				<Button _width={37} padding={7} onPress={() => setContactVisible(true)}>
 					<Icon name="address-book" size={20} color={ColorsList.white} />
@@ -174,7 +176,7 @@ const PpobPulsa = ({ navigation }) => {
 			</View>
 			{data &&
 				<View style={{ flex: 1, padding: SizeList.padding, backgroundColor: "white", borderWidth: SizeList.borderWidth, borderRadius: SizeList.borderRadius, borderColor: ColorsList.borderColor }}>
-					<Text style={{ marginBottom: 5 }}>Pilih nominal pulsa: <Text font="SemiBold">{data.products[0].name.split(" ")[0].toUpperCase()}</Text></Text>
+					<Text style={{ marginBottom: 5 }}>Pilih nominal pulsa: <Text font="SemiBold">{data && data.products[0].product_name.split(" ")[0].toUpperCase()}</Text></Text>
 					<FlatList style={styles.listPulsa} keyExtractor={(a, i) => i.toString()}
 						showsVerticalScrollIndicator={false}
 						data={data ? data.products : []}
@@ -182,7 +184,7 @@ const PpobPulsa = ({ navigation }) => {
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="70%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`PULSA ${item.name.split(" ")[2]}`} </Text>
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`PULSA ${item.product_name.split(" ")[2]}`} </Text>
 									</View>
 									<View _width="30%">
 										<Text size={8}>HARGA</Text>

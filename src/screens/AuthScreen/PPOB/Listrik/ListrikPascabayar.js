@@ -8,7 +8,6 @@ import { Button } from 'src/components/Button/Button';
 import { View, ActivityIndicator } from 'react-native';
 import { ColorsList } from 'src/styles/colors';
 import { Input } from 'src/components/Input/MDInput';
-import { checkTagihanListrik, payTagihanListrik } from 'src/utils/api/ppob/listrik_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
@@ -17,6 +16,8 @@ import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { SizeList } from 'src/styles/size';
 import { openPin } from 'src/utils/pin-otp-helper';
+import { PPOB_PRODUCT_CODE } from 'src/config/constant';
+import { inquiryPPOBProduct, paymentPPOBProduct } from 'src/utils/api/ppobapi';
 
 const ListrikPascabayar = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -51,10 +52,10 @@ const ListrikPascabayar = ({ navigation }) => {
 		setTagihanLoading(true)
 		setTagihanData()
 		const params = {
-			productID: 100301,
+			productID: PPOB_PRODUCT_CODE.PLN_POSTPAID,
 			customerID: x
 		}
-		const { status, data } = await checkTagihanListrik(params)
+		const { status, data } = await inquiryPPOBProduct(params)
 		setTagihanLoading(false)
 		if (status == 400) {
 			setAlertMessage(data.errors.msg)
@@ -103,11 +104,11 @@ const ListrikPascabayar = ({ navigation }) => {
 		setPayLoading(true)
 		const data = {
 			customerID: tagihanData.transaction.customerID,
-			productID: tagihanData.transaction.productID,
+			productID: PPOB_PRODUCT_CODE.PLN_POSTPAID,
 			id_multi: Product.id_multi,
 			favorite: favorit ? 1 : 0
 		}
-		const res = await payTagihanListrik(data)
+		const res = await paymentPPOBProduct(data)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
@@ -148,8 +149,8 @@ const ListrikPascabayar = ({ navigation }) => {
 				{/* Popup components */}
 				<View style={styles.topComp}>
 					{__DEV__ && <Button onPress={() => {
-						setCustId('142600857205')
-						_cekTagihan('142600857205')
+						setCustId('532210000062')
+						_cekTagihan('532210000062')
 					}}>32127971177</Button>}
 					<Input
 						_width="80%"

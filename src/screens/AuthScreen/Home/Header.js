@@ -12,11 +12,12 @@ import { ColorsList } from 'src/styles/colors';
 
 const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 	const _onPressTopUp = () => {
-		if (User.data.status == 1) {
-			navigation.navigate('/ppob/topup')
-		} else {
-			_featureDisabled("topup")
-		}
+		// if (User.data.status == 1) {
+		// 	navigation.navigate('/ppob/topup')
+		// } else {
+		// 	_featureDisabled("topup")
+		// }
+		_featureDisabled("stock")
 	}
 	const _onPressRiwayat = () => {
 		if (User.data.status == 1) {

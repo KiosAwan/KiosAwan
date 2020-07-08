@@ -3,13 +3,10 @@ import Container, { Body, Footer } from 'src/components/View/Container';
 import styles from './ListrikStyle';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { Text } from 'src/components/Text/CustomText';
-import Divider from 'src/components/Row/Divider';
 import { Button } from 'src/components/Button/Button';
 import { View, ActivityIndicator } from 'react-native';
-import { $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
-import MDInput, { Input } from 'src/components/Input/MDInput';
-import { checkTagihanListrik, payTagihanListrik, payTagihanNonTagList, checkTagihanNonTagList } from 'src/utils/api/ppob/listrik_api';
+import { Input } from 'src/components/Input/MDInput';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
@@ -18,6 +15,8 @@ import { getProfile } from 'src/redux/actions/actionsUserData';
 import SwitchButton from 'src/components/Button/SwitchButton';
 import { SizeList } from 'src/styles/size';
 import { openPin } from 'src/utils/pin-otp-helper';
+import { PPOB_PRODUCT_CODE } from 'src/config/constant';
+import { inquiryPPOBProduct, paymentPPOBProduct } from 'src/utils/api/ppobapi';
 
 const ListrikNonTagihanListrik = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -38,9 +37,6 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState()
 
-	//PIN Modal state 
-	const [pinVisible, setPinVisible] = useState(false)
-
 	//Loading pay state
 	const [payLoading, setPayLoading] = useState(false)
 
@@ -49,10 +45,10 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 		setTagihanLoading(true)
 		setTagihanData()
 		const params = {
-			productID: 100311,
+			productID: PPOB_PRODUCT_CODE.NON_TAGLIST,
 			customerID: x
 		}
-		const { status, data } = await checkTagihanNonTagList(params)
+		const { status, data } = await inquiryPPOBProduct(params)
 		setTagihanLoading(false)
 		if (status == 400) {
 			setAlertMessage(data.errors.msg)
@@ -100,11 +96,11 @@ const ListrikNonTagihanListrik = ({ navigation }) => {
 		setPayLoading(true)
 		const data = {
 			customerID: tagihanData.transaction.customerID,
-			productID: tagihanData.transaction.productID,
+			productID: PPOB_PRODUCT_CODE.NON_TAGLIST,
 			id_multi: Product.id_multi,
 			favorite: favorit ? 1 : 0
 		}
-		const res = await payTagihanNonTagList(data)
+		const res = await paymentPPOBProduct(data)
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()

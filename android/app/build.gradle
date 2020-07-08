@@ -208,7 +208,6 @@ android {
 }
 
 dependencies {
-    implementation project(':@sentry_react-native')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-bluetooth-escpos-printer')
     implementation project(':react-native-branch')

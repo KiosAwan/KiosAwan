@@ -18,7 +18,8 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 		// if (User.data.status == 1) {
 		// 	navigation.navigate('/ppob')
 		// } else {
-		_featureDisabled('ppob')
+			// _featureDisabled('ppob')
+		_featureDisabled('stock')
 		// }
 	}
 	const _onPressStock = () => _featureDisabled('stock')
