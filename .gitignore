@@ -37,7 +37,7 @@ yarn-error.log
 
 # BUCK
 buck-out/
-\.buckd/
+.buckd/
 *.keystore
 !debug.keystore
 
@@ -63,4 +63,3 @@ outputs
 *.project
 react-native-image-tutorial
 /yarn.lock
-/android/app/src/main/java/com/awanapp/release
