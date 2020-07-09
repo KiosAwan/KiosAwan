@@ -188,6 +188,7 @@ const Home = ({ navigation }) => {
 							navigation={navigation}
 							maintenance={maintenance}
 							modal={modalFn}
+							dispatch={dispatch}
 						/>
 						<Feature
 							User={User}

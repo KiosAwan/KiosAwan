@@ -11,13 +11,11 @@ import { $Padding, $Margin } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
 import { Image } from 'src/components/CustomImage';
 import MDInput, { Input } from 'src/components/Input/MDInput';
-import { Bottom, BottomVertical } from 'src/components/View/Bottom';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { } from 'src/components/Input/InputComp';
-import { getPDAMProductList, checkTagihanPDAM, payTagihanPDAM } from 'src/utils/api/ppob/pdam_api';
 import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
@@ -65,9 +63,10 @@ const PDAM = ({ navigation }) => {
 
     const _setFavoritData = async () => {
         if (navigation.state.params) {
-            const { customerID, name, product_code } = navigation.state.params
+            const { customerID, name, code } = navigation.state.params
             setIdPelanggan(customerID)
-            setSelected({ name, product_code })
+            setSelected({ product_name: name, product_code: code })
+            _cekTagihan({ product_name: name, product_code: code }, customerID)
         }
     }
     //Function for getting pdam product list
@@ -89,7 +88,6 @@ const PDAM = ({ navigation }) => {
                 product_code: selected.product_code
             }
             const res = await inquiryPPOBProduct(data)
-            console.debug(res)
             setTagihanLoading(false)
             if (res.status == 400) {
                 setAlertMessage("Data tidak ditemukan")
@@ -135,7 +133,7 @@ const PDAM = ({ navigation }) => {
         const data = {
             customerID: tagihanData.transaction.customerID,
             productID: PPOB_PRODUCT_CODE.PDAM,
-            product_code : selected.product_code,
+            product_code: selected.product_code,
             id_multi: Product.id_multi,
             favorite: favorit ? 1 : 0
         }
@@ -143,7 +141,7 @@ const PDAM = ({ navigation }) => {
         setPayLoading(false)
         if (res.status == 200) {
             const userToken = await getUserToken()
-            const data = { type: "pdam", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
+            const data = { type: "pdam", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.product_name }
             dispatch(AddPPOBToCart(data))
             dispatch(getProfile(User.data.id, userToken))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
@@ -171,7 +169,7 @@ const PDAM = ({ navigation }) => {
             />
             <AwanPopup.Loading visible={payLoading} />
             <View style={styles.topComp}>
-                {__DEV__ &&
+                {/* {__DEV__ &&
                     <View style={{ backgroundColor: ColorsList.greyBg, padding: 15 }}>
                         <Text align="center">Dev Purpose Only</Text>
                         <SelectBoxModal style={{ marginTop: 15 }}
@@ -191,7 +189,7 @@ const PDAM = ({ navigation }) => {
                             <Text>Data tidak ditemukan</Text>
                         </SelectBoxModal>
                     </View>
-                }
+                } */}
                 <SelectBoxModal btnStyle={{ marginBottom: SizeList.base }}
                     height={400}
                     label="Pilih Lokasi PDAM" closeOnSelect

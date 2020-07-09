@@ -1,8 +1,10 @@
 import { openPin } from "src/utils/pin-otp-helper"
-import { createUserPIN } from "src/utils/authhelper"
+import { createUserPIN, getUserToken } from "src/utils/authhelper"
 import { NavigationActions, StackActions } from "react-navigation"
+import { useDispatch } from "react-redux"
+import { getProfile } from "src/redux/actions/actionsUserData"
 
-const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle }) => {
+const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle, dispatch }) => {
 	const onResolve = async (pin, confirmPin) => {
 		setAlertTitle('Peringatan')
 		if (pin.length != 4 || confirmPin.length != 4) {
@@ -16,8 +18,10 @@ const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisibl
 			const id = User.data.id
 			const data = { id, pin }
 			const res = await createUserPIN(data)
+			const userToken = await getUserToken()
 			if (res.status == 200) {
 				setTimeout(() => {
+					dispatch(getProfile(id, userToken))
 					setModalVisible(false)
 					navigation.dispatch(
 						StackActions.reset({

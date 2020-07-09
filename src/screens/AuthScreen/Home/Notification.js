@@ -10,7 +10,7 @@ import { Button } from "src/components/Button/Button"
 import CreatePin from './CreatePin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
-const Notification = ({ User, maintenance, message, navigation, modal }) => {
+const Notification = ({ User, maintenance, message, navigation, modal, dispatch }) => {
 	const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modal
 	return <View>
 		{
@@ -34,7 +34,13 @@ const Notification = ({ User, maintenance, message, navigation, modal }) => {
 					<Text color="purple">Verifikasi Email Anda Sekarang!</Text>
 				</Button>
 				:
-				<Button onPress={() => CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })} flexStart color="warning" flexStart style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
+				<Button onPress={() => {
+					if (User.data.atur_pin == 1) {
+						navigation.navigate("/temp/update-profile")
+					} else {
+						CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle, dispatch })
+					}
+				}} flexStart color="warning" flexStart style={{ borderRadius: SizeList.borderRadius, marginBottom: SizeList.base }}>
 					<Icon color={ColorsList.white} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 					<Text color="white">Lengkapi Profil Anda Sekarang! </Text>
 					<Text color="white" style={{ textDecorationLine: 'underline' }}>Klik disini</Text>

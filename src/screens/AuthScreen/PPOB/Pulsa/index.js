@@ -99,7 +99,7 @@ const PpobPulsa = ({ navigation }) => {
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
-			const data = { type: "Pulsa", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.name }
+			const data = { type: "Pulsa", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.product_name }
 			dispatch(AddPPOBToCart(data))
 			dispatch(getProfile(User.data.id, userToken))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
@@ -118,6 +118,7 @@ const PpobPulsa = ({ navigation }) => {
 	useEffect(() => {
 		if (navigation.state.params) {
 			let { customerID } = navigation.state.params
+			setPhoneNumber(customerID)
 			_onChangePhoneNum(customerID)
 		}
 	}, [])
