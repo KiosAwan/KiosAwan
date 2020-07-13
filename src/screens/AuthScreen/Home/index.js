@@ -19,6 +19,7 @@ import ModalContent from 'src/components/ModalContent/ModalContent'
 import CreatePin from './CreatePin';
 import { Toast } from 'native-base'
 import { ColorsList } from 'src/styles/colors'
+import AsyncStorage from 'src/utils/async-storage'
 
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -47,7 +48,7 @@ const Home = ({ navigation }) => {
 		const res = await Axios.get(`${HOST_URL}/check_service`, {
 			headers: { "authorization": userToken }
 		})
-		res.data.data.status == 2 && _featureDisabled();
+		res.data.data.status == 2 && _featureDisabled('cashier');
 		if (res.data.data.service == 1) {
 			setMaintanance(true)
 			setMessage(res.data.data.message)
@@ -87,9 +88,13 @@ const Home = ({ navigation }) => {
 					title = 'FITUR RIWAYAT'
 					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
 					break;
-				default:
+				case 'cashier':
 					title = 'FITUR KASIR'
 					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				default:
+					title = action
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
 					break;
 			}
 		}
@@ -105,18 +110,21 @@ const Home = ({ navigation }) => {
 		setOnRefresh(false)
 	}
 
-	const _completeProfile = () => {
-		if (!User.store) {
+	const _completeProfile = async () => {
+		const disabled = await AsyncStorage.get("_featureDisabled")
+		if (disabled) {
+			_setAlert(false)
+		} else if (!User.store) {
 			const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modalFn
 			_setAlert(false)
 			CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })
-		}
-		else if (User.data.status == 0) {
+		} else if (User.data.status == 0) {
 			_setAlert(false)
 			navigation.navigate('/drawer/settings/change-email')
 		} else {
 			_setAlert(false)
 		}
+		await AsyncStorage.remove("_featureDisabled")
 	}
 	let [canExit, exitDuration] = [false, 1000]
 	useEffect(() => {

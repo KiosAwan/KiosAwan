@@ -3,6 +3,7 @@ const AsyncStorage = {}
 AsyncStorage.put = async (key, value) => {
 	let newValue = value;
 	if (typeof value == 'object') newValue = JSON.stringify(value);
+	if (typeof value == 'boolean') newValue = value.toString()
 	await AsyncStore.setItem(key, newValue)
 }
 AsyncStorage.get = async key => {
@@ -13,6 +14,8 @@ AsyncStorage.get = async key => {
 		} else {
 			if (value == "true") {
 				return true;
+			} else if (value == "false") {
+				return false;
 			}
 			return value;
 		}

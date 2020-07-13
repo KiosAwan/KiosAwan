@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -13,15 +13,17 @@ import { openPin } from 'src/utils/pin-otp-helper';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { verifyUserPIN } from 'src/utils/authhelper';
 import { APP_VERSION } from 'src/config/constant';
+import { removeAllCart } from 'src/redux/actions/actionsStoreProduct';
 const Akun = ({ navigation }) => {
 	const User = useSelector(state => state.User)
-	//alert
+	const dispatch = useDispatch()
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState(false)
 	const _onPressLogout = async (props) => {
 		try {
 			await AsyncStorage.removeItem('userId')
 			navigation.navigate('/unauth')
+			dispatch(removeAllCart())
 		}
 		catch (e) {
 			alert(e)

@@ -112,7 +112,7 @@ const MenuSettingProfil = ({ navigation }) => {
 		const res = await editStoreProfile(formData, User.store.id_store)
 		setApiLoading(false)
 		if (res.status == 400) {
-			alert(data.errors.msg)
+			alert(res.data.errors.msg)
 		} else if (res.status == 200) {
 			const userToken = await getUserToken()
 			setModalVisible(true)

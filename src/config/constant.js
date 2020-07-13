@@ -1,4 +1,4 @@
-export const APP_VERSION = "0.7.01.1"
+export const APP_VERSION = "1.0.0"
 
 export const PPOB_PRODUCT_CODE = {
     PLN_POSTPAID : 10001,

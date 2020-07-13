@@ -6,6 +6,7 @@
     "run": "yarn android",
     "cleanr": "cd android && ./gradlew clean && cd .. && yarn android",
     "cleanb": "cd android && ./gradlew clean && ./gradlew bundleRelease",
+    "cleana": "cd android && ./gradlew clean && ./gradlew assembleRelease",
     "clean": "cd android && ./gradlew clean && cd .. ",
     "android": "react-native run-android",
     "ios": "react-native run-ios",

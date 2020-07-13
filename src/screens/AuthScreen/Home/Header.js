@@ -9,22 +9,26 @@ import { convertRupiah } from 'src/utils/authhelper';
 import { Button } from 'src/components/Button/Button';
 import { $Padding } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
+import AsyncStorage from 'src/utils/async-storage';
 
 const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
-	const _onPressTopUp = () => {
+	const _onPressTopUp = async () => {
 		// if (User.data.status == 1) {
 		// 	navigation.navigate('/ppob/topup')
 		// } else {
 		// 	_featureDisabled("topup")
 		// }
-		_featureDisabled("stock")
+		await AsyncStorage.put("_featureDisabled", true)
+		_featureDisabled("FITUR TOP UP")
 	}
-	const _onPressRiwayat = () => {
-		if (User.data.status == 1) {
-			navigation.navigate('/ppob/riwayat')
-		} else {
-			_featureDisabled("riwayat")
-		}
+	const _onPressRiwayat = async () => {
+		// if (User.data.status == 1) {
+		// 	navigation.navigate('/ppob/riwayat')
+		// } else {
+		// 	_featureDisabled("riwayat")
+		// }
+		await AsyncStorage.put("_featureDisabled", true)
+		_featureDisabled("FITUR RIWAYAT KEUANGAN")
 	}
 	return <View>
 		<View style={{ justifyContent: "center" }}>
