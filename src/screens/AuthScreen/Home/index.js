@@ -19,6 +19,7 @@ import ModalContent from 'src/components/ModalContent/ModalContent'
 import CreatePin from './CreatePin';
 import { Toast } from 'native-base'
 import { ColorsList } from 'src/styles/colors'
+import { NavigationEvents } from 'react-navigation'
 
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -99,10 +100,14 @@ const Home = ({ navigation }) => {
 	}
 
 	const _handleRefresh = async () => {
-		const userToken = await getUserToken()
-		dispatch(getProfile(User.data.id, userToken))
+		_getUserInfo()
 		_checkService()
 		setOnRefresh(false)
+	}
+
+	const _getUserInfo = async () => {
+		const userToken = await getUserToken()
+		dispatch(getProfile(User.data.id, userToken))
 	}
 
 	const _completeProfile = () => {
@@ -152,6 +157,7 @@ const Home = ({ navigation }) => {
 		// })
 	}, [])
 	return <Container>
+		<NavigationEvents onDidFocus={_getUserInfo} />
 		<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
 			<View></View>
 			<Button width={100} onPress={_completeProfile}>OK</Button>
