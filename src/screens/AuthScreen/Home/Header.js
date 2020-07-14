@@ -13,13 +13,11 @@ import AsyncStorage from 'src/utils/async-storage';
 
 const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 	const _onPressTopUp = async () => {
-		// if (User.data.status == 1) {
-		// 	navigation.navigate('/ppob/topup')
-		// } else {
-		// 	_featureDisabled("topup")
-		// }
-		await AsyncStorage.put("_featureDisabled", true)
-		_featureDisabled("FITUR TOP UP")
+		if (User.data.status == 1) {
+			navigation.navigate('/ppob/topup')
+		} else {
+			_featureDisabled("topup")
+		}
 	}
 	const _onPressRiwayat = async () => {
 		// if (User.data.status == 1) {
