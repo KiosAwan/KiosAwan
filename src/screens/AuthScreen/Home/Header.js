@@ -35,7 +35,9 @@ const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 				</View>
 				<View style={{ justifyContent: 'center' }}>
 					<TouchableOpacity onPress={_onPressRiwayat}>
-						<View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: ColorsList.primary, position: "absolute", right: 0, top: 0 }} />
+						{User.data.unread_riwayat == 1 &&
+							<View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: ColorsList.primary, position: "absolute", right: 0, top: 0 }} />
+						}
 						<Icon color="grey" size={20} name="bell" />
 					</TouchableOpacity>
 				</View>

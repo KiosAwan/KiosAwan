@@ -21,6 +21,7 @@ import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import { IconHeader } from 'src/components/Header/Header';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
+import { getProfile } from 'src/redux/actions/actionsUserData';
 
 const StatusPesanan = ({ navigation }) => {
 	let viewShotRef;
@@ -42,6 +43,7 @@ const StatusPesanan = ({ navigation }) => {
 			setParams(navigation.state.params.params)
 		}
 	}, [])
+
 
 	const wrapper = {
 		justify: 'space-between',
@@ -83,7 +85,7 @@ const StatusPesanan = ({ navigation }) => {
 		</View>
 	}
 	const _renderPendingProductDigital = () => {
-		let filterPayment = ["id", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info","supplier", "tgl_registrasi", "product_code"]
+		let filterPayment = ["id", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "supplier", "tgl_registrasi", "product_code"]
 		let viewKey = key => {
 			let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank" }
 			return keys[key] || key.split('_').join(' ').ucwords()
@@ -114,10 +116,11 @@ const StatusPesanan = ({ navigation }) => {
 	}
 
 	const _onPressSelesai = async () => {
+		const userToken = await getUserToken()
+		dispatch(getProfile(User.data.id, userToken))
 		if (Product.jumlahitem == 1) {
 			_handlePayCash()
 		} else {
-			const userToken = await getUserToken()
 			dispatch(getCustomer(User.store.id_store, userToken))
 			navigation.navigate('/cashier/check-out')
 		}
@@ -248,7 +251,11 @@ const StatusPesanan = ({ navigation }) => {
 		</Body>
 		<Footer>
 			<Wrapper>
-				<Button noBorder wrapper={{ justify: 'center' }} color="link" _width="49%" onPress={() => navigation.navigate('/ppob')}>
+				<Button noBorder wrapper={{ justify: 'center' }} color="link" _width="49%" onPress={async () => {
+					const userToken = await getUserToken()
+					dispatch(getProfile(User.data.id, userToken))
+					navigation.navigate('/ppob')
+				}}>
 					<Text color="primary">TAMBAH PRODUK</Text>
 				</Button>
 				<Button _width="49%" onPress={_onPressSelesai}>SELESAI</Button>
