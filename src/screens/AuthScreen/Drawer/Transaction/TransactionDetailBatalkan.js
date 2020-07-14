@@ -112,7 +112,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 				onPressBack={() => navigation.goBack()}
 			/>
 			<ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, padding: 20, backgroundColor: ColorsList.authBackground }}>
-				{loading ? <Text>asdfsfd</Text> :
+				{loading ? <Text>Loading</Text> :
 					<View>
 						<View style={{ backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
 							<Text style={{ padding: 10 }}>Total yang dibatalkan</Text>
@@ -149,7 +149,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 								: null}
 						</View>
 						<View style={{ alignItems: "center", paddingBottom: 10 }}>
-							<Text>Daftar produk belanja</Text>
+							<Text>Pilih produk yang akan dibatalkan</Text>
 						</View>
 						<FlatList
 							data={newData}
@@ -177,7 +177,14 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 				}
 			</ScrollView>
 			<Bottom justify="space-between">
-				<Button width="100%" onPress={() => setAlertVisible(true)}>BATALKAN</Button>
+				<Button width="100%" onPress={() => {
+					if(amount_cancel !== 0){
+					setAlertVisible(true)
+					}else {
+						setErrorMessage("Anda belum memilih barang untuk dikembalikan")
+						setErrorAlert(true)
+					}
+					}}>BATALKAN</Button>
 			</Bottom>
 		</View>
 	)

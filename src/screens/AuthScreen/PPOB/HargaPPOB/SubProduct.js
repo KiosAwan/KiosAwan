@@ -199,9 +199,10 @@ const SubProduct = ({ navigation }) => {
 			</View>
 		}
 		const dataProduct = Object.keys(products).sort((a, b) => a > b)
+		console.debug(dataProduct)
 		return <View style={{ flex: 1, paddingTop: 10 }}>
 			<Text style={{ marginBottom: SizeList.base }}>Jumlah cashback menyesuaikan biaya admin yang dipilih</Text>
-			{dataProduct.rMap(renderMap)}
+			{subProduct.rMap(renderMap)}
 		</View>
 	}
 
