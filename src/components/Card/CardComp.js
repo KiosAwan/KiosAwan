@@ -83,7 +83,7 @@ export const ProductCard = props => {
 }
 export const ReturnTransactionCard = (props) => {
 	return <View style={{ height: height / 7, backgroundColor: 'white', marginBottom: 10, borderRadius: 5 }}>
-		<View style={[styles.card, props.cardStyle]}>
+		<TouchableOpacity onPress={props.onPressMinus} disabled={props.minusDisabled}  style={[styles.card, props.cardStyle]}>
 			<View style={{ ...RowChild, height: '100%', width: '90%' }}>
 				{/* <View></View> */}
 				<View style={{ width: '50%', paddingLeft: 10 }}>
@@ -103,7 +103,7 @@ export const ReturnTransactionCard = (props) => {
 						</TouchableOpacity>
 					</View>
 			}
-		</View>
+		</TouchableOpacity>
 	</View>
 }
 

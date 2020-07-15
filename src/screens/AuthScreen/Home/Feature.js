@@ -5,33 +5,26 @@ import { View, TouchableOpacity } from 'react-native';
 import { Text } from 'src/components/Text/CustomText';
 import { SizeList } from 'src/styles/size';
 import { Image } from 'src/components/CustomImage';
-import AsyncStorage from 'src/utils/async-storage';
 
 const Feature = ({ User, navigation, _featureDisabled }) => {
 	const _onPressCashier = () => {
 		if (User.data.status == 1) {
 			navigation.navigate('/cashier')
 		} else {
-			_featureDisabled('cashier')
+			_featureDisabled()
 		}
 	}
-	const _onPressPayment = async () => {
-		// if (User.data.status == 1) {
-		// 	navigation.navigate('/ppob')
-		// } else {
-		// _featureDisabled('ppob')
-		await AsyncStorage.put("_featureDisabled", true)
-		_featureDisabled('FITUR PAYMENT POINT')
-		// }
+	const _onPressPayment = () => {
+		if (User.data.status == 1 && User.data.ppob_disabled != 1) {
+			navigation.navigate('/ppob')
+		} else if (User.data.ppob_disabled == 1) {
+			_featureDisabled("ppob-disabled")
+		} else {
+			_featureDisabled('ppob')
+		}
 	}
-	const _onPressStock = async () => {
-		await AsyncStorage.put('_featureDisabled', true)
-		_featureDisabled('stock')
-	}
-	const _onPressHutang = async () => {
-		await AsyncStorage.put('_featureDisabled', true)
-		_featureDisabled('hutang')
-	}
+	const _onPressStock = () => _featureDisabled('stock')
+	const _onPressHutang = () => _featureDisabled('hutang')
 	return <View>
 		<Text font="SemiBold" style={{ paddingBottom: SizeList.base }}>Quick Actions</Text>
 		<TouchableOpacity onPress={_onPressCashier}>

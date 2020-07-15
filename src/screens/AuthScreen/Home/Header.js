@@ -9,24 +9,25 @@ import { convertRupiah } from 'src/utils/authhelper';
 import { Button } from 'src/components/Button/Button';
 import { $Padding } from 'src/utils/stylehelper';
 import { ColorsList } from 'src/styles/colors';
-import AsyncStorage from 'src/utils/async-storage';
 
 const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
-	const _onPressTopUp = async () => {
-		if (User.data.status == 1) {
+	const _onPressTopUp = () => {
+		if (User.data.status == 1 && User.data.topup_disabled != 1) {
 			navigation.navigate('/ppob/topup')
+		} else if (User.data.topup_disabled == 1) {
+			_featureDisabled("topup-disabled")
 		} else {
 			_featureDisabled("topup")
 		}
 	}
-	const _onPressRiwayat = async () => {
-		// if (User.data.status == 1) {
-		// 	navigation.navigate('/ppob/riwayat')
-		// } else {
-		// 	_featureDisabled("riwayat")
-		// }
-		await AsyncStorage.put("_featureDisabled", true)
-		_featureDisabled("FITUR RIWAYAT KEUANGAN")
+	const _onPressRiwayat = () => {
+		if (User.data.status == 1 && User.data.topup_disabled != 1) {
+			navigation.navigate('/ppob/riwayat')
+		} else if (User.data.topup_disabled == 1) {
+			_featureDisabled("riwayat-disabled")
+		} else {
+			_featureDisabled("riwayat")
+		}
 	}
 	return <View>
 		<View style={{ justifyContent: "center" }}>
@@ -38,7 +39,9 @@ const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 				</View>
 				<View style={{ justifyContent: 'center' }}>
 					<TouchableOpacity onPress={_onPressRiwayat}>
-						<View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: ColorsList.primary, position: "absolute", right: 0, top: 0 }} />
+						{User.data.unread_riwayat == 1 &&
+							<View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: ColorsList.primary, position: "absolute", right: 0, top: 0 }} />
+						}
 						<Icon color="grey" size={20} name="bell" />
 					</TouchableOpacity>
 				</View>

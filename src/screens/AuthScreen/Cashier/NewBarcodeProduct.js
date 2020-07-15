@@ -26,7 +26,6 @@ const NewBarcodeProduct = ({ navigation }) => {
   const [cameraLayout, setCameraLayout] = useState({})
 
   const _onBarCodeRead = async (scanResult) => {
-    console.debug("Scanned")
     await setScanWork(false)
     const data = {
       barcode: scanResult.data
@@ -51,7 +50,7 @@ const NewBarcodeProduct = ({ navigation }) => {
     } else {
       Alert.alert(
         '',
-        'Barang yang Anda scan tidak ditemukan',
+        'Barcode berhasil discan, namun data barang tidak ditemukan di database.',
         [
           {
             text: 'Lanjut', onPress: () => {

@@ -227,7 +227,7 @@ const Report = ({ navigation }) => {
 							].rMap((key, i) => (
 								<Wrapper key={i.toString()} style={{ padding: 10 }} spaceBetween>
 									<Text color={i == 0 && 'primary'}>{key == "penjualan_bersih" ? "Penerimaan" : key == "" ? "" : key.split('_').join(' ').ucwords()}</Text>
-									<Text color={i == 0 && 'primary'}>{_convertRupiah(NT.selected, key)}</Text>
+									<Text color={i == 0 && 'primary'}>{key == "jumlah_transaksi" ? NT.selected[key] : _convertRupiah(NT.selected, key)}</Text>
 								</Wrapper>
 							))
 						}

@@ -19,7 +19,7 @@ import ModalContent from 'src/components/ModalContent/ModalContent'
 import CreatePin from './CreatePin';
 import { Toast } from 'native-base'
 import { ColorsList } from 'src/styles/colors'
-import AsyncStorage from 'src/utils/async-storage'
+import { NavigationEvents } from 'react-navigation'
 
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
 		const res = await Axios.get(`${HOST_URL}/check_service`, {
 			headers: { "authorization": userToken }
 		})
-		res.data.data.status == 2 && _featureDisabled('cashier');
+		res.data.data.status == 2 && _featureDisabled();
 		if (res.data.data.service == 1) {
 			setMaintanance(true)
 			setMessage(res.data.data.message)
@@ -62,11 +62,25 @@ const Home = ({ navigation }) => {
 		if (User.data.status == 2) {
 			title = 'AKUN ANDA TERBLOKIR'
 			message = `Anda tidak dapat menggunakan layanan apapun, silahkan hubungi customer service dengan kode ${User.data.banned_log.code}`
-		} else {
+		}
+
+		else {
 			switch (action) {
 				case 'ppob':
 					title = 'FITUR PAYMENT POINT'
 					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				case 'riwayat-disabled':
+					title = 'FITUR RIWAYAT'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+					break;
+				case 'ppob-disabled':
+					title = 'FITUR PAYMENT POINT'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+					break;
+				case 'topup-disabled':
+					title = 'FITUR PAYMENT POINT'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
 					break;
 				case 'stock':
 					title = 'FITUR BELANJA STOK'
@@ -88,13 +102,9 @@ const Home = ({ navigation }) => {
 					title = 'FITUR RIWAYAT'
 					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
 					break;
-				case 'cashier':
+				default:
 					title = 'FITUR KASIR'
 					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
-					break;
-				default:
-					title = action
-					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
 					break;
 			}
 		}
@@ -104,27 +114,28 @@ const Home = ({ navigation }) => {
 	}
 
 	const _handleRefresh = async () => {
-		const userToken = await getUserToken()
-		dispatch(getProfile(User.data.id, userToken))
+		_getUserInfo()
 		_checkService()
 		setOnRefresh(false)
 	}
 
-	const _completeProfile = async () => {
-		const disabled = await AsyncStorage.get("_featureDisabled")
-		if (disabled) {
-			_setAlert(false)
-		} else if (!User.store) {
+	const _getUserInfo = async () => {
+		const userToken = await getUserToken()
+		dispatch(getProfile(User.data.id, userToken))
+	}
+
+	const _completeProfile = () => {
+		if (!User.store) {
 			const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modalFn
 			_setAlert(false)
 			CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })
-		} else if (User.data.status == 0) {
+		}
+		else if (User.data.status == 0) {
 			_setAlert(false)
 			navigation.navigate('/drawer/settings/change-email')
 		} else {
 			_setAlert(false)
 		}
-		await AsyncStorage.remove("_featureDisabled")
 	}
 	let [canExit, exitDuration] = [false, 1000]
 	useEffect(() => {
@@ -160,6 +171,7 @@ const Home = ({ navigation }) => {
 		// })
 	}, [])
 	return <Container>
+		<NavigationEvents onDidFocus={_getUserInfo} />
 		<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
 			<View></View>
 			<Button width={100} onPress={_completeProfile}>OK</Button>

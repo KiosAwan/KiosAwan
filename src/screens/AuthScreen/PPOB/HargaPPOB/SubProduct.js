@@ -59,7 +59,7 @@ const SubProduct = ({ navigation }) => {
 				const { data, status } = await getSubProducts(product.type, provider.code)
 				const objData = data.reduce((obj, item, i) => {
 					let index = i.toString().length == 3 ? i : (i.toString().length == 2 ? "0" + i : "00" + i)
-					let key = `${index} - ${item.name} - ${item.productID}`
+					let key = `${index} - ${item.name} - ${item.product_id}`
 					item.oldMargin = item.margin
 					item.oldPrice_sale = item.price_sale
 					obj[key] = item
@@ -74,7 +74,7 @@ const SubProduct = ({ navigation }) => {
 	const _saveMargin = async () => {
 		let { type } = product
 		let finalMargins = Object.keys(products).map(key => {
-			let { margin, price_sale, price, productID, name, openCashback } = products[key] || {}
+			let { margin, price_sale, price, product_code, name, openCashback, ...hh } = products[key] || {}
 			if (product.product_type == 3) {
 				margin = price_sale.toString().extractNumber() - price
 			} else {
@@ -82,12 +82,12 @@ const SubProduct = ({ navigation }) => {
 					return {}
 				}
 			}
-			if (!productID || (![false, true].includes(openCashback))) {
+			if (!product_code || (![false, true].includes(openCashback))) {
 				return {}
 			}
-			return { productID, product: name, margin, type }
+			return { product_code, product: name, margin, type }
 		})
-		const { status, data } = await setMarginProduct(finalMargins)
+		const { status, data } = await setMarginProduct(finalMargins.filter(a=>JSON.stringify(a)!="{}"))
 		if (status == 200) {
 			_selectProvider(providerSelected, true)
 			const userToken = await getUserToken()
@@ -100,7 +100,7 @@ const SubProduct = ({ navigation }) => {
 		} else {
 			setAlertProps({
 				visible: true,
-				message: data.error.msg
+				message: data.errors.msg
 			})
 		}
 	}
@@ -212,8 +212,8 @@ const SubProduct = ({ navigation }) => {
 		const dataProduct = Object.keys(products).sort((a, b) => a > b)
 		return dataProduct.rMap((key, i) => {
 			let item = products[key]
-			let { price, productID, name, price_sale } = item
-			let _key = `${productID}${name}`
+			let { price, product_id, name, price_sale } = item
+			let _key = `${product_id}${name}`
 			return <View>
 				<Wrapper key={i.toString()} style={styles.wrapper} justify="space-between">
 					<View _flex style={styles.leftWrapper}>
@@ -245,7 +245,7 @@ const SubProduct = ({ navigation }) => {
 
 	const render = () => {
 		const [cari, setCari] = useState('')
-		const selectFilter = subProduct.filter(({ operator }) => operator.toLowerCase().includes(cari.toLowerCase()))
+		const selectFilter = subProduct//.filter(({ operator }) => operator.toLowerCase().includes(cari.toLowerCase()))
 		return <View style={{ flex: 1 }}>
 			<Modal
 				animationType="fade"
