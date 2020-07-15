@@ -62,11 +62,25 @@ const Home = ({ navigation }) => {
 		if (User.data.status == 2) {
 			title = 'AKUN ANDA TERBLOKIR'
 			message = `Anda tidak dapat menggunakan layanan apapun, silahkan hubungi customer service dengan kode ${User.data.banned_log.code}`
-		} else {
+		}
+
+		else {
 			switch (action) {
 				case 'ppob':
 					title = 'FITUR PAYMENT POINT'
 					message = 'Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia'
+					break;
+				case 'riwayat-disabled':
+					title = 'FITUR RIWAYAT'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+					break;
+				case 'ppob-disabled':
+					title = 'FITUR PAYMENT POINT'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
+					break;
+				case 'topup-disabled':
+					title = 'FITUR PAYMENT POINT'
+					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
 					break;
 				case 'stock':
 					title = 'FITUR BELANJA STOK'

@@ -12,15 +12,19 @@ import { ColorsList } from 'src/styles/colors';
 
 const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 	const _onPressTopUp = () => {
-		if (User.data.status == 1) {
+		if (User.data.status == 1 && User.data.topup_disabled != 1) {
 			navigation.navigate('/ppob/topup')
+		} else if (User.data.topup_disabled == 1) {
+			_featureDisabled("topup-disabled")
 		} else {
 			_featureDisabled("topup")
 		}
 	}
 	const _onPressRiwayat = () => {
-		if (User.data.status == 1) {
+		if (User.data.status == 1 && User.data.topup_disabled != 1) {
 			navigation.navigate('/ppob/riwayat')
+		} else if (User.data.topup_disabled == 1) {
+			_featureDisabled("riwayat-disabled")
 		} else {
 			_featureDisabled("riwayat")
 		}

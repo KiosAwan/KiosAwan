@@ -15,8 +15,10 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 		}
 	}
 	const _onPressPayment = () => {
-		if (User.data.status == 1) {
+		if (User.data.status == 1 && User.data.ppob_disabled != 1) {
 			navigation.navigate('/ppob')
+		} else if (User.data.ppob_disabled == 1) {
+			_featureDisabled("ppob-disabled")
 		} else {
 			_featureDisabled('ppob')
 		}
