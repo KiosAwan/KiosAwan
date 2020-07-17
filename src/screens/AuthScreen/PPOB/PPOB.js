@@ -146,7 +146,7 @@ const PPOB = ({ navigation }) => {
 									status={item.status}
 									info={item.info}
 									onPress={() => _navigateProduct(`/ppob/${item.type}`)}
-									icon={`${DEV_IMG_URL}/${item.icon}`}
+									icon={`${item.icon}`}
 									name={item.name}
 								/>
 							</View>

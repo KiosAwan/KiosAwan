@@ -169,7 +169,7 @@ const PhoneRegistration = ({ navigation }) => {
 				<Input
 					_flex
 					noLabel
-					placeholder="857xxxxxxxx"
+					placeholder="8xxxxxxxxxx"
 					keyboardType="number-pad"
 					value={FormRegister.phone_number}
 					onChangeText={phone => _handleChangePhone(phone)}

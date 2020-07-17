@@ -40,7 +40,7 @@ const SettingHargaPPOB = ({ navigation }) => {
 								onPress={() => navigation.navigate(`/ppob/settings/sub-product`, item)}
 								wrapper={{ justify: 'flex-start' }}
 								color={['whiteColor', 'greyFont']}>
-								<Image width="13%" size={25} source={{ uri: `${DEV_IMG_URL}/${item.image}` }} />
+								<Image width="13%" size={25} source={{ uri: `${item.image}` }} />
 								<Wrapper width="87%" justify="space-between">
 									<Text>{item.product}</Text>
 									<Image size={20} source={require('src/assets/icons/next.png')} />

@@ -76,7 +76,7 @@ const Favorite = ({ navigation }) => {
 			}}>
 				<View style={{ marginVertical: SizeList.base }} >
 					<Button onPress={() => navigation.navigate(`/ppob/${type}`, data)} color="link" padding={SizeList.secondary} spaceBetween>
-						<NativeImage style={[styles.image]} source={{ uri: `${DEV_IMG_URL}/${image}` }} />
+						<NativeImage style={[styles.image]} source={{ uri: `${image}` }} />
 						<View _flex>
 							<Text>{name}</Text>
 							<Text color="greyFontHard">{customerID}</Text>
