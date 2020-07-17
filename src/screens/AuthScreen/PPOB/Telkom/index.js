@@ -24,6 +24,7 @@ import SwitchButton from 'src/components/Button/SwitchButton';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import { openPin } from 'src/utils/pin-otp-helper';
 import { getProductPPOBGeneral, inquiryPPOBProduct, paymentPPOBProduct } from 'src/utils/api/ppobapi';
+import { PPOB_PRODUCT_CODE } from 'src/config/constant';
 
 const Telkom = ({ navigation }) => {
     const dispatch = useDispatch()
@@ -223,10 +224,28 @@ const Telkom = ({ navigation }) => {
                             <Text font="Regular">Id Pelanggan</Text>
                             <Text font="SemiBold">{tagihanData.transaction.customerID}</Text>
                         </Wrapper>
-                        <Wrapper justify="space-between" style={{ padding: 10 }}>
-                            <Text font="Regular">Jumlah Tagihan</Text>
-                            <Text font="SemiBold">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
+                        {selected.product_id == PPOB_PRODUCT_CODE.TELKOM_GROUP ?
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Jumlah Tagihan</Text>
+                                <Text font="SemiBold">{convertRupiah(tagihanData.transaction.tagihan1)}</Text>
+                            </Wrapper>
+                            :
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Jumlah Tagihan</Text>
+                                <Text font="SemiBold">{convertRupiah(tagihanData.transaction.tagihan)}</Text>
+                            </Wrapper>
+                        }
+                        {selected.product_id == PPOB_PRODUCT_CODE.TELKOM_GROUP && <Wrapper justify="space-between" style={{ padding: 10 }}>
+                            <Text font="Regular">Jumlah Tagihan 2</Text>
+                            <Text font="SemiBold">{convertRupiah(tagihanData.transaction.tagihan2)}</Text>
                         </Wrapper>
+                        }
+                        {selected.product_id == PPOB_PRODUCT_CODE.TELKOM_GROUP &&
+                            <Wrapper justify="space-between" style={{ padding: 10 }}>
+                                <Text font="Regular">Jumlah Tagihan 3</Text>
+                                <Text font="SemiBold">{convertRupiah(tagihanData.transaction.tagihan3)}</Text>
+                            </Wrapper>
+                        }
                         <Wrapper justify="space-between" style={{ padding: 10 }}>
                             <Text font="Regular">Denda</Text>
                             <Text font="SemiBold">{convertRupiah(tagihanData.transaction.denda)}</Text>

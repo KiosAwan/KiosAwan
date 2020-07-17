@@ -17,7 +17,6 @@ const SettingHargaPPOB = ({ navigation }) => {
 	const [listProducts, setListProducts] = useState()
 	const _getData = async () => {
 		const { status, data } = await getListProducts()
-		console.debug(data)
 		if (status == 200) {
 			setListProducts(data)
 		} else {

@@ -185,7 +185,7 @@ const PpobPulsa = ({ navigation }) => {
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="70%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`PULSA ${item.product_name.split(" ")[2]}`} </Text>
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`PULSA ${item.product_name.split(" ")[item.supplier == "vsi" ? 1 : 2]}`} </Text>
 									</View>
 									<View _width="30%">
 										<Text size={8}>HARGA</Text>
