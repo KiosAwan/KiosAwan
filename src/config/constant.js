@@ -7,4 +7,5 @@ export const PPOB_PRODUCT_CODE = {
     PULSA : 10004,
     KUOTA : 10005,
     PDAM : 10011,
+    TELKOM_GROUP : 10006,
 }

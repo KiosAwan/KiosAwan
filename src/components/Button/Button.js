@@ -68,6 +68,16 @@ const BtnColorsObj = {
 		borderColor: ColorsList.whiteColor,
 		backgroundColor: ColorsList.transparent,
 		text: ColorsList.whiteColor
+	},
+	grey: {
+		borderColor: ColorsList.borderColor,
+		backgroundColor: ColorsList.borderColor,
+		text: ColorsList.whiteColor
+	},
+	topupActive: {
+		borderColor: ColorsList.borderColor,
+		backgroundColor: ColorsList.whiteColor,
+		text: ColorsList.whiteColor
 	}
 }
 
