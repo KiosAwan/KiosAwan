@@ -79,7 +79,7 @@ const Home = ({ navigation }) => {
 					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
 					break;
 				case 'topup-disabled':
-					title = 'FITUR PAYMENT POINT'
+					title = 'FITUR TOP UP'
 					message = 'Untuk saat ini layanan belum bisa di gunakan karena masih dalam tahap pengembangan'
 					break;
 				case 'stock':

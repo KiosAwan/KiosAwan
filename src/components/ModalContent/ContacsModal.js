@@ -40,7 +40,7 @@ export default class ContactsModal extends Component {
     loadContacts() {
         Contacts.getAll((err, contacts) => {
             if (err === "denied") {
-                console.warn("Permission to access contacts was denied");
+                this.props.closeModal()
             } else {
                 // console.debug(contacts)
                 this.setState({ contacts });

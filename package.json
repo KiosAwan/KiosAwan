@@ -5,9 +5,11 @@
   "scripts": {
     "run": "yarn android",
     "cleanr": "cd android && ./gradlew clean && cd .. && yarn android",
-    "cleanb": "cd android && ./gradlew clean && ./gradlew bundleRelease",
-    "cleana": "cd android && ./gradlew clean && ./gradlew assembleRelease",
+    "cleana": "cd android && ./gradlew clean && ./gradlew assembleRelease && cd ..",
+    "cleanb": "cd android && ./gradlew clean && ./gradlew bundleRelease && cd ..",
     "clean": "cd android && ./gradlew clean && cd .. ",
+    "assemble": "cd android && ./gradlew assembleRelease && cd ..",
+    "build": "cd android && ./gradlew bundleRelease && cd ..",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
@@ -17,7 +19,6 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
     "@react-native-community/cli": "^3.0.4",
-    "@react-native-community/cli-platform-android": "^4.10.1",
     "@react-native-community/netinfo": "^5.3.3",
     "@sentry/react-native": "^1.4.5",
     "axios": "^0.19.0",
