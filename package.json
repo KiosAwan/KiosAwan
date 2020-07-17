@@ -5,7 +5,11 @@
   "scripts": {
     "run": "yarn android",
     "cleanr": "cd android && ./gradlew clean && cd .. && yarn android",
+    "cleana": "cd android && ./gradlew clean && ./gradlew assembleRelease && cd ..",
+    "cleanb": "cd android && ./gradlew clean && ./gradlew bundleRelease && cd ..",
     "clean": "cd android && ./gradlew clean && cd .. ",
+    "assemble": "cd android && ./gradlew assembleRelease && cd ..",
+    "build": "cd android && ./gradlew bundleRelease && cd ..",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",

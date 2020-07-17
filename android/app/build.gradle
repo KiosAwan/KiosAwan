@@ -147,13 +147,30 @@ android {
 }
 
     defaultConfig {
-        applicationId "com.awanapp"
+        applicationId APP_ID
         multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        if (project.gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') }) {
+            def verCode = VERSION_CODE.toInteger()
+            if (INCREMENT_VERSION_CODE_RELEASE == 'true' && 
+                project.gradle.startParameter.taskNames.any { 
+                    it.toLowerCase().contains('bundlerelease') 
+                }){
+                verCode = verCode + 1
+                def propsFile = file('../gradle.properties')
+                def Properties props = new Properties()
+                props.load(new FileInputStream(propsFile))
+                props['VERSION_CODE'] = verCode.toString()
+                props.store(propsFile.newWriter(), null)
+            }
+            versionCode verCode
+            versionName VERSION_NAME
+        } else {
+            versionCode DEBUG_VERSION_CODE.toInteger()
+            versionName DEBUG_VERSION_NAME
+        }
     }
     splits {
         abi {
