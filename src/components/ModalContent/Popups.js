@@ -109,7 +109,7 @@ const AwanPopup = {
 		}
 		return <Modal animationType="fade" style={{ padding: 0, borderRadius: SizeList.borderRadius, width: SizeList.width - (SizeList.bodyPadding * 2) }} {...props}>
 			<View style={[styles.body, props.style, { alignItems: "flex-start" }]}>
-				<Text color={props.textColor} font="SemiBold" align="left" size={17} style={styles.title}>ERROR</Text>
+				<Text color={props.textColor} font="SemiBold" align="left" size={17} style={styles.title}>PERHATIAN</Text>
 				<Text color={props.textColor} align="left">{message}</Text>
 				<ButtonWrapper style={{ justifyContent: "center" }}>
 					<Button width={100} onPress={closeAlert}>OK</Button>
