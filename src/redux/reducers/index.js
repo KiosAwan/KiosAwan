@@ -12,21 +12,23 @@ import reducerStoreDiscount from './reducerDiscount';
 import reducerEditProduct from './reducerEditProduct';
 import reducerPrinter from './reducerPrinter';
 import reducerRiwayatTransaksi from './reducerRiwayatTransaksi';
+import reducerLocale from './reducerLocale';
 
 const appReducer = combineReducers({
-    Registration : reducerRegistration,
-    User : reducerUser,
-    NewProduct : reducerNewProduct,
-    EditProduct : reducerEditProduct,
-    Category : reducerStoreCategory,
-    Product : reducerStoreProduct,
-    Discount : reducerStoreDiscount,
-    Transaction : reducerTransactionList,
-    Customer : reducerCustomer,
-    Printer : reducerPrinter,
+    Registration: reducerRegistration,
+    User: reducerUser,
+    NewProduct: reducerNewProduct,
+    EditProduct: reducerEditProduct,
+    Category: reducerStoreCategory,
+    Product: reducerStoreProduct,
+    Discount: reducerStoreDiscount,
+    Transaction: reducerTransactionList,
+    Customer: reducerCustomer,
+    Printer: reducerPrinter,
 
     //PPOB
-    RiwayatTransaksi : reducerRiwayatTransaksi,
+    RiwayatTransaksi: reducerRiwayatTransaksi,
+    Locale: reducerLocale
 })
 
 export default appReducer
