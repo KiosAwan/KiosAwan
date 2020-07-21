@@ -26,7 +26,7 @@ const Feature = ({ User, navigation, _featureDisabled }) => {
 	const _onPressStock = () => _featureDisabled('stock')
 	const _onPressHutang = () => _featureDisabled('hutang')
 	return <View>
-		<Text font="SemiBold" style={{ paddingBottom: SizeList.base }}>Quick Actions</Text>
+		<Text font="SemiBold" style={{ paddingBottom: SizeList.base }}>Menu Utama</Text>
 		<TouchableOpacity onPress={_onPressCashier}>
 			<Wrapper spaceBetween shadow style={styles.cardWrapper}>
 				<Image size={50} style={{ resizeMode: 'contain' }} _width="20%" source={require("src/assets/icons/home/kasir.png")} />
