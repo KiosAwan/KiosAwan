@@ -14,7 +14,7 @@ const Notification = ({ User, maintenance, message, navigation, modal, dispatch 
 	const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modal
 	return <View>
 		{
-			maintenance && <Button disabled color="informationBg" flexStart style={{ borderRadius: SizeList.borderRadius }}>
+			maintenance && <Button disabled color="info" flexStart style={{ borderRadius: SizeList.borderRadius, marginBottom: 10 }}>
 				<Icon color={ColorsList.informationFont} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 				<TextTicker
 					width="90%"
@@ -22,6 +22,7 @@ const Notification = ({ User, maintenance, message, navigation, modal, dispatch 
 					duration={20000}
 					loop
 					bounce
+
 					marqueeDelay={500}
 				>{message}</TextTicker>
 			</Button>
