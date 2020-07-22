@@ -42,7 +42,7 @@ const Cashier = ({ navigation }) => {
         }
     }
 
-    return <Container style={{ marginBottom: SizeList.base }}>
+    return <Container style={{ paddingBottom: 10 }}>
         <SearchHeader
             onPressBack={() => navigation.goBack()}
             onChangeText={txt => setSearch(txt)}

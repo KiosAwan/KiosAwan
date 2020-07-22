@@ -8,7 +8,7 @@ import { Image } from 'src/components/CustomImage';
 
 const Feature = ({ User, navigation, _featureDisabled }) => {
 	const _onPressCashier = () => {
-		if (User.data.status == 1) {
+		if (User.data.status == 0) {
 			navigation.navigate('/cashier')
 		} else {
 			_featureDisabled()
