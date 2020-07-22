@@ -43,8 +43,8 @@ const FAQ = ({ navigation }) => {
 						Faqs.filter(faq => faq.question.toLowerCase().includes(search.toLowerCase())).rMap((faq, i) => {
 							return [<TouchableOpacity key={i} activeOpacity={.9} onPress={() => { setToggled({ ...toggled, [`${i}`]: !toggled[i] }); console.debug(toggled[i]); }}>
 								<Wrapper justify="space-between" style={[styles.content, toggled[i] ? styles.contentToggled : styles.contentNotToggled]}>
-									<Text font="SemiBold">{faq.question}</Text>
-									<Text color="primary" size={20}>{toggled[i] ? '-' : '+'}</Text>
+									<Text _width="85%" font="SemiBold">{faq.question}</Text>
+									<Text _width="10%" style={{ alignSelf: "flex-end" }} color="primary" size={20}>{toggled[i] ? '-' : '+'}</Text>
 								</Wrapper>
 							</TouchableOpacity>,
 							toggled[i] ?
