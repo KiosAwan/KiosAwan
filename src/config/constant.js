@@ -1,6 +1,6 @@
 import DeviceInfo from 'react-native-device-info';
 
-const APP_VERSION = DeviceInfo.getVersion()
+const APP_VERSION = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`
 
 const PPOB_PRODUCT_CODE = {
     PLN_POSTPAID: 10001,
