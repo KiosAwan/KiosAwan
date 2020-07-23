@@ -26,7 +26,7 @@ const RingkasanHutang = ({ navigation }) => {
 	}
 	const filterResult = (data) => {
 		return data
-			.filter(({ status }) => status.includes('2'))
+			.filter(({ status_payment }) => status_payment == '2')
 			.filter(({ payment_code }) => payment_code.toLowerCase().includes(search.toLowerCase()))
 	}
 	return <Container header={{ title: "Daftar Hutang", onPressBack: () => navigation.goBack() }}>
