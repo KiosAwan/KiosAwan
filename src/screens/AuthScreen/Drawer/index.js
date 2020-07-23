@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, StyleSheet, Linking } from 'react-native';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -21,9 +21,10 @@ const Akun = ({ navigation }) => {
 	const [alertMessage, setAlertMessage] = useState(false)
 	const _onPressLogout = async (props) => {
 		try {
-			await AsyncStorage.removeItem('userId')
-			navigation.navigate('/unauth')
 			dispatch(removeAllCart())
+			await AsyncStorage.removeItem('userId')
+			await AsyncStorage.removeItem('@user_token')
+			navigation.navigate('/unauth')
 		}
 		catch (e) {
 			alert(e)
@@ -37,7 +38,7 @@ const Akun = ({ navigation }) => {
 					_onPressLogout()
 				}
 				else if (props.name == "Rate Awan") {
-					Linking.openURL("market://details?id=com.awanapp");
+					Linking.openURL("market://details?id=com.awan");
 				}
 				else if (props.name == "Ubah password") {
 					User.data.status == 1 && openPIN()
