@@ -37,7 +37,7 @@ const Akun = ({ navigation }) => {
 					_onPressLogout()
 				}
 				else if (props.name == "Rate Awan") {
-					Linking.openURL("market://details?id=com.awan");
+					Linking.openURL("market://details?id=com.awanapp");
 				}
 				else if (props.name == "Ubah password") {
 					User.data.status == 1 && openPIN()
