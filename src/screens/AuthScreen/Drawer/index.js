@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, StyleSheet, Linking } from 'react-native';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Text } from 'src/components/Text/CustomText'
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
