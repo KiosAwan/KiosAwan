@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 import { ImageAuto } from 'src/components/CustomImage';
+import { Input } from 'src/components/Input/MDInput';
+import { SizeList } from 'src/styles/size';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -26,7 +28,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	const [dataUtang, setDataUtang] = useState()
 	const [loading, setLoading] = useState(true)
 	const [amount_payment, setAmountPayment] = useState(0)
-	const [nonTunai, setNonTunai] = useState()
+	const [nonTunai, setNonTunai] = useState("")
 	useEffect(() => {
 		const { paramData } = navigation.state.params
 		setDataUtang(paramData)
@@ -84,7 +86,9 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		const userId = await AsyncStorage.getItem('userId')
 		const data = {
 			amount_payment: convertNumber(amount_payment),
-			cashier: userId
+			cashier: userId,
+			id_payment_type : index + 1,
+			payment_method : nonTunai
 		}
 		const res = await payCredit(data, dataUtang.transaction.id_transaction)
 		const userToken = await getUserToken()
@@ -102,6 +106,11 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		} catch (err) { }
 		return null
 	}
+
+	const _handleChangePayment = (text) => {
+        let x = text.extractNumber()
+        setAmountPayment(x)
+    }
 	const Tunai = ({ route }) => {
 		return (
 			<View style={{ padding: 15, flex: 1 }}>
@@ -109,13 +118,16 @@ const TransactionDetailLunasi = ({ navigation }) => {
 					route.key == 'first' ?
 						<ScrollView showsVerticalScrollIndicator={false}>
 							<View style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
-								<FloatingInputLabelCurrency style={{ margin: 0 }}
-									handleChangeText={(text) => setAmountPayment(text)}
-									value={amount_payment}
+								<Input style={{ margin: 0 }}
+									currency
+									noShadow
+									value={amount_payment.toString()}
+									onChangeText={_handleChangePayment}
 									label="Uang yang diterima"
+									keyboardType="number-pad"
 								/>
 								<Text color="primary">{_renderKembalian()}</Text>
-								<View style={{ ...RowChild, marginTop: 20 }}>
+								<View style={{ ...RowChild, marginTop: SizeList.base }}>
 									<ToggleButtonMoney
 										style={{ marginRight: 10 }}
 										onPress={(value) => setAmountPayment(value.toString())}
@@ -184,28 +196,10 @@ const TransactionDetailLunasi = ({ navigation }) => {
 											<View style={{ padding: 15, paddingBottom: 0 }}>
 												<Wrapper justify="space-between" style={{ marginBottom: 5, padding: 20, backgroundColor: ColorsList.whiteColor }}>
 													<Wrapper direction="column">
-														<Text font="Bold">Total Tagihan</Text>
-														<Text color="primary" font="ExtraBold" size={30}>{convertRupiah(dataUtang.debt.remaining_debt)}</Text>
+														<Text>Total Tagihan : <Text font="SemiBold" color="primary">{convertRupiah(dataUtang.debt.remaining_debt)}</Text></Text>
+
 													</Wrapper>
 												</Wrapper>
-												{
-													viewDetail ?
-														<View>
-															<Wrapper justify="space-between" style={{ marginBottom: 5, padding: 20, backgroundColor: ColorsList.whiteColor }}>
-																<Wrapper direction="column">
-																	<Text color="primary" font="ExtraBold" size={18}>Nama Produk</Text>
-																	<Text font="Bold">Rp. 25.000 x 2</Text>
-																</Wrapper>
-																<View style={{ justifyContent: 'flex-end' }}>
-																	<Text font="Bold" size={16}>Rp. 50.000</Text>
-																</View>
-															</Wrapper>
-															<Wrapper justify="space-between" style={{ padding: 20, backgroundColor: ColorsList.whiteColor }}>
-																<Text font="Bold">Subtotal</Text>
-																<Text font="Bold" size={18}>Rp. 50.000</Text>
-															</Wrapper>
-														</View> : null
-												}
 											</View>
 										</View>
 									)

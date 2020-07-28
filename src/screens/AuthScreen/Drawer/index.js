@@ -21,9 +21,10 @@ const Akun = ({ navigation }) => {
 	const [alertMessage, setAlertMessage] = useState(false)
 	const _onPressLogout = async (props) => {
 		try {
-			await AsyncStorage.removeItem('userId')
-			navigation.navigate('/unauth')
 			dispatch(removeAllCart())
+			await AsyncStorage.removeItem('userId')
+			await AsyncStorage.removeItem('@user_token')
+			navigation.navigate('/unauth')
 		}
 		catch (e) {
 			alert(e)

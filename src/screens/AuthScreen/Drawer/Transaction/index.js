@@ -172,7 +172,7 @@ const TransactionList = ({ navigation }) => {
                   <View style={{ alignItems: 'center' }}>
                     <Image style={{ width: 250, height: 250 }} source={require('src/assets/images/no-transaction.png')} />
                     <View style={{ padding: 20, alignItems: 'center' }}>
-                      <Text font="ExtraBold" size={17}>Anda belum memiliki transaksi</Text>
+                      <Text font="SemiBold" size={17}>Anda belum memiliki transaksi</Text>
                       <Text align="center">Silahkan melalukan transaksi baru untuk mengisi laporan</Text>
                     </View>
                   </View>
