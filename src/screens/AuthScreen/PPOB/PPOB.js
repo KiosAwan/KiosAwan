@@ -121,12 +121,13 @@ const PPOB = ({ navigation }) => {
 				</Button>}
 				{
 					maintanance &&
-					<Button style={{ marginTop: 10 }} disabled color="info" wrapper={{ flexStart: true }}>
+					<Button style={{ marginTop: 10, borderRadius: SizeList.borderRadius, }} disabled color="info" wrapper={{ flexStart: true }}>
 						<Icon color={ColorsList.info} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
 						<TextTicker
 							width="90%"
 							style={{ color: ColorsList.info, fontFamily: FontList.regularFont }}
 							duration={20000}
+
 							loop
 							bounce
 							marqueeDelay={500}
