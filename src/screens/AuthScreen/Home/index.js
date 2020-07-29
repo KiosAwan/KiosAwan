@@ -125,7 +125,10 @@ const Home = ({ navigation }) => {
 	}
 
 	const _completeProfile = () => {
-		if (!User.store) {
+		if (User.data.status == 2) {
+			_setAlert(true)
+		}
+		else if (!User.store) {
 			const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modalFn
 			_setAlert(false)
 			CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })
@@ -199,7 +202,8 @@ const Home = ({ navigation }) => {
 						_featureDisabled={_featureDisabled}
 					/>
 				</View>
-				<Summary User={User} navigation={navigation} />
+
+				{User.data.status == 1 && <Summary User={User} navigation={navigation} />}
 				<View style={styles.childContainer}>
 					<View style={{ paddingVertical: SizeList.base }}>
 						<Notification
