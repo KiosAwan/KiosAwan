@@ -94,7 +94,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 		const userToken = await getUserToken()
 		if (res.status == 200) {
 			dispatch(getTransactionList(User.store.id_store, userToken))
-			navigation.navigate('/drawer/transaction')
+			navigation.navigate('/')
 		} else if (res.status == 400) {
 			alert(res.data.errors.msg)
 		}
