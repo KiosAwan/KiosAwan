@@ -126,7 +126,7 @@ const Home = ({ navigation }) => {
 
 	const _completeProfile = () => {
 		if (User.data.status == 2) {
-			_setAlert(true)
+			_setAlert(false)
 		}
 		else if (!User.store) {
 			const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modalFn
