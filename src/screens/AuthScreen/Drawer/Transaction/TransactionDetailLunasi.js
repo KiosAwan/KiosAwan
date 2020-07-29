@@ -90,7 +90,6 @@ const TransactionDetailLunasi = ({ navigation }) => {
 			id_payment_type : index + 1,
 			payment_method : nonTunai
 		}
-		console.debug(data)
 		const res = await payCredit(data, dataUtang.transaction.id_transaction)
 		const userToken = await getUserToken()
 		if (res.status == 200) {
