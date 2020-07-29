@@ -275,12 +275,12 @@ const TransactionDetail = ({ navigation }) => {
 					data.transaction.status_payment == 2 ?
 					<Wrapper justify="space-between">
 						{_canBatal() && <Button wrapper={{ justify: 'center' }} color="link" _width="49%"
-							onPress={() => navigation.navigate('/drawer/transaction/detail/batalkan', { paramData: data })}
+							onPress={() => navigation.push('/drawer/transaction/detail/batalkan', { paramData: data })}
 						>
 							<Text color="primary">BATALKAN</Text>
 						</Button>}
 						<Button _width="49%" onPress={async () => {
-							navigation.navigate('/drawer/transaction/detail/lunasi', { paramData: data })
+							navigation.push('/drawer/transaction/detail/lunasi', { paramData: data })
 						}}>LUNASI</Button>
 					</Wrapper>
 					:
