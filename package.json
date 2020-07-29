@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "connect": "adb disconnect && adb tcpip 5555 && adb connect",
     "run": "yarn android",
     "cleanr": "cd android && ./gradlew clean && cd .. && yarn android",
     "cleana": "cd android && ./gradlew clean && ./gradlew assembleRelease && cd ..",
