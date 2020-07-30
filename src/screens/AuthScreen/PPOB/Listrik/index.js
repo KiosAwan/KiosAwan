@@ -28,7 +28,7 @@ const PpobListrik = ({ navigation }) => {
 			{product.rMap((item, i) => <View>
 				<Button
 					key={i}
-					onPress={() => navigation.navigate(`/ppob/${item.type}`)}
+					onPress={() => item.status == 1 ? navigation.navigate(`/ppob/${item.type}`) : {}}
 					style={{ marginBottom: 5, borderRadius: SizeList.borderRadius }}
 					padding={$Padding(5, 10)}
 					wrapper={{ justify: 'flex-start' }}
