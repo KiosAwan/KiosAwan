@@ -1,6 +1,11 @@
 import DeviceInfo from 'react-native-device-info';
 
-const APP_VERSION = `${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`
+const VERSION = {
+    NAME: DeviceInfo.getVersion(),
+    BUILD: DeviceInfo.getBuildNumber()
+}
+
+const APP_VERSION = `${VERSION.NAME} (${VERSION.BUILD})`
 
 const PPOB_PRODUCT_CODE = {
     PLN_POSTPAID: 10001,
@@ -11,4 +16,4 @@ const PPOB_PRODUCT_CODE = {
     PDAM: 10011,
     TELKOM_GROUP: 10006,
 }
-export { APP_VERSION, PPOB_PRODUCT_CODE }
+export { VERSION, APP_VERSION, PPOB_PRODUCT_CODE }
