@@ -3,7 +3,8 @@ import {
   StyleSheet,
   View,
   Image,
-} from "react-native";
+  BackHandler
+} from 'react-native';
 import { useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from '@react-native-community/netinfo';
@@ -15,14 +16,62 @@ import { HOST_URL } from 'src/config';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
 import Container from 'src/components/View/Container';
+import { VERSION, APP_VERSION } from 'src/config/constant';
+import Alert from 'src/utils/alert';
+import { Linking } from 'react-native';
 
 const CheckMember = (props) => {
   const { navigation } = props
   const dispatch = useDispatch()
   useEffect(() => {
-    // _checkFunc()
-    setTimeout(() => _checkFunc(), 1500);
+    setTimeout(() => _checkVersion(), 1000);
   }, [])
+
+  const _checkVersion = async () => {
+    const CheckUpdate = await AsyncStorage.getItem('CheckUpdate')
+    let { data: { status, data } } = await Axios.get(`${HOST_URL}/version`)
+    const { BUILD } = VERSION
+    const { buildNumber, linkPs, majorUpdate, version } = data
+    const updateNotif = force => {
+      const Yes = () => {
+        Linking.openURL(linkPs)
+        setTimeout(BackHandler.exitApp, 500)
+      }
+      const No = () => _checkFunc()
+      const DontAsk = async () => {
+        await AsyncStorage.setItem('CheckUpdate', 'false')
+        _checkFunc()
+      }
+      let button = force ? [['Ya', Yes]] : [
+        ['Jangan tanya lagi', DontAsk],
+        ['Ya', Yes],
+        ['Tidak', No]
+      ]
+      if (status == 200) {
+        if (buildNumber > BUILD) {
+          Alert(
+            'Perhatian',
+            `Terdeteksi versi anda ${APP_VERSION}, ada update terbaru di Playstore ${version} (${buildNumber}). Update sekarang?`,
+            button
+          )
+        }
+      } else {
+        BackHandler.exitApp()
+      }
+    }
+    if (buildNumber - BUILD > 1) {
+      updateNotif(true)
+    } else {
+      if (CheckUpdate != 'true' && majorUpdate != 'true') {
+        if (CheckUpdate)
+          _checkFunc()
+        else
+          updateNotif()
+      } else {
+        updateNotif(majorUpdate == 'true')
+      }
+    }
+  }
 
   const _checkFunc = async () => {
     try {
