@@ -54,6 +54,8 @@ const CheckMember = (props) => {
             `Terdeteksi versi anda ${APP_VERSION}, ada update terbaru di Playstore ${version} (${buildNumber}). Update sekarang?`,
             button
           )
+        }else {
+          _checkFunc()
         }
       } else {
         BackHandler.exitApp()
