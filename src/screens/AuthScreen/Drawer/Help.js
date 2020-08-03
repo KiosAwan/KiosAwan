@@ -42,15 +42,15 @@ const Help = ({ navigation }) => {
 				</View>
 				<Divider style={{ marginVertical: SizeList.base }} />
 				<View style={styles.secondView}>
-					<Text>Hubungi nomor ini untuk pelayanan lebih lanjut</Text>
-					<TouchableOpacity onPress={() => _openUrl(`tel:${callCenter}`)}>
+					<Text>Hubungi kami untuk pelayanan lebih lanjut</Text>
+					{/* <TouchableOpacity onPress={() => _openUrl(`tel:${callCenter}`)}>
 						<Wrapper justify="flex-start">
 							<Text color="primary" font="SemiBold" size={30}>{convertPhoneNumber(callCenter)}</Text>
 							<View style={{ backgroundColor: ColorsList.primary, width: 30, height: 30, borderRadius: 30, justifyContent: "center", alignItems: "center", marginLeft: 10 }}>
 								<Icon style={{ color: ColorsList.white, fontSize: 15 }} name="call" />
 							</View>
 						</Wrapper>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 				<TouchableOpacity style={[styles.card, { marginTop: 10 }]} onPress={() => _openUrl(`https://wa.me/${whatsapp}`)}>
 					<Wrapper justify="flex-start">
@@ -64,10 +64,10 @@ const Help = ({ navigation }) => {
 						<Text size={15}>Kirim Email ke Helpdesk KiosAwan</Text>
 					</Wrapper>
 				</TouchableOpacity>
-				<View style={styles.infoTag}>
+				{/* <View style={styles.infoTag}>
 					<Text font="SemiBold" style={styles.infoTagTitle}>Alamat</Text>
 					<Text>{`Puri Imperium Office Plaza Unit G5\nJalan Kuningan Madya Kav 5-6, Jakarta Selatan\n12980 Tlp. 021 294 88 777 | Fax. 021 294 88 770\nEmail: info@kiosawan.com`}</Text>
-				</View>
+				</View> */}
 			</Body>
 		</Container>
 	)
