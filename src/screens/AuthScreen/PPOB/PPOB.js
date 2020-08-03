@@ -121,7 +121,7 @@ const PPOB = ({ navigation }) => {
 				</Button>}
 				{
 					maintanance &&
-					<Button style={{ borderRadius: SizeList.borderRadius, }} disabled color="info" wrapper={{ flexStart: true }}>
+					<Button style={{ marginTop: SizeList.base, borderRadius: SizeList.borderRadius, }} disabled color="info" wrapper={{ flexStart: true }}>
 						<Icon color={ColorsList.informationFont} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
 						<TextTicker
 							width="90%"

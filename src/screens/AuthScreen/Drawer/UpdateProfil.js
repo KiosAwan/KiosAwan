@@ -94,6 +94,10 @@ const UpdateProfil = ({ navigation }) => {
 		if ([address_store, name_store, email_store, desaSelected.desa].includes('')) {
 			setAlertMessage("Harap isi data toko dengan lengkap")
 			setAlert(true)
+		}
+		else if (Object.keys(desaSelected).length == 0) {
+			setAlertMessage("Desa tidak boleh kosong")
+			setAlert(true)
 		} else {
 			setLoading(true)
 			const id_user = await AsyncStorage.getItem('userId')
