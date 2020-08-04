@@ -122,7 +122,7 @@ const ListrikToken = ({ navigation }) => {
 		setPayLoading(false)
 		if (res.status == 200) {
 			const userToken = await getUserToken()
-			const data = { type: "token", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.product }
+			const data = { type: "token", customerID: res.data.transaction.customerID, price: parseInt(res.data.transaction.total), productName: selected.product_name }
 			dispatch(AddPPOBToCart(data))
 			dispatch(getProfile(User.data.id, userToken))
 			dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
