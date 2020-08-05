@@ -84,8 +84,8 @@ const Topup = ({ navigation }) => {
 					</View>
 				</Wrapper>
 				<Wrapper spaceBetween>
-					<Text _width="70%" size={16} font="SemiBold">{noVa.split('').join(' ')}</Text>
-					<CopyButton _width="30%" style={{ alignSelf: "flex-end" }} onPress={() => {
+					<Text _width="80%" size={16} font="SemiBold" style={{ letterSpacing: 2.5 }}>{noVa}</Text>
+					<CopyButton _width="20%" style={{ alignSelf: "flex-end" }} onPress={() => {
 						Toast.show({ text: "Berhasil disalin", type: "success" })
 						Clipboard.setString(noVa)
 					}} />
