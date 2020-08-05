@@ -196,7 +196,7 @@ const PpobPaketData = ({ navigation }) => {
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="70%">
 										<Text font="SemiBold" style={{ marginLeft: 5 }}>{` ${item.product_name.split(" ").slice(1).join(" ")}`} </Text>
-										<Text style={{ marginLeft: 5 }}>{` ${item.description}`} </Text>
+										{/* <Text style={{ marginLeft: 5 }}>{` ${item.description}`} </Text> */}
 									</View>
 									<View _width="30%">
 										<Text size={8}>HARGA</Text>

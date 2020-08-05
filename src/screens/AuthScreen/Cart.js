@@ -156,7 +156,7 @@ const Cart = ({ navigation }) => {
 			closeAlert={() => setErrorAlert(false)}
 		/>
 		<AwanPopup.NoTitle visible={hapusPesananOpen} message={confirm.title}>
-			<Button width="35%" onPress={confirm.action} color="link">IYA</Button>
+			<Button width="35%" onPress={confirm.action} color="link">YA</Button>
 			<Button width="35%" onPress={() => setHapusPesananOpen(false)}>TIDAK</Button>
 		</AwanPopup.NoTitle>
 		<Modal style={{ padding: 10 }} visible={editPesananOpen}>
