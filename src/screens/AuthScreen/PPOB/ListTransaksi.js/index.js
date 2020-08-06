@@ -73,7 +73,7 @@ const ListTransaksiPPOB = ({ navigation }) => {
 			noLabel
 			style={{ marginHorizontal: SizeList.bodyPadding }}
 			onEndEditing={({ nativeEvent }) => setSearch(nativeEvent.text)}
-			value={search}
+			// value={search}
 			label="Cari transaksi"
 			renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
 		/>

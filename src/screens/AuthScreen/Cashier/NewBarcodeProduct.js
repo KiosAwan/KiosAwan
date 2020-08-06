@@ -31,37 +31,52 @@ const NewBarcodeProduct = ({ navigation }) => {
       barcode: scanResult.data
     }
     const response = await checkBarcode(data)
-    await dispatch(addProductBarcode(response.data.barcode))
-    if (response.data.nama_product != undefined) {
+    if (response.status == 400) {
       Alert.alert(
         '',
-        'Produk yang Anda scan ditemukan ',
+        response.data.errors.msg,
         [
           {
-            text: 'Lanjut', onPress: () => {
-              dispatch(addProductName(response.data.nama_product))
-              dispatch(addProductIdCategory(null))
-              navigation.navigate('/cashier/new-product-name')
+            text: 'Scan ulang', onPress: () => {
+              setScanWork(true)
             }
           },
         ],
         { cancelable: false }
       )
     } else {
-      Alert.alert(
-        '',
-        'Barcode berhasil discan, namun data barang tidak ditemukan di database.',
-        [
-          {
-            text: 'Lanjut', onPress: () => {
-              dispatch(addProductName(''))
-              dispatch(addProductIdCategory(null))
-              navigation.navigate('/cashier/new-product-name')
-            }
-          },
-        ],
-        { cancelable: false }
-      )
+      await dispatch(addProductBarcode(response.data.barcode.toString()))
+      if (response.data.nama_product != undefined) {
+        Alert.alert(
+          '',
+          'Produk yang Anda scan ditemukan ',
+          [
+            {
+              text: 'Lanjut', onPress: () => {
+                dispatch(addProductName(response.data.nama_product))
+                dispatch(addProductIdCategory(null))
+                navigation.navigate('/cashier/new-product-name')
+              }
+            },
+          ],
+          { cancelable: false }
+        )
+      } else {
+        Alert.alert(
+          '',
+          'Barcode berhasil discan, namun data barang tidak ditemukan di database.',
+          [
+            {
+              text: 'Lanjut', onPress: () => {
+                dispatch(addProductName(''))
+                dispatch(addProductIdCategory(null))
+                navigation.navigate('/cashier/new-product-name')
+              }
+            },
+          ],
+          { cancelable: false }
+        )
+      }
     }
   }
   const _handleNoBarcode = async () => {
