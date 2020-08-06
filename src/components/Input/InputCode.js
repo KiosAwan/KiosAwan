@@ -32,9 +32,10 @@ const InputCode = ({ navigation }) => {
 			if (state.value.length < codeLength - 1)
 				value += btn
 			else {
-				if (state.value.length < codeLength)
+				if (state.value.length < codeLength) {
 					value += btn
-				onResolve(value, navigation.goBack)
+					onResolve(value, navigation.goBack)
+				}
 			}
 		} else if (btn == 'del') {
 			value = value.slice(0, -1)
