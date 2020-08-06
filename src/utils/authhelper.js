@@ -127,10 +127,14 @@ export const sendProfileData = async (data) => {
 //check new product barcode
 export const checkBarcode = async (data) => {
   const userToken = await getUserToken()
-  const res = await axios.post(`${HOST_URL}/check_barcode_product`, data, {
-    headers: { "authorization": userToken }
-  })
-  return res.data
+  try {
+    const res = await axios.post(`${HOST_URL}/check_barcode_product`, data, {
+      headers: { "authorization": userToken }
+    })
+    return res.data
+  } catch (err) {
+    return err.response.data
+  }
 }
 
 //check new product barcode

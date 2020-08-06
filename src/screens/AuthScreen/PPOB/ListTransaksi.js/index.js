@@ -18,6 +18,7 @@ import { SizeList } from 'src/styles/size'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import { convertRupiah } from 'src/utils/authhelper'
 import Divider from 'src/components/Row/Divider'
+import { Input } from 'src/components/Input/MDInput'
 
 const ListTransaksiPPOB = ({ navigation }) => {
 	const [filter, setFilter] = stateObject()
@@ -58,6 +59,7 @@ const ListTransaksiPPOB = ({ navigation }) => {
 		_getData(null, 1)
 		setFilter({})
 	}, [])
+	const [search, setSearch] = useState('')
 	return <Container header={{
 		title: "List Transaksi PPOB",
 		onPressBack: () => navigation.goBack()
@@ -66,6 +68,14 @@ const ListTransaksiPPOB = ({ navigation }) => {
 			isVisible={filter.dateOpen}
 			onConfirm={_selectDate}
 			onCancel={() => setFilter({ dateOpen: false })}
+		/>
+		<Input
+			noLabel
+			style={{ marginHorizontal: SizeList.bodyPadding }}
+			onEndEditing={({ nativeEvent }) => setSearch(nativeEvent.text)}
+			// value={search}
+			label="Cari transaksi"
+			renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
 		/>
 		<View style={{ flex: 1, padding: SizeList.bodyPadding }}>
 			{
@@ -76,14 +86,14 @@ const ListTransaksiPPOB = ({ navigation }) => {
 					:
 					<View style={{ flex: 1 }}>
 						{
-							listTransaction.length == 0 ?
+							listTransaction.filter(f => JSON.stringify(f).toLowerCase().includes(search.toLowerCase())).length == 0 ?
 								<View style={{ flex: 1, alignItems: "center", justifyContent: "center", alignSelf: "center" }}>
 									<Image style={{ resizeMode: 'contain', width: 200, height: 200 }} source={require("src/assets/images/riwayat.png")} />
 									<Text size={16}>Tidak ada transaksi</Text>
 								</View>
 								:
 								<FlatList
-									data={listTransaction}
+									data={listTransaction.filter(f => JSON.stringify(f).includes(search))}
 									showsVerticalScrollIndicator={false}
 									onEndReached={_addMoreData}
 									onEndReachedThreshold={0.25}
