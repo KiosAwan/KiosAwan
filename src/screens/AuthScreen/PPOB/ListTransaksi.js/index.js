@@ -86,7 +86,7 @@ const ListTransaksiPPOB = ({ navigation }) => {
 					:
 					<View style={{ flex: 1 }}>
 						{
-							listTransaction.filter(f => JSON.stringify(f).includes(search)).length == 0 ?
+							listTransaction.filter(f => JSON.stringify(f).toLowerCase().includes(search.toLowerCase())).length == 0 ?
 								<View style={{ flex: 1, alignItems: "center", justifyContent: "center", alignSelf: "center" }}>
 									<Image style={{ resizeMode: 'contain', width: 200, height: 200 }} source={require("src/assets/images/riwayat.png")} />
 									<Text size={16}>Tidak ada transaksi</Text>
