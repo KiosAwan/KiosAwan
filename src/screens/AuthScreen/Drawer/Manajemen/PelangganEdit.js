@@ -32,7 +32,7 @@ const PelangganEdit = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [alertDel, setAlertDel] = useState(false)
     const User = useSelector(state => state.User)
-
+    const [type, setType] = useState("Ubah")
     //alert
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState(false)
@@ -43,6 +43,7 @@ const PelangganEdit = ({ navigation }) => {
             setAlertMessage("Nama tidak boleh kosong")
             setAlert(true)
         } else {
+            setType("ubah")
             const userToken = await getUserToken()
             const res = await editCustomer({
                 name_customer: form.name_customer,
@@ -64,9 +65,9 @@ const PelangganEdit = ({ navigation }) => {
 
     const _handleDeleteCustomer = async () => {
         setAlertDel(false)
+        setType("hapus")
         const res = await deleteCustomer(form.id_customer)
         const userToken = await getUserToken()
-        console.debug(res)
         if (res.status == 200) {
             setModalVisible(true)
             setTimeout(() => {
@@ -88,7 +89,7 @@ const PelangganEdit = ({ navigation }) => {
             />
             <BarStatus />
             <AwanPopup.Title title="Hapus Pelanggan" visible={alertDel} message={`${form.name_customer} akan dihapus dari daftar pelanggan.`}>
-                <View></View> 
+                <View></View>
                 <Button onPress={() => setAlertDel(false)} style={{ width: '25%' }} color="link">Batal</Button>
                 <Button onPress={_handleDeleteCustomer} style={{ width: '25%' }}>Ya</Button>
             </AwanPopup.Title>
@@ -108,7 +109,7 @@ const PelangganEdit = ({ navigation }) => {
                 }}
             ><ModalContent
                     image={require('src/assets/images/managemenpelanggansuccess.png')}
-                    infoText="Edit Pelanggan Berhasil!"
+                    infoText={`Pelanggan Berhasil Di${type}!`}
                     closeModal={() => setModalVisible(false)}
                 />
             </Modal>
