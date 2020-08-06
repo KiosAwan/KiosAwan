@@ -184,10 +184,10 @@ const PpobPulsa = ({ navigation }) => {
 						renderItem={({ item, index }) =>
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
-									<View _width="70%">
+									<View _width="68%">
 										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`PULSA ${item.product_name.split(" ")[item.supplier_id == 2 ? 1 : 2]}`} </Text>
 									</View>
-									<View _width="30%">
+									<View _width="32%">
 										<Text size={8}>HARGA</Text>
 										<Text font="SemiBold" color="primary">{convertRupiah(item.price)}</Text>
 									</View>
