@@ -355,10 +355,11 @@ class CetakStruk extends Component {
 		else {
 			let data = [
 				{ label: "Kode Transaksi", value: this.state.singlePrintData.transaction.transaction_code },
+				{ label: "Operator", value: this.props.User.data.name },
 				{ label: "Waktu", value: this.state.singlePrintData.transaction.date ? this.state.singlePrintData.transaction.date.slice(0, 16) : this.state.singlePrintData.transaction.created_at.slice(0, 16) },
 			]
 			BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
-			BluetoothEscposPrinter.printText("STRUK PEMBELIAN\n\r", {});
+			BluetoothEscposPrinter.printText(`${this.props.User.store.name_store}\n\r`, {});
 			// BluetoothEscposPrinter.printText(`${this.state.printData.transaction.name_store.toUpperCase()}\n\r`, {});
 			BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
 			data.rMap(async item => {
@@ -436,7 +437,8 @@ class CetakStruk extends Component {
 
 function mapStateToProps(state) {
 	return {
-		Printer: state.Printer
+		Printer: state.Printer,
+		User: state.User
 	};
 }
 
