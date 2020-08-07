@@ -248,7 +248,7 @@ class CetakStruk extends Component {
 			data.rMap(async item => {
 				BluetoothEscposPrinter.printColumn(transaksiWidth,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-					[item.label, item.value], {});
+					[item.label && item.label, item.value], {});
 			})
 			if (this.state.printData.details_item.length > 0) {
 				BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
@@ -269,47 +269,62 @@ class CetakStruk extends Component {
 				BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
 			}
 			this.state.printData.product_digital.forEach((list, i) => {
-				let filterPayment = ["id", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info"]
+				let filterPayment = ["id", "token", "status", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info", "supplier", "product_code"]
 				const { payment } = list
-				if (payment) {
-					BluetoothEscposPrinter.printColumn(alignLeft,
-						[BluetoothEscposPrinter.ALIGN.LEFT],
-						[list.transaction.transaction_name.split('_').join(' ').toUpperCase()], { widthtimes: 0.2 })
-					Object.keys(payment).filter(a => !filterPayment.includes(a))
-						.rMap(item => {
-							BluetoothEscposPrinter.printColumn(columnWidths,
-								[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-								[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
-							{
-								item == 'description' &&
-									BluetoothEscposPrinter.printColumn(alignLeft,
-										[BluetoothEscposPrinter.ALIGN.LEFT],
-										[typeof payment[item] == 'string' && payment[item].split(';')[0]], { widthtimes: 0.2 })
-							}
-						})
+				BluetoothEscposPrinter.printColumn(columnWidths,
+					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+					[list.transaction.transaction_name.split('_').join(' ').toUpperCase(), list.transaction.status], { widthtimes: 0.2 })
+				if (list.transaction.transaction_name == "pln_prepaid" && list.transaction.status == "SUCCESS") {
+					BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
+					BluetoothEscposPrinter.printText("Nomor token\n\r", {});
+					BluetoothEscposPrinter.printText(`${payment.token.match(/.{1,4}/g).join("-")}\n\r`, {});
+					BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
 				}
-				else {
-					BluetoothEscposPrinter.printColumn(columnWidths,
-						[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-						["Total tagihan", convertRupiah(list.transaction.total)], {})
-					BluetoothEscposPrinter.printColumn(columnWidths,
-						[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-						["Customer ID", list.transaction.customerID], {})
-					BluetoothEscposPrinter.printColumn(columnWidths,
-						[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-						["Kode Transaksi", list.transaction.transaction_code], {})
-					BluetoothEscposPrinter.printColumn(columnWidths,
-						[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-						["No Referensi", list.transaction.referenceID], {})
-					list.transaction.denda && list.transaction.denda > 0 && BluetoothEscposPrinter.printColumn(columnWidths,
-						[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-						["Denda", convertRupiah(list.transaction.denda)], {})
-					if (list.transaction.transaction_name == "pln_prepaid" && list.transaction.status == "SUCCESS") {
-						BluetoothEscposPrinter.printColumn(columnWidths,
-							[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-							["Nomor token", list.payment.token], {})
-					}
-				}
+				// if (payment) {
+
+				// 	Object.keys(payment).filter(a => !filterPayment.includes(a))
+				// 		.rMap(item => {
+				// 			if (item == 'description') {
+				// 				BluetoothEscposPrinter.printColumn(alignLeft,
+				// 					[BluetoothEscposPrinter.ALIGN.LEFT],
+				// 					[typeof payment[item] == 'string' && payment[item].split(';')[0]], { widthtimes: 0.2 })
+				// 			} else if (item == 'reff_no') {
+				// 				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
+				// 				BluetoothEscposPrinter.printText("Reff no\n\r", {});
+				// 				BluetoothEscposPrinter.printText(`${payment.reff_no}\n\r`, {});
+				// 				BluetoothEscposPrinter.printText(`\n\r`, {});
+				// 				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
+				// 			} else {
+				// 				BluetoothEscposPrinter.printColumn(columnWidths,
+				// 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				// 					[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
+				// 			}
+				// 		})
+				// }
+				// else {
+
+				BluetoothEscposPrinter.printColumn(columnWidths,
+					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+					["Customer ID", list.transaction.customerID], {})
+				BluetoothEscposPrinter.printColumn(columnWidths,
+					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+					["Kode Transaksi", list.transaction.transaction_code], {})
+				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
+				// BluetoothEscposPrinter.printText("Reference ID\n\r", {});
+				// BluetoothEscposPrinter.printText(`${list.transaction.referenceID}\n\r`, {});
+				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
+				BluetoothEscposPrinter.printColumn(columnWidths,
+					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+					["Total tagihan", convertRupiah(list.transaction.total)], {})
+				// list.transaction.denda && list.transaction.denda > 0 && BluetoothEscposPrinter.printColumn(columnWidths,
+				// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				// 	["Denda", convertRupiah(list.transaction.denda)], {})
+				// if (list.transaction.transaction_name == "pln_prepaid" && list.transaction.status == "SUCCESS") {
+				// 	BluetoothEscposPrinter.printColumn(columnWidths,
+				// 		[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				// 		["Nomor token", list.payment.token], {})
+				// }
+				// }
 				i + 1 < this.state.printData.product_digital.length && BluetoothEscposPrinter.printText("-------------------------------\n", {});
 			})
 			BluetoothEscposPrinter.printText("-------------------------------\n", {});
@@ -334,56 +349,80 @@ class CetakStruk extends Component {
 				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 				["Total", convertRupiah(this.state.printData.transaction.status == 1 ? this.state.printData.transaction.total_transaction : this.state.printData.transaction.remaining_return)], {})
 			BluetoothEscposPrinter.printText("-------------------------------\n", {});
-			BluetoothEscposPrinter.printText("Powered by KIOSAWAN\n\r", {});
+			BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {});
 			BluetoothEscposPrinter.printText("\n\r\n\r", {});
 		}
 		else {
-			BluetoothEscposPrinter.printText("Struk Tagihan\n\r", {});
+			let data = [
+				{ label: "Kode Transaksi", value: this.state.singlePrintData.transaction.transaction_code },
+				{ label: "Waktu", value: this.state.singlePrintData.transaction.created_at.slice(0, 16) },
+			]
+			BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
+			BluetoothEscposPrinter.printText("STRUK PEMBELIAN\n\r", {});
+			// BluetoothEscposPrinter.printText(`${this.state.printData.transaction.name_store.toUpperCase()}\n\r`, {});
 			BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-			let filterPayment = ["id", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info"]
+			data.rMap(async item => {
+				BluetoothEscposPrinter.printColumn(transaksiWidth,
+					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+					[item.label && item.label, item.value], {});
+			})
+			BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
+			BluetoothEscposPrinter.printText("Tagihan dan Isi Ulang\n\r", {});
+			BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
+			let filterPayment = ["id", "token", "status", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info", "supplier", "product_code"]
 			const { payment } = this.state.singlePrintData
+			BluetoothEscposPrinter.printColumn(columnWidths,
+				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				[this.state.singlePrintData.transaction.transaction_name.split('_').join(' ').toUpperCase(), this.state.singlePrintData.transaction.status], { widthtimes: 0.2 })
+			if (this.state.singlePrintData.transaction.transaction_name == "pln_prepaid" && this.state.singlePrintData.transaction.status == "SUCCESS") {
+				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
+				BluetoothEscposPrinter.printText("Nomor token\n\r", {});
+				BluetoothEscposPrinter.printText(`${payment.token.match(/.{1,4}/g).join("-")}\n\r`, {});
+				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
+			}
 			if (payment) {
-				BluetoothEscposPrinter.printColumn(alignLeft,
-					[BluetoothEscposPrinter.ALIGN.LEFT],
-					[this.state.singlePrintData.transaction.transaction_name.split('_').join(' ').toUpperCase()], { widthtimes: 0.2 })
+
 				Object.keys(payment).filter(a => !filterPayment.includes(a))
 					.rMap(item => {
-						item != "description" && BluetoothEscposPrinter.printColumn(columnWidths,
-							[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-							[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'tarif', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
-						{
-							item == 'description' &&
-								BluetoothEscposPrinter.printColumn(alignLeft,
-									[BluetoothEscposPrinter.ALIGN.LEFT],
-									[typeof payment[item] == 'string' && payment[item].split(';')[0]], { widthtimes: 0.2 })
+						if (item == 'description') {
+							BluetoothEscposPrinter.printColumn(alignLeft,
+								[BluetoothEscposPrinter.ALIGN.LEFT],
+								[typeof payment[item] == 'string' && payment[item].split(';')[0]], { widthtimes: 0.2 })
+						} else if (item == 'reff_no') {
+							BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
+							BluetoothEscposPrinter.printText("Reff no\n\r", {});
+							BluetoothEscposPrinter.printText(`${payment.reff_no}\n\r`, {});
+							BluetoothEscposPrinter.printText(`\n\r`, {});
+							BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
+						} else {
+							BluetoothEscposPrinter.printColumn(columnWidths,
+								[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+								[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
 						}
 					})
+				BluetoothEscposPrinter.printText("-------------------------------\n", {});
+				BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {});
 				BluetoothEscposPrinter.printText("\n\r\n\r", {});
 			}
 			else {
-				BluetoothEscposPrinter.printColumn(alignLeft,
-					[BluetoothEscposPrinter.ALIGN.LEFT],
-					[this.state.singlePrintData.transaction.transaction_name.split('_').join(' ').toUpperCase()], { widthtimes: 0.2 })
-				if (this.state.singlePrintData.transaction.transaction_name == "pln_prepaid" && this.state.singlePrintData.transaction.status == "SUCCESS") {
-					BluetoothEscposPrinter.printColumn(columnWidths,
-						[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-						["Nomor token", this.state.singlePrintData.payment.token], {})
-				}
-				BluetoothEscposPrinter.printColumn(columnWidths,
-					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-					["Total tagihan", convertRupiah(this.state.singlePrintData.transaction.total)], {})
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Customer ID", this.state.singlePrintData.transaction.customerID], {})
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Kode Transaksi", this.state.singlePrintData.transaction.transaction_code], {})
-				BluetoothEscposPrinter.printColumn(columnWidths,
-					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-					["No Referensi", this.state.singlePrintData.transaction.referenceID], {})
+				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
+				// BluetoothEscposPrinter.printText("Reference ID\n\r", {});
+				// BluetoothEscposPrinter.printText(`${this.state.singlePrintData.transaction.referenceID}\n\r`, {});
+				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
 				this.state.singlePrintData.transaction.denda && this.state.singlePrintData.transaction.denda > 0 && BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Denda", convertRupiah(this.state.singlePrintData.transaction.denda)], {})
+				BluetoothEscposPrinter.printColumn(columnWidths,
+					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+					["Total tagihan", convertRupiah(this.state.singlePrintData.transaction.total)], {})
+				BluetoothEscposPrinter.printText("-------------------------------\n", {});
+				BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {});
 				BluetoothEscposPrinter.printText("\n\r\n\r", {});
 			}
 		}

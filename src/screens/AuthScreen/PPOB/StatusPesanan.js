@@ -85,7 +85,7 @@ const StatusPesanan = ({ navigation }) => {
 		</View>
 	}
 	const _renderPendingProductDigital = () => {
-		let filterPayment = ["id", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "supplier", "tgl_registrasi", "product_code"]
+		let filterPayment = ["id", "updated_at", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date", "supplier", "product_code", "trx_id", "transaction_code", "status_rekon"]
 		let viewKey = key => {
 			let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank" }
 			return keys[key] || key.split('_').join(' ').ucwords()
@@ -190,10 +190,16 @@ const StatusPesanan = ({ navigation }) => {
 							<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
 						</Button>
 						:
-						<Button style={{ borderRadius: SizeList.borderRadius }} disabled color="success" wrapper={{ justify: 'flex-start' }}>
-							<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
-							<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
-						</Button>
+						_checkData('status') === 'FAILED' ?
+							<Button style={{ borderRadius: SizeList.borderRadius }} disabled color="warning" wrapper={{ justify: 'flex-start' }}>
+								<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
+								<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi gagal!</Text>
+							</Button>
+							:
+							<Button style={{ borderRadius: SizeList.borderRadius }} disabled color="success" wrapper={{ justify: 'flex-start' }}>
+								<Icon color={ColorsList.whiteColor} name="exclamation-circle" />
+								<Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
+							</Button>
 				}
 				<View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: SizeList.borderRadius, marginTop: SizeList.base, padding: SizeList.padding }}>
 					<View style={{ marginVertical: SizeList.base }}>

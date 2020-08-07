@@ -105,6 +105,7 @@ class CheckOut extends React.Component {
 			note: Product.note,
 			id_multi: Product.id_multi
 		}
+		console.debug(data)
 		const res = await sendNewTransaction(data)
 		const { id_transaction } = res.data
 		this.setState({ loadingVisible: false })
