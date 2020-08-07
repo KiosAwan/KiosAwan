@@ -355,7 +355,7 @@ class CetakStruk extends Component {
 		else {
 			let data = [
 				{ label: "Kode Transaksi", value: this.state.singlePrintData.transaction.transaction_code },
-				{ label: "Waktu", value: this.state.singlePrintData.transaction.created_at.slice(0, 16) },
+				{ label: "Waktu", value: this.state.singlePrintData.transaction.date ? this.state.singlePrintData.transaction.date.slice(0, 16) : this.state.singlePrintData.transaction.created_at.slice(0, 16) },
 			]
 			BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
 			BluetoothEscposPrinter.printText("STRUK PEMBELIAN\n\r", {});
