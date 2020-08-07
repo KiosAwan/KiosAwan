@@ -61,7 +61,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
     }
 
     const _renderProductDigital = item => {
-        let filterPayment = ["id", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "updated_at", "info"]
+        let filterPayment = ["id", "product_code", "supplier", "status", "token", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "updated_at", "info"]
         let viewKey = key => {
             let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank", jmlTagihan: "Jumlah tagihan", referenceID: "ReferenceID", noReferensi: "No Referensi" }
             return keys[key] || key.split('_').join(' ').ucwords()
@@ -98,7 +98,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
         </View>
     }
     const _renderPendingProductDigital = () => {
-        let filterPayment = ["id", "updated_at", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date"]
+        let filterPayment = ["id", "updated_at", "status", "margin", "cash_back", "productID", "customerID", "customer_name", "id_multi_transaction", "admin_original", "id_user", "admin", "total_original", "status", "productID", "transaction_name", "date", "id_transaction", "info", "date", "supplier", "product_code", "trx_id", "transaction_code", "status_rekon"]
         let viewKey = key => {
             let keys = { ppn: "PPN", ppj: "PPJ", created_at: "Tanggal transaksi", adminBank: "Admin Bank", jmlTagihan: "Jumlah tagihan", referenceID: "ReferenceID", noReferensi: "No Referensi" }
             return keys[key] || key.split('_').join(' ').ucwords()
@@ -139,10 +139,16 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                 <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi sedang diproses!</Text>
                             </Button>
                             :
-                            <Button style={{ borderRadius: SizeList.borderRadius }} disabled color="success" wrapper={{ justify: 'flex-start' }}>
-                                <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
-                                <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
-                            </Button>
+                            _checkData('status') === 'FAILED' ?
+                                <Button style={{ borderRadius: SizeList.borderRadius }} disabled color="warning" wrapper={{ justify: 'flex-start' }}>
+                                    <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
+                                    <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi gagal!</Text>
+                                </Button>
+                                :
+                                <Button style={{ borderRadius: SizeList.borderRadius }} disabled color="success" wrapper={{ justify: 'flex-start' }}>
+                                    <Icon color={ColorsList.whiteColor} name="exclamation-circle" />
+                                    <Text color="whiteColor" style={{ paddingHorizontal: 10 }}>Transaksi berhasil!</Text>
+                                </Button>
                     }
                     <View style={{ backgroundColor: ColorsList.whiteColor, borderRadius: SizeList.borderRadius, marginTop: SizeList.base, padding: SizeList.padding }}>
                         <View style={{ marginVertical: SizeList.base }}>
@@ -156,7 +162,7 @@ const TransactionDigitalDetail = ({ navigation }) => {
                                 </Wrapper>
                                 <Wrapper spaceBetween>
                                     <Text>Waktu dan Tanggal</Text>
-                                    <Text>{transaction && transaction.date}</Text>
+                                    <Text>{transaction && transaction.created_at.slice(0, 16)}</Text>
                                 </Wrapper>
                                 <Wrapper spaceBetween>
                                     <Text>Operator</Text>
