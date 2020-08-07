@@ -375,6 +375,9 @@ class CetakStruk extends Component {
 			BluetoothEscposPrinter.printColumn(columnWidths,
 				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 				[this.state.singlePrintData.transaction.transaction_name.split('_').join(' ').toUpperCase(), this.state.singlePrintData.transaction.status], { widthtimes: 0.2 })
+			BluetoothEscposPrinter.printColumn(columnWidths,
+				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				["Customer ID", this.state.singlePrintData.transaction.customerID], { widthtimes: 0.2 })
 			if (this.state.singlePrintData.transaction.transaction_name == "pln_prepaid" && this.state.singlePrintData.transaction.status == "SUCCESS") {
 				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
 				BluetoothEscposPrinter.printText("Nomor token\n\r", {});
@@ -407,6 +410,7 @@ class CetakStruk extends Component {
 			}
 			else {
 				BluetoothEscposPrinter.printColumn(columnWidths,
+
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Customer ID", this.state.singlePrintData.transaction.customerID], {})
 				BluetoothEscposPrinter.printColumn(columnWidths,
@@ -416,9 +420,9 @@ class CetakStruk extends Component {
 				// BluetoothEscposPrinter.printText("Reference ID\n\r", {});
 				// BluetoothEscposPrinter.printText(`${this.state.singlePrintData.transaction.referenceID}\n\r`, {});
 				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
-				this.state.singlePrintData.transaction.denda && this.state.singlePrintData.transaction.denda > 0 && BluetoothEscposPrinter.printColumn(columnWidths,
-					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-					["Denda", convertRupiah(this.state.singlePrintData.transaction.denda)], {})
+				// this.state.singlePrintData.transaction.denda && this.state.singlePrintData.transaction.denda > 0 && BluetoothEscposPrinter.printColumn(columnWidths,
+				// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				// 	["Denda", convertRupiah(this.state.singlePrintData.transaction.denda)], {})
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Total tagihan", convertRupiah(this.state.singlePrintData.transaction.total)], {})
