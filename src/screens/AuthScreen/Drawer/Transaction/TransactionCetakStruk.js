@@ -303,7 +303,11 @@ class CetakStruk extends Component {
 				// 		})
 				// }
 				// else {
-
+				{
+					payment && payment.product_name && BluetoothEscposPrinter.printColumn(columnWidths,
+						[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+						["Product Name", payment.product_name], {})
+				}
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Customer ID", list.transaction.customerID], {})
@@ -407,7 +411,7 @@ class CetakStruk extends Component {
 								[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
 						}
 					})
-					BluetoothEscposPrinter.printerLineSpace(0)
+				BluetoothEscposPrinter.printerLineSpace(0)
 				BluetoothEscposPrinter.printText("-------------------------------\n", {});
 				BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {});
 				BluetoothEscposPrinter.printText("\n\n\n\n\n\n", {});
@@ -430,7 +434,7 @@ class CetakStruk extends Component {
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Total tagihan", convertRupiah(this.state.singlePrintData.transaction.total)], {})
-					BluetoothEscposPrinter.printerLineSpace(0)
+				BluetoothEscposPrinter.printerLineSpace(0)
 				BluetoothEscposPrinter.printText("-------------------------------\n", {});
 				BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {});
 				BluetoothEscposPrinter.printText("\n\n\n\n\n\n", {});
