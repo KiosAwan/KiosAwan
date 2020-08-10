@@ -173,6 +173,7 @@ const TransactionDetail = ({ navigation }) => {
 												<View>
 													<Text color="primary" size={15}>{item.transaction.transaction_name.split('_').join(' ').toUpperCase()}</Text>
 													<Text>{item.transaction.customerID}</Text>
+													{item.payment && item.payment.product_name && <Text>{item.payment.product_name}</Text>}
 													{item.payment && item.payment.nama && <Text>{item.payment.nama}</Text>}
 													<Text>{item.transaction.transaction_code}</Text>
 												</View>
