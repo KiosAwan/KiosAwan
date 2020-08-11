@@ -175,19 +175,9 @@ const PhoneRegistration = ({ navigation }) => {
 					onChangeText={phone => _handleChangePhone(phone)}
 				/>
 			</Wrapper>
-			{
-				__DEV__ && <Text onPress={() => _handleChangePhone('81213141570')}>081213141570</Text>
-			}
-			{
-				__DEV__ && <Text onPress={() => _handleChangePhone('85717570370')}>085717570370</Text>
-			}
+			{__DEV__ && [82329247756, 81213141570, 85717570370, 82134156961].rMap(a => < Text onPress={() => _handleChangePhone(a.toString())}>{a}</Text>)}
 			<Text align="center">
-				{
-					__DEV__ ?
-						<Text onPress={() => _handleChangePhone('82134156961')}>{Strings.REGISTERTERM1}</Text>
-						:
-						Strings.REGISTERTERM1
-				}
+				{Strings.REGISTERTERM1}
 				<Text color="pink" onPress={() => navigation.navigate('/unauth/registration/term-condition')}>{Strings.REGISTERTERM2}</Text>
 			</Text>
 		</View>

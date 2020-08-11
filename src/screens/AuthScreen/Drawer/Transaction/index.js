@@ -20,6 +20,8 @@ import BottomSheetSelect, { BottomSheet } from 'src/components/Picker/BottomShee
 import { Input } from 'src/components/Input/MDInput';
 import Gallery from 'src/components/View/Gallery';
 import Divider from 'src/components/Row/Divider';
+import { stateObject } from 'src/utils/state';
+import DateRangePicker from 'src/components/Picker/DateRangePicker/DateRangePicker';
 
 const initialLayout = { width: 300, height: 300 };
 
@@ -51,6 +53,7 @@ const TransactionList = ({ navigation }) => {
   }
   const filterResult = (data) => {
     return data
+      .filter(({ date }) => dateRange.length > 0 ? dateRange.includes(date) : true)
       .filter(({ status }) => filter == 'all' ? true : status.includes(filter))
       .filter(({ payment_code }) => payment_code.toLowerCase().includes(search.toLowerCase()))
   }
@@ -69,36 +72,82 @@ const TransactionList = ({ navigation }) => {
   const selectFilter = (val) => {
     setFilter(val)
   }
+  const rla = () => !searchState.open && <View style={{ width: 60, alignItems: "flex-start" }}>
+    <BottomSheetSelect
+      data={[
+        { title: "Semua", onPress: () => selectFilter('all') },
+        { title: "Lunas", onPress: () => selectFilter('1') },
+        { title: "Hutang", onPress: () => selectFilter('2') },
+        { title: "Dibatalkan", onPress: () => selectFilter('3') },
+      ]}
+      renderItem={(item) => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
+      handleChangePicker={(item) => item.onPress()}
+      closeOnSelect
+      buttonOverride={<IconHeader name="sliders-h" color={ColorsList.greyFont} />}
+    />
+  </View>
+  const [dateRange, setDateRange] = useState([])
+  const initRange = date => {
+    const format = 'YYYY-MM-DD'
+    const [startDate, endDate] = date ? date.map(a => moment(a)) : [moment().startOf('month'), moment().endOf('month')]
+    return [startDate.format(format), endDate.format(format)]
+  }
+  const renderLeftAccessory = () => !searchState.open && <View style={{ width: 60, alignItems: "flex-start" }}>
+    <IconHeader onPress={() => setSearchState({ open: true })} name="search" />
+  </View>
+  const renderRightAccessory = () => <View style={{ width: 60, alignItems: "flex-end" }}>
+    <BottomSheet
+      height={425}
+      renderButton={<IconHeader disabled name="calendar" />}
+      content={close => <DateRangePicker
+        initialRange={dateRange.length > 0 ? initRange(dateRange) : [new Date(), new Date()]}
+        onSuccess={(from, to) => {
+          setDateRange([from, to])
+          close()
+        }}
+      />}
+    />
+  </View>
+
+  const [searchState, setSearchState] = stateObject({
+    value: '',
+    open: false
+  })
+  const ButtonTab = ({ style, active, children, ...props }) =>
+    <TouchableOpacity {...props} style={{
+      borderBottomColor: active ? ColorsList.primary : ColorsList.greySoft,
+      paddingTop: SizeList.secondary,
+      paddingBottom: SizeList.base,
+      ...active && { borderBottomWidth: 2 },
+      ...style
+    }}>
+      <Text align="center" color={active && 'primary'}>{children}</Text>
+    </TouchableOpacity>
   return <Container header={{
-    title: "DAFTAR TRANSAKSI",
-    renderLeftAccessory: () => <View style={{ width: 60, alignItems: "flex-start" }}>
-      <BottomSheetSelect
-        data={[
-          { title: "Semua", onPress: () => selectFilter('all') },
-          { title: "Lunas", onPress: () => selectFilter('1') },
-          { title: "Hutang", onPress: () => selectFilter('2') },
-          { title: "Dibatalkan", onPress: () => selectFilter('3') },
-        ]}
-        renderItem={(item) => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
-        handleChangePicker={(item) => item.onPress()}
-        closeOnSelect
-        buttonOverride={<IconHeader name="sliders-h" color={ColorsList.greyFont} />}
-      />
-    </View>,
-    renderRightAccessory: () => <View style={{ width: 60, alignItems: "flex-end" }}>
-      <TouchableOpacity onPress={() => navigation.navigate('/drawer/transaction/ringkasan_hutang')}>
-        <IconHeader name="credit-card" color={ColorsList.greyFont} />
-      </TouchableOpacity>
-    </View>
-  }}>
-    <Input
-      style={{ marginHorizontal: SizeList.bodyPadding }}
+    // onlyTitle: true,
+    title: searchState.open ? '' : 'DAFTAR TRANSAKSI',
+    renderLeftAccessory: renderLeftAccessory,
+    renderRightAccessory: !searchState.open && renderRightAccessory,
+    children: searchState.open && <Input
       noLabel
-      value={search}
+      autoFocus
+      onBlur={() => {
+        setSearch(searchState.value)
+        setSearchState({ open: false })
+      }}
+      returnKeyType="search"
+      value={searchState.value}
       label="Cari transaksi"
-      onChangeText={text => setSearch(text)}
+      onChangeText={value => setSearchState({ value })}
       renderRightAccessory={() => <Icon name="search" style={{ color: ColorsList.primary }} />}
     />
+  }}>
+    <Wrapper style={{ borderBottomColor: ColorsList.greySoft, borderBottomWidth: .5, paddingHorizontal: SizeList.bodyPadding }} flexContent>
+      <ButtonTab active={filter === 'all'} onPress={() => setFilter('all')}>Semua</ButtonTab>
+      <ButtonTab active={filter === '1'} onPress={() => setFilter('1')}>Lunas</ButtonTab>
+      <ButtonTab active={filter === '3'} onPress={() => setFilter('3')}>Batal</ButtonTab>
+      <ButtonTab active={filter === '2'} onPress={() => setFilter('2')}>Hutang</ButtonTab>
+    </Wrapper>
     <Body style={{ paddingTop: 0, marginTop: SizeList.base }} persistentScrollbar>
       <View style={{ flex: 1, backgroundColor: isLoading ? ColorsList.white : ColorsList.authBackground }}>
         {
