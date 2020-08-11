@@ -42,13 +42,20 @@ class CetakStruk extends Component {
 		}
 	}
 
-	async componentDidMount() {//alert(BluetoothManager)
+	async componentDidMount() {
+		// Component did mount same as use effect
+		// Setstate same as setXXX in hooks component
+
+		// Get params from previous screen
+		// 2 Types of type (false(From status pesanan || digital detail) and true(From transaction detail))
 		const { data, type, singleData } = await this.props.navigation.state.params
 		if (type) {
 			this.setState({ printData: data, multi: true })
 		} else {
 			this.setState({ singlePrintData: singleData, multi: false })
 		}
+
+		// Get saved connected printer
 		const connectedPrinter = await AsyncStorage.getItem('@connected_printer')
 		if (connectedPrinter) {
 			this.props.addPrinter(JSON.parse(connectedPrinter))
@@ -91,14 +98,12 @@ class CetakStruk extends Component {
 							.then(async (s) => {
 								const temp_con_printer = await AsyncStorage.getItem('@connected_printer')
 								if (temp_con_printer) {
-									console.debug("SET PRINTER ARR")
 									const parseTemp = JSON.parse(temp_con_printer)
 									const a = parseTemp.find(item => item.boundAddress == row.address)
 									if (!a) {
 										await AsyncStorage.setItem('@connected_printer', JSON.stringify([...parseTemp, { name: row.name, boundAddress: row.address }]))
 									}
 								} else {
-									console.debug("SET PRINTER")
 									await AsyncStorage.setItem('@connected_printer', JSON.stringify([{ name: row.name, boundAddress: row.address }]))
 								}
 								this.setState({
@@ -107,7 +112,6 @@ class CetakStruk extends Component {
 									boundAddress: row.address,
 									name: row.name || "UNKNOWN"
 								})
-								console.debug("A", this.state.connectedPrinter)
 							}, (e) => {
 								this.setState({
 									loading: false
@@ -127,7 +131,6 @@ class CetakStruk extends Component {
 		BluetoothManager.connect(printer.boundAddress)
 			.then(() => {
 				this.setState({ printEnable: printer })
-				console.debug("PRINT SUCCESS", printer.name)
 			}, (e) => {
 				alert(e);
 			})
