@@ -4,7 +4,8 @@ const initialState = {
     otp: '',
     password: '',
     secondpassword: '',
-    deviceId: ''
+    deviceId: '',
+    deviceName: ''
 }
 
 const reducerRegistration = (state = initialState, actions) => {
@@ -39,6 +40,11 @@ const reducerRegistration = (state = initialState, actions) => {
                 ...state,
                 deviceId: actions.payload
             }
+        case "ADD_DEVICE_NAME":
+            return {
+                ...state,
+                deviceName: actions.payload
+            }
         case "CLEAR_ALL_REGISTRATION":
             return {
                 name: '',
@@ -46,7 +52,8 @@ const reducerRegistration = (state = initialState, actions) => {
                 otp: '',
                 password: '',
                 secondpassword: '',
-                deviceId: ''
+                deviceId: '',
+                deviceName: ''
             }
         default:
             return state

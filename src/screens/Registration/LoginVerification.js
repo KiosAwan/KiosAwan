@@ -52,7 +52,8 @@ const LoginVerification = ({ navigation }) => {
             password: FormRegister.password,
             id_device: FormRegister.deviceId,
             push_token: pushToken,
-            app_version: APP_VERSION
+            app_version: APP_VERSION,
+            phone : FormRegister.deviceName
         }
         try {
             const res = await loginData(data)

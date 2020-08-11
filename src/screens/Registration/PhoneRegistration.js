@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import RBSheet from "react-native-raw-bottom-sheet";
-import { getUniqueId } from 'react-native-device-info';
+import { getUniqueId, getDeviceName, getProduct, getBrand, getDeviceId, getDeviceType } from 'react-native-device-info';
 
 // Styling 
 import {
@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 //Redux Actions
-import { addPhoneNumber, addDeviceId, addVerifyOTP } from '../../redux/actions/actionsRegistration'
+import { addPhoneNumber, addDeviceId, addDeviceName } from '../../redux/actions/actionsRegistration'
 
 //Functions
 import Strings from '../../utils/Strings'
@@ -55,7 +55,9 @@ const PhoneRegistration = ({ navigation }) => {
 
 	const _getDeviceInfo = async () => {
 		let uniqueId = getUniqueId();
+		let deviceName = await getBrand()
 		await dispatch(addDeviceId(uniqueId))
+		await dispatch(addDeviceName(`${deviceName}`))
 	}
 	//Function handle change input and add to reducer
 	const _handleChangePhone = (number) => {

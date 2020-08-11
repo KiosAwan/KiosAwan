@@ -50,3 +50,10 @@ export const addDeviceId = ( deviceId ) => {
         payload : deviceId
     }
 }
+
+export const addDeviceName = ( deviceName ) => {
+    return {
+        type : "ADD_DEVICE_NAME",
+        payload : deviceName
+    }
+}

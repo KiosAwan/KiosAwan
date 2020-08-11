@@ -64,7 +64,8 @@ const SecondPassword = ({ navigation }) => {
                 password: FormRegister.password,
                 id_device: FormRegister.deviceId,
                 push_token: pushToken,
-                app_version: APP_VERSION
+                app_version: APP_VERSION,
+                phone : FormRegister.deviceName
             }
             const res = await registerUser(data)
             setIsLoading(false)
