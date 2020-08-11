@@ -281,28 +281,6 @@ class CetakStruk extends Component {
 					BluetoothEscposPrinter.printText(`${payment.token.match(/.{1,4}/g).join("-")}\n\r`, {});
 					BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
 				}
-				// if (payment) {
-
-				// 	Object.keys(payment).filter(a => !filterPayment.includes(a))
-				// 		.rMap(item => {
-				// 			if (item == 'description') {
-				// 				BluetoothEscposPrinter.printColumn(alignLeft,
-				// 					[BluetoothEscposPrinter.ALIGN.LEFT],
-				// 					[typeof payment[item] == 'string' && payment[item].split(';')[0]], { widthtimes: 0.2 })
-				// 			} else if (item == 'reff_no') {
-				// 				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
-				// 				BluetoothEscposPrinter.printText("Reff no\n\r", {});
-				// 				BluetoothEscposPrinter.printText(`${payment.reff_no}\n\r`, {});
-				// 				BluetoothEscposPrinter.printText(`\n\r`, {});
-				// 				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
-				// 			} else {
-				// 				BluetoothEscposPrinter.printColumn(columnWidths,
-				// 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				// 					[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
-				// 			}
-				// 		})
-				// }
-				// else {
 				{
 					payment && payment.product_name && BluetoothEscposPrinter.printColumn(columnWidths,
 						[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
@@ -314,22 +292,9 @@ class CetakStruk extends Component {
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Kode Transaksi", list.transaction.transaction_code], {})
-				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
-				// BluetoothEscposPrinter.printText("Reference ID\n\r", {});
-				// BluetoothEscposPrinter.printText(`${list.transaction.referenceID}\n\r`, {});
-				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Total tagihan", convertRupiah(list.transaction.total)], {})
-				// list.transaction.denda && list.transaction.denda > 0 && BluetoothEscposPrinter.printColumn(columnWidths,
-				// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				// 	["Denda", convertRupiah(list.transaction.denda)], {})
-				// if (list.transaction.transaction_name == "pln_prepaid" && list.transaction.status == "SUCCESS") {
-				// 	BluetoothEscposPrinter.printColumn(columnWidths,
-				// 		[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				// 		["Nomor token", list.payment.token], {})
-				// }
-				// }
 				i + 1 < this.state.printData.product_digital.length && BluetoothEscposPrinter.printText("-------------------------------\n", {});
 			})
 			BluetoothEscposPrinter.printText("-------------------------------\n", {});
@@ -367,7 +332,6 @@ class CetakStruk extends Component {
 			BluetoothEscposPrinter.printerLineSpace(1)
 			BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
 			BluetoothEscposPrinter.printText(`${this.props.User.store.name_store}\n\r`, {});
-			// BluetoothEscposPrinter.printText(`${this.state.printData.transaction.name_store.toUpperCase()}\n\r`, {});
 			BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
 			data.rMap(async item => {
 				BluetoothEscposPrinter.printColumn(transaksiWidth,
@@ -377,7 +341,7 @@ class CetakStruk extends Component {
 			BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
 			BluetoothEscposPrinter.printText("Tagihan dan Isi Ulang\n\r", {});
 			BluetoothEscposPrinter.printText("-------------------------------\n\r", {});
-			let filterPayment = ["id", "token", "status", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info", "supplier", "product_code"]
+			let filterPayment = ["id", "token", "status", "id_transaction", "payment_code", "customerID", "referenceID", "productID", "created_at", "updated_at", "info", "supplier", "product_code", 'ppj', 'ppn', 'materai', 'stroom_token', 'angsuran']
 			const { payment } = this.state.singlePrintData
 			BluetoothEscposPrinter.printColumn(columnWidths,
 				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
@@ -387,9 +351,15 @@ class CetakStruk extends Component {
 				["Customer ID", this.state.singlePrintData.transaction.customerID], { widthtimes: 0.2 })
 			if (this.state.singlePrintData.transaction.transaction_name == "pln_prepaid" && this.state.singlePrintData.transaction.status == "SUCCESS") {
 				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
-				BluetoothEscposPrinter.printText("Nomor token\n\r", {});
-				BluetoothEscposPrinter.printText(`${payment.token.match(/.{1,4}/g).join("-")}\n\r`, {});
+				BluetoothEscposPrinter.printerLineSpace(0)
+				BluetoothEscposPrinter.printText("TOKEN\n", {});
+				// BluetoothEscposPrinter.printText(" \n\r", {});
+				BluetoothEscposPrinter.printText(`${payment.token.match(/.{1,4}/g).join("-")}\n\r`, {
+					widthtimes: .5,
+					heigthtimes: 1,
+				});
 				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
+				BluetoothEscposPrinter.printerLineSpace(3)
 			}
 			if (payment) {
 
@@ -408,9 +378,10 @@ class CetakStruk extends Component {
 						} else {
 							BluetoothEscposPrinter.printColumn(columnWidths,
 								[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-								[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'ppj', 'ppn', 'angsuran', 'tagihan', 'adminBank'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
+								[item.split('_').join(' ').ucwords(), !['denda', 'total', 'admin', 'tagihan', 'adminBank', 'pembelian_token'].includes(item) ? payment[item].trim() : parseInt(payment[item]).convertRupiah()], {})
 						}
 					})
+
 				BluetoothEscposPrinter.printerLineSpace(0)
 				BluetoothEscposPrinter.printText("-------------------------------\n", {});
 				BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {});
@@ -424,13 +395,6 @@ class CetakStruk extends Component {
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Kode Transaksi", this.state.singlePrintData.transaction.transaction_code], {})
-				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT);
-				// BluetoothEscposPrinter.printText("Reference ID\n\r", {});
-				// BluetoothEscposPrinter.printText(`${this.state.singlePrintData.transaction.referenceID}\n\r`, {});
-				// BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
-				// this.state.singlePrintData.transaction.denda && this.state.singlePrintData.transaction.denda > 0 && BluetoothEscposPrinter.printColumn(columnWidths,
-				// 	[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				// 	["Denda", convertRupiah(this.state.singlePrintData.transaction.denda)], {})
 				BluetoothEscposPrinter.printColumn(columnWidths,
 					[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
 					["Total tagihan", convertRupiah(this.state.singlePrintData.transaction.total)], {})

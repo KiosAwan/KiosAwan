@@ -158,7 +158,7 @@ const ListrikToken = ({ navigation }) => {
 				}}>32127971177</Button>}
 				<Input
 					_width="80%"
-					label="ID Pelanggan"
+					label="No. Meter"
 					value={custId.toString()}
 					onChangeText={text => {
 						setCustId(text)
