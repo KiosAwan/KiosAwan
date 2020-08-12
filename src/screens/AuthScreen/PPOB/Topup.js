@@ -73,7 +73,7 @@ const Topup = ({ navigation }) => {
 		</View>
 	}
 	const renderStep = () => {
-		const { selectedId, logo, title, tutorials, noVa, adminFee } = Step
+		const { selectedId, logo, title, tutorials, noVa, adminFee, info } = Step
 		return <View>
 			<View style={{ backgroundColor: ColorsList.white, padding: SizeList.base, borderRadius: SizeList.secondary }}>
 				<Wrapper flexStart>
@@ -106,7 +106,11 @@ const Topup = ({ navigation }) => {
 					})
 				}
 			</View>
-			<Text style={{ marginTop: SizeList.base }}>Minimal topup Rp. 50.000 dengan kelipatan Rp. 1.000</Text>
+			<Text style={{ marginVertical: SizeList.base }}>Minimal topup Rp. 50.000 dengan kelipatan Rp. 1.000</Text>
+			{info && <Button disabled color="info" flexStart style={{ borderRadius: SizeList.borderRadius, marginBottom: 10 }}>
+				<Icon color={ColorsList.informationFont} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
+				<Text color="informationFont">{info}</Text>
+			</Button>}
 		</View>
 	}
 	return <Container header={{
