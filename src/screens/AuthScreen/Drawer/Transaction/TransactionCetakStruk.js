@@ -234,9 +234,9 @@ class CetakStruk extends Component {
 
 	_testPrint = async () => {
 		this.setState({ loading: true })
-		let columnWidths = [17, 15];
-		let transaksiWidth = [15, 17];
-		let alignLeft = [32]
+		let columnWidths = [15, 15];
+		let transaksiWidth = [13, 15];
+		let alignLeft = [30]
 		if (this.state.multi) {
 			let data = [
 				{ label: "Kode Trx", value: this.state.printData.transaction.payment_code },
