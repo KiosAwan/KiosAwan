@@ -131,7 +131,11 @@ const Home = ({ navigation }) => {
 		else if (!User.store) {
 			const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modalFn
 			_setAlert(false)
-			CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })
+			if (User.data.atur_pin == 1) {
+				navigation.navigate("/temp/update-profile")
+			} else {
+				CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })
+			}
 		}
 		else if (User.data.status == 0) {
 			_setAlert(false)

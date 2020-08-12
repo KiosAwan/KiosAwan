@@ -174,19 +174,19 @@ const styles = StyleSheet.create({
 	},
 	CardTextImage: {
 		width: width / 1.3,
-		height: height / 3,
+		height: height / 2.8,
 		alignItems: "center",
 	},
 	imageCardTextImage: {
 		width: '100%',
-		height: '60%',
+		height: '70%',
 		borderTopRightRadius: 5,
 		borderTopLeftRadius: 5,
 		resizeMode: 'stretch'
 	},
 	textImageWrapper: {
 		backgroundColor: 'white',
-		height: '30%',
+		height: '25%',
 		justifyContent: "center",
 		borderBottomEndRadius: 5,
 		borderBottomStartRadius: 5
