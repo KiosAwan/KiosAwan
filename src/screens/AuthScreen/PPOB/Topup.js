@@ -108,8 +108,7 @@ const Topup = ({ navigation }) => {
 			</View>
 			<Text style={{ marginVertical: SizeList.base }}>Minimal topup Rp. 50.000 dengan kelipatan Rp. 1.000</Text>
 			{info && <Button disabled color="info" flexStart style={{ borderRadius: SizeList.borderRadius, marginBottom: 10 }}>
-				<Icon color={ColorsList.informationFont} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
-				<Text color="informationFont">{info}</Text>
+				<Text color="informationFont">{`${info}`}</Text>
 			</Button>}
 		</View>
 	}

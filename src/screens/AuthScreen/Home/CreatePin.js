@@ -21,7 +21,6 @@ const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisibl
 			const userToken = await getUserToken()
 			if (res.status == 200) {
 				setTimeout(() => {
-					dispatch(getProfile(id, userToken))
 					setModalVisible(false)
 					navigation.dispatch(
 						StackActions.reset({
@@ -33,7 +32,7 @@ const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisibl
 							]
 						})
 					)
-				}, 1000)
+				}, 400)
 			} else {
 				setAlertMessage("Gagal membuat PIN")
 				setAlert(true)

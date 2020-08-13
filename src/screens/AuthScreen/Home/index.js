@@ -134,7 +134,7 @@ const Home = ({ navigation }) => {
 			if (User.data.atur_pin == 1) {
 				navigation.navigate("/temp/update-profile")
 			} else {
-				CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle })
+				CreatePin({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle, dispatch })
 			}
 		}
 		else if (User.data.status == 0) {
@@ -146,6 +146,7 @@ const Home = ({ navigation }) => {
 	}
 	let [canExit, exitDuration] = [false, 1000]
 	useEffect(() => {
+		console.debug("render home")
 		_checkService()
 		_getNewsData()
 		// BackHandler.addEventListener('hardwareBackPress', (e) => {
