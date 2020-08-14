@@ -108,7 +108,15 @@ export const validNumber = number => {
   return result
 }
 
+
 //post data
+
+export const doQuery = async (callback) => {
+  // const query = await axios.get()
+  // const cb = await callback({ asgh: 'jhfhsdfgh' })
+  // console.log(JSON.stringify(cb,undefined,4))
+}
+
 export const sendProfileData = async (data) => {
   const userToken = await getUserToken()
   try {
