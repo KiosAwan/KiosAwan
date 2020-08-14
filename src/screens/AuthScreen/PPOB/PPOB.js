@@ -21,7 +21,7 @@ import { getProductPPOBList } from 'src/utils/api/ppobapi';
 import { DEV_IMG_URL, HOST_URL } from 'src/config';
 import { getProfile } from 'src/redux/actions/actionsUserData'
 import TextTicker from 'react-native-text-ticker';
-import Axios from 'axios';
+import Axios from 'src/utils/axios';
 import { FontList } from 'src/styles/typography';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { ImageHeader, IconHeader } from 'src/components/Header/Header';

@@ -1,9 +1,8 @@
-import axios from 'axios'
+import axios from 'src/utils/axios'
 import { HOST_URL } from '../config'
 import { Image } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Dimensions } from 'react-native';
-
 
 export const getImageSize = image => {
   const { width: winWidth, height: winHeight } = Dimensions.get('window')

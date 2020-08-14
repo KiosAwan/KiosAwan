@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { GlobalHeader } from '../../components/Header/Header'
 import { ColorsList } from 'src/styles/colors';
-import Axios from 'axios';
+import Axios from 'src/utils/axios';
 import { HOST_URL } from 'src/config';
 import { Text } from 'src/components/Text/CustomText';
 import HTML from 'react-native-render-html';

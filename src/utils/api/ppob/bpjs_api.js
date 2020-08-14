@@ -1,5 +1,5 @@
 import { PPOB_URL, DEV_URL } from "src/config"
-import axios from 'axios'
+import axios from 'src/utils/axios'
 import { getUserToken, getUserId } from "src/utils/authhelper"
 
 // function for check bpjs tagihan

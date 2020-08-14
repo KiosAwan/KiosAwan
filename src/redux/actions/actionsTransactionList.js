@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'src/utils/axios'
 import { HOST_URL } from '../../config';
 
 export const getTransactionList = (storeid, userToken) => {

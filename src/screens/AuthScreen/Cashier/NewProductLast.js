@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { CheckBox } from 'native-base'
 import { BottomButton } from 'src/components/Button/ButtonComp';
 import { addProductPriceIn, addProductPriceOut, clearAllNewProduct, addQuantityStock, addMinQtyStock } from 'src/redux/actions/actionsNewProduct';
-import Axios from 'axios';
+import Axios from 'src/utils/axios';
 import { HOST_URL } from 'src/config';
 import { validNumber, convertNumber, getUserToken } from 'src/utils/authhelper';
 import SwitchButton from 'src/components/Button/SwitchButton';

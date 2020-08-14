@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'src/utils/axios'
 import { DEV_URL, PPOB_URL } from "src/config"
 
 export const getRiwayatTransaksi = (userToken, userId, page) => {

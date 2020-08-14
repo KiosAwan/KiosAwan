@@ -7,7 +7,7 @@ import { $Padding, $BorderRadius, $Margin, $Border } from 'src/utils/stylehelper
 import { Icon } from 'native-base';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { useSelector } from 'react-redux';
-import Axios from 'axios';
+import Axios from 'src/utils/axios';
 import { HOST_URL } from 'src/config';
 import { convertPhoneNumber, getUserToken } from 'src/utils/authhelper';
 import Container, { Body } from 'src/components/View/Container';

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'src/utils/axios'
 
 export const getLocale = (localeId) => {
 	return {

@@ -1,6 +1,6 @@
 import { PPOB_URL, DEV_URL } from "src/config"
 import { getUserToken, getUserId } from "../authhelper"
-import axios from 'axios'
+import axios from 'src/utils/axios'
 
 //function for send topup request
 export const getProductPPOBList = async () => {

@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import Axios from 'src/utils/axios';
 import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions, Modal, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'

@@ -11,7 +11,7 @@ import NetInfo from '@react-native-community/netinfo';
 import Strings from '../utils/Strings';
 import BarStatus from '../components/BarStatus';
 import { getProfile } from '../redux/actions/actionsUserData';
-import Axios from 'axios';
+import Axios from 'src/utils/axios';
 import { HOST_URL } from 'src/config';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
