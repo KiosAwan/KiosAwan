@@ -30,6 +30,7 @@ import { Input } from 'src/components/Input/MDInput';
 import { SizeList } from '../../styles/size';
 import { openOtp } from 'src/utils/pin-otp-helper';
 import { APP_VERSION } from 'src/config/constant';
+import { getBrand } from 'react-native-device-info';
 
 
 const LoginVerification = ({ navigation }) => {
@@ -53,7 +54,7 @@ const LoginVerification = ({ navigation }) => {
             id_device: FormRegister.deviceId,
             push_token: pushToken,
             app_version: APP_VERSION,
-            phone : FormRegister.deviceName
+            phone: FormRegister.deviceName
         }
         try {
             const res = await loginData(data)
@@ -101,12 +102,17 @@ const LoginVerification = ({ navigation }) => {
             }
         })
     }
-
     const _sendOTP = async () => {
+        const pushToken = await AsyncStorage.getItem("@push_token")
         setLoading(true)
         const data = {
-            phone_number: "62" + FormRegister.phone_number
+            phone_number: "62" + FormRegister.phone_number,
+            request_name: 'forgot_password',
+            id_device: FormRegister.deviceId,
+            push_token: pushToken,
+            phone: FormRegister.deviceName
         }
+        console.log(data)
         const res = await sendOTP(data)
         setLoading(false)
         if (res.status == 400) {

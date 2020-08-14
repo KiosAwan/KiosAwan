@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import RBSheet from "react-native-raw-bottom-sheet";
-import { getUniqueId, getDeviceName, getProduct, getBrand, getDeviceId, getDeviceType } from 'react-native-device-info';
+import { getUniqueId, getBrand } from 'react-native-device-info';
 
 // Styling 
 import {
@@ -35,9 +35,11 @@ import Divider from 'src/components/Row/Divider';
 import { SizeList } from 'src/styles/size';
 import { openOtp } from 'src/utils/pin-otp-helper';
 import { APP_VERSION } from 'src/config/constant';
+import { getProduct } from 'src/redux/actions/actionsStoreProduct';
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
+
 
 const PhoneRegistration = ({ navigation }) => {
 	const FormRegister = useSelector(state => state.Registration)
@@ -49,16 +51,7 @@ const PhoneRegistration = ({ navigation }) => {
 	//alert
 	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState()
-	useEffect(() => {
-		_getDeviceInfo()
-	}, [])
 
-	const _getDeviceInfo = async () => {
-		let uniqueId = getUniqueId();
-		let deviceName = await getBrand()
-		await dispatch(addDeviceId(uniqueId))
-		await dispatch(addDeviceName(`${deviceName}`))
-	}
 	//Function handle change input and add to reducer
 	const _handleChangePhone = (number) => {
 		if (number[0] != 0) {

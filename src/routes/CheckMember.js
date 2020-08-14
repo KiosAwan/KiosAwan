@@ -19,13 +19,25 @@ import Container from 'src/components/View/Container';
 import { VERSION, APP_VERSION } from 'src/config/constant';
 import Alert from 'src/utils/alert';
 import { Linking } from 'react-native';
+import { getUniqueId, getBrand, getProduct } from 'react-native-device-info';
+import { addDeviceId, addDeviceName } from 'src/redux/actions/actionsRegistration';
 
 const CheckMember = (props) => {
   const { navigation } = props
   const dispatch = useDispatch()
   useEffect(() => {
     setTimeout(() => _checkVersion(), 1000);
+    _getDeviceInfo()
   }, [])
+
+  const _getDeviceInfo = async () => {
+    let uniqueId = getUniqueId();
+    let brand = await getBrand()
+    let product = await getProduct()
+    let deviceName = brand + " " + product
+    await dispatch(addDeviceId(uniqueId))
+    await dispatch(addDeviceName(`${deviceName}`))
+  }
 
   const _checkVersion = async () => {
     const CheckUpdate = await AsyncStorage.getItem('CheckUpdate')
@@ -54,7 +66,7 @@ const CheckMember = (props) => {
             `Terdeteksi versi anda ${APP_VERSION}, ada update terbaru di Playstore ${version} (${buildNumber}). Update sekarang?`,
             button
           )
-        }else {
+        } else {
           _checkFunc()
         }
       } else {
