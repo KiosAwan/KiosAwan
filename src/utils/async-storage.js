@@ -1,4 +1,4 @@
-import AsyncStore from "@react-native-community/async-storage";
+import * as AsyncStore from "src/utils/keyStores";
 const AsyncStorage = {}
 AsyncStorage.put = async (key, value) => {
 	let newValue = value;

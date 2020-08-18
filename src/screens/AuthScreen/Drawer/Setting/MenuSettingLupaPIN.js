@@ -12,7 +12,7 @@ import { Input } from 'src/components/Input/MDInput';
 import { Text } from 'src/components/Text/CustomText';
 import { openOtp, openPin } from 'src/utils/pin-otp-helper';
 import { stateObject } from 'src/utils/state';
-import AsyncStorage from 'src/utils/async-storage';
+import Storage from 'src/utils/keyStores';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 const MenuSettingLupaPIN = ({ navigation }) => {
     const User = useSelector(state => state.User)
@@ -40,7 +40,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
             setAlert({ message: "Pin harus sama", visible: true })
         } else {
             setAlert({ loading: true })
-            const id = await AsyncStorage.get('userId')
+            const id = await Storage.getItem('userId')
             const data = { id, pin }
             await createUserPIN(data)
             setAlert({ loading: false })
@@ -59,7 +59,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
             textTitle: "Masukkan PIN baru anda",
             footer: null,
             onResolve: async pin => {
-                await AsyncStorage.put("lupaPin_pin", pin)
+                await Storage.setItem("lupaPin_pin", pin)
                 openNewPin2()
             }
         })
@@ -72,7 +72,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
             textTitle: "Ulangi masukkan PIN baru anda",
             footer: null,
             onResolve: async confirm => {
-                const newPin = await AsyncStorage.get("lupaPin_pin")
+                const newPin = await Storage.getItem("lupaPin_pin")
                 if (newPin == confirm) {
                     _handleSavePIN(newPin, confirm)
                 }

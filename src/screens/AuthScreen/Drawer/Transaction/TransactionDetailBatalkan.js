@@ -11,7 +11,7 @@ import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { ReturnTransactionCard } from 'src/components/Card/CardComp';
 import { } from 'src/components/Input/InputComp';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
@@ -75,7 +75,7 @@ const TransactionDetailBatalkan = ({ navigation }) => {
 	const _handleCancelTransaction = async () => {
 		setAlertVisible(false)
 		const userToken = await getUserToken()
-		const userId = await AsyncStorage.getItem('userId')
+		const userId = await Storage.getItem('userId')
 		let product_cart = []
 		newData.rMap(item => {
 			product_cart.push({ qty_in: item.qty - item.newQty })

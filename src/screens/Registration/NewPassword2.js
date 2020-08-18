@@ -13,7 +13,7 @@ import { ColorsList } from '../../styles/colors';
 import { SizeList } from '../../styles/size';
 import { sendNewPassword } from '../../utils/unauthhelper';
 import { Spinner, Icon } from 'native-base';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import Container from 'src/components/View/Container';
 import UnauthHeader, { UnauthBackHeader } from 'src/components/View/UnauthHeader';
@@ -46,7 +46,7 @@ const NewPassword2 = ({ navigation }) => {
             setAlert(true)
         } else {
             setIsLoading(true)
-            const pushToken = await AsyncStorage.getItem("@push_token")
+            const pushToken = await Storage.getItem("@push_token")
             const data = {
                 phone_number: "62" + FormRegister.phone_number,
                 password: FormRegister.password,
@@ -57,8 +57,8 @@ const NewPassword2 = ({ navigation }) => {
             }
             const res = await sendNewPassword(data)
             if (res.status == 200) {
-                await AsyncStorage.setItem('userId', res.data.id.toString())
-                await AsyncStorage.setItem('@user_token', res.data.token)
+                await Storage.setItem('userId', res.data.id.toString())
+                await Storage.setItem('@user_token', res.data.token)
                 dispatch(clearAllRegistration())
                 setIsLoading(false)
                 navigation.navigate('/')

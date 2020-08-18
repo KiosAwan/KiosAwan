@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import AsyncStorage from '@react-native-community/async-storage'
+import Storage from 'src/utils/keyStores';
 import Strings from '../../utils/Strings'
 import BarStatus from '../../components/BarStatus';
 import { ColorsList } from 'src/styles/colors';
@@ -68,11 +68,11 @@ export default class AppIntro extends React.Component {
     }
 
     _onSkip = async () => {
-        await AsyncStorage.setItem("introApp", "sudah")
+        await Storage.setItem("introApp", "sudah")
         this.props.navigation.navigate('/unauth')
     }
     _onDone = async () => {
-        await AsyncStorage.setItem("introApp", "sudah")
+        await Storage.setItem("introApp", "sudah")
         this.props.navigation.navigate('/unauth')
     }
     render() {

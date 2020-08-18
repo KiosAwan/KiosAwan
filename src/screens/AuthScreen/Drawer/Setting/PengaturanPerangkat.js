@@ -12,7 +12,7 @@ import {
     ToastAndroid
 } from 'react-native';
 import { BluetoothEscposPrinter, BluetoothManager, BluetoothTscPrinter } from "react-native-bluetooth-escpos-printer";
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { GlobalHeader } from 'src/components/Header/Header';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
@@ -46,7 +46,7 @@ class PengaturanPerangkat extends Component {
     }
 
     async componentDidMount() {//alert(BluetoothManager)
-        const connectedPrinter = await AsyncStorage.getItem('@connected_printer')
+        const connectedPrinter = await Storage.getItem('@connected_printer')
         if (connectedPrinter) {
             this.props.addPrinter(JSON.parse(connectedPrinter))
         }
@@ -86,17 +86,17 @@ class PengaturanPerangkat extends Component {
                         });
                         BluetoothManager.connect(row.address)
                             .then(async (s) => {
-                                const temp_con_printer = await AsyncStorage.getItem('@connected_printer')
+                                const temp_con_printer = await Storage.getItem('@connected_printer')
                                 if (temp_con_printer) {
                                     console.debug("SET PRINTER ARR")
                                     const parseTemp = JSON.parse(temp_con_printer)
                                     const a = parseTemp.find(item => item.boundAddress == row.address)
                                     if (!a) {
-                                        await AsyncStorage.setItem('@connected_printer', JSON.stringify([...parseTemp, { name: row.name, boundAddress: row.address }]))
+                                        await Storage.setItem('@connected_printer', JSON.stringify([...parseTemp, { name: row.name, boundAddress: row.address }]))
                                     }
                                 } else {
                                     console.debug("SET PRINTER")
-                                    await AsyncStorage.setItem('@connected_printer', JSON.stringify([{ name: row.name, boundAddress: row.address }]))
+                                    await Storage.setItem('@connected_printer', JSON.stringify([{ name: row.name, boundAddress: row.address }]))
                                 }
                                 this.setState({
                                     connectedPrinter: [...this.state.connectedPrinter, { name: row.name, boundAddress: row.address }],

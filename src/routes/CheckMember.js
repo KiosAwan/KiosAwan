@@ -6,7 +6,7 @@ import {
   BackHandler
 } from 'react-native';
 import { useDispatch } from 'react-redux'
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import NetInfo from '@react-native-community/netinfo';
 import Strings from '../utils/Strings';
 import BarStatus from '../components/BarStatus';
@@ -40,7 +40,7 @@ const CheckMember = (props) => {
   }
 
   const _checkVersion = async () => {
-    const CheckUpdate = await AsyncStorage.getItem('CheckUpdate')
+    const CheckUpdate = await Storage.getItem('CheckUpdate')
     let { data: { status, data } } = await axios.get(`${HOST_URL}/version`)
     const { BUILD } = VERSION
     const { buildNumber, linkPs, majorUpdate, version } = data
@@ -51,7 +51,7 @@ const CheckMember = (props) => {
       }
       const No = () => _checkFunc()
       const DontAsk = async () => {
-        await AsyncStorage.setItem('CheckUpdate', 'false')
+        await Storage.setItem('CheckUpdate', 'false')
         _checkFunc()
       }
       let button = force ? [['Ya', Yes]] : [
@@ -90,9 +90,9 @@ const CheckMember = (props) => {
   const _checkFunc = async () => {
     try {
       //Cek Token Pas Awal
-      const checkUserIntro = await AsyncStorage.getItem('introApp');
-      const checkUserData = await AsyncStorage.getItem('userId');
-      const userToken = await AsyncStorage.getItem('@user_token');
+      const checkUserIntro = await Storage.getItem('introApp');
+      const checkUserData = await Storage.getItem('userId');
+      const userToken = await Storage.getItem('@user_token');
       NetInfo.addEventListener(state => {
         if (!state.isInternetReachable) {
           navigation.navigate('/not-connected')
@@ -104,7 +104,7 @@ const CheckMember = (props) => {
             headers: { "authorization": userToken }
           })
           if (res.status == 200) {
-            await AsyncStorage.setItem('@user_token', res.data.data.token)
+            await Storage.setItem('@user_token', res.data.data.token)
             await dispatch(getProfile(checkUserData, res.data.data.token))
             navigation.navigate('/')
           }

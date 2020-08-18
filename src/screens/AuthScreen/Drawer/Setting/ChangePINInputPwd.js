@@ -22,7 +22,7 @@ import { Text } from 'src/components/Text/CustomText';
 import { stateObject } from 'src/utils/state';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import { openPin } from 'src/utils/pin-otp-helper';
-import AsyncStorage from 'src/utils/async-storage';
+import Storage from 'src/utils/keyStores';
 
 
 const height = Dimensions.get('window').height
@@ -55,7 +55,7 @@ const ChangePINInputPwd = ({ navigation }) => {
 			setAlert({ message: "Pin harus sama", visible: true })
 		} else {
 			setAlert({ loading: true })
-			const id = await AsyncStorage.get('userId')
+			const id = await Storage.getItem('userId')
 			const data = { id, pin, old_pin }
 			const res = await changeUserPIN(data)
 			setAlert({ loading: false })
@@ -78,7 +78,7 @@ const ChangePINInputPwd = ({ navigation }) => {
 			textTitle: "Masukkan PIN anda saat ini",
 			footer: null,
 			onResolve: async oldPin => {
-				await AsyncStorage.put("gantiPin_pinOld", oldPin)
+				await Storage.setItem("gantiPin_pinOld", oldPin)
 				openNewPin2()
 			}
 		})
@@ -90,7 +90,7 @@ const ChangePINInputPwd = ({ navigation }) => {
 			textTitle: "Masukkan PIN baru anda",
 			footer: null,
 			onResolve: async pin => {
-				await AsyncStorage.put("gantiPin_pin", pin)
+				await Storage.setItem("gantiPin_pin", pin)
 				openNewPin3()
 			}
 		})
@@ -102,7 +102,8 @@ const ChangePINInputPwd = ({ navigation }) => {
 			textTitle: "Ulangi masukkan PIN baru anda",
 			footer: null,
 			onResolve: async confirmPin => {
-				const [old_pin, pin] = await AsyncStorage.getObj(["gantiPin_pinOld", "gantiPin_pin"], true)
+				const old_pin = await Storage.getItem("gantiPin_pinOld")
+				const pin = await Storage.getItem("gantiPin_pin")
 				if (pin == confirmPin) {
 					_handleSavePIN({ old_pin, pin, confirmPin })
 				} else {

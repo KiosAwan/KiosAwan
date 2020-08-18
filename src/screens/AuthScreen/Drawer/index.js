@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { View, StyleSheet, Linking } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { Text } from 'src/components/Text/CustomText'
@@ -22,8 +22,8 @@ const Akun = ({ navigation }) => {
 	const _onPressLogout = async (props) => {
 		try {
 			dispatch(removeAllCart())
-			await AsyncStorage.removeItem('userId')
-			await AsyncStorage.removeItem('@user_token')
+			await Storage.removeItem('userId')
+			await Storage.removeItem('@user_token')
 			navigation.navigate('/unauth')
 		}
 		catch (e) {

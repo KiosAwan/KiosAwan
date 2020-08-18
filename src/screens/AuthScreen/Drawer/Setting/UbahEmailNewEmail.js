@@ -12,7 +12,7 @@ import {
 import { ColorsList } from 'src/styles/colors';
 import { SizeList } from 'src/styles/size';
 import ModalContent from 'src/components/ModalContent/ModalContent';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { changeEmail, getUserToken } from 'src/utils/authhelper';
 import { getProfile } from 'src/redux/actions/actionsUserData';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
@@ -31,7 +31,7 @@ const UbahEmailNewEmail = ({ navigation }) => {
 
 	const _handleNextBtn = async () => {
 		setLoading(true)
-		const id = await AsyncStorage.getItem('userId')
+		const id = await Storage.getItem('userId')
 		const data = {
 			id,
 			email: newEmail

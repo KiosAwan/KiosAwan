@@ -26,7 +26,7 @@ import {
 	SetIdMultiCart
 } from 'src/redux/actions/actionsPPOB';
 import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
-import AsyncStorage from '@react-native-community/async-storage'
+import Storage from 'src/utils/keyStores';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -70,7 +70,7 @@ class CheckOut extends React.Component {
 	}
 	_handlePayCash = async () => {
 		const userToken = await getUserToken()
-		const userId = await AsyncStorage.getItem('userId')
+		const userId = await Storage.getItem('userId')
 		const Product = this.props.Product
 		let cart = []
 		Product.belanja.rMap(item => {
@@ -138,7 +138,7 @@ class CheckOut extends React.Component {
 
 	_handlePayCredit = async () => {
 		const userToken = await getUserToken()
-		const userId = await AsyncStorage.getItem('userId')
+		const userId = await Storage.getItem('userId')
 		const Product = this.props.Product
 		if (Product.customer) {
 			if (Product.due_debt_date) {

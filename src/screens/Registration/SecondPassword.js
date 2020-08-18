@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import AsyncStorage from '@react-native-community/async-storage'
+import Storage from 'src/utils/keyStores';
 //Styling
 import {
     View,
@@ -56,7 +56,7 @@ const SecondPassword = ({ navigation }) => {
             setAlert(true)
         } else {
             setIsLoading(true)
-            const pushToken = await AsyncStorage.getItem("@push_token")
+            const pushToken = await Storage.getItem("@push_token")
             const data = {
                 name: FormRegister.name,
                 phone_number: "62" + FormRegister.phone_number,
@@ -70,8 +70,8 @@ const SecondPassword = ({ navigation }) => {
             const res = await registerUser(data)
             setIsLoading(false)
             if (res.status == 200) {
-                await AsyncStorage.setItem('userId', res.data.id.toString())
-                await AsyncStorage.setItem('@user_token', res.data.token)
+                await Storage.setItem('userId', res.data.id.toString())
+                await Storage.setItem('@user_token', res.data.token)
                 await dispatch(getProfile(res.data.id.toString(), res.data.token))
                 await dispatch(clearAllRegistration())
                 navigation.navigate('/')

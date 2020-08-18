@@ -9,7 +9,7 @@ import { convertRupiah, getNearestFifty, payCredit, convertNumber, getUserToken 
 import { ToggleButtonMoney } from 'src/components/Picker/SelectBoxModal';
 import { RowChild } from 'src/components/Helper/RowChild';
 import { FloatingInputLabelCurrency } from 'src/components/Input/InputComp';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { Bottom } from 'src/components/View/Bottom';
 import { Button } from 'src/components/Button/Button';
 import { Wrapper } from 'src/components/View/Wrapper';
@@ -83,7 +83,7 @@ const TransactionDetailLunasi = ({ navigation }) => {
 	]
 
 	const _handlePayCredit = async () => {
-		const userId = await AsyncStorage.getItem('userId')
+		const userId = await Storage.getItem('userId')
 		const data = {
 			amount_payment: convertNumber(amount_payment),
 			cashier: userId,

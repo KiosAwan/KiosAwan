@@ -1,7 +1,7 @@
 import axios from 'src/utils/axios'
 import { HOST_URL } from '../config'
 import { Image } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { Dimensions } from 'react-native';
 
 export const getImageSize = image => {
@@ -33,13 +33,13 @@ export const getImageSize = image => {
 
 //get User token
 export const getUserToken = async () => {
-  const userToken = await AsyncStorage.getItem('@user_token')
+  const userToken = await Storage.getItem('@user_token')
   return userToken
 }
 
 //get User ID
 export const getUserId = async () => {
-  const userId = await AsyncStorage.getItem('userId')
+  const userId = await Storage.getItem('userId')
   return userId
 }
 

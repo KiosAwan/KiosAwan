@@ -38,7 +38,6 @@ export const sendVerifyOTP = async (data) => {
 }
 
 export const loginData = async (data) => {
-    console.log(data)
     try {
         const res = await axios.post(`${HOST_URL}/login`, data)
         return res.data

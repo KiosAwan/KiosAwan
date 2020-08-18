@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ModalContent from 'src/components/ModalContent/ModalContent';
 import MDInput, { Input } from 'src/components/Input/MDInput';
 import Container, { Footer, Body } from 'src/components/View/Container';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { View, StyleSheet, Image, Modal, ActivityIndicator } from 'react-native';
 import { useDispatch } from 'react-redux'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -100,7 +100,7 @@ const UpdateProfil = ({ navigation }) => {
 			setAlert(true)
 		} else {
 			setLoading(true)
-			const id_user = await AsyncStorage.getItem('userId')
+			const id_user = await Storage.getItem('userId')
 			const formData = new FormData()
 
 			let final_address = `${address_store}, ${_renderViewAlamat(desaSelected)}`

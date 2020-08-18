@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { BluetoothEscposPrinter, BluetoothManager, BluetoothTscPrinter } from "react-native-bluetooth-escpos-printer";
 import { convertRupiah } from 'src/utils/authhelper';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from 'src/utils/keyStores';
 import { ColorsList } from 'src/styles/colors';
 import { GlobalHeaderWithIcon } from 'src/components/Header/Header';
 import { connect } from 'react-redux';
@@ -155,19 +155,19 @@ class TambahPrinter extends Component {
 						});
 						BluetoothManager.connect(row.address)
 							.then(async (s) => {
-								const temp_con_printer = await AsyncStorage.getItem('@connected_printer')
+								const temp_con_printer = await Storage.getItem('@connected_printer')
 								if (temp_con_printer) {
 									const parseTemp = JSON.parse(temp_con_printer)
 									const a = parseTemp.find(item => item.boundAddress == row.address)
 									if (!a) {
 										this.props.addPrinter([...parseTemp, { name: row.name, boundAddress: row.address }])
-										await AsyncStorage.setItem('@connected_printer', JSON.stringify([...parseTemp, { name: row.name, boundAddress: row.address }]))
+										await Storage.setItem('@connected_printer', JSON.stringify([...parseTemp, { name: row.name, boundAddress: row.address }]))
 										console.debug(this.props.Printer)
 									}
 								} else {
 									console.debug("SET PRINTER")
 									this.props.addPrinter([{ name: row.name, boundAddress: row.address }])
-									await AsyncStorage.setItem('@connected_printer', JSON.stringify([{ name: row.name, boundAddress: row.address }]))
+									await Storage.setItem('@connected_printer', JSON.stringify([{ name: row.name, boundAddress: row.address }]))
 								}
 								this.props.navigation.navigate('/drawer/transaction/cetakstruk')
 							}, (e) => {

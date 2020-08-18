@@ -19,7 +19,8 @@ import { Bottom } from 'src/components/View/Bottom';
 import Divider from 'src/components/Row/Divider';
 import { RemovePPOBFromCart } from 'src/redux/actions/actionsPPOB';
 import MDInput, { Input } from 'src/components/Input/MDInput';
-import AsyncStorage from 'src/utils/async-storage';
+import Storage from 'src/utils/keyStores';
+
 import Container, { Body, Footer } from 'src/components/View/Container';
 import Alert from 'src/utils/alert';
 import { SizeList } from 'src/styles/size';
@@ -337,7 +338,7 @@ const Cart = ({ navigation }) => {
 					</Button>
 					<Button wrapper={{ justify: "center" }} color="white" noBorder _width="48%" justify="center" padding={10} onPress={async () => {
 						if (User.data.ppob_disabled != 1) {
-							await AsyncStorage.put("TransactionDetailRoute", "/")
+							await Storage.setItem("TransactionDetailRoute", "/")
 							navigation.navigate("/ppob")
 						} else {
 							setErrorMessage("Fitur ini sedang dalam proses pengembangan")
