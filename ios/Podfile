@@ -49,6 +49,10 @@ target 'AwanApp' do
 
   pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
 
+  pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
+
+  pod 'RNSecureKeyStore', :path => '../node_modules/react-native-secure-key-store'
+
   target 'AwanAppTests' do
     inherit! :search_paths
     # Pods for testing

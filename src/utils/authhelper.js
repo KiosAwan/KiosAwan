@@ -376,8 +376,7 @@ export const verifyUserPIN = async (data) => {
       headers: { "authorization": userToken }
     })
     return res.data
-  }
-  catch (error) {
+  } catch (error) {
     const res = error.response.data
     return res
   }

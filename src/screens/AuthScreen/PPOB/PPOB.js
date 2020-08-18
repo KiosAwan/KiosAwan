@@ -21,7 +21,7 @@ import { getProductPPOBList } from 'src/utils/api/ppobapi';
 import { DEV_IMG_URL, HOST_URL } from 'src/config';
 import { getProfile } from 'src/redux/actions/actionsUserData'
 import TextTicker from 'react-native-text-ticker';
-import Axios from 'src/utils/axios';
+import axios from 'src/utils/axios';
 import { FontList } from 'src/styles/typography';
 import Container, { Body, Footer } from 'src/components/View/Container';
 import { ImageHeader, IconHeader } from 'src/components/Header/Header';
@@ -44,7 +44,7 @@ const PPOB = ({ navigation }) => {
 
 	const _checkService = async () => {
 		const userToken = await getUserToken()
-		const res = await Axios.get(`${HOST_URL}/check_service`, {
+		const res = await axios.get(`${HOST_URL}/check_service`, {
 			headers: { "authorization": userToken }
 		})
 		if (res.data.data.service == 1) {

@@ -1,4 +1,7 @@
 import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import createEncryptor from 'redux-persist-transform-encrypt';
+import * as Storage from 'src/utils/keyStores';
 
 // Reducer List
 import reducerRegistration from './reducerRegistration'
@@ -13,6 +16,15 @@ import reducerEditProduct from './reducerEditProduct';
 import reducerPrinter from './reducerPrinter';
 import reducerRiwayatTransaksi from './reducerRiwayatTransaksi';
 import reducerLocale from './reducerLocale';
+
+const key = Storage.storageKey
+
+const encryptor = createEncryptor({
+    secretKey: key,
+    onError: error => {
+        console.log('reducer error', error)
+    }
+})
 
 const appReducer = combineReducers({
     Registration: reducerRegistration,
@@ -31,4 +43,10 @@ const appReducer = combineReducers({
     Locale: reducerLocale
 })
 
-export default appReducer
+const reducer = persistReducer({
+    key,
+    storage: Storage,
+    transforms: [encryptor]
+}, appReducer)
+
+export default reducer

@@ -7,7 +7,7 @@ import { $Padding, $BorderRadius, $Margin, $Border } from 'src/utils/stylehelper
 import { Icon } from 'native-base';
 import { Wrapper } from 'src/components/View/Wrapper';
 import { useSelector } from 'react-redux';
-import Axios from 'src/utils/axios';
+import axios from 'src/utils/axios';
 import { HOST_URL } from 'src/config';
 import { convertPhoneNumber, getUserToken } from 'src/utils/authhelper';
 import Container, { Body } from 'src/components/View/Container';
@@ -24,7 +24,7 @@ const Help = ({ navigation }) => {
 	}, [])
 	const _getData = async () => {
 		const userToken = await getUserToken()
-		const res = await Axios.get(`${HOST_URL}/pusatbantuan`, {
+		const res = await axios.get(`${HOST_URL}/pusatbantuan`, {
 			headers: { "authorization": userToken }
 		})
 		setCallCenter(res.data.data[0].no_telpon)

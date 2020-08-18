@@ -1,50 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import RBSheet from "react-native-raw-bottom-sheet";
-import { getUniqueId, getBrand } from 'react-native-device-info';
-
-// Styling 
-import {
-	View,
-	StyleSheet,
-	Dimensions,
-	Image,
-	TextInput
-} from 'react-native';
-
-//Redux Actions
-import { addPhoneNumber, addDeviceId, addDeviceName } from '../../redux/actions/actionsRegistration'
-
-//Functions
-import Strings from '../../utils/Strings'
+import { View } from 'react-native';
+import { addPhoneNumber } from 'src/redux/actions/actionsRegistration'
+import Strings from 'src/utils/Strings'
 import { sendPhoneNumber, phoneValidation, sendOTP, sendVerifyOTP, showPhoneNumber } from 'src/utils/unauthhelper';
-import BarStatus from '../../components/BarStatus';
-import { HeaderRegister } from '../../components/Header/Header';
-import { FontList } from 'src/styles/typography';
 import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { Button } from 'src/components/Button/Button';
 import { Text } from 'src/components/Text/CustomText';
-import { Bottom } from 'src/components/View/Bottom';
 import { ColorsList } from 'src/styles/colors';
 import Container from 'src/components/View/Container';
 import { Wrapper } from 'src/components/View/Wrapper';
-import { $Border, $Padding } from 'src/utils/stylehelper';
+import { $Padding } from 'src/utils/stylehelper';
 import UnauthHeader from 'src/components/View/UnauthHeader';
 import { Input } from 'src/components/Input/MDInput';
 import Divider from 'src/components/Row/Divider';
 import { SizeList } from 'src/styles/size';
 import { openOtp } from 'src/utils/pin-otp-helper';
 import { APP_VERSION } from 'src/config/constant';
-import { getProduct } from 'src/redux/actions/actionsStoreProduct';
-
-const width = Dimensions.get('window').width
-const height = Dimensions.get('window').height
-
 
 const PhoneRegistration = ({ navigation }) => {
 	const FormRegister = useSelector(state => state.Registration)
 	const dispatch = useDispatch()
-	let OTPRegisterSheet
 	const [btnDisabled, setBtnDisabled] = useState(true)
 	const [loading, setLoading] = useState(false)
 	const [popup, setPopup] = useState(false)
@@ -194,44 +170,4 @@ const PhoneRegistration = ({ navigation }) => {
 
 export default PhoneRegistration
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-	},
-	inputView: {
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	validNotif: {
-		textAlign: 'center',
-		padding: 10,
-		color: "red"
-	},
-	rowChild: {
-		flexDirection: "row",
-		alignItems: "center",
-		width: '80%',
-		justifyContent: "center"
-	},
-	subtitleEnterPhone: {
-		...FontList.titleFont,
-		paddingTop: 10,
-		paddingHorizontal: 20,
-		color: 'white',
-		textAlign: "center"
-	},
-	logoStyle: {
-		height: 80,
-		width: 150
-	},
-	termAndCond: {
-		width: '80%',
-		paddingTop: 30
-	},
-	wrapHeader: {
-		flexDirection: 'row',
-		justifyContent: "center",
-		alignItems: "flex-end",
-	}
-})
+

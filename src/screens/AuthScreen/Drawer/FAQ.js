@@ -5,7 +5,7 @@ import { GlobalHeader } from 'src/components/Header/Header';
 import { ColorsList } from 'src/styles/colors';
 import { $Padding, $BorderRadius } from 'src/utils/stylehelper';
 import { Wrapper } from 'src/components/View/Wrapper';
-import Axios from 'src/utils/axios';
+import axios from 'src/utils/axios';
 import { HOST_URL } from 'src/config';
 import SearchInput, { SearchInputV2 } from 'src/components/Input/SearchInput';
 import { Body } from 'src/components/View/Container';
@@ -17,7 +17,7 @@ const FAQ = ({ navigation }) => {
 	const [Faqs, setFaqs] = useState([])
 
 	const getFaqs = async () => {
-		let { data } = await Axios.get(`${HOST_URL}/faqs`)
+		let { data } = await axios.get(`${HOST_URL}/faqs`)
 		setFaqs(data.data)
 	}
 

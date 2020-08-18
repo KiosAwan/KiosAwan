@@ -11,7 +11,7 @@ import NetInfo from '@react-native-community/netinfo';
 import Strings from '../utils/Strings';
 import BarStatus from '../components/BarStatus';
 import { getProfile } from '../redux/actions/actionsUserData';
-import Axios from 'src/utils/axios';
+import axios from 'src/utils/axios';
 import { HOST_URL } from 'src/config';
 import { ColorsList } from 'src/styles/colors';
 import { Text } from 'src/components/Text/CustomText';
@@ -41,7 +41,7 @@ const CheckMember = (props) => {
 
   const _checkVersion = async () => {
     const CheckUpdate = await AsyncStorage.getItem('CheckUpdate')
-    let { data: { status, data } } = await Axios.get(`${HOST_URL}/version`)
+    let { data: { status, data } } = await axios.get(`${HOST_URL}/version`)
     const { BUILD } = VERSION
     const { buildNumber, linkPs, majorUpdate, version } = data
     const updateNotif = force => {
@@ -100,7 +100,7 @@ const CheckMember = (props) => {
       });
       if (checkUserData != null) {
         try {
-          const res = await Axios.get(`${HOST_URL}/auth/check`, {
+          const res = await axios.get(`${HOST_URL}/auth/check`, {
             headers: { "authorization": userToken }
           })
           if (res.status == 200) {

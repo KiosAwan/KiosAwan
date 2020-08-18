@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { GlobalHeader } from '../../components/Header/Header'
 import { ColorsList } from 'src/styles/colors';
-import Axios from 'src/utils/axios';
+import axios from 'src/utils/axios';
 import { HOST_URL } from 'src/config';
 import { Text } from 'src/components/Text/CustomText';
 import HTML from 'react-native-render-html';
@@ -16,7 +16,7 @@ const TermCondition = ({ navigation }) => {
 	}, [])
 
 	const _getContent = async () => {
-		const res = await Axios.get(`${HOST_URL}/term_conditions`)
+		const res = await axios.get(`${HOST_URL}/term_conditions`)
 		setContent(res.data.data)
 	}
 	return (

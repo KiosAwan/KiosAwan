@@ -1,4 +1,4 @@
-import Axios from 'src/utils/axios';
+import axios from 'src/utils/axios';
 import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions, Modal, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
@@ -77,7 +77,7 @@ const ManajemenProdukEditHarga = ({ navigation }) => {
 				} : null : null)
 				try {
 					const userToken = await getUserToken()
-					const res = await Axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData, {
+					const res = await axios.post(`${HOST_URL}/product_update/${EditProduct.id_product}`, formData, {
 						headers: { "authorization": userToken }
 					})
 					setApiLoading(false)

@@ -62,8 +62,7 @@ const LoginVerification = ({ navigation }) => {
                 setLoading(false)
                 setAlertMessage(res.data.errors.msg)
                 setAlert(true)
-            }
-            else {
+            } else {
                 await dispatch(clearAllRegistration())
                 await AsyncStorage.setItem('userId', res.data.id)
                 await AsyncStorage.setItem('@user_token', res.data.token)
@@ -71,8 +70,7 @@ const LoginVerification = ({ navigation }) => {
                 setLoading(false)
                 navigation.navigate('/')
             }
-        }
-        catch (err) {
+        } catch (err) {
             console.debug(err)
             setLoading(false)
         }
@@ -95,8 +93,7 @@ const LoginVerification = ({ navigation }) => {
                 if (res.status == 400) {
                     setAlertMessage(res.data.errors.msg)
                     setAlert(true)
-                }
-                else if (res.status == 200) {
+                } else if (res.status == 200) {
                     navigation.navigate('/unauth/login/forgot-password/new-password-1')
                 }
             }
@@ -112,7 +109,6 @@ const LoginVerification = ({ navigation }) => {
             push_token: pushToken,
             phone: FormRegister.deviceName
         }
-        console.log(data)
         const res = await sendOTP(data)
         setLoading(false)
         if (res.status == 400) {

@@ -7,7 +7,6 @@ import { SizeList } from 'src/styles/size';
 import { useSelector, useDispatch } from 'react-redux'
 import { View, RefreshControl, Modal, BackHandler } from 'react-native'
 import Ads from './Ads';
-import Axios from 'axios'
 import Container, { Body } from 'src/components/View/Container';
 import Feature from './Feature';
 import Header from './Header';
@@ -20,6 +19,7 @@ import CreatePin from './CreatePin';
 import { Toast } from 'native-base'
 import { ColorsList } from 'src/styles/colors'
 import { NavigationEvents } from 'react-navigation'
+import axios from 'src/utils/axios'
 
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
@@ -38,14 +38,14 @@ const Home = ({ navigation }) => {
 	const modalFn = [_setAlertMessage, _setAlert, _setModalVisible, _setAlertTitle]
 
 	const _getNewsData = async () => {
-		const res = await Axios.get('https://kiosawan.com/wp-json/wp/v2/posts')
+		const res = await axios.get('https://kiosawan.com/wp-json/wp/v2/posts')
 		setNews(res.data)
 		setNewsLoading(false)
 	}
 
 	const _checkService = async () => {
 		const userToken = await getUserToken()
-		const res = await Axios.get(`${HOST_URL}/check_service`, {
+		const res = await axios.get(`${HOST_URL}/check_service`, {
 			headers: { "authorization": userToken }
 		})
 		res.data.data.status == 2 && _featureDisabled();
