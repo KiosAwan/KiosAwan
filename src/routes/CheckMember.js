@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react'
-import {
-  StyleSheet,
-  View,
-  Image,
-  BackHandler
-} from 'react-native';
+import { StyleSheet, View, Image, BackHandler } from 'react-native';
 import { useDispatch } from 'react-redux'
 import Storage from 'src/utils/keyStores';
 import NetInfo from '@react-native-community/netinfo';

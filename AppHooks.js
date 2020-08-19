@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import onInactive, { inActiveTimer } from 'src/utils/onInactive';
 import OneSignal from 'react-native-onesignal'
 import BackgroundTimer from 'react-native-user-inactivity/lib/BackgroundTimer';
+
 import AppNavigator from './src/routes/AppNavigator'
 import * as Sentry from '@sentry/react-native';
 import { Root } from 'native-base';
@@ -13,7 +14,6 @@ import { Provider } from 'react-redux'
 import { Linking } from 'react-native';
 import { Deeplink } from './src/routes/Deeplink';
 import Storage from 'src/utils/keyStores';
-import { isEmulator } from 'react-native-device-info';
 
 const prefix = 'awanapp://';
 
@@ -22,10 +22,8 @@ const App = () => {
     Deeplink(event.url)
   }
   const onIds = async device => {
-    const isEmu = await isEmulator()
-    if (isEmu)
-      if (__DEV__) await Storage.setItem('@push_token', 'pushtokenemulator')
-    if (device) await Storage.setItem('@push_token', device.userId)
+    console.log(device)
+    await Storage.setItem('@push_token', device.userId)
   }
   useEffect(() => {
     Sentry.init({
@@ -37,7 +35,6 @@ const App = () => {
     Linking.getInitialURL().then(Deeplink).catch(err => console.error('An error occurred', err));
     Linking.addEventListener('url', _handleOpenURL);
     SplashScreen.hide()
-    onIds()
     return () => {
       OneSignal.removeEventListener('ids', onIds);
       Linking.removeEventListener('url', _handleOpenURL);
