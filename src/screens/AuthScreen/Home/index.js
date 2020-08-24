@@ -1,7 +1,7 @@
 import { AwanPopup } from 'src/components/ModalContent/Popups'
 import { Button } from 'src/components/Button/Button'
 import { getProfile } from 'src/redux/actions/actionsUserData'
-import { getUserToken } from 'src/utils/authhelper'
+import { getUserToken, checkService } from 'src/utils/authhelper'
 import { HOST_URL } from 'src/config'
 import { SizeList } from 'src/styles/size';
 import { useSelector, useDispatch } from 'react-redux'
@@ -23,6 +23,8 @@ import axios from 'src/utils/axios'
 
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
+	const fghjd = useSelector(state => state.App)
+	console.log(fghjd)
 	const dispatch = useDispatch()
 
 	const [maintenance, setMaintanance] = useState(false)
@@ -44,14 +46,11 @@ const Home = ({ navigation }) => {
 	}
 
 	const _checkService = async () => {
-		const userToken = await getUserToken()
-		const res = await axios.get(`${HOST_URL}/check_service`, {
-			headers: { "authorization": userToken }
-		})
-		res.data.data.status == 2 && _featureDisabled();
-		if (res.data.data.service == 1) {
+		const { data: { status, message, service } } = await checkService()
+		status == 2 && _featureDisabled();
+		if (service == 1) {
 			setMaintanance(true)
-			setMessage(res.data.data.message)
+			setMessage(message)
 		} else {
 			setMaintanance(false)
 		}

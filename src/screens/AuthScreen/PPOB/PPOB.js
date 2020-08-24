@@ -7,7 +7,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons'
 import LinearGradient from 'react-native-linear-gradient';
 import BarStatus from 'src/components/BarStatus';
 import { useSelector, useDispatch } from 'react-redux';
-import { convertRupiah, getUserToken } from 'src/utils/authhelper';
+import { convertRupiah, getUserToken, checkService } from 'src/utils/authhelper';
 import { ColorsList, infoColorSetting } from 'src/styles/colors';
 import { PPOBCard } from 'src/components/Card/CardIcon';
 
@@ -43,13 +43,10 @@ const PPOB = ({ navigation }) => {
 	}, [])
 
 	const _checkService = async () => {
-		const userToken = await getUserToken()
-		const res = await axios.get(`${HOST_URL}/check_service`, {
-			headers: { "authorization": userToken }
-		})
-		if (res.data.data.service == 1) {
+		const { data: { message, service } } = await checkService()
+		if (service == 1) {
 			setMaintanance(true)
-			setMessage(res.data.data.message)
+			setMessage(message)
 		} else {
 			setMaintanance(false)
 		}

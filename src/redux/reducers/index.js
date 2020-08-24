@@ -16,6 +16,7 @@ import reducerEditProduct from './reducerEditProduct';
 import reducerPrinter from './reducerPrinter';
 import reducerRiwayatTransaksi from './reducerRiwayatTransaksi';
 import reducerLocale from './reducerLocale';
+import reducerApp from 'src/redux/reducers/reducerApp';
 
 const encryptor = createEncryptor({
     secretKey: key,
@@ -38,7 +39,8 @@ const appReducer = combineReducers({
 
     //PPOB
     RiwayatTransaksi: reducerRiwayatTransaksi,
-    Locale: reducerLocale
+    Locale: reducerLocale,
+    App: reducerApp
 })
 
 const reducer = persistReducer({

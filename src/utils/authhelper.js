@@ -117,6 +117,18 @@ export const doQuery = async (callback) => {
   // console.log(JSON.stringify(cb,undefined,4))
 }
 
+export const checkService = async () => {
+  const userToken = await getUserToken()
+  const res = await axios.get(`${HOST_URL}/check_service`, {
+    headers: { "authorization": userToken }
+  })
+  const { new_token } = res.data
+  if (new_token) {
+    await Storage.setItem('@user_token', new_token)
+  }
+  return res.data
+}
+
 export const sendProfileData = async (data) => {
   const userToken = await getUserToken()
   try {
