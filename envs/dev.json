@@ -1,0 +1,50 @@
+{
+	"googleService": {
+		"project_info": {
+			"project_number": "348912587028",
+			"firebase_url": "https://awanfirebase-406a1.firebaseio.com",
+			"project_id": "awanfirebase-406a1",
+			"storage_bucket": "awanfirebase-406a1.appspot.com"
+		},
+		"client": [
+			{
+				"client_info": {
+					"mobilesdk_app_id": "1:348912587028:android:68845fdbc6a8ff07dbb201",
+					"android_client_info": {
+						"package_name": "com.awanapp"
+					}
+				},
+				"oauth_client": [
+					{
+						"client_id": "348912587028-rh0odh3r4kfbc4q4ijjgucnjbce2nu3k.apps.googleusercontent.com",
+						"client_type": 1,
+						"android_info": {
+							"package_name": "com.awanapp",
+							"certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+						}
+					},
+					{
+						"client_id": "348912587028-fvd5d59lmmejjls29ceqng0e0nrfi7se.apps.googleusercontent.com",
+						"client_type": 3
+					}
+				],
+				"api_key": [
+					{
+						"current_key": "AIzaSyDZBeiXadB3XfhZemEahWCwSkm7MTOw2co"
+					}
+				],
+				"services": {
+					"appinvite_service": {
+						"other_platform_oauth_client": [
+							{
+								"client_id": "348912587028-fvd5d59lmmejjls29ceqng0e0nrfi7se.apps.googleusercontent.com",
+								"client_type": 3
+							}
+						]
+					}
+				}
+			}
+		],
+		"configuration_version": "1"
+	}
+}
