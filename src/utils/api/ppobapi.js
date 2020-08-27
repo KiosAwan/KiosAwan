@@ -65,12 +65,9 @@ export const getProductPPOBGeneral = async (type) => {
 export const getProductPulsa = async (data) => {
     const userToken = await getUserToken()
     try {
-        const res = await axios.get(`${PPOB_URL}/service/ppob/general/product/${data.type}/${data.phone_number}`,
-            {
-                //Authorization with jwt
-                headers: { "authorization": userToken },
-            }
-        )
+        const res = await axios.get(`${PPOB_URL}/service/ppob/general/product/${data.type}/${data.phone_number}`, {
+            headers: { "authorization": userToken },
+        })
         return res.data
     } catch (err) {
         return (err.response.data)

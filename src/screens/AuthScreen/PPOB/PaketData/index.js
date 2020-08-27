@@ -55,6 +55,7 @@ const PpobPaketData = ({ navigation }) => {
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
 		openPin(navigation, (pin, close) => {
+			setPayLoading(true)
 			_userAuthentication(pin, close, item)
 		})
 	}
@@ -67,22 +68,24 @@ const PpobPaketData = ({ navigation }) => {
 		}
 	}, [])
 	//Function onchange phone number
-	const _onChangePhoneNum = async (text) => {
+	const _onChangePhoneNum = text => {
 		setPhoneNumber(text)
-		let x = {
-			phone_number: text,
-			type: "kuota"
-		}
-		let res = await getProductPulsa(x)
-		if (res.status == 200) {
-
-			setSelected()
-			if (res.data.products.length > 0) {
-				setData(res.data)
-			} else {
-				setData()
+		typingWaitCallback(async () => {
+			let x = {
+				phone_number: text,
+				type: "kuota"
 			}
-		}
+			let res = await getProductPulsa(x)
+			if (res.status == 200) {
+
+				setSelected()
+				if (res.data.products.length > 0) {
+					setData(res.data)
+				} else {
+					setData()
+				}
+			}
+		})
 	}
 	// Check user pin 
 	const _userAuthentication = async (pin, closePin, selected) => {
@@ -195,7 +198,7 @@ const PpobPaketData = ({ navigation }) => {
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="70%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }}>{` ${item.product_name.split(" ").slice(1).join(" ")}`} </Text>
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{item.product_name}</Text>
 										{/* <Text style={{ marginLeft: 5 }}>{` ${item.description}`} </Text> */}
 									</View>
 									<View _width="30%">

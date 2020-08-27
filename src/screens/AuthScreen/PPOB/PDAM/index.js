@@ -103,6 +103,7 @@ const PDAM = ({ navigation }) => {
     const _onPressBayar = () => {
         if (tagihanData) {
             openPin(navigation, (pin, close) => {
+                setPayLoading(true)
                 _userAuthentication(pin, close, selected)
             })
         } else {
@@ -141,7 +142,12 @@ const PDAM = ({ navigation }) => {
         setPayLoading(false)
         if (res.status == 200) {
             const userToken = await getUserToken()
-            const data = { type: "pdam", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.product_name }
+            const data = {
+                type: "pdam",
+                customerID: res.data.payment ? res.data.payment.customerID : res.data.data.customerID,
+                price: parseInt(res.data.transaction.total),
+                productName: selected.product_name
+            }
             dispatch(AddPPOBToCart(data))
             dispatch(getProfile(User.data.id, userToken))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))
@@ -191,7 +197,7 @@ const PDAM = ({ navigation }) => {
                     </View>
                 } */}
                 <SelectBoxModal btnStyle={{ marginBottom: SizeList.base }}
-                    height={400}
+                    style={{ height: 400 }}
                     label="Pilih Lokasi PDAM" closeOnSelect
                     data={productData ? productData.filter(item => item.product_name.toLowerCase().includes(search.toLowerCase())) : []}
                     header={

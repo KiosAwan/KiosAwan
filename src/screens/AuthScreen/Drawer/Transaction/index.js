@@ -31,6 +31,7 @@ const TransactionList = ({ navigation }) => {
   const { data: trxData, isLoading } = DataTransaksi
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
+  const [allowNavigate, setAllowNavigate] = useState(true)
 
   const iconImage = {
     '3': {
@@ -57,6 +58,8 @@ const TransactionList = ({ navigation }) => {
   useEffect(() => {
     _effect()
   }, [])
+
+  if (!allowNavigate) setAllowNavigate(true)
 
   const _effect = async () => {
     const userToken = await getUserToken()
@@ -128,12 +131,16 @@ const TransactionList = ({ navigation }) => {
                         renderItem={({ item: trx, i }) => {
                           return <Button
                             spaceBetween
+                            disabled={!allowNavigate}
                             style={{ marginVertical: SizeList.secondary }}
                             radius={SizeList.borderRadius}
                             padding={SizeList.padding}
                             color={["white"]}
                             onPress={() => {
-                              navigation.push('/drawer/transaction/detail', { transactionId: trx.id_transaction })
+                              if (allowNavigate) {
+                                setAllowNavigate(false)
+                                navigation.push('/drawer/transaction/detail', { transactionId: trx.id_transaction })
+                              }
                             }}
                           >
                             <View style={{ width: "100%" }}>

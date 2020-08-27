@@ -137,7 +137,7 @@ const NewProductName = ({ navigation }) => {
 					dispatch(addProductBarcode(text))
 				}
 			}}
-				label="Nomor Barcode" renderRightAccessory={() => <Button width={40} onPress={() => navigation.goBack()}>
+				label="Nomor Barcode" renderRightAccessory={() => <Button style={{ width: 40 }} onPress={() => navigation.goBack()}>
 					<Image size={20} source={require('src/assets/icons/barcode.png')} />
 				</Button>} value={NewProduct.barcode} />
 			<Input

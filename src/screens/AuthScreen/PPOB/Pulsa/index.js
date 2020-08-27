@@ -20,6 +20,7 @@ import { SizeList } from 'src/styles/size';
 import { openPin } from 'src/utils/pin-otp-helper';
 import { PPOB_PRODUCT_CODE } from 'src/config/constant';
 import { paymentPPOBProduct, getProductPulsa } from 'src/utils/api/ppobapi';
+import { typingWaitCallback } from 'src/utils/state';
 
 const PpobPulsa = ({ navigation }) => {
 	//Initialize dispatch
@@ -48,26 +49,29 @@ const PpobPulsa = ({ navigation }) => {
 	const _selectPulsa = ({ item, index }) => {
 		setSelected(item)
 		openPin(navigation, (pin, close) => {
+			setPayLoading(true)
 			_userAuthentication(pin, close, item)
 		})
 	}
 
 	//Function onchange phone number
-	const _onChangePhoneNum = async text => {
+	const _onChangePhoneNum = text => {
 		setPhoneNumber(text)
-		let x = {
-			phone_number: text,
-			type: "pulsa"
-		}
-		let res = await getProductPulsa(x)
-		if (res.status == 200) {
-			setSelected()
-			if (res.data.products.length == 0) {
-				setData()
-			} else {
-				setData(res.data)
+		typingWaitCallback(async () => {
+			let x = {
+				phone_number: text,
+				type: "pulsa"
 			}
-		}
+			let res = await getProductPulsa(x)
+			if (res.status == 200) {
+				setSelected()
+				if (res.data.products.length == 0) {
+					setData()
+				} else {
+					setData(res.data)
+				}
+			}
+		}, 500)
 	}
 	// Check user pin 
 	const _userAuthentication = async (pin, closePin, selected) => {
@@ -185,7 +189,7 @@ const PpobPulsa = ({ navigation }) => {
 							<TouchableOpacity onPress={() => _selectPulsa({ item, index })}>
 								<Wrapper spaceBetween style={[styles.pulsaWrapper, item == selected && styles.pulsaWrapperActive]}>
 									<View _width="68%">
-										<Text font="SemiBold" style={{ marginLeft: 5 }}>{`PULSA ${item.product_name.split(" ")[item.supplier_id == 2 ? 1 : 2]}`} </Text>
+										<Text font="SemiBold" style={{ marginLeft: 5 }}>{item.product_name}</Text>
 									</View>
 									<View _width="32%">
 										<Text size={8}>HARGA</Text>

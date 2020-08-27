@@ -10,21 +10,21 @@ import { Button } from "src/components/Button/Button"
 import CreatePin from './CreatePin';
 import { AwanPopup } from 'src/components/ModalContent/Popups';
 
-const Notification = ({ User, maintenance, message, navigation, modal, dispatch }) => {
+const Notification = ({ User, maintenance, message = "", navigation, modal, dispatch }) => {
 	const [setAlertMessage, setAlert, setModalVisible, setAlertTitle] = modal
 	return <View>
 		{
 			maintenance && <Button disabled color="info" flexStart style={{ borderRadius: SizeList.borderRadius, marginBottom: 10 }}>
 				<Icon color={ColorsList.informationFont} name="exclamation-circle" style={{ marginHorizontal: 10 }} />
 				<TextTicker
+					loop
+					bounce
 					width="90%"
 					style={{ color: ColorsList.informationFont, fontFamily: FontList.regularFont }}
 					duration={20000}
-					loop
-					bounce
-
 					marqueeDelay={500}
-				>{message}</TextTicker>
+					children={message}
+				/>
 			</Button>
 		}
 		{

@@ -83,6 +83,7 @@ const ListrikToken = ({ navigation }) => {
 				setAlert(true)
 			} else {
 				openPin(navigation, (pin, close) => {
+					setPayLoading(true)
 					_userAuthentication(pin, close, selected)
 				})
 			}

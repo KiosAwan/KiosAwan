@@ -103,7 +103,7 @@ const NewBarcodeProduct = ({ navigation }) => {
         autoFocus={RNCamera.Constants.AutoFocus.on}
       >
         <BarcodeMask
-          width={300} height={300}
+          style={{ width: 300, height: 300 }}
           showAnimatedLine
           transparency={0}
         />

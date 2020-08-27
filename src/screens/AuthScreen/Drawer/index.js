@@ -104,7 +104,7 @@ const Akun = ({ navigation }) => {
 						<Text font="SemiBold" >{User && User.data.name && User.data.name.toUpperCase()}</Text>
 						<Text size={12}>{User.data.reff_code}</Text>
 					</View>
-					<Button disabled width={110} padding={5}>FREE USER</Button>
+					<Button disabled style={{ width: 110 }} padding={5}>FREE USER</Button>
 				</Wrapper>
 				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
 					<AkunButton

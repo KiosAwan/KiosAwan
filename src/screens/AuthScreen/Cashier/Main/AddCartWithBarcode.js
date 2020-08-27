@@ -26,8 +26,8 @@ const AddCartWithBarcode = ({ navigation }) => {
         let barcode = scanResult.data
         let barcodeProduct = Product.data.find(item => barcode == item.barcode_product)
         if (barcodeProduct) {
-            if(barcodeProduct.manage_stock == 1){
-                if(parseInt(barcodeProduct.stock) - parseInt(barcodeProduct.quantity||0) == 0){
+            if (barcodeProduct.manage_stock == 1) {
+                if (parseInt(barcodeProduct.stock) - parseInt(barcodeProduct.quantity || 0) == 0) {
                     Alert.alert(
                         '',
                         `Stok ${barcodeProduct.name_product} sudah habis. Scan barang lain`,
@@ -40,11 +40,11 @@ const AddCartWithBarcode = ({ navigation }) => {
                         ],
                         { cancelable: false }
                     )
-                }else {
+                } else {
                     setProductData(barcodeProduct)
                     setModalVisible(true)
                 }
-            }else{
+            } else {
                 setProductData(barcodeProduct)
                 setModalVisible(true)
             }
@@ -69,7 +69,7 @@ const AddCartWithBarcode = ({ navigation }) => {
         setProductQuantity(1)
         setProductData()
     }
-    
+
     const _handleKembali = () => {
         if (productData.manage_stock == 1) {
             if (parseInt(productData.stock) - parseInt(productData.quantity || 0) - parseInt(productQuantity) >= 0) {
@@ -154,7 +154,7 @@ const AddCartWithBarcode = ({ navigation }) => {
                 autoFocus={RNCamera.Constants.AutoFocus.on}
             >
                 <BarcodeMask
-                    width={250} height={250}
+                    style={{ width: 250, height: 250 }}
                     showAnimatedLine
                     transparency={0}
                 />

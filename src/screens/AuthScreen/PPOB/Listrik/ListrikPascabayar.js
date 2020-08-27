@@ -76,6 +76,7 @@ const ListrikPascabayar = ({ navigation }) => {
 	const _onPressBayar = () => {
 		if (tagihanData) {
 			openPin(navigation, (pin, close) => {
+				setPayLoading(true)
 				_userAuthentication(pin, close)
 			})
 		} else {

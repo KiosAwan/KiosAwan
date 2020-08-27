@@ -16,7 +16,7 @@ import { AwanPopup, Modal } from 'src/components/ModalContent/Popups';
 import { SizeList } from 'src/styles/size';
 import { SelectBoxModal } from 'src/components/Picker/SelectBoxModal';
 import { } from 'src/components/Input/InputComp';
-import { convertRupiah, verifyUserPIN, getUserToken } from 'src/utils/authhelper';
+import { convertRupiah, verifyUserPIN, getUserToken, prettyConsole } from 'src/utils/authhelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPPOBToCart, SetIdMultiCart } from 'src/redux/actions/actionsPPOB';
 import SearchInput from 'src/components/Input/SearchInput';
@@ -103,6 +103,7 @@ const Telkom = ({ navigation }) => {
     const _onPressBayar = () => {
         if (tagihanData) {
             openPin(navigation, (pin, close) => {
+                setPayLoading(true)
                 _userAuthentication(pin, close, selected)
             })
         } else {
@@ -140,7 +141,13 @@ const Telkom = ({ navigation }) => {
         setPayLoading(false)
         if (res.status == 200) {
             const userToken = await getUserToken()
-            const data = { type: "Telco Pascabayar", customerID: res.data.payment.customerID, price: parseInt(res.data.transaction.total), productName: selected.product_name }
+            prettyConsole(res.data)
+            const data = {
+                type: "Telco Pascabayar",
+                customerID: res.data.payment ? res.data.payment.customerID : res.data.data.customerID,
+                price: parseInt(res.data.transaction.total),
+                productName: selected.product_name
+            }
             dispatch(AddPPOBToCart(data))
             dispatch(getProfile(User.data.id, userToken))
             dispatch(SetIdMultiCart(res.data.transaction.id_multi_transaction))

@@ -1,59 +1,59 @@
 //Action for adding name to reducer 
 export const addName = (name) => {
     return {
-        type : "ADD_NAME",
-        payload : name   
+        type: "ADD_NAME",
+        payload: name
     }
 }
 
 //Action for adding Phone Number to reducer 
-export const addPhoneNumber = ( phonenumber ) => {
+export const addPhoneNumber = (phonenumber) => {
     return {
-        type : "ADD_PHONE",
-        payload : phonenumber
+        type: "ADD_PHONE",
+        payload: phonenumber
     }
 }
 
 //Action for adding OTP to reducer 
-export const addVerifyOTP = ( otpNumber ) => {
+export const addVerifyOTP = (otpNumber) => {
     return {
-        type : "ADD_OTP",
-        payload : otpNumber
+        type: "ADD_OTP",
+        payload: otpNumber
     }
 }
 
 //Clear All Data 
 export const clearAllRegistration = () => {
     return {
-        type : "CLEAR_ALL_REGISTRATION"
+        type: "CLEAR_ALL_REGISTRATION"
     }
 }
 
-export const addFirstPassword = ( password ) => {
+export const addFirstPassword = (password) => {
     return {
-        type : "ADD_PASSWORD",
-        payload : password
+        type: "ADD_PASSWORD",
+        payload: password
     }
 }
 
-export const addSecondPassword = ( password ) => {
+export const addSecondPassword = (password) => {
     return {
-        type : "ADD_SECOND_PASSWORD",
-        payload : password
+        type: "ADD_SECOND_PASSWORD",
+        payload: password
     }
 }
 
 
-export const addDeviceId = ( deviceId ) => {
+export const addDeviceId = (deviceId) => {
     return {
-        type : "ADD_DEVICE_ID",
-        payload : deviceId
+        type: "ADD_DEVICE_ID",
+        payload: deviceId
     }
 }
 
-export const addDeviceName = ( deviceName ) => {
+export const addDeviceName = (deviceName) => {
     return {
-        type : "ADD_DEVICE_NAME",
-        payload : deviceName
+        type: "ADD_DEVICE_NAME",
+        payload: deviceName
     }
 }

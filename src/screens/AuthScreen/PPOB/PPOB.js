@@ -104,7 +104,7 @@ const PPOB = ({ navigation }) => {
 							</TouchableOpacity>
 						</Wrapper>
 					</View>
-					<Button width={100} onPress={_onPressTopUp}>TOP UP</Button>
+					<Button style={{ width: 100 }} onPress={_onPressTopUp}>TOP UP</Button>
 				</Wrapper>
 				{User.data.atur_harga == 0 && <Button
 					align="flex-start"

@@ -47,13 +47,12 @@ const reducerRegistration = (state = initialState, actions) => {
             }
         case "CLEAR_ALL_REGISTRATION":
             return {
+                ...state,
                 name: '',
                 phone_number: '',
                 otp: '',
                 password: '',
-                secondpassword: '',
-                deviceId: '',
-                deviceName: ''
+                secondpassword: ''
             }
         default:
             return state

@@ -24,6 +24,11 @@ class Class {
 				resolve(false)
 			}
 		})
+	}	
+	setItems(data) {
+		const setItem = this.setItem
+		const promises = data.map(async data => await setItem(data[0], data[1]))
+		return Promise.all(promises)
 	}
 	removeItem(key) {
 		return new Promise(async resolve => {

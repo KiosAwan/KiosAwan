@@ -181,7 +181,7 @@ const Home = ({ navigation }) => {
 		<NavigationEvents onDidFocus={_getUserInfo} />
 		<AwanPopup.Title title={_alertTitle} message={_alertMessage} visible={_alert}>
 			<View></View>
-			<Button width={100} onPress={_completeProfile}>OK</Button>
+			<Button style={{ width: 100 }} onPress={_completeProfile}>OK</Button>
 		</AwanPopup.Title>
 		<Modal
 			animationType="fade"

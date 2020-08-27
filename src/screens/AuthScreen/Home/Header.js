@@ -57,7 +57,7 @@ const Header = ({ User, navigation, _featureDisabled, _handleRefresh }) => {
 					</TouchableOpacity>
 				</Wrapper>
 			</View>
-			<Button width={100} onPress={_onPressTopUp}>TOP UP</Button>
+			<Button style={{ width: 100 }} onPress={_onPressTopUp}>TOP UP</Button>
 		</Wrapper>
 	</View>
 }

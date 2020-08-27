@@ -141,6 +141,7 @@ const PhoneRegistration = ({ navigation }) => {
 				<Input
 					_flex
 					noLabel
+					autoFocus
 					placeholder="8xxxxxxxxxx"
 					keyboardType="number-pad"
 					value={FormRegister.phone_number}

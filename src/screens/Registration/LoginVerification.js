@@ -31,6 +31,7 @@ import { SizeList } from '../../styles/size';
 import { openOtp } from 'src/utils/pin-otp-helper';
 import { APP_VERSION } from 'src/config/constant';
 import { getBrand } from 'react-native-device-info';
+import { prettyConsole } from 'src/utils/authhelper';
 
 
 const LoginVerification = ({ navigation }) => {

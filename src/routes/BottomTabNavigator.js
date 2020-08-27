@@ -23,7 +23,7 @@ const BottomTab = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Transaksi',
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="list-ul" color={tintColor} size={18} solid/>
+                <Icon name="list-ul" color={tintColor} size={18} solid />
             )
         }
     },
