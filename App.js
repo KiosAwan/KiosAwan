@@ -14,8 +14,7 @@ import { Linking } from 'react-native';
 import { Deeplink } from './src/routes/Deeplink';
 import Storage from 'src/utils/keyStores';
 import { isEmulator } from 'react-native-device-info';
-import { Button } from 'src/components/Button/Button';
-import analytics, { firebase } from '@react-native-firebase/analytics';
+import { firebase } from '@react-native-firebase/analytics';
 
 const prefix = 'awanapp://';
 
@@ -54,15 +53,6 @@ const App = () => {
     }
   }, [])
   return <Root>
-    <Button onPress={() => {
-      analytics().setCurrentScreen('djhsdh', 'djhsdh')
-      analytics().logEvent('basket', {
-        id: 3745092,
-        item: 'mens grey t-shirt',
-        description: ['round neck', 'long sleeved'],
-        size: 'L',
-      })
-    }}>hd</Button>
     <Provider store={store}>
       <UserInactivity
         timeForInactivity={inActiveTimer}
