@@ -4,6 +4,10 @@ import { Image } from 'react-native';
 import Storage from 'src/utils/keyStores';
 import { Dimensions } from 'react-native';
 
+export const prettyConsole = (data) => {
+  console.log(JSON.stringify(data, undefined, 4))
+}
+
 export const getImageSize = image => {
   const { width: winWidth, height: winHeight } = Dimensions.get('window')
   const imageRatio = ({ width, height }) => {

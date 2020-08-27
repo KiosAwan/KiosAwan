@@ -51,16 +51,17 @@ const PhoneRegistration = ({ navigation }) => {
 			info: "Anda harus memasukkan kode OTP yang telah dikirim ke nomor HP anda",
 			resend: _sendOTP,
 			onResolve: async otp => {
+				setLoading(true)
 				const data = {
 					phone_number: "62" + FormRegister.phone_number,
 					otp
 				}
 				const res = await sendVerifyOTP(data)
+				setLoading(false)
 				if (res.status == 400) {
 					setAlertMessage(res.data.errors.msg)
 					setAlert(true)
-				}
-				else if (res.status == 200) {
+				} else if (res.status == 200) {
 					_navigateRegister()
 				}
 			}

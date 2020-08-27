@@ -29,14 +29,16 @@ const App = () => {
     if (device) await Storage.setItem('@push_token', device.userId)
   }
   useEffect(() => {
-    firebase.initializeApp({
-      apiKey: 'AIzaSyDZBeiXadB3XfhZemEahWCwSkm7MTOw2co',
-      appId: '1:348912587028:android:68845fdbc6a8ff07dbb201',
-      databaseURL: 'https://awanfirebase-406a1.firebaseio.com',
-      messagingSenderId: '348912587028',
-      projectId: 'awanfirebase-406a1',
-      storageBucket: 'awanfirebase-406a1.appspot.com'
-    })
+    if (firebase.apps === 0) {
+      firebase.initializeApp({
+        apiKey: 'AIzaSyDZBeiXadB3XfhZemEahWCwSkm7MTOw2co',
+        appId: '1:348912587028:android:68845fdbc6a8ff07dbb201',
+        databaseURL: 'https://awanfirebase-406a1.firebaseio.com',
+        messagingSenderId: '348912587028',
+        projectId: 'awanfirebase-406a1',
+        storageBucket: 'awanfirebase-406a1.appspot.com'
+      })
+    }
     Sentry.init({
       dsn: 'https://b0a17f87bf17433493ede939075e84ac@o410762.ingest.sentry.io/5285053',
     });
