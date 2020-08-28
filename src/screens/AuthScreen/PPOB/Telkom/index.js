@@ -79,8 +79,7 @@ const Telkom = ({ navigation }) => {
     const _cekTagihan = async (prod, idPelanggan) => {
         if (!prod) {
             alert("Harap pilih product!")
-        }
-        else {
+        } else {
             setTagihanData()
             setTagihanLoading(true)
             const data = {
@@ -90,7 +89,7 @@ const Telkom = ({ navigation }) => {
             const res = await inquiryPPOBProduct(data)
             setTagihanLoading(false)
             if (res.status == 400) {
-                setAlertMessage("Data tidak ditemukan")
+                setAlertMessage(res.data.errors.msg)
                 setAlert(true)
             } else {
                 setTagihanData(res.data)

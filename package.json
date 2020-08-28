@@ -16,6 +16,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -94,6 +95,7 @@
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "^0.51.1",
+    "prettier": "^2.1.1",
     "react-test-renderer": "16.8.1"
   },
   "jest": {

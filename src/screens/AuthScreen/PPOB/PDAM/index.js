@@ -90,7 +90,7 @@ const PDAM = ({ navigation }) => {
             const res = await inquiryPPOBProduct(data)
             setTagihanLoading(false)
             if (res.status == 400) {
-                setAlertMessage("Data tidak ditemukan")
+                setAlertMessage(res.data.errors.msg)
                 setAlert(true)
             } else {
                 setTagihanData(res.data)

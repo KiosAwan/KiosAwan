@@ -16,7 +16,10 @@ import Storage from 'src/utils/keyStores';
 import { isEmulator } from 'react-native-device-info';
 import { firebase } from '@react-native-firebase/analytics';
 
+const env = require('src/assets/json/env.json')
 const prefix = 'awanapp://';
+
+
 
 const App = () => {
   const _handleOpenURL = event => {

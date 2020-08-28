@@ -52,7 +52,7 @@ const ListrikToken = ({ navigation }) => {
 			_cekTagihan(customerID)
 		}
 	}, [])
-	
+
 	const _getProduct = async () => {
 		const res = await getProductPPOBGeneral("listrik/pln_prepaid")
 		setProduct(res.data)
@@ -103,8 +103,7 @@ const ListrikToken = ({ navigation }) => {
 		if (res.status == 200) {
 			closePin()
 			_processPayment(selected)
-		}
-		else if (res.status == 400) {
+		} else if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
 		}
@@ -234,7 +233,7 @@ const ListrikToken = ({ navigation }) => {
 			{response && response.length != 0 &&
 				<Button style={{ marginTop: 5 }} onPress={_onPressBayar} width="100%">
 					BAYAR
-            </Button>
+		</Button>
 			}
 		</Footer>
 	</Container >
