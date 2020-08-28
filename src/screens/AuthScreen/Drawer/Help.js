@@ -1,31 +1,36 @@
-import React, { Component, useEffect, useState } from 'react';
-import { View, TouchableOpacity, Linking, StyleSheet } from 'react-native';
-import { Text } from 'src/components/Text/CustomText';
-import { GlobalHeader } from 'src/components/Header/Header';
-import { ColorsList } from 'src/styles/colors';
-import { $Padding, $BorderRadius, $Margin, $Border } from 'src/utils/stylehelper';
-import { Icon } from 'native-base';
-import { Wrapper } from 'src/components/View/Wrapper';
-import { useSelector } from 'react-redux';
-import axios from 'src/utils/axios';
-import { HOST_URL } from 'src/config';
-import { convertPhoneNumber, getUserToken } from 'src/utils/authhelper';
-import Container, { Body } from 'src/components/View/Container';
-import { SizeList } from 'src/styles/size';
-import Divider from 'src/components/Row/Divider';
-import { Button } from 'src/components/Button/Button';
+import React, { Component, useEffect, useState } from "react"
+import { View, TouchableOpacity, Linking, StyleSheet } from "react-native"
+import { Text } from "src/components/Text/CustomText"
+import { GlobalHeader } from "src/components/Header/Header"
+import { ColorsList } from "src/styles/colors"
+import {
+	$Padding,
+	$BorderRadius,
+	$Margin,
+	$Border,
+} from "src/utils/stylehelper"
+import { Icon } from "native-base"
+import { Wrapper } from "src/components/View/Wrapper"
+import { useSelector } from "react-redux"
+import axios from "src/utils/axios"
+import { HOST_URL } from "src/config"
+import { convertPhoneNumber, getUserToken } from "src/utils/authhelper"
+import Container, { Body } from "src/components/View/Container"
+import { SizeList } from "src/styles/size"
+import Divider from "src/components/Row/Divider"
+import { Button } from "src/components/Button/Button"
 const Help = ({ navigation }) => {
 	const User = useSelector(state => state.User)
 	const [callCenter, setCallCenter] = useState()
 	const [whatsapp, setWhatsapp] = useState()
-	const [mail, setMail] = useState('info@kiosawan.com')
+	const [mail, setMail] = useState("info@kiosawan.com")
 	useEffect(() => {
 		_getData()
 	}, [])
 	const _getData = async () => {
 		const userToken = await getUserToken()
 		const res = await axios.get(`${HOST_URL}/pusatbantuan`, {
-			headers: { "authorization": userToken }
+			headers: { authorization: userToken },
 		})
 		setCallCenter(res.data.data[0].no_telpon)
 		setWhatsapp(res.data.data[0].no_whatsapp)
@@ -38,7 +43,9 @@ const Help = ({ navigation }) => {
 			<Body>
 				<View>
 					<Text align="left">Halo,</Text>
-					<Text align="left" font="SemiBold" size={16}>{User.data.name.toUpperCase()}</Text>
+					<Text align="left" font="SemiBold" size={16}>
+						{User.data.name.toUpperCase()}
+					</Text>
 				</View>
 				<Divider style={{ marginVertical: SizeList.base }} />
 				<View style={styles.secondView}>
@@ -52,15 +59,33 @@ const Help = ({ navigation }) => {
 						</Wrapper>
 					</TouchableOpacity> */}
 				</View>
-				<TouchableOpacity style={[styles.card, { marginTop: 10 }]} onPress={() => _openUrl(`https://wa.me/${whatsapp}`)}>
+				<TouchableOpacity
+					style={[styles.card, { marginTop: 10 }]}
+					onPress={() => _openUrl(`https://wa.me/${whatsapp}`)}>
 					<Wrapper justify="flex-start">
-						<Icon style={{ color: ColorsList.primary, fontSize: 15, marginRight: 10 }} name="logo-whatsapp" />
+						<Icon
+							style={{
+								color: ColorsList.primary,
+								fontSize: 15,
+								marginRight: 10,
+							}}
+							name="logo-whatsapp"
+						/>
 						<Text size={15}>Live Chat via WhatsApp</Text>
 					</Wrapper>
 				</TouchableOpacity>
-				<TouchableOpacity style={[styles.card, { marginTop: 10 }]} onPress={() => _openUrl(`mailto:${mail}`)}>
+				<TouchableOpacity
+					style={[styles.card, { marginTop: 10 }]}
+					onPress={() => _openUrl(`mailto:${mail}`)}>
 					<Wrapper justify="flex-start">
-						<Icon style={{ color: ColorsList.primary, fontSize: 15, marginRight: 10 }} name="mail" />
+						<Icon
+							style={{
+								color: ColorsList.primary,
+								fontSize: 15,
+								marginRight: 10,
+							}}
+							name="mail"
+						/>
 						<Text size={15}>Kirim Email ke Helpdesk KiosAwan</Text>
 					</Wrapper>
 				</TouchableOpacity>
@@ -80,7 +105,7 @@ const styles = StyleSheet.create({
 		borderWidth: SizeList.borderWidth,
 		borderRadius: SizeList.borderRadius,
 		borderColor: ColorsList.borderColor,
-		padding: SizeList.padding
+		padding: SizeList.padding,
 	},
 	infoTag: { marginTop: SizeList.base },
 })

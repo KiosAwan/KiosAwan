@@ -1,5 +1,5 @@
-import axiosLib from 'axios'
-import { apiKey, apiSignature } from 'src/utils/keyStores'
+import axiosLib from "axios"
+import { apiKey, apiSignature } from "src/utils/keyStores"
 
 const axios = axiosLib
 

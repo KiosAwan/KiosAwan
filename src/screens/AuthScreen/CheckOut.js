@@ -1,17 +1,23 @@
-import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { connect } from 'react-redux'
-import { TabView, SceneMap } from 'react-native-tab-view';
-import Animated from 'react-native-reanimated';
-import { SizeList } from 'src/styles/size';
-import { convertRupiah, sendNewTransaction, formatToDate, convertNumber, getUserToken } from 'src/utils/authhelper';
-import { FontList } from 'src/styles/typography';
-import { ColorsList } from 'src/styles/colors';
-import { BottomButton } from 'src/components/Button/ButtonComp';
-import { GlobalHeader } from 'src/components/Header/Header';
-import CashPayment from './Cashier/Payment/CashPayment';
-import NonTunai from './Cashier/Payment/NonTunai';
-import Piutang from './Cashier/Payment/Piutang';
+import React from "react"
+import { View, TouchableOpacity, StyleSheet } from "react-native"
+import { connect } from "react-redux"
+import { TabView, SceneMap } from "react-native-tab-view"
+import Animated from "react-native-reanimated"
+import { SizeList } from "src/styles/size"
+import {
+	convertRupiah,
+	sendNewTransaction,
+	formatToDate,
+	convertNumber,
+	getUserToken,
+} from "src/utils/authhelper"
+import { FontList } from "src/styles/typography"
+import { ColorsList } from "src/styles/colors"
+import { BottomButton } from "src/components/Button/ButtonComp"
+import { GlobalHeader } from "src/components/Header/Header"
+import CashPayment from "./Cashier/Payment/CashPayment"
+import NonTunai from "./Cashier/Payment/NonTunai"
+import Piutang from "./Cashier/Payment/Piutang"
 import {
 	removeAllCart,
 	getProduct,
@@ -21,42 +27,46 @@ import {
 	AddDiscountRupiah,
 	AddDiscountPersen,
 	changeTransactionDiscount,
-} from 'src/redux/actions/actionsStoreProduct';
-import {
-	SetIdMultiCart
-} from 'src/redux/actions/actionsPPOB';
-import { getTransactionList } from 'src/redux/actions/actionsTransactionList';
-import Storage from 'src/utils/keyStores';
-import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { Button } from 'src/components/Button/Button';
-import { Wrapper } from 'src/components/View/Wrapper';
-import { Text } from 'src/components/Text/CustomText';
-import { Bottom } from 'src/components/View/Bottom';
-import { StackActions, NavigationActions } from 'react-navigation';
-import Container, { Footer, Body } from 'src/components/View/Container';
-import Alert from 'src/utils/alert';
+} from "src/redux/actions/actionsStoreProduct"
+import { SetIdMultiCart } from "src/redux/actions/actionsPPOB"
+import { getTransactionList } from "src/redux/actions/actionsTransactionList"
+import Storage from "src/utils/keyStores"
+import { AwanPopup } from "src/components/ModalContent/Popups"
+import { Button } from "src/components/Button/Button"
+import { Wrapper } from "src/components/View/Wrapper"
+import { Text } from "src/components/Text/CustomText"
+import { Bottom } from "src/components/View/Bottom"
+import { StackActions, NavigationActions } from "react-navigation"
+import Container, { Footer, Body } from "src/components/View/Container"
+import Alert from "src/utils/alert"
 
 class CheckOut extends React.Component {
 	state = {
 		loadingVisible: false,
 		index: 0,
 		routes: [
-			{ key: 'first', title: 'TUNAI' },
-			{ key: 'second', title: 'NON TUNAI' },
-			{ key: 'third', title: 'PIUTANG' }
+			{ key: "first", title: "TUNAI" },
+			{ key: "second", title: "NON TUNAI" },
+			{ key: "third", title: "PIUTANG" },
 		],
-		nonTunai: '',
+		nonTunai: "",
 		_alert: false,
-		alertMessage: ''
-	};
+		alertMessage: "",
+	}
 
 	FirstRoute = () => <CashPayment style={{ marginVertical: SizeList.base }} />
-	SecondRoute = () => <NonTunai style={{ marginVertical: SizeList.base }} nonTunai={this.state.nonTunai} pressImage={(id) => {
-		this.setState({ nonTunai: id })
-		// if (id > 4) {
-		// 	this.props.navigation.navigate("/cashier/check-out/payewallet", { amount: this.props.Product.total - this.props.Product.total_diskon })
-		// }
-	}} />
+	SecondRoute = () => (
+		<NonTunai
+			style={{ marginVertical: SizeList.base }}
+			nonTunai={this.state.nonTunai}
+			pressImage={id => {
+				this.setState({ nonTunai: id })
+				// if (id > 4) {
+				// 	this.props.navigation.navigate("/cashier/check-out/payewallet", { amount: this.props.Product.total - this.props.Product.total_diskon })
+				// }
+			}}
+		/>
+	)
 	ThirdRoute = () => <Piutang style={{ marginVertical: SizeList.base }} />
 	_handleBayar = () => {
 		this.setState({ loadingVisible: true })
@@ -70,7 +80,7 @@ class CheckOut extends React.Component {
 	}
 	_handlePayCash = async () => {
 		const userToken = await getUserToken()
-		const userId = await Storage.getItem('userId')
+		const userId = await Storage.getItem("userId")
 		const Product = this.props.Product
 		let cart = []
 		Product.belanja.rMap(item => {
@@ -78,7 +88,7 @@ class CheckOut extends React.Component {
 				let a = {
 					id: item.id_product,
 					qty: item.quantity,
-					discount: item.discount_total
+					discount: item.discount_total,
 				}
 				cart.push(a)
 			} else {
@@ -87,23 +97,26 @@ class CheckOut extends React.Component {
 					qty: item.quantity,
 					priceIn: item.price_in_product,
 					priceOut: item.price_out_product,
-					discount: item.discount_total
+					discount: item.discount_total,
 				}
 				cart.push(a)
 			}
 		})
 		const data = {
 			cashier: userId,
-			amount_payment: this.state.index == 1 ? Product.total - Product.total_diskon : convertNumber(Product.cash_payment),
+			amount_payment:
+				this.state.index == 1
+					? Product.total - Product.total_diskon
+					: convertNumber(Product.cash_payment),
 			id_payment_type: this.state.index + 1,
 			payment_method: this.state.nonTunai,
 			product_cart: cart,
 			customer: Product.customer ? Product.customer.id_customer : null,
 			id_store: this.props.User.store.id_store,
-			discount_name: '',
+			discount_name: "",
 			discount_transaction: Product.discount_transaction,
 			note: Product.note,
-			id_multi: Product.id_multi
+			id_multi: Product.id_multi,
 		}
 		const res = await sendNewTransaction(data)
 		const { id_transaction } = res.data
@@ -115,9 +128,9 @@ class CheckOut extends React.Component {
 			this.props.removeAllCart()
 			this.props.AddCashPayment(0)
 			this.props.AddCustomer(null)
-			this.props.AddDiscountName('')
-			this.props.AddDiscountPersen('')
-			this.props.AddDiscountRupiah('')
+			this.props.AddDiscountName("")
+			this.props.AddDiscountPersen("")
+			this.props.AddDiscountRupiah("")
 			this.props.getProduct(this.props.User.store.id_store, userToken)
 			this.props.SetIdMultiCart(0)
 			this.props.getTransactionList(this.props.User.store.id_store, userToken)
@@ -126,10 +139,17 @@ class CheckOut extends React.Component {
 					index: 1,
 					key: null,
 					actions: [
-						NavigationActions.navigate({ routeName: '/' }),
-						NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/', fromCashier: true } })
-					]
-				})
+						NavigationActions.navigate({ routeName: "/" }),
+						NavigationActions.navigate({
+							routeName: "/drawer/transaction/detail",
+							params: {
+								transactionId: id_transaction,
+								backState: "/",
+								fromCashier: true,
+							},
+						}),
+					],
+				}),
 			)
 		} else {
 			Alert("", JSON.stringify(res))
@@ -138,7 +158,7 @@ class CheckOut extends React.Component {
 
 	_handlePayCredit = async () => {
 		const userToken = await getUserToken()
-		const userId = await Storage.getItem('userId')
+		const userId = await Storage.getItem("userId")
 		const Product = this.props.Product
 		if (Product.customer) {
 			if (Product.due_debt_date) {
@@ -148,7 +168,7 @@ class CheckOut extends React.Component {
 						let a = {
 							id: item.id_product,
 							qty: item.quantity,
-							discount: item.discount_total
+							discount: item.discount_total,
 						}
 						cart.push(a)
 					} else {
@@ -157,7 +177,7 @@ class CheckOut extends React.Component {
 							qty: item.quantity,
 							priceIn: item.price_in_product,
 							priceOut: item.price_out_product,
-							discount: item.discount_total
+							discount: item.discount_total,
 						}
 						cart.push(a)
 					}
@@ -171,9 +191,9 @@ class CheckOut extends React.Component {
 					customer: Product.customer.id_customer,
 					id_store: this.props.User.store.id_store,
 					due_debt_date: formatToDate(Product.due_debt_date),
-					discount_name: '',
+					discount_name: "",
 					discount_transaction: Product.discount_transaction,
-					id_multi: Product.id_multi
+					id_multi: Product.id_multi,
 				}
 				const res = await sendNewTransaction(data)
 				const { id_transaction } = res.data
@@ -186,22 +206,32 @@ class CheckOut extends React.Component {
 					this.props.SetIdMultiCart(0)
 					this.props.AddCashPayment(0)
 					this.props.AddCustomer(null)
-					this.props.AddDiscountName('')
-					this.props.AddDiscountPersen('')
-					this.props.AddDiscountRupiah('')
+					this.props.AddDiscountName("")
+					this.props.AddDiscountPersen("")
+					this.props.AddDiscountRupiah("")
 					this.props.getProduct(this.props.User.store.id_store, userToken)
-					this.props.getTransactionList(this.props.User.store.id_store, userToken)
+					this.props.getTransactionList(
+						this.props.User.store.id_store,
+						userToken,
+					)
 					this.props.navigation.dispatch(
 						StackActions.reset({
 							index: 1,
 							key: null,
 							actions: [
-								NavigationActions.navigate({ routeName: '/' }),
-								NavigationActions.navigate({ routeName: '/drawer/transaction/detail', params: { transactionId: id_transaction, backState: '/', fromCashier: true } })
-							]
-						}))
-				}
-				else {
+								NavigationActions.navigate({ routeName: "/" }),
+								NavigationActions.navigate({
+									routeName: "/drawer/transaction/detail",
+									params: {
+										transactionId: id_transaction,
+										backState: "/",
+										fromCashier: true,
+									},
+								}),
+							],
+						}),
+					)
+				} else {
 					Alert(JSON.stringify(res))
 				}
 			} else {
@@ -216,77 +246,104 @@ class CheckOut extends React.Component {
 		}
 	}
 
-	_handleIndexChange = index => this.setState({ index });
+	_handleIndexChange = index => this.setState({ index })
 	_renderTabBar = props => {
-		return <Wrapper style={{ marginHorizontal: SizeList.bodyPadding, marginVertical: SizeList.base }} flexContent>
-			{
-				props.navigationState.routes.rMap((route, i) => {
-					return <Button marginHorizontal={5} noBorder={this.state.index == i ? 'primary' : 'white'} textProps={{ size: 11 }} onPress={() => this.setState({ index: i })} color={this.state.index == i ? 'primary' : 'white'}>{route.title}</Button>
-				})
-			}
-		</Wrapper>
+		return (
+			<Wrapper
+				style={{
+					marginHorizontal: SizeList.bodyPadding,
+					marginVertical: SizeList.base,
+				}}
+				flexContent>
+				{props.navigationState.routes.rMap((route, i) => {
+					return (
+						<Button
+							marginHorizontal={5}
+							noBorder={this.state.index == i ? "primary" : "white"}
+							textProps={{ size: 11 }}
+							onPress={() => this.setState({ index: i })}
+							color={this.state.index == i ? "primary" : "white"}>
+							{route.title}
+						</Button>
+					)
+				})}
+			</Wrapper>
+		)
 	}
 	_renderScene = SceneMap({
 		first: this.FirstRoute,
 		second: this.SecondRoute,
-		third: this.ThirdRoute
-	});
+		third: this.ThirdRoute,
+	})
 	render() {
-		return <Container>
-			<GlobalHeader title="Pembayaran" onPressBack={() => this.props.navigation.goBack()} />
-			<AwanPopup.Loading visible={this.state.loadingVisible} />
-			<AwanPopup.Alert
-				message={this.state.alertMessage}
-				visible={this.state._alert}
-				closeAlert={() => this.setState({ _alert: false })}
-			/>
-			<Body style={{ padding: 0 }}>
-				<View style={{ padding: SizeList.bodyPadding }}>
-					<Text>
-						Total belanja Anda :
-					<Text color="primary" font="SemiBold">
-							{` ${convertRupiah(parseInt(this.props.Product.total) - parseInt(this.props.Product.total_diskon))}`}
+		return (
+			<Container>
+				<GlobalHeader
+					title="Pembayaran"
+					onPressBack={() => this.props.navigation.goBack()}
+				/>
+				<AwanPopup.Loading visible={this.state.loadingVisible} />
+				<AwanPopup.Alert
+					message={this.state.alertMessage}
+					visible={this.state._alert}
+					closeAlert={() => this.setState({ _alert: false })}
+				/>
+				<Body style={{ padding: 0 }}>
+					<View style={{ padding: SizeList.bodyPadding }}>
+						<Text>
+							Total belanja Anda :
+							<Text color="primary" font="SemiBold">
+								{` ${convertRupiah(
+									parseInt(this.props.Product.total) -
+										parseInt(this.props.Product.total_diskon),
+								)}`}
+							</Text>
 						</Text>
-					</Text>
-
-				</View>
-				<View style={{
-					marginTop: SizeList.padding,
-					borderRadius: SizeList.borderRadius
-				}}>
-					<Text style={{ paddingHorizontal: SizeList.bodyPadding, marginVertical: SizeList.base }}>Pilih metoda pembayaran</Text>
-					<TabView
-						navigationState={this.state}
-						renderScene={this._renderScene}
-						renderTabBar={this._renderTabBar}
-						onIndexChange={this._handleIndexChange}
-					/>
-				</View>
-			</Body>
-			<Footer>
-				<Button width="100%" onPress={this._handleBayar}>BAYAR</Button>
-			</Footer>
-		</Container>
+					</View>
+					<View
+						style={{
+							marginTop: SizeList.padding,
+							borderRadius: SizeList.borderRadius,
+						}}>
+						<Text
+							style={{
+								paddingHorizontal: SizeList.bodyPadding,
+								marginVertical: SizeList.base,
+							}}>
+							Pilih metoda pembayaran
+						</Text>
+						<TabView
+							navigationState={this.state}
+							renderScene={this._renderScene}
+							renderTabBar={this._renderTabBar}
+							onIndexChange={this._handleIndexChange}
+						/>
+					</View>
+				</Body>
+				<Footer>
+					<Button width="100%" onPress={this._handleBayar}>
+						BAYAR
+					</Button>
+				</Footer>
+			</Container>
+		)
 	}
 }
 const mapStateToProps = state => {
 	return {
 		Product: state.Product,
-		User: state.User
+		User: state.User,
 	}
 }
-export default connect(
-	mapStateToProps,
-	{
-		removeAllCart,
-		getProduct,
-		getTransactionList,
-		AddCashPayment,
-		AddCustomer,
-		AddDiscountName,
-		AddDiscountRupiah,
-		AddDiscountPersen,
-		changeTransactionDiscount,
-		SetIdMultiCart
-	}
-)(CheckOut)
+export default connect(mapStateToProps, {
+	removeAllCart,
+	getProduct,
+	getTransactionList,
+	AddCashPayment,
+	AddCustomer,
+	AddDiscountName,
+	AddDiscountRupiah,
+	AddDiscountPersen,
+	changeTransactionDiscount,
+	SetIdMultiCart,
+})(CheckOut)

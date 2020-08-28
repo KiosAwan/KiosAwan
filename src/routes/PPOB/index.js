@@ -7,28 +7,28 @@ import Favorite from "src/screens/AuthScreen/PPOB/Favorite"
 import StatusPesanan from "src/screens/AuthScreen/PPOB/StatusPesanan"
 
 const PPOBNavigator = {
-	'/ppob': {
+	"/ppob": {
 		screen: PPOB,
 	},
-	'/ppob/favorit': {
+	"/ppob/favorit": {
 		screen: Favorite,
 	},
-	'/ppob/riwayat': {
+	"/ppob/riwayat": {
 		screen: RiwayatTransaksi,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/ppob/topup': {
+	"/ppob/topup": {
 		screen: Topup,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/ppob/status': {
-		screen: StatusPesanan
+	"/ppob/status": {
+		screen: StatusPesanan,
 	},
 	...PPOBFitur,
-	...PPOBSetting
+	...PPOBSetting,
 }
 export default PPOBNavigator

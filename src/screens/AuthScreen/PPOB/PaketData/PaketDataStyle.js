@@ -5,33 +5,33 @@ import { SizeList } from "src/styles/size"
 
 const styles = StyleSheet.create({
 	topComp: {
-		marginBottom : SizeList.base,
+		marginBottom: SizeList.base,
 		borderRadius: SizeList.borderRadius,
 		justifyContent: "flex-end",
-		backgroundColor: ColorsList.whiteColor
+		backgroundColor: ColorsList.whiteColor,
 	},
 	listPulsa: {
 		margin: 5,
 	},
 	pulsaWrapper: {
 		padding: SizeList.secondary,
-		borderRadius:SizeList.borderRadius,
+		borderRadius: SizeList.borderRadius,
 		backgroundColor: ColorsList.whiteColor,
 		borderWidth: 1,
 		borderColor: ColorsList.greyAuthHard,
-		marginBottom : SizeList.base
+		marginBottom: SizeList.base,
 	},
 	pulsaWrapperActive: {
 		borderColor: ColorsList.primary,
 	},
 	pulsaComp: {
-		...$Margin(3, 10)
+		...$Margin(3, 10),
 	},
 	simpan: {
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		marginVertical : SizeList.base
-	}
+		marginVertical: SizeList.base,
+	},
 })
 export default styles

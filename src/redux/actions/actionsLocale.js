@@ -1,15 +1,18 @@
-import axios from 'src/utils/axios'
+import axios from "src/utils/axios"
 
-export const getLocale = (localeId) => {
+export const getLocale = localeId => {
 	return {
 		type: "GET_LANGUAGE",
 		payload: {
 			localeId,
-			locale: localeId == 'id' ? {
-				QUICK_ACTIONS: "Menu Utama"
-			} : {
-					QUICK_ACTIONS: "Quick Actions"
-				}
-		}
+			locale:
+				localeId == "id"
+					? {
+							QUICK_ACTIONS: "Menu Utama",
+					  }
+					: {
+							QUICK_ACTIONS: "Quick Actions",
+					  },
+		},
 	}
 }

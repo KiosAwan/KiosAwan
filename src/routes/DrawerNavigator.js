@@ -8,35 +8,35 @@ import Help from "src/screens/AuthScreen/Drawer/Help"
 import ReportOld from "src/screens/AuthScreen/Drawer/Report copy"
 
 const DrawerNavigation = {
-	'/drawer': {
+	"/drawer": {
 		screen: Akun,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'reportOld': {
+	reportOld: {
 		screen: ReportOld,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/laporan': {
+	"/drawer/laporan": {
 		screen: Report,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/faq': {
+	"/drawer/faq": {
 		screen: FAQ,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/help': {
+	"/drawer/help": {
 		screen: Help,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
 	...TransactionNavigator,
 	...SettingNavigator,

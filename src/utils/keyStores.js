@@ -1,8 +1,9 @@
-import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store";
+import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store"
 
-const storageKey = 'YmlzbWlsbGFoaXJyYWhtYW5pcnJhaGlt'
+const storageKey = "YmlzbWlsbGFoaXJyYWhtYW5pcnJhaGlt"
 const apiKey = "LXQ4Y5UI34JK34PR8MPVC3ERZ"
-const apiSignature = "LXQ4Y5UI34JK34PR8MPVC3ERZ8YIU7698YhjlhkXJKLFU3LKDSFKLJDSKLFJLK2REXXxdvNZMCNLFD4d"
+const apiSignature =
+	"LXQ4Y5UI34JK34PR8MPVC3ERZ8YIU7698YhjlhkXJKLFU3LKDSFKLJDSKLFJLK2REXXxdvNZMCNLFD4d"
 
 class Class {
 	getItem(key) {
@@ -18,13 +19,15 @@ class Class {
 	setItem(key, value) {
 		return new Promise(async resolve => {
 			try {
-				await RNSecureKeyStore.set(key, value, { accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY })
+				await RNSecureKeyStore.set(key, value, {
+					accessible: ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
+				})
 				resolve(true)
 			} catch (err) {
 				resolve(false)
 			}
 		})
-	}	
+	}
 	setItems(data) {
 		const setItem = this.setItem
 		const promises = data.map(async data => await setItem(data[0], data[1]))

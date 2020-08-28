@@ -1,6 +1,6 @@
-export const addPrinter = (printerlist) => {
-    return {
-        type: "ADD_PRINTER",
-        payload: printerlist
-    };
+export const addPrinter = printerlist => {
+	return {
+		type: "ADD_PRINTER",
+		payload: printerlist,
+	}
 }

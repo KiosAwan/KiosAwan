@@ -1,14 +1,14 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { SizeList } from 'src/styles/size';
-import { FontList } from 'src/styles/typography';
-import { ColorsList } from 'src/styles/colors';
+import { StyleSheet, Dimensions } from "react-native"
+import { SizeList } from "src/styles/size"
+import { FontList } from "src/styles/typography"
+import { ColorsList } from "src/styles/colors"
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get("window")
 
 const HomeStyle = StyleSheet.create({
 	container: {
 		backgroundColor: ColorsList.authBackground,
-		flex: 1
+		flex: 1,
 	},
 	childContainer: {
 		// marginHorizontal: SizeList.base,
@@ -18,33 +18,33 @@ const HomeStyle = StyleSheet.create({
 	},
 	thirdChildView: {
 		height: height / 3,
-		borderWidth: 1
+		borderWidth: 1,
 	},
 	fourthChildView: {
 		height: height / 3,
-		borderWidth: 1
+		borderWidth: 1,
 	},
 	wrapChildRow: {
 		flexDirection: "row",
-		alignItems: "center"
+		alignItems: "center",
 	},
 	locationInfo: {
 		paddingLeft: 5,
-		color: 'white',
-		...FontList.subtitleFont
+		color: "white",
+		...FontList.subtitleFont,
 	},
 	nameAndLoc: {
 		justifyContent: "center",
-		alignItems: "center"
+		alignItems: "center",
 	},
 	infoCategoryStyle: {
-		paddingVertical: 10
+		paddingVertical: 10,
 	},
 	cardWrapper: {
 		marginBottom: 10,
 		backgroundColor: ColorsList.whiteColor,
-		padding: SizeList.padding
-	}
+		padding: SizeList.padding,
+	},
 })
 
 export default HomeStyle

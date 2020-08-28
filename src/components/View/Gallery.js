@@ -1,13 +1,7 @@
-import React, { useState, useEffect, cloneElement } from 'react';
-import { View } from 'react-native';
-import PropTypes from 'prop-types';
-const Gallery = ({
-	data,
-	renderItem,
-	numColumns,
-	style,
-	rowStyle
-}) => {
+import React, { useState, useEffect, cloneElement } from "react"
+import { View } from "react-native"
+import PropTypes from "prop-types"
+const Gallery = ({ data, renderItem, numColumns, style, rowStyle }) => {
 	const generateData = data => {
 		let index = -1
 		return data.reduce((arr, a, i) => {
@@ -21,23 +15,23 @@ const Gallery = ({
 		}, [])
 	}
 	const render = (arr, i) => {
-		return <View style={{ flexDirection: 'row', ...rowStyle }}>
-			{arr.rMap((item, i) => {
-				const render = renderItem({ item, i, index: i })
-				return cloneElement(render, {
-					style: { flex: 1, ...render.props.style }
-				})
-			})}
-		</View>
+		return (
+			<View style={{ flexDirection: "row", ...rowStyle }}>
+				{arr.rMap((item, i) => {
+					const render = renderItem({ item, i, index: i })
+					return cloneElement(render, {
+						style: { flex: 1, ...render.props.style },
+					})
+				})}
+			</View>
+		)
 	}
-	return <View style={style}>
-		{generateData(data).rMap(render)}
-	</View>
+	return <View style={style}>{generateData(data).rMap(render)}</View>
 }
 
 Gallery.defaultProps = {
 	data: [],
-	numColumns: 1
+	numColumns: 1,
 }
 
 Gallery.propTypes = {
@@ -45,7 +39,7 @@ Gallery.propTypes = {
 	style: PropTypes.object,
 	data: PropTypes.array.isRequired,
 	renderItem: PropTypes.func.isRequired,
-	numColumns: PropTypes.number
+	numColumns: PropTypes.number,
 }
 
 export default Gallery

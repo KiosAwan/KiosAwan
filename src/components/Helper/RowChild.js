@@ -1,4 +1,4 @@
 export const RowChild = {
-    flexDirection: 'row',
-    alignItems: 'center',
+	flexDirection: "row",
+	alignItems: "center",
 }

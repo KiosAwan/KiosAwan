@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import { GlobalHeader } from '../../components/Header/Header'
-import { ColorsList } from 'src/styles/colors';
-import axios from 'src/utils/axios';
-import { HOST_URL } from 'src/config';
-import { Text } from 'src/components/Text/CustomText';
-import HTML from 'react-native-render-html';
-import { FontList } from 'src/styles/typography';
-import { SizeList } from 'src/styles/size';
+import React, { useState, useEffect } from "react"
+import { View, StyleSheet, FlatList } from "react-native"
+import { GlobalHeader } from "../../components/Header/Header"
+import { ColorsList } from "src/styles/colors"
+import axios from "src/utils/axios"
+import { HOST_URL } from "src/config"
+import { Text } from "src/components/Text/CustomText"
+import HTML from "react-native-render-html"
+import { FontList } from "src/styles/typography"
+import { SizeList } from "src/styles/size"
 const TermCondition = ({ navigation }) => {
-
 	const [content, setContent] = useState()
 	useEffect(() => {
 		_getContent()
@@ -30,17 +29,24 @@ const TermCondition = ({ navigation }) => {
 					data={content}
 					renderItem={({ item }) => (
 						<View style={{ padding: 10 }}>
-							{item.id == 0 ? null :
+							{item.id == 0 ? null : (
 								<View style={styles.categoryView}>
-									<Text font="SemiBold" color="primary">{item.id}. </Text>
-									<Text font="SemiBold" color="primary">{item.title}</Text>
+									<Text font="SemiBold" color="primary">
+										{item.id}.{" "}
+									</Text>
+									<Text font="SemiBold" color="primary">
+										{item.title}
+									</Text>
 								</View>
-							}
+							)}
 							<View style={styles.partView}>
-								<View style={{ width: '90%', marginLeft: 5 }}>
+								<View style={{ width: "90%", marginLeft: 5 }}>
 									<HTML
 										tagsStyles={{
-											p: { fontFamily: FontList.primaryFont, color: ColorsList.greyFont },
+											p: {
+												fontFamily: FontList.primaryFont,
+												color: ColorsList.greyFont,
+											},
 										}}
 										html={item.name}
 									/>
@@ -64,17 +70,17 @@ const styles = StyleSheet.create({
 		flex: 1,
 		borderWidth: SizeList.borderWidth,
 		borderColor: ColorsList.borderColor,
-		borderRadius: SizeList.borderRadius
+		borderRadius: SizeList.borderRadius,
 	},
 	partView: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		alignItems: "center",
 	},
 	categoryView: {
 		marginVertical: 10,
-		flexDirection: 'row',
+		flexDirection: "row",
 		alignSelf: "flex-start",
-		justifyContent: "center"
+		justifyContent: "center",
 	},
 	categoryCircle: {
 		width: 20,
@@ -84,6 +90,6 @@ const styles = StyleSheet.create({
 		borderColor: ColorsList.primary,
 		justifyContent: "center",
 		alignItems: "center",
-		marginHorizontal: 5
+		marginHorizontal: 5,
 	},
 })

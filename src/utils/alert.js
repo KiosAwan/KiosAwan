@@ -14,7 +14,7 @@ const Alert = (...params) => {
 	if (params.length >= 3) {
 		_buttons = buttons.rMap(item => {
 			const [text, _onPress, style] = item
-			const onPress = _onPress ? _onPress : () => { }
+			const onPress = _onPress ? _onPress : () => {}
 			return { text, onPress, style }
 		})
 	}

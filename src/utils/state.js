@@ -28,14 +28,18 @@ const stateArray = initValue => {
 			_setState([...state, value])
 		}
 	}
-	return [state, setState, val => {
-		if (val) {
-			let newVal = Array.isArray(val) ? val : [val]
-			_setState(newVal)
-		} else {
-			_setState(initValue || [])
-		}
-	}]
+	return [
+		state,
+		setState,
+		val => {
+			if (val) {
+				let newVal = Array.isArray(val) ? val : [val]
+				_setState(newVal)
+			} else {
+				_setState(initValue || [])
+			}
+		},
+	]
 }
 
 const renderIf = predicate => (then, ifElse) => {

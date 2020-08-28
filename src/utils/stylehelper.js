@@ -19,9 +19,14 @@ const getShortHand = (style, ...values) => {
 
 const border = (color, style, ...sizes) => {
 	const _genCss = (...sizes) => {
-		let styles = color ? {
-			borderColor: color
-		} : {}, direction = color ? ['Top', 'Right', 'Bottom', 'Left'] : ['TopLeft', 'TopRight', 'BottomRight', 'BottomLeft']
+		let styles = color
+				? {
+						borderColor: color,
+				  }
+				: {},
+			direction = color
+				? ["Top", "Right", "Bottom", "Left"]
+				: ["TopLeft", "TopRight", "BottomRight", "BottomLeft"]
 		direction.forEach((dir, i) => {
 			styles[`border${dir}${style}`] = sizes[i]
 		})
@@ -39,7 +44,7 @@ const border = (color, style, ...sizes) => {
 	return _genCss(sizes[0], sizes[1], sizes[2], sizes[3])
 }
 
-export const $Border = (color, ...sizes) => border(color, 'Width', ...sizes)
-export const $BorderRadius = (...sizes) => border(undefined, 'Radius', ...sizes)
-export const $Padding = (...values) => getShortHand('padding', ...values)
-export const $Margin = (...values) => getShortHand('margin', ...values)
+export const $Border = (color, ...sizes) => border(color, "Width", ...sizes)
+export const $BorderRadius = (...sizes) => border(undefined, "Radius", ...sizes)
+export const $Padding = (...values) => getShortHand("padding", ...values)
+export const $Margin = (...values) => getShortHand("margin", ...values)

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 		marginVertical: SizeList.base,
 		borderWidth: SizeList.borderWidth,
 		borderRadius: SizeList.borderRadius,
-		borderColor: ColorsList.borderColor
+		borderColor: ColorsList.borderColor,
 	},
 	listPulsa: {
 		padding: 10,
@@ -31,18 +31,18 @@ const styles = StyleSheet.create({
 		borderColor: ColorsList.primary,
 	},
 	pulsaComp: {
-		...$Margin(5, 10)
+		...$Margin(5, 10),
 	},
 	cekTagihan: {
 		paddingHorizontal: 20,
 		alignSelf: "center",
-		paddingBottom: 10
+		paddingBottom: 10,
 	},
 	simpan: {
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		marginVertical: SizeList.base
+		marginVertical: SizeList.base,
 	},
 	custInfo: {
 		backgroundColor: ColorsList.whiteColor,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderWidth: SizeList.borderWidth,
 		borderRadius: SizeList.borderRadius,
-		borderColor: ColorsList.borderColor
+		borderColor: ColorsList.borderColor,
 	},
 })
 export default styles

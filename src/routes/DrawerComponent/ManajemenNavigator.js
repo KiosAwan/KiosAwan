@@ -14,89 +14,89 @@ import PelangganAdd from "src/screens/AuthScreen/Drawer/Manajemen/PelangganAdd"
 import PelangganEdit from "src/screens/AuthScreen/Drawer/Manajemen/PelangganEdit"
 
 const ManajemenNavigator = {
-	'/drawer/manajemen': {
+	"/drawer/manajemen": {
 		screen: Manajemen,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/produk': {
+	"/drawer/manajemen/produk": {
 		screen: ManajemenProduk,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/produk/edit': {
+	"/drawer/manajemen/produk/edit": {
 		screen: ManajemenProdukEdit,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/produk/edit/barcode': {
+	"/drawer/manajemen/produk/edit/barcode": {
 		screen: ManajemenProdukEditBarcode,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/produk/edit/harga': {
+	"/drawer/manajemen/produk/edit/harga": {
 		screen: ManajemenProdukEditHarga,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/kategori': {
+	"/drawer/manajemen/kategori": {
 		screen: ManajemenKategori,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/kategori/add': {
+	"/drawer/manajemen/kategori/add": {
 		screen: KategoriAdd,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/kategori/edit': {
+	"/drawer/manajemen/kategori/edit": {
 		screen: KategoriEdit,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/diskon': {
+	"/drawer/manajemen/diskon": {
 		screen: ManajemenDiskon,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/diskon/add': {
+	"/drawer/manajemen/diskon/add": {
 		screen: DiskonAdd,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/diskon/edit': {
+	"/drawer/manajemen/diskon/edit": {
 		screen: DiskonEdit,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/pelanggan': {
+	"/drawer/manajemen/pelanggan": {
 		screen: ManajemenPelanggan,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/pelanggan/add': {
+	"/drawer/manajemen/pelanggan/add": {
 		screen: PelangganAdd,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/drawer/manajemen/pelanggan/edit': {
+	"/drawer/manajemen/pelanggan/edit": {
 		screen: PelangganEdit,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
 }
 export default ManajemenNavigator

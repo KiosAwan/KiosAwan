@@ -1,6 +1,6 @@
-export const getApp = (data) => {
-  return {
-    type: "GET_APP",
-    payload: data
-  }
+export const getApp = data => {
+	return {
+		type: "GET_APP",
+		payload: data,
+	}
 }

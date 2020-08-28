@@ -8,18 +8,17 @@ export {
 	getSubProducts,
 	setMarginProduct,
 	getPPOBTransactionList,
-	getDetailPPOBTransaction
+	getDetailPPOBTransaction,
 }
 
 const getListProducts = async () => {
 	try {
 		const token = await getUserToken()
 		const res = await axios.get(`${PPOB_URL}/service/ppob/products`, {
-			headers: { "authorization": token }
+			headers: { authorization: token },
 		})
 		return res.data
-	}
-	catch (error) {
+	} catch (error) {
 		const res = error.response.data
 		return res
 	}
@@ -28,27 +27,31 @@ const getListProducts = async () => {
 const getPPOBTransactionList = async (param, page) => {
 	try {
 		const token = await getUserToken()
-		const res = await axios.get(`${PPOB_URL}/service/ppob/transactions?page=${page}`, {
-			params: param,
-			headers: { "authorization": token }
-		})
+		const res = await axios.get(
+			`${PPOB_URL}/service/ppob/transactions?page=${page}`,
+			{
+				params: param,
+				headers: { authorization: token },
+			},
+		)
 		return res.data
-	}
-	catch (error) {
+	} catch (error) {
 		const res = error.response.data
 		return res
 	}
 }
 
-const getDetailPPOBTransaction = async (transactionId) => {
+const getDetailPPOBTransaction = async transactionId => {
 	try {
 		const token = await getUserToken()
-		const res = await axios.get(`${PPOB_URL}/service/ppob/transaction/${transactionId}`, {
-			headers: { "authorization": token }
-		})
+		const res = await axios.get(
+			`${PPOB_URL}/service/ppob/transaction/${transactionId}`,
+			{
+				headers: { authorization: token },
+			},
+		)
 		return res.data
-	}
-	catch (error) {
+	} catch (error) {
 		const res = error.response.data
 		return res
 	}
@@ -58,13 +61,14 @@ const getSubProducts = async (productType, productId) => {
 	try {
 		const token = await getUserToken()
 		const userId = await getUserId()
-		const url = `${PPOB_URL}/user/${userId}/service/ppob/product/${productType}/${productId ? productId : ''}`
+		const url = `${PPOB_URL}/user/${userId}/service/ppob/product/${productType}/${
+			productId ? productId : ""
+		}`
 		const res = await axios.get(url, {
-			headers: { "authorization": token }
+			headers: { authorization: token },
 		})
 		return res.data
-	}
-	catch (error) {
+	} catch (error) {
 		const res = error.response.data
 		return res
 	}
@@ -77,12 +81,15 @@ const setMarginProduct = async product => {
 		const url = `${PPOB_URL}/user/${userId}/service/ppob/product/custom`
 		console.debug(url)
 		console.debug({ product })
-		const res = await axios.post(url, { product }, {
-			headers: { "authorization": token }
-		})
+		const res = await axios.post(
+			url,
+			{ product },
+			{
+				headers: { authorization: token },
+			},
+		)
 		return res.data
-	}
-	catch (error) {
+	} catch (error) {
 		const res = error.response.data
 		console.debug(res)
 		return res

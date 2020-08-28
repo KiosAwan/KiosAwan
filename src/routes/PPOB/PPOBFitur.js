@@ -14,48 +14,48 @@ import Asuransi from "src/screens/AuthScreen/PPOB/Asuransi"
 import AsuransiTipus from "src/screens/AuthScreen/PPOB/Asuransi/AsuransiTipus"
 
 const PPOBFitur = {
-	'/ppob/pulsa': {
-		screen: PpobPulsa
+	"/ppob/pulsa": {
+		screen: PpobPulsa,
 	},
-	'/ppob/kuota': {
-		screen: PpobPaketData
+	"/ppob/kuota": {
+		screen: PpobPaketData,
 	},
-	'/ppob/listrik': {
-		screen: PpobListrik
+	"/ppob/listrik": {
+		screen: PpobListrik,
 	},
-	'/ppob/pln_prepaid': {
-		screen: ListrikToken
+	"/ppob/pln_prepaid": {
+		screen: ListrikToken,
 	},
-	'/ppob/pln_non_tagihan_listrik': {
-		screen: ListrikNonTagihanListrik
+	"/ppob/pln_non_tagihan_listrik": {
+		screen: ListrikNonTagihanListrik,
 	},
-	'/ppob/pln_postpaid': {
-		screen: ListrikPascabayar
+	"/ppob/pln_postpaid": {
+		screen: ListrikPascabayar,
 	},
-	'/ppob/bpjs': {
-		screen: BPJS
+	"/ppob/bpjs": {
+		screen: BPJS,
 	},
-	'/ppob/telco': {
-		screen: Telkom
+	"/ppob/telco": {
+		screen: Telkom,
 	},
-	'/ppob/tvkabel': {
-		screen: TVKabel
+	"/ppob/tvkabel": {
+		screen: TVKabel,
 	},
-	'/ppob/kredit': {
-		screen: Kredit
+	"/ppob/kredit": {
+		screen: Kredit,
 	},
-	'/ppob/pdam': {
-		screen: PDAM
+	"/ppob/pdam": {
+		screen: PDAM,
 	},
-	'/ppob/emoney': {
-		screen: Emoney
+	"/ppob/emoney": {
+		screen: Emoney,
 	},
-	'/ppob/asuransi': {
-		screen: Asuransi
+	"/ppob/asuransi": {
+		screen: Asuransi,
 	},
-	'/ppob/asuransi/tipus':{
-		screen: AsuransiTipus
-	}
+	"/ppob/asuransi/tipus": {
+		screen: AsuransiTipus,
+	},
 }
 
 export default PPOBFitur

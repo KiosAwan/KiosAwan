@@ -1,14 +1,13 @@
 import { BackHandler as BackHandlerRN } from "react-native"
 
 const BackHandler = ({
-	callback = () => { },
+	callback = () => {},
 	ret = false,
-	removeTriggered = true
+	removeTriggered = true,
 }) => {
-	const backHandler = BackHandlerRN.addEventListener('hardwareBackPress', (e) => {
+	const backHandler = BackHandlerRN.addEventListener("hardwareBackPress", e => {
 		callback(e)
-		if (removeTriggered)
-			backHandler.remove()
+		if (removeTriggered) backHandler.remove()
 		return ret
 	})
 }

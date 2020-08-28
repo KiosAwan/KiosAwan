@@ -4,9 +4,17 @@ import { NavigationActions, StackActions } from "react-navigation"
 import { useDispatch } from "react-redux"
 import { getProfile } from "src/redux/actions/actionsUserData"
 
-const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisible, setAlertTitle, dispatch }) => {
+const CreatePin = ({
+	User,
+	navigation,
+	setAlertMessage,
+	setAlert,
+	setModalVisible,
+	setAlertTitle,
+	dispatch,
+}) => {
 	const onResolve = async (pin, confirmPin) => {
-		setAlertTitle('Peringatan')
+		setAlertTitle("Peringatan")
 		if (pin.length != 4 || confirmPin.length != 4) {
 			setAlertMessage("PIN harus 4 digit")
 			setAlert(true)
@@ -27,10 +35,12 @@ const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisibl
 							index: 1,
 							key: null,
 							actions: [
-								NavigationActions.navigate({ routeName: '/' }),
-								NavigationActions.navigate({ routeName: '/temp/update-profile' })
-							]
-						})
+								NavigationActions.navigate({ routeName: "/" }),
+								NavigationActions.navigate({
+									routeName: "/temp/update-profile",
+								}),
+							],
+						}),
 					)
 				}, 400)
 			} else {
@@ -38,21 +48,21 @@ const CreatePin = ({ User, navigation, setAlertMessage, setAlert, setModalVisibl
 				setAlert(true)
 			}
 		}
-
 	}
-	const newPinConfirm = pin => openPin({
-		navigation: navigation.push,
-		title: 'Buat PIN',
-		textTitle: 'Ulangi buat 4 digit PIN anda',
-		info: 'Untuk menunjang keamanan profil anda, buatlah PIN dengan benar',
-		onResolve: confirmPin => onResolve(pin, confirmPin)
-	})
+	const newPinConfirm = pin =>
+		openPin({
+			navigation: navigation.push,
+			title: "Buat PIN",
+			textTitle: "Ulangi buat 4 digit PIN anda",
+			info: "Untuk menunjang keamanan profil anda, buatlah PIN dengan benar",
+			onResolve: confirmPin => onResolve(pin, confirmPin),
+		})
 	openPin({
 		navigation: navigation.push,
-		title: 'Buat PIN',
-		textTitle: 'Buat 4 digit PIN anda',
-		info: 'Untuk menunjang keamanan profil anda, buatlah PIN dengan benar',
-		onResolve: pin => newPinConfirm(pin)
+		title: "Buat PIN",
+		textTitle: "Buat 4 digit PIN anda",
+		info: "Untuk menunjang keamanan profil anda, buatlah PIN dengan benar",
+		onResolve: pin => newPinConfirm(pin),
 	})
 }
 

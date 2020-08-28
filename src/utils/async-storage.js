@@ -1,33 +1,33 @@
-import * as AsyncStore from "src/utils/keyStores";
+import * as AsyncStore from "src/utils/keyStores"
 const AsyncStorage = {}
 AsyncStorage.put = async (key, value) => {
-	let newValue = value;
-	if (typeof value == 'object') newValue = JSON.stringify(value);
-	if (typeof value == 'boolean') newValue = value.toString()
+	let newValue = value
+	if (typeof value == "object") newValue = JSON.stringify(value)
+	if (typeof value == "boolean") newValue = value.toString()
 	await AsyncStore.setItem(key, newValue)
 }
 AsyncStorage.get = async key => {
-	let value = await AsyncStore.getItem(key);
+	let value = await AsyncStore.getItem(key)
 	try {
 		if (["{", "["].includes(value.charAt(0))) {
-			return JSON.parse(value);
+			return JSON.parse(value)
 		} else {
 			if (value == "true") {
-				return true;
+				return true
 			} else if (value == "false") {
-				return false;
+				return false
 			}
-			return value;
+			return value
 		}
 	} catch (err) {
-		return undefined;
+		return undefined
 	}
 }
 AsyncStorage.remove = async (...param) => {
 	return await AsyncStore.removeItem(...param)
 }
 AsyncStorage.putObj = async obj => {
-	if (typeof obj != 'object') obj = {}
+	if (typeof obj != "object") obj = {}
 	for (let key in obj) {
 		await AsyncStorage.put(key, obj[key])
 	}
@@ -41,12 +41,12 @@ AsyncStorage.getObj = async (arr = [], retArr = false) => {
 			ret[arr[i]] = await AsyncStorage.get(arr[i])
 		}
 	}
-	return ret;
+	return ret
 }
 AsyncStorage.getAll = async retArr => {
 	try {
-		const keys = await AsyncStore.getAllKeys();
-		const result = await AsyncStore.multiGet(keys);
+		const keys = await AsyncStore.getAllKeys()
+		const result = await AsyncStore.multiGet(keys)
 		return result.reduce((obj, [key, value]) => {
 			obj[key] = value
 			return obj
@@ -60,7 +60,7 @@ AsyncStorage.clear = async () => {
 		const keys = await AsyncStorage.getAllKeys()
 		keys.forEach(async key => {
 			AsyncStorage.remove(key)
-		});
+		})
 	} catch (err) {
 		return false
 	}

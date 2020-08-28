@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
-import MDInput, { Input, TextInput, shadowStyle } from 'src/components/Input/MDInput';
-import Divider from 'src/components/Row/Divider';
-import Container, { Body, Footer } from 'src/components/View/Container';
-import { Wrapper } from 'src/components/View/Wrapper';
-import { View } from 'react-native';
-import { validNumber, getRandomNegativeNum, convertNumber } from 'src/utils/authhelper';
-import { useDispatch } from 'react-redux'
-import { SizeList } from 'src/styles/size';
-import { Image } from 'src/components/CustomImage';
-import { GlobalHeader } from 'src/components/Header/Header';
-import { ColorsList } from 'src/styles/colors';
-import { Button, ButtonShadow, RoundedButton } from 'src/components/Button/Button';
-import { AwanPopup } from 'src/components/ModalContent/Popups';
-import { AddCart } from 'src/redux/actions/actionsStoreProduct';
-import { Text } from 'src/components/Text/CustomText';
-
+import React, { useState } from "react"
+import MDInput, {
+	Input,
+	TextInput,
+	shadowStyle,
+} from "src/components/Input/MDInput"
+import Divider from "src/components/Row/Divider"
+import Container, { Body, Footer } from "src/components/View/Container"
+import { Wrapper } from "src/components/View/Wrapper"
+import { View } from "react-native"
+import {
+	validNumber,
+	getRandomNegativeNum,
+	convertNumber,
+} from "src/utils/authhelper"
+import { useDispatch } from "react-redux"
+import { SizeList } from "src/styles/size"
+import { Image } from "src/components/CustomImage"
+import { GlobalHeader } from "src/components/Header/Header"
+import { ColorsList } from "src/styles/colors"
+import {
+	Button,
+	ButtonShadow,
+	RoundedButton,
+} from "src/components/Button/Button"
+import { AwanPopup } from "src/components/ModalContent/Popups"
+import { AddCart } from "src/redux/actions/actionsStoreProduct"
+import { Text } from "src/components/Text/CustomText"
 
 const InputManual = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -28,25 +39,28 @@ const InputManual = ({ navigation }) => {
 	const [errorAlert, setErrorAlert] = useState(false)
 
 	const _handlePressBtn = () => {
-		if (name_product == "" || price_in_product == "" || price_out_product == "") {
+		if (
+			name_product == "" ||
+			price_in_product == "" ||
+			price_out_product == ""
+		) {
 			setErrorMessage("Harap isi semua field")
 			setErrorAlert(true)
-		}
-		else if (quantity == 0) {
+		} else if (quantity == 0) {
 			setErrorMessage("Kuantitas tidak boleh nol")
 			setErrorAlert(true)
-		}
-		else if (price_out_product.extractNumber() < price_in_product.extractNumber()) {
+		} else if (
+			price_out_product.extractNumber() < price_in_product.extractNumber()
+		) {
 			setErrorMessage("Harga jual harus melebihi harga modal")
 			setErrorAlert(true)
-		}
-		else {
+		} else {
 			const manualProduct = {
 				name_product,
 				price_in_product: convertNumber(price_in_product),
 				price_out_product: convertNumber(price_out_product),
 				quantity,
-				id_product: getRandomNegativeNum()
+				id_product: getRandomNegativeNum(),
 			}
 			dispatch(AddCart(manualProduct))
 			navigation.goBack()
@@ -63,53 +77,76 @@ const InputManual = ({ navigation }) => {
 		let a = parseInt(quantity == "" ? 0 : quantity) + 1
 		setQuantity(a)
 	}
-	return <Container>
-		<GlobalHeader title="Pesanan Manual" onPressBack={() => navigation.goBack()} />
-		<AwanPopup.Alert
-			message={errorMessage}
-			visible={errorAlert}
-			closeAlert={() => setErrorAlert(false)}
-		/>
-		<Body>
-			<Input
-				label="Nama Produk"
-				value={name_product}
-				onChangeText={setName}
+	return (
+		<Container>
+			<GlobalHeader
+				title="Pesanan Manual"
+				onPressBack={() => navigation.goBack()}
 			/>
-			<Wrapper style={{ marginTop: SizeList.base }} spaceBetween>
-				<Input _flex
-					currency label="Harga modal"
-					value={price_in_product}
-					onChangeText={setPriceIn} />
-				<Divider size={SizeList.base} color={ColorsList.transparent} />
-				<Input _flex
-					currency label="Harga jual"
-					value={price_out_product}
-					onChangeText={setPriceOut} />
-			</Wrapper>
-			<Text style={{ marginVertical: SizeList.base }}>Jumlah barang</Text>
-			<Wrapper spaceBetween>
-				<RoundedButton onPress={_handleMinusQuantity}>
-					<Image size={13} source={require("src/assets/icons/minus-primary.png")} />
-				</RoundedButton>
-				<Divider size={SizeList.base} color={ColorsList.transparent} />
-				<TextInput _flex value={quantity.toString()}
-					onChangeText={(text) => {
-						if (validNumber(text)) {
-							setQuantity(text)
-						}
-					}}
-					keyboardType="number-pad"
-					style={{ textAlign: 'center', fontSize: SizeList.base * 2 }}
+			<AwanPopup.Alert
+				message={errorMessage}
+				visible={errorAlert}
+				closeAlert={() => setErrorAlert(false)}
+			/>
+			<Body>
+				<Input
+					label="Nama Produk"
+					value={name_product}
+					onChangeText={setName}
 				/>
-				<Divider size={SizeList.base} color={ColorsList.transparent} />
-				<RoundedButton onPress={_handlePlusQuantity}>
-					<Image size={13} source={require("src/assets/icons/plus-primary.png")} />
-				</RoundedButton>
-			</Wrapper>
-		</Body>
-		<Button style={{ marginHorizontal: SizeList.base, marginBottom: SizeList.base }} onPress={_handlePressBtn}>SIMPAN</Button>
-	</Container>
+				<Wrapper style={{ marginTop: SizeList.base }} spaceBetween>
+					<Input
+						_flex
+						currency
+						label="Harga modal"
+						value={price_in_product}
+						onChangeText={setPriceIn}
+					/>
+					<Divider size={SizeList.base} color={ColorsList.transparent} />
+					<Input
+						_flex
+						currency
+						label="Harga jual"
+						value={price_out_product}
+						onChangeText={setPriceOut}
+					/>
+				</Wrapper>
+				<Text style={{ marginVertical: SizeList.base }}>Jumlah barang</Text>
+				<Wrapper spaceBetween>
+					<RoundedButton onPress={_handleMinusQuantity}>
+						<Image
+							size={13}
+							source={require("src/assets/icons/minus-primary.png")}
+						/>
+					</RoundedButton>
+					<Divider size={SizeList.base} color={ColorsList.transparent} />
+					<TextInput
+						_flex
+						value={quantity.toString()}
+						onChangeText={text => {
+							if (validNumber(text)) {
+								setQuantity(text)
+							}
+						}}
+						keyboardType="number-pad"
+						style={{ textAlign: "center", fontSize: SizeList.base * 2 }}
+					/>
+					<Divider size={SizeList.base} color={ColorsList.transparent} />
+					<RoundedButton onPress={_handlePlusQuantity}>
+						<Image
+							size={13}
+							source={require("src/assets/icons/plus-primary.png")}
+						/>
+					</RoundedButton>
+				</Wrapper>
+			</Body>
+			<Button
+				style={{ marginHorizontal: SizeList.base, marginBottom: SizeList.base }}
+				onPress={_handlePressBtn}>
+				SIMPAN
+			</Button>
+		</Container>
+	)
 }
 
 export default InputManual

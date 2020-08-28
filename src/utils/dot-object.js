@@ -1,4 +1,4 @@
-import ObjectDot from 'dot-object'
+import ObjectDot from "dot-object"
 
 const DotObject = ObjectDot
 const Dot = ObjectDot.pick

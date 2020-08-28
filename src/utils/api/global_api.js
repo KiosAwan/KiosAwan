@@ -8,11 +8,10 @@ const getStoreCategoryAPI = async () => {
 	try {
 		const token = await getUserToken()
 		const res = await axios.get(`${HOST_URL}/store/categories`, {
-			headers: { "authorization": token }
+			headers: { authorization: token },
 		})
 		return res.data
-	}
-	catch (error) {
+	} catch (error) {
 		const res = error.response.data
 		return res
 	}

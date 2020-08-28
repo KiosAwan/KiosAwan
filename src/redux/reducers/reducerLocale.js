@@ -1,8 +1,8 @@
 const initialState = {
 	data: [],
-	localeId: 'id',
+	localeId: "id",
 	isError: false,
-	isLoading: true
+	isLoading: true,
 }
 
 const reducerLocale = (state = initialState, actions) => {
@@ -12,19 +12,19 @@ const reducerLocale = (state = initialState, actions) => {
 				...state,
 				localeId: actions.payload.localeId,
 				data: actions.payload.locale,
-				isLoading: true
-			};
+				isLoading: true,
+			}
 		case "GET_LANGUAGE_FULFILLED":
 			return {
 				...state,
-				isLoading: false
-			};
+				isLoading: false,
+			}
 		case "GET_LANGUAGE_REJECTED":
 			return {
 				...initialState,
 				isError: true,
-				isLoading: false
-			};
+				isLoading: false,
+			}
 		default:
 			return state
 	}

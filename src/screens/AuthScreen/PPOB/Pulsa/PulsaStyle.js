@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 		marginBottom: SizeList.base,
 		borderRadius: SizeList.borderRadius,
 		justifyContent: "flex-end",
-		backgroundColor: ColorsList.whiteColor
+		backgroundColor: ColorsList.whiteColor,
 	},
 	listPulsa: {
 		margin: 5,
@@ -19,19 +19,19 @@ const styles = StyleSheet.create({
 		backgroundColor: ColorsList.whiteColor,
 		borderWidth: 1,
 		borderColor: ColorsList.greyAuthHard,
-		marginBottom: SizeList.base
+		marginBottom: SizeList.base,
 	},
 	pulsaWrapperActive: {
 		borderColor: ColorsList.primary,
 	},
 	pulsaComp: {
-		...$Margin(3, 10)
+		...$Margin(3, 10),
 	},
 	simpan: {
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		marginVertical: SizeList.base
-	}
+		marginVertical: SizeList.base,
+	},
 })
 export default styles

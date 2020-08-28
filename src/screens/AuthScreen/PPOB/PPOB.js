@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
-import { Text } from 'src/components/Text/CustomText';
-import { Wrapper } from 'src/components/View/Wrapper';
-import Icon from 'react-native-vector-icons/FontAwesome5'
-import IonIcon from 'react-native-vector-icons/Ionicons'
-import LinearGradient from 'react-native-linear-gradient';
-import BarStatus from 'src/components/BarStatus';
-import { useSelector, useDispatch } from 'react-redux';
-import { convertRupiah, getUserToken, checkService } from 'src/utils/authhelper';
-import { ColorsList, infoColorSetting } from 'src/styles/colors';
-import { PPOBCard } from 'src/components/Card/CardIcon';
+import React, { useState, useEffect } from "react"
+import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native"
+import { Text } from "src/components/Text/CustomText"
+import { Wrapper } from "src/components/View/Wrapper"
+import Icon from "react-native-vector-icons/FontAwesome5"
+import IonIcon from "react-native-vector-icons/Ionicons"
+import LinearGradient from "react-native-linear-gradient"
+import BarStatus from "src/components/BarStatus"
+import { useSelector, useDispatch } from "react-redux"
+import { convertRupiah, getUserToken, checkService } from "src/utils/authhelper"
+import { ColorsList, infoColorSetting } from "src/styles/colors"
+import { PPOBCard } from "src/components/Card/CardIcon"
 
-import { Button, Info } from 'src/components/Button/Button';
-import { Image } from 'src/components/CustomImage';
-import { $Padding } from 'src/utils/stylehelper';
-import Divider from 'src/components/Row/Divider';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Bottom } from 'src/components/View/Bottom';
-import { getProductPPOBList } from 'src/utils/api/ppobapi';
-import { DEV_IMG_URL, HOST_URL } from 'src/config';
-import { getProfile } from 'src/redux/actions/actionsUserData'
-import TextTicker from 'react-native-text-ticker';
-import axios from 'src/utils/axios';
-import { FontList } from 'src/styles/typography';
-import Container, { Body, Footer } from 'src/components/View/Container';
-import { ImageHeader, IconHeader } from 'src/components/Header/Header';
-import ButtonCart from 'src/components/View/ButtonCart';
-import { SizeList } from 'src/styles/size';
-import BottomSheetSelect from 'src/components/Picker/BottomSheetSelect';
+import { Button, Info } from "src/components/Button/Button"
+import { Image } from "src/components/CustomImage"
+import { $Padding } from "src/utils/stylehelper"
+import Divider from "src/components/Row/Divider"
+import { TouchableOpacity } from "react-native-gesture-handler"
+import { Bottom } from "src/components/View/Bottom"
+import { getProductPPOBList } from "src/utils/api/ppobapi"
+import { DEV_IMG_URL, HOST_URL } from "src/config"
+import { getProfile } from "src/redux/actions/actionsUserData"
+import TextTicker from "react-native-text-ticker"
+import axios from "src/utils/axios"
+import { FontList } from "src/styles/typography"
+import Container, { Body, Footer } from "src/components/View/Container"
+import { ImageHeader, IconHeader } from "src/components/Header/Header"
+import ButtonCart from "src/components/View/ButtonCart"
+import { SizeList } from "src/styles/size"
+import BottomSheetSelect from "src/components/Picker/BottomSheetSelect"
 
 const PPOB = ({ navigation }) => {
 	const dispatch = useDispatch()
@@ -43,7 +43,9 @@ const PPOB = ({ navigation }) => {
 	}, [])
 
 	const _checkService = async () => {
-		const { data: { message, service } } = await checkService()
+		const {
+			data: { message, service },
+		} = await checkService()
 		if (service == 1) {
 			setMaintanance(true)
 			setMessage(message)
@@ -58,10 +60,12 @@ const PPOB = ({ navigation }) => {
 	}
 	const _onPressTopUp = () => {
 		if (User.data.status == 1) {
-			navigation.navigate('/ppob/topup')
+			navigation.navigate("/ppob/topup")
 		} else {
 			_setAlertTitle("FITUR INI")
-			_setAlertMessage("Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia")
+			_setAlertMessage(
+				"Lengkapi profil anda, agar bisa menggunakan fitur-fitur yang tersedia",
+			)
 			_setAlert(true)
 		}
 	}
@@ -70,75 +74,120 @@ const PPOB = ({ navigation }) => {
 		navigation.navigate(route)
 	}
 	return (
-		<Container header={{
-			onPressBack: () => navigation.goBack(),
-			title: "PRODUK PEMBAYARAN",
-			renderRightAccessory: () => <Wrapper spaceBetween style={{ width: 40 }}>
-				<TouchableOpacity onPress={() => navigation.navigate("/ppob/favorit")}>
-					<IconHeader name="heart" color={ColorsList.greyFont} />
-				</TouchableOpacity>
-				<BottomSheetSelect
-					height={150}
-					data={[
-						{ title: "Atur Harga PPOB", route: '/ppob/settings' },
-						{ title: "List Transaksi", route: '/ppob/list-transaksi' }
-					]}
-					renderItem={(item) => <Text font="SemiBold">{item.title.toUpperCase()}</Text>}
-					handleChangePicker={(item) => navigation.navigate(item.route)}
-					closeOnSelect
-					buttonOverride={<IconHeader name="ellipsis-v" color={ColorsList.greyFont} />}
-				/>
-			</Wrapper>
-		}}>
+		<Container
+			header={{
+				onPressBack: () => navigation.goBack(),
+				title: "PRODUK PEMBAYARAN",
+				renderRightAccessory: () => (
+					<Wrapper spaceBetween style={{ width: 40 }}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate("/ppob/favorit")}>
+							<IconHeader name="heart" color={ColorsList.greyFont} />
+						</TouchableOpacity>
+						<BottomSheetSelect
+							height={150}
+							data={[
+								{ title: "Atur Harga PPOB", route: "/ppob/settings" },
+								{ title: "List Transaksi", route: "/ppob/list-transaksi" },
+							]}
+							renderItem={item => (
+								<Text font="SemiBold">{item.title.toUpperCase()}</Text>
+							)}
+							handleChangePicker={item => navigation.navigate(item.route)}
+							closeOnSelect
+							buttonOverride={
+								<IconHeader name="ellipsis-v" color={ColorsList.greyFont} />
+							}
+						/>
+					</Wrapper>
+				),
+			}}>
 			<Body>
 				<Wrapper justify="space-between">
 					<View>
 						<Text>Saldo Anda sebesar: </Text>
 						<Wrapper spaceBetween>
-							<Text align="left" color="primary" font="SemiBold">{convertRupiah(User.data.saldo || 0)}</Text>
-							<TouchableOpacity onPress={async () => {
-								const userToken = await getUserToken()
-								dispatch(getProfile(User.data.id, userToken))
-							}}>
-								<Image source={require('src/assets/icons/home/refresh.png')} size={15} style={{ marginLeft: 10 }} />
+							<Text align="left" color="primary" font="SemiBold">
+								{convertRupiah(User.data.saldo || 0)}
+							</Text>
+							<TouchableOpacity
+								onPress={async () => {
+									const userToken = await getUserToken()
+									dispatch(getProfile(User.data.id, userToken))
+								}}>
+								<Image
+									source={require("src/assets/icons/home/refresh.png")}
+									size={15}
+									style={{ marginLeft: 10 }}
+								/>
 							</TouchableOpacity>
 						</Wrapper>
 					</View>
-					<Button style={{ width: 100 }} onPress={_onPressTopUp}>TOP UP</Button>
+					<Button style={{ width: 100 }} onPress={_onPressTopUp}>
+						TOP UP
+					</Button>
 				</Wrapper>
-				{User.data.atur_harga == 0 && <Button
-					align="flex-start"
-					textProps={{ align: "left" }}
-					onPress={() => navigation.navigate("/ppob/settings")}
-					color={infoColorSetting} style={{ marginVertical: SizeList.padding, borderRadius: SizeList.borderRadius, }}>
-					<Text>{`Silahkan atur harga produk sebelum memulai transaksi. `}
-						<Text style={{ textDecorationLine: 'underline', }}>Klik disini</Text>
-					</Text>
-
-				</Button>}
-				{
-					maintanance &&
-					<Button style={{ marginTop: SizeList.base, borderRadius: SizeList.borderRadius, }} disabled color="info" wrapper={{ flexStart: true }}>
-						<Icon color={ColorsList.informationFont} name="exclamation-circle" style={{ marginHorizontal: 10, }} />
+				{User.data.atur_harga == 0 && (
+					<Button
+						align="flex-start"
+						textProps={{ align: "left" }}
+						onPress={() => navigation.navigate("/ppob/settings")}
+						color={infoColorSetting}
+						style={{
+							marginVertical: SizeList.padding,
+							borderRadius: SizeList.borderRadius,
+						}}>
+						<Text>
+							{`Silahkan atur harga produk sebelum memulai transaksi. `}
+							<Text style={{ textDecorationLine: "underline" }}>
+								Klik disini
+							</Text>
+						</Text>
+					</Button>
+				)}
+				{maintanance && (
+					<Button
+						style={{
+							marginTop: SizeList.base,
+							borderRadius: SizeList.borderRadius,
+						}}
+						disabled
+						color="info"
+						wrapper={{ flexStart: true }}>
+						<Icon
+							color={ColorsList.informationFont}
+							name="exclamation-circle"
+							style={{ marginHorizontal: 10 }}
+						/>
 						<TextTicker
 							width="90%"
-							style={{ color: ColorsList.informationFont, fontFamily: FontList.regularFont }}
+							style={{
+								color: ColorsList.informationFont,
+								fontFamily: FontList.regularFont,
+							}}
 							duration={20000}
 							loop
 							bounce
-							marqueeDelay={500}
-						>{message}</TextTicker>
+							marqueeDelay={500}>
+							{message}
+						</TextTicker>
 					</Button>
-				}
-				{!productData ?
+				)}
+				{!productData ? (
 					<ActivityIndicator color={ColorsList.primary} />
-					: <FlatList
+				) : (
+					<FlatList
 						style={{ marginVertical: 5 }}
 						showsVerticalScrollIndicator={false}
 						data={productData}
 						numColumns={3}
 						renderItem={({ item }) => (
-							<View style={{ width: "33.3%", alignItems: "center", marginVertical: 10 }}>
+							<View
+								style={{
+									width: "33.3%",
+									alignItems: "center",
+									marginVertical: 10,
+								}}>
 								<PPOBCard
 									status={item.status}
 									info={item.info}
@@ -149,16 +198,20 @@ const PPOB = ({ navigation }) => {
 							</View>
 						)}
 						keyExtractor={(item, index) => index.toString()}
-					/>}
-
+					/>
+				)}
 			</Body>
 			<View style={{ marginBottom: SizeList.base }}>
-				{
-					Product.jumlahitem > 0 &&
-					<ButtonCart quantity={Product.jumlahitem} price={Product.total.convertRupiah()} onPress={() => {
-						parseInt(Product.jumlahitem) > 0 && navigation.navigate('/cashier/cart')
-					}} />
-				}
+				{Product.jumlahitem > 0 && (
+					<ButtonCart
+						quantity={Product.jumlahitem}
+						price={Product.total.convertRupiah()}
+						onPress={() => {
+							parseInt(Product.jumlahitem) > 0 &&
+								navigation.navigate("/cashier/cart")
+						}}
+					/>
+				)}
 			</View>
 		</Container>
 	)
@@ -167,6 +220,6 @@ export default PPOB
 
 const styles = StyleSheet.create({
 	wrapSaldoInfo: {
-		padding: 20
-	}
+		padding: 20,
+	},
 })

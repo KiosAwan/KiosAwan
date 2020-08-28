@@ -2,17 +2,17 @@ import UpdateProfil from "src/screens/AuthScreen/Drawer/UpdateProfil"
 import VerifikasiEmail from "src/screens/AuthScreen/Drawer/Temp/VerifikasiEmail"
 
 const TempNavigator = {
-	'/temp/update-profile': {
+	"/temp/update-profile": {
 		screen: UpdateProfil,
 		navigationOptions: {
-			header: null
-		}
+			header: null,
+		},
 	},
-	'/temp/verifikasi-email': {
+	"/temp/verifikasi-email": {
 		screen: VerifikasiEmail,
 		navigationOptions: {
-			header: null
-		}
-	}
+			header: null,
+		},
+	},
 }
 export default TempNavigator
