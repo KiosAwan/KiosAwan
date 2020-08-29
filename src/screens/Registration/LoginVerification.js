@@ -49,10 +49,10 @@ const LoginVerification = ({ navigation }) => {
 	const [secure, setSecure] = useState(true)
 	const [btnDisabled, setBtnDisabled] = useState(true)
 	//Sending OTP code to server
-	const _handlePasswordLogin = async psw => {
-		const pushToken = await Storage.getItem("@push_token")
+	const _handlePasswordLogin = async () => {
 		setLoading(true)
-		await dispatch(addFirstPassword(psw))
+		const pushToken = await Storage.getItem("@push_token")
+		await dispatch(addFirstPassword(FormRegister.password))
 		const data = {
 			phone_number: "62" + FormRegister.phone_number,
 			password: FormRegister.password,
@@ -176,30 +176,3 @@ const LoginVerification = ({ navigation }) => {
 }
 
 export default LoginVerification
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-	},
-	textForgot: {
-		marginTop: 5,
-		color: "white",
-		...FontList.titleFont,
-	},
-	wrapHeader: {
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "flex-end",
-	},
-	subtitleEnterPhone: {
-		paddingHorizontal: 20,
-		color: "white",
-		textAlign: "center",
-		fontFamily: FontList.semiBoldFont,
-	},
-	inputView: {
-		alignItems: "center",
-		justifyContent: "center",
-	},
-})

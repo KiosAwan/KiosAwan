@@ -1,11 +1,18 @@
 import RNSecureKeyStore, { ACCESSIBLE } from "react-native-secure-key-store"
 
-const storageKey = "YmlzbWlsbGFoaXJyYWhtYW5pcnJhaGlt"
-const apiKey = "LXQ4Y5UI34JK34PR8MPVC3ERZ"
-const apiSignature =
-	"LXQ4Y5UI34JK34PR8MPVC3ERZ8YIU7698YhjlhkXJKLFU3LKDSFKLJDSKLFJLK2REXXxdvNZMCNLFD4d"
-
 class Class {
+	async getItems(keys) {
+		const getItem = this.getItem
+		const promises = keys.map(async key => {
+			const data = await getItem(key)
+			return [key, data]
+		})
+		const data = await Promise.all(promises)
+		return data.reduce((stores, [key, data]) => {
+			stores[key] = data
+			return stores
+		}, {})
+	}
 	getItem(key) {
 		return new Promise(async resolve => {
 			try {
@@ -47,5 +54,4 @@ class Class {
 
 const Storage = new Class()
 
-export { apiKey, apiSignature, storageKey }
 export default Storage

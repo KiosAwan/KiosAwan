@@ -1,8 +1,7 @@
 import { combineReducers } from "redux"
 import { persistReducer } from "redux-persist"
 import createEncryptor from "redux-persist-transform-encrypt"
-import Storage, { storageKey as key } from "src/utils/keyStores"
-
+import Storage from "src/utils/keyStores"
 // Reducer List
 import reducerRegistration from "./reducerRegistration"
 import reducerUser from "./reducerUser"
@@ -17,6 +16,7 @@ import reducerPrinter from "./reducerPrinter"
 import reducerRiwayatTransaksi from "./reducerRiwayatTransaksi"
 import reducerLocale from "./reducerLocale"
 import reducerApp from "src/redux/reducers/reducerApp"
+import { storageKey as key } from "src/utils/env"
 
 const encryptor = createEncryptor({
 	secretKey: key,
@@ -43,13 +43,10 @@ const appReducer = combineReducers({
 	App: reducerApp,
 })
 
-const reducer = persistReducer(
-	{
-		key,
-		storage: Storage,
-		transforms: [encryptor],
-	},
-	appReducer,
-)
+const reducer = persistReducer({
+	key,
+	storage: Storage,
+	transforms: [encryptor],
+}, appReducer)
 
 export default reducer

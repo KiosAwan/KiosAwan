@@ -1,6 +1,7 @@
 import axiosLib from "axios"
-import { apiKey, apiSignature } from "src/utils/keyStores"
+import env from "src/utils/env"
 
+const { apiKey, apiSignature } = env
 const axios = axiosLib
 
 axios.defaults.headers.common["X-API-Key"] = apiKey
