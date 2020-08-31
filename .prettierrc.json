@@ -2,7 +2,7 @@
   "$schema": "http://json.schemastore.org/prettierrc",
   "jsxBracketSameLine": true,
   "arrowParens": "avoid",
-  "parser": "babel",
+  "parser": "babel-flow",
   "useTabs": true,
   "trailingComma": "all",
   "semi": false

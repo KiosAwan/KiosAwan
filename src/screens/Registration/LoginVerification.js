@@ -67,6 +67,8 @@ const LoginVerification = ({ navigation }) => {
 				setLoading(false)
 				setAlertMessage(res.data.errors.msg)
 				setAlert(true)
+				await dispatch(clearAllRegistration())
+				navigation.navigate('/unauth')
 			} else {
 				await dispatch(clearAllRegistration())
 				await Storage.setItem("userId", res.data.id)
@@ -92,11 +94,10 @@ const LoginVerification = ({ navigation }) => {
 				"Untuk membuat password baru, anda harus memasukkan kode OTP yang telah dikirim ke nomor HP anda",
 			resend: _sendOTP,
 			onResolve: async otp => {
-				const data = {
-					phone_number: "62" + FormRegister.phone_number,
-					otp,
-				}
+				setLoading(true)
+				const data = { phone_number: "62" + FormRegister.phone_number, otp }
 				const res = await sendVerifyOTP(data)
+				setLoading(false)
 				if (res.status == 400) {
 					setAlertMessage(res.data.errors.msg)
 					setAlert(true)

@@ -41,5 +41,6 @@ const ColorsList = {
 }
 
 const infoColorSetting = ["settingBg", "settingFont"]
+const infoColorInfo = ["informationBg", "informationFont"]
 
-export { ColorsList, infoColorSetting }
+export { ColorsList, infoColorInfo, infoColorSetting }

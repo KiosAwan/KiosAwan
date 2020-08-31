@@ -24,6 +24,7 @@ import { Button } from "src/components/Button/Button"
 import Alert from "src/utils/alert"
 import { Input } from "src/components/Input/MDInput"
 import { APP_VERSION } from "src/config/constant"
+import { getProfile } from "src/redux/actions/actionsUserData"
 
 //Functions
 
@@ -58,8 +59,10 @@ const NewPassword2 = ({ navigation }) => {
 			}
 			const res = await sendNewPassword(data)
 			if (res.status == 200) {
-				await Storage.setItem("userId", res.data.id.toString())
-				await Storage.setItem("@user_token", res.data.token)
+				const { id, token } = res.data
+				const ss = await Storage.setItems([["userId", id.toString()], ["@user_token", token]])
+				console.log(ss)
+				await dispatch(getProfile(id, token))
 				dispatch(clearAllRegistration())
 				setIsLoading(false)
 				navigation.navigate("/")
@@ -85,6 +88,7 @@ const NewPassword2 = ({ navigation }) => {
 				visible={alert}
 				closeAlert={() => setAlert(false)}
 			/>
+			<AwanPopup.Loading visible={isLoading} />
 			<UnauthBackHeader onPressBack={() => navigation.goBack()} />
 			<View style={{ justifyContent: "center", marginBottom: 10, flex: 1 }}>
 				<UnauthHeader />

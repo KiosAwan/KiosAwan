@@ -61,9 +61,9 @@ class CheckOut extends React.Component {
 			nonTunai={this.state.nonTunai}
 			pressImage={id => {
 				this.setState({ nonTunai: id })
-				// if (id > 4) {
-				// 	this.props.navigation.navigate("/cashier/check-out/payewallet", { amount: this.props.Product.total - this.props.Product.total_diskon })
-				// }
+				if (id > 4) {
+					this.props.navigation.navigate("/cashier/check-out/payewallet", { amount: this.props.Product.total - this.props.Product.total_diskon })
+				}
 			}}
 		/>
 	)

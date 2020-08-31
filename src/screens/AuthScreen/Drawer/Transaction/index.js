@@ -14,7 +14,7 @@ import { ColorsList } from "src/styles/colors"
 import { Text } from "src/components/Text/CustomText"
 import moment from "moment"
 import Icon from "react-native-vector-icons/FontAwesome5"
-import { convertRupiah, getUserToken } from "src/utils/authhelper"
+import { convertRupiah, getUserToken, prettyConsole } from "src/utils/authhelper"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { Wrapper } from "src/components/View/Wrapper"
 import { Button } from "src/components/Button/Button"
@@ -28,6 +28,7 @@ import BottomSheetSelect, {
 import { Input } from "src/components/Input/MDInput"
 import Gallery from "src/components/View/Gallery"
 import Divider from "src/components/Row/Divider"
+import { iconImage, filterResult } from "src/screens/AuthScreen/Drawer/Transaction/indexConstants"
 
 const initialLayout = { width: 300, height: 300 }
 
@@ -40,32 +41,6 @@ const TransactionList = ({ navigation }) => {
 	const [filter, setFilter] = useState("all")
 	const [allowNavigate, setAllowNavigate] = useState(true)
 
-	const iconImage = {
-		3: {
-			image: require("src/assets/icons/round-return.png"),
-			text: "BATAL",
-			color: "danger",
-		},
-		2: {
-			image: require("src/assets/icons/round-exclamation.png"),
-			text: "HUTANG",
-			color: "warning",
-		},
-		1: {
-			image: require("src/assets/icons/round-check.png"),
-			text: "LUNAS",
-			color: "success",
-		},
-	}
-	const filterResult = data => {
-		return data
-			.filter(({ status }) =>
-				filter == "all" ? true : status.includes(filter),
-			)
-			.filter(({ payment_code }) =>
-				payment_code.toLowerCase().includes(search.toLowerCase()),
-			)
-	}
 	useEffect(() => {
 		_effect()
 	}, [])
@@ -144,134 +119,134 @@ const TransactionList = ({ navigation }) => {
 							<TransactionPlaceholder />
 						</View>
 					) : (
-						<View>
-							{eval(
-								trxData.map(({ data }) => filterResult(data).length).join("+"),
-							) > 0 ? (
-								<Gallery
-									data={trxData}
-									renderItem={({ item: { data, date, total } }) => {
-										const dataTrx = filterResult(data)
-										return (
-											<View>
-												<Wrapper
-													style={{
-														marginVertical: SizeList.base,
-														...(dataTrx.length == 0 && { display: "none" }),
-													}}
-													justify="space-between">
-													<Text>{moment(date).format("ddd, DD MMM YYYY")}</Text>
-													<Text font="SemiBold">{convertRupiah(total)}</Text>
-												</Wrapper>
-												<Gallery
-													data={dataTrx}
-													renderItem={({ item: trx, i }) => {
-														return (
-															<Button
-																spaceBetween
-																disabled={!allowNavigate}
-																style={{ marginVertical: SizeList.secondary }}
-																radius={SizeList.borderRadius}
-																padding={SizeList.padding}
-																color={["white"]}
-																onPress={() => {
-																	if (allowNavigate) {
-																		setAllowNavigate(false)
-																		navigation.push(
-																			"/drawer/transaction/detail",
-																			{ transactionId: trx.id_transaction },
-																		)
-																	}
-																}}>
-																<View style={{ width: "100%" }}>
-																	<Wrapper justify="space-between">
-																		<Wrapper _width="65%" justify="flex-start">
-																			<View
-																				style={{
-																					justifyContent: "center",
-																					padding: 10,
-																					paddingLeft: 5,
-																				}}>
-																				<Image
-																					style={{ width: 20, height: 20 }}
-																					source={
-																						iconImage[trx.status_payment].image
-																					}
-																				/>
-																			</View>
-																			<View
-																				style={{ justifyContent: "center" }}>
-																				<Text font="SemiBold">
-																					{trx.payment_code}
-																				</Text>
-																				<Text
-																					font={
-																						trx.name_customer
-																							? "SemiBold"
-																							: "Regular"
-																					}>
-																					{trx.name_customer
-																						? trx.name_customer
-																						: "N/A"}
-																				</Text>
-																			</View>
-																		</Wrapper>
-																		<View _width="33%">
-																			<Text
-																				font="SemiBold"
-																				align="right"
-																				color={
-																					iconImage[trx.status_payment].color
-																				}
-																				font="SemiBold"
-																				size={15}>
-																				{iconImage[trx.status_payment].text}
-																			</Text>
-																			<Text align="right">
-																				{convertRupiah(trx.total_transaction)}
-																			</Text>
-																		</View>
-																	</Wrapper>
-																	{trx.status == 2 && trx.status_payment != 3 && (
-																		<View>
-																			<Divider style={{ marginVertical: 5 }} />
+							<View>
+								{eval(
+									trxData.map(({ data }) => filterResult({ data, filter, search }).length).join("+"),
+								) > 0 ? (
+										<Gallery
+											data={trxData}
+											renderItem={({ item: { data, date, total } }) => {
+												const dataTrx = filterResult({ data, filter, search })
+												return (
+													<View>
+														<Wrapper
+															style={{
+																marginVertical: SizeList.base,
+																...(dataTrx.length == 0 && { display: "none" }),
+															}}
+															justify="space-between">
+															<Text>{moment(date).format("ddd, DD MMM YYYY")}</Text>
+															<Text font="SemiBold">{convertRupiah(total)}</Text>
+														</Wrapper>
+														<Gallery
+															data={dataTrx}
+															renderItem={({ item: trx, i }) => {
+																return (
+																	<Button
+																		spaceBetween
+																		disabled={!allowNavigate}
+																		style={{ marginVertical: SizeList.secondary }}
+																		radius={SizeList.borderRadius}
+																		padding={SizeList.padding}
+																		color={["white"]}
+																		onPress={() => {
+																			if (allowNavigate) {
+																				setAllowNavigate(false)
+																				navigation.push(
+																					"/drawer/transaction/detail",
+																					{ transactionId: trx.id_transaction },
+																				)
+																			}
+																		}}>
+																		<View style={{ width: "100%" }}>
 																			<Wrapper justify="space-between">
-																				<Text color="danger">
-																					Nominal yang dibatalkan
-																				</Text>
-																				<Text color="danger">
-																					{convertRupiah(trx.total_return)}
-																				</Text>
+																				<Wrapper _width="65%" justify="flex-start">
+																					<View
+																						style={{
+																							justifyContent: "center",
+																							padding: 10,
+																							paddingLeft: 5,
+																						}}>
+																						<Image
+																							style={{ width: 20, height: 20 }}
+																							source={
+																								iconImage[trx.status_payment].image
+																							}
+																						/>
+																					</View>
+																					<View
+																						style={{ justifyContent: "center" }}>
+																						<Text font="SemiBold">
+																							{trx.payment_code}
+																						</Text>
+																						<Text
+																							font={
+																								trx.name_customer
+																									? "SemiBold"
+																									: "Regular"
+																							}>
+																							{trx.name_customer
+																								? trx.name_customer
+																								: "N/A"}
+																						</Text>
+																					</View>
+																				</Wrapper>
+																				<View _width="33%">
+																					<Text
+																						font="SemiBold"
+																						align="right"
+																						color={
+																							iconImage[trx.status_payment].color
+																						}
+																						font="SemiBold"
+																						size={15}>
+																						{iconImage[trx.status_payment].text}
+																					</Text>
+																					<Text align="right">
+																						{convertRupiah(trx.total_transaction)}
+																					</Text>
+																				</View>
 																			</Wrapper>
+																			{trx.status == 2 && trx.status_payment != 3 && (
+																				<View>
+																					<Divider style={{ marginVertical: 5 }} />
+																					<Wrapper justify="space-between">
+																						<Text color="danger">
+																							Nominal yang dibatalkan
+																				</Text>
+																						<Text color="danger">
+																							{convertRupiah(trx.total_return)}
+																						</Text>
+																					</Wrapper>
+																				</View>
+																			)}
 																		</View>
-																	)}
-																</View>
-															</Button>
-														)
-													}}
-												/>
+																	</Button>
+																)
+															}}
+														/>
+													</View>
+												)
+											}}
+										/>
+									) : (
+										<View style={{ alignItems: "center" }}>
+											<Image
+												style={{ width: 250, height: 250 }}
+												source={require("src/assets/images/no-transaction.png")}
+											/>
+											<View style={{ padding: 20, alignItems: "center" }}>
+												<Text font="SemiBold" size={17}>
+													Anda belum memiliki transaksi
+										</Text>
+												<Text align="center">
+													Silahkan melalukan transaksi baru untuk mengisi laporan
+										</Text>
 											</View>
-										)
-									}}
-								/>
-							) : (
-								<View style={{ alignItems: "center" }}>
-									<Image
-										style={{ width: 250, height: 250 }}
-										source={require("src/assets/images/no-transaction.png")}
-									/>
-									<View style={{ padding: 20, alignItems: "center" }}>
-										<Text font="SemiBold" size={17}>
-											Anda belum memiliki transaksi
-										</Text>
-										<Text align="center">
-											Silahkan melalukan transaksi baru untuk mengisi laporan
-										</Text>
-									</View>
-								</View>
-							)}
-						</View>
-					)}
+										</View>
+									)}
+							</View>
+						)}
 				</View>
 			</Body>
 		</Container>

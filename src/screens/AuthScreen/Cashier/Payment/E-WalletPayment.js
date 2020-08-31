@@ -5,12 +5,14 @@ import { Text } from "src/components/Text/CustomText"
 import { convertRupiah } from "src/utils/authhelper"
 import { useSelector } from "react-redux"
 import { View, StyleSheet, Image as NativeImage } from "react-native"
-import { ColorsList, infoColorSetting } from "src/styles/colors"
+import { ColorsList, infoColorSetting, infoColorInfo } from "src/styles/colors"
 import Divider from "src/components/Row/Divider"
 import { Image } from "src/components/CustomImage"
 import { Bottom } from "src/components/View/Bottom"
 import { Button, Info } from "src/components/Button/Button"
 import { SizeList } from "src/styles/size"
+import { Icon } from 'native-base';
+import { Wrapper } from "src/components/View/Wrapper"
 const EWalletPayment = ({ navigation }) => {
 	const [amountBill, setAmount] = useState()
 	const User = useSelector(state => state.User)
@@ -27,11 +29,20 @@ const EWalletPayment = ({ navigation }) => {
 			<GlobalHeader title="Kode QR" onPressBack={() => navigation.goBack()} />
 			<Body>
 				<View style={styles.childCont}>
+					<Info color={infoColorInfo}>
+						<View style={{ flex: 1 }}>
+							<Wrapper flexStart>
+								<Icon style={{ fontSize: SizeList.secondary * 3, color: ColorsList.informationFont, marginRight: SizeList.secondary }} name="information-circle-outline" />
+								<Text color="informationFont">INFORMASI</Text>
+							</Wrapper>
+							<Text color="informationFont">QRIS Code akan segera hadir di aplikasi Awan</Text>
+						</View>
+					</Info>
 					<Text>
 						Total belanja anda :
 						<Text font="SemiBold" color="primary">{` ${convertRupiah(
-							amountBill,
-						)}`}</Text>
+						amountBill,
+					)}`}</Text>
 					</Text>
 					<View style={[styles.qrWrap, { marginTop: 10 }]}>
 						<View style={styles.group}>
@@ -43,12 +54,12 @@ const EWalletPayment = ({ navigation }) => {
 							</Text>
 							<Text align="center">{`${
 								User.store.address_store.split("%")[0]
-							}`}</Text>
+								}`}</Text>
 							<Divider style={{ marginVertical: SizeList.base }} />
 							<Image
 								style={{ alignSelf: "center" }}
 								size={150}
-								source={require("src/assets/payment/AssetQR.jpg")}
+								source={require("src/assets/payment/AssetQR.png")}
 							/>
 							<NativeImage
 								style={{
@@ -68,11 +79,9 @@ const EWalletPayment = ({ navigation }) => {
 					Silahkan scan kode QR untuk melanjutkan proses transaksi
 				</Info>
 			</Body>
-			<Bottom>
-				<Button onPress={() => navigation.goBack()} width="100%">
-					LANJUT
-				</Button>
-			</Bottom>
+			<View style={{ paddingHorizontal: SizeList.bodyPadding, paddingVertical: SizeList.base }}>
+				<Button onPress={() => navigation.goBack()} width="100%">LANJUT</Button>
+			</View>
 		</Container>
 	)
 }

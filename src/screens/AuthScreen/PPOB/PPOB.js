@@ -55,7 +55,9 @@ const PPOB = ({ navigation }) => {
 	}
 
 	const _getProductList = async () => {
+		console.log('init get data')
 		const res = await getProductPPOBList()
+		console.log(res.data)
 		setProductData(res.data)
 	}
 	const _onPressTopUp = () => {

@@ -32,6 +32,7 @@ import { SizeList } from "src/styles/size"
 import { openPin } from "src/utils/pin-otp-helper"
 import { PPOB_PRODUCT_CODE } from "src/config/constant"
 import { getProductPulsa, paymentPPOBProduct } from "src/utils/api/ppobapi"
+import { typingWaitCallback } from "src/utils/state"
 
 const PpobPaketData = ({ navigation }) => {
 	//Initialize dispatch

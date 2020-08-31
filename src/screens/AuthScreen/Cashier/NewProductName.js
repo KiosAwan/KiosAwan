@@ -123,7 +123,7 @@ const NewProductName = ({ navigation }) => {
 				onPressBack={() => navigation.goBack()}
 				renderRightAccessory={() => (
 					<Wrapper style={{ width: 30 }} spaceBetween>
-						{[2, "/", 3].map(v => (
+						{[2, "/", 3].rMap(v => (
 							<Text color="primary" size={16}>
 								{v}
 							</Text>

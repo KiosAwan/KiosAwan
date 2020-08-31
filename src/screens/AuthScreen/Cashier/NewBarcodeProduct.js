@@ -98,7 +98,7 @@ const NewBarcodeProduct = ({ navigation }) => {
 				onPressBack={() => navigation.goBack()}
 				renderRightAccessory={() => (
 					<Wrapper style={{ width: 30 }} spaceBetween>
-						{[1, "/", 3].map(v => (
+						{[1, "/", 3].rMap(v => (
 							<Text color="primary" size={16}>
 								{v}
 							</Text>
