@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
-import {
-	View,
-	StyleSheet,
-	Image,
-	TouchableOpacity as TouchableOpacityRN,
-	RefreshControl,
-} from "react-native"
+import { View, StyleSheet, Image } from "react-native"
 import { IconHeader } from "src/components/Header/Header"
 import { getTransactionList } from "src/redux/actions/actionsTransactionList"
 import { ColorsList } from "src/styles/colors"

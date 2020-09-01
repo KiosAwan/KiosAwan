@@ -69,9 +69,7 @@ const Akun = ({ navigation }) => {
 			title: "Ubah Password",
 			textTitle: "Masukkan PIN anda saat ini",
 			footer: null,
-			onResolve: async pin => {
-				_nextBtn(pin)
-			},
+			onResolve: _nextBtn,
 		})
 	}
 

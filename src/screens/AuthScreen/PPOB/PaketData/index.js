@@ -104,6 +104,7 @@ const PpobPaketData = ({ navigation }) => {
 			phone_number: User.data.phone_number,
 		}
 		const res = await verifyUserPIN(data)
+		setPayLoading(false)
 		if (res.status == 200) {
 			closePin()
 			_processPayment(selected)

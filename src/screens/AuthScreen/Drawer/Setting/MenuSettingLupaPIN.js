@@ -46,8 +46,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
 			const id = await Storage.getItem("userId")
 			const data = { id, pin }
 			await createUserPIN(data)
-			setAlert({ loading: false })
-			setAlert({ modal: true })
+			setAlert({ loading: false, modal: true })
 			setTimeout(() => {
 				setAlert({ modal: false })
 				navigation.navigate("/")
@@ -75,6 +74,7 @@ const MenuSettingLupaPIN = ({ navigation }) => {
 			textTitle: "Ulangi masukkan PIN baru anda",
 			footer: null,
 			onResolve: async confirm => {
+				setAlert({ loading: true })
 				const newPin = await Storage.getItem("lupaPin_pin")
 				if (newPin == confirm) {
 					_handleSavePIN(newPin, confirm)
