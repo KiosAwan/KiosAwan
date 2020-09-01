@@ -38,6 +38,8 @@ import { APP_VERSION } from "src/config/constant"
 import { getBrand } from "react-native-device-info"
 import { prettyConsole } from "src/utils/authhelper"
 
+let alertCb
+
 const LoginVerification = ({ navigation }) => {
 	const dispatch = useDispatch()
 	const FormRegister = useSelector(state => state.Registration)
@@ -49,6 +51,10 @@ const LoginVerification = ({ navigation }) => {
 	const [secure, setSecure] = useState(true)
 	const [btnDisabled, setBtnDisabled] = useState(true)
 	//Sending OTP code to server
+	const alertOk = () => {
+		setAlert(false)
+		if (alertCb) alertCb()
+	}
 	const _handlePasswordLogin = async () => {
 		setLoading(true)
 		const pushToken = await Storage.getItem("@push_token")
@@ -64,11 +70,13 @@ const LoginVerification = ({ navigation }) => {
 		try {
 			const res = await loginData(data)
 			if (res.data.errors) {
+				setAlert(true)
 				setLoading(false)
 				setAlertMessage(res.data.errors.msg)
-				setAlert(true)
-				await dispatch(clearAllRegistration())
-				navigation.navigate('/unauth')
+				alertCb = async () => {
+					await dispatch(clearAllRegistration())
+					navigation.navigate('/unauth')
+				}
 			} else {
 				await dispatch(clearAllRegistration())
 				await Storage.setItem("userId", res.data.id)
@@ -101,6 +109,7 @@ const LoginVerification = ({ navigation }) => {
 				if (res.status == 400) {
 					setAlertMessage(res.data.errors.msg)
 					setAlert(true)
+					alertCb = null
 				} else if (res.status == 200) {
 					navigation.navigate("/unauth/login/forgot-password/new-password-1")
 				}
@@ -122,6 +131,7 @@ const LoginVerification = ({ navigation }) => {
 		if (res.status == 400) {
 			setAlertMessage(res.data.errors.msg)
 			setAlert(true)
+			alertCb = null
 		}
 	}
 	return (
@@ -133,7 +143,7 @@ const LoginVerification = ({ navigation }) => {
 				<AwanPopup.Alert
 					message={alertMessage}
 					visible={alert}
-					closeAlert={() => setAlert(false)}
+					closeAlert={alertOk}
 				/>
 				<Text align="center">{`Nomor anda telah terdaftar. Silahkan masukkan \n password anda`}</Text>
 				<Input
