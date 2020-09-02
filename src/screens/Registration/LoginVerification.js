@@ -70,13 +70,14 @@ const LoginVerification = ({ navigation }) => {
 		try {
 			const res = await loginData(data)
 			if (res.data.errors) {
+				prettyConsole(res.data)
 				setAlert(true)
 				setLoading(false)
 				setAlertMessage(res.data.errors.msg)
-				alertCb = async () => {
+				alertCb = res.data.errors.redirectToLogin ? async () => {
 					await dispatch(clearAllRegistration())
 					navigation.navigate('/unauth')
-				}
+				} : null
 			} else {
 				await dispatch(clearAllRegistration())
 				await Storage.setItem("userId", res.data.id)

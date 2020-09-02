@@ -51,11 +51,11 @@ Number.prototype.format = function (n, x) {
 String.prototype.validURL = function () {
 	var pattern = new RegExp(
 		"^(https?:\\/\\/)?" + // protocol
-			"((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-			"((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-			"(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-			"(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-			"(\\#[-a-z\\d_]*)?$",
+		"((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+		"((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+		"(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+		"(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+		"(\\#[-a-z\\d_]*)?$",
 		"i",
 	) // fragment locator
 	return !!pattern.test(this)
@@ -133,7 +133,7 @@ String.prototype.getParamFromUrl = function () {
 			v = decode(e[2])
 		if (k.substring(k.length - 2) === "[]") {
 			k = k.substring(0, k.length - 2)
-			;(params[k] || (params[k] = [])).push(v)
+				; (params[k] || (params[k] = [])).push(v)
 		} else params[k] = v
 	}
 

@@ -3,7 +3,7 @@ import UserInactivity from "react-native-user-inactivity"
 import store from "./src/redux/store"
 import SplashScreen from "react-native-splash-screen"
 import React, { useEffect } from "react"
-import onInactive, { inActiveTimer } from "src/utils/onInactive"
+import { navigationStateChange, onInactive, inActiveTimer } from "src/utils/events"
 import OneSignal from "react-native-onesignal"
 import BackgroundTimer from "react-native-user-inactivity/lib/BackgroundTimer"
 import AppNavigator from "./src/routes/AppNavigator"
@@ -16,6 +16,7 @@ import Storage from "src/utils/keyStores"
 import { isEmulator, getBundleId } from "react-native-device-info"
 import { firebase } from "@react-native-firebase/analytics"
 import env from "src/utils/env"
+import { prettyConsole } from "src/utils/authhelper"
 
 const { googleService, prefix, sentryDsn, oneSignalId } = env
 
@@ -71,7 +72,10 @@ const App = () => {
 					timeForInactivity={inActiveTimer}
 					timeoutHandler={BackgroundTimer}
 					onAction={onInactive}>
-					<AppNavigator uriPrefix={prefix} />
+					<AppNavigator
+						onNavigationStateChange={navigationStateChange}
+						uriPrefix={prefix}
+					/>
 				</UserInactivity>
 			</Provider>
 		</Root>

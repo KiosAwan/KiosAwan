@@ -1,4 +1,5 @@
 import { Alert as AlertRN } from "react-native"
+// https://www.npmjs.com/package/react-native-sweet-alert
 
 const Alert = (...params) => {
 	let _title, _msg, _buttons, _others

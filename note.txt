@@ -1,1 +1,3 @@
 check_service when idle then replace token with new token
+
+future: reComponent with react-native styled components https://styled-components.com/docs/basics#react-native
