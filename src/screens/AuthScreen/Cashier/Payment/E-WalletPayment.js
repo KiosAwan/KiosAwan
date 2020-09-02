@@ -11,7 +11,7 @@ import { Image } from "src/components/CustomImage"
 import { Bottom } from "src/components/View/Bottom"
 import { Button, Info } from "src/components/Button/Button"
 import { SizeList } from "src/styles/size"
-import { Icon } from 'native-base';
+import { Icon } from "native-base"
 import { Wrapper } from "src/components/View/Wrapper"
 const EWalletPayment = ({ navigation }) => {
 	const [amountBill, setAmount] = useState()
@@ -32,17 +32,26 @@ const EWalletPayment = ({ navigation }) => {
 					<Info color={infoColorInfo}>
 						<View style={{ flex: 1 }}>
 							<Wrapper flexStart>
-								<Icon style={{ fontSize: SizeList.secondary * 3, color: ColorsList.informationFont, marginRight: SizeList.secondary }} name="information-circle-outline" />
+								<Icon
+									style={{
+										fontSize: SizeList.secondary * 3,
+										color: ColorsList.informationFont,
+										marginRight: SizeList.secondary,
+									}}
+									name="information-circle-outline"
+								/>
 								<Text color="informationFont">INFORMASI</Text>
 							</Wrapper>
-							<Text color="informationFont">QRIS Code akan segera hadir di aplikasi Awan</Text>
+							<Text color="informationFont">
+								QRIS Code akan segera hadir di aplikasi Awan
+							</Text>
 						</View>
 					</Info>
 					<Text>
 						Total belanja anda :
 						<Text font="SemiBold" color="primary">{` ${convertRupiah(
-						amountBill,
-					)}`}</Text>
+							amountBill,
+						)}`}</Text>
 					</Text>
 					<View style={[styles.qrWrap, { marginTop: 10 }]}>
 						<View style={styles.group}>
@@ -54,7 +63,7 @@ const EWalletPayment = ({ navigation }) => {
 							</Text>
 							<Text align="center">{`${
 								User.store.address_store.split("%")[0]
-								}`}</Text>
+							}`}</Text>
 							<Divider style={{ marginVertical: SizeList.base }} />
 							<Image
 								style={{ alignSelf: "center" }}
@@ -79,8 +88,14 @@ const EWalletPayment = ({ navigation }) => {
 					Silahkan scan kode QR untuk melanjutkan proses transaksi
 				</Info>
 			</Body>
-			<View style={{ paddingHorizontal: SizeList.bodyPadding, paddingVertical: SizeList.base }}>
-				<Button onPress={() => navigation.goBack()} width="100%">LANJUT</Button>
+			<View
+				style={{
+					paddingHorizontal: SizeList.bodyPadding,
+					paddingVertical: SizeList.base,
+				}}>
+				<Button onPress={() => navigation.goBack()} width="100%">
+					LANJUT
+				</Button>
 			</View>
 		</Container>
 	)

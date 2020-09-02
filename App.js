@@ -3,14 +3,18 @@ import UserInactivity from "react-native-user-inactivity"
 import store from "./src/redux/store"
 import SplashScreen from "react-native-splash-screen"
 import React, { useEffect } from "react"
-import { navigationStateChange, onInactive, inActiveTimer } from "src/utils/events"
+import {
+	navigationStateChange,
+	onInactive,
+	inActiveTimer,
+} from "src/utils/events"
 import OneSignal from "react-native-onesignal"
 import BackgroundTimer from "react-native-user-inactivity/lib/BackgroundTimer"
 import AppNavigator from "./src/routes/AppNavigator"
 import * as Sentry from "@sentry/react-native"
 import { Root } from "native-base"
 import { Provider } from "react-redux"
-import { Linking } from 'react-native';
+import { Linking } from "react-native"
 import { Deeplink } from "./src/routes/Deeplink"
 import Storage from "src/utils/keyStores"
 import { isEmulator, getBundleId } from "react-native-device-info"
@@ -27,7 +31,9 @@ const App = () => {
 	const fireBaseInit = async () => {
 		const appId = getBundleId()
 		const { client, project_info } = googleService
-		const [targetClient] = client.filter(c => appId === c.client_info.android_client_info.package_name)
+		const [targetClient] = client.filter(
+			c => appId === c.client_info.android_client_info.package_name,
+		)
 		if (targetClient) {
 			const firebaseConfig = {
 				apiKey: targetClient.api_key[0].current_key,
@@ -35,11 +41,11 @@ const App = () => {
 				databaseURL: project_info.firebase_url,
 				messagingSenderId: project_info.project_number,
 				projectId: project_info.project_id,
-				storageBucket: project_info.storage_bucket
+				storageBucket: project_info.storage_bucket,
 			}
 			firebase.initializeApp(firebaseConfig)
 		} else {
-			console.warn('Failed to initialize firebase, package id is not found')
+			console.warn("Failed to initialize firebase, package id is not found")
 		}
 	}
 	const onIds = async device => {

@@ -74,10 +74,12 @@ const LoginVerification = ({ navigation }) => {
 				setAlert(true)
 				setLoading(false)
 				setAlertMessage(res.data.errors.msg)
-				alertCb = res.data.errors.redirectToLogin ? async () => {
-					await dispatch(clearAllRegistration())
-					navigation.navigate('/unauth')
-				} : null
+				alertCb = res.data.errors.redirectToLogin
+					? async () => {
+							await dispatch(clearAllRegistration())
+							navigation.navigate("/unauth")
+					  }
+					: null
 			} else {
 				await dispatch(clearAllRegistration())
 				await Storage.setItem("userId", res.data.id)

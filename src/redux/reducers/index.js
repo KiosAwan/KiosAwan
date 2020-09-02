@@ -43,10 +43,13 @@ const appReducer = combineReducers({
 	App: reducerApp,
 })
 
-const reducer = persistReducer({
-	key,
-	storage: Storage,
-	transforms: [encryptor],
-}, appReducer)
+const reducer = persistReducer(
+	{
+		key,
+		storage: Storage,
+		transforms: [encryptor],
+	},
+	appReducer,
+)
 
 export default reducer

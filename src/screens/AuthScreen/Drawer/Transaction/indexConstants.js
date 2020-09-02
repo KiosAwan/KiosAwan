@@ -17,9 +17,7 @@ const iconImage = {
 }
 const filterResult = ({ data, filter, search }) => {
 	return data
-		.filter(({ status }) =>
-			filter == "all" ? true : status.includes(filter),
-		)
+		.filter(({ status }) => (filter == "all" ? true : status.includes(filter)))
 		.filter(({ payment_code }) =>
 			payment_code.toLowerCase().includes(search.toLowerCase()),
 		)

@@ -60,7 +60,10 @@ const NewPassword2 = ({ navigation }) => {
 			const res = await sendNewPassword(data)
 			if (res.status == 200) {
 				const { id, token } = res.data
-				const ss = await Storage.setItems([["userId", id.toString()], ["@user_token", token]])
+				const ss = await Storage.setItems([
+					["userId", id.toString()],
+					["@user_token", token],
+				])
 				console.log(ss)
 				await dispatch(getProfile(id, token))
 				dispatch(clearAllRegistration())
