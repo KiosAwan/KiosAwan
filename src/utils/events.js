@@ -12,7 +12,7 @@ const onInactive = async isActive => {
 const navigationStateChange = async (_prev, _next, action) => {
 	if (firebase.apps.length > 0) {
 		const { routeName = "" } = action
-		const eventName = `Page_${routeName.replace(/\//g, "_")}`
+		const eventName = `Page_${routeName.replace(/\//g, "011").replace(/\W/g, "_")}`
 		await analytics().logEvent(eventName, {
 			data: JSON.stringify(action),
 		})

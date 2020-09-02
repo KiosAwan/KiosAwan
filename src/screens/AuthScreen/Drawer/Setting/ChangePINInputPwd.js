@@ -55,6 +55,7 @@ const ChangePINInputPwd = ({ navigation }) => {
 			setAlert({ loading: true })
 			const id = await Storage.getItem("userId")
 			const data = { id, pin, old_pin }
+			console.log(data)
 			const res = await changeUserPIN(data)
 			setAlert({ loading: false })
 			if (res.status == 200) {
@@ -118,6 +119,7 @@ const ChangePINInputPwd = ({ navigation }) => {
 				title: "Ubah PIN",
 			}}>
 			<BarStatus />
+			<AwanPopup.Loading visible={isLoading} />
 			<AwanPopup.Alert
 				message={alert.message}
 				visible={alert.visible}
