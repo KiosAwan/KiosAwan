@@ -1,3 +1,10 @@
 check_service when idle then replace token with new token
-
 future: reComponent with react-native styled components https://styled-components.com/docs/basics#react-native
+
+3/9/20
+trx pln tidak bisa buka struk
+login push_token is_required
+hp + printer ga bisa print struk
+
+PengaturanPerangkat.js === TransactionCetakStruk.js
+TambahPerangkat.js === TambahPrinter.js

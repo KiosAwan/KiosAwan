@@ -46,11 +46,11 @@ const Akun = ({ navigation }) => {
 							tutorial: true,
 						})
 					} else {
-						;["Helpdesk", "FAQs"].includes(props.name)
+						["Helpdesk", "FAQs"].includes(props.name)
 							? navigation.navigate(props.route)
 							: User.store && User.data.status == 1
-							? navigation.navigate(props.route)
-							: null
+								? navigation.navigate(props.route)
+								: null
 					}
 				}}
 				width="100%"

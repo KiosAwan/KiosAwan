@@ -23,8 +23,6 @@ import axios from "src/utils/axios"
 
 const Home = ({ navigation }) => {
 	const User = useSelector(state => state.User)
-	const fghjd = useSelector(state => state.App)
-	console.log(fghjd)
 	const dispatch = useDispatch()
 
 	const [maintenance, setMaintanance] = useState(false)
