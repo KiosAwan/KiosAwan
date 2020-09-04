@@ -12,6 +12,8 @@ import EnterPIN from "src/screens/AuthScreen/EnterPIN"
 import PPOBNavigator from "./PPOB"
 import BottomTabNavigator from "./BottomTabNavigator"
 import InputCode from "src/components/Input/InputCode"
+import Perangkat from "src/screens/AuthScreen/Printer"
+import AddPrinter from "src/screens/AuthScreen/Printer/AddPrinter"
 
 const handleCustomTransition = ({ scenes }) => {
 	global.prevScene = scenes[scenes.length - 2]
@@ -50,6 +52,12 @@ const Navs = {
 		navigationOptions: {
 			header: null,
 		},
+	},
+	"/printer": {
+		screen: Perangkat
+	},
+	"/printer/add": {
+		screen: AddPrinter
 	},
 	...CashierNavigator,
 	...DrawerNavigation,

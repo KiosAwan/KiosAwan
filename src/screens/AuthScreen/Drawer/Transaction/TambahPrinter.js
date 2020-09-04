@@ -22,7 +22,7 @@ import {
 import { convertRupiah } from "src/utils/authhelper"
 import Storage from "src/utils/keyStores"
 import { ColorsList } from "src/styles/colors"
-import { GlobalHeaderWithIcon } from "src/components/Header/Header"
+import { GlobalHeaderWithIcon, IconHeader, GlobalHeader } from "src/components/Header/Header"
 import { connect } from "react-redux"
 import { addPrinter } from "src/redux/actions/actionsPrinter"
 import { FontList } from "src/styles/typography"
@@ -268,11 +268,10 @@ class TambahPrinter extends Component {
 	render() {
 		return (
 			<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-				<GlobalHeaderWithIcon
-					title="Bluetooth"
+				<GlobalHeader
 					onPressBack={() => this.props.navigation.goBack()}
-					image={require("src/assets/icons/scanbluetooth.png")}
-					handleDeleteCategory={() => this._scan()}
+					title="Bluetooth"
+					renderRightAccessory={() => <IconHeader onPress={() => this._scan()} style={{ transform: [{ rotateY: '180deg' }] }} name="redo" />}
 				/>
 				{this.state.loading ? <ActivityIndicator animating={true} /> : null}
 				<Wrapper

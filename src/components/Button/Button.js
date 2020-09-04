@@ -182,18 +182,22 @@ const Button = props => {
 					{children}
 				</Text>
 			) : (
-				children && (
-					<Wrapper
-						{...wrapper}
-						{...{ flexStart, flexEnd, center, spaceAround, spaceBetween }}
-						noWrapper={noWrapper}
-						flexContent={flexContent}>
-						{children}
-					</Wrapper>
-				)
-			)}
+					children && (
+						<Wrapper
+							{...wrapper}
+							{...{ flexStart, flexEnd, center, spaceAround, spaceBetween }}
+							noWrapper={noWrapper}
+							flexContent={flexContent}>
+							{children}
+						</Wrapper>
+					)
+				)}
 		</TouchableOpacity>
 	)
+}
+
+const BottomButton = ({ style, ...props }) => {
+	return <Button {...props} style={{ marginHorizontal: SizeList.bodyPadding, marginVertical: SizeList.base, ...style }} />
 }
 
 const Info = props => (
@@ -243,8 +247,8 @@ const RoundedButton = props => {
 			{["string", "number"].includes(typeof children) ? (
 				<Text {...textProps}>{children}</Text>
 			) : (
-				children
-			)}
+					children
+				)}
 		</TouchableOpacity>
 	)
 }
@@ -310,4 +314,4 @@ Info.propTypes = {
 	style: ViewPropTypes.style,
 }
 
-export { Button, Info, ButtonShadow, RoundedButton }
+export { Button, Info, ButtonShadow, RoundedButton, BottomButton }

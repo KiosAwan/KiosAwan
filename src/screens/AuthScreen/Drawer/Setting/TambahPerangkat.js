@@ -22,7 +22,7 @@ import {
 import { convertRupiah } from "src/utils/authhelper"
 import Storage from "src/utils/keyStores"
 import { ColorsList } from "src/styles/colors"
-import { GlobalHeaderWithIcon } from "src/components/Header/Header"
+import { GlobalHeaderWithIcon, GlobalHeader, IconHeader } from "src/components/Header/Header"
 import { connect } from "react-redux"
 import { addPrinter } from "src/redux/actions/actionsPrinter"
 import { FontList } from "src/styles/typography"
@@ -34,7 +34,7 @@ import { SizeList } from "src/styles/size"
 import { stylesglobe } from "src/styles/globalStyle"
 import Divider from "src/components/Row/Divider"
 
-var { height, width } = Dimensions.get("window")
+let { height, width } = Dimensions.get("window")
 class TambahPerangkat extends Component {
 	_listeners = []
 
@@ -50,18 +50,12 @@ class TambahPerangkat extends Component {
 	}
 
 	async componentDidMount() {
-		//alert(BluetoothManager)
-		BluetoothManager.isBluetoothEnabled().then(
-			enabled => {
-				this.setState({
-					bleOpend: Boolean(enabled),
-					loading: false,
-				})
-			},
-			err => {
-				err
-			},
-		)
+		this._scan()
+		const enabled = await BluetoothManager.isBluetoothEnabled()
+		this.setState({
+			bleOpend: enabled,
+			loading: false,
+		})
 
 		if (Platform.OS === "ios") {
 			let bluetoothManagerEmitter = new NativeEventEmitter(BluetoothManager)
@@ -72,16 +66,12 @@ class TambahPerangkat extends Component {
 						this._deviceAlreadPaired(rsp)
 					},
 				),
-			)
-			this._listeners.push(
 				bluetoothManagerEmitter.addListener(
 					BluetoothManager.EVENT_DEVICE_FOUND,
 					rsp => {
 						this._deviceFoundEvent(rsp)
 					},
 				),
-			)
-			this._listeners.push(
 				bluetoothManagerEmitter.addListener(
 					BluetoothManager.EVENT_CONNECTION_LOST,
 					() => {
@@ -100,16 +90,12 @@ class TambahPerangkat extends Component {
 						this._deviceAlreadPaired(rsp)
 					},
 				),
-			)
-			this._listeners.push(
 				DeviceEventEmitter.addListener(
 					BluetoothManager.EVENT_DEVICE_FOUND,
 					rsp => {
 						this._deviceFoundEvent(rsp)
 					},
 				),
-			)
-			this._listeners.push(
 				DeviceEventEmitter.addListener(
 					BluetoothManager.EVENT_CONNECTION_LOST,
 					() => {
@@ -119,8 +105,6 @@ class TambahPerangkat extends Component {
 						})
 					},
 				),
-			)
-			this._listeners.push(
 				DeviceEventEmitter.addListener(
 					BluetoothManager.EVENT_BLUETOOTH_NOT_SUPPORT,
 					() => {
@@ -134,13 +118,13 @@ class TambahPerangkat extends Component {
 		}
 	}
 	_deviceAlreadPaired(rsp) {
-		var ds = null
+		let ds = null
 		if (typeof rsp.devices == "object") {
 			ds = rsp.devices
 		} else {
 			try {
 				ds = JSON.parse(rsp.devices)
-			} catch (e) {}
+			} catch (e) { }
 		}
 		if (ds && ds.length) {
 			let pared = this.state.pairedDs
@@ -152,19 +136,14 @@ class TambahPerangkat extends Component {
 	}
 
 	_deviceFoundEvent(rsp) {
-		//alert(JSON.stringify(rsp))
-		var r = null
+		let r = null
 		try {
 			if (typeof rsp.device == "object") {
 				r = rsp.device
 			} else {
 				r = JSON.parse(rsp.device)
 			}
-		} catch (e) {
-			//alert(e.message);
-			//ignore
-		}
-		//alert('f')
+		} catch (e) { }
 		if (r) {
 			let found = this.state.foundDs || []
 			if (found.findIndex) {
@@ -286,11 +265,10 @@ class TambahPerangkat extends Component {
 	render() {
 		return (
 			<View style={{ flex: 1, backgroundColor: ColorsList.authBackground }}>
-				<GlobalHeaderWithIcon
-					title="TAMBAH PERANGKAT"
+				<GlobalHeader
 					onPressBack={() => this.props.navigation.goBack()}
-					image={require("src/assets/icons/home/refresh.png")}
-					handleDeleteCategory={() => this._scan()}
+					title="TAMBAH PERANGKAT"
+					renderRightAccessory={() => <IconHeader onPress={() => this._scan()} style={{ transform: [{ rotateY: '180deg' }] }} name="redo" />}
 				/>
 				<View style={{ flex: 1, padding: SizeList.bodyPadding }}>
 					{this.state.loading ? <ActivityIndicator animating={true} /> : null}
@@ -321,9 +299,9 @@ class TambahPerangkat extends Component {
 								} else {
 									BluetoothManager.enableBluetooth().then(
 										r => {
-											var paired = []
+											let paired = []
 											if (r && r.length > 0) {
-												for (var i = 0; i < r.length; i++) {
+												for (let i = 0; i < r.length; i++) {
 													try {
 														paired.push(JSON.parse(r[i]))
 													} catch (e) {
@@ -374,14 +352,14 @@ class TambahPerangkat extends Component {
 			})
 			BluetoothManager.scanDevices().then(
 				s => {
-					var ss = s
-					var found = ss.found
+					let ss = s
+					let found = ss.found
 					try {
 						found = JSON.parse(found) //@FIX_it: the parse action too weired..
 					} catch (e) {
 						//ignore
 					}
-					var fds = this.state.foundDs
+					let fds = this.state.foundDs
 					if (found && found.length) {
 						fds = found
 					}

@@ -146,6 +146,10 @@ const Akun = ({ navigation }) => {
 						name="Hubungkan perangkat"
 						route="/drawer/settings/perangkat"
 					/>
+					{/* <Button
+						children="Hubungkan perangkat New"
+						onPress={() => navigation.navigate("/printer")}
+					/> */}
 				</View>
 				<View style={[stylesglobe.shadowView, styles.viewSeparator]}>
 					<AkunButton name="FAQs" route="/drawer/faq" />

@@ -26,7 +26,7 @@ import { ImageAuto } from "src/components/CustomImage"
 import { ColorsList } from "src/styles/colors"
 import { connect } from "react-redux"
 import { addPrinter } from "src/redux/actions/actionsPrinter"
-import { convertRupiah } from "src/utils/authhelper"
+import { convertRupiah, prettyConsole } from "src/utils/authhelper"
 
 var { height, width } = Dimensions.get("window")
 
@@ -243,7 +243,7 @@ class CetakStruk extends Component {
 							<TouchableOpacity
 								onPress={
 									this.state.bleOpend
-										? this._testPrint
+										? this._generatePrintData
 										: () => alert("Hidupkan bluetooth")
 								}>
 								<Wrapper
@@ -277,51 +277,51 @@ class CetakStruk extends Component {
 						) : null}
 						{this.props.Printer.data.rMap((a, i) =>
 							a.boundAddress !=
-							(this.state.printEnable
-								? this.state.printEnable.boundAddress
-								: 0) ? (
-								<TouchableOpacity
-									onPress={
-										this.state.bleOpend
-											? () => this._connectedBluetoothPrint(a)
-											: () => alert("Mohon hidupkan bluetooth terlebih dahulu")
-									}>
-									<Wrapper
-										justify="space-between"
-										style={{
-											marginBottom: 10,
-											padding: 10,
-											backgroundColor: ColorsList.whiteColor,
-											borderRadius: 5,
-										}}>
-										<View style={{ width: 50, height: 50 }}>
-											<ImageAuto
-												source={
-													i % 2 == 0
-														? require("src/assets/icons/icon-restock.png")
-														: require("src/assets/icons/icon-cashier.png")
-												}
-											/>
-										</View>
-										<View _style={{ width: "85%" }}>
-											<Wrapper justify="space-between">
-												<View>
-													<Text color="primary">{a.name}</Text>
-													<Text>{a.boundAddress}</Text>
-												</View>
-												<Text color="danger" font="ExtraBold">
-													BELUM TERHUBUNG
+								(this.state.printEnable
+									? this.state.printEnable.boundAddress
+									: 0) ? (
+									<TouchableOpacity
+										onPress={
+											this.state.bleOpend
+												? () => this._connectedBluetoothPrint(a)
+												: () => alert("Mohon hidupkan bluetooth terlebih dahulu")
+										}>
+										<Wrapper
+											justify="space-between"
+											style={{
+												marginBottom: 10,
+												padding: 10,
+												backgroundColor: ColorsList.whiteColor,
+												borderRadius: 5,
+											}}>
+											<View style={{ width: 50, height: 50 }}>
+												<ImageAuto
+													source={
+														i % 2 == 0
+															? require("src/assets/icons/icon-restock.png")
+															: require("src/assets/icons/icon-cashier.png")
+													}
+												/>
+											</View>
+											<View _style={{ width: "85%" }}>
+												<Wrapper justify="space-between">
+													<View>
+														<Text color="primary">{a.name}</Text>
+														<Text>{a.boundAddress}</Text>
+													</View>
+													<Text color="danger" font="ExtraBold">
+														BELUM TERHUBUNG
 												</Text>
-											</Wrapper>
-										</View>
-									</Wrapper>
-								</TouchableOpacity>
-							) : null,
+												</Wrapper>
+											</View>
+										</Wrapper>
+									</TouchableOpacity>
+								) : null,
 						)}
 					</ScrollView>
 				) : (
-					<ActivityIndicator color={ColorsList.primary} />
-				)}
+						<ActivityIndicator color={ColorsList.primary} />
+					)}
 				<Bottom>
 					<Button
 						onPress={() =>
@@ -336,236 +336,92 @@ class CetakStruk extends Component {
 			</View>
 		)
 	}
+	maxLength = 32
 
-	_testPrint = async () => {
-		this.setState({ loading: true })
-		let columnWidths = [15, 15]
-		let transaksiWidth = [13, 15]
-		let alignLeft = [30]
+	_generatePrintData = () => {
+		const divider = Array.generateEmpty(this.maxLength).map(() => '-').join('') + '\n\r'
+		let dataPrint = []
+		dataPrint.push(
+			() => BluetoothEscposPrinter.printerLineSpace(1),
+			() => BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER),
+			`${this.state.printData.transaction.name_store.toUpperCase()}\n\r`,
+			divider,
+			["Kode Trx", this.state.printData.transaction.payment_code,],
+			["Waktu", this.state.printData.transaction.created_at.slice(0, 16),],
+			["Pembayaran", this.state.printData.transaction.id_payment_type == 1
+				? "Tunai"
+				: this.state.printData.transaction.id_payment_type == 2
+					? `Non Tunai(${this.state.printData.transaction.method})`
+					: "Piutang",
+			],
+			["Operator", this.state.printData.transaction.cashier],
+			this.state.printData.transaction.name_customer
+				? ["Pelanggan", this.state.printData.transaction.name_customer,]
+				: null
+		)
 		if (this.state.multi) {
-			let data = [
-				{
-					label: "Kode Trx",
-					value: this.state.printData.transaction.payment_code,
-				},
-				{
-					label: "Waktu",
-					value: this.state.printData.transaction.created_at.slice(0, 16),
-				},
-				{
-					label: "Pembayaran",
-					value:
-						this.state.printData.transaction.id_payment_type == 1
-							? "Tunai"
-							: this.state.printData.transaction.id_payment_type == 2
-							? `Non Tunai(${this.state.printData.transaction.method})`
-							: "Piutang",
-				},
-				{ label: "Operator", value: this.state.printData.transaction.cashier },
-				this.state.printData.transaction.name_customer
-					? {
-							label: "Pelanggan",
-							value: this.state.printData.transaction.name_customer,
-					  }
-					: null,
-			]
-			BluetoothEscposPrinter.printerLineSpace(1)
-			BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER)
-			BluetoothEscposPrinter.printText(
-				`${this.state.printData.transaction.name_store.toUpperCase()}\n\r`,
-				{},
-			)
-			BluetoothEscposPrinter.printText(
-				"-------------------------------\n\r",
-				{},
-			)
-			data.rMap(async item => {
-				BluetoothEscposPrinter.printColumn(
-					transaksiWidth,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
-					[item.label && item.label, item.value],
-					{},
-				)
-			})
 			if (this.state.printData.details_item.length > 0) {
-				BluetoothEscposPrinter.printText(
-					"-------------------------------\n\r",
-					{},
-				)
-				BluetoothEscposPrinter.printText("Product\n\r", {})
-				BluetoothEscposPrinter.printText(
-					"-------------------------------\n\r",
-					{},
+				dataPrint.push(
+					divider,
+					"Product\n\r",
+					divider
 				)
 			}
 			this.state.printData.details_item.forEach(list => {
-				BluetoothEscposPrinter.printColumn(
-					alignLeft,
-					[BluetoothEscposPrinter.ALIGN.LEFT],
-					[list.product],
-					{ widthtimes: 0.2 },
-				)
-				BluetoothEscposPrinter.printColumn(
-					columnWidths,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
-					[
-						convertRupiah(list.price) + " x " + list.qty,
-						convertRupiah(list.total),
-					],
-					{},
-				)
+				dataPrint.push({ data: [list.product], options: { widthtimes: 0.2 } }, [
+					convertRupiah(list.price) + " x " + list.qty,
+					convertRupiah(list.total),
+				])
 			})
 			if (this.state.printData.product_digital.length > 0) {
-				BluetoothEscposPrinter.printText(
-					"-------------------------------\n\r",
-					{},
-				)
-				BluetoothEscposPrinter.printText("Tagihan dan Isi Ulang\n\r", {})
-				BluetoothEscposPrinter.printText(
-					"-------------------------------\n\r",
-					{},
+				dataPrint.push(
+					divider,
+					"Tagihan dan Isi Ulang\n\r",
+					divider
 				)
 			}
 			this.state.printData.product_digital.forEach((list, i) => {
-				let filterPayment = [
-					"id",
-					"token",
-					"status",
-					"id_transaction",
-					"payment_code",
-					"customerID",
-					"referenceID",
-					"productID",
-					"created_at",
-					"updated_at",
-					"info",
-					"supplier",
-					"product_code",
-				]
 				const { payment } = list
-				BluetoothEscposPrinter.printColumn(
-					columnWidths,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
-					[
+				dataPrint.push({
+					options: { widthtimes: 0.2 },
+					data: [
 						list.transaction.transaction_name
 							.split("_")
 							.join(" ")
 							.toUpperCase(),
 						list.transaction.status,
-					],
-					{ widthtimes: 0.2 },
-				)
-				if (
-					list.transaction.transaction_name == "pln_prepaid" &&
-					list.transaction.status == "SUCCESS"
-				) {
-					BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT)
-					BluetoothEscposPrinter.printText("Nomor token\n\r", {})
-					BluetoothEscposPrinter.printText(
-						`${payment.token.match(/.{1,4}/g).join("-")}\n\r`,
-						{},
+					]
+				})
+				if (list.transaction.transaction_name == "pln_prepaid" && list.transaction.status == "SUCCESS") {
+					dataPrint.push(() => BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT))
+					dataPrint.push(
+						"Nomor token\n\r",
+						{
+							data: `${payment.token.match(/.{1,4}/g).join("-")}\n\r`,
+							options: {
+								widthtimes: 0.5,
+								heigthtimes: 1,
+							}
+						}
 					)
-					BluetoothEscposPrinter.printerAlign(
-						BluetoothEscposPrinter.ALIGN.CENTER,
-					)
+					dataPrint.push(() => BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER))
 				}
-				{
-					payment &&
-						payment.product_name &&
-						BluetoothEscposPrinter.printColumn(
-							columnWidths,
-							[
-								BluetoothEscposPrinter.ALIGN.LEFT,
-								BluetoothEscposPrinter.ALIGN.RIGHT,
-							],
-							["Product Name", payment.product_name],
-							{},
-						)
-				}
-				BluetoothEscposPrinter.printColumn(
-					columnWidths,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
+				payment && payment.product_name && dataPrint.push(["Product Name", payment.product_name])
+				dataPrint.push(
 					["Customer ID", list.transaction.customerID],
-					{},
-				)
-				BluetoothEscposPrinter.printColumn(
-					columnWidths,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
 					["Kode Transaksi", list.transaction.transaction_code],
-					{},
+					["Total tagihan", convertRupiah(list.transaction.total)]
 				)
-				BluetoothEscposPrinter.printColumn(
-					columnWidths,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
-					["Total tagihan", convertRupiah(list.transaction.total)],
-					{},
-				)
-				i + 1 < this.state.printData.product_digital.length &&
-					BluetoothEscposPrinter.printText(
-						"-------------------------------\n",
-						{},
-					)
+				i + 1 < this.state.printData.product_digital.length && dataPrint.push(divider)
 			})
-			BluetoothEscposPrinter.printText("-------------------------------\n", {})
-			BluetoothEscposPrinter.printColumn(
-				columnWidths,
-				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+			dataPrint.push(
+				divider,
 				["Subtotal", convertRupiah(this.state.printData.transaction.sub_total)],
-				{},
-			)
-			{
-				this.state.printData.transaction.discount
-					? BluetoothEscposPrinter.printColumn(
-							columnWidths,
-							[
-								BluetoothEscposPrinter.ALIGN.LEFT,
-								BluetoothEscposPrinter.ALIGN.RIGHT,
-							],
-							[
-								"Diskon",
-								convertRupiah(this.state.printData.transaction.discount),
-							],
-							{},
-					  )
-					: null
-			}
-			{
-				this.state.printData.transaction.status != 1
-					? BluetoothEscposPrinter.printColumn(
-							columnWidths,
-							[
-								BluetoothEscposPrinter.ALIGN.LEFT,
-								BluetoothEscposPrinter.ALIGN.RIGHT,
-							],
-							[
-								"Subtotal",
-								convertRupiah(this.state.printData.transaction.total_return),
-							],
-							{},
-					  )
-					: null
-			}
-			BluetoothEscposPrinter.printColumn(
-				columnWidths,
-				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+				this.state.printData.transaction.discount ? ["Diskon", convertRupiah(this.state.printData.transaction.discount)] : null,
+				this.state.printData.transaction.status != 1 ? [
+					"Subtotal",
+					convertRupiah(this.state.printData.transaction.total_return),
+				] : null,
 				[
 					"Total",
 					convertRupiah(
@@ -574,56 +430,8 @@ class CetakStruk extends Component {
 							: this.state.printData.transaction.remaining_return,
 					),
 				],
-				{},
 			)
-			BluetoothEscposPrinter.printText("-------------------------------\n", {})
-			BluetoothEscposPrinter.printerLineSpace(0)
-			BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {})
-			BluetoothEscposPrinter.printText("\r\r\r\r\r\r", {})
 		} else {
-			let data = [
-				{
-					label: "Kode Trx",
-					value: this.state.singlePrintData.transaction.transaction_code,
-				},
-				{ label: "Operator", value: this.props.User.data.name },
-				{
-					label: "Waktu",
-					value: this.state.singlePrintData.transaction.date
-						? this.state.singlePrintData.transaction.date.slice(0, 16)
-						: this.state.singlePrintData.transaction.created_at.slice(0, 16),
-				},
-			]
-			BluetoothEscposPrinter.printerLineSpace(1)
-			BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER)
-			BluetoothEscposPrinter.printText(
-				`${this.props.User.store.name_store}\n\r`,
-				{},
-			)
-			BluetoothEscposPrinter.printText(
-				"-------------------------------\n\r",
-				{},
-			)
-			data.rMap(async item => {
-				BluetoothEscposPrinter.printColumn(
-					transaksiWidth,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
-					[item.label && item.label, item.value],
-					{},
-				)
-			})
-			BluetoothEscposPrinter.printText(
-				"-------------------------------\n\r",
-				{},
-			)
-			BluetoothEscposPrinter.printText("Tagihan dan Isi Ulang\n\r", {})
-			BluetoothEscposPrinter.printText(
-				"-------------------------------\n\r",
-				{},
-			)
 			let filterPayment = [
 				"id",
 				"token",
@@ -645,147 +453,134 @@ class CetakStruk extends Component {
 				"angsuran",
 			]
 			const { payment } = this.state.singlePrintData
-			BluetoothEscposPrinter.printColumn(
-				columnWidths,
-				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				[
-					this.state.singlePrintData.transaction.transaction_name
-						.split("_")
-						.join(" ")
-						.toUpperCase(),
-					this.state.singlePrintData.transaction.status,
-				],
-				{ widthtimes: 0.2 },
-			)
-			BluetoothEscposPrinter.printColumn(
-				columnWidths,
-				[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
-				["Customer ID", this.state.singlePrintData.transaction.customerID],
-				{ widthtimes: 0.2 },
+			dataPrint.push(
+				divider,
+				"Tagihan dan Isi Ulang\n\r",
+				divider,
+				{
+					options: { widthtimes: 0.2 },
+					data: [
+						this.state.singlePrintData.transaction.transaction_name
+							.split("_")
+							.join(" ")
+							.toUpperCase(),
+						this.state.singlePrintData.transaction.status,
+					]
+				},
+				{ options: { widthtimes: 0.2 }, data: ["Customer ID", this.state.singlePrintData.transaction.customerID] },
+
 			)
 			if (
 				this.state.singlePrintData.transaction.transaction_name ==
-					"pln_prepaid" &&
+				"pln_prepaid" &&
 				this.state.singlePrintData.transaction.status == "SUCCESS"
 			) {
-				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT)
-				BluetoothEscposPrinter.printerLineSpace(0)
-				BluetoothEscposPrinter.printText("TOKEN\n", {})
-				// BluetoothEscposPrinter.printText(" \n\r", {});
-				BluetoothEscposPrinter.printText(
+				dataPrint.push(
+					() => BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT),
+					() => BluetoothEscposPrinter.printerLineSpace(0),
+					"TOKEN\n",
 					`${payment.token.match(/.{1,4}/g).join("-")}\n\r`,
-					{
-						widthtimes: 0.5,
-						heigthtimes: 1,
-					},
+					() => BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER),
+					() => BluetoothEscposPrinter.printerLineSpace(3),
 				)
-				BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER)
-				BluetoothEscposPrinter.printerLineSpace(3)
 			}
 			if (payment) {
 				Object.keys(payment)
 					.filter(a => !filterPayment.includes(a))
 					.rMap(item => {
 						if (item == "description") {
-							BluetoothEscposPrinter.printColumn(
-								alignLeft,
-								[BluetoothEscposPrinter.ALIGN.LEFT],
-								[
+							dataPrint.push({
+								options: { widthtimes: 0.2 },
+								data: [
 									typeof payment[item] == "string" &&
-										payment[item].split(";")[0],
-								],
-								{ widthtimes: 0.2 },
-							)
+									payment[item].split(";")[0],
+								]
+							})
 						} else if (item == "reff_no") {
-							BluetoothEscposPrinter.printerAlign(
-								BluetoothEscposPrinter.ALIGN.LEFT,
-							)
-							BluetoothEscposPrinter.printText("Reff no\n\r", {})
-							BluetoothEscposPrinter.printText(`${payment.reff_no}\n\r`, {})
-							BluetoothEscposPrinter.printText(`\n\r`, {})
-							BluetoothEscposPrinter.printerAlign(
-								BluetoothEscposPrinter.ALIGN.CENTER,
+							dataPrint.push(
+								() => BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.LEFT),
+								"Reff no\n\r",
+								`${payment.reff_no}\n\r`,
+								`\n\r`,
+								() => BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER)
 							)
 						} else {
-							BluetoothEscposPrinter.printColumn(
-								columnWidths,
-								[
-									BluetoothEscposPrinter.ALIGN.LEFT,
-									BluetoothEscposPrinter.ALIGN.RIGHT,
-								],
-								[
-									item.split("_").join(" ").ucwords(),
-									![
-										"denda",
-										"total",
-										"admin",
-										"tagihan",
-										"adminBank",
-										"pembelian_token",
-									].includes(item)
-										? payment[item].trim()
-										: parseInt(payment[item]).convertRupiah(),
-								],
-								{},
-							)
+							dataPrint.push([
+								item.split("_").join(" ").ucwords(),
+								![
+									"denda",
+									"total",
+									"admin",
+									"tagihan",
+									"adminBank",
+									"pembelian_token",
+								].includes(item)
+									? payment[item].trim()
+									: parseInt(payment[item]).convertRupiah(),
+							])
 						}
 					})
-
-				BluetoothEscposPrinter.printerLineSpace(0)
-				BluetoothEscposPrinter.printText(
-					"-------------------------------\n",
-					{},
-				)
-				BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {})
-				BluetoothEscposPrinter.printText("\n\n\n\n\n\n", {})
 			} else {
-				BluetoothEscposPrinter.printColumn(
-					columnWidths,
-
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
+				dataPrint.push(
 					["Customer ID", this.state.singlePrintData.transaction.customerID],
-					{},
-				)
-				BluetoothEscposPrinter.printColumn(
-					columnWidths,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
-					],
 					[
 						"Kode Transaksi",
 						this.state.singlePrintData.transaction.transaction_code,
-					],
-					{},
-				)
-				BluetoothEscposPrinter.printColumn(
-					columnWidths,
-					[
-						BluetoothEscposPrinter.ALIGN.LEFT,
-						BluetoothEscposPrinter.ALIGN.RIGHT,
 					],
 					[
 						"Total tagihan",
 						convertRupiah(this.state.singlePrintData.transaction.total),
 					],
-					{},
 				)
-				BluetoothEscposPrinter.printerLineSpace(0)
-				BluetoothEscposPrinter.printText(
-					"-------------------------------\n",
-					{},
-				)
-				BluetoothEscposPrinter.printText("Powered by AWAN\n\r", {})
-				BluetoothEscposPrinter.printText("\n\n\n\n\n\n", {})
 			}
 		}
+		dataPrint.push(
+			() => BluetoothEscposPrinter.printerLineSpace(0),
+			divider,
+			"Powered by AWAN\n\r",
+			"\n\n",
+		)
+		this._printData(dataPrint)
+	}
+	
+	_printData = async data => {
+		this.setState({ loading: true })
+		let columnWidths = [this.maxLength / 2, this.maxLength / 2]
+		let alignLeft = [this.maxLength]
+		const promises = data.map(async print => {
+			if (print && typeof print === 'object') {
+				let dp, opt = {}
+				if (Array.isArray(print)) {
+					dp = print
+				} else {
+					const { data, options } = print
+					dp = data
+					opt = options
+				}
+				if (typeof dp === 'string') {
+					return BluetoothEscposPrinter.printText(dp, opt)
+				} else {
+					const [left, right] = dp
+					if (right) {
+						return BluetoothEscposPrinter.printColumn(
+							columnWidths,
+							[BluetoothEscposPrinter.ALIGN.LEFT, BluetoothEscposPrinter.ALIGN.RIGHT],
+							dp, opt
+						)
+					} else {
+						return BluetoothEscposPrinter.printColumn(alignLeft, [BluetoothEscposPrinter.ALIGN.LEFT], [left], opt)
+					}
+				}
+			} else if (typeof print === 'function') {
+				return print()
+			} else {
+				if (print) return BluetoothEscposPrinter.printText(print, {})
+			}
+		})
+		await Promise.all(promises)
 		this.setState({ loading: false })
 		this.props.navigation.goBack()
 	}
-	// }
 }
 
 function mapStateToProps(state) {
