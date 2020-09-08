@@ -45,10 +45,8 @@ const Cashier = ({ navigation }) => {
 	}, [])
 
 	const _loadProduct = async () => {
-		if (data.length == 0) {
-			const userToken = await getUserToken()
-			dispatch(getProduct(User.store.id_store, userToken))
-		}
+		const userToken = await getUserToken()
+		dispatch(getProduct(User.store.id_store, userToken))
 	}
 
 	return (
@@ -131,10 +129,10 @@ const Cashier = ({ navigation }) => {
 										? stock == 0
 											? true
 											: quantity
-											? quantity < stock
-												? false
-												: true
-											: false
+												? quantity < stock
+													? false
+													: true
+												: false
 										: false
 								}
 								quantity={quantity ? quantity : null}
@@ -150,21 +148,21 @@ const Cashier = ({ navigation }) => {
 					keyExtractor={(item, index) => index.toString()}
 				/>
 			) : (
-				<View
-					style={{
-						flex: 1,
-						alignItems: "center",
-						justifyContent: "center",
-						marginBottom: 70,
-					}}>
-					<Image
-						style={{ width: 150, height: 150 }}
-						source={require("../../assets/images/noproductlist.png")}
-					/>
-					<Text align="center">Anda belum memiliki produk, tambahkan</Text>
-					<Text align="center"> produk baru menggunakan tombol diatas</Text>
-				</View>
-			)}
+						<View
+							style={{
+								flex: 1,
+								alignItems: "center",
+								justifyContent: "center",
+								marginBottom: 70,
+							}}>
+							<Image
+								style={{ width: 150, height: 150 }}
+								source={require("../../assets/images/noproductlist.png")}
+							/>
+							<Text align="center">Anda belum memiliki produk, tambahkan</Text>
+							<Text align="center"> produk baru menggunakan tombol diatas</Text>
+						</View>
+					)}
 			{Product.jumlahitem > 0 && (
 				<View style={{ marginHorizontal: 10 }}>
 					<ButtonCart

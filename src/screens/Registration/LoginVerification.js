@@ -76,9 +76,9 @@ const LoginVerification = ({ navigation }) => {
 				setAlertMessage(res.data.errors.msg)
 				alertCb = res.data.errors.redirectToLogin
 					? async () => {
-							await dispatch(clearAllRegistration())
-							navigation.navigate("/unauth")
-					  }
+						await dispatch(clearAllRegistration())
+						navigation.navigate("/unauth")
+					}
 					: null
 			} else {
 				await dispatch(clearAllRegistration())
@@ -170,6 +170,11 @@ const LoginVerification = ({ navigation }) => {
 						/>
 					)}
 				/>
+				{__DEV__ && ['kiosawan', 'kiosawan05'].rMap(psw =>
+					<Text onPress={async () => {
+						await dispatch(addFirstPassword(psw))
+					}}>{psw}</Text>
+				)}
 				<Button
 					color="link"
 					textStyle={{ color: ColorsList.primary }}
@@ -179,8 +184,8 @@ const LoginVerification = ({ navigation }) => {
 				</Button>
 			</View>
 			<Button
-				color={!btnDisabled ? "primary" : ["transparent", "transparent"]}
-				disabled={btnDisabled}
+				color={__DEV__ ? "primary" : !btnDisabled ? "primary" : ["transparent", "transparent"]}
+				disabled={!__DEV__ && btnDisabled}
 				radius={50}
 				onPress={_handlePasswordLogin}>
 				LANJUT

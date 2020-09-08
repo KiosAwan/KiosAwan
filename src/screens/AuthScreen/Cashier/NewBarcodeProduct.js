@@ -19,6 +19,7 @@ import { ColorsList } from "src/styles/colors"
 import { Button } from "src/components/Button/Button"
 import { SizeList } from "src/styles/size"
 import { Bottom } from "src/components/View/Bottom"
+import store from '../../../redux/store';
 
 const height = Dimensions.get("window").height
 
